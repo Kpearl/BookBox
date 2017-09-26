@@ -15,7 +15,7 @@
 	rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="/common/toolbar.jsp" />
+	<jsp:include page="common/toolbar.jsp" />
 	<!-- 여기부터 코딩 -->
 	
 	
