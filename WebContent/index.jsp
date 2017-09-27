@@ -16,10 +16,15 @@
 </head>
 <body>
 	<jsp:include page="common/toolbar.jsp" />
-	<!-- 여기부터 코딩 -->
 	
-	
-	
+	<section class="blank items">
+		<div class="item">
+			<img alt="Image" src="common/test.jpg"/>
+			<h1>funding title</h1>
+			<p>funding content</p>
+			<a class="button button-buy" href="#">funding 바로가기</a>
+		</div>
+	</section>
 	
 </body>
 </html>
