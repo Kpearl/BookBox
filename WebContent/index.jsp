@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="resources/css/style.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	
 	<style>
@@ -50,11 +50,11 @@
     </style>
 </head>
 <body>
-	<jsp:include page="common/toolbar.jsp" />
+	<jsp:include page="layout/toolbar.jsp" />
 	
 	<section class="blank items">
 		<div class="item">
-			<img alt="Image" src="common/test.jpg"/>
+			<img alt="Image" src="resources/images/test.jpg"/>
 			<h1>Funding title</h1>
 			<p>funding content</p>
 			<a class="button button-buy" href="#">funding 바로가기</a>
