@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
+<link rel="shortcut icon" href="/resources/images/icon.png">
+<link rel="icon" href="/resources/images/icon.png">
+
 <title>BookBox</title>
 
 <section class="blank">
@@ -11,6 +14,7 @@
 			<li><a href="#">창작공간</a></li>
 			<li><a href="#">소모임</a></li>
 			<li><a href="#">북로그</a></li>
+			<li><a href="#">공지사항</a></li>
 			<li class="lefty"><a href="#" class="navigation-settings"> <i
 					class="icon-large icon-search"></i>
 			</a></li>
