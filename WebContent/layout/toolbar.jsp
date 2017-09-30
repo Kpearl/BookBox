@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
-<link rel="shortcut icon" href="/resources/images/icon.png">
-<link rel="icon" href="/resources/images/icon.png">
+<link rel="shortcut icon" href="../resources/images/icon.png">
+<link rel="icon" href="../resources/images/icon.png">
 
 <title>BookBox</title>
 

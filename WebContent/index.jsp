@@ -9,16 +9,16 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-<link rel="stylesheet" href="/resources/css/style.css">
+<link rel="stylesheet" href="resources/css/style.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="/layout/toolbar.jsp" />
+	<jsp:include page="layout/toolbar.jsp" />
 	<section class="blank items">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="item">
-					<img alt="Image" src="/resources/images/test1.jpg"/>
+					<img alt="Image" src="resources/images/test1.jpg"/>
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -27,7 +27,7 @@
 			</div>
 			<div class="col-md-3">
 				<div class="item">
-					<img alt="Image" src="/resources/images/test2.jpg" />
+					<img alt="Image" src="resources/images/test2.jpg" />
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -36,7 +36,7 @@
 			</div>
 			<div class="col-md-3">
 				<div class="item">
-					<img alt="Image" src="/resources/images/test3.jpg"/>
+					<img alt="Image" src="resources/images/test3.jpg"/>
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-md-3">
 				<div class="item">
-					<img alt="Image" src="/resources/images/test4.jpg"/>
+					<img alt="Image" src="resources/images/test4.jpg"/>
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -58,12 +58,12 @@
 	<section>
 	<div class="row book">
 		<div class="best col-md-3">
-			<img alt="Image" src="/resources/images/book1.jpg" href="#"/>
+			<img alt="Image" src="resources/images/book1.jpg" href="#"/>
 			<h3>BestSeller / Author</h3>
 		</div>
 	
 		<div class="recommend col-md-3">
-			<img alt="Image" src="/resources/images/book2.jpg"/>
+			<img alt="Image" src="resources/images/book2.jpg"/>
 			<h3>Recommend / Author</h3>
 		</div> 
 <!-- 	</section>
@@ -73,19 +73,19 @@
 			<h1 class="item-header">Booklog</h1>
 
 			<div class="activity-list-update">
-				<img src="/resources/images/test.jpg" alt="Image" width="100px" height="80px">
+				<img src="resources/images/test.jpg" alt="Image" width="100px" height="80px">
 				<p><strong>Booklog Title</strong> Booklog Context <a href="#">user profile</a>.</p>
 				<div class="clear"></div>
 			</div>
 
 			<div class="activity-list-update">
-				<img src="/resources/images/test.jpg" alt="Image" width="100px" height="80px">
+				<img src="resources/images/test.jpg" alt="Image" width="100px" height="80px">
 				<p><strong>Booklog Title</strong> Booklog Context <a href="#">user profile</a>.</p>
 				<div class="clear"></div>
 			</div>
 
 			<div class="activity-list-update">
-				<img src="/resources/images/test.jpg" alt="Image" width="100px" height="80px">
+				<img src="resources/images/test.jpg" alt="Image" width="100px" height="80px">
 				<p><strong>Booklog Title</strong> Booklog Context <a href="#">user profile</a>.</p>
 				<div class="clear"></div>
 			</div>
