@@ -57,18 +57,30 @@
 	
 	<section>
 	<div class="row book">
-		<div class="best col-md-3">
-			<img alt="Image" src="resources/images/book1.jpg" href="#"/>
-			<h3>BestSeller / Author</h3>
+		<div class="row">
+			<div class="best col-md-2">
+				<img alt="Image" src="resources/images/book1.jpg" href="#"/>
+				<h3>BestSeller / Author</h3>
+			</div>
+	
+			<div class="recommend col-md-2">
+				<img alt="Image" src="resources/images/book2.jpg" href="#"/>
+				<h3>Recommend / Author</h3>
+			</div> 
 		</div>
+		
+		<div class="row">
+			<div class="best col-md-2">
+				<img alt="Image" src="resources/images/book3.jpg" href="#"/>
+				<h3>BestSeller / Author</h3>
+			</div>
 	
-		<div class="recommend col-md-3">
-			<img alt="Image" src="resources/images/book2.jpg"/>
-			<h3>Recommend / Author</h3>
-		</div> 
-<!-- 	</section>
-	
- 	<section> -->
+			<div class="recommend col-md-2">
+				<img alt="Image" src="resources/images/book4.jpg" href="#"/>
+				<h3>Recommend / Author</h3>
+			</div>
+		</div> 	
+		
 		<div class="activity" style="width:50%; float:left">
 			<h1 class="item-header">Booklog</h1>
 
@@ -93,9 +105,8 @@
 			<a href="#" class="item-footer green">
 				Booklog navigation
 			</a>
-		</div>
+			</div>
 		</div>
 	</section> 
-	
 </body>
 </html>
