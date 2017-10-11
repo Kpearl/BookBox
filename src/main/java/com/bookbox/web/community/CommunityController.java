@@ -1,4 +1,4 @@
-package com.bookbox.service.community;
+package com.bookbox.web.community;
 
 public class CommunityController {
 
