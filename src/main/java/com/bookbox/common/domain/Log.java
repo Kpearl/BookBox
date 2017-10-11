@@ -1,4 +1,4 @@
-package com.bookbox.common;
+package com.bookbox.common.domain;
 
 import java.sql.Date;
 
@@ -11,6 +11,7 @@ public class Log {
 	
 	/**
 	 * @brief field
+	 * @detail user : 누가, logRegDate : 언제, category : 어디서, behavior : 무엇을
 	 */
 	private User user;
 	private Date logRegDate;
