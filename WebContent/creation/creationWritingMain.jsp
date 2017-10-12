@@ -79,7 +79,9 @@
 
 </head>
 <body>
-	<jsp:include page="../common/toolbar.jsp" />
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
 	
 	<hr>
 	

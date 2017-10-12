@@ -29,7 +29,7 @@
 					<li><a href="#">좋아요책목록보기</a></li>
 					<li><a href="#">책갈피목록보기</a></li>
 					<li><a href="${param.uri}user/adminUserInfoView.jsp">회원목록조회</a></li>
-					<li><a href="../user/getUser.jsp">내 정보조회</a></li>
+					<li><a href="${param.uri}user/getUser.jsp">내 정보조회</a></li>
 				</ul></li>
 			<li class="lefty"><a href="${param.uri}user/addUserView.jsp">회원가입</a></li>
 			<li class="lefty"><a href="${param.uri}user/login.jsp">로그인</a></li>
