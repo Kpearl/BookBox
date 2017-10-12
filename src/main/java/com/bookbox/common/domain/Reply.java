@@ -1,4 +1,4 @@
-package com.bookbox.common;
+package com.bookbox.common.domain;
 
 import java.sql.Date;
 

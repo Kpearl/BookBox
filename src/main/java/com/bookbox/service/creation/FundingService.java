@@ -1,4 +1,4 @@
-package com.bookbox.service.funding;
+package com.bookbox.service.creation;
 
 /**
  * @file com.bookbox.service.funding.fundingService.java

@@ -2,6 +2,8 @@ package com.bookbox.common.domain;
 
 import java.sql.Date;
 
+import com.bookbox.service.domain.User;
+
 /**
  * @file com.bookbox.common.Log
  * @author jw

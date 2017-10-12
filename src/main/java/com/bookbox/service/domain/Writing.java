@@ -3,8 +3,8 @@ package com.bookbox.service.domain;
 import java.sql.Date;
 import java.util.List;
 
-import com.bookbox.common.Grade;
-import com.bookbox.common.Reply;
+import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Reply;
 
 
 /**

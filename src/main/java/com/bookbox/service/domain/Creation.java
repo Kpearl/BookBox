@@ -2,9 +2,9 @@ package com.bookbox.service.domain;
 
 import java.util.List;
 
-import com.bookbox.common.Grade;
-import com.bookbox.common.Like;
-import com.bookbox.common.Subscription;
+import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Like;
+import com.bookbox.common.domain.Subscription;
 
 /**
  * @file com.bookbox.service.domain.Creation.java

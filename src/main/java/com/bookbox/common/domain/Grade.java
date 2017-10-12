@@ -1,4 +1,4 @@
-package com.bookbox.common;
+package com.bookbox.common.domain;
 
 /**
  * @file com.bookbox.common.Grade.java

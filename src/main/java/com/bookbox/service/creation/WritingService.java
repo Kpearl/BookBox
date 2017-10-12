@@ -1,4 +1,4 @@
-package com.bookbox.service.wrriting;
+package com.bookbox.service.creation;
 
 /**
  * @file com.bookbox.service.writing.WritingDAO.java
