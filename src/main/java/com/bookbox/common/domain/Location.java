@@ -31,7 +31,7 @@ public class Location {
 		return locationLatitude;
 	}
 
-	public void setLocationLatitude(double locationLongitude) {
+	public void setLocationLatitude(double locationLatitude) {
 		this.locationLatitude = locationLatitude;
 	}
 

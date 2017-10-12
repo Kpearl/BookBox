@@ -12,7 +12,9 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="../layout/toolbar.jsp" />
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
 	
 	<!-- 무한 스크롤 -->
 	<section>
