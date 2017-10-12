@@ -2,15 +2,13 @@ package com.bookbox.service.domain;
 
 import java.sql.Date;
 
-
 /**
  * @file com.bookbox.service.domain.User.java
- * @brief 회원 domain
+ * @brief User domain
  * @detail
  * @author HJ
  * @date 2017.10.11
- */
-
+ **/
 
 public class User {
 	
@@ -21,8 +19,8 @@ public class User {
 	private boolean gender;
 	private Date birth;
 	private String role;
-	int outerAccount;
-	String outerToken;
+	private int outerAccount;
+	private String outerToken;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -98,7 +96,4 @@ public class User {
 				+ ", birth=" + birth + ", role=" + role + ", outerAccount=" + outerAccount + ", outerToken="
 				+ outerToken + "]";
 	}
-	
-	
-	
 }

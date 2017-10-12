@@ -5,10 +5,13 @@ import java.sql.Date;
 import com.bookbox.service.domain.User;
 
 /**
- * @file com.bookbox.common.Log
- * @author jw
+ * @file com.bookbox.common.domain.Log.java
  * @brief Log Domain
+ * @detail
+ * @author jw
+ * @date 2017.10.11
  */
+
 public class Log {
 	
 	/**
@@ -69,6 +72,10 @@ public class Log {
 	public void setAddBehavior(int addBehavior) {
 		this.addBehavior = addBehavior;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Log [user=" + user + ", logRegDate=" + logRegDate + ", category=" + category + ", behavior=" + behavior
+				+ ", addBehavior=" + addBehavior + "]";
+	}
 }

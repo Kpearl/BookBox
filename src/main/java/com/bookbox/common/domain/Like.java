@@ -1,8 +1,8 @@
 package com.bookbox.common.domain;
 
 /**
- * @file com.bookbox.common.Like.java
- * @brief 좋아요 domain
+ * @file com.bookbox.common.domain.Like.java
+ * @brief Like domain
  * @detail 책,창작작품(creation)
  * @author HJ
  * @date 2017.10.11
@@ -10,8 +10,9 @@ package com.bookbox.common.domain;
 
 public class Like {
 
-	int totalLike;
-	boolean doLike;
+	//Field
+	private int totalLike;
+	private boolean doLike;
 	
 	public Like() {
 		// TODO Auto-generated constructor stub
@@ -37,6 +38,4 @@ public class Like {
 	public String toString() {
 		return "Like [totalLike=" + totalLike + ", doLike=" + doLike + "]";
 	}
-	
-	
 }
