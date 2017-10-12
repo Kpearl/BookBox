@@ -1,7 +1,7 @@
 package com.bookbox.service.creation;
 
 /**
- * @file com.bookbox.service.writing.writingDAO.java
+ * @file com.bookbox.service.creation.writingDAO.java
  * @brief 창작글 DAO
  * @detail 인터페이스
  * @author HJ

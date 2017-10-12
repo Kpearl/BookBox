@@ -1,7 +1,7 @@
 package com.bookbox.service.creation;
 
 /**
- * @file com.bookbox.service.Funding.FundtingDAO.java
+ * @file com.bookbox.service.creation.FundingDAO.java
  * @brief 펀딩 DAO
  * @detail 인터페이스
  * @author HJ

@@ -1,7 +1,7 @@
 package com.bookbox.service.creation;
 
 /**
- * @file com.bookbox.service.funding.fundingService.java
+ * @file com.bookbox.service.creation.fundingService.java
  * @brief 펀딩 Service
  * @detail 인터페이스
  * @author HJ

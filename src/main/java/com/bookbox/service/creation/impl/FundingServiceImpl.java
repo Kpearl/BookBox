@@ -3,7 +3,7 @@ package com.bookbox.service.creation.impl;
 import com.bookbox.service.community.CommunityService;
 
 /**
- * @file com.bookbox.service.funding.impl.fundgingServiceImpl.java
+ * @file com.bookbox.service.creation.impl.fundgingServiceImpl.java
  * @brief 펀딩 Service impl
  * @detail
  * @author HJ

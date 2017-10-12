@@ -3,7 +3,7 @@ package com.bookbox.service.creation.impl;
 import com.bookbox.service.community.CommunityDAO;
 
 /**
- * @file com.bookbox.service.funding.impl.fundingDAOImpl.java
+ * @file com.bookbox.service.creation.impl.fundingDAOImpl.java
  * @brief 펀딩 DAO impl
  * @detail
  * @author HJ
