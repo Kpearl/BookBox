@@ -21,7 +21,7 @@ public class LogTest {
 	public void logTest() {
 		User user = new User();
 		user.setNickname("메리프메에");
-		Log log = new Log(user, new Date(100000000), "홍길동", 0, 1);
+		Log log = new Log(user, new Date(100000000), "허준책", 0, 1);
 		
 		System.out.println(log.toString());
 	}

@@ -17,7 +17,7 @@ public class Log {
 	
 	/**
 	 * @brief field
-	 * @detail user : 누가, logRegDate : 언제, category : 어디서, behavior : 무엇을
+	 * @detail user : 누가, logRegDate : 언제, targetName : 어디서, behavior : 무엇을
 	 */
 	private User user;
 	private Date logRegDate;
