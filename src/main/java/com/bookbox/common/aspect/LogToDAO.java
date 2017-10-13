@@ -2,9 +2,7 @@ package com.bookbox.common.aspect;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.log.LogService;
 
 /**
@@ -19,8 +17,8 @@ public class LogToDAO {
 	 * @brief Field
 	 */
 	
-	@Autowired
-	@Qualifier("logService")
+//	@Autowired
+//	@Qualifier("logService")
 	private LogService logService;
 	
 

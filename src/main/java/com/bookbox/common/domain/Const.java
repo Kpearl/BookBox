@@ -30,6 +30,8 @@ public class Const {
 		public static final int NONE = 0;
 		public static final int LIKE = 1;
 		public static final int SUBSCRIBE = 2;
+		public static final int GRADE = 3;
+		public static final int BOOKMARK = 4;
 	}
 	
 }

@@ -14,9 +14,9 @@ public class User {
 	
 	///Field
 	private String email;
-	private String nickName;
+	private String nickname;
 	private String password;
-	private boolean gender;
+	private String gender;
 	private Date birth;
 	private String role;
 	private int outerAccount;
@@ -34,12 +34,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getPassword() {
@@ -50,11 +50,11 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(boolean gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
@@ -92,7 +92,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [email=" + email + ", nickName=" + nickName + ", password=" + password + ", gender=" + gender
+		return "User [email=" + email + ", nickname=" + nickname + ", password=" + password + ", gender=" + gender
 				+ ", birth=" + birth + ", role=" + role + ", outerAccount=" + outerAccount + ", outerToken="
 				+ outerToken + "]";
 	}
