@@ -3,7 +3,7 @@ package com.bookbox.common.aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.bookbox.common.log.LogService;
+import com.bookbox.common.service.LogService;
 
 /**
  * @file com.bookbox.common.aspect.LogToDAO.java
