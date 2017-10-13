@@ -4,7 +4,7 @@ import java.sql.Date;
 
 /**
  * @file com.bookbox.service.domain.PayInfo.java
- * @brief 펀딩결제 domain
+ * @brief PayInfo domain
  * @detail
  * @author HJ
  * @date 2017.10.11
@@ -12,12 +12,14 @@ import java.sql.Date;
 
 public class PayInfo {
 	
-	int payInfoNo;
-	User user;
-	int tid;
-	String userName;	
-	String addr;
-	Date regDate;
+	//Field
+	private int payInfoNo;
+	private User user;
+	private int tid;
+	private String userName;	
+	private String addr;
+	private String phone;
+	private Date regDate;
 
 	public PayInfo() {
 		// TODO Auto-generated constructor stub
@@ -63,6 +65,14 @@ public class PayInfo {
 		this.addr = addr;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public Date getRegDate() {
 		return regDate;
 	}
@@ -74,8 +84,6 @@ public class PayInfo {
 	@Override
 	public String toString() {
 		return "PayInfo [payInfoNo=" + payInfoNo + ", user=" + user + ", tid=" + tid + ", userName=" + userName
-				+ ", addr=" + addr + ", regDate=" + regDate + "]";
+				+ ", addr=" + addr + ", phone=" + phone + ", regDate=" + regDate + "]";
 	}
-	
-
 }

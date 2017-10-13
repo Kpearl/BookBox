@@ -1,5 +1,93 @@
 package com.bookbox.service.domain;
 
+import java.sql.Date;
+import java.util.List;
+
+import com.bookbox.common.domain.Location;
+
+/**
+ * @file com.bookbox.service.domain.Posting.java
+ * @brief Posting domain
+ * @detail
+ * @author JW
+ * @date 2017.10.12
+ */
+
 public class Posting {
 
+	//Field
+	private int postingNo;
+	private String postingTitle;
+	private String postingContent;
+	private List<String> postingFileList;
+	private Date postingRegDate;
+	private Date postingUpdateDate;
+	private List<Location> postingLocationList;
+	
+	public Posting() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getPostingNo() {
+		return postingNo;
+	}
+
+	public void setPostingNo(int postingNo) {
+		this.postingNo = postingNo;
+	}
+
+	public String getPostingTitle() {
+		return postingTitle;
+	}
+
+	public void setPostingTitle(String postingTitle) {
+		this.postingTitle = postingTitle;
+	}
+
+	public String getPostingContent() {
+		return postingContent;
+	}
+
+	public void setPostingContent(String postingContent) {
+		this.postingContent = postingContent;
+	}
+
+	public List<String> getPostingFileList() {
+		return postingFileList;
+	}
+
+	public void setPostingFileList(List<String> postingFileList) {
+		this.postingFileList = postingFileList;
+	}
+
+	public Date getPostingRegDate() {
+		return postingRegDate;
+	}
+
+	public void setPostingRegDate(Date postingRegDate) {
+		this.postingRegDate = postingRegDate;
+	}
+
+	public Date getPostingUpdateDate() {
+		return postingUpdateDate;
+	}
+
+	public void setPostingUpdateDate(Date postingUpdateDate) {
+		this.postingUpdateDate = postingUpdateDate;
+	}
+
+	public List<Location> getPostingLocationList() {
+		return postingLocationList;
+	}
+
+	public void setPostingLocationList(List<Location> postingLocationList) {
+		this.postingLocationList = postingLocationList;
+	}
+
+	@Override
+	public String toString() {
+		return "Posting [postingNo=" + postingNo + ", postingTitle=" + postingTitle + ", postingContent="
+				+ postingContent + ", postingFileList=" + postingFileList + ", postingRegDate=" + postingRegDate
+				+ ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList=" + postingLocationList + "]";
+	}
 }

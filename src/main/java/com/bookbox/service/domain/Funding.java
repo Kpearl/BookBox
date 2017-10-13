@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @file com.bookbox.service.domain.Funding.java
- * @brief 펀딩 domain
+ * @brief Funding domain
  * @detail
  * @author HJ
  * @date 2017.10.11
@@ -13,130 +13,107 @@ import java.util.List;
 
 public class Funding {
 
-	int funding;
-	String fundingTitle;
-	Creation creation;
-	List<PayInfo> PayInfoList;
-	String fundingIntro;
-	Date fundingRegDate;
-	Date fundingEndDate;
-	int fundingTarget;
-	int perFunding;
-	String fundingImage;
+	//Field
+	private int fundingNo;
+	private String fundingTitle;
+	private Creation creation;
+	private List<PayInfo> payInfoList;
+	private String fundingIntro;
+	private Date fundingRegDate;
+	private Date fundingEndDate;
+	private int fundingTarget;
+	private int perFunding;
+	private String fundingImage;
 	
-		
 	public Funding() {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	public int getFunding() {
-		return funding;
+	public int getFundingNo() {
+		return fundingNo;
 	}
 
-
-	public void setFunding(int funding) {
-		this.funding = funding;
+	public void setFundingNo(int fundingNo) {
+		this.fundingNo = fundingNo;
 	}
-
 
 	public String getFundingTitle() {
 		return fundingTitle;
 	}
 
-
 	public void setFundingTitle(String fundingTitle) {
 		this.fundingTitle = fundingTitle;
 	}
-
 
 	public Creation getCreation() {
 		return creation;
 	}
 
-
 	public void setCreation(Creation creation) {
 		this.creation = creation;
 	}
 
-
 	public List<PayInfo> getPayInfoList() {
-		return PayInfoList;
+		return payInfoList;
 	}
-
 
 	public void setPayInfoList(List<PayInfo> payInfoList) {
-		PayInfoList = payInfoList;
+		this.payInfoList = payInfoList;
 	}
-
 
 	public String getFundingIntro() {
 		return fundingIntro;
 	}
 
-
 	public void setFundingIntro(String fundingIntro) {
 		this.fundingIntro = fundingIntro;
 	}
-
 
 	public Date getFundingRegDate() {
 		return fundingRegDate;
 	}
 
-
 	public void setFundingRegDate(Date fundingRegDate) {
 		this.fundingRegDate = fundingRegDate;
 	}
-
 
 	public Date getFundingEndDate() {
 		return fundingEndDate;
 	}
 
-
 	public void setFundingEndDate(Date fundingEndDate) {
 		this.fundingEndDate = fundingEndDate;
 	}
-
 
 	public int getFundingTarget() {
 		return fundingTarget;
 	}
 
-
 	public void setFundingTarget(int fundingTarget) {
 		this.fundingTarget = fundingTarget;
 	}
-
 
 	public int getPerFunding() {
 		return perFunding;
 	}
 
-
 	public void setPerFunding(int perFunding) {
 		this.perFunding = perFunding;
 	}
-
 
 	public String getFundingImage() {
 		return fundingImage;
 	}
 
-
 	public void setFundingImage(String fundingImage) {
 		this.fundingImage = fundingImage;
 	}
-
-
+			
 	@Override
 	public String toString() {
-		return "Funding [funding=" + funding + ", fundingTitle=" + fundingTitle + ", creation=" + creation
-				+ ", PayInfoList=" + PayInfoList + ", fundingIntro=" + fundingIntro + ", fundingRegDate="
+		return "Funding [fundingNo=" + fundingNo + ", fundingTitle=" + fundingTitle + ", creation=" + creation
+				+ ", PayInfoList=" + payInfoList + ", fundingIntro=" + fundingIntro + ", fundingRegDate="
 				+ fundingRegDate + ", fundingEndDate=" + fundingEndDate + ", fundingTarget=" + fundingTarget
 				+ ", perFunding=" + perFunding + ", fundingImage=" + fundingImage + "]";
 	}
-
-		
 }

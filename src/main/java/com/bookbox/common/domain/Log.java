@@ -2,13 +2,17 @@ package com.bookbox.common.domain;
 
 import java.sql.Date;
 
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.domain.User;
 
 /**
- * @file com.bookbox.common.Log
- * @author jw
+ * @file com.bookbox.common.domain.Log.java
  * @brief Log Domain
+ * @detail
+ * @author jw
+ * @date 2017.10.11
  */
+
 public class Log {
 	
 	/**
@@ -17,14 +21,26 @@ public class Log {
 	 */
 	private User user;
 	private Date logRegDate;
-	private int category;
+	private String targetName;
 	private int behavior;
 	private int addBehavior;
-	
+	private String log;
 	/**
 	 * @brief constructor
 	 */
-	public Log() {
+	public Log() {}
+	
+	public Log(User user, Date logRegDate, String targetName, int addBehavior, int behavior) {
+		StringBuffer log = new StringBuffer();
+		log.append(user.getNickname()+"님이 ")
+			.append("")
+			.append(targetName+"을(를) ");
+		if(addBehavior != 0) {
+			log.append(CommonUtil.getConstProp().getProperty("AB"+addBehavior)+"을(를) ");
+		}
+		log.append(CommonUtil.getConstProp().getProperty("B"+behavior)+"하였습니다.");
+		
+		this.log = log.toString();
 	}
 
 	/**
@@ -46,12 +62,12 @@ public class Log {
 		this.logRegDate = logRegDate;
 	}
 
-	public int getCategory() {
-		return category;
+	public String getTargetName() {
+		return targetName;
 	}
 
-	public void setCategory(int category) {
-		this.category = category;
+	public void setTargetName(String targetName) {
+		this.targetName = targetName;
 	}
 
 	public int getBehavior() {
@@ -68,6 +84,11 @@ public class Log {
 
 	public void setAddBehavior(int addBehavior) {
 		this.addBehavior = addBehavior;
+	}
+
+	@Override
+	public String toString() {
+		return log;
 	}
 	
 	

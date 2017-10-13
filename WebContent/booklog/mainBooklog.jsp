@@ -15,7 +15,9 @@
 	
 </head>
 <body>
-	<jsp:include page="../layout/toolbar.jsp" />
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	
 	인기북로그보기
