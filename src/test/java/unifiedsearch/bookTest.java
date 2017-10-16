@@ -19,7 +19,7 @@ public class bookTest {
 
 	@Autowired
 	@Qualifier("bookServiceImpl")
-	BookServiceImpl bookServiceImpl;
+	private BookServiceImpl bookServiceImpl;
 
 	@Test
 	public void bookSearchTest() throws Exception{
