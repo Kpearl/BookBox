@@ -8,7 +8,7 @@
 <section class="blank">
 	<nav class="navigation">
 		<ul>
-			<li><a href="/" class="focus navigation-home">
+			<li><a href="${param.uri}index.jsp" class="focus navigation-home">
 			<i class="icon-large icon-home"></i>
 			</a></li>
 			<li><a href="#">창작공간</a></li>

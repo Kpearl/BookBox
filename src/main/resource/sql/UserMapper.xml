@@ -21,17 +21,17 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users( email , nickname , password , gender , birth, role, active,  reg_date, outer_account) 
-		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth} , 'user' , 1 , SYSDATE, 0 )
+		INTO user( email , nickname , password , gender , birth,  outer_account) 
+		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth} , 0 )
 	 </insert>
 	 
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getUser"	parameterType="user"	resultMap="userSelectMap">
+	 <select 	id="getUser"	parameterType="user"	 resultMap="userSelectMap">
 		SELECT
-		email , nickname , gender , birth, role		
+		email , password, nickname , gender , birth, role	
 		FROM user 
-		WHERE email = #{email}
+		WHERE email = #{email} AND active = 1
 	 </select>
 	 
 	 
@@ -40,11 +40,25 @@
 	   	UPDATE user
 	   	<set>
 	   		nickname 	= #{nickname} ,
-			gender	= #{gender},
-			birth 		= #{birth} 
+	   		password = #{password},
+			gender		= #{gender},
+			birth 			= #{birth} 
+	   	</set>
+	   	<where>
+	   		email = #{email}
+	   	</where>
+	   	 
+	 </update>
+	 
+	 <!-- SQL : updateActive -->
+	 <update	id="updateActive"	parameterType="map" >
+	   	UPDATE user
+	   	<set>
+			active 			= #{active}
 	   	</set>
 	   	WHERE email = #{email}
-	 </update>
+	 </update>	 
+	 
 	 
 
 	<!-- SQL : SELECT ROW Count -->	 

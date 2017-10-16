@@ -7,7 +7,7 @@ import com.bookbox.common.service.LogService;
 
 /**
  * @file com.bookbox.common.aspect.LogToDAO.java
- * @author JW
+ * @author jw
  * @date 2017.10.10
  * @brief 
  */
@@ -26,7 +26,7 @@ public class LogToDAO {
 	 * @brief Constructor
 	 */
 	public LogToDAO() {
-		System.out.println("Constructor :: "+getClass().getName());
+		System.out.println("\n"+this.getClass()+"\n");
 	}
 	
 	

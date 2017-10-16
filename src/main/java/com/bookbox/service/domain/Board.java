@@ -1,6 +1,7 @@
 package com.bookbox.service.domain;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,9 +18,11 @@ public class Board {
 	private int boardNo;
 	private String boardTitle;
 	private String boardContent;
-	private Date boardRegDate;
+	private String boardRegDate;
 	private User writer;
 	private int recommend;
+	private int report;
+	private List<String> tagList;
 	private List<Comment> comment;
 	private boolean blind;
 
@@ -29,6 +32,14 @@ public class Board {
 
 	public int getBoardNo() {
 		return boardNo;
+	}
+
+	public List<String> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<String> tagList) {
+		this.tagList = tagList;
 	}
 
 	public void setBoardNo(int boardNo) {
@@ -51,11 +62,11 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
-	public Date getBoardRegDate() {
+	public String getBoardRegDate() {
 		return boardRegDate;
 	}
 
-	public void setBoardRegDate(Date boardRegDate) {
+	public void setBoardRegDate(String boardRegDate) {
 		this.boardRegDate = boardRegDate;
 	}
 
@@ -91,10 +102,18 @@ public class Board {
 		this.blind = blind;
 	}
 
+	public int getReport() {
+		return report;
+	}
+
+	public void setReport(int report) {
+		this.report = report;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", boardRegDate=" + boardRegDate + ", writer=" + writer + ", recommend=" + recommend + ", comment="
-				+ comment + ", blind=" + blind + "]";
+			+"reprot="+report+ comment + ", blind=" + blind + "]";
 	}
 }

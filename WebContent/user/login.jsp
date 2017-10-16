@@ -11,6 +11,41 @@
 <link rel="stylesheet" href="../resources/css/style.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
+
+<script type="text/javascript">
+
+/**
+ *@brief 로그인 
+ */
+$( function() {
+	
+	$("#userId").focus();
+	
+	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$("button").on("click" , function() {
+		var id=$("input:text").val();
+		var pw=$("input:password").val();
+		
+		if(id == null || id.length <1) {
+			alert('ID 를 입력하지 않으셨습니다.');
+			$("#userId").focus();
+			return;
+		}
+		
+		if(pw == null || pw.length <1) {
+			alert('패스워드를 입력하지 않으셨습니다.');
+			$("#password").focus();
+			return;
+		}
+		
+		$("form").attr("method","POST").attr("action","/user/login").submit();
+	});
+});	
+
+
+</script>
+
+
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
@@ -30,11 +65,11 @@
 			</label>
 
 			<label>
-			<button class="button-submit" href="#">Login</button>
+			<button type="button" class="button-submit" href="#">Login</button>
 			</label>
 			
 			<label>
-			<button class="button-submit"><a href="addUserView.jsp">Join</a></button>
+			<button class="button-submit">Join</button>
 			</label>
 			
 			<label>
@@ -47,10 +82,6 @@
 			
 			<label>
 			<button class="button-submit">KAKAO LOGIN</button>
-			</label>
-			
-			<label>
-			<button class="button-submit"><a href="findPasswordView.jsp">Find Password</a></button>
 			</label>
 		</form>
 	</div>

@@ -107,8 +107,6 @@
 			</a>
 			</div>
 		</div>
-	</section>
-	
-	<jsp:include page="layout/tailbar.jsp" /> 
+	</section> 
 </body>
 </html>

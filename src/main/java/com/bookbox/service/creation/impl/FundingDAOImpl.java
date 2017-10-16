@@ -1,6 +1,6 @@
 package com.bookbox.service.creation.impl;
 
-import com.bookbox.service.community.CommunityDAO;
+import com.bookbox.service.creation.FundingDAO;
 
 /**
  * @file com.bookbox.service.creation.impl.fundingDAOImpl.java
@@ -10,6 +10,6 @@ import com.bookbox.service.community.CommunityDAO;
  * @date 2017.10.11
  */
 
-public class FundingDAOImpl implements CommunityDAO {
+public class FundingDAOImpl implements FundingDAO {
 
 }
