@@ -15,11 +15,15 @@ public class Comment {
 	
 	//Field
 	private int commentNo;
+	private int boardNo;
+	private int seniorCommentNo;
 	private User writer;
 	private String content;
 	private Date regDate;
 	private int level;
 	private List<Comment> comment;
+	private int active;
+	private int reportCount;
 	private boolean blind;
 	
 	public Comment() {
@@ -82,9 +86,41 @@ public class Comment {
 		this.blind = blind;
 	}
 
+	public int getBoardNo() {
+		return boardNo;
+	}
+
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
+	}
+
+	public int getSeniorCommentNo() {
+		return seniorCommentNo;
+	}
+
+	public void setSeniorCommentNo(int seniorCommentNo) {
+		this.seniorCommentNo = seniorCommentNo;
+	}
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+	public int getReportCount() {
+		return reportCount;
+	}
+
+	public void setReportCount(int reportCount) {
+		this.reportCount = reportCount;
+	}
+
 	@Override
 	public String toString() {
-		return "Comment [commentNo=" + commentNo + ", writer=" + writer + ", content=" + content + ", regDate="
+		return "Comment [commentNo=" + commentNo +", boardNo="+boardNo+", writer=" + writer + ", content=" + content + ", regDate="
 				+ regDate + ", level=" + level + ", comment=" + comment + ", blind=" + blind + "]";
 	}
 }

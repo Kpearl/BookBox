@@ -36,7 +36,7 @@
 			
 
 			<label>
-			<button class="button-submit"><a href="updateUserView.jsp">Update User Date</a></button>
+			<button class="button-submit">Update User Date</button>
 			</label>
 		</form>
 	</div>	

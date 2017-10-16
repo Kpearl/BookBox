@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="CommunityMapper">
+	
+	<resultMap id="selectBoard" type="board">
+		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
+		<result property="boardTitle" column="title" jdbcType="VARCHAR"/>
+		<result property="boardContent" column="content" jdbcType="VARCHAR"/>
+		<result property="boardRegDate" column="reg_date" jdbcType="DATE"/>
+		<result property="recommend" column="recommend_count" jdbcType="NUMERIC"/>
+		<result property="report" column="report_count" jdbcType="NUMERIC"/>
+		<association property="writer" javaType="user">
+			<result property="email" column="email"/>
+			<result property="nickname" column="nickname"/>
+			<result property="role" column="role"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="comment" id="selectComment">
+		<result property="commentNo" column="comment_no" jdbcType="NUMERIC"/>
+		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
+		<result property="seniorCommentNo" column="senior_comment_no" jdbcType="NUMERIC"/>
+		<result property="content" column="content" jdbcType="VARCHAR"/>
+		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+		<result property="level" column="level" jdbcType="NUMERIC"/>
+		<result property="active" column="active" jdbcType="NUMERIC" />
+		<result property="reportCount" column="reportCount" jdbcType="NUMERIC"/>
+		<association property="writer" javaType="user">
+			<result property="email" column="email" jdbcType="VARCHAR"/>
+			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+		</association>
+	</resultMap>
+
+
+
+	<insert id="addBoard" parameterType="Board" useGeneratedKeys="true" 
+		keyProperty="boardNo" keyColumn="board_no">
+			INSERT INTO board (email, title, content) 
+			VALUES (
+						#{writer.email:VARCHAR}, 
+						#{boardTitle:VARCHAR}, 
+						#{boardContent:VARCHAR}
+					)
+	</insert>
+	
+	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
+		SELECT b.board_no, b.email, b.title, b.content, b.reg_date, b.report_count, b.recommend_count,
+		u.nickname, u.role
+		FROM board b, user u
+		WHERE
+		b.email = u.email AND 
+		b.board_no = #{value}
+	</select>
+	
+	<delete id="deleteBoard" parameterType="_int">
+		DELETE FROM board WHERE board_no={#value}
+	</delete>
+	
+	<update id="updateBoard" parameterType="board">
+		UPDATE board 
+		SET title=#{boardTitle},
+			content=#{boardContent}
+		WHERE board_no=#{boardNo};
+	</update>
+
+	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
+		SELECT b.board_no, b.email, b.title, b.content, b.reg_date, b.report_count, b.recommend_count,
+		u.nickname, u.role
+		FROM board b, user u
+		WHERE
+		b.email = u.email
+		<if test="search.condition==0">
+		AND b.title LIKE '%${search.keyword}%'
+		</if> 
+		<if test="search.condition==1">
+		AND u.nickname LIKE '%${search.keyword}%'
+		</if>
+		LIMIT #{page.startRow}, #{page.pageSize}
+	</select>
+	
+	<!-- ====================  comment sql ===================== -->
+	
+	<insert id="addComment" parameterType="comment">
+		INSERT INTO comment (board_no, senior_comment_no, email, level, content, active) 
+		VALUES (
+				#{boardNo}, 
+				<if test="seniorCommentNo==0">
+				NULL,
+				</if>
+				<if test="seniorCommentNo!=0">
+				#{seniorCommentNo},
+				</if> 
+				#{writer.email:VARCHAR}, 
+				#{level}, 
+				#{content:VARCHAR}, 
+				'1');
+	</insert>
+	
+	<select id="getCommentList" parameterType="_int" resultMap="selectComment">
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, u.nickname
+		FROM	comment c, user u
+		WHERE 
+				c.email = u.email AND
+				c.board_no = #{value}
+	</select>
+	
+
+</mapper>

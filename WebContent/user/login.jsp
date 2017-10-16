@@ -30,11 +30,11 @@
 			</label>
 
 			<label>
-			<button class="button-submit" href="#">Login</button>
+			<button type="button" class="button-submit" href="#">Login</button>
 			</label>
 			
 			<label>
-			<button class="button-submit"><a href="addUserView.jsp">Join</a></button>
+			<button class="button-submit">Join</button>
 			</label>
 			
 			<label>
@@ -47,10 +47,6 @@
 			
 			<label>
 			<button class="button-submit">KAKAO LOGIN</button>
-			</label>
-			
-			<label>
-			<button class="button-submit"><a href="findPasswordView.jsp">Find Password</a></button>
 			</label>
 		</form>
 	</div>

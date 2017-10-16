@@ -24,7 +24,6 @@
 	<typeAlias alias="book" type="com.bookbox.service.domain.Book"/>
 
 	<typeAlias alias="search" type="com.bookbox.common.domain.Search"/>
-	<typeAlias alias="tag" type="com.bookbox.common.domain.Tag"/>
 	
 <!-- 	<typeAlias alias="const" type="com.bookbox.common.domain.Const"/>
 	<typeAlias alias="grade" type="com.bookbox.common.domain.Grade"/>
@@ -35,14 +34,13 @@
 	<typeAlias alias="reply" type="com.bookbox.common.domain.Reply"/>
 
 	<typeAlias alias="subscription" type="com.bookbox.common.domain.Subscribe"/>
-		 -->
+	<typeAlias alias="tag" type="com.bookbox.common.domain.Tag"/>	 -->
 </typeAliases>
 
 
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
-		
-		<mapper resource="sql/TagMapper.xml"/>
+		<mapper resource="sql/CommunityMapper.xml"/> 
 	</mappers>
 	
 </configuration>

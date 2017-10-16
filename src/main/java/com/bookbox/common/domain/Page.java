@@ -79,6 +79,9 @@ public class Page {
 		this.endUnitPage = endUnitPage;
 	}
 
+	public int getStartRow() {
+		return (currentPage-1)*pageSize;
+	}
 	@Override
 	public String toString() {
 		return "Page [currentPage=" + currentPage + ", totalCount=" + totalCount + ", pageUnit=" + pageUnit
