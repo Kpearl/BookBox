@@ -53,7 +53,7 @@ public class CreationController {
 	 * @brief  Constructor
 	 */	
 	public CreationController() {
-		System.out.println(this.getClass());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	/**

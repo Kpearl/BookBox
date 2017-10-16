@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	 * @brief Constructor
 	 */			
 	public UserServiceImpl() {
-		System.out.println("Constructor :: "+this.getClass());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 
 	/**

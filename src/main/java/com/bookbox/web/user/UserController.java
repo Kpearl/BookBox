@@ -44,7 +44,7 @@ public class UserController {
 		 * @brief  Constructor
 		 */		
 	public UserController() {
-		System.out.println(this.getClass());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	/**

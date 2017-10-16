@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 	 * @brief  Constructor
 	 */
 	public UserDAOImpl() {
-		System.out.println("Constructor :: "+this.getClass());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	

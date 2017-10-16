@@ -35,7 +35,7 @@ public class UserRestController {
 	 * @brief Constructor
 	 */		
 	public UserRestController(){
-		System.out.println("Constructor :: "+this.getClass());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	/**
