@@ -30,7 +30,7 @@
 			</label>
 
 			<label>
-			<button class="button-submit">Login</button>
+			<button type="button" class="button-submit" href="#">Login</button>
 			</label>
 			
 			<label>
