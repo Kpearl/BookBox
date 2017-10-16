@@ -2,11 +2,14 @@ package com.bookbox.service.booklog.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
 
+@Service("postingServiceImpl")
 public class PostingServiceImpl implements PostingService {
 
 	@Override

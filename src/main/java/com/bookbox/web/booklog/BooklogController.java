@@ -28,9 +28,9 @@ public class BooklogController {
 	@Qualifier("logServiceImpl")
 	private LogService logService;
 	
-	@Autowired
-	@Qualifier("bookServiceImpl")
-	private BookService bookService;
+//	@Autowired
+//	@Qualifier("bookServiceImpl")
+//	private BookService bookService;
 	
 	@Autowired
 	@Qualifier("tagServiceImpl")
