@@ -13,26 +13,14 @@ import com.bookbox.common.service.LogService;
  */
 public class LogToDAO {
 	
-	/**
-	 * @brief Field
-	 */
-	
-//	@Autowired
-//	@Qualifier("logService")
+	@Autowired
+	@Qualifier("logServiceImpl")
 	private LogService logService;
 	
-
-	/**
-	 * @brief Constructor
-	 */
 	public LogToDAO() {
 		System.out.println("Constructor :: "+getClass().getName());
 	}
 	
-	
-	/**
-	 * @brief Method
-	 */
 	
 	
 	

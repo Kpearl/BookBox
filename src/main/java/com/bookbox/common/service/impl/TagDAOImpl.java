@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagDAO;
 /**
- * @file com.bookbox.common.service.TagDAOImpl.java
+ * @file com.bookbox.common.service.impl.TagDAOImpl.java
  * @brief Tag DAO Implement
  * @detail Tag DAO Implement
  * @author JW
@@ -57,10 +57,8 @@ public class TagDAOImpl implements TagDAO {
 		int result = 0;
 		Map<String, Object> tagMap = null;
 		for(Tag tag : tagList) {
-			tagMap = new HashMap<String, Object>();
+			tagMap = this.mappingCategoryTarget(category, target);
 			tagMap.put("tagNo", tag.getTagNo());
-			tagMap.put("categoryNo", category);
-			tagMap.put("targetNo", target);
 			result += sqlSession.insert("TagMapper.addTagGroup", tagMap);
 		}
 		
