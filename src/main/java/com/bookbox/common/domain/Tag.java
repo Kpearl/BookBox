@@ -17,6 +17,10 @@ public class Tag {
 	public Tag() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Tag(String tagName) {
+		this.tagName = tagName;
+	}
 
 	public String getTagName() {
 		return tagName;
