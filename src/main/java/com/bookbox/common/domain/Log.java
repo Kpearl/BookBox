@@ -16,7 +16,6 @@ import com.bookbox.service.domain.User;
 public class Log {
 	
 	/**
-	 * @brief field
 	 * @detail user : 누가, logRegDate : 언제, targetName : 어디서, behavior : 무엇을
 	 */
 	private User user;
@@ -25,9 +24,8 @@ public class Log {
 	private int behavior;
 	private int addBehavior;
 	private String log;
-	/**
-	 * @brief constructor
-	 */
+
+
 	public Log() {}
 	
 	public Log(User user, Date logRegDate, String targetName, int addBehavior, int behavior) {
@@ -43,9 +41,7 @@ public class Log {
 		this.log = log.toString();
 	}
 
-	/**
-	 * @brief method
-	 */
+
 	public User getUser() {
 		return user;
 	}
@@ -84,6 +80,10 @@ public class Log {
 
 	public void setAddBehavior(int addBehavior) {
 		this.addBehavior = addBehavior;
+	}
+	
+	public String getLog() {
+		return log;
 	}
 
 	@Override

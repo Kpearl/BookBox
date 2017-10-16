@@ -7,32 +7,20 @@ import com.bookbox.common.service.LogService;
 
 /**
  * @file com.bookbox.common.aspect.LogToDAO.java
- * @author jw
+ * @author JW
  * @date 2017.10.10
  * @brief 
  */
 public class LogToDAO {
 	
-	/**
-	 * @brief Field
-	 */
-	
-//	@Autowired
-//	@Qualifier("logService")
+	@Autowired
+	@Qualifier("logServiceImpl")
 	private LogService logService;
 	
-
-	/**
-	 * @brief Constructor
-	 */
 	public LogToDAO() {
-		System.out.println("\n"+this.getClass()+"\n");
+		System.out.println("Constructor :: "+getClass().getName());
 	}
 	
-	
-	/**
-	 * @brief Method
-	 */
 	
 	
 	
