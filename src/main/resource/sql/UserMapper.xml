@@ -3,7 +3,55 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-		
+
+
 <mapper namespace="UserMapper">
+	
+	<resultMap id="userSelectMap" type="user">
+		<result property="email" 					column="email" 					jdbcType="VARCHAR"/>
+		<result property="nickname"			column="nickname" 			jdbcType="VARCHAR" />
+		<result property="password" 			column="password" 			jdbcType="VARCHAR" />
+		<result property="gender" 				column="gender" 					jdbcType="VARCHAR" />
+		<result property="birth" 						column="birth" 						jdbcType="VARCHAR" />
+		<result property="role" 						column="role" 						jdbcType="VARCHAR" />
+		<result property="outerAccount" 	column="outer_Account" 		jdbcType="INTEGER" />		
+	</resultMap>
+	
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addUser"		parameterType="user" >
+	 	INSERT
+		INTO users( email , nickname , password , gender , birth, role, active,  reg_date, outer_account) 
+		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth} , 'user' , 1 , SYSDATE, 0 )
+	 </insert>
+	 
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getUser"	parameterType="user"	resultMap="userSelectMap">
+		SELECT
+		email , nickname , gender , birth, role		
+		FROM user 
+		WHERE email = #{email}
+	 </select>
+	 
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateUser"	parameterType="user" >
+	   	UPDATE user
+	   	<set>
+	   		nickname 	= #{nickname} ,
+			gender	= #{gender},
+			birth 		= #{birth} 
+	   	</set>
+	   	WHERE email = #{email}
+	 </update>
+	 
+
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT email , nickname , birth, gender
+						FROM user ) countTable						
+	 </select>
 
 </mapper>
