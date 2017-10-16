@@ -15,44 +15,28 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
-	<div class="container login">
+		<div class="container signup">
 		<form>
-			<h1>Login</h1>
+			<h1>Add User Extra View</h1>
 			<hr>
-			<label>
-				<h2>Your email :</h2>
-				<input class="long" type="text">
-			</label>
 
 			<label>
-				<h2>And your password</h2>
-				<input class="long" type="password">
+				<h2>Your nickName:</h2>
+				<input class="long" type="button">
+			</label>
+			
+			<label>
+				<h2>Choose your gender</h2>
+				<input class="long" type="button">
+			</label>
+			
+			<label>
+				<h2>Choose your birthday</h2>
+				<input class="long" type="button">
 			</label>
 
-			<label>
-			<button class="button-submit" href="#">Login</button>
-			</label>
-			
-			<label>
-			<button class="button-submit"><a href="addUserView.jsp">Join</a></button>
-			</label>
-			
-			<label>
-			<button class="button-submit">NAVER LOGIN</button>
-			</label>
-			
-			<label>
-			<button class="button-submit">GOOGLE LOGIN</button>
-			</label>
-			
-			<label>
-			<button class="button-submit">KAKAO LOGIN</button>
-			</label>
-			
-			<label>
-			<button class="button-submit"><a href="findPasswordView.jsp">Find Password</a></button>
-			</label>
+			<button class="button-submit">Sign Up</button>
 		</form>
-	</div>
+	</div>	
 </body>
 </html>

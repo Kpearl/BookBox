@@ -46,7 +46,7 @@
 			</label>
 			
 			<label>
-			<button class="button-submit">정보 수정</button>
+			<button class="button-submit"><a href="addUserExtraView.jsp">정보 수정</a></button>
 			</label>
 		</form>
 	</div>
