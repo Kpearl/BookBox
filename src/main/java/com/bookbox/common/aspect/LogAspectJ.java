@@ -9,6 +9,14 @@ public class LogAspectJ {
 
 	public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable{
 		
-		return null;
+		System.out.println("\n[Around before] " + 
+						joinPoint.getTarget().getClass().getName() + "." + 
+						joinPoint.getSignature().getName() + "()" );
+		
+		Object obj = joinPoint.proceed();
+		
+		System.out.println("[Around after] return value : " + obj + "\n");
+		
+		return obj;
 	}
 }
