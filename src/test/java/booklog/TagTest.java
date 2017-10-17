@@ -56,12 +56,12 @@ public class TagTest {
 		System.out.println(tagService.getTagList(tag));
 	}
 	
-//	@Test
+	@Test
 	public void getTagGroupListTest() throws Exception{
 		System.out.println(tagService.getTagGroupList(Const.Category.POSTING, 2));
 	}
 	
-	@Test
+//	@Test
 	public void updateTagGroupListTest() throws Exception{
 		List<Tag> tagList = new ArrayList<Tag>();
 		tagList.add(new Tag("공상과학"));

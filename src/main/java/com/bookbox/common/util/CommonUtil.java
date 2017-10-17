@@ -3,6 +3,8 @@ package com.bookbox.common.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class CommonUtil {
@@ -31,5 +33,21 @@ public class CommonUtil {
 		}
 		
 		return constProp;
+	}
+	
+	/**
+	 * @brief category와 target을 Map에 넣어주는 method
+	 * @param category
+	 * @param target
+	 * @return categoryNo와 targetNo를 포함한 Map
+	 * @author JW
+	 */
+
+	public static Map<String, Object> mappingCategoryTarget(int category, int target){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("categoryNo", category);
+		map.put("targetNo", target);
+		
+		return map;
 	}
 }

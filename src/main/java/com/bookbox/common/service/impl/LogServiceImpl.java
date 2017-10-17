@@ -33,13 +33,13 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public List<Log> getLogList(User user) {
 		// TODO Auto-generated method stub
-		return null;
+		return logDAO.getLogList(user);
 	}
 
 	@Override
 	public void addLog(Log log) {
 		// TODO Auto-generated method stub
-		
+		logDAO.addLog(log);
 	}
 	
 	

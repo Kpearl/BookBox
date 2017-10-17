@@ -15,13 +15,13 @@
 	<aop:config>
 		<aop:aspect ref="logAspect">
 			<aop:around pointcut="execution(* com.bookbox.service..*Impl.*(..))" method="invoke"/>
-			<aop:around pointcut="execution(* com.bookbox.common.service..*Impl.*(..))" method="invoke"/>
+			<aop:around pointcut="execution(* com.bookbox.common.service..Tag*Impl.*(..))" method="invoke"/>
 		</aop:aspect>
-<!-- 		
+		
 		<aop:aspect ref="logWrite">
-			
+			<aop:around pointcut="execution(* com.bookbox.service..*Impl.*(..))" method="logWrite"/>
 		</aop:aspect>
- -->
+
 	</aop:config>
 	
 </beans>
