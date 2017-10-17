@@ -20,9 +20,10 @@ public interface BookSearchDAO {
 	 * @brief getBook
 	 * @detail ISBN을 kakaoAPI에 검색하여 도서 상세 정보 출력
 	 * @author JJ
+	 * @throws Exception 
 	 * @date 2017.10.17
 	 */
-	public void getBook(Book book);
+	public void getBook(Book book) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getRecommendBookList.java

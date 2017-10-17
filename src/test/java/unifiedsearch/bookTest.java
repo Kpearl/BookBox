@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
 import com.bookbox.service.unifiedsearch.BookService;
 
@@ -28,13 +29,23 @@ public class bookTest {
 
 	/*@Test*/
 	public void bookListSearchTest() throws Exception {
+		
 		Search search = new Search();
 		
-		search.setKeyword("8996991341");
+		search.setKeyword("죄와벌");
 		search.setCondition("도서");
 		search.setCategory(Category.BOOK);
 
 		bookSearchDAO.getBookList(search);
+	}
+	
+	/*@Test*/
+	public void bookSearchTest() throws Exception {
+		
+		Book book = new Book();
+		book.setIsbn("9788954874977");
+
+		bookSearchDAO.getBook(book);;
 	}
 	
 	@Test
