@@ -5,20 +5,33 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="LogMapper">
+<mapper namespace="PostingMapper">
 	
-	<resultMap id="logSelectMap" type="log">
-		<result property="logRegDate" column="reg_date"	jdbcType="DATE"/>
-		<result property="categoryNo" column="category_no"		jdbcType="INTEGER" />
-		<result property="targetName" column="target_name" jdbcType="VARCHAR"/>
-		<result property="targetNo" column="target_no" jdbcType="INTEGER"/>
-		<result property="behavior" column="behavior" jdbcType="INTEGER"/>
-		<result property="addBehavior" column="add_behavior" jdbcType="INTEGER"/>
-		<association property="user" javaType="user">
-			<result property="email" column="email"/>
-			<result property="nickname" column="nickname"/>
-		</association>
+	<resultMap id="postingSelectMap" type="posting">
+		<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
+		<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
+		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
+		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
+		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<collection property="postingFileList" javaType="ArrayList" ofType="String" column="file_name" select="selectPostingFileList"/>
+		<collection property="postingLocationList" javaType="ArrayList" ofType="location" select="selectPostingLocation">
+			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
+			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
+			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
+		</collection>
 	</resultMap>
+	
+	<select id="selectPostingFileList" resultType="String">
+		SELECT file_name
+		FROM upload_file
+		WHERE category = 5 AND target_no = #{postingNo}
+	</select>
+	
+	<select id="selectPostingLocation" resultType="location">
+		SELECT location_name, latitude, longitude
+		FROM location
+		WHERE posting_no = #{postingNo}
+	</select>
 	
 	
 	<!-- SQL : INSERT -->
@@ -33,12 +46,6 @@
 		)
 	</insert>
 
-	<select id="getLogList" parameterType="user" resultMap="logSelectMap">
-		SELECT l.email, u.nickname, l.reg_date, l.target_no, l.add_behavior, l.behavior, l.category_no
-		FROM log l, user u
-		WHERE l.email = #{email} AND l.email = u.email
-	</select>
-	
 <!-- 	<select id="creationName" parameterType="int">
 		SELECT creation_title
 		FROM creation

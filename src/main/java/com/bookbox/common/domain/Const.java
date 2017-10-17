@@ -2,6 +2,8 @@ package com.bookbox.common.domain;
 
 public class Const {
 
+	public static final int NONE = -1;
+
 	public class Category{
 		public static final int CREATION = 1;
 		public static final int WRITING = 2;
@@ -9,13 +11,14 @@ public class Const {
 		public static final int BOOKLOG = 4;
 		public static final int POSTING = 5;
 		public static final int BOARD = 6;
-		public static final int CAM_CHAT = 7;
+		public static final int CAMCHAT = 7;
 		public static final int CAST = 8;
 		public static final int BOOK = 9;
-		public static final int UNIFIED_SEARCH = 10;
+		public static final int UNIFIEDSEARCH = 10;
 	}
 	
 	public class Behavior{
+		public static final int LIST = 0;
 		public static final int GET = 1;
 		public static final int JOIN = 2;
 		public static final int PAY = 3;
@@ -27,7 +30,6 @@ public class Const {
 	}
 	
 	public class AddBehavior{
-		public static final int NONE = 0;
 		public static final int LIKE = 1;
 		public static final int SUBSCRIBE = 2;
 		public static final int GRADE = 3;

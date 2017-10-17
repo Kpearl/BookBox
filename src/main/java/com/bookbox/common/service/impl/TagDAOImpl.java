@@ -1,6 +1,5 @@
 package com.bookbox.common.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagDAO;
+import com.bookbox.common.util.CommonUtil;
 /**
  * @file com.bookbox.common.service.impl.TagDAOImpl.java
  * @brief Tag DAO Implement
@@ -57,7 +57,7 @@ public class TagDAOImpl implements TagDAO {
 		int result = 0;
 		Map<String, Object> tagMap = null;
 		for(Tag tag : tagList) {
-			tagMap = this.mappingCategoryTarget(category, target);
+			tagMap = CommonUtil.mappingCategoryTarget(category, target);
 			tagMap.put("tagNo", tag.getTagNo());
 			result += sqlSession.insert("TagMapper.addTagGroup", tagMap);
 		}
@@ -68,27 +68,13 @@ public class TagDAOImpl implements TagDAO {
 	@Override
 	public List<Tag> getTagGroupList(int category, int target) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("TagMapper.getTagGroupList", this.mappingCategoryTarget(category, target));
+		return sqlSession.selectList("TagMapper.getTagGroupList", CommonUtil.mappingCategoryTarget(category, target));
 	}
 
 	@Override
 	public int deleteTagGroup(int category, int target) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("TagMapper.deleteTagGroup", this.mappingCategoryTarget(category, target));
+		return sqlSession.delete("TagMapper.deleteTagGroup", CommonUtil.mappingCategoryTarget(category, target));
 	}
-	
-	/**
-	 * @brief category와 target을 Map에 넣어주는 method
-	 * @param category
-	 * @param target
-	 * @return categoryNo와 targetNo를 포함한 Map
-	 */
-	public Map<String, Object> mappingCategoryTarget(int category, int target){
-		Map<String, Object> tagMap = new HashMap<String, Object>();
-		tagMap.put("categoryNo", category);
-		tagMap.put("targetNo", target);
 		
-		return tagMap;
-	}
-	
 }
