@@ -21,7 +21,7 @@ public class CommunityDAOImpl implements CommunityDAO {
 	private SqlSession sqlSession;
 	
 	public CommunityDAOImpl() {
-		System.out.println("Constructor :: "+ this.getClass().getName());
+		System.out.println("Constructor::"+ this.getClass().getName());
 	}
 	
 	@Override
@@ -63,6 +63,18 @@ public class CommunityDAOImpl implements CommunityDAO {
 	public List<Comment> getCommentList(int boardNo) {
 		
 		return sqlSession.selectList("CommunityMapper.getCommentList",boardNo);
+	}
+
+	@Override
+	public int addRecommend(int boardNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addReport(int boardNo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
  
 		

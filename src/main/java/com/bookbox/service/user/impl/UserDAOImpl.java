@@ -72,6 +72,7 @@ public class UserDAOImpl implements UserDAO {
 	 * @return User
 	 */
 	public User getUser(User user) throws Exception{
+		System.out.println("userDAOimpl.getUser()");
 		return sqlSession.selectOne("UserMapper.getUser", user);
 	}
 

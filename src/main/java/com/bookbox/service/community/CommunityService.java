@@ -14,5 +14,6 @@ public interface CommunityService {
 	public int updateBoard(Board board);
 	public List<Board> getBoardList(Map map);
 	
-	
+	public int addRecommend(int boardNo);
+	public int addReport(int boardNo);
 }

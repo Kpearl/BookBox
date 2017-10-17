@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.user.UserDAO;
-import com.bookbox.service.user.UserRestDAO;
 import com.bookbox.service.user.UserService;
 
 
@@ -35,19 +34,6 @@ public class UserServiceImpl implements UserService {
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO =userDAO;
 	}
-	
-	@Autowired
-	@Qualifier("userDAOKakaoImpl")
-	private UserRestDAO userRestKakaoDAO;
-	
-	@Autowired
-	@Qualifier("userDAOGoogleImpl")
-	private UserRestDAO userRestGoogleDAO;
-
-	@Autowired
-	@Qualifier("userDAONaverImpl")
-	private UserRestDAO userRestNaverDAO;
-
 	
 	/**
 	 * @brief Constructor
@@ -85,28 +71,7 @@ public class UserServiceImpl implements UserService {
 	 * @return User
 	 */
 	public User getUser(User user) throws Exception{
-		
-		int outerAccount =user.getOuterAccount();
-		User dbuser;
-		
-		
-		switch(outerAccount) {
-			
-			case 1 :
-				user=userRestNaverDAO.getUser(user);
-				break;
-			case 2 :
-				user=userRestKakaoDAO.getUser(user);
-				break;
-			case 3 :
-				user=userRestGoogleDAO.getUser(user);
-				break;
-			default :
-		}
-		dbuser=userDAO.getUser(user);
-		
-		return dbuser;
-	
+		return userDAO.getUser(user);
 	}
 	
 	/**

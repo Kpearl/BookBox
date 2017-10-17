@@ -29,28 +29,21 @@ public class bookTest {
 
 	/*@Test*/
 	public void bookListSearchTest() throws Exception {
-		
 		Search search = new Search();
 		
-		search.setKeyword("죄와벌");
+		search.setKeyword("함민복");
 		search.setCondition("도서");
 		search.setCategory(Category.BOOK);
 
 		bookSearchDAO.getBookList(search);
 	}
 	
-	/*@Test*/
-	public void bookSearchTest() throws Exception {
+	@Test
+	public void getBookTest() {
 		
 		Book book = new Book();
-		book.setIsbn("9788954874977");
-
-		bookSearchDAO.getBook(book);;
-	}
-	
-	@Test
-	public void getBookTest() throws Exception {
+		bookSearchDAO.getBook(book);
 		
-		bookSearchDAO.getRecommendBookList();
+		
 	}
 }

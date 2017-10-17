@@ -17,7 +17,7 @@ import com.bookbox.service.unifiedsearch.UnifiedSearchDAO;
 public class UnifiedSearchElasticDaoImpl implements UnifiedSearchDAO {
 
 	public UnifiedSearchElasticDaoImpl() {
-		System.out.println("Constructor :: "+ this.getClass().getName());
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

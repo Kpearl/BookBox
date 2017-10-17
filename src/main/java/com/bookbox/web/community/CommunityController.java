@@ -17,6 +17,8 @@ import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.User;
+import com.mysql.fabric.xmlrpc.base.Value;
 
 import sun.print.resources.serviceui;
 
@@ -37,9 +39,16 @@ public class CommunityController {
 	CommunityService communityServiceImpl;
 	
 	public CommunityController() {
-		System.out.println("Constructor :: "+this.getClass().getName());
+		System.out.println("Constructor::"+this.getClass().getName());
 	}
 	
+	
+	/**
+	 * @brief getCommunityMain
+	 * @detail 커뮤니티 메인으로 네비게이션 
+	 * @param Search search 검색조건 도메인
+	 * @return forward:/community/mainCommunity.jsp
+	 */
 	
 	@RequestMapping(value="/getCommunityMain")
 	public String getCommunityMain(
@@ -73,4 +82,33 @@ public class CommunityController {
 		return "forward:/community/mainCommunity.jsp";
 	}
 	
+	/**
+	 * @brief addBoard
+	 * @detail 게시글 추가 
+	 * @param Board board 게시글 도메인
+	 * @return forward:/community/mainCommunity.jsp
+	 */
+	
+	@RequestMapping(value="/addBoard")
+	public String addBoard(@ModelAttribute("Board")Board board) {
+		
+		//테스트용 유저정보//
+		User user=new User();
+		user.setEmail("test@test.com");
+		board.setWriter(user);
+		System.out.println(board);
+		communityServiceImpl.addBoard(board);
+		
+		return "redirect:/community/getBoard?boardNo="+board.getBoardNo();
+	}
+	
+	@RequestMapping(value="/getBoard")
+	public String getBoard(@RequestParam("boardNo")int boardNo,Model model) {
+		
+		Board board;
+		board=communityServiceImpl.getBoard(boardNo);
+		model.addAttribute("board",board);
+		
+		return "forward:/community/getBoard.jsp";
+	}
 }

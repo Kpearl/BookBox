@@ -16,10 +16,6 @@ import com.bookbox.service.unifiedsearch.UnifiedSearchService;
 @Service("unifiedsearchServiceImpl")
 public class UnifiedSearchServiceImpl implements UnifiedSearchService{
 
-	public UnifiedSearchServiceImpl() {
-		System.out.println("Constructor :: "+ this.getClass().getName());
-	}
-	
 	@Override
 	public void getCommunityList(Search search) {
 		// TODO Auto-generated method stub

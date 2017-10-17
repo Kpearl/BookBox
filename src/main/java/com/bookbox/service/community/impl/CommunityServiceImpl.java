@@ -20,19 +20,19 @@ public class CommunityServiceImpl implements CommunityService {
 	CommunityDAO communityDAOImple;
 
 	public CommunityServiceImpl() {
-		System.out.println("Constructor :: "+this.getClass().getName());
+		System.out.println("Constructor:: "+this.getClass().getName());
 	}
 	
 	@Override
 	public int addBoard(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return communityDAOImple.addBorad(board);
 	}
 
 	@Override
 	public Board getBoard(int boardNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return communityDAOImple.getBoard(boardNo);
 	}
 
 	@Override
@@ -52,6 +52,18 @@ public class CommunityServiceImpl implements CommunityService {
 		System.out.println("[communityServiceImpl.getBoardList() start...]");
 		return communityDAOImple.getBoardList(map);
 		
+	}
+
+	@Override
+	public int addRecommend(int boardNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addReport(int boardNo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

@@ -8,12 +8,15 @@ import com.bookbox.service.domain.Comment;
 
 public interface CommunityDAO {
 	
-	int addBorad(Board board);
-	Board getBoard(int boardNo);
-	int updateBoard(Board board);
-	int deleteBoard(int boardNo);
-	List getBoardList(Map map);
+	public int addBorad(Board board);
+	public Board getBoard(int boardNo);
+	public int updateBoard(Board board);
+	public int deleteBoard(int boardNo);
+	public List getBoardList(Map map);
 	
-	int addComment(Comment comment);
-	List<Comment> getCommentList(int boardNo);
+	public int addComment(Comment comment);
+	public List<Comment> getCommentList(int boardNo);
+	
+	public int addRecommend(int boardNo);
+	public int addReport(int boardNo);
 }

@@ -8,8 +8,8 @@
 	
 	<resultMap id="selectBoard" type="board">
 		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="boardTitle" column="title" jdbcType="VARCHAR"/>
-		<result property="boardContent" column="content" jdbcType="VARCHAR"/>
+		<result property="boardTitle" column="board_title" jdbcType="VARCHAR"/>
+		<result property="boardContent" column="board_content" jdbcType="VARCHAR"/>
 		<result property="boardRegDate" column="reg_date" jdbcType="DATE"/>
 		<result property="recommend" column="recommend_count" jdbcType="NUMERIC"/>
 		<result property="report" column="report_count" jdbcType="NUMERIC"/>
@@ -39,7 +39,7 @@
 
 	<insert id="addBoard" parameterType="Board" useGeneratedKeys="true" 
 		keyProperty="boardNo" keyColumn="board_no">
-			INSERT INTO board (email, title, content) 
+			INSERT INTO board (email, board_title, board_content) 
 			VALUES (
 						#{writer.email:VARCHAR}, 
 						#{boardTitle:VARCHAR}, 
@@ -48,7 +48,7 @@
 	</insert>
 	
 	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.title, b.content, b.reg_date, b.report_count, b.recommend_count,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count,
 		u.nickname, u.role
 		FROM board b, user u
 		WHERE
@@ -62,19 +62,19 @@
 	
 	<update id="updateBoard" parameterType="board">
 		UPDATE board 
-		SET title=#{boardTitle},
-			content=#{boardContent}
+		SET board_title=#{boardTitle},
+			board_content=#{boardContent}
 		WHERE board_no=#{boardNo};
 	</update>
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.title, b.content, b.reg_date, b.report_count, b.recommend_count,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count,
 		u.nickname, u.role
 		FROM board b, user u
 		WHERE
 		b.email = u.email
 		<if test="search.condition==0">
-		AND b.title LIKE '%${search.keyword}%'
+		AND b.board_title LIKE '%${search.keyword}%'
 		</if> 
 		<if test="search.condition==1">
 		AND u.nickname LIKE '%${search.keyword}%'
