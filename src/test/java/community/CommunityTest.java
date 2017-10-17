@@ -58,12 +58,12 @@ public class CommunityTest {
 		communityDAOImpl.updateBoard(board);
 	}
 	
-	//@Test
+	@Test
 	public void getBoardList() {
 		Map map=new HashMap<String,Object>();
 		Search search=new Search();
-		search.setCondition("1");
-		search.setKeyword("test");
+		search.setCondition("0");
+		search.setKeyword("");
 		
 		Page page=new Page();
 		page.setPageSize(3);
@@ -72,7 +72,7 @@ public class CommunityTest {
 		map.put("search", search);
 		map.put("page", page);
 		
-		List<Board> boardList=new ArrayList<Board>();
+		List<Board> boardList;
 		boardList=communityDAOImpl.getBoardList(map);
 		System.out.println(boardList.size());
 	
@@ -92,7 +92,7 @@ public class CommunityTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void getCommentList() {
 		List<Comment> commentList=communityDAOImpl.getCommentList(4);
 		System.out.println(commentList);

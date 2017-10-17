@@ -21,7 +21,7 @@ public class CommunityDAOImpl implements CommunityDAO {
 	private SqlSession sqlSession;
 	
 	public CommunityDAOImpl() {
-		System.out.println("Constructor:"+ this.getClass().getSimpleName());
+		System.out.println("Constructor::"+ this.getClass().getName());
 	}
 	
 	@Override
