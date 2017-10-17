@@ -9,7 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
-import com.bookbox.service.unifiedsearch.impl.BookServiceImpl;
+import com.bookbox.service.domain.Book;
+import com.bookbox.service.unifiedsearch.BookSearchDAO;
+import com.bookbox.service.unifiedsearch.BookService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/context-mybatis.xml", "classpath:config/context-common.xml",
@@ -18,20 +20,30 @@ import com.bookbox.service.unifiedsearch.impl.BookServiceImpl;
 public class bookTest {
 
 	@Autowired
+	@Qualifier("bookSearchKakaoAladinDAOImpl")
+	private BookSearchDAO bookSearchDAO;
+
+	@Autowired
 	@Qualifier("bookServiceImpl")
-	private BookServiceImpl bookServiceImpl;
+	private BookService bookService;
 
-	@Test
-	public void bookSearchTest() throws Exception{
+	/*@Test*/
+	public void bookListSearchTest() throws Exception {
 		Search search = new Search();
-
-		System.out.println("bookSearchTest start...");
 		
-		search.setKeyword("눈물은 왜 짠가");
+		search.setKeyword("함민복");
 		search.setCondition("도서");
 		search.setCategory(Category.BOOK);
+
+		bookSearchDAO.getBookList(search);
+	}
+	
+	@Test
+	public void getBookTest() {
 		
-		bookServiceImpl.getBookList(search);
+		Book book = new Book();
+		bookSearchDAO.getBook(book);
+		
 		
 	}
 }
