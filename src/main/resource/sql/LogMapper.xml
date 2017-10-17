@@ -20,7 +20,7 @@
 		VALUES ( #{tagName} )
 	</insert>
 	
-	<select id="getTag" parameterType="tag" resultMap="tagSelectMap">
+	<select id="getTag" parameterType="tag" resultMap="TagMapper.tagSelectMap">
 		SELECT tag_no, tag_name
 		FROM tag
 		<where>
@@ -39,13 +39,13 @@
 		VALUES ( #{tagNo}, #{categoryNo}, #{targetNo} )
 	</insert>
 	
-	<select id="getTagList" parameterType="tag" resultMap="tagSelectMap">
+	<select id="getTagList" parameterType="tag" resultMap="TagMapper.tagSelectMap">
 		SELECT tag_no, tag_name
 		FROM tag
 		WHERE tag_name LIKE "%${tagName}%"
 	</select>
 	
-	<select id="getTagGroupList" parameterType="map" resultMap="tagSelectMap">
+	<select id="getTagGroupList" parameterType="map" resultMap="TagMapper.tagSelectMap">
 		SELECT t.tag_no, t.tag_name
 		FROM tag t, tag_group tg
 		WHERE tg.category_no = #{categoryNo} AND tg.target_no = #{targetNo} AND t.tag_no = tg.tag_no

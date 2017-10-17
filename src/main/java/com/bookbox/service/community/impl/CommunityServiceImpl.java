@@ -14,11 +14,15 @@ import com.bookbox.service.domain.User;
 
 @Service("communityServiceImpl")
 public class CommunityServiceImpl implements CommunityService {
-
+	
 	@Autowired
 	@Qualifier("communityDAOImpl")
 	CommunityDAO communityDAOImple;
 
+	public CommunityServiceImpl() {
+		System.out.println("Constructor:: "+this.getClass().getName());
+	}
+	
 	@Override
 	public int addBoard(Board board) {
 		// TODO Auto-generated method stub
@@ -45,8 +49,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public List<Board> getBoardList(Map map) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("[communityServiceImpl.getBoardList() start...]");
+		return communityDAOImple.getBoardList(map);
+		
 	}
 	
 	
