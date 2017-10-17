@@ -37,7 +37,7 @@ public class CommunityController {
 	CommunityService communityServiceImpl;
 	
 	public CommunityController() {
-		System.out.println("Constructor::"+this.getClass().getName());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	

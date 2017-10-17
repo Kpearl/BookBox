@@ -20,7 +20,7 @@ public class CommunityServiceImpl implements CommunityService {
 	CommunityDAO communityDAOImple;
 
 	public CommunityServiceImpl() {
-		System.out.println("Constructor:: "+this.getClass().getName());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	@Override

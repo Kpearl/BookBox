@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
-import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
 import com.bookbox.service.unifiedsearch.BookService;
 
@@ -31,7 +30,7 @@ public class bookTest {
 	public void bookListSearchTest() throws Exception {
 		Search search = new Search();
 		
-		search.setKeyword("함민복");
+		search.setKeyword("8996991341");
 		search.setCondition("도서");
 		search.setCategory(Category.BOOK);
 
@@ -39,11 +38,8 @@ public class bookTest {
 	}
 	
 	@Test
-	public void getBookTest() {
+	public void getBookTest() throws Exception {
 		
-		Book book = new Book();
-		bookSearchDAO.getBook(book);
-		
-		
+		bookSearchDAO.getRecommendBookList();
 	}
 }
