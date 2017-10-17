@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void addBookList(User user, Book book) {
+	public void addBookLike(User user, Book book) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,7 +8,7 @@
 <section class="blank">
 	<nav class="navigation">
 		<ul>
-			<li><a href="${param.uri}index.jsp" class="focus navigation-home">
+			<li><a href="${param.uri}" class="focus navigation-home">
 			<i class="icon-large icon-home"></i>
 			</a></li>
 			<li><a href="#">창작공간</a></li>
@@ -33,7 +33,7 @@
 				</ul></li>
 			<li class="lefty"><a href="${param.uri}user/addUserView.jsp">회원가입</a></li>
 			<li class="lefty"><a href="${param.uri}user/login.jsp">로그인</a></li>
-			<li class="lefty"><a href="${param.uri}index.jsp">로그아웃</a></li>
+			<li class="lefty"><a href="${param.uri}">로그아웃</a></li>
 		</ul>
 		<br class="clear">
 	</nav>

@@ -46,13 +46,13 @@ public interface BookService {
 	public void addBookGrade(User user, Book book);
 	
 	/**
-	 * @file com.bookbox.service.unifiedsearch.addBookList.java
-	 * @brief addBookList
+	 * @file com.bookbox.service.unifiedsearch.addBookLike.java
+	 * @brief addBookLike
 	 * @detail 도서 좋아요 추가
 	 * @author JJ
 	 * @date 2017.10.16
 	 */
-	public void addBookList(User user, Book book);
+	public void addBookLike(User user, Book book);
 	
 	/**
 	 * @file com.bookbox.service.unifiedsearch.deleteBookLike.java

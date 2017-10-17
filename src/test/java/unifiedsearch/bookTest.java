@@ -1,5 +1,8 @@
 package unifiedsearch;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Const.Category;
+import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
+import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.BookDAO;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
 import com.bookbox.service.unifiedsearch.BookService;
 
@@ -26,24 +32,66 @@ public class bookTest {
 	@Autowired
 	@Qualifier("bookServiceImpl")
 	private BookService bookService;
+	
+	@Autowired
+	@Qualifier("bookDAOImpl")
+	private BookDAO bookDAO;
 
-	/*@Test*/
+	/* @Test */
 	public void bookListSearchTest() throws Exception {
+
 		Search search = new Search();
-		
-		search.setKeyword("함민복");
+
+		search.setKeyword("죄와벌");
 		search.setCondition("도서");
 		search.setCategory(Category.BOOK);
 
 		bookSearchDAO.getBookList(search);
 	}
-	
-	@Test
-	public void getBookTest() {
-		
+
+	/* @Test */
+	public void bookSearchTest() throws Exception {
+
 		Book book = new Book();
+		book.setIsbn("9788954874977");
+
 		bookSearchDAO.getBook(book);
+		;
+	}
+
+	/* @Test */
+	public void getBookTest() throws Exception {
+
+		bookSearchDAO.getRecommendBookList();
+	}
+
+	public void deleteBookLike() {
 		
+	}
+	
+	public void addBookLike() {
 		
+	}
+
+	@Test
+	public void addBookReply() {
+		
+		User user = new User();
+		Book book = new Book();
+		Reply reply = new Reply();
+		
+		user.setEmail("test@test.com");
+		book.setIsbn("9788954874977");
+		reply.setContent("addBookListTest");
+		
+		bookDAO.addBookReply(user, book, reply);
+	}
+
+	public void deleteBookReply() {
+
+	}
+
+	public void addBookGrade() {
+
 	}
 }

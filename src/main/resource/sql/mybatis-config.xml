@@ -42,6 +42,7 @@
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/CommunityMapper.xml"/>
 		<mapper resource="sql/PostingMapper.xml"/>
+		<mapper resource="sql/CommonMapper.xml"/>
 		
 		<mapper resource="sql/TagMapper.xml"/>
 		<mapper resource="sql/LogMapper.xml"/>
