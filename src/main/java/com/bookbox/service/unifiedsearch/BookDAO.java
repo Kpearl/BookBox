@@ -1,8 +1,11 @@
 package com.bookbox.service.unifiedsearch;
 
+import org.springframework.stereotype.Service;
+
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
+@Service("bookDAO")
 public interface BookDAO {
 
 	/**

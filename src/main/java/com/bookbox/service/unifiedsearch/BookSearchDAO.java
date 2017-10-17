@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
+import java.util.List;
+
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 
@@ -10,6 +12,7 @@ public interface BookSearchDAO {
 	 * @brief getBookList
 	 * @detail
 	 * @author JJ
+	 * @return 
 	 * @date 2017.10.16
 	 */
 	public void getBookList(Search search) throws Exception;

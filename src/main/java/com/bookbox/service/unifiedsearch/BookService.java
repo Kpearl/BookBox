@@ -1,9 +1,12 @@
 package com.bookbox.service.unifiedsearch;
 
+import org.springframework.stereotype.Service;
+
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
+@Service("bookService")
 public interface BookService {
 	
 	/**

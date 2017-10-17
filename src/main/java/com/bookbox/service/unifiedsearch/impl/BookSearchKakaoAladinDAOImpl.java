@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ import com.bookbox.service.unifiedsearch.BookSearchDAO;
 public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 	public BookSearchKakaoAladinDAOImpl() {
-		// TODO Auto-generated constructor stub
+		System.out.println("Constructor :: "+ this.getClass().getName());
 	}
 
 	@Override
@@ -61,6 +63,14 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		br.close();
 
+		Book book = new Book();
+		book.setContents(response.toString());
+		
+		List<Book> bookList = new ArrayList<Book>();
+		
+		
+		bookList.add(book);
+		
 		// Console 확인
 		System.out.println(response.toString());
 	}
