@@ -18,34 +18,23 @@
 			<result property="nickname" column="nickname"/>
 		</association>
 		<collection property="postingFileList" ofType="String" column="upload_no" select="selectPostingFileList"/>
-		<collection property="postingLocationList" ofType="location" column="posting_no" select="selectPostingLocation">
+		<collection property="postingLocationList" ofType="location" column="location_no">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
 			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
 		</collection>
 	</resultMap>
 	
-	<select id="selectPostingFileList" parameterType="posting" resultType="String">
-		SELECT file_name
-		FROM upload_file
-		WHERE category = 5 AND target_no = #{postingNo}
-	</select>
-	
-	<select id="selectPostingLocation" resultType="location">
-		SELECT location_name, latitude, longitude
-		FROM location
-		WHERE posting_no = #{postingNo}
-	</select>
-	
-	
 
 
 	<insert id="addPosting" parameterType="posting" useGeneratedKeys="true" keyProperty="postingNo">
 	 	INSERT
-		INTO posting( email, posting_title, posting_content ) 
-		VALUES ( 
-			#{user.email}, #{postingTitle}, #{postingContent}
-		)
+		INTO 
+			posting( email, posting_title, posting_content ) 
+		VALUES 
+			( 
+				#{user.email}, #{postingTitle}, #{postingContent}
+			)
 	</insert>
 	
 <!-- 	<insert id="addPostingFile" parameterType="posting">
@@ -56,15 +45,46 @@
 	
 	<insert id="addPostingLocation" parameterType="map">
 		INSERT
-		INTO location( posting_no, location_name, latitude, longitude )
-		VALUES( #{postingNo}, #{locationName}, #{locationLatitude}, #{locationLongitude} )
+		INTO 
+			location( posting_no, location_name, latitude, longitude )
+		VALUES
+			( #{postingNo}, #{locationName}, #{locationLatitude}, #{locationLongitude} )
 	</insert>
 
 	
 	<select id="getPosting" parameterType="posting" resultMap="postingSelectMap">
-		SELECT p.posting_no, p.email, p.posting_title, p.posting_content, p.reg_date, p.update_date, u.nickname
-		FROM posting p, user u
-		WHERE p.posting_no = #{postingNo} AND p.active = 1
+		SELECT 
+			p.posting_no, p.email, p.posting_title, 
+			p.posting_content, p.reg_date, p.update_date, 
+			u.nickname, l.location_name, l.latitude, l.longitude
+		FROM 
+			posting p, user u, location l
+		WHERE 
+			p.posting_no = #{postingNo} 
+			AND p.active = 1 
+			AND p.posting_no = l.posting_no 
+			AND p.email = u.email
+	</select>
+	
+	<select id="getPostingList" parameterType="search" resultMap="postingSelectMap">
+		SELECT 
+			p.posting_no, p.email, u.nickname, 
+			p.posting_title, p.posting_content, 
+			p.reg_date, p.update_date
+		FROM
+			posting p, user u
+		<where>
+			p.email = u.email
+			AND p.active = 1
+			<if test="condition == 'booklog'">
+				AND p.email = #{keyword}
+			</if>
+			<if test="condition == 'popular'">
+				
+			</if>
+		</where>
+		ORDER BY
+			 p.reg_date DESC
 	</select>
 
 </mapper>

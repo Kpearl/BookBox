@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Location;
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
@@ -56,6 +57,15 @@ public class PostingTest {
 		posting.setPostingNo(8);
 		
 		System.out.println(postingService.getPosting(user, posting));
+	}
+	
+//	@Test
+	public void getPostingListTest() throws Exception{
+		Search search = new Search();
+		search.setCondition("booklog");
+		search.setKeyword("xptmxm@nate.com");
+		
+		System.out.println(postingService.getPostingList(search));
 	}
 	
 }

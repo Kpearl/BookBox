@@ -50,7 +50,7 @@ public class PostingDAOImpl implements PostingDAO {
 	@Override
 	public List<Posting> getPostingList(Search search) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("PostingMapper.getPostingList", search);
 	}
 
 	@Override

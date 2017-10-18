@@ -10,6 +10,7 @@ import com.bookbox.common.service.LogService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Book;
+import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.Posting;
@@ -49,7 +50,7 @@ public class LogToDAO {
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
 		}else {
 			System.out.println("Log :: 로그를 남기는 method");
-			int targetNo = getTargetNo(joinPoint.getArgs()[1]);
+			Object targetNo = getTargetNo(joinPoint.getArgs()[1]);
 			
 			Log log = new Log();
 			log.setUser((User)joinPoint.getArgs()[0]);
@@ -116,9 +117,9 @@ public class LogToDAO {
 		return Const.NONE;
 	}
 	
-	public int getTargetNo(Object target) {
+	public Object getTargetNo(Object target) {
 		
-		int targetNo = 0;
+		Object targetNo = null;
 		
 		if(target instanceof Creation) {
 			targetNo = ((Creation)target).getCreationNo();
@@ -126,14 +127,14 @@ public class LogToDAO {
 			targetNo = ((Writing)target).getWritingNo();
 		}else if(target instanceof Funding) {
 			targetNo = ((Funding)target).getFundingNo();
-//		}else if(target instanceof Booklog) {
-//			targetNo = ((Booklog)target).getBooklogName();
+		}else if(target instanceof Booklog) {
+			targetNo = ((Booklog)target).getBooklogName();
 		}else if(target instanceof Posting) {
 			targetNo = ((Posting)target).getPostingNo();
 		}else if(target instanceof Board) {
 			targetNo = ((Board)target).getBoardNo();
 		}else if(target instanceof Book) {
-			targetNo = Integer.parseInt(((Book)target).getIsbn().replaceAll(" ", ""));
+			targetNo = ((Book)target).getIsbn();
 		}
 		
 		return targetNo;

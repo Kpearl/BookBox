@@ -34,7 +34,7 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	public List<Posting> getPostingList(Search search) {
 		// TODO Auto-generated method stub
-		return null;
+		return postingDAO.getPostingList(search);
 	}
 
 	@Override

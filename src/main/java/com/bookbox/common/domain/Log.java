@@ -20,7 +20,7 @@ public class Log {
 	private String logRegDate;
 	private String targetName;
 	private int categoryNo;
-	private int targetNo;
+	private Object targetNo;
 	private int behavior;
 	private int addBehavior;
 
@@ -60,11 +60,11 @@ public class Log {
 		this.categoryNo = categoryNo;
 	}
 
-	public int getTargetNo() {
+	public Object getTargetNo() {
 		return targetNo;
 	}
 
-	public void setTargetNo(int targetNo) {
+	public void setTargetNo(Object targetNo) {
 		this.targetNo = targetNo;
 	}
 

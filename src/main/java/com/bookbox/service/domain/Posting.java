@@ -95,8 +95,10 @@ public class Posting {
 
 	@Override
 	public String toString() {
-		return "Posting [postingNo=" + postingNo + ", postingTitle=" + postingTitle + ", postingContent="
-				+ postingContent + ", postingFileList=" + postingFileList + ", postingRegDate=" + postingRegDate
-				+ ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList=" + postingLocationList + "]";
+		return "Posting [postingNo=" + postingNo + ", user=" + user + ", postingTitle=" + postingTitle
+				+ ", postingContent=" + postingContent + ", postingFileList=" + postingFileList + ", postingRegDate="
+				+ postingRegDate + ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList="
+				+ postingLocationList + "]";
 	}
+
 }
