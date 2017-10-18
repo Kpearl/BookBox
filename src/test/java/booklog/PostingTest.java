@@ -1,5 +1,8 @@
 package booklog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bookbox.common.domain.Location;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
@@ -22,17 +26,36 @@ public class PostingTest {
 	@Qualifier("postingServiceImpl")
 	private PostingService postingService;
 	
-	@Test
+//	@Test
 	public void addPostingTest() throws Exception{
 		User user = new User();
 		user.setEmail("wndhks@naver.com");
 		
 		Posting posting = new Posting();
-		posting.setPostingTitle("세번째으로 서비스로 올리는 포슽잉");
-		posting.setPostingContent("세번째라 성공이지만 두근두근두근 거려 미쳐버릴것만 같아 로그가 안남아서 하지만 이제 완성이겠지");
+		posting.setPostingTitle("오번째으로 서비스로 올리는 포슽잉");
+		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했지");
 		posting.setUser(user);
+		Location location = new Location();
+		location.setLocationName("우리집");
+		location.setLocationLatitude(37.367795);
+		location.setLocationLongitude(127.161255);
+		List<Location> locationList = new ArrayList<Location>();
+		locationList.add(location);
+		
+		posting.setPostingLocationList(locationList);
 		
 		postingService.addPosting(user, posting);
 	}
 
+	@Test
+	public void getPostingTest() throws Exception{
+		
+		User user = new User();
+		user.setEmail("xptmxm@nate.com");
+		Posting posting = new Posting();
+		posting.setPostingNo(8);
+		
+		System.out.println(postingService.getPosting(user, posting));
+	}
+	
 }

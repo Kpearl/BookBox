@@ -17,7 +17,7 @@
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
 		</association>
-		<collection property="postingFileList" ofType="String" column="posting_no" select="selectPostingFileList"/>
+		<collection property="postingFileList" ofType="String" column="upload_no" select="selectPostingFileList"/>
 		<collection property="postingLocationList" ofType="location" column="posting_no" select="selectPostingLocation">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
@@ -25,7 +25,7 @@
 		</collection>
 	</resultMap>
 	
-	<select id="selectPostingFileList" resultType="String">
+	<select id="selectPostingFileList" parameterType="posting" resultType="String">
 		SELECT file_name
 		FROM upload_file
 		WHERE category = 5 AND target_no = #{postingNo}
@@ -38,7 +38,8 @@
 	</select>
 	
 	
-	<!-- SQL : INSERT -->
+
+
 	<insert id="addPosting" parameterType="posting" useGeneratedKeys="true" keyProperty="postingNo">
 	 	INSERT
 		INTO posting( email, posting_title, posting_content ) 
@@ -46,42 +47,24 @@
 			#{user.email}, #{postingTitle}, #{postingContent}
 		)
 	</insert>
-
-<!-- 	<select id="creationName" parameterType="int">
-		SELECT creation_title
-		FROM creation
-		WHERE creation_no = #{value}
-	</select>
 	
-	<select id="writingName" parameterType="int">
-		SELECT writing_title
-		FROM writing
-		WHERE writing_no = #{value}
-	</select>
-
-	<select id="fundingName" parameterType="int">
-		SELECT funding_title
-		FROM funding
-		WHERE funding_no = #{value}
-	</select>
-
-	<select id="postingName" parameterType="int">
-		SELECT posting_title
-		FROM posting
-		WHERE posting_no = #{value}
-	</select>
-
-	<select id="boardName" parameterType="int">
-		SELECT board_title
-		FROM board
-		WHERE board_no = #{value}
-	</select>
+<!-- 	<insert id="addPostingFile" parameterType="posting">
+		INSERT
+		INTO upload_file( category_no, target_no, file_name, origin_name )
+		
+	</insert> -->
 	
- -->
- 	<select id="getTargetName" parameterType="map" resultType="String">
-		SELECT ${category}_title
-		FROM ${category}
-		WHERE ${category}_no = #{targetNo}
+	<insert id="addPostingLocation" parameterType="map">
+		INSERT
+		INTO location( posting_no, location_name, latitude, longitude )
+		VALUES( #{postingNo}, #{locationName}, #{locationLatitude}, #{locationLongitude} )
+	</insert>
+
+	
+	<select id="getPosting" parameterType="posting" resultMap="postingSelectMap">
+		SELECT p.posting_no, p.email, p.posting_title, p.posting_content, p.reg_date, p.update_date, u.nickname
+		FROM posting p, user u
+		WHERE p.posting_no = #{postingNo} AND p.active = 1
 	</select>
 
 </mapper>
