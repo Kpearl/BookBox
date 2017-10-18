@@ -2,6 +2,7 @@ package com.bookbox.service.unifiedsearch;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
+import com.bookbox.service.domain.User;
 
 public interface BookService {
 
@@ -10,24 +11,29 @@ public interface BookService {
 	 * @brief getBookList
 	 * @detail 키워드가 포한된 도서 리스트 정보를 KAKAO API를 이용하여 출력
 	 * @author JJ
+	 * @throws Exception 
 	 * @date 2017.10.16
 	 */
-	public void getBookList(Search search);
+	public void getBookList(Search search) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getBook.java
 	 * @brief getBook
 	 * @detail 사용자가 선택한 도서 정보를 KAKAO API를 이용하여 출력
 	 * @author JJ
+	 * @throws Exception 
 	 * @date 2017.10.16
 	 */
-	public void getBook(Book book);
+	public void getBook(User user, Book book) throws Exception;
 
 	/**
-	 * @file com.bookbox.service.unifiedsearch.addBookReply.java
-	 * @brief addBookReply
-	 * @detail 도서에 댓글 추가
+	 * @file com.bookbox.service.unifiedsearch.getRecommendBookList.java
+	 * @brief getRecommendBookList
+	 * @detail AladinAPI를 이용하여 추천도서, 베스트셀러 리스트 출력
 	 * @author JJ
-	 * @date 2017.10.16
+	 * @throws Exception 
+	 * @date 2017.10.18
 	 */
+	
+	public void getRecommendBookList() throws Exception;
 }

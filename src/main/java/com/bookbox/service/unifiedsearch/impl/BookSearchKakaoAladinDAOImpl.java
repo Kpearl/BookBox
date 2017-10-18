@@ -13,12 +13,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
+import com.bookbox.service.unifiedsearch.BookService;
 
 /**
  * @file com.bookbox.service.unifiedsearch.BookSearchKakaoAladinDAOImpl.java
@@ -29,8 +32,16 @@ import com.bookbox.service.unifiedsearch.BookSearchDAO;
  */
 
 @Service("bookSearchKakaoAladinDAOImpl")
-public class BookSearchKakaoAladinDAOImpl extends DefaultHandler implements BookSearchDAO {
-
+public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
+/*
+	@Autowired
+	@Qualifier("bookServiceImpl")
+	private BookService bookService;
+	
+	@Autowired
+	@Qualifier("bookServiceImpl")
+	private BookService bookService;*/
+	
 	public BookSearchKakaoAladinDAOImpl() {
 		System.out.println("Constructor :: " + this.getClass().getName());
 	}
