@@ -68,8 +68,7 @@ public class UserDAOKakaoImpl implements UserRestDAO {
          user.setEmail((String)jsonobj.get("kaccount_email"));
        
          System.out.println("email 정보 확인 :: "+(String)jsonobj.get("kaccount_email"));
-      
-		
+     
          return user;
 	}
 	
