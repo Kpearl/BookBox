@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Comment;
+import com.bookbox.service.domain.Recommend;
+import com.bookbox.service.domain.Report;
 
 public interface CommunityDAO {
 	
@@ -17,6 +19,6 @@ public interface CommunityDAO {
 	public int addComment(Comment comment);
 	public List<Comment> getCommentList(int boardNo);
 	
-	public int addRecommend(int boardNo);
-	public int addReport(int boardNo);
+	public int addRecommend(Recommend recommed);
+	public int addReport(Report report);
 }

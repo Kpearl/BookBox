@@ -63,7 +63,8 @@
 	<update id="updateBoard" parameterType="board">
 		UPDATE board 
 		SET board_title=#{boardTitle},
-			board_content=#{boardContent}
+			board_content=#{boardContent},
+			recommend_count=#{recommend}
 		WHERE board_no=#{boardNo};
 	</update>
 
@@ -108,5 +109,27 @@
 				c.board_no = #{value}
 	</select>
 	
+	<insert id="addRecommend" parameterType="recommend">
+		
+		INSERT INTO recommend (`email`, `target_no`, `category_no`, `pref`) 
+		VALUES (
+				#{email:VARCHAR}, 
+				#{targetNo}, 
+				#{categoryNo},
+				#{pref:VARCHAR}
+				)
+				
+	</insert>
+	
+	<insert id="addReport" parameterType="report">
+		
+		INSERT INTO like (`email`, `target_no`, `category_no`) 
+		VALUES (
+				#{email:VARCHAR}, 
+				#{targetNo}, 
+				#{categoryNo}
+				)
+		
+	</insert>
 
 </mapper>

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Comment;
+import com.bookbox.service.domain.Recommend;
+import com.bookbox.service.domain.Report;
 
 @Repository("communityDAOImpl")
 public class CommunityDAOImpl implements CommunityDAO {
@@ -66,15 +68,16 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
-	public int addRecommend(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addRecommend(Recommend recommed) {
+		
+		return sqlSession.insert("CommunityMapper.addRecommend",recommed);
+	
 	}
 
 	@Override
-	public int addReport(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addReport(Report report) {
+		
+		return sqlSession.insert("CommunityMapper.addReport",report);
 	}
  
 		

@@ -10,25 +10,119 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <title>Insert title here</title>
+
+<script type="text/javascript">
+	$(function(){
+		
+		$("#recommend").on("click",function(){
+			var boardNo=$("#boardNo").val();
+			var param="targetNo="+boardNo+"&category=board&pref=up";
+			sendRecommend(param);
+		});
+		
+		$("#report").on("click",function(){
+			var boardNo=$("#boardNo").val();
+			var param="targetNo="+boardNo+"&category=board";
+			sendReport(param);
+		});
+		
+		$("#addCommentArea").on("click",function(){
+			
+			appendCommentArea(this);
+			
+		});
+		
+	});
+	
+	
+	function sendRecommend(param){
+		
+		$.ajax({
+			url: "rest/addRecommend",
+			method: "POST",
+			data: param,
+			success:function(data,status){
+				alert("success")	
+			}
+		});
+		
+	}
+//////////////////////	
+	function sendReport(param){
+		$.ajax({
+			url: "rest/addReport",
+			method: "POST",
+			data: param,
+			success:function(data,status){
+				alert("success")	
+			}
+		});
+	}
+///////////////////
+	function appendCommentArea(obj){
+		
+		var inputObj=$("<textarea></textarea><a class='btn'>");
+		alert(inputObj.html());
+		inputObj.childen("a").on("click",function(){
+			alert("test");
+		});
+		$(".inputarea").append(inputObj);
+		
+	}
+</script>
+
 </head>
 <body>
 	<div class="container">
-		<div class="title">
-		제목:	${board.boardTitle}
-		</div>
-		<!-- 추천 신고 -->
-		<a class="btn recommend">추천</a><a class="btn report">신고</a>
-		<div class="content">
-		내용:
-		<br/>
-			${board.boardContent}
+		
+		<div class="board">
+			<input type="text" value="${board.boardNo}" id="boardNo" readonly="readonly"/>
+			<div class="title">
+				제목:	${board.boardTitle}
+			</div>
+			<!-- 추천 신고 -->
+			<a class="btn recommend" id="recommend">추천</a> <span id="recommedCount">${board.recommend}</span>
+			<a class="btn recommend" id="unRecommend">비추천</a>
+			<a class="btn report" id="report">신고</a>
+			
+			<div class="content">
+				내용:
+				<br/>
+				${board.boardContent}
+			</div>
+			
+			<a class="btn" id=addCommentArea>답변달기</a>
+			<div class="inputarea">
+			</div>
+			
 		</div>
 		
+
+
+		<div class="commentList">
+		
+		</div>
+				
 	</div>
 	
-	<div class="comment">
-		
-	</div>
-
+	
+	
+	
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </html>
