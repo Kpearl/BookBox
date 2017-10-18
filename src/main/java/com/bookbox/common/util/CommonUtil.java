@@ -43,7 +43,7 @@ public class CommonUtil {
 	 * @author JW
 	 */
 
-	public static Map<String, Object> mappingCategoryTarget(int category, int target){
+	public static Map<String, Object> mappingCategoryTarget(int category, Object target){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("categoryNo", category);
 		map.put("targetNo", target);
