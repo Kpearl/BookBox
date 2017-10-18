@@ -40,7 +40,7 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	public boolean updatePosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
-		return false;
+		return postingDAO.updatePosting(posting);
 	}
 
 }

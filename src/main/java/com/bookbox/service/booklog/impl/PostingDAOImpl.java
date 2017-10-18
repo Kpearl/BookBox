@@ -56,7 +56,8 @@ public class PostingDAOImpl implements PostingDAO {
 	@Override
 	public boolean updatePosting(Posting posting) {
 		// TODO Auto-generated method stub
-		return false;
+		sqlSession.update("PostingMapper.updatePosting", posting);
+		return true;
 	}
 	
 	

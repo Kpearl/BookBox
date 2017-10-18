@@ -48,7 +48,7 @@ public class PostingTest {
 		postingService.addPosting(user, posting);
 	}
 
-	@Test
+//	@Test
 	public void getPostingTest() throws Exception{
 		
 		User user = new User();
@@ -66,6 +66,28 @@ public class PostingTest {
 		search.setKeyword("xptmxm@nate.com");
 		
 		System.out.println(postingService.getPostingList(search));
+	}
+	
+	@Test
+	public void updatePostingTest() throws Exception{
+		User user = new User();
+		user.setEmail("wndhks@naver.com");
+		
+		Posting posting = new Posting();
+		posting.setPostingNo(8);
+		posting.setPostingTitle("오번째으로 수정된 포스팅");
+		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했었지");
+		posting.setUser(user);
+		Location location = new Location();
+		location.setLocationName("우리집");
+		location.setLocationLatitude(37.367795);
+		location.setLocationLongitude(127.161255);
+		List<Location> locationList = new ArrayList<Location>();
+		locationList.add(location);
+		
+		posting.setPostingLocationList(locationList);
+		
+		postingService.updatePosting(user, posting);
 	}
 	
 }

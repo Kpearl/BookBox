@@ -86,5 +86,20 @@
 		ORDER BY
 			 p.reg_date DESC
 	</select>
+	
+	<update id="updatePosting" parameterType="posting">
+		UPDATE posting
+		<set>
+			<if test="postingTitle != null">
+				posting_title = #{postingTitle},
+			</if>
+			<if test="postingContent != null">
+				posting_content = #{postingContent},
+			</if>
+			update_date = CURRENT_TIMESTAMP
+		</set>
+		WHERE
+			posting_no = #{postingNo}
+	</update>
 
 </mapper>
