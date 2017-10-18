@@ -26,7 +26,7 @@ public class Like {
 		this.totalLike = totalLike;
 	}
 
-	public boolean isDoLike() {
+	public boolean getDoLike() {
 		return doLike;
 	}
 

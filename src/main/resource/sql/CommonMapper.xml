@@ -87,9 +87,16 @@
 	
 	<select id="getLike" parameterType="map" resultMap="likeSelectMap">
 		SELECT
-		count(*) totalLike, IF( email={#user.email}, true, false) AS doLike
+		count(*) totalLike, sum(if( email=#{user.email}, true, false)) AS doLike
 		FROM `like`
 		WHERE category_no =	#{categoryNo} AND
 		target_no = #{targetNo}
 	</select>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM	`like`
+		WHERE category_no = #{categoryNo} AND
+		target_no = #{targetNo} AND
+		email = #{user.email}
+	</delete>
 </mapper>

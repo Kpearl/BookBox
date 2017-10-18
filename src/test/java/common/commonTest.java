@@ -47,7 +47,7 @@ public class commonTest {
 	}
 
 	// 똑같은 내용을 가진 reply일 경우 동시 삭제됨
-	 /*@Test */
+	/* @Test */
 	public void deleteReplyTest() {
 
 		user.setEmail("test@test.com");
@@ -57,51 +57,57 @@ public class commonTest {
 		commonService.deleteReply(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), reply);
 	}
 
-	/*@Test*/
+	/* @Test */
 	public void getReplyListTest() {
-		
+
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
-		
-		listReply = (List<Reply>) commonService.getReplyList(user,CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
-		
+
+		listReply = (List<Reply>) commonService.getReplyList(user,
+				CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
+
 		System.out.println(listReply.toString());
 	}
 
-	/*@Test*/
+	/* @Test */
 	public void addGradeTest() {
 
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
 		grade.setUserCount(5);
-		
+
 		commonService.addGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), grade);
 	}
-	
-	/*@Test*/
+
+	/* @Test */
 	public void getGradeTest() {
-		
+
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
-		
-		System.out.println(commonService.getGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
+
+		System.out.println(
+				commonService.getGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
 	}
 
 	/*@Test*/
-	public void addLikeTest() {
-		
-		user.setEmail("test@test.com");
-		book.setIsbn("9788954874971");
-		like.setDoLike(true);
+	public void LikeTest() {
 
-		commonService.addLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), like);
-	}	
-	
-	@Test
-	public void getLikeTest() {
-		
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874970");
+		like.setDoLike(false);
+
+		if (like.getDoLike()) 
+			commonService.deleteLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
+		
+		else
+			commonService.addLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), like);
+	}
+
+	@Test
+	public void getLikeTest() {
+
+		user.setEmail("join@google.com");
+		book.setIsbn("9788954874971");
 
 		System.out.println(commonService.getLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
 	}
