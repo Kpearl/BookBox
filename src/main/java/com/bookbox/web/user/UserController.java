@@ -112,15 +112,16 @@ public class UserController {
 	 * @return "forward:updateUserView.jsp"
 	 */
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
-	public String updateUser( @ModelAttribute("user") User user , Model model ) throws Exception{
+	public String updateUser( HttpSession session , Model model ) throws Exception{
 
 		System.out.println("UserController :: /user/updateUser : GET");
 		//Business Logic
+		User user = (User)session.getAttribute("user");
 		User dbuser = userService.getUser(user);
 		// Model 과 View 연결
 		model.addAttribute("user", dbuser);
 		
-		return "forward:updateUserView.jsp";
+		return "forward:updateUserView_Test.jsp";
 	}
 	
 	/**

@@ -1,17 +1,15 @@
 <%@page import="java.net.URLEncoder"%>
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
-
-
 
 <!DOCTYPE html>
 
 <html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -199,7 +197,7 @@
 					  
 					  <!--outerToken & outerAccount  -->
 					  <input type="hidden" name="outerToken" id="outerToken"> 
-					  <input type="hidden" name="outerAccount" id="outerAccount">
+					  <input type="hidden" name="outerAccount" id="outerAccount" value="0">
 					  
 					  
 					  
@@ -230,11 +228,8 @@
 			
 					</form>
 			   	 </div>
-			   	 
-			   	 
-			
+
 			</div>
-			
 			
   	 	</div>
   	 	<!--  row Start /////////////////////////////////////-->

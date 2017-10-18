@@ -18,13 +18,12 @@
 
 <script type="text/javascript">
 
-	var emailJSONData;
 	var nicknameJSONData;
 
 //============= "가입"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$( "button:contains('정보수정'')" ).bind("click" , function() {
+	$( "button:contains('정보수정')" ).bind("click" , function() {
 		
 		fncUpdateUser();
 	});
@@ -41,9 +40,6 @@ $(function() {
 			var name=$("input[name='gender']").val();
 			var name=$("input[name='birth']").val();
 			
-			var name=$("input[name='outerAccount']").val(0);
-			var name=$("input[name='active']").val(0);
-						
 			if(nickname == "" || nickname.length <1){
 				alert("닉네임은 반드시 입력하셔야 합니다.");
 				return;
@@ -71,17 +67,12 @@ $(function() {
 				return;
 			}
 			
-			if( emailJSONData == false ) {				
-				alert("사용불가능한 이메일입니다.");
-				return;
-			}
-
 			if( nicknameJSONData == false ) {				
 				alert("사용불가능한 닉네임입니다.");
 				return;
 			}			
 			
-			$("form").attr("method" , "POST").attr("action" , "addUser").submit();
+			$("form").attr("method" , "POST").attr("action" , "updateUser").submit();
 			
 		}
 
@@ -171,7 +162,7 @@ $(function() {
 					
 			<label>
 				<h2>Your nickName:</h2>
-				<input id="nickname" name="nickname" class="long" type="text">
+				<input id="nickname" name="nickname" class="long" type="text" value="${user.nickname }">
 			</label>
 
 			<span id="checkNickname">
@@ -190,8 +181,10 @@ $(function() {
 			
 			<label>
 				<h2>Choose your gender</h2>
-				<input class="long" type="radio" id="gender" name="gender" value="남"> 남
-				<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
+				<input class="long" type="radio" id="gender" name="gender" value="남" 
+				${user.gender == '남' ? 'checked' : '' }> 남
+				<input class="long" type="radio" id="gender" name="gender" value="여"
+				${user.gender == '여' ? 'checked' : '' }> 여		
 			</label>
 			
 			<label>
@@ -199,8 +192,8 @@ $(function() {
 				<input class="long" type="text" id="birth" name="birth" >
 			</label>
 			
-				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
-				<input class="long" type="hidden" id="active" name="active">
+				<input class="long" type="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
+				<input class="long" type="hidden" id="active" name="active" value="${user.active }">
 
 			<button type="button" class="btn btn-default">정보수정</button>
 

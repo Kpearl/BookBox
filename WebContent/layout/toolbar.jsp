@@ -73,7 +73,7 @@ $(function() {
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
   	$("a:contains('내 정보조회')").on("click" , function() {
- 		$(self.location).attr("href","getUser?email=${sessionScope.user.email}");
+ 		$(self.location).attr("href","${param.uri}user/getUser?email=${sessionScope.user.email}");
  		}); 
   });
 
