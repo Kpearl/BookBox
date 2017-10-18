@@ -19,7 +19,7 @@
 		</aop:aspect>
 		
 		<aop:aspect ref="logWrite">
-			<aop:around pointcut="execution(* com.bookbox.service..*Impl.*(..))" method="logWrite"/>
+			<aop:around pointcut="execution(* com.bookbox.service..ServiceImpl.*(..))" method="logWrite"/>
 		</aop:aspect>
 
 	</aop:config>

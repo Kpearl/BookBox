@@ -39,37 +39,6 @@
 		WHERE l.email = #{email} AND l.email = u.email
 	</select>
 	
-<!-- 	<select id="creationName" parameterType="int">
-		SELECT creation_title
-		FROM creation
-		WHERE creation_no = #{value}
-	</select>
-	
-	<select id="writingName" parameterType="int">
-		SELECT writing_title
-		FROM writing
-		WHERE writing_no = #{value}
-	</select>
-
-	<select id="fundingName" parameterType="int">
-		SELECT funding_title
-		FROM funding
-		WHERE funding_no = #{value}
-	</select>
-
-	<select id="postingName" parameterType="int">
-		SELECT posting_title
-		FROM posting
-		WHERE posting_no = #{value}
-	</select>
-
-	<select id="boardName" parameterType="int">
-		SELECT board_title
-		FROM board
-		WHERE board_no = #{value}
-	</select>
-	
- -->
  	<select id="getTargetName" parameterType="map" resultType="String">
 		SELECT ${category}_title
 		FROM ${category}

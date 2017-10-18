@@ -43,23 +43,21 @@ public class LogToDAO {
 				behavior == Const.NONE ||
 				behavior == Const.Behavior.LIST ) {
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
-			return;
 		}else if( ((User)joinPoint.getArgs()[0]).getEmail() == null ){
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
-			return;
+		}else {
+			
+			int targetNo = getTargetNo(joinPoint.getArgs()[1]);
+			
+			Log log = new Log();
+			log.setUser((User)joinPoint.getArgs()[0]);
+			log.setCategoryNo(categoryNo);
+			log.setBehavior(behavior);
+			log.setAddBehavior(addBehavior);
+			log.setTargetNo(targetNo);
+			
+			logService.addLog(log);
 		}
-		
-		int targetNo = getTargetNo(joinPoint.getArgs()[1]);
-		
-		Log log = new Log();
-		log.setUser((User)joinPoint.getArgs()[0]);
-		log.setCategoryNo(categoryNo);
-		log.setBehavior(behavior);
-		log.setAddBehavior(addBehavior);
-		log.setTargetNo(targetNo);
-		
-		logService.addLog(log);
-		
 	}
 	
 	public int parseCategoryToInt(String methodName) {
