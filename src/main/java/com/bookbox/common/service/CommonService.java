@@ -1,9 +1,11 @@
 package com.bookbox.common.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
-import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
 public interface CommonService {
@@ -15,7 +17,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void addReply(User user, Object no, int category_no, Reply reply);
+	public void addReply(User user, Map<String, Object> map, Reply reply);
 
 	/**
 	 * @file com.bookbox.common.service.deleteReply.java
@@ -24,7 +26,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void deleteReply(User user, Object no, int category_no, Reply reply);
+	public void deleteReply(User user, Map<String, Object> map, Reply reply);
 
 	/**
 	 * @file com.bookbox.common.service.getReplyList.java
@@ -33,7 +35,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getReplyList(User user, Object no, int category_no);
+	public List<Reply> getReplyList(User user, Map<String, Object> map);
 
 	/**
 	 * @file com.bookbox.common.service.addGrade.java
@@ -42,7 +44,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void addGrade(User user, Object no, int category_no, Grade grade);
+	public void addGrade(User user, Map<String, Object> map, Grade grade);
 
 	/**
 	 * @file com.bookbox.common.service.getGrade.java
@@ -51,7 +53,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getGrade(User user, Object no, int category_no);
+	public Grade getGrade(User user, Map<String, Object> map);
 
 	/**
 	 * @file com.bookbox.common.service.addLike.java
@@ -61,7 +63,7 @@ public interface CommonService {
 	 * @date 2017.10.18
 	 */
 
-	public void addLike(User user, Object no, int category_no, Like like);
+	public void addLike(User user, Map<String, Object> map, Like like);
 
 	/**
 	 * @file com.bookbox.common.service.deleteLike.java
@@ -70,7 +72,7 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void deleteLike(User user, Object no, int category_no);
+	public void deleteLike(User user, Map<String, Object> map);
 
 	/**
 	 * @file com.bookbox.common.service.getLike.java
@@ -79,5 +81,5 @@ public interface CommonService {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getLike(User user, Object no, int category_no);
+	public Like getLike(User user, Map<String, Object> map);
 }

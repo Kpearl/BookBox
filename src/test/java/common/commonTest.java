@@ -15,6 +15,7 @@ import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.service.CommonService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
@@ -27,7 +28,7 @@ public class commonTest {
 	@Autowired
 	@Qualifier("commonServiceImpl")
 	private CommonService commonService;
-	
+
 	private User user = new User();
 	private Book book = new Book();
 	private Reply reply = new Reply();
@@ -35,55 +36,73 @@ public class commonTest {
 	private Grade grade = new Grade();
 	private List<Reply> listReply = new ArrayList<Reply>();
 
-	/*@Test*/
+	/* @Test */
 	public void addReplyTest() {
-		
+
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
-		reply.setContent("에베베베베");
-		
-		commonService.addReply(user, book.getIsbn(), Const.Category.BOOK, reply);
+		reply.setContent("으버ㅓㅂ버버벙");
+
+		commonService.addReply(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), reply);
 	}
-	
-	//똑같은 내용을 가진 reply일 경우 동시 삭제됨
-	/*@Test*/
+
+	// 똑같은 내용을 가진 reply일 경우 동시 삭제됨
+	 /*@Test */
 	public void deleteReplyTest() {
-		
+
 		user.setEmail("test@test.com");
-		book.setIsbn("9788954874977");
-		reply.setContent("addBookListTest");
-		
-		commonService.deleteReply(user, book.getIsbn(), Const.Category.BOOK, reply);
+		book.setIsbn("9788954874970");
+		reply.setContent("에베베베베");
+
+		commonService.deleteReply(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), reply);
 	}
-	
-	@Test
+
+	/*@Test*/
 	public void getReplyListTest() {
 		
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
 		
-		listReply = (List<Reply>) commonService.getReplyList(user, book.getIsbn(), Const.Category.BOOK);
+		listReply = (List<Reply>) commonService.getReplyList(user,CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
 		
-		System.out.println(listReply);
-	}
-	
-	public void deleteLikeTest() {
-
+		System.out.println(listReply.toString());
 	}
 
-	public void addLikeTest() {
-
-	}
-	
-	public void getLikeTest() {
-		
-	}
-	
+	/*@Test*/
 	public void addGradeTest() {
 
+		user.setEmail("test@test.com");
+		book.setIsbn("9788954874971");
+		grade.setUserCount(5);
+		
+		commonService.addGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), grade);
 	}
 	
+	/*@Test*/
 	public void getGradeTest() {
 		
+		user.setEmail("test@test.com");
+		book.setIsbn("9788954874971");
+		
+		System.out.println(commonService.getGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
+	}
+
+	/*@Test*/
+	public void addLikeTest() {
+		
+		user.setEmail("test@test.com");
+		book.setIsbn("9788954874971");
+		like.setDoLike(true);
+
+		commonService.addLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), like);
+	}	
+	
+	@Test
+	public void getLikeTest() {
+		
+		user.setEmail("test@test.com");
+		book.setIsbn("9788954874970");
+
+		System.out.println(commonService.getLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
 	}
 }

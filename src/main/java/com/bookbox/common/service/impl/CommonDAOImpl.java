@@ -1,5 +1,6 @@
 package com.bookbox.common.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Like;
+import com.bookbox.common.domain.Reply;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.service.domain.User;
 
@@ -54,7 +58,7 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 	@Override
-	public Object getLike(User user, Map<String, Object> map) {
+	public Like getLike(User user, Map<String, Object> map) {
 
 		this.map = map;
 		map.put("user", user);
@@ -81,7 +85,7 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 	@Override
-	public Object getReplyList(User user, Map<String, Object> map) {
+	public List<Reply> getReplyList(User user, Map<String, Object> map) {
 
 		this.map = map;
 		map.put("user", user);
@@ -99,7 +103,7 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 	@Override
-	public Object getGrade(User user, Map<String, Object> map) {
+	public Grade getGrade(User user, Map<String, Object> map) {
 
 		this.map = map;
 		map.put("user", user);

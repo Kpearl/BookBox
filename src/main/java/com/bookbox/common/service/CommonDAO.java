@@ -1,5 +1,6 @@
 package com.bookbox.common.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.bookbox.common.domain.Grade;
@@ -34,7 +35,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getReplyList(User user, Map<String, Object> map);
+	public List<Reply> getReplyList(User user, Map<String, Object> map);
 	
 	/**
 	 * @file com.bookbox.common.service.addReply.java
@@ -72,7 +73,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getGrade(User user, Map<String, Object> map);
+	public Grade getGrade(User user, Map<String, Object> map);
 	/**
 	 * @file com.bookbox.common.service.getLike.java
 	 * @brief getLike
@@ -80,5 +81,5 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Object getLike(User user, Map<String, Object> map);
+	public Like getLike(User user, Map<String, Object> map);
 }

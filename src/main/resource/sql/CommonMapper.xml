@@ -14,25 +14,24 @@
 			<result property="nickname" column="nickname" />
 		</association>
 	</resultMap>
+	
+	<resultMap id="gradeSelectMap" type="grade">
+		<result property="average" column="avg(grade)" jdbcType="NUMERIC" />
+		<result property="userCount" column="grade" jdbcType="NUMERIC" />
+		<result property="doGrade" column="doGrade" jdbcType="BOOLEAN" />
+	</resultMap>
 
-	<!-- <resultMap id="gradeSelectMap" type="grade"> <result property="average" 
-		column="grade" jdbcType="INTEGER" /> <result property="userCount" column="tag_no" 
-		jdbcType="INTEGER" /> <result property="doGrade" column="tag_no" jdbcType="INTEGER" 
-		/> </resultMap> <resultMap id="likeSelectMap" type="like"> <result property="totalLike" 
-		column="tag_name" jdbcType="VARCHAR" /> <result property="doLike" column="tag_no" 
-		jdbcType="INTEGER" /> </resultMap> <resultMap id="replySelectMap" type="reply"> 
-		<result property="email" column="email" jdbcType="VARCHAR" /> <result property="content" 
-		column="reply_content" jdbcType="VARCHAR" /> <result property="content" column="reply_content" 
-		jdbcType="VARCHAR" /> </resultMap> -->
-	<!-- <insert id="addBookLike" parameterType="tag" useGeneratedKeys="true" 
-		keyProperty="tagNo"> INSERT INTO tag( tag_name ) VALUES ( #{tagName} ) </insert> 
-		<delete id="deleteBookLike" parameterType="map"> DELETE FROM tag_group WHERE 
-		category_no = #{categoryNo} AND target_no = #{targetNo} </delete> -->
-	<insert id="addReply" parameterType="map" useGeneratedKeys="true" keyProperty="reply_no">
+	<resultMap id="likeSelectMap" type="like">
+		<result property="totalLike" column="count(*)" jdbcType="NUMERIC" />
+		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
+		keyProperty="reply_no">
 		INSERT
 		INTO reply(email, category_no, target_no,
 		reply_content)
-		VALUES ( #{user.email}, #{category}, #{no},
+		VALUES ( #{user.email}, #{categoryNo}, #{targetNo},
 		#{reply.content})
 	</insert>
 
@@ -41,7 +40,7 @@
 		reply
 		WHERE
 		category_no = #{categoryNo} AND
-		target_no = #{tagetNo} AND
+		target_no = #{targetNo} AND
 		reply_content = #{reply.content}
 	</delete>
 
@@ -49,8 +48,9 @@
 		SELECT
 		email, reply_content, reg_date
 		FROM reply
-		WHERE category_no = #{category} AND
-		target_no = #{no} AND
+		WHERE category_no =
+		#{categoryNo} AND
+		target_no = #{targetNo} AND
 		email = #{user.email}
 	</select>
 
@@ -59,9 +59,37 @@
 		count(*)
 		FROM log
 		WHERE category_no = #{categoryNo} AND
-		target_no = #{tagetNo} AND
+		target_no =
+		#{targetNo} AND
 		behavior = 1
 	</select>
-	<!-- <insert id="addBookGrade" parameterType="tag" useGeneratedKeys="true" 
-		keyProperty="tagNo"> INSERT INTO tag( tag_name ) VALUES ( #{tagName} ) </insert> -->
+
+	<insert id="addGrade" parameterType="map" useGeneratedKeys="true" keyProperty="grade_no">
+		INSERT 
+		INTO grade(email, category_no, target_no, grade) 
+		VALUES ( #{user.email}, #{categoryNo}, #{targetNo}, #{grade.userCount} )
+	</insert>
+
+	<select id="getGrade" parameterType="map" resultMap="gradeSelectMap">
+		SELECT
+		avg(grade), grade, if(count(*) = 0, false, true) "doGrade" 
+		FROM grade
+		WHERE category_no =	#{categoryNo} AND
+		target_no = #{targetNo} AND
+		email = #{user.email}
+	</select>
+	
+	<insert id="addLike" parameterType="map" useGeneratedKeys="true" keyProperty="like_no">
+		INSERT
+		INTO `like`(email, category_no, target_no) 
+		VALUES ( #{user.email}, #{categoryNo}, #{targetNo})
+	</insert>
+	
+	<select id="getLike" parameterType="map" resultMap="likeSelectMap">
+		SELECT
+		count(*) totalLike, IF( email={#user.email}, true, false) AS doLike
+		FROM `like`
+		WHERE category_no =	#{categoryNo} AND
+		target_no = #{targetNo}
+	</select>
 </mapper>

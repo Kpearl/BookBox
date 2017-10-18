@@ -1,6 +1,6 @@
 package com.bookbox.common.service.impl;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,86 +36,70 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public void addReply(User user, Object no, int category_no, Reply reply) {
+	public void addReply(User user, Map<String, Object> map, Reply reply) {
 
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-		map.put("reply", reply);
+		this.map = map;
+		this.map.put("reply", reply);
 
-		commonDAO.addReply(user, map);
+		commonDAO.addReply(user, this.map);
 	}
 
 	@Override
-	public void deleteReply(User user, Object no, int category_no, Reply reply) {
+	public void deleteReply(User user, Map<String, Object> map, Reply reply) {
 
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-		map.put("reply", reply);
+		this.map = map;
+		this.map.put("reply", reply);
 
-		commonDAO.deleteReply(user, map);
+		commonDAO.deleteReply(user, this.map);
 	}
 
 	@Override
-	public Object getReplyList(User user, Object no, int category_no) {
+	public List<Reply> getReplyList(User user, Map<String, Object> map) {
 		
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
+		this.map = map;
 		
-		return commonDAO.getReplyList(user, map);
+		return commonDAO.getReplyList(user, this.map);
 	}
 
 	@Override
-	public void addGrade(User user, Object no, int category_no, Grade grade) {
+	public void addGrade(User user, Map<String, Object> map, Grade grade) {
 
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-		map.put("grade", grade);
+		this.map = map;
+		this.map.put("grade", grade);
 
-		commonDAO.addGrade(user, map);
+		commonDAO.addGrade(user, this.map);
 	}
 
 	@Override
-	public Object getGrade(User user, Object no, int category_no) {
+	public Grade getGrade(User user, Map<String, Object> map) {
 
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-
-		return commonDAO.getGrade(user, map);
-	}
-
-	@Override
-	public void addLike(User user, Object no, int category_no, Like like) {
-
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-		map.put("like", like);
-
-		commonDAO.addLike(user, map);
-	}
-
-	@Override
-	public void deleteLike(User user, Object no, int category_no) {
-
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
-
-		commonDAO.deleteLike(user, map);
-	}
-
-	@Override
-	public Object getLike(User user, Object no, int category_no) {
+		this.map = map;
 		
-		map = new HashMap<String, Object>();
-		map.put("no", no);
-		map.put("category", category_no);
+		return commonDAO.getGrade(user, this.map);
+	}
 
-		return commonDAO.getLike(user, map);
+	@Override
+	public void addLike(User user, Map<String, Object> map, Like like) {
+
+		this.map = map;
+		this.map.put("like", like);
+
+		commonDAO.addLike(user, this.map);
+	}
+
+	@Override
+	public void deleteLike(User user, Map<String, Object> map) {
+
+		this.map = map;
+
+		commonDAO.deleteLike(user, this.map);
+	}
+
+	@Override
+	public Like getLike(User user, Map<String, Object> map) {
+		
+		this.map = map;
+		
+		return commonDAO.getLike(user, this.map);
 	}
 }

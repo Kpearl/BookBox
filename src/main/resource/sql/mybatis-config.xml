@@ -28,10 +28,10 @@
 		<typeAlias alias="log" type="com.bookbox.common.domain.Log"/>
 		<typeAlias alias="location" type="com.bookbox.common.domain.Location"/>
 		<typeAlias alias="reply" type="com.bookbox.common.domain.Reply"/>
-		
-	<!-- 	<typeAlias alias="const" type="com.bookbox.common.domain.Const"/>
 		<typeAlias alias="grade" type="com.bookbox.common.domain.Grade"/>
 		<typeAlias alias="like" type="com.bookbox.common.domain.Like"/>
+		
+	<!-- 	<typeAlias alias="const" type="com.bookbox.common.domain.Const"/>
 		<typeAlias alias="page" type="com.bookbox.common.domain.Page"/>
 	
 		<typeAlias alias="subscription" type="com.bookbox.common.domain.Subscribe"/>	 -->
