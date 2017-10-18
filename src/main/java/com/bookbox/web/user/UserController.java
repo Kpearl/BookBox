@@ -150,7 +150,7 @@ public class UserController {
 	 * @details GET
 	 * @param 
 	 * @throws Exception
-	 * @return "redirect:/user/loginView.jsp"
+	 * @return "redirect:/user/loginTest.jsp"
 	 */
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
@@ -172,7 +172,7 @@ public class UserController {
 		
 		System.out.println("UserController :: /user/login : POST");
 		
-		String returnValue="forward:../index.jsp";
+		String returnValue="redirect:../index.jsp";
 		
 		System.out.println("외부계정 user 정보 :: "+user);
 		//Business Logic
@@ -213,6 +213,12 @@ public class UserController {
 	public String logout(HttpSession session ) throws Exception{
 		
 		System.out.println("UserController :: /user/logout : POST");
+		
+		User user = (User)session.getAttribute("user"); 
+		
+		if (user.getOuterAccount() != 0) {
+			userService.logout(user);
+		}
 		
 		session.invalidate();
 		

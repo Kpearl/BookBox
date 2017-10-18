@@ -21,6 +21,14 @@ public interface UserService {
 	 * @return void
 	 */
 	public void addUser(User user) throws Exception;
+	
+	/**
+	 * @brief 회원정보수정
+	 * @param User user
+	 * @throws Exception
+	 * @return User
+	 */
+	public void updateUser(User user) throws Exception;	
 
 	/**
 	 * @brief 내정보확인/로그인
@@ -28,16 +36,16 @@ public interface UserService {
 	 * @throws Exception
 	 * @return User
 	 */
-	public void updateUser(User user) throws Exception;
-
-	/**
-	 * @brief 회원정보수정
-	 * @param User user
-	 * @throws Exception
-	 * @return User
-	 */
 	public User getUser(User user) throws Exception;
 
+	/**
+	 * @brief 로그아웃
+	 * @param User user
+	 * @throws Exception
+	 * @return void
+	 */
+	public void logout(User user) throws Exception;
+	
 	/**
 	 * @brief 회원정보리스트
 	 * @param Search search

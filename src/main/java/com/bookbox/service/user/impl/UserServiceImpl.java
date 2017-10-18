@@ -109,6 +109,29 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
+	 * @brief 로그아웃
+	 * @param User user
+	 * @throws Exception
+	 * @return void
+	 */
+	public void logout(User user) throws Exception{
+		
+		switch(user.getOuterAccount()) {
+			case 1 :
+				userRestNaverDAO.logout(user);
+				break;
+			case 2 :
+				userRestKakaoDAO.logout(user);
+				break;
+			case 3 :
+				userRestGoogleDAO.logout(user);
+				break;	
+			default :
+	}
+		
+	}
+	
+	/**
 	 * @brief 메일인증 후 회원활성화코드 변경/ 회원탈퇴
 	 * @param User user
 	 * @throws Exception
@@ -147,7 +170,15 @@ public class UserServiceImpl implements UserService {
 		
 		boolean result = true;
 		
-		if(userDAO.getUser(user).getEmail() != null) {
+		System.out.println("checkEmailValidation input Email 확인:: "+user);
+		System.out.println("checkEmailValidation getUser 확인 :: "+userDAO.getUser(user));
+				
+		user.setActive(1);
+		
+		if(userDAO.getUser(user) != null ) {
+			if(userDAO.getUser(user).getEmail() != null) {
+				result=false;
+			}
 			result =false;
 		}
 		return result;
@@ -163,7 +194,14 @@ public class UserServiceImpl implements UserService {
 		
 		boolean result = true;
 		
-		if(userDAO.getUser(user).getNickname() != null) {
+		System.out.println("checkEmailValidation input Nickname 확인:: "+user);
+		System.out.println("checkNicknameValidation getUser 확인 :: "+userDAO.getUser(user));
+		user.setActive(1);
+		
+		if(userDAO.getUser(user) != null ) {
+			if(userDAO.getUser(user).getNickname() != null) {
+				result=false;
+			}
 			result =false;
 		}
 		return result;

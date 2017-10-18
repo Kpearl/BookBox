@@ -1,5 +1,7 @@
 package com.bookbox.service.creation.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.bookbox.service.creation.CreationService;
 
 /**
@@ -10,6 +12,7 @@ import com.bookbox.service.creation.CreationService;
  * @date 2017.10.11
  */
 
+@Service("creationServiceImpl")
 public class CreationServiceImpl implements CreationService {
 
 }
