@@ -108,25 +108,22 @@
 			  $('#email').val(profile.getEmail());
 			  $('#outerAccount').val(3);
 			  $("form").attr("method","POST").attr("action","login").submit();
-			  
-			  
-			  
+	  
 			}
-		
 
 		//============= "로그인"  Event 연결 =============
 		$( function() {
 			
-			$("#userId").focus();
+			$("#email").focus();
 			
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("button").on("click" , function() {
-				var id=$("input:text").val();
-				var pw=$("input:password").val();
+				var email=$("input[name='email']").val();
+				var pw=$("input[name='password']").val();
 				
-				if(id == null || id.length <1) {
+				if(email == null || email.length <1) {
 					alert('ID 를 입력하지 않으셨습니다.');
-					$("#userId").focus();
+					$("#email").focus();
 					return;
 				}
 				
@@ -135,8 +132,7 @@
 					$("#password").focus();
 					return;
 				}
-				
-				$("form").attr("method","POST").attr("action","/user/login").submit();
+				$("form").attr("method","POST").attr("action","login").submit();
 			});
 		});	
 		
@@ -148,12 +144,6 @@
 				self.location = "addUser"
 			});
 		});
-		
-		
-		
-		
-		
-		
 		
 		
 	</script>		

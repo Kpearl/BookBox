@@ -34,6 +34,7 @@
 /**
  *@brief 로그인 
  */
+//============= "로그인"  Event 연결 =============
 $( function() {
 	
 	$("#email").focus();
@@ -44,7 +45,7 @@ $( function() {
 		var password=$("input[name='password']").val();
 		
 		if(email == null || email.length <1) {
-			alert('emailID 를 입력하지 않으셨습니다.');
+			alert('ID 를 입력하지 않으셨습니다.');
 			$("#email").focus();
 			return;
 		}
@@ -55,9 +56,58 @@ $( function() {
 			return;
 		}
 		
-		$("form").attr("method","POST").attr("action","/user/login").submit();
+		$("form").attr("method","POST").attr("action","login").submit();
 	});
-});	
+});
+
+//============= 회원원가입화면이동 Event 연결=============
+$( function() {
+	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$("a[href='#']").on("click" , function() {
+		self.location = "addUser"
+	});
+});
+
+//============= kakao 로그인  ============= 
+$(function(){
+
+	  //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('4f67f74235560f00f4a1567103ae4b88');
+    // 카카오 로그인 버튼을 생성합니다.
+    Kakao.Auth.createLoginButton({
+      container: '#kakao-login-btn',
+      success: function(authObj) {
+        alert(JSON.stringify(authObj));
+        $("#outerToken").val(authObj.access_token);
+        $("#outerAccount").val(2);
+		$("form").attr("method","POST").attr("action","login").submit();
+      },
+      fail: function(err) {
+         alert(JSON.stringify(err));
+      }
+    });
+  //]]>
+	
+})
+
+//============= 구글 로그인  =============
+ function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  console.log('Name: ' + profile.getName());
+	  console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	  
+	  
+	  var id_token = googleUser.getAuthResponse().id_token;
+	  console.log("ID Token: " + id_token);
+	  $('#outerToken').val(id_token);
+	  $('#email').val(profile.getEmail());
+	  $('#outerAccount').val(3);
+	  $("form").attr("method","POST").attr("action","login").submit();
+ 
+	}
 
 
 </script>
@@ -86,7 +136,7 @@ $( function() {
 			</label>
 			
 			<label>
-			<button class="button-submit">Join</button>
+			<button class="button-submit" >Join</button>
 			</label>
 			
 			<!-- kakao 아이디로로그인 버튼 노출 영역 -->

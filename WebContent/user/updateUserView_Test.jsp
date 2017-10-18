@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	 <link rel="stylesheet" href="/resources/demos/style.css">
+	 <!-- <link rel="stylesheet" href="../resources/demos/style.css"> -->
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -24,14 +24,14 @@
 //============= "가입"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$( "button:contains('Sign Up')" ).bind("click" , function() {
+	$( "button:contains('정보수정'')" ).bind("click" , function() {
 		
-		fncAddUser();
+		fncUpdateUser();
 	});
 });
 
 //=============fncAddUser()=================
-	function fncAddUser() {
+	function fncUpdateUser() {
 			
 			
 			var email=$("input[name='email']").val();
@@ -44,10 +44,6 @@ $(function() {
 			var name=$("input[name='outerAccount']").val(0);
 			var name=$("input[name='active']").val(0);
 						
-			if(email == "" || email.length <1){
-				alert("아이디는 반드시 입력하셔야 합니다.");
-				return;
-			}
 			if(nickname == "" || nickname.length <1){
 				alert("닉네임은 반드시 입력하셔야 합니다.");
 				return;
@@ -99,56 +95,6 @@ $(function() {
 	    	buttonText : "Select date"});
 	  } );	
 	  
-//============emailID 중복체크================
-			$(function() {
-
-				$('#email').keyup(
-						function() {
-							var email=$("input[name='email']").val().trim();
-							//alert("입력된 값은 "+email);
-
-							/////////ajax 적용/////////
-							$.ajax({
-								url : "rest/checkEmailValidation/",
-								method : "post",
-		 						data : JSON.stringify({
-									email : email
-								}),
-								dataType : "json",
-								headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-								},
-								success : function(JSONData, status) {
-
-									//Debug...
-									//alert(status);
-									//Debug...
-									//alert("JSONData : \n"+JSONData);
-									//alert( "JSON.stringify(JSONData) : \n"+JSONData );
-									
-										emailJSONData =JSONData;
-																			
-										if (JSONData == true) {
-										
-											var displayValue = "<p>'" +email+ "'은 사용가능한 아이디입니다.<br/></p>";
-										} else {
-											var displayValue = "<p>'"+email+ "'은 사용불가능한 아이디입니다. <br/></p>";
-										}
-										
-										if(email == "") {	
-												var displayValue ="";
-									}
-
-									//Debug...									
-									//alert(displayValue);
-									$("p").remove();
-									$("#checkEmail").html(displayValue);
-								}
-							})
-						})
-				})
-
 //============nickname 중복체크================
 				$(function() {
 
@@ -216,7 +162,7 @@ $(function() {
 			<hr>
 			<label>
 				<h2>Your email:</h2>
-				<input id="email" name="email"  class="long" type="text">
+				<input id="email" name="email"  class="long" type="text" value="${user.email }" readonly>
 			</label>
 			
 			<span id="checkEmail">
@@ -256,7 +202,7 @@ $(function() {
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
 				<input class="long" type="hidden" id="active" name="active">
 
-			<button type="button" class="btn btn-default">Sign Up</button>
+			<button type="button" class="btn btn-default">정보수정</button>
 
 		</form>
 	</div>	
