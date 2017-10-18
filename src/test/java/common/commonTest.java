@@ -47,6 +47,7 @@ public class commonTest {
 	}
 
 	// 똑같은 내용을 가진 reply일 경우 동시 삭제됨
+	// reg_date를 비교해도 됨 나중에 수정하겠음
 	/* @Test */
 	public void deleteReplyTest() {
 
