@@ -13,8 +13,8 @@
 		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
 		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
 		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
-		<collection property="postingFileList" javaType="ArrayList" ofType="String" column="file_name" select="selectPostingFileList"/>
-		<collection property="postingLocationList" javaType="ArrayList" ofType="location" select="selectPostingLocation">
+		<collection property="postingFileList" ofType="String" column="posting_no" select="selectPostingFileList"/>
+		<collection property="postingLocationList" ofType="location" column="posting_no" select="selectPostingLocation">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
 			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
