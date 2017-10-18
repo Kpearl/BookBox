@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bookbox.common.service.CommonService;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.booklog.PostingService;
-import com.bookbox.service.unifiedsearch.BookService;
 
 @Controller
 @RequestMapping("booklog/*")

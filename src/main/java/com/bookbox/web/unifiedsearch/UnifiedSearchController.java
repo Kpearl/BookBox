@@ -6,11 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.service.CommonService;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.domain.Book;
-import com.bookbox.service.unifiedsearch.BookService;
 import com.bookbox.service.unifiedsearch.UnifiedSearchService;
 
 @Controller
@@ -36,7 +36,7 @@ public class UnifiedSearchController {
 
 	@Autowired
 	@Qualifier("bookServiceImpl")
-	private BookService bookService;
+	private CommonService bookService;
 	
 	//Constructor
 	public UnifiedSearchController() {
