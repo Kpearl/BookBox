@@ -17,6 +17,7 @@ public class Posting {
 
 	//Field
 	private int postingNo;
+	private User user;
 	private String postingTitle;
 	private String postingContent;
 	private List<String> postingFileList;
@@ -34,6 +35,14 @@ public class Posting {
 
 	public void setPostingNo(int postingNo) {
 		this.postingNo = postingNo;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getPostingTitle() {

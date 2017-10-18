@@ -9,17 +9,14 @@
 							http://www.springframework.org/schema/aop
 							http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<bean id="logAspect" class="com.bookbox.common.aspect.LogAspectJ"/>
 	<bean id="logWrite" class="com.bookbox.common.aspect.LogToDAO"/>
 	
 	<aop:config>
-		<aop:aspect ref="logAspect">
-			<aop:around pointcut="execution(* com.bookbox.service..*Impl.*(..))" method="invoke"/>
-			<aop:around pointcut="execution(* com.bookbox.common.service..Tag*Impl.*(..))" method="invoke"/>
-		</aop:aspect>
-		
+
 		<aop:aspect ref="logWrite">
-			<aop:around pointcut="execution(* com.bookbox.service..ServiceImpl.*(..))" method="logWrite"/>
+			<aop:around pointcut="execution(* com.bookbox.service..*DAOImpl.*(..))" method="invoke"/>
+			<aop:around pointcut="execution(* com.bookbox.common.service..Tag*Impl.*(..))" method="invoke"/>
+			<aop:around pointcut="execution(* com.bookbox.service..*ServiceImpl.*(..))" method="logWrite"/>
 		</aop:aspect>
 
 	</aop:config>

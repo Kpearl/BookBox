@@ -13,6 +13,10 @@
 		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
 		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
 		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<association property="user" javaType="user">
+			<result property="email" column="email"/>
+			<result property="nickname" column="nickname"/>
+		</association>
 		<collection property="postingFileList" ofType="String" column="posting_no" select="selectPostingFileList"/>
 		<collection property="postingLocationList" ofType="location" column="posting_no" select="selectPostingLocation">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
@@ -35,14 +39,11 @@
 	
 	
 	<!-- SQL : INSERT -->
-	<insert id="addLog" parameterType="log">
+	<insert id="addPosting" parameterType="posting" useGeneratedKeys="true" keyProperty="postingNo">
 	 	INSERT
-		INTO log( email, category_no, behavior, add_behavior, target_no ) 
+		INTO posting( email, posting_title, posting_content ) 
 		VALUES ( 
-			#{user.email}, #{categoryNo}, #{behavior},
-			<if test="addBehavior != -1"> #{addBehavior}, </if>
-			<if test="addBehavior == -1"> NULL, </if>
-			#{targetNo}
+			#{user.email}, #{postingTitle}, #{postingContent}
 		)
 	</insert>
 
