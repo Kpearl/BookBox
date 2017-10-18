@@ -14,22 +14,30 @@
 		<result property="gender" 				column="gender" 					jdbcType="VARCHAR" />
 		<result property="birth" 						column="birth" 						jdbcType="VARCHAR" />
 		<result property="role" 						column="role" 						jdbcType="VARCHAR" />
-		<result property="outerAccount" 	column="outer_Account" 		jdbcType="INTEGER" />		
+		<result property="outerAccount" 	column="outer_account" 		jdbcType="INTEGER" />		
 	</resultMap>
 	
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO user( email , nickname , password , gender , birth,  outer_account) 
-		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth} , 0 )
+		INTO user( email , nickname , password , gender , birth,  outer_account, active) 
+		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth}, #{outerAccount}, #{active})
+		<!-- <if test="outerAccount != 0">
+		1
+		</if>
+		<if test="outerAccount == 0">
+		0
+		</if> -->
+		
+		
 	 </insert>
 	 
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="user"	 resultMap="userSelectMap">
 		SELECT
-		email , password, nickname , gender , birth, role	
+		email , password, nickname , gender , birth, role, outer_account, active	
 		FROM user 
 		WHERE email = #{email} AND active = 1
 	 </select>

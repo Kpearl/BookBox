@@ -28,6 +28,14 @@ public class HttpUtil {
 		return con;
 	}
 	
+	public static String requestMethodGet(String url) throws Exception{
+		return HttpUtil.requestMethodGet(new URL(url));
+	}
+	
+	public static String requestMethodGet(String url, Map<String, String> headers) throws Exception{
+		return HttpUtil.requestMethodGet(new URL(url), headers);
+	}
+	
 	/**
 	 * @brief GET method 요청시 호출
 	 * @param url : 요청할 url
@@ -52,6 +60,11 @@ public class HttpUtil {
 	public static String requestMethodGet(HttpURLConnection con) throws Exception{
 		con.setRequestMethod("GET");
 		return HttpUtil.httpRequest(con);
+	}
+	
+	
+	public static String requestMethodPost(String url, Map<String, String> headers, String data) throws Exception{
+		return HttpUtil.requestMethodPost(new URL(url), headers, data);
 	}
 	
 	/**

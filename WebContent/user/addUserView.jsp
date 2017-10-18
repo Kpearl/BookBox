@@ -38,6 +38,8 @@ $(function() {
 			var name=$("input[name='gender']").val();
 			var name=$("input[name='birth']").val();
 			
+			var name=$("input[name='outerAccount']").val(0);
+			var name=$("input[name='active']").val(0);
 						
 			if(email == "" || email.length <1){
 				alert("아이디는 반드시 입력하셔야 합니다.");
@@ -70,9 +72,8 @@ $(function() {
 				return;
 			}
 						
-			alert("으앙");
 			$("form").attr("method" , "POST").attr("action" , "addUser").submit();
-			alert("으앙2");
+			
 		}
 
 //=============생일 날짜입력==================
@@ -131,6 +132,9 @@ $(function() {
 				<h2>Choose your birthday</h2>
 				<input class="long" type="text" id="birth" name="birth" >
 			</label>
+			
+				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
+				<input class="long" type="hidden" id="active" name="active">
 
 			<button type="button" class="btn btn-default">Sign Up</button>
 

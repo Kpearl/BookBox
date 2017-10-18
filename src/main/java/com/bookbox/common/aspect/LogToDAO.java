@@ -32,12 +32,14 @@ public class LogToDAO {
 		System.out.println("Constructor :: "+getClass().getName());
 	}
 	
-	public void logWrite(ProceedingJoinPoint joinPoint) throws Throwable{
-		
+	public Object logWrite(ProceedingJoinPoint joinPoint) throws Throwable{
+
 		String methodName = joinPoint.getSignature().getName();
 		int categoryNo = parseCategoryToInt(methodName);
 		int behavior = parseBehaviorToInt(methodName);
 		int addBehavior = parseAddBehaviorToInt(methodName);
+
+		Object obj = this.invoke(joinPoint);
 		
 		if(categoryNo == Const.NONE ||
 				behavior == Const.NONE ||
@@ -46,7 +48,7 @@ public class LogToDAO {
 		}else if( ((User)joinPoint.getArgs()[0]).getEmail() == null ){
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
 		}else {
-			
+			System.out.println("Log :: 로그를 남기는 method");
 			int targetNo = getTargetNo(joinPoint.getArgs()[1]);
 			
 			Log log = new Log();
@@ -58,8 +60,23 @@ public class LogToDAO {
 			
 			logService.addLog(log);
 		}
+		
+		return obj;
 	}
 	
+	public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		System.out.println("[Around before] " + 
+						joinPoint.getTarget().getClass().getName() + "." + 
+						joinPoint.getSignature().getName() + "()" );
+		
+		Object obj = joinPoint.proceed();
+		
+		System.out.println("[Around after] return value : " + obj);
+		
+		return obj;
+	}
+
 	public int parseCategoryToInt(String methodName) {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();

@@ -63,9 +63,7 @@ public class UserServiceImpl implements UserService {
 	 * @return void
 	 */
 	public void addUser(User user) throws Exception{
-		System.out.println("UserServiceImpl : userDAO.addUser(user)");
 		userDAO.addUser(user);
-		System.out.println("UserServiceImpl : userDAO.addUser(user)");
 	}
 
 	/**
@@ -89,17 +87,20 @@ public class UserServiceImpl implements UserService {
 		int outerAccount =user.getOuterAccount();
 		User dbuser;
 		
-		
-		switch(outerAccount) {
+		if (user.getActive()==0) {
 			
-			case 1 :
-				user=userRestNaverDAO.getUser(user);
-				break;
-			case 2 :
-				user=userRestKakaoDAO.getUser(user);
-				break;
-			default :
-		}
+			switch(outerAccount) {
+				case 1 :
+					user=userRestNaverDAO.getUser(user);
+					break;
+				case 2 :
+					user=userRestKakaoDAO.getUser(user);
+					break;
+				default :
+			}
+			
+		}		
+		
 		dbuser=userDAO.getUser(user);
 		System.out.println("UserServiceImpl :: "+dbuser);
 		

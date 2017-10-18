@@ -29,30 +29,15 @@ $(function() {
 
 //=============fncAddUser()=================
 	function fncAddUser() {
-			
-			
-			var email=$("input[name='email']").val();
+
 			var nickname=$("input[name='nickname']").val();
-			var password=$("input[name='password']").val();
-			var checkPassword=$("input[name='checkPassword']").val();
 			var name=$("input[name='gender']").val();
 			var name=$("input[name='birth']").val();
+			var name=$("input[name='active']").val(1);
 			
 						
-			if(email == "" || email.length <1){
-				alert("아이디는 반드시 입력하셔야 합니다.");
-				return;
-			}
 			if(nickname == "" || nickname.length <1){
 				alert("닉네임은 반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(password == "" || password.length <1){
-				alert("패스워드는  반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(checkPassword == "" || checkPassword.length <1){
-				alert("패스워드 확인은  반드시 입력하셔야 합니다.");
 				return;
 			}
 			if(gender == ""){
@@ -63,16 +48,9 @@ $(function() {
 				alert("생일은 반드시 입력하셔야 합니다.");
 				return;
 			}
-			
-			if( password != checkPassword ) {				
-				alert("비밀번호 확인이 일치하지 않습니다.");
-				$("input:[name='checkPassword']").focus();
-				return;
-			}
 						
-			alert("으앙");
 			$("form").attr("method" , "POST").attr("action" , "addUser").submit();
-			alert("으앙2");
+			
 		}
 
 //=============생일 날짜입력==================
@@ -84,9 +62,6 @@ $(function() {
 	    	buttonImage: "https://icongr.am/octicons/calendar.svg?size=25",
 	    	buttonText : "Select date"});
 	  } );	
-
-
-
 
 </script>
 
@@ -103,7 +78,7 @@ $(function() {
 			<hr>
 			<label>
 				<h2>Your email:</h2>
-				<input id="email" name="email"  class="long" type="text">
+				<input id="email" name="email"  class="long" type="text" value="${user.email}" readonly>
 			</label>
 
 			<label>
@@ -111,16 +86,6 @@ $(function() {
 				<input id="nickname" name="nickname" class="long" type="text">
 			</label>
 
-			<label>
-				<h2>Choose your password</h2>
-				<input id="password" name="password" class="long" type="password">
-			</label>
-
-			<label>
-				<h2>Repeat your password</h2>
-				<input id="chekPassword" name="checkPassword" class="long" type="password">
-			</label>
-			
 			<label>
 				<h2>Choose your gender</h2>
 				<input class="long" type="radio" id="gender" name="gender" value="남"> 남
@@ -131,7 +96,11 @@ $(function() {
 				<h2>Choose your birthday</h2>
 				<input class="long" type="text" id="birth" name="birth" >
 			</label>
-
+			
+			<input type ="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
+			<input type ="hidden" id="outerToken" name="outerToken" value="${user.outerToken }">
+			<input type ="hidden" id="active" name="active" >
+			
 			<button type="button" class="btn btn-default">Sign Up</button>
 
 		</form>
