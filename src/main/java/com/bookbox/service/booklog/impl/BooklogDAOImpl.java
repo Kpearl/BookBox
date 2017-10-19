@@ -26,13 +26,13 @@ public class BooklogDAOImpl implements BooklogDAO {
 	@Override
 	public List<Booklog> getBooklogList(Search search) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("BooklogMapper.getBooklogList", search);
 	}
 
 	@Override
 	public Booklog getBooklog(Booklog booklog) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
 	}
 
 	@Override

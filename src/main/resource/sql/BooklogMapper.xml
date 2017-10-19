@@ -11,8 +11,11 @@
 		<result property="booklogName" column="booklog_name" jdbcType="VARCHAR"/>
 		<result property="booklogImage" column="booklog_image" jdbcType="VARCHAR"/>
 		<result property="booklogIntro" column="booklog_intro" jdbcType="VARCHAR"/>
-		<association property="user" javaType="user" resultMap="UserMapper.userSelectMap"/>
-<!-- 		<collection property="postingList" ofType="posting" column="posting_no">
+		<association property="user" javaType="user">
+			<result property="email" column="email" jdbcType="VARCHAR"/>
+			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+		</association>
+		<collection property="postingList" ofType="posting" column="posting_no">
 			<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
 			<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
 			<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
@@ -28,7 +31,7 @@
 				<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
 				<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
 			</collection>
-		</collection> -->
+		</collection>
 		<collection property="bookmarkList" ofType="user" column="email">
 			<result property="email" column="bookmark_email" jdbcType="VARCHAR"/>		
 			<result property="nickname" column="bookmark_nickname" jdbcType="VARCHAR"/>
@@ -50,7 +53,7 @@
 	</update>
 	
 	
-	<select id="getBooklog" parameterType="booklog" resultMap="booklog">
+	<select id="getBooklog" parameterType="booklog" resultMap="booklogSelectMap">
 		SELECT
 			email, nickname, booklog_name, booklog_image, booklog_intro
 		FROM
@@ -61,10 +64,10 @@
 	
 	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">
 		SELECT
-			u.email, u.booklog_name, u.booklog_image, u.booklog_intro
+			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro
 		FROM
 			user u
-			<if test="condition == bookmark">
+			<if test="condition == 'bookmark'">
 				LEFT OUTER JOIN bookmark b ON u.email = b.email
 			</if>
 		<where>
@@ -72,12 +75,33 @@
 				
 			</if>
 			<if test="condition == 'nickname'">
-				AND nickname LIKE '%${keyword}%'
+				AND u.nickname LIKE '%${keyword}%'
 			</if>
 			<if test="condition == 'bookmark'">
 				AND b.target_email = #{keyword}
 			</if>
 		</where>
 	</select>
+
+
+	<sql id="tagWiring">
+		SELECT
+			tg.tag_group_no, tg.tag_no, t.tag_name, tg.target_no
+		FROM
+			tag_group tg, tag t
+		WHERE
+			tg.tag_no = t.tag_no AND tg.category_no = 5
+	</sql>
+	
+	<sql id="viewCount">
+		SELECT
+			count(*) count, target_no
+		FROM
+			log
+		WHERE
+			category_no = 4 AND behavior = 1
+		GROUP BY
+			target_no
+	</sql>
 
 </mapper>

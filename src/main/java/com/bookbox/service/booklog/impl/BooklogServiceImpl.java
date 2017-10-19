@@ -26,13 +26,13 @@ public class BooklogServiceImpl implements BooklogService {
 	@Override
 	public List<Booklog> getBooklogList(Search search) {
 		// TODO Auto-generated method stub
-		return null;
+		return booklogDAO.getBooklogList(search);
 	}
 
 	@Override
 	public Booklog getBooklog(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		return null;
+		return booklogDAO.getBooklog(booklog);
 	}
 
 	@Override

@@ -23,6 +23,10 @@
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
 			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
 		</collection>
+		<collection property="postingTagList" ofType="tag" column="tag_no">
+			<result property="tagName" column="tag_name"/>
+			<result property="tagNo" column="tag_no"/>
+		</collection>
 	</resultMap>
 	
 
@@ -56,11 +60,13 @@
 		SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
-			u.nickname, l.location_name, l.latitude, l.longitude
+			u.nickname, l.location_name, l.latitude, l.longitude,
+			tw.tag_name, tw.tag_no
 		FROM 
 			posting p
 			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
 			LEFT OUTER JOIN user u ON p.email = u.email
+			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 		WHERE 
 			p.posting_no = #{postingNo} 
 			AND p.active = 1 
@@ -70,10 +76,12 @@
 		SELECT 
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
-			p.reg_date, p.update_date
+			p.reg_date, p.update_date,
+			tw.tag_name, tw.tag_no
 		FROM
 			posting p
 			LEFT JOIN user u ON p.email = u.email
+			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 		<where>
 			p.active = 1
 			<if test="condition == 'booklog'">
@@ -96,7 +104,7 @@
 			<if test="postingContent != null">
 				posting_content = #{postingContent},
 			</if>
-			update_date = CURRENT_TIME STAMP
+			update_date = CURRENT_TIMESTAMP
 		</set>
 		WHERE
 			posting_no = #{postingNo}
@@ -110,5 +118,17 @@
 		WHERE
 			posting_no=#{postingNo}
 	</delete>
+	
+	
+	
+	
+	<sql id="tagWiring">
+		SELECT
+			tg.tag_group_no, tg.tag_no, t.tag_name, tg.target_no
+		FROM
+			tag_group tg, tag t
+		WHERE
+			tg.tag_no = t.tag_no AND tg.category_no = 5
+	</sql>
 
 </mapper>

@@ -29,33 +29,31 @@ public class PostingServiceImpl implements PostingService {
 	public boolean addPosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
 		postingDAO.addPosting(posting);
-		tagService.addTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		if(posting.getPostingTagList() != null && posting.getPostingTagList().size() != 0) {
+			tagService.addTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		}
 		return true;
 	}
 
 	@Override
 	public Posting getPosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
-		posting = postingDAO.getPosting(posting);
-		posting.setPostingTagList(tagService.getTagGroupList(Const.Category.POSTING, posting.getPostingNo()));
-		return posting;
+		return postingDAO.getPosting(posting);
 	}
 
 	@Override
 	public List<Posting> getPostingList(Search search) {
 		// TODO Auto-generated method stub
-		List<Posting> postingList = postingDAO.getPostingList(search); 
-		for(Posting posting : postingList) {
-			posting.setPostingTagList(tagService.getTagGroupList(Const.Category.POSTING ,posting.getPostingNo()));
-		}
-		return postingList;
+		return postingDAO.getPostingList(search);
 	}
 
 	@Override
 	public boolean updatePosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
 		postingDAO.updatePosting(posting);
-		tagService.updateTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		if(posting.getPostingTagList() != null && posting.getPostingTagList().size() != 0) {
+			tagService.updateTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		}
 		return true;
 	}
 

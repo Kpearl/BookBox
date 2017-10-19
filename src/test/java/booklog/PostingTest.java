@@ -58,16 +58,17 @@ public class PostingTest {
 		User user = new User();
 		user.setEmail("xptmxm@nate.com");
 		Posting posting = new Posting();
-		posting.setPostingNo(10);
+		posting.setPostingNo(8);
 		
-		System.out.println(postingService.getPosting(user, posting));
+		System.out.println(postingService.getPosting(new User(), posting));
 	}
 	
 	@Test
 	public void getPostingListTest() throws Exception{
 		Search search = new Search();
 		search.setCondition("booklog");
-		search.setKeyword("xptmxm@nate.com");
+		search.setKeyword("wndhks@naver.com");
+		
 		
 		System.out.println(postingService.getPostingList(search));
 	}
@@ -80,7 +81,7 @@ public class PostingTest {
 		Posting posting = new Posting();
 		posting.setPostingNo(8);
 		posting.setPostingTitle("오번째으로 수정된 포스팅");
-		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했었지");
+		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했었지 rmfjgkek");
 		posting.setUser(user);
 		Location location = new Location();
 		location.setLocationName("우리집");
