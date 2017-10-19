@@ -7,7 +7,7 @@
 <mapper namespace="CommunityMapper">
 	
 	<resultMap id="selectBoard" type="board">
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
+		<id property="boardNo" column="board_no" jdbcType="NUMERIC"/>
 		<result property="boardTitle" column="board_title" jdbcType="VARCHAR"/>
 		<result property="boardContent" column="board_content" jdbcType="VARCHAR"/>
 		<result property="boardRegDate" column="reg_date" jdbcType="DATE"/>
@@ -18,6 +18,7 @@
 			<result property="nickname" column="nickname"/>
 			<result property="role" column="role"/>
 		</association>
+		<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=board_no}" select="TagMapper.getTagGroupList"/>
 	</resultMap>
 	
 	<resultMap type="comment" id="selectComment">
@@ -35,6 +36,23 @@
 		</association>
 	</resultMap>
 
+<!-- 
+   -->
+	<resultMap id="selectBoard2" type="board">
+		<id property="boardNo" column="board_no" jdbcType="NUMERIC"/>
+		<result property="boardTitle" column="board_title" jdbcType="VARCHAR"/>
+		<result property="boardContent" column="board_content" jdbcType="VARCHAR"/>
+		<result property="boardRegDate" column="reg_date" jdbcType="DATE"/>
+		<result property="recommend" column="recommend_count" jdbcType="NUMERIC"/>
+		<result property="report" column="report_count" jdbcType="NUMERIC"/>
+		<association property="writer" javaType="user">
+			<result property="email" column="email"/>
+			<result property="nickname" column="nickname"/>
+			<result property="role" column="role"/>
+		</association>
+		<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" resultMap="TagMapper.tagSelectMap"/>
+	</resultMap>
+
 
 
 	<insert id="addBoard" parameterType="Board" useGeneratedKeys="true" 
@@ -48,7 +66,7 @@
 	</insert>
 	
 	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
 		u.nickname, u.role
 		FROM board b, user u
 		WHERE
@@ -69,7 +87,7 @@
 	</update>
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
 		u.nickname, u.role
 		FROM board b, user u
 		WHERE
@@ -83,6 +101,32 @@
 		LIMIT #{page.startRow}, #{page.pageSize}
 	</select>
 	
+	
+	<select id="getBoard2" parameterType="_int" resultMap="selectBoard2">
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
+		u.nickname, u.role,
+        tg.tag_no, t.tag_name
+		FROM board b, user u, tag_group tg, tag t
+		WHERE
+		b.email = u.email AND b.board_no=tg.target_no AND tg.category_no=6 AND tg.tag_no = t.tag_no AND
+		b.board_no = #{value}
+	</select>
+	
+	<select id="getBoardList2" parameterType="map" resultMap="selectBoard2">
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
+		u.nickname, u.role,
+        tg.tag_no, t.tag_name
+		FROM board b, user u, tag_group tg, tag t
+		WHERE
+		b.email = u.email AND b.board_no=tg.target_no AND tg.category_no=6 AND tg.tag_no = t.tag_no
+		<if test="search.condition==0">
+		AND b.board_title LIKE '%${search.keyword}%'
+		</if> 
+		<if test="search.condition==1">
+		AND u.nickname LIKE '%${search.keyword}%'
+		</if>
+		LIMIT #{page.startRow}, #{page.pageSize}
+	</select>
 	<!-- ====================  comment sql ===================== -->
 	
 	<insert id="addComment" parameterType="comment">

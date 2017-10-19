@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
+import com.bookbox.common.domain.Tag;
+
 /**
  * @file com.bookbox.service.domain.Board.java
  * @brief Board domain
@@ -22,7 +24,7 @@ public class Board {
 	private User writer;
 	private int recommend;
 	private int report;
-	private List<String> tagList;
+	private List<Tag> tagList;
 	private List<Comment> comment;
 	private boolean blind;
 
@@ -34,11 +36,11 @@ public class Board {
 		return boardNo;
 	}
 
-	public List<String> getTagList() {
+	public List<Tag> getTagList() {
 		return tagList;
 	}
 
-	public void setTagList(List<String> tagList) {
+	public void setTagList(List<Tag> tagList) {
 		this.tagList = tagList;
 	}
 
@@ -114,6 +116,6 @@ public class Board {
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", boardRegDate=" + boardRegDate + ", writer=" + writer + ", recommend=" + recommend + ", comment="
-			+"reprot="+report+ comment + ", blind=" + blind + "]";
+			+"reprot="+report+ comment + ", blind=" + blind +"tagList="+tagList+ "]";
 	}
 }

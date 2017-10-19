@@ -46,7 +46,7 @@ public class CommunityTest {
 	
 	//@Test
 	public void getBoard() {
-		Board board=communityDAOImpl.getBoard(4);
+		Board board=communityDAOImpl.getBoard(10);
 		System.out.println(board.toString());
 		System.out.println(board.getBoardRegDate());
 	}
@@ -66,7 +66,7 @@ public class CommunityTest {
 		search.setKeyword("");
 		
 		Page page=new Page();
-		page.setPageSize(3);
+		page.setPageSize(5);
 		page.setCurrentPage(1);
 		
 		map.put("search", search);
@@ -75,6 +75,9 @@ public class CommunityTest {
 		List<Board> boardList;
 		boardList=communityDAOImpl.getBoardList(map);
 		System.out.println(boardList.size());
+		for(Board b: boardList) {
+			System.out.println(b);
+		}
 	
 	}
 	

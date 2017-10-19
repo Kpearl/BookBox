@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.service.TagDAO;
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
@@ -21,21 +22,31 @@ public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	@Qualifier("communityDAOImpl")
 	CommunityDAO communityDAOImple;
+	
+	@Autowired
+	@Qualifier("tagDAOImpl")
+	TagDAO tagDAOImpl;
 
 	public CommunityServiceImpl() {
-		System.out.println("Constructor:: "+this.getClass().getName());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	@Override
 	public int addBoard(Board board) {
+		
 		
 		return communityDAOImple.addBorad(board);
 	}
 
 	@Override
 	public Board getBoard(User user,Board board) {
-		// TODO Auto-generated method stub
-		return communityDAOImple.getBoard(board.getBoardNo());
+		
+		board= communityDAOImple.getBoard(board.getBoardNo());
+		
+		List tagList=tagDAOImpl.getTagGroupList(Const.Category.BOARD, board.getBoardNo());
+		board.setTagList(tagList);
+		
+		return board;
 	}
 
 	@Override

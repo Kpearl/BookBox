@@ -10,13 +10,17 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<link rel="stylesheet" href="../resources/css/style.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<!-- 다음에디터 관련  -->
 	<link rel="stylesheet" href="../resources/daumeditor/css/editor.css" type="text/css" charset="utf-8"/>
     <script src="../resources/daumeditor/js/editor_loader.js?environment=production" type="text/javascript" charset="utf-8"></script>
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>	
 <div class="container">
 	<form name="tx_editor_form" id="tx_editor_form" action="addBoard" method="post" accept-charset="utf-8">
 		<!-- 에디터 컨테이너 시작 -->

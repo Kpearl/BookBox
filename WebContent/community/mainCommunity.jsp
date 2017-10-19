@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -65,21 +65,29 @@
 	<jsp:include page="../layout/toolbar.jsp" />
 	
 	<div class="container">
-		<form class="form-inline text-right">
-		  <div class="form-group">
-		    <div class="input-group">
-		      <div class="input-group-addon">
-		      	<select class="form-control">
-		      		<option>옵션</option>
-		      	</select>
-		      </div>
-		      <input type="text" class="form-control" id="keyword" placeholder="검색어">
-		  	 	<div class="input-group-addon">
-		  			<button type="submit" class="btn">검색</button>
-				</div>
-		    </div>
-		  </div>
-		</form>
+		<div class="row">
+			<!-- 생성버튼 -->
+			<div class="col-md-6 text-left">
+			<a class="btn">채팅방 생성</a><a class="btn" href="addBoard">게시글 작성</a>
+			</div>
+			<!-- 생성버튼 끝 -->
+		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
+			  <div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">
+			      	<select class="form-control">
+			      		<option>옵션</option>
+			      	</select>
+			      </div>
+			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
+			  	 	<div class="input-group-addon">
+			  			<button type="submit" class="btn">검색</button>
+					</div>
+			    </div>
+			  </div>
+			</form>
+			
+		</div>
 		
 		<h1>CAST</h1>
 		<hr/>

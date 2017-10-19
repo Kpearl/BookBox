@@ -33,6 +33,10 @@ public class CommunityRestController {
 	@Qualifier("communityServiceImpl")
 	CommunityService communityServiceImpl;
 	
+	public CommunityRestController() {
+		System.out.println("Constructor :: "+getClass().getName());
+	}
+	
 	@RequestMapping(value="/addRecommend")
 	public void addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend ) {
 		

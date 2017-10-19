@@ -1,6 +1,5 @@
 package com.bookbox.web.community;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookbox.common.domain.Page;
@@ -18,9 +18,6 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.User;
-import com.mysql.fabric.xmlrpc.base.Value;
-
-import sun.print.resources.serviceui;
 
 /**
  * @file com.bookbox.web.community.CommunityCrontroller.java
@@ -39,7 +36,7 @@ public class CommunityController {
 	CommunityService communityServiceImpl;
 	
 	public CommunityController() {
-		System.out.println("Constructor::"+this.getClass().getName());
+		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
 	
@@ -53,13 +50,18 @@ public class CommunityController {
 	@RequestMapping(value="/getCommunityMain")
 	public String getCommunityMain(
 									//@RequestParam(value="condition")String Condition,
-									//@RequestParam(value="keyword")String ketword
+									//@RequestParam(value="keyword")String keyword,
 									@ModelAttribute("search")Search search ,Model model) {
 		System.out.println("[Community.getCommunityMain() start...]");
+	
 		
+		System.out.println(search);
 		//서치 키워드가 null일 경우 nullString 으로 초기화
 		if(search.getKeyword()==null) {
 			search.setKeyword("");
+		}
+		if(search.getCondition()==null) {
+			search.setCondition("0");
 		}
 		
 		Map map=new HashMap<String,Object>();
@@ -80,16 +82,29 @@ public class CommunityController {
 		model.addAttribute("boardList", boardList);
 		//
 		return "forward:mainCommunity.jsp";
+	
+	}
+	/**
+	 * @brief addBoard
+	 * @detail 게시글 쓰기 뷰로 네비게이션 
+	 * @param 
+	 * @return rediect:addBoardView.jsp
+	 */
+	
+	@RequestMapping(value="/addBoard",method=RequestMethod.GET)
+	public String addBoard() {
+		
+		return "redirect:addBoardView.jsp";
 	}
 	
 	/**
 	 * @brief addBoard
 	 * @detail 게시글 추가 
 	 * @param Board board 게시글 도메인
-	 * @return forward:/community/mainCommunity.jsp
+	 * @return redirect:getBoard?boardNo="+board.getBoardNo()
 	 */
 	
-	@RequestMapping(value="/addBoard")
+	@RequestMapping(value="/addBoard",method=RequestMethod.POST)
 	public String addBoard(@ModelAttribute("Board")Board board) {
 		
 		//테스트용 유저정보//
@@ -123,6 +138,9 @@ public class CommunityController {
 		
 		if(search.getKeyword()==null) {
 			search.setKeyword("");
+		}
+		if(search.getCondition()==null) {
+			search.setCondition("0");
 		}
 		if(page.getCurrentPage()==0) {
 			page.setCurrentPage(1);

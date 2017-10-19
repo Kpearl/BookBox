@@ -7,11 +7,17 @@
 <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	<link rel="stylesheet" href="../resources/css/style.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <title>Insert title here</title>
 
 <script type="text/javascript">
+
+
 	$(function(){
 		
 		$("#recommend").on("click",function(){
@@ -75,10 +81,13 @@
 
 </head>
 <body>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
 	<div class="container">
 		
 		<div class="board">
-			<input type="text" value="${board.boardNo}" id="boardNo" readonly="readonly"/>
+			히든예정<input type="text" value="${board.boardNo}" id="boardNo" readonly="readonly"/>
 			<div class="title">
 				제목:	${board.boardTitle}
 			</div>
