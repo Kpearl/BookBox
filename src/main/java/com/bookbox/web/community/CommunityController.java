@@ -79,7 +79,7 @@ public class CommunityController {
 		}
 		model.addAttribute("boardList", boardList);
 		//
-		return "forward:/community/mainCommunity.jsp";
+		return "forward:mainCommunity.jsp";
 	}
 	
 	/**
@@ -99,16 +99,50 @@ public class CommunityController {
 		System.out.println(board);
 		communityServiceImpl.addBoard(board);
 		
-		return "redirect:/community/getBoard?boardNo="+board.getBoardNo();
+		return "redirect:getBoard?boardNo="+board.getBoardNo();
 	}
 	
 	@RequestMapping(value="/getBoard")
 	public String getBoard(@RequestParam("boardNo")int boardNo,Model model) {
 		
-		Board board;
-		board=communityServiceImpl.getBoard(boardNo);
+		//테스트 유저
+		User user=new User();
+		user.setEmail("test@test.com");
+		
+		Board board=new Board();
+		board.setBoardNo(boardNo);
+		board=communityServiceImpl.getBoard(user,board);
 		model.addAttribute("board",board);
 		
-		return "forward:/community/getBoard.jsp";
+		return "forward:getBoard.jsp";
+	}
+	
+	@RequestMapping(value="/getBoardList")
+	public String getBoardList(@ModelAttribute("Search")Search search,
+								@ModelAttribute("Page")Page page,Model model) {
+		
+		if(search.getKeyword()==null) {
+			search.setKeyword("");
+		}
+		if(page.getCurrentPage()==0) {
+			page.setCurrentPage(1);
+		}
+		if(page.getPageSize()==0) {
+			page.setPageSize(5);
+		}
+	//	System.out.println(page);
+		
+		Map map=new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("page", page);
+		
+		
+		List boardList;
+		boardList=communityServiceImpl.getBoardList(map);
+		System.out.println(boardList.size());
+		
+		model.addAttribute(boardList);
+		
+		return "forward:listBoard.jsp";
 	}
 }

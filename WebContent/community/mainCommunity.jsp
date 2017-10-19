@@ -42,6 +42,24 @@
    			background-color: #444;
    		}
     </style>
+    
+    <script type="text/javascript">
+    	
+    $(function(){
+    	//게시판 상세보기 이벤트	
+    	$(".board_item").on("click",function(){
+    		//alert($(this).html());
+    		var boardNo=$(this).find(".boardNo").val();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    		self.location="getBoard?boardNo="+boardNo;
+    	})
+    	
+    	$("#moreBoard").on("click",function(){
+    		self.location="getBoardList";
+    	})
+    });
+    
+    
+    </script>
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" />
@@ -100,6 +118,7 @@
 		
 		<br/>
 		<h1>BOARD</h1>
+		<h5 class="btn" id="moreBoard">더 보기</h5>
 		<hr/>
 			<div>
 				<div class="board_item row">
@@ -112,9 +131,11 @@
 						<p>#보노보노</p>
 					</div>
 				</div>
+				
 				<c:forEach items="${ boardList }" var="board">
 				<div class="board_item row">
 					<div class="content">
+						<input type="hidden" value="${board.boardNo}" class="boardNo">
 						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
 						<p>${board.boardTitle }</p>
 						<p>${board.writer.nickname }</p>

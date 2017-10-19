@@ -13,6 +13,7 @@ public class Search {
 	//Field
 	private String keyword;
 	private String condition;
+	private String order;
 	private int category;
 	
 	public Search() {
@@ -41,6 +42,14 @@ public class Search {
 
 	public void setCategory(int category) {
 		this.category = category;
+	}
+	
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
 	}
 
 	@Override

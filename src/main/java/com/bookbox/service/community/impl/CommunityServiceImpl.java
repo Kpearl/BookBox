@@ -33,9 +33,9 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Board getBoard(int boardNo) {
+	public Board getBoard(User user,Board board) {
 		// TODO Auto-generated method stub
-		return communityDAOImple.getBoard(boardNo);
+		return communityDAOImple.getBoard(board.getBoardNo());
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public List<Board> getBoardList(Map map) {
-		System.out.println("[communityServiceImpl.getBoardList() start...]");
+		//System.out.println("[communityServiceImpl.getBoardList() start...]");
 		return communityDAOImple.getBoardList(map);
 		
 	}

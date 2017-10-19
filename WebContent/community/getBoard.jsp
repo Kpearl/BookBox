@@ -61,9 +61,11 @@
 ///////////////////
 	function appendCommentArea(obj){
 		
-		var inputObj=$("<textarea></textarea><a class='btn'>");
+		var inputObj=$("<div><textarea></textarea><a class='btn'>등록</div>");
 		alert(inputObj.html());
-		inputObj.childen("a").on("click",function(){
+		
+		
+		inputObj.find("a").on("click",function(){
 			alert("test");
 		});
 		$(".inputarea").append(inputObj);
