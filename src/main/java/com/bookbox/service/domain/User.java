@@ -22,6 +22,7 @@ public class User {
 	private int outerAccount;
 	private String outerToken;
 	private int active;	
+	private int certificationNo;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -99,10 +100,18 @@ public class User {
 		this.active = active;
 	}
 
+	public int getCertificationNo() {
+		return certificationNo;
+	}
+
+	public void setCertificationNo(int certificationNo) {
+		this.certificationNo = certificationNo;
+	}
+
 	@Override
 	public String toString() {
 		return "User [email=" + email + ", nickname=" + nickname + ", password=" + password + ", gender=" + gender
 				+ ", birth=" + birth + ", role=" + role + ", outerAccount=" + outerAccount + ", outerToken="
-				+ outerToken + ", active="+active+"]";
+				+ outerToken + ", active="+active+", certificationNo="+certificationNo+"]";
 	}
 }

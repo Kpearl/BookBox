@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -134,9 +135,14 @@ public class UserServiceTest {
 		Assert.assertEquals("여", user.getGender());
 	 }
 	 
-	//@Test
+	@Test
 	public void testCheckEmailValidation() throws Exception{
 
+		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+        String joinCode = String.valueOf(ran);
+       
+        System.out.println("테스트No :: "+joinCode);
+		
 
 			User user = new User();
 			user.setEmail("xptmxm@nate.com");
@@ -168,7 +174,7 @@ public class UserServiceTest {
 		 	
 	}	
 	
-	@Test
+	//@Test
 	public void testUpdateActive() throws Exception{
 
 		Map<String, Object> map = new HashMap<>();

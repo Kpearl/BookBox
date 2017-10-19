@@ -7,13 +7,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookbox.service.domain.User;
+import com.bookbox.service.user.MailService;
 import com.bookbox.service.user.UserService;
 
 
@@ -33,10 +36,17 @@ public class UserController {
 	/**
 	 * @brief  field
 	 */
-		@Autowired
+	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-
+	
+	@Autowired
+	@Qualifier("mailServiceImpl")
+	private MailService mailService;
+		
+	@Autowired
+	@Qualifier("javaMailSenderImplGoogle")
+	private JavaMailSenderImpl javaMailSenderImpl;
 		
 		/**
 		 * @brief  Constructor
@@ -54,6 +64,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="addUser", method=RequestMethod.GET )
 	public String addUser() throws Exception{
+		// TODO
 	
 		System.out.println("UserController :: /user/addUser : GET");
 		
@@ -69,7 +80,8 @@ public class UserController {
 	 */
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
-
+		// TODO
+		
 		System.out.println("UserController :: /user/addUser : POST");
 		System.out.println("Controller :: addUser :: "+user);
 		
@@ -80,10 +92,25 @@ public class UserController {
 			resultPage="forward:login";
 		}else {
 			userService.addUser(user);
+			mailService.sendMail(user);
+			resultPage ="forward:../index.jsp";
 		}
 		
 		return resultPage;
 	}
+	
+	/**
+	 * @brief checkCertNo/ 메일인증번호 확인
+	 * @details POST
+	 * @param 
+	 * @throws Exception
+	 * @return "redirect:../index.jsp"
+	 */	
+	public String checkCertNo() throws Exception{
+		// TODO
+		return "";
+	}
+	
 	
 	/**
 	 * @brief getUser/로그인, 회원정보 조회
@@ -94,9 +121,11 @@ public class UserController {
 	 */
 	@RequestMapping( value="getUser", method=RequestMethod.GET )
 	public String getUser( @ModelAttribute("user") User user , Model model ) throws Exception {
-		
+		// TODO getUser
 		System.out.println("UserController :: /user/getUser : GET");
 		//Business Logic
+		System.out.println(user.getOuterAccount());
+		System.out.println(user.getActive());
 		User dbuser = userService.getUser(user);
 		// Model 과 View 연결
 		model.addAttribute("user", dbuser);
@@ -106,16 +135,17 @@ public class UserController {
 	
 	/**
 	 * @brief updateUser/회원정보수정화면으로 이동
-	 * @details GET
+	 * @details GET 
 	 * @param User user(email)
 	 * @throws Exception
 	 * @return "forward:updateUserView.jsp"
 	 */
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
-	public String updateUser( HttpSession session , Model model ) throws Exception{
-
+	public String updateUser(HttpSession session , Model model ) throws Exception{
+		// TODO
 		System.out.println("UserController :: /user/updateUser : GET");
 		//Business Logic
+		
 		User user = (User)session.getAttribute("user");
 		User dbuser = userService.getUser(user);
 		// Model 과 View 연결
@@ -133,17 +163,47 @@ public class UserController {
 	 */
 	@RequestMapping( value="updateUser", method=RequestMethod.POST )
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
-		
+		// TODO updateUser
 		System.out.println("UserController :: /user/updateUser : POST");
 		//Business Logic
 		userService.updateUser(user);
 		
 		String sessionEmail=((User)session.getAttribute("user")).getEmail();
-		if(sessionEmail.equals(user.getEmail())){
-			session.setAttribute("user", user);
-		}
-		
+			if(sessionEmail.equals(user.getEmail())){
+				session.setAttribute("user", user);
+			}
+			
 		return "redirect:getUser?email="+user.getEmail();
+	}
+	
+	
+	/**
+	 * @brief checkCertNo/메일인증번호 확인                           
+	 * @details GET
+	 * @param User user
+	 * @throws Exception
+	 * @return "forward:updateUser"
+	 */
+	@RequestMapping( value="checkCertNo", method=RequestMethod.GET)
+	public String checkCertNo(@RequestParam("certificationNo") int certificationNo,
+														@ModelAttribute("user") User user, HttpSession session) throws Exception{
+		// TODO checkCertNo
+				System.out.println("UserController :: /user/checkCertNo : GET");		
+		
+				if (certificationNo == userService.getUser(user).getCertificationNo()) {
+					Map<String, Object> map = new HashMap<>();
+					map.put("email", user.getEmail());
+					map.put("active", user.getActive());
+					
+					userService.updateActive(map);
+				}else {
+					return "redirect:addUserView.jsp";
+				}
+						
+//				User dbuser = userService.getUser(user);
+//				session.setAttribute("user", dbuser);
+				
+		return "redirect:confirmCertNo.jsp";
 	}
 
 	/**
@@ -155,7 +215,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
-		
+		// TODO
 		System.out.println("UserController :: /user/login : GET");
 		
 		return "redirect:loginTest.jsp";
@@ -170,7 +230,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="login", method=RequestMethod.POST )
 	public String login(@ModelAttribute("user") User user , HttpSession session, Model model) throws Exception{
-		
+		// TODO
 		System.out.println("UserController :: /user/login : POST");
 		
 		String returnValue="redirect:../index.jsp";
@@ -212,7 +272,7 @@ public class UserController {
 	 */	
 	@RequestMapping( value="logout", method=RequestMethod.GET )
 	public String logout(HttpSession session ) throws Exception{
-		
+		// TODO
 		System.out.println("UserController :: /user/logout : POST");
 		
 		User user = (User)session.getAttribute("user"); 
@@ -235,7 +295,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="findPassword", method=RequestMethod.GET )
 	public String findPassword() throws Exception {
-		
+		// TODO
 		System.out.println("UserController :: /user/findPassword : GET");
 		
 		return "redirect:findPassword.jsp";
@@ -250,7 +310,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="deleteUser", method=RequestMethod.GET )
 	public String deleteUser(HttpSession session) throws Exception {
-		
+		// TODO
 		System.out.println("UserController :: /user/deleteUser : GET");
 		
 		Map<String, Object> map = new HashMap<>();
@@ -271,7 +331,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="activeUser", method=RequestMethod.GET )
 	public String activeUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
-		
+		// TODO
 		System.out.println("UserController :: /user/activeUser : GET");
 		
 		User dbuser = userService.getUser(user);
@@ -287,6 +347,7 @@ public class UserController {
 		return "redirect:login?email="+dbuser.getEmail();
 	}
 	
+
 
 	
 
@@ -331,53 +392,10 @@ public class UserController {
 	
 	
 	
-	/*
 
 	
-	@RequestMapping( value="listUser" )
-	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
-		
-		System.out.println("/user/listUser : GET / POST");
-		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
-		
-		// Business logic 수행
-		Map<String , Object> map=userService.getUserList(search);
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
-		
-		// Model 과 View 연결
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		
-		return "forward:/user/listUser.jsp";
-	}
 	
-	
-	@RequestMapping( value="kakaoLogin")
-	public String kakaoLogin(@RequestParam("accessToken") String accessToken, Model model ) throws Exception
-	{
-		System.out.println("test token : "+accessToken);
-		model.addAttribute("user", userService.getUser2(accessToken));
-		
-		return "forward:/user/updateUserView.jsp";
-	}
-	
-	
-	@RequestMapping( value="googleLogin")
-	public String googleLogin(@RequestParam("googleToken") String accessToken, Model model ) throws Exception
-	{
-		System.out.println("test google token : "+accessToken);
-		model.addAttribute("user", userService.getUser2(accessToken));
-		
-		return "forward:/user/updateUserView.jsp";
-	}
-		*/
+
 	
 		
 	
