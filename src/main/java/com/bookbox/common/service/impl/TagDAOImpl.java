@@ -52,7 +52,7 @@ public class TagDAOImpl implements TagDAO {
 	}
 
 	@Override
-	public int addTagGroup(int category, int target, List<Tag> tagList) {
+	public int addTagGroup(int category, Object target, List<Tag> tagList) {
 		// TODO Auto-generated method stub
 		int result = 0;
 		Map<String, Object> tagMap = null;
@@ -66,13 +66,13 @@ public class TagDAOImpl implements TagDAO {
 	}
 
 	@Override
-	public List<Tag> getTagGroupList(int category, int target) {
+	public List<Tag> getTagGroupList(int category, Object target) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("TagMapper.getTagGroupList", CommonUtil.mappingCategoryTarget(category, target));
 	}
 
 	@Override
-	public int deleteTagGroup(int category, int target) {
+	public int deleteTagGroup(int category, Object target) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("TagMapper.deleteTagGroup", CommonUtil.mappingCategoryTarget(category, target));
 	}

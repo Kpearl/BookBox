@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="BooklogMapper">
+	
+	<resultMap id="booklogSelectMap" type="booklog">
+		<result property="booklogName" column="booklog_name" jdbcType="VARCHAR"/>
+		<result property="booklogImage" column="booklog_image" jdbcType="VARCHAR"/>
+		<result property="booklogIntro" column="booklog_intro" jdbcType="VARCHAR"/>
+		<association property="user" javaType="user" resultMap="UserMapper.userSelectMap"/>
+<!-- 		<collection property="postingList" ofType="posting" column="posting_no">
+			<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
+			<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
+			<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
+			<result property="postingRegDate" column="posting_reg_date" jdbcType="DATE"/>
+			<result property="postingUpdateDate" column="posting_update_date" jdbcType="DATE"/>
+			<association property="user" javaType="user">
+				<result property="email" column="posting_email"/>
+				<result property="nickname" column="posting_nickname"/>
+			</association>
+			<collection property="postingFileList" ofType="String" column="upload_no" select="selectPostingFileList"/>
+			<collection property="postingLocationList" ofType="location" column="location_no">
+				<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
+				<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
+				<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
+			</collection>
+		</collection> -->
+		<collection property="bookmarkList" ofType="user" column="email">
+			<result property="email" column="bookmark_email" jdbcType="VARCHAR"/>		
+			<result property="nickname" column="bookmark_nickname" jdbcType="VARCHAR"/>
+		</collection>
+	</resultMap>
+	
+	
+	<update id="updateBooklog" parameterType="booklog">
+		UPDATE user
+		<set>
+			booklog_name = #{booklogName},
+			<if test="booklogImage != null">
+				booklog_image = #{booklogImage},
+			</if>
+			booklog_intro = #{booklogIntro}
+		</set>
+		WHERE
+			email = #{user.email}
+	</update>
+	
+	
+	<select id="getBooklog" parameterType="booklog" resultMap="booklog">
+		SELECT
+			email, nickname, booklog_name, booklog_image, booklog_intro
+		FROM
+			user
+		WHERE
+			email = #{user.email}
+	</select>
+	
+	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">
+		SELECT
+			u.email, u.booklog_name, u.booklog_image, u.booklog_intro
+		FROM
+			user u
+			<if test="condition == bookmark">
+				LEFT OUTER JOIN bookmark b ON u.email = b.email
+			</if>
+		<where>
+			<if test="condition == 'main'">
+				
+			</if>
+			<if test="condition == 'nickname'">
+				AND nickname LIKE '%${keyword}%'
+			</if>
+			<if test="condition == 'bookmark'">
+				AND b.target_email = #{keyword}
+			</if>
+		</where>
+	</select>
+
+</mapper>

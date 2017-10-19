@@ -36,20 +36,20 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public int addTagGroup(int category, int target, List<Tag> tagList) {
+	public int addTagGroup(int category, Object target, List<Tag> tagList) {
 		// TODO Auto-generated method stub
 		addTagList(tagList);
 		return tagDAO.addTagGroup(category, target, tagList);
 	}
 
 	@Override
-	public List<Tag> getTagGroupList(int category, int target) {
+	public List<Tag> getTagGroupList(int category, Object target) {
 		// TODO Auto-generated method stub
 		return tagDAO.getTagGroupList(category, target);
 	}
 
 	@Override
-	public int updateTagGroup(int category, int target, List<Tag> tagList) {
+	public int updateTagGroup(int category, Object target, List<Tag> tagList) {
 		// TODO Auto-generated method stub
 		tagDAO.deleteTagGroup(category, target);
 		addTagList(tagList);

@@ -15,6 +15,16 @@
 
 	<util:properties id="commonProperties" location="classpath:config/common.properties"/>	
 
+	<bean id="propertyConfigurer"
+				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/mail.properties</value>
+				<value>classpath:config/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<context:component-scan base-package="com.bookbox.service,com.bookbox.common.service">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>

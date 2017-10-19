@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Location;
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
@@ -33,17 +34,20 @@ public class PostingTest {
 		user.setEmail("wndhks@naver.com");
 		
 		Posting posting = new Posting();
-		posting.setPostingTitle("오번째으로 서비스로 올리는 포슽잉");
-		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했지");
+		posting.setPostingTitle("육번째으로 태그도 올리는 포슽잉");
+		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했었지 육번째는 태그가 들어감");
 		posting.setUser(user);
-		Location location = new Location();
-		location.setLocationName("우리집");
-		location.setLocationLatitude(37.367795);
-		location.setLocationLongitude(127.161255);
-		List<Location> locationList = new ArrayList<Location>();
-		locationList.add(location);
-		
-		posting.setPostingLocationList(locationList);
+//		Location location = new Location();
+//		location.setLocationName("우리집");
+//		location.setLocationLatitude(37.367795);
+//		location.setLocationLongitude(127.161255);
+//		List<Location> locationList = new ArrayList<Location>();
+//		locationList.add(location);
+//		posting.setPostingLocationList(locationList);
+		List<Tag> tagList = new ArrayList<Tag>();
+		tagList.add(new Tag("밀리터리"));
+		tagList.add(new Tag("군바으리"));
+		posting.setPostingTagList(tagList);
 		
 		postingService.addPosting(user, posting);
 	}
@@ -54,12 +58,12 @@ public class PostingTest {
 		User user = new User();
 		user.setEmail("xptmxm@nate.com");
 		Posting posting = new Posting();
-		posting.setPostingNo(8);
+		posting.setPostingNo(10);
 		
 		System.out.println(postingService.getPosting(user, posting));
 	}
 	
-//	@Test
+	@Test
 	public void getPostingListTest() throws Exception{
 		Search search = new Search();
 		search.setCondition("booklog");
@@ -68,7 +72,7 @@ public class PostingTest {
 		System.out.println(postingService.getPostingList(search));
 	}
 	
-	@Test
+//	@Test
 	public void updatePostingTest() throws Exception{
 		User user = new User();
 		user.setEmail("wndhks@naver.com");

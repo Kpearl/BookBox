@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
@@ -19,28 +21,42 @@ public class PostingServiceImpl implements PostingService {
 	@Qualifier("postingDAOImpl")
 	private PostingDAO postingDAO;
 	
+	@Autowired
+	@Qualifier("tagServiceImpl")
+	private TagService tagService;
+	
 	@Override
 	public boolean addPosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
-		return postingDAO.addPosting(posting);
+		postingDAO.addPosting(posting);
+		tagService.addTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		return true;
 	}
 
 	@Override
 	public Posting getPosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
-		return postingDAO.getPosting(posting);
+		posting = postingDAO.getPosting(posting);
+		posting.setPostingTagList(tagService.getTagGroupList(Const.Category.POSTING, posting.getPostingNo()));
+		return posting;
 	}
 
 	@Override
 	public List<Posting> getPostingList(Search search) {
 		// TODO Auto-generated method stub
-		return postingDAO.getPostingList(search);
+		List<Posting> postingList = postingDAO.getPostingList(search); 
+		for(Posting posting : postingList) {
+			posting.setPostingTagList(tagService.getTagGroupList(Const.Category.POSTING ,posting.getPostingNo()));
+		}
+		return postingList;
 	}
 
 	@Override
 	public boolean updatePosting(User user, Posting posting) {
 		// TODO Auto-generated method stub
-		return postingDAO.updatePosting(posting);
+		postingDAO.updatePosting(posting);
+		tagService.updateTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
+		return true;
 	}
 
 }

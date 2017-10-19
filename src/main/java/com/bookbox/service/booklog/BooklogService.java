@@ -12,4 +12,10 @@ public interface BooklogService {
 	
 	public Booklog getBooklog(User user, Booklog booklog);
 	
+	public void updateBooklog(User user, Booklog booklog);
+	
+	public List<Booklog> getBookmarkList(User user);
+	
+	public void addBookmark(User user, Booklog booklog);
+
 }

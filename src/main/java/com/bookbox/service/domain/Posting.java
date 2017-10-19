@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.bookbox.common.domain.Location;
+import com.bookbox.common.domain.Tag;
 
 /**
  * @file com.bookbox.service.domain.Posting.java
@@ -24,6 +25,7 @@ public class Posting {
 	private Date postingRegDate;
 	private Date postingUpdateDate;
 	private List<Location> postingLocationList;
+	private List<Tag> postingTagList;
 	
 	public Posting() {
 		// TODO Auto-generated constructor stub
@@ -93,12 +95,20 @@ public class Posting {
 		this.postingLocationList = postingLocationList;
 	}
 
+	public List<Tag> getPostingTagList() {
+		return postingTagList;
+	}
+
+	public void setPostingTagList(List<Tag> postingTagList) {
+		this.postingTagList = postingTagList;
+	}
+
 	@Override
 	public String toString() {
 		return "Posting [postingNo=" + postingNo + ", user=" + user + ", postingTitle=" + postingTitle
 				+ ", postingContent=" + postingContent + ", postingFileList=" + postingFileList + ", postingRegDate="
 				+ postingRegDate + ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList="
-				+ postingLocationList + "]";
+				+ postingLocationList + ", postingTagList=" + postingTagList + "]";
 	}
 
 }

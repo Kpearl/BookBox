@@ -28,16 +28,7 @@ public class PostingDAOImpl implements PostingDAO {
 		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
 //				sqlSession.insert("PostingMapper.addPostingFile", posting);
 		}
-		if(posting.getPostingLocationList() != null && posting.getPostingLocationList().size() != 0) {
-			for(Location location : posting.getPostingLocationList()) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("postingNo", posting.getPostingNo());
-				map.put("locationName", location.getLocationName());
-				map.put("locationLatitude", location.getLocationLatitude());
-				map.put("locationLongitude", location.getLocationLongitude());
-				sqlSession.insert("PostingMapper.addPostingLocation", map);
-			}
-		}
+		addPostingLocation(posting);
 		return true;
 	}
 
@@ -57,8 +48,21 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean updatePosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.update("PostingMapper.updatePosting", posting);
+		sqlSession.delete("PostingMapper.deletePostingLocation", posting);
+		addPostingLocation(posting);
 		return true;
 	}
 	
-	
+	public void addPostingLocation(Posting posting) {
+		if(posting.getPostingLocationList() != null && posting.getPostingLocationList().size() != 0) {
+			for(Location location : posting.getPostingLocationList()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("postingNo", posting.getPostingNo());
+				map.put("locationName", location.getLocationName());
+				map.put("locationLatitude", location.getLocationLatitude());
+				map.put("locationLongitude", location.getLocationLongitude());
+				sqlSession.insert("PostingMapper.addPostingLocation", map);
+			}
+		}
+	}
 }

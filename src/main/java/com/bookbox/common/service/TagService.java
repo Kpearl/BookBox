@@ -27,7 +27,7 @@ public interface TagService {
 	 * @param tagList
 	 * @return 저장된 tagGroup 수
 	 */
-	public int addTagGroup(int category, int target, List<Tag> tagList);
+	public int addTagGroup(int category, Object target, List<Tag> tagList);
 	
 	/**
 	 * @brief 해당 content의 tagList를 반환
@@ -35,7 +35,7 @@ public interface TagService {
 	 * @param target
 	 * @return tagList
 	 */
-	public List<Tag> getTagGroupList(int category, int target);
+	public List<Tag> getTagGroupList(int category, Object target);
 	
 	/**
 	 * @breif content에 있는 tagGroup을 새로운 tagGroup으로 저장 
@@ -44,6 +44,6 @@ public interface TagService {
 	 * @param tagList
 	 * @return 수정된 tagGroup 수
 	 */
-	public int updateTagGroup(int category, int target, List<Tag> tagList);
+	public int updateTagGroup(int category, Object target, List<Tag> tagList);
 	
 }

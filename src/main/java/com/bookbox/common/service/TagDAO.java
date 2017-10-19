@@ -35,7 +35,7 @@ public interface TagDAO {
 	 * @param tagList
 	 * @return 저장된 tagGroup 수
 	 */
-	public int addTagGroup(int category, int target, List<Tag> tagList);
+	public int addTagGroup(int category, Object target, List<Tag> tagList);
 	
 	/**
 	 * @brief 해당 content의 tagGroupList를 반환
@@ -43,7 +43,7 @@ public interface TagDAO {
 	 * @param target
 	 * @return tagGroupList
 	 */
-	public List<Tag> getTagGroupList(int category, int target);
+	public List<Tag> getTagGroupList(int category, Object target);
 	
 	/**
 	 * @brief 해당 content의 tagGroup을 DB에서 삭제
@@ -51,6 +51,6 @@ public interface TagDAO {
 	 * @param target
 	 * @return 삭제된 tagGroup 수
 	 */
-	public int deleteTagGroup(int category, int target);
+	public int deleteTagGroup(int category, Object target);
 	
 }

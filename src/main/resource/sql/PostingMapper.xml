@@ -58,12 +58,12 @@
 			p.posting_content, p.reg_date, p.update_date, 
 			u.nickname, l.location_name, l.latitude, l.longitude
 		FROM 
-			posting p, user u, location l
+			posting p
+			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
+			LEFT OUTER JOIN user u ON p.email = u.email
 		WHERE 
 			p.posting_no = #{postingNo} 
 			AND p.active = 1 
-			AND p.posting_no = l.posting_no 
-			AND p.email = u.email
 	</select>
 	
 	<select id="getPostingList" parameterType="search" resultMap="postingSelectMap">
@@ -72,10 +72,10 @@
 			p.posting_title, p.posting_content, 
 			p.reg_date, p.update_date
 		FROM
-			posting p, user u
+			posting p
+			LEFT JOIN user u ON p.email = u.email
 		<where>
-			p.email = u.email
-			AND p.active = 1
+			p.active = 1
 			<if test="condition == 'booklog'">
 				AND p.email = #{keyword}
 			</if>
@@ -96,10 +96,19 @@
 			<if test="postingContent != null">
 				posting_content = #{postingContent},
 			</if>
-			update_date = CURRENT_TIMESTAMP
+			update_date = CURRENT_TIME STAMP
 		</set>
 		WHERE
 			posting_no = #{postingNo}
 	</update>
+	
+	
+	<delete id="deletePostingLocation" parameterType="posting">
+		DELETE
+		FROM 
+			location
+		WHERE
+			posting_no=#{postingNo}
+	</delete>
 
 </mapper>

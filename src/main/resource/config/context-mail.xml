@@ -5,11 +5,6 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans
 							http://www.springframework.org/schema/beans/spring-beans.xsd">												 
 	
-	<bean id="propertyConfigurer"
-				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:config/mail.properties"/>
-	</bean>
-	
 	<!-- 구글 사용 -->
 	<bean id="javaMailSenderImplGoogle" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.google.host}"></property>
