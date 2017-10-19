@@ -2,7 +2,7 @@ package com.bookbox.service.unifiedsearch;
 
 import com.bookbox.common.domain.Search;
 
-public interface UnifiedSearchDAO {
+public interface UnifiedsearchDAO {
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getCommunity.java
@@ -23,13 +23,13 @@ public interface UnifiedSearchDAO {
 	public void getCreation(Search search);
 
 	/**
-	 * @file com.bookbox.service.unifiedsearch.getUnifiedSearchList.java
-	 * @brief getUnifiedSearchList
+	 * @file com.bookbox.service.unifiedsearch.getUnifiedsearchList.java
+	 * @brief getUnifiedsearchList
 	 * @detail
 	 * @author JJ
 	 * @date 2017.10.16
 	 */
-	public void getUnifiedSearchList(Search search);
+	public void getUnifiedsearchList(Search search);
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getPosting.java

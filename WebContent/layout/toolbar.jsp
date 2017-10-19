@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -122,14 +122,52 @@ $(function() {
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
   	$("a.navigation-home").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}index.jsp");
+ 		$(self.location).attr("href","${param.uri}");
  		}); 
   });
 
-
-
+// JJ : Search Button View
+//============= 검색버튼 Event  처리 =============
+ $(function() {
+	  	$("a.navigation-search").on("click" , function() {
+	  		$(this).fadeOut(100);
+	  			$(this).fadeIn(function() { 
+	  				$(this).replaceWith('<select id="keyField">' +
+	  		    		'<option value="unifiedsearch">통합검색</option>' +
+	  		  			'<option value="book">도서</option>' +
+	  		    		'<option value="creation">창작공간</option>' +
+	  		    		'<option value="community">소모임</option>' +
+	  		   			'<option value="posting">포스팅</option></select>' + 
+	  		   			'<input type="text" placeholder="검색어 입력" id="keyWord">' +
+	  		   			'<button class="icon-large icon-search" onclick="searhCheck();"></button>'); 
+	  			});
+	  			
+	  		}); 
+	  });
+	  
+//JJ : Search Exception & Navigation
+//============= Search Option Event 처리 =============	
+  
+ function searhCheck(){
+	 var keyword = document.getElementById("keyWord").value;
+	
+	  if(keyword == '') {  
+	   alert('검색어를 입력하세요');
+	   
+	  } else {
+		  var select = document.getElementById("keyField");
+		  var option_value = select.options[select.selectedIndex].value;
+		  
+		  switch (option_value){	  
+	 	  case "unifiedsearch" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?keyword="+keyword); break; 
+		  case "book" : $(self.location).attr("href","${param.uri}unifiedsearch/getBookList?keyword="+keyword); break;
+		  case "creation" : $(self.location).attr("href","${param.uri}unifiedsearch/getCreationList?keyword="+keyword); break;
+		  case "community" : $(self.location).attr("href","${param.uri}unifiedsearch/getCommunityList?keyword="+keyword); break;
+		  case "posting" : $(self.location).attr("href","${param.uri}unifiedsearch/getPostingList?keyword="+keyword); break; 
+		  }
+		}
+	}
 </script>
-
 
 <section class="blank">
 	<nav class="navigation">
@@ -144,8 +182,8 @@ $(function() {
 			<li><a href="#">북로그</a></li>
 			<li><a href="#">공지사항</a></li>
 			<li class="lefty">
-				<a href="#" class="navigation-settings"> 
-			<i class="icon-large icon-search"></i>
+				<a class="navigation-settings navigation-search"> 
+					<i class="icon-large icon-search"></i>
 				</a>
 			</li>
 

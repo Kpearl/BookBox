@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,15 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.XML;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
-import com.bookbox.service.unifiedsearch.BookService;
 
 /**
  * @file com.bookbox.service.unifiedsearch.BookSearchKakaoAladinDAOImpl.java
@@ -33,21 +33,16 @@ import com.bookbox.service.unifiedsearch.BookService;
 
 @Service("bookSearchKakaoAladinDAOImpl")
 public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
-/*
-	@Autowired
-	@Qualifier("bookServiceImpl")
-	private BookService bookService;
-	
-	@Autowired
-	@Qualifier("bookServiceImpl")
-	private BookService bookService;*/
-	
+
+	private Book book;
+	private List<Book> bookList;
+
 	public BookSearchKakaoAladinDAOImpl() {
 		System.out.println("Constructor :: " + this.getClass().getName());
 	}
 
 	@Override
-	public void getBookList(Search search) throws Exception {
+	public List<Book> getBookList(Search search) throws Exception {
 
 		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
@@ -79,15 +74,9 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		br.close();
 
-		Book book = new Book();
-		book.setContents(response.toString());
+		jsonParser(response.toString());
 
-		List<Book> bookList = new ArrayList<Book>();
-
-		bookList.add(book);
-
-		// Console 확인
-		System.out.println(response.toString());
+		return bookList;
 	}
 
 	@Override
@@ -122,8 +111,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		br.close();
 
-		Book bookSearch = new Book();
-		bookSearch.setContents(response.toString());
+		jsonParser(response.toString());
 
 		// Console 확인
 		System.out.println(response.toString());
@@ -155,11 +143,48 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		while ((inputLine = in.readLine()) != null)
 			sb.append(inputLine.trim());
-		
+
 		org.json.JSONObject obj = XML.toJSONObject(sb.toString());
 
 		System.out.println(obj.toString());
 
 		in.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void jsonParser(String str) throws Exception {
+
+		JSONParser jsonParser = new JSONParser();
+		bookList = new ArrayList<Book>();
+
+		// JSON데이터를 넣어 JSON Object 로 만들어 준다.
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
+
+		// books의 배열을 추출
+		JSONArray bookInfoArray = (JSONArray) jsonObject.get("documents");
+
+		for (int i = 0; i < bookInfoArray.size(); i++) {
+
+			JSONObject bookObject = (JSONObject) bookInfoArray.get(i);
+
+			if (bookObject.get("isbn").equals(null) == false) {
+				if (((String) bookObject.get("isbn")).length() > 13) {
+					book = new Book();
+
+					book.setIsbn((String) bookObject.get("isbn"));
+					book.setTitle((String) bookObject.get("title"));
+					book.setAuthors((List<String>) bookObject.get("authors"));
+					book.setPrice((Long) bookObject.get("price"));
+					book.setPublisher((String) bookObject.get("publisher"));
+					book.setDateTime((Date) bookObject.get("dateTime"));
+					book.setThumbnail((String) bookObject.get("thumbnail"));
+					book.setContents((String) bookObject.get("contents"));
+					book.setUrl((String) bookObject.get("url"));
+					book.setTranslators((List<String>) bookObject.get("translators"));
+					
+					bookList.add(book);
+				}
+			}
+		}
 	}
 }
