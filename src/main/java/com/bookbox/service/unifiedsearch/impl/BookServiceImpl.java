@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,8 +32,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void getBookList(Search search) throws Exception {
-		bookSearchDAO.getBookList(search);
+	public List<Book> getBookList(Search search) throws Exception {
+		return bookSearchDAO.getBookList(search);
 	}
 
 	@Override

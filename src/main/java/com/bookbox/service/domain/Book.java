@@ -20,14 +20,14 @@ public class Book {
 	///Field
 	private String isbn;
 	private String title;
-	private String authors;
+	private List<String> authors;
 	private String publisher;
 	private Date dateTime;
 	private String thumbnail;
-	private int price;
+	private long price;
 	private String contents;
 	private String url;
-	private String translators;
+	private List<String> translators;
 	private Grade grade;
 	private Like like;
 	private List<Reply> replyList;
@@ -41,7 +41,7 @@ public class Book {
 	}
 
 	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+		this.isbn = isbn.substring(isbn.length()-13, isbn.length());
 	}
 
 	public String getTitle() {
@@ -52,11 +52,11 @@ public class Book {
 		this.title = title;
 	}
 
-	public String getAuthors() {
+	public List<String> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(String authors) {
+	public void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
 
@@ -84,11 +84,11 @@ public class Book {
 		this.thumbnail = thumbnail;
 	}
 
-	public int getPrice() {
+	public long getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 
@@ -108,11 +108,11 @@ public class Book {
 		this.url = url;
 	}
 
-	public String getTranslators() {
+	public List<String> getTranslators() {
 		return translators;
 	}
 
-	public void setTranslators(String translators) {
+	public void setTranslators(List<String> translators) {
 		this.translators = translators;
 	}
 

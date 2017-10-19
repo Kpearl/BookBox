@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/unifiedsearch/rest/*")
-public class UnifiedSearchRestController {
+public class UnifiedsearchRestController {
 
-	public UnifiedSearchRestController() {
+	public UnifiedsearchRestController() {
 	}
 
 }

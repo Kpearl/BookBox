@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
+import java.util.List;
+
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
@@ -14,7 +16,7 @@ public interface BookService {
 	 * @throws Exception 
 	 * @date 2017.10.16
 	 */
-	public void getBookList(Search search) throws Exception;
+	public List<Book> getBookList(Search search) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getBook.java

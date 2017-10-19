@@ -56,7 +56,6 @@ body {
 	font-weight: 100;
 	background: #edeae9;
 	color: #707070;
-	line-height: 1.75em;
 }
 
 h1, .item-footer, h2, h3 {
@@ -506,9 +505,7 @@ input[type="text"], input[type="password"], textarea {
 	background: #f6f6f6;
 	border: 0;
 	font-family: "Open Sans", helvetica, arial, sans-serif;
-	padding: 1em 1.3em;
 	margin: 0;
-	margin-left: -14px;
 	font-weight: 100;
 	font-size: 1em;
 }
