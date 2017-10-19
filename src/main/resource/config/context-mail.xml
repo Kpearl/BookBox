@@ -9,7 +9,7 @@
 	<bean id="javaMailSenderImplGoogle" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.google.host}"></property>
 		<property name="port" value="${mail.google.port}"></property>
-		<property name="username" value="${mail.google.username}"></property>
+		<property name="username" value="${mail.google.userName}"></property>
 		<property name="password" value="${mail.google.password}"></property>
 		<property name="protocol" value="${mail.google.protocol}"></property>
 		<property name="javaMailProperties">
@@ -25,7 +25,7 @@
 	<bean id="javaMailSenderImplNaver" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.naver.host}"></property>
 		<property name="port" value="${mail.naver.port}"></property>
-		<property name="username" value="${mail.naver.username}"></property>
+		<property name="username" value="${mail.naver.userName}"></property>
 		<property name="password" value="${mail.naver.password}"></property>
 		<property name="protocol" value="${mail.naver.protocol}"></property>
 		<property name="JavaMailProperties">

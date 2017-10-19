@@ -8,13 +8,15 @@
 <mapper namespace="UserMapper">
 	
 	<resultMap id="userSelectMap" type="user">
-		<result property="email" 					column="email" 					jdbcType="VARCHAR"/>
-		<result property="nickname"			column="nickname" 			jdbcType="VARCHAR" />
-		<result property="password" 			column="password" 			jdbcType="VARCHAR" />
-		<result property="gender" 				column="gender" 					jdbcType="VARCHAR" />
-		<result property="birth" 						column="birth" 						jdbcType="VARCHAR" />
-		<result property="role" 						column="role" 						jdbcType="VARCHAR" />
-		<result property="outerAccount" 	column="outer_account" 		jdbcType="INTEGER" />		
+		<result property="email" 					column="email" 						jdbcType="VARCHAR"/>
+		<result property="nickname"			column="nickname" 				jdbcType="VARCHAR" />
+		<result property="password" 			column="password" 				jdbcType="VARCHAR" />
+		<result property="gender" 				column="gender" 						jdbcType="VARCHAR" />
+		<result property="birth" 						column="birth" 							jdbcType="VARCHAR" />
+		<result property="role" 						column="role" 							jdbcType="VARCHAR" />
+		<result property="outerAccount" 	column="outer_account" 		jdbcType="INTEGER" />	
+		<result property="active" 					column="active" 						jdbcType="INTEGER" />	
+		<result property="certificationNo" 					column="certification_no" 						jdbcType="INTEGER" />	
 	</resultMap>
 	
 	
@@ -22,13 +24,14 @@
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
 		INTO user( email , nickname , password , gender , birth,  outer_account, active) 
-		VALUES	 (	#{email} , #{nickname} , #{password} , #{gender}  , #{birth}, #{outerAccount}, #{active})
-		<!-- <if test="outerAccount != 0">
-		1
-		</if>
-		<if test="outerAccount == 0">
-		0
-		</if> -->
+		VALUES	 (	#{email} , 
+							#{nickname} , 
+							#{password} , 
+							#{gender} ,
+							 #{birth}, 
+							 #{outerAccount}, 
+							 #{active})
+
 		
 		
 	 </insert>
@@ -37,9 +40,24 @@
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="user"	 resultMap="userSelectMap">
 		SELECT
-		email , password, nickname , gender , birth, role, outer_account, active	
+		email , password, nickname , gender , birth, role, outer_account, active, certification_no	
 		FROM user 
-		WHERE email = #{email} AND active = 1
+		<where>
+		 
+		<choose>
+			<when test="email==null and nickname != null">
+		  		nickname= #{nickname}	
+			</when>
+			<otherwise>
+			email = #{email}
+			</otherwise>
+		</choose>
+		
+		<if test="active==0 and certificationNo == null">
+			AND active = 1
+		</if>
+			
+		</where>
 	 </select>
 	 
 	 
@@ -47,10 +65,18 @@
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE user
 	   	<set>
-	   		nickname 	= #{nickname} ,
-	   		password = #{password},
-			gender		= #{gender},
-			birth 			= #{birth} 
+	  	 	<if test ="nickname != null">
+	   			nickname 	= #{nickname} ,
+	   		</if>
+	   		<if test ="password != null">
+	   			password = #{password},
+	   		</if>
+	   		<if test ="gender != null">
+				gender		= #{gender},
+			</if>
+			<if test ="birth != null">
+				birth 			= #{birth}
+			</if>
 	   	</set>
 	   	<where>
 	   		email = #{email}
@@ -62,11 +88,12 @@
 	 <update	id="updateActive"	parameterType="map" >
 	   	UPDATE user
 	   	<set>
-			active 			= #{active}
+	   		active 			= #{active},
+			certification_no =#{certificationNo}
 	   	</set>
 	   	WHERE email = #{email}
-	 </update>	 
-	 
+	   
+	 </update>	
 	 
 
 	<!-- SQL : SELECT ROW Count -->	 
