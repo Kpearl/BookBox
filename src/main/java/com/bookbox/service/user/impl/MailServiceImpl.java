@@ -113,6 +113,9 @@ public class MailServiceImpl implements MailService {
 			System.out.println("certificationNo 확인 :: "+mailSentNo);
         
 			userService.updateActive(map);
+        }else {
+        	user.setPassword(mailSentNo);
+        	userService.updateUser(user);
         }
 		
 		System.out.println("send MimeMessage");
