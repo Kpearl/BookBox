@@ -129,17 +129,6 @@
 		<h5 class="btn" id="moreBoard">더 보기</h5>
 		<hr/>
 			<div>
-				<div class="board_item row">
-					<div class="content">
-						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
-						<p>주제:보노보노</p>
-						<p>닉네임:보노보노</p>
-						<p>소개글:보노보노보노보보노보노보노보노보보노노보노보노보노보노보노보노보노</p>
-						<p>댓글수 123 신고수 0</p>
-						<p>#보노보노</p>
-					</div>
-				</div>
-				
 				<c:forEach items="${ boardList }" var="board">
 				<div class="board_item row">
 					<div class="content">
@@ -149,7 +138,13 @@
 						<p>${board.writer.nickname }</p>
 						<p>${board.boardContent }</p>
 						<p>댓글수 0 신고수 ${board.report }</p>
-						<p>#보노보노</p>
+						
+						<p>
+						<c:forEach items="${board.tagList}" var="tag" >
+							#${tag.tagName}
+						</c:forEach>
+						#보노보노
+						</p>
 					</div>
 				</div>
 				</c:forEach>

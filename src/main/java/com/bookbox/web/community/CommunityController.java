@@ -68,7 +68,7 @@ public class CommunityController {
 		
 		Page page=new Page();
 		page.setCurrentPage(1);
-		page.setPageSize(5);
+		page.setPageSize(10);
 		
 		map.put("search",search);
 		map.put("page", page);
@@ -112,7 +112,7 @@ public class CommunityController {
 		user.setEmail("test@test.com");
 		board.setWriter(user);
 		System.out.println(board);
-		communityServiceImpl.addBoard(board);
+		communityServiceImpl.addBoard(user,board);
 		
 		return "redirect:getBoard?boardNo="+board.getBoardNo();
 	}

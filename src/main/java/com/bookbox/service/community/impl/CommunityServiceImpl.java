@@ -32,7 +32,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	
 	@Override
-	public int addBoard(Board board) {
+	public int addBoard(User user,Board board) {
 		
 		
 		return communityDAOImple.addBorad(board);

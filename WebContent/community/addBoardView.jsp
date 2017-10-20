@@ -16,17 +16,41 @@
 	<link rel="stylesheet" href="../resources/daumeditor/css/editor.css" type="text/css" charset="utf-8"/>
     <script src="../resources/daumeditor/js/editor_loader.js?environment=production" type="text/javascript" charset="utf-8"></script>
 <title>Insert title here</title>
+<!-- 나중에 뽑아갈것들 -->
+<style type="text/css">
+	input[type="text"]{
+		margin: 0 0 0 0;
+		padding: 0 0 0 0;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		$("#tagInput").autocomplete({
+			source: function(request,response){
+				$.ajax({
+					
+				});
+			}
+			
+		})
+		
+	});
+</script>
+<!-- 뽑아갈거 끝 -->
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>	
+	
+
 <div class="container">
 	<form name="tx_editor_form" id="tx_editor_form" action="addBoard" method="post" accept-charset="utf-8">
 		<!-- 에디터 컨테이너 시작 -->
 		
 		<!--  !!!!!!!제목 추가!!!!!!!!!!!! -->
-		<input type="text" name="boardTitle"> 
+		제목<input type="text" name="boardTitle" class="input-title"> 
+		태그<input type="text" id="tagInput">
 		
 		<div id="tx_trex_container" class="tx-editor-container">
 			<!-- 사이드바 -->
@@ -448,6 +472,8 @@
 		</div>
 		<!-- 에디터 컨테이너 끝 -->
 	</form>
+	<div><button onclick='saveContent()'>저장</button></div>
+	<div><button onclick='loadContent()'>수정테스트</button></div>
 </div>
 
 <!-- 에디터 끝 -->
@@ -578,7 +604,7 @@
         return true;
 	}
 </script>
-<div><button onclick='saveContent()'>SAMPLE - submit contents</button></div>
+
 <!-- End: Saving Contents -->
 
 <!-- Sample: Loading Contents -->
@@ -628,7 +654,7 @@
 		});
 	}
 </script>
-<div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div>
+
 <!-- End: Loading Contents -->
 	
 	

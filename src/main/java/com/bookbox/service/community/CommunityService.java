@@ -10,7 +10,7 @@ import com.bookbox.service.domain.User;
 
 public interface CommunityService {
 
-	public int addBoard(Board board);
+	public int addBoard(User user,Board board);
 	public Board getBoard(User user,Board board);
 	public int deleteBoard(int boardNo);
 	public int updateBoard(Board board);

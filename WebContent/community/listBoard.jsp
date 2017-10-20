@@ -80,7 +80,12 @@
 							<p>${board.writer.nickname }</p>
 							<p>${board.boardContent }</p>
 							<p>댓글수 0 신고수 ${board.report }</p>
-							<p>#보노보노</p>
+							<p>
+							<c:forEach items="${board.tagList}" var="tag" >
+							#	${tag.tagName}
+							</c:forEach>
+							#보노보노
+							</p>
 						</div>
 					</div>
 				</c:forEach>

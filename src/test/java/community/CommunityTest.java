@@ -51,14 +51,14 @@ public class CommunityTest {
 		System.out.println(board.getBoardRegDate());
 	}
 	
-	//@Test
+	@Test
 	public void updateBoard() {
 		Board board=communityDAOImpl.getBoard(3);
 		board.setBoardTitle("updateTitle");
 		communityDAOImpl.updateBoard(board);
 	}
 	
-	@Test
+	//@Test
 	public void getBoardList() {
 		Map map=new HashMap<String,Object>();
 		Search search=new Search();

@@ -104,26 +104,29 @@
 	
 	<select id="getBoard2" parameterType="_int" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
-		u.nickname, u.role,
-        tg.tag_no, t.tag_name
-		FROM board b, user u, tag_group tg, tag t
-		WHERE
-		b.email = u.email AND b.board_no=tg.target_no AND tg.category_no=6 AND tg.tag_no = t.tag_no AND
-		b.board_no = #{value}
+				u.nickname, u.role,
+				tg.target_no ,tg.tag_no, tg.category_no, t.tag_name
+		FROM 
+        	board AS b JOIN user AS u ON b.email=u.email LEFT JOIN tag_group AS tg ON b.board_no = tg.target_no
+        	LEFT JOIN tag AS t ON tg.tag_no = t.tag_no
+		WHERE (tg.category_no=6 OR tg.category_no IS NULL)
+				AND b.board_no=#{value}
 	</select>
 	
 	<select id="getBoardList2" parameterType="map" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
-		u.nickname, u.role,
-        tg.tag_no, t.tag_name
-		FROM board b, user u, tag_group tg, tag t
+				u.nickname, u.role,
+				tg.target_no ,tg.tag_no, tg.category_no, t.tag_name
+		FROM 
+        	board AS b JOIN user AS u ON b.email=u.email LEFT JOIN tag_group AS tg ON b.board_no = tg.target_no
+        	LEFT JOIN tag AS t ON tg.tag_no = t.tag_no
 		WHERE
-		b.email = u.email AND b.board_no=tg.target_no AND tg.category_no=6 AND tg.tag_no = t.tag_no
+			(tg.category_no=6 OR tg.category_no IS NULL)
 		<if test="search.condition==0">
-		AND b.board_title LIKE '%${search.keyword}%'
+			AND b.board_title LIKE '%${search.keyword}%'
 		</if> 
 		<if test="search.condition==1">
-		AND u.nickname LIKE '%${search.keyword}%'
+			AND u.nickname LIKE '%${search.keyword}%'
 		</if>
 		LIMIT #{page.startRow}, #{page.pageSize}
 	</select>
