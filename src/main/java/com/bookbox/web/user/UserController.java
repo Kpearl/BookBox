@@ -78,9 +78,10 @@ public class UserController {
 	 * @throws Exception
 	 * @return "forward:loginView.jsp"
 	 */
+	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
-		// TODO
+		// TODO addUser
 		
 		System.out.println("UserController :: /user/addUser : POST");
 		System.out.println("Controller :: addUser :: "+user);
@@ -91,26 +92,12 @@ public class UserController {
 			userService.addUser(user);
 			resultPage="forward:login";
 		}else {
-			userService.addUser(user);
 			mailService.sendMail(user);
-			resultPage ="forward:../index.jsp";
+			resultPage ="redirect:../index.jsp";
 		}
 		
 		return resultPage;
 	}
-	
-	/**
-	 * @brief checkCertNo/ 메일인증번호 확인
-	 * @details POST
-	 * @param 
-	 * @throws Exception
-	 * @return "redirect:../index.jsp"
-	 */	
-	public String checkCertNo() throws Exception{
-		// TODO
-		return "";
-	}
-	
 	
 	/**
 	 * @brief getUser/로그인, 회원정보 조회
@@ -199,9 +186,7 @@ public class UserController {
 				}else {
 					return "redirect:addUserView.jsp";
 				}
-						
-//				User dbuser = userService.getUser(user);
-//				session.setAttribute("user", dbuser);
+
 				
 		return "redirect:confirmCertNo.jsp";
 	}
@@ -214,11 +199,19 @@ public class UserController {
 	 * @return "redirect:/user/loginTest.jsp"
 	 */
 	@RequestMapping( value="login", method=RequestMethod.GET )
-	public String login() throws Exception{
+	public String login(HttpSession session) throws Exception{
 		// TODO
 		System.out.println("UserController :: /user/login : GET");
 		
-		return "redirect:loginTest.jsp";
+		String resultPage = "redirect:loginTest.jsp";
+		
+		System.out.println(session.getAttribute("user"));
+		
+		if (session.getAttribute("user") != null) {
+			resultPage = "redirect:../index.jsp";
+		}
+		
+		return resultPage;
 	}
 	
 	/**
@@ -277,9 +270,9 @@ public class UserController {
 		
 		User user = (User)session.getAttribute("user"); 
 		
-		if (user.getOuterAccount() != 0) {
-			userService.logout(user);
-		}
+//		if (user.getOuterAccount() != 0) {
+//			userService.logout(user);
+//		}
 		
 		session.invalidate();
 		
@@ -295,10 +288,10 @@ public class UserController {
 	 */
 	@RequestMapping( value="findPassword", method=RequestMethod.GET )
 	public String findPassword() throws Exception {
-		// TODO
+		// TODO 
 		System.out.println("UserController :: /user/findPassword : GET");
 		
-		return "redirect:findPassword.jsp";
+		return "redirect:findPasswordView.jsp";
 	}
 	
 	/**
@@ -310,7 +303,7 @@ public class UserController {
 	 */
 	@RequestMapping( value="deleteUser", method=RequestMethod.GET )
 	public String deleteUser(HttpSession session) throws Exception {
-		// TODO
+		// TODO deleteUser
 		System.out.println("UserController :: /user/deleteUser : GET");
 		
 		Map<String, Object> map = new HashMap<>();

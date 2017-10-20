@@ -115,7 +115,7 @@
 			$("#email").focus();
 			
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("button").on("click" , function() {
+			$("button:contains('로그인')").on("click" , function() {
 				var email=$("input[name='email']").val();
 				var pw=$("input[name='password']").val();
 				
@@ -142,6 +142,19 @@
 				self.location = "addUser"
 			});
 		});
+		
+		//============= 비밀번호 찾기 화면이동 =============
+		$( function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("button:contains('비밀번호 찾기')").on("click" , function() {
+				
+				var popURL = "findPassword";
+				var popOption ="width = 800, height = 320, resizable = yes, scrollbars= no, status= no;"
+				
+				window.open(popURL,"비밀번호 찾기",popOption);
+				
+			});
+		});		
 		
 		
 	</script>		
@@ -190,7 +203,8 @@
 					  
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
+					     <button type="button" class="btn btn-primary"  >비밀번호 찾기</button>
+					      <button type="button" class="btn btn-primary"  >로그인</button>
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
 					    </div>
 					  </div>

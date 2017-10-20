@@ -84,7 +84,6 @@ public class UserServiceImpl implements UserService {
 	 */
 	public User getUser(User user) throws Exception{
 		
-		System.out.println(user.getOuterAccount());
 		int outerAccount =user.getOuterAccount();
 		User dbuser;
 		

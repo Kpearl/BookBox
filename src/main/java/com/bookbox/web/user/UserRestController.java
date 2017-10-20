@@ -1,5 +1,8 @@
 package com.bookbox.web.user;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookbox.service.domain.User;
+import com.bookbox.service.user.MailService;
 import com.bookbox.service.user.UserService;
 
 /**
@@ -30,6 +34,10 @@ public class UserRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("mailServiceImpl")
+	private MailService mailService;
 	
 	/**
 	 * @brief Constructor
@@ -103,29 +111,35 @@ public class UserRestController {
 	/**
 	 * @brief findPassword/비밀번호찾기
 	 * @details POST
-	 * @param User user, HttpSession session
+	 * @param User user
 	 * @throws Exception
 	 * @return boolean result
 	 */
 	@RequestMapping( value="findPassword", method=RequestMethod.POST )
-	public boolean findPassword(@RequestBody User user, HttpSession session) throws Exception {
+	public boolean findPassword(@RequestBody User user) throws Exception {
+		// TODO findPassword
 		
-		System.out.println("/user/rest/findPassword : POST");
-	
-		boolean result=true;
+		System.out.println("UserRestController :: /user/rest/findPassword : POST");
 		
-		User dbUser = (User)session.getAttribute("user");
+		boolean result = false;
+//		System.out.println("findPassword :: "+user);
+//		System.out.println("findPassword Email :: "+user.getEmail());
+//		System.out.println("findPassword ServiceEmail :: "+userService.getUser(user).getEmail());
+//		System.out.println("findPassword Brith :: "+user.getBirth().toString());
+//		System.out.println("findPassword ServiceBirth :: "+userService.getUser(user).getBirth().toString());
 		
-		if(user.getPassword().equals(dbUser.getEmail()) 
-				&& user.getBirth().equals(dbUser.getBirth())) {
-			 result = true;
-		}else {
-			 result=false;
-		}	
+		if (userService.getUser(user)!=null ) {
+				if(user.getEmail().equals(userService.getUser(user).getEmail())){
+					if( user.getBirth().toString().equals(userService.getUser(user).getBirth().toString())){
+						mailService.sendMail(user);
+						result = true;
+					}
+				}
+		}
 		
+		System.out.println("findPassword 결과 :: "+result);
 		return result;
+		
 	}
-	
-
 
 }
