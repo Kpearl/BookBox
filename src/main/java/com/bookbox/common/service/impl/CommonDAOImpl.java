@@ -19,7 +19,7 @@ import com.bookbox.service.domain.User;
  * @brief CommonDaoImpl
  * @detail
  * @author JJ
- * @date 2017.10.18
+ * @date 2017.10.20
  */
 
 @Service("commonDAOImpl")
@@ -41,7 +41,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addLike(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -50,7 +49,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void deleteLike(User user, Map<String, Object> map) {
-		
 		this.map = map;
 		map.put("user", user);
 		
@@ -59,7 +57,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public Like getLike(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -68,7 +65,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addReply(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -77,7 +73,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void deleteReply(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -86,7 +81,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public List<Reply> getReplyList(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -95,7 +89,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addGrade(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		
@@ -104,7 +97,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public Grade getGrade(User user, Map<String, Object> map) {
-
 		this.map = map;
 		map.put("user", user);
 		

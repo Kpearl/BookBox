@@ -2,6 +2,9 @@ package com.bookbox.service.unifiedsearch;
 
 import java.util.List;
 
+import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Like;
+import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
@@ -24,9 +27,9 @@ public interface BookService {
 	 * @detail 사용자가 선택한 도서 정보를 KAKAO API를 이용하여 출력
 	 * @author JJ
 	 * @throws Exception 
-	 * @date 2017.10.16
+	 * @date 2017.10.20
 	 */
-	public void getBook(User user, Book book) throws Exception;
+	public Book getBook(User user, Book book) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getRecommendBookList.java
@@ -36,6 +39,77 @@ public interface BookService {
 	 * @throws Exception 
 	 * @date 2017.10.18
 	 */
-	
 	public void getRecommendBookList() throws Exception;
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.addBookLike.java
+	 * @brief addBookLike
+	 * @detail 좋아요 추가
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public void addBookLike(User user, Book book);
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.deleteBookLike.java
+	 * @brief deleteBookLike
+	 * @detail 좋아요 취소
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public void deleteBookLike(User user, Book book);
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.getBookReplyList.java
+	 * @brief getBookReplyList
+	 * @detail 댓글 리스트 조회
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public List<Reply> getBookReplyList(User user, Book book);
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.addBookReply.java
+	 * @brief addBookReply
+	 * @detail 댓글 추가
+	 * @author JJ
+	 * @date 2017.10.20 
+	 */
+	public void addBookReply(User user, Book book, Reply reply);
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.deleteBookReply.java
+	 * @brief deleteBookReply
+	 * @detail 댓글 삭제
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public void deleteBookReply(User user, Book book, Reply reply);
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.addBookGrade.java
+	 * @brief addBookGrade
+	 * @detail 평점 추가
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public void addBookGrade(User user, Book book, Grade grade);
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.getBookGrade.java
+	 * @brief getBookGrade
+	 * @detail 평점 조회
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public Grade getBookGrade(User user, Book book);
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.getBookLike.java
+	 * @brief getBookLike
+	 * @detail 좋아요 조회
+	 * @author JJ
+	 * @date 2017.10.20
+	 */
+	public Like getBookLike(User user, Book book);
 }

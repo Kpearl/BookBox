@@ -25,7 +25,7 @@ public interface BookSearchDAO {
 	 * @throws Exception 
 	 * @date 2017.10.17
 	 */
-	public void getBook(Book book) throws Exception;
+	public Book getBook(String isbn) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getRecommendBookList.java

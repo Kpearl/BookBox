@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
-import com.bookbox.common.service.CommonService;
-import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.BookService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/context-mybatis.xml", "classpath:config/context-common.xml",
@@ -26,8 +24,8 @@ import com.bookbox.service.domain.User;
 public class commonTest {
 
 	@Autowired
-	@Qualifier("commonServiceImpl")
-	private CommonService commonService;
+	@Qualifier("bookServiceImpl")
+	private BookService bookService;
 
 	private User user = new User();
 	private Book book = new Book();
@@ -41,21 +39,21 @@ public class commonTest {
 
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
-		reply.setContent("으버ㅓㅂ버버벙");
+		reply.setContent("testtest");
 
-		commonService.addReply(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), reply);
+		bookService.addBookReply(user, book, reply);
 	}
 
-	// 똑같은 내용을 가진 reply일 경우 동시 삭제됨
-	// reg_date를 비교해도 됨 나중에 수정하겠음
-	/* @Test */
+	@Test 
 	public void deleteReplyTest() {
 
 		user.setEmail("test@test.com");
-		book.setIsbn("9788954874970");
-		reply.setContent("에베베베베");
+		book.setIsbn("9788954874971");
+		reply.setContent("에베베베");;
 
-		commonService.deleteReply(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), reply);
+		System.out.println(reply.toString());
+		
+		bookService.deleteBookReply(user, book, reply);
 	}
 
 	/* @Test */
@@ -64,30 +62,27 @@ public class commonTest {
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
 
-		listReply = (List<Reply>) commonService.getReplyList(user,
-				CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
-
-		System.out.println(listReply.toString());
+		listReply = (List<Reply>) bookService.getBookReplyList(user, book);
+		
+		System.out.println(listReply.size() + listReply.toString());
 	}
 
-	/* @Test */
+	 /*@Test */
 	public void addGradeTest() {
 
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
-		grade.setUserCount(5);
+		grade.setUserCount(1);
 
-		commonService.addGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), grade);
+		bookService.addBookGrade(user, book, grade);
 	}
 
 	/* @Test */
 	public void getGradeTest() {
-
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
 
-		System.out.println(
-				commonService.getGrade(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
+		System.out.println(bookService.getBookGrade(user, book));
 	}
 
 	/*@Test*/
@@ -98,18 +93,18 @@ public class commonTest {
 		like.setDoLike(false);
 
 		if (like.getDoLike()) 
-			commonService.deleteLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()));
+			bookService.deleteBookLike(user, book); 
 		
 		else
-			commonService.addLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn()), like);
+			bookService.addBookLike(user, book);
 	}
 
-	@Test
+	/*@Test*/
 	public void getLikeTest() {
 
 		user.setEmail("join@google.com");
 		book.setIsbn("9788954874971");
 
-		System.out.println(commonService.getLike(user, CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn())));
+		System.out.println(bookService.getBookLike(user, book));
 	}
 }

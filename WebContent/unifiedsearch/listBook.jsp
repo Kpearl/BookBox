@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,37 +17,38 @@
 <link
 	href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
 	rel="stylesheet">
+
+<script>
+	function getBook(isbn) {
+		$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp">
 		<jsp:param value="../" name="uri" />
 	</jsp:include>
-
-	<table border="1">
-		<tr>
-			<td>
-			<c:forEach items="${bookList}" var="book">
-   			   isbn = ${book.isbn}<br>
-   			   title = ${book.title}<br>
-   			   authors = 
-   			   <c:forEach items="${book.authors}" var="str">
-   			   	 ${str} 
-   			   </c:forEach><br>
-   			   publisher = ${book.publisher}<br>
-   			   dateTime = ${book.dateTime}<br>
-   			   thumbnail = ${book.thumbnail}<br>
-   			   price = ${book.price}<br>
-   			   contents = ${book.contents}<br>
-   			   url = ${book.url}<br>
-   			   translators = 
-   			   <c:forEach items="${book.translators}" var="str">
-   			   	 ${str}
-   			   </c:forEach>
-   			   <br/>
-   			   <hr>
-			</c:forEach>
-			</td>
-		</tr>
-	</table>
+	<section class="blank items">
+		<table border="1">
+			<tr>
+				<td><c:forEach items="${bookList}" var="book">
+					<div onclick="getBook(${book.isbn});" id="${book.isbn}">
+							<img alt="" src="${book.thumbnail}">
+							<h2>${book.title}</h2>
+							<c:forEach items="${book.authors}" var="str">
+		   			   	 	${str} 
+   						</c:forEach>
+							|
+							<c:forEach items="${book.translators}" var="str">
+   				   	 	${str}
+   			   			</c:forEach>
+							| ${book.publisher} | ${book.datetime}<br>
+								${book.grade.average} | ${book.like.totalLike} | ${book.price}원<br>
+							<hr>
+						</div>
+				</c:forEach></td>
+			</tr>
+		</table>
+	</section>
 </body>
 </html>

@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -80,8 +79,8 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	}
 
 	@Override
-	public void getBook(Book book) throws Exception {
-		String text = URLEncoder.encode(book.getIsbn(), "UTF-8");
+	public Book getBook(String isbn) throws Exception {
+		String text = URLEncoder.encode(isbn, "UTF-8");
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
 
 		// java API 를 이용 HttpRequest
@@ -115,6 +114,8 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		// Console 확인
 		System.out.println(response.toString());
+		
+		return book;
 	}
 
 	@Override
@@ -163,6 +164,8 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		// books의 배열을 추출
 		JSONArray bookInfoArray = (JSONArray) jsonObject.get("documents");
 
+		if(bookInfoArray.size() < 2) { }
+		
 		for (int i = 0; i < bookInfoArray.size(); i++) {
 
 			JSONObject bookObject = (JSONObject) bookInfoArray.get(i);
@@ -176,7 +179,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 					book.setAuthors((List<String>) bookObject.get("authors"));
 					book.setPrice((Long) bookObject.get("price"));
 					book.setPublisher((String) bookObject.get("publisher"));
-					book.setDateTime((Date) bookObject.get("dateTime"));
+					book.setDatetime((String) bookObject.get("datetime"));
 					book.setThumbnail((String) bookObject.get("thumbnail"));
 					book.setContents((String) bookObject.get("contents"));
 					book.setUrl((String) bookObject.get("url"));

@@ -1,6 +1,6 @@
 package com.bookbox.service.domain;
 
-import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 import com.bookbox.common.domain.Grade;
@@ -16,13 +16,13 @@ import com.bookbox.common.domain.Reply;
  */
 
 public class Book {
-	
-	///Field
+
+	/// Field
 	private String isbn;
 	private String title;
 	private List<String> authors;
 	private String publisher;
-	private Date dateTime;
+	private String datetime;
 	private String thumbnail;
 	private long price;
 	private String contents;
@@ -31,7 +31,7 @@ public class Book {
 	private Grade grade;
 	private Like like;
 	private List<Reply> replyList;
-	
+
 	public Book() {
 		// TODO Auto-generated constructor stub
 	}
@@ -41,7 +41,7 @@ public class Book {
 	}
 
 	public void setIsbn(String isbn) {
-		this.isbn = isbn.substring(isbn.length()-13, isbn.length());
+		this.isbn = isbn.substring(isbn.length() - 13, isbn.length());
 	}
 
 	public String getTitle() {
@@ -68,12 +68,12 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public Date getDateTime() {
-		return dateTime;
+	public String getDatetime() throws ParseException {
+	    return datetime.substring(0, 10);
 	}
 
-	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
 	}
 
 	public String getThumbnail() {
@@ -143,7 +143,7 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", authors=" + authors + ", publisher=" + publisher
-				+ ", dateTime=" + dateTime + ", thumbnail=" + thumbnail + ", price=" + price + ", contents=" + contents
+				+ ", dateTime=" + datetime + ", thumbnail=" + thumbnail + ", price=" + price + ", contents=" + contents
 				+ ", url=" + url + ", translators=" + translators + ", grade=" + grade + ", like=" + like
 				+ ", replyList=" + replyList + "]";
 	}

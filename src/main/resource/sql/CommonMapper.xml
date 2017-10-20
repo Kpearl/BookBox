@@ -16,7 +16,7 @@
 	</resultMap>
 	
 	<resultMap id="gradeSelectMap" type="grade">
-		<result property="average" column="avg(grade)" jdbcType="NUMERIC" />
+		<result property="average" column="average" jdbcType="DECIMAL" />
 		<result property="userCount" column="grade" jdbcType="NUMERIC" />
 		<result property="doGrade" column="doGrade" jdbcType="BOOLEAN" />
 	</resultMap>
@@ -41,7 +41,7 @@
 		WHERE
 		category_no = #{categoryNo} AND
 		target_no = #{targetNo} AND
-		reply_content = #{reply.content}
+		reply_content = #{reply.content} 
 	</delete>
 
 	<select id="getReplyList" parameterType="map" resultMap="replySelectMap">
@@ -50,8 +50,7 @@
 		FROM reply
 		WHERE category_no =
 		#{categoryNo} AND
-		target_no = #{targetNo} AND
-		email = #{user.email}
+		target_no = #{targetNo}
 	</select>
 
 	<select id="viewCount" parameterType="map" resultType="int">
@@ -72,11 +71,10 @@
 
 	<select id="getGrade" parameterType="map" resultMap="gradeSelectMap">
 		SELECT
-		avg(grade), grade, if(count(*) = 0, false, true) "doGrade" 
+		ifnull(avg(grade),0) average, ifnull(grade, 0), sum(if( email=#{user.email}, true, 0)) AS doGrade
 		FROM grade
 		WHERE category_no =	#{categoryNo} AND
-		target_no = #{targetNo} AND
-		email = #{user.email}
+		target_no = #{targetNo}
 	</select>
 	
 	<insert id="addLike" parameterType="map" useGeneratedKeys="true" keyProperty="like_no">
