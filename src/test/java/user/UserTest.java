@@ -28,7 +28,7 @@ import com.bookbox.service.user.UserService;
 																	"classpath:config/context-mybatis.xml",
 																	"classpath:config/context-transaction.xml" })
 //@ContextConfiguration(locations = { "classpath:config/context-common.xml" })
-public class UserServiceTest {
+public class UserTest {
 
 	@Autowired
 	@Qualifier("userServiceImpl")
