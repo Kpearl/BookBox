@@ -18,7 +18,8 @@ import com.bookbox.service.domain.User;
 @ContextConfiguration(locations={"classpath:config/context-mybatis.xml",
 									"classpath:config/context-common.xml",
 									"classpath:config/context-transaction.xml",
-									"classpath:config/context-aspect.xml"})
+									"classpath:config/context-aspect.xml",
+									"classpath:config/context-mail.xml"})
 public class LogTest {
 	
 	@Autowired
@@ -43,7 +44,7 @@ public class LogTest {
 	@Test
 	public void getLogListTest() {
 		User user = new User();
-		user.setEmail("wndhks@naver.com");
+		user.setEmail("xptmxm@nate.com");
 		
 		List<Log> logList = logService.getLogList(user);
 		System.out.println(logList);

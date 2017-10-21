@@ -41,8 +41,12 @@
 	</select>
 	
  	<select id="getTargetName" parameterType="map" resultType="String">
-		SELECT ${category}_title
-		FROM ${category}
+		SELECT 
+			<if test="category != 'booklog'">${category}_title</if>
+			<if test="category == 'booklog'">${category}_name</if>
+		FROM 
+			<if test="category != 'booklog'">${category}</if>
+			<if test="category == 'booklog'">user</if>
 		WHERE ${category}_no = #{targetNo}
 	</select>
 

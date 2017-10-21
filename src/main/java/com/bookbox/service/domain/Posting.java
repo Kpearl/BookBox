@@ -26,6 +26,7 @@ public class Posting {
 	private Date postingUpdateDate;
 	private List<Location> postingLocationList;
 	private List<Tag> postingTagList;
+	private int viewCount;
 	
 	public Posting() {
 		// TODO Auto-generated constructor stub
@@ -103,12 +104,20 @@ public class Posting {
 		this.postingTagList = postingTagList;
 	}
 
+	public int getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Posting [postingNo=" + postingNo + ", user=" + user + ", postingTitle=" + postingTitle
 				+ ", postingContent=" + postingContent + ", postingFileList=" + postingFileList + ", postingRegDate="
 				+ postingRegDate + ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList="
-				+ postingLocationList + ", postingTagList=" + postingTagList + "]";
+				+ postingLocationList + ", postingTagList=" + postingTagList + ", viewCount=" + viewCount + "]";
 	}
 
 }

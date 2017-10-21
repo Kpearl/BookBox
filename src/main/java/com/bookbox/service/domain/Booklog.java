@@ -13,15 +13,25 @@ import java.util.List;
 public class Booklog {
 	
 	//Field
+	private int booklogNo;
 	private User user;
 	private String booklogName;
-	private List<Posting> postingList;
 	private String booklogImage;
-	private List<User> bookmarkList;
 	private String booklogIntro;
+	private List<Posting> postingList;
+	private List<User> bookmarkList;
+	private int viewCount;
 	
 	public Booklog() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public int getBooklogNo() {
+		return booklogNo;
+	}
+
+	public void setBooklogNo(int booklogNo) {
+		this.booklogNo = booklogNo;
 	}
 
 	public User getUser() {
@@ -71,11 +81,20 @@ public class Booklog {
 	public void setBooklogIntro(String booklogIntro) {
 		this.booklogIntro = booklogIntro;
 	}
-	
+
+	public int getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
+
 	@Override
 	public String toString() {
-		return "Booklog [user=" + user + ", booklogName=" + booklogName + ", postingList=" + postingList
-				+ ", booklogImage=" + booklogImage + ", bookmarkList=" + bookmarkList + ", booklogIntro=" + booklogIntro
-				+ "]";
+		return "Booklog [booklogNo=" + booklogNo + ", user=" + user + ", booklogName=" + booklogName + ", booklogImage="
+				+ booklogImage + ", booklogIntro=" + booklogIntro + ", postingList=" + postingList + ", bookmarkList="
+				+ bookmarkList + ", viewCount=" + viewCount + "]";
 	}
+
 }

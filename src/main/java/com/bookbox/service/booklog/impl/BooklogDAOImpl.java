@@ -38,7 +38,7 @@ public class BooklogDAOImpl implements BooklogDAO {
 	@Override
 	public void updateBooklog(Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		sqlSession.update("BooklogMapper.updateBooklog", booklog);
 	}
 
 	@Override

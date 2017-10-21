@@ -8,6 +8,7 @@
 <mapper namespace="BooklogMapper">
 	
 	<resultMap id="booklogSelectMap" type="booklog">
+		<result property="booklogNo" column="booklog_no" jdbcType="VARCHAR"/>
 		<result property="booklogName" column="booklog_name" jdbcType="VARCHAR"/>
 		<result property="booklogImage" column="booklog_image" jdbcType="VARCHAR"/>
 		<result property="booklogIntro" column="booklog_intro" jdbcType="VARCHAR"/>
@@ -49,38 +50,53 @@
 			booklog_intro = #{booklogIntro}
 		</set>
 		WHERE
-			email = #{user.email}
+			booklog_no = #{booklogNo}
 	</update>
 	
 	
 	<select id="getBooklog" parameterType="booklog" resultMap="booklogSelectMap">
 		SELECT
-			email, nickname, booklog_name, booklog_image, booklog_intro
+			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no,
+			p.posting_no, p.posting_title, p.posting_content, 
+			l.location_name, l.latitude, l.longitude, 
+			bu.email bookmark_email, bu.nickname bookmark_nickname
 		FROM
-			user
+			user u
+			LEFT OUTER JOIN posting p ON u.email = p.email
+			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
+			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
+			LEFT OUTER JOIN bookmark b ON u.email = b.email
+			LEFT OUTER JOIN user bu ON b.target_email = bu.email
 		WHERE
-			email = #{user.email}
+			u.booklog_no = #{booklogNo} AND bu.active = 1 AND p.active = 1
 	</select>
 	
 	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">
 		SELECT
-			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro
+			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no, @rnum:=@rnum+1
 		FROM
 			user u
-			<if test="condition == 'bookmark'">
-				LEFT OUTER JOIN bookmark b ON u.email = b.email
+			<if test="condition == 'main'">
+				LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON u.booklog_no = vc.target_no
 			</if>
+			<if test="condition == 'bookmark'">
+				LEFT OUTER JOIN bookmark b ON u.email = b.target_email
+			</if>
+			, (SELECT @rnum:=0) TMP
 		<where>
 			<if test="condition == 'main'">
-				
+				@rnum <![CDATA[<]]> 10
 			</if>
 			<if test="condition == 'nickname'">
 				AND u.nickname LIKE '%${keyword}%'
 			</if>
 			<if test="condition == 'bookmark'">
-				AND b.target_email = #{keyword}
+				AND b.email = #{keyword}
 			</if>
 		</where>
+		<if test="condition == 'main'">
+			ORDER BY vc.count DESC
+		</if>
 	</select>
 
 

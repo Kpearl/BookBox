@@ -128,7 +128,7 @@ public class LogToDAO {
 		}else if(target instanceof Funding) {
 			targetNo = ((Funding)target).getFundingNo();
 		}else if(target instanceof Booklog) {
-			targetNo = ((Booklog)target).getBooklogName();
+			targetNo = ((Booklog)target).getBooklogNo();
 		}else if(target instanceof Posting) {
 			targetNo = ((Posting)target).getPostingNo();
 		}else if(target instanceof Board) {

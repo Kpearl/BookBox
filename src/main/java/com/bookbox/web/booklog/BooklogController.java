@@ -1,16 +1,31 @@
 package com.bookbox.web.booklog;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bookbox.common.service.CommonService;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.booklog.PostingService;
+import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Posting;
+import com.bookbox.service.domain.User;
 
+/**
+ * @file com.bookbox.service.web.booklog.BooklogController.java
+ * @author JW
+ * @date 2017.10.20
+ * @brief BooklogController
+ */
 @Controller
 @RequestMapping("booklog/*")
 public class BooklogController {
@@ -42,44 +57,99 @@ public class BooklogController {
 	}
 	
 	/* Method */
-	public String getBooklogMain() {
-		return null;
+	@RequestMapping( value="getBooklogMain", method=RequestMethod.GET )
+	public String getBooklogMain(@ModelAttribute("search")Search search, Model model) {
+		
+		model.addAttribute("booklogList", booklogService.getBooklogList(search));
+		model.addAttribute("postingList", postingService.getPostingList(search));
+		model.addAttribute("search", search);
+		
+		return "forward:../booklog/mainBooklog.jsp";
 	}
 	
-	public String getBooklogList() {
-		return null;
+	@RequestMapping( value="getBooklogList" )
+	public String getBooklogList(@RequestParam("search")Search search, Model model) {
+
+		model.addAttribute("booklogList", booklogService.getBooklogList(search));
+		model.addAttribute("search", search);
+		
+		return "forward:../booklog/listBooklog.jsp";
 	}
 	
-	public String getBooklog() {
-		return null;
+	@RequestMapping( value="getBooklog", method=RequestMethod.GET )
+	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, Model model, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		
+		model.addAttribute("booklog", booklogService.getBooklog(user, booklog));
+		return "forward:../booklog/getBooklog.jsp";
 	}
+	
 	
 	public String getBookLikeList() {
 		return null;
 	}
 	
-	public String getBookmarkList() {
-		return null;
+	@RequestMapping( value="getBookmarkList" )
+	public String getBookmarkList(@ModelAttribute("search")Search search, Model model, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		
+		model.addAttribute("booklogList", booklogService.getBookmarkList(user));
+		model.addAttribute("search", search);
+		return "forward:../booklog/listBooklog.jsp";
 	}
 	
+	@RequestMapping( value="addPosting", method=RequestMethod.GET )
 	public String addPosting() {
-		return null;
+		
+		return "redirect:../booklog/addPostingView.jsp";
+		
 	}
 	
-	public String getPosting() {
-		return null;
+	@RequestMapping( value="getPosting", method=RequestMethod.GET )
+	public String getPosting(@ModelAttribute("posting")Posting posting, Model model, HttpSession session) {
+		User user = new User();
+		if( (User)session.getAttribute("user") != null ) {
+			user = (User)session.getAttribute("user");
+		}
+		model.addAttribute("posting", postingService.getPosting(user, posting));
+		return "forward:../booklog/getPosting.jsp";
+	}
+
+	@RequestMapping( value="getPostingList" )
+	public String getPostingList(@ModelAttribute("search")Search search, Model model) {
+		model.addAttribute("postingList", postingService.getPostingList(search));
+		model.addAttribute("search", search);
+		
+		return "forward:../listPosting.jsp";
 	}
 	
-	public String getPostingList() {
-		return null;
+	@RequestMapping( value="updatePosting", method=RequestMethod.GET )
+	public String updatePosting(@ModelAttribute("posting")Posting posting, Model model) {
+		model.addAttribute("posting", postingService.getPosting(new User(), posting));
+		
+		return "forward:../booklog/updatePostingView.jsp";
 	}
 	
-	public String updatePosting() {
-		return null;
+	@RequestMapping( value="updatePosting", method=RequestMethod.POST )
+	public String updatePosting(@ModelAttribute("posting")Posting posting, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		postingService.updatePosting(user, posting);
+		
+		return "redirect:../booklog/getPostingList?condition=booklog&keyword="+user.getEmail();
 	}
 	
-	public String updateBooklog() {
-		return null;
+	@RequestMapping( value="updateBooklog", method=RequestMethod.GET )
+	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, Model model) {
+		model.addAttribute("booklog", booklogService.getBooklog(new User(), booklog));
+		
+		return "forward:../booklog/updateBooklogView.jsp";
+	}
+	
+	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
+	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, HttpSession session) {
+		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
+		
+		return "redirect:../booklog/getBooklog?booklogNo="+booklog.getBooklogNo();
 	}
 	
 	public String getLogList() {

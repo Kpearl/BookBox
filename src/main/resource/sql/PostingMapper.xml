@@ -87,7 +87,7 @@
 			<if test="condition == 'booklog'">
 				AND p.email = #{keyword}
 			</if>
-			<if test="condition == 'popular'">
+			<if test="condition == 'main'">
 				
 			</if>
 		</where>

@@ -38,7 +38,7 @@ public class BooklogServiceImpl implements BooklogService {
 	@Override
 	public void updateBooklog(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		booklogDAO.updateBooklog(booklog);
 	}
 
 	@Override

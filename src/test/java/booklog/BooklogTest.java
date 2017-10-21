@@ -16,7 +16,8 @@ import com.bookbox.service.domain.User;
 @ContextConfiguration(locations={"classpath:config/context-mybatis.xml",
 									"classpath:config/context-common.xml",
 									"classpath:config/context-transaction.xml",
-									"classpath:config/context-aspect.xml"})
+									"classpath:config/context-aspect.xml",
+									"classpath:config/context-mail.xml"})
 public class BooklogTest {
 	
 	@Autowired
@@ -27,19 +28,31 @@ public class BooklogTest {
 	public void getBooklogListTest() {
 		Search search = new Search();
 		
-		search.setCondition("nickname");
+		search.setCondition("main");
 		search.setKeyword("스");
 		
 		System.out.println(booklogService.getBooklogList(search));
 	}
 	
-	@Test
+//	@Test
 	public void getBooklogTest() {
 		Booklog booklog = new Booklog();
-		User user = new User();
-		user.setEmail("wndhks@naver.com");
-		booklog.setUser(user);
+		booklog.setBooklogNo(8);
+		User findUser = new User();
+		findUser.setEmail("xptmxm@nate.com");
 	
-		System.out.println(booklogService.getBooklog(new User(), booklog));
+		System.out.println(booklogService.getBooklog(findUser, booklog));
+	}
+	
+	@Test
+	public void updateBooklogTest() {
+		Booklog booklog = new Booklog();
+		booklog.setBooklogNo(9);
+		booklog.setBooklogName("테스트북록");
+		booklog.setBooklogIntro("테스트중입니다");
+		User user = new User();
+		user.setEmail("xptmxm@nate.com");
+		
+		booklogService.updateBooklog(user, booklog);
 	}
 }
