@@ -32,7 +32,7 @@ import com.bookbox.service.user.UserService;
 public class MailServiceImpl implements MailService {
 
 	@Value("#mail.properties['accountMail']")
-	String accountMail;
+	private String accountMail;
 	
 	@Autowired
 	@Qualifier("javaMailSenderImplGoogle")
@@ -51,9 +51,6 @@ public class MailServiceImpl implements MailService {
 	public void sendMail(User user) throws Exception{
 		
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		
-		//mimeMessage.setFrom(new InternetAddress("pmjahy@gmail.com"));
-		//mimeMessage.addRecipient(RecipientType.TO, new InternetAddress("받는사람@naver.com"));
 
 		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
         String mailSentNo = String.valueOf(ran);

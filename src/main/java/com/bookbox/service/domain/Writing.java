@@ -26,6 +26,7 @@ public class Writing {
 	private Grade grade;
 	private List<String> writingImageList;
 	private int viewCount;
+	private int active;
 	
 	public Writing() {
 		// TODO Auto-generated constructor stub
@@ -103,10 +104,18 @@ public class Writing {
 		this.viewCount = viewCount;
 	}
 
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Writing [writingNo=" + writingNo + ", writingTitle=" + writingTitle + ", writingContent="
 				+ writingContent + ", regDate=" + regDate + ", updateDate=" + updateDate + ", replyList=" + replyList
-				+ ", grade=" + grade + ", writingImageList=" + writingImageList + ", viewCount=" + viewCount + "]";
+				+ ", grade=" + grade + ", writingImageList=" + writingImageList + ", viewCount=" + viewCount +"active"+active+ "]";
 	}		
 }

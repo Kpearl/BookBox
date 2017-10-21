@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="WritingMapper">
+	
+	<resultMap id="writingSelectMap" type="writing">
+		<result property="writingNo" 					column="writing_no" 						jdbcType="INTEGER"/>
+		<result property="writingTitle"					column="writing_title" 					jdbcType="VARCHAR" />
+		<result property="writingContent" 			column="writing_content" 			jdbcType="VARCHAR" />
+		<result property="regDate" 						column="reg_date" 							jdbcType="DATE" />
+		<result property="updateDate" 				column="update_date" 					jdbcType="DATE" />	
+	</resultMap>
+	
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addWriting"		parameterType="writing" >
+	 	INSERT
+		INTO writing(writing_title,  writing_content) 
+		VALUES	 (#{writingTitle},
+						  #{writingContent})
+	
+	 </insert>
+ 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateWriting"	parameterType="writing" >
+	   	UPDATE writing
+	   	<set>
+	  	 	<if test ="writingTitle != null">
+	   			creation_title 	= #{writingContent} ,
+	   		</if>
+	   		<if test ="writingContent != null">
+	   			creation_intro = #{writingContent},
+	   		</if>
+	   		<if test ="active != null">
+				active 	= #{active}
+			</if>
+	   	</set>
+	   	<where>
+	   		writing_no = #{writingNo}
+	   	</where>
+	
+	 </update>
+	 
+	 	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getWriting"	parameterType="writing"	 resultMap="writingSelectMap">
+		SELECT
+		writing_title , writing_content, reg_date , update_date, c.author
+		FROM writing, creation c
+		<where>
+		 
+		<choose>
+			<when test="email==null and nickname != null">
+		  		nickname= #{nickname}	
+			</when>
+			<otherwise>
+			email = #{email}
+			</otherwise>
+		</choose>
+		
+		<if test="active==0 and certificationNo == null">
+			AND active = 1
+		</if>
+			
+		</where>
+	 </select>
+	 
+
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalWritingCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT writing_title ,author , creationImage, creationHead
+						FROM  creation) countTable						
+	 </select>
+
+</mapper>

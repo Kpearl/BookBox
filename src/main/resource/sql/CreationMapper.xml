@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="CreationMapper">
+	
+	<resultMap id="creationSelectMap" type="creation">
+		<result property="creationNo" 					column="creation_no" 					jdbcType="INTEGER"/>
+		<result property="creationTitle"					column="creation_title" 					jdbcType="VARCHAR" />
+		<result property="creationIntro" 				column="creation_intro" 				jdbcType="VARCHAR" />
+		<result property="creationAuthor" 			column="author" 								jdbcType="VARCHAR" />
+		<result property="creationHead" 				column="creation_head" 				jdbcType="VARCHAR" />
+		<result property="creationImage" 				column="creation_file_name" 		jdbcType="VARCHAR" />	
+	</resultMap>
+	
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addCreation"		parameterType="creation" >
+	 	INSERT
+		INTO creation(creation_title,  creation_intro, author, creation_head, creation_file_name) 
+		VALUES	 (#{creationTitle},
+						  #{creationIntro},
+						  #{creationAuthor},
+						  #{creationHead},
+						  #{creationImage})
+	
+	 </insert>
+	 
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateCreation"	parameterType="creation" >
+	   	UPDATE creation
+	   	<set>
+	  	 	<if test ="creationTitle != null">
+	   			creation_title 	= #{creationTitle} ,
+	   		</if>
+	   		<if test ="creationIntro != null">
+	   			creation_intro = #{creationIntro},
+	   		</if>
+	   		<if test ="creationHead != null">
+				creation_head		= #{creationHead},
+			</if>
+			<if test ="creationImage != null">
+				creation_file_name 	= #{creationImage}
+			</if>
+			<if test ="active != null">
+				active 	= #{active}
+			</if>
+	   	</set>
+	   	<where>
+	   		creation_no = #{creationNo}
+	   	</where>
+	   	 
+	 </update>
+	 
+	 	<!-- SQL : INSERTCreationSubscribe -->
+	<insert 	id="addCreationSubscribe"		parameterType="creation" >
+	 	INSERT
+		INTO subscribe (creation_no, email) 
+		VALUES	 (#{creationNo},
+						  #{creationAuthor})
+	
+	 </insert>
+	 
+
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCreationCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT creationTitle ,author , creationImage, creationHead
+						FROM  creation) countTable						
+	 </select>
+
+</mapper>

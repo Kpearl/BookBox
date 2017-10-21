@@ -5,6 +5,7 @@ import java.util.List;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Subscription;
+import com.bookbox.common.domain.Tag;
 
 /**
  * @file com.bookbox.service.domain.Creation.java
@@ -23,12 +24,14 @@ public class Creation {
 	private String creationAuthor;
 	private String creationHead;
 	private String creationImage;
-	private String creationContent;
+	private String creationIntro;
 	private List<Writing> writingList;
+	private List<Tag> tagList;
 	private boolean doFunding;
 	private Grade grade;
 	private Like like;
 	private Subscription subscription;
+	private int active;
 	
 	public Creation() {
 		// TODO Auto-generated constructor stub
@@ -82,12 +85,12 @@ public class Creation {
 		this.creationImage = creationImage;
 	}
 
-	public String getCreationContent() {
-		return creationContent;
+	public String getCreationIntro() {
+		return creationIntro;
 	}
 
-	public void setCreationContent(String creationContent) {
-		this.creationContent = creationContent;
+	public void setCreationIntro(String creationIntro) {
+		this.creationIntro = creationIntro;
 	}
 
 	public List<Writing> getWritingList() {
@@ -96,6 +99,14 @@ public class Creation {
 
 	public void setWritingList(List<Writing> writingList) {
 		this.writingList = writingList;
+	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
 	}
 
 	public boolean isDoFunding() {
@@ -130,12 +141,20 @@ public class Creation {
 		this.subscription = subscription;
 	}
 
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationInto="
 				+ creationInto + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
-				+ ", creationImage=" + creationImage + ", creationContent=" + creationContent + ", writingList="
-				+ writingList + ", doFunding=" + doFunding + ", grade=" + grade + ", like=" + like + ", subscription="
-				+ subscription + "]";
+				+ ", creationImage=" + creationImage + ", creationIntro=" + creationIntro + ", writingList="
+				+ writingList + "tagList"+tagList+", doFunding=" + doFunding + ", grade=" + grade + ", like=" + like + ", subscription="
+				+ subscription + "active"+active+"]";
 	}
 }
