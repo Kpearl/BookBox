@@ -13,6 +13,7 @@
 		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
 		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
 		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<result property="viewCount" column="count" jdbcType="INTEGER"/>
 		<association property="user" javaType="user">
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
@@ -69,7 +70,7 @@
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 		WHERE 
 			p.posting_no = #{postingNo} 
-			AND p.active = 1 
+			AND p.active = 1
 	</select>
 	
 	<select id="getPostingList" parameterType="search" resultMap="postingSelectMap">
@@ -77,22 +78,23 @@
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
 			p.reg_date, p.update_date,
-			tw.tag_name, tw.tag_no
+			tw.tag_name, tw.tag_no, vc.count
 		FROM
 			posting p
 			LEFT JOIN user u ON p.email = u.email
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
+			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
 		<where>
 			p.active = 1
 			<if test="condition == 'booklog'">
 				AND p.email = #{keyword}
 			</if>
-			<if test="condition == 'main'">
-				
-			</if>
 		</where>
 		ORDER BY
-			 p.reg_date DESC
+			<if test="condition == 'main'">
+				vc.count DESC,
+			</if>
+			 p.posting_no DESC
 	</select>
 	
 	<update id="updatePosting" parameterType="posting">
@@ -129,6 +131,17 @@
 			tag_group tg, tag t
 		WHERE
 			tg.tag_no = t.tag_no AND tg.category_no = 5
+	</sql>
+
+	<sql id="viewCount">
+		SELECT
+			count(*) count, target_no
+		FROM
+			log
+		WHERE
+			category_no = 5 AND behavior = 1
+		GROUP BY
+			target_no
 	</sql>
 
 </mapper>

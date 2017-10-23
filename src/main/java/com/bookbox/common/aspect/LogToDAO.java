@@ -44,7 +44,8 @@ public class LogToDAO {
 		
 		if(categoryNo == Const.NONE ||
 				behavior == Const.NONE ||
-				behavior == Const.Behavior.LIST ) {
+				behavior == Const.Behavior.LIST ||
+				addBehavior == Const.AddBehavior.REPLY) {
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
 		}else if( ((User)joinPoint.getArgs()[0]).getEmail() == null ){
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
@@ -108,7 +109,7 @@ public class LogToDAO {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();
 		
-		for(int i=1; i<=4; i++) {
+		for(int i=1; i<=5; i++) {
 			if(lowerCaseMethodName.contains(CommonUtil.getConstProp().getProperty("S_AB"+i))) {
 				return i;
 			}

@@ -44,7 +44,7 @@ public class LogTest {
 	@Test
 	public void getLogListTest() {
 		User user = new User();
-		user.setEmail("xptmxm@nate.com");
+		user.setEmail("test@test.com");
 		
 		List<Log> logList = logService.getLogList(user);
 		System.out.println(logList);

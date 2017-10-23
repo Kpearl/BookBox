@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.service.LogService;
@@ -78,7 +77,7 @@ public class BooklogController {
 	
 	@RequestMapping( value="getBooklog", method=RequestMethod.GET )
 	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, Model model, HttpSession session) {
-		User user = (User)session.getAttribute("user");
+		User user = this.getUser(session);
 		
 		model.addAttribute("booklog", booklogService.getBooklog(user, booklog));
 		return "forward:../booklog/getBooklog.jsp";
@@ -91,7 +90,7 @@ public class BooklogController {
 	
 	@RequestMapping( value="getBookmarkList" )
 	public String getBookmarkList(@ModelAttribute("search")Search search, Model model, HttpSession session) {
-		User user = (User)session.getAttribute("user");
+		User user = this.getUser(session);
 		
 		model.addAttribute("booklogList", booklogService.getBookmarkList(user));
 		model.addAttribute("search", search);
@@ -106,12 +105,12 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="getPosting", method=RequestMethod.GET )
-	public String getPosting(@ModelAttribute("posting")Posting posting, Model model, HttpSession session) {
-		User user = new User();
-		if( (User)session.getAttribute("user") != null ) {
-			user = (User)session.getAttribute("user");
-		}
+	public String getPosting(@ModelAttribute("posting")Posting posting, 
+							@ModelAttribute("search")Search search,
+							Model model, HttpSession session) {
+		User user = this.getUser(session);
 		model.addAttribute("posting", postingService.getPosting(user, posting));
+		model.addAttribute("search", search);	
 		return "forward:../booklog/getPosting.jsp";
 	}
 
@@ -120,7 +119,7 @@ public class BooklogController {
 		model.addAttribute("postingList", postingService.getPostingList(search));
 		model.addAttribute("search", search);
 		
-		return "forward:../listPosting.jsp";
+		return "forward:../booklog/listPosting.jsp";
 	}
 	
 	@RequestMapping( value="updatePosting", method=RequestMethod.GET )
@@ -158,6 +157,22 @@ public class BooklogController {
 	
 	public String getSubscribeList() {
 		return null;
+	}
+	
+	
+	
+	
+	/**
+	 * @brief session에 user가 있는지 없는지 확인
+	 * @param session
+	 * @return 있으면 session user, 없으면 빈 user를 return
+	 */
+	public User getUser(HttpSession session) {
+		User user = new User();
+		if( (User)session.getAttribute("user") != null ) {
+			user = (User)session.getAttribute("user");
+		}
+		return user;
 	}
 	
 }

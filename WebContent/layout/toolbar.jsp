@@ -39,7 +39,7 @@ $(function() {
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
  	$("a:contains('공지사항')").on("click" , function() {
-		$(self.location).attr("href","${param.uri}booklog/getBooklog?email=admin");
+		$(self.location).attr("href","${param.uri}booklog/getBooklog?user.email=admin");
 			}); 	
  });
 

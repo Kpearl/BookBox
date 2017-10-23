@@ -67,8 +67,17 @@
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 			LEFT OUTER JOIN bookmark b ON u.email = b.email
 			LEFT OUTER JOIN user bu ON b.target_email = bu.email
-		WHERE
-			u.booklog_no = #{booklogNo} AND bu.active = 1 AND p.active = 1
+		<where>
+			<if test="user != null">
+				u.email = #{user.email}
+			</if>
+			<if test="booklogNo != 0">
+				AND u.booklog_no = #{booklogNo}
+			</if>
+			 AND bu.active = 1 AND p.active = 1
+		</where>
+		ORDER BY
+			p.posting_no DESC
 	</select>
 	
 	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">

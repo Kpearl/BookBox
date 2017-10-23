@@ -12,6 +12,7 @@ import com.bookbox.common.domain.Log;
 import com.bookbox.common.service.LogDAO;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.BookSearchDAO;
 
 /**
  * @file com.bookbox.common.service.impl.LogDAOImpl.java
@@ -28,6 +29,10 @@ public class LogDAOImpl implements LogDAO {
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 	
+	@Autowired
+	@Qualifier("bookSearchKakaoAladinDAOImpl")
+	private BookSearchDAO bookSearchDAO;
+	
 	public LogDAOImpl() {
 		System.out.println("Constructor :: "+getClass().getName());
 	}
@@ -39,7 +44,16 @@ public class LogDAOImpl implements LogDAO {
 		for(Log log : logList) {
 			Map<String, Object> map = CommonUtil.mappingCategoryTarget(log.getCategoryNo(), log.getTargetNo());
 			map.put("category", CommonUtil.getConstProp().getProperty("S_C"+log.getCategoryNo()));
-			log.setTargetName( (String)sqlSession.selectOne("LogMapper.getTargetName", map) );
+			if(log.getCategoryNo() != 9) {
+				log.setTargetName( (String)sqlSession.selectOne("LogMapper.getTargetName", map) );
+			}else {
+				try {
+					log.setTargetName( bookSearchDAO.getBook(log.getTargetNo().toString()).getTitle() );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		return logList;
 	}

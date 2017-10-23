@@ -34,17 +34,18 @@ public class BooklogTest {
 		System.out.println(booklogService.getBooklogList(search));
 	}
 	
-//	@Test
+	@Test
 	public void getBooklogTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
 		User findUser = new User();
 		findUser.setEmail("xptmxm@nate.com");
+//		booklog.setUser(findUser);
 	
-		System.out.println(booklogService.getBooklog(findUser, booklog));
+		System.out.println(booklogService.getBooklog(new User(), booklog));
 	}
 	
-	@Test
+//	@Test
 	public void updateBooklogTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(9);
