@@ -47,7 +47,7 @@ public class LogToDAO {
 				behavior == Const.Behavior.LIST ||
 				addBehavior == Const.AddBehavior.REPLY) {
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
-		}else if( ((User)joinPoint.getArgs()[0]).getEmail() == null ){
+		}else if( this.checkUserLogin(joinPoint) ){
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
 		}else {
 			System.out.println("Log :: 로그를 남기는 method");
@@ -139,6 +139,20 @@ public class LogToDAO {
 		}
 		
 		return targetNo;
+	}
+	
+	public boolean checkUserLogin(ProceedingJoinPoint joinPoint) throws Throwable{
+		if(joinPoint.getArgs() == null) {
+			return false;
+		}else if(joinPoint.getArgs()[0] instanceof User) {
+			if( ( (User)joinPoint.getArgs()[0] ).getEmail() != null){
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
 	}
 	
 }
