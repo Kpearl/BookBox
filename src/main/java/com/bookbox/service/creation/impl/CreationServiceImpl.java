@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
+import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.service.TagService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.domain.Creation;
@@ -36,6 +39,10 @@ public class CreationServiceImpl implements CreationService {
 	private CreationDAO creationDAO;
 	
 	@Autowired
+	@Qualifier("commonDAOImpl")
+	private CommonDAO commonDAO;
+	
+	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
 	
@@ -54,9 +61,19 @@ public class CreationServiceImpl implements CreationService {
 	 * @return void
 	 */
 	public void addCreation(User user, Creation creation) throws Exception{
-
-		tagService.addTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
 		creationDAO.addCreation(creation);
+		
+		List<UploadFile> uploadFileList = new ArrayList<>();
+		creation.getCreationFile().setCategoryNo(Const.Category.CREATION);
+		creation.getCreationFile().setTargetNo(creation.getCreationNo());
+		uploadFileList.add(creation.getCreationFile());
+
+//		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo());
+//		map.put("fileName", creation.getCreationImage().getFileName());
+//		map.put("originName", creation.getCreationImage().getOriginName());
+		
+		tagService.addTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
+		commonDAO.addUploadFile(uploadFileList);
 	}
 	
 	/**

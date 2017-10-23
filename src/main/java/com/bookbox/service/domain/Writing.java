@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Reply;
+import com.bookbox.common.domain.UploadFile;
 
 /**
  * @file com.bookbox.service.domain.Writing.java
@@ -24,7 +25,7 @@ public class Writing {
 	private Date updateDate;
 	private List<Reply> replyList;
 	private Grade grade;
-	private List<String> writingImageList;
+	private List<UploadFile> writingFileList;
 	private int viewCount;
 	private int active;
 	
@@ -88,12 +89,12 @@ public class Writing {
 		this.grade = grade;
 	}
 
-	public List<String> getWritingImageList() {
-		return writingImageList;
+	public List<UploadFile> getwritingFileList() {
+		return writingFileList;
 	}
 
-	public void setWritingImageList(List<String> writingImageList) {
-		this.writingImageList = writingImageList;
+	public void setWritingFileList(List<UploadFile> writingFileList) {
+		this.writingFileList = writingFileList;
 	}
 
 	public int getViewCount() {
@@ -116,6 +117,8 @@ public class Writing {
 	public String toString() {
 		return "Writing [writingNo=" + writingNo + ", writingTitle=" + writingTitle + ", writingContent="
 				+ writingContent + ", regDate=" + regDate + ", updateDate=" + updateDate + ", replyList=" + replyList
-				+ ", grade=" + grade + ", writingImageList=" + writingImageList + ", viewCount=" + viewCount +"active"+active+ "]";
-	}		
+				+ ", grade=" + grade + ", writingFileList=" + writingFileList + ", viewCount=" + viewCount + ", active="
+				+ active + "]";
+	}
+
 }

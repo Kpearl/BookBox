@@ -3,7 +3,6 @@ package com.bookbox.service.creation;
 import java.util.Map;
 
 import com.bookbox.common.domain.Search;
-import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -18,7 +17,7 @@ public interface WritingService {
 
 	/**
 	 * @brief 창작글등록 
-	 * @param User user, Writing writing
+	 * @param User , Writing 
 	 * @throws Exception
 	 * @return void
 	 */	
@@ -26,7 +25,7 @@ public interface WritingService {
 	
 	/**
 	 * @brief 창작글 수정 
-	 * @param User user, Writing Writing
+	 * @param User , Writing 
 	 * @throws Exception
 	 * @return void
 	 */		
@@ -34,7 +33,7 @@ public interface WritingService {
 
 	/**
 	 * @brief 창작글 조회 
-	 * @param User user, Writing Writing
+	 * @param User, Writing
 	 * @throws Exception
 	 * @return void
 	 */		
@@ -42,7 +41,7 @@ public interface WritingService {
 	
 	/**
 	 * @brief 창작글리스트, 창작글 총 개수
-	 * @param Search search
+	 * @param Search 
 	 * @throws Exception
 	 * @return void
 	 */	

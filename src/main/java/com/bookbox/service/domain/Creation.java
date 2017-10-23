@@ -6,6 +6,7 @@ import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Subscription;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
 
 /**
  * @file com.bookbox.service.domain.Creation.java
@@ -21,9 +22,9 @@ public class Creation {
 	private int creationNo;
 	private String creationTitle;
 	private String creationInto;
-	private String creationAuthor;
+	private User creationAuthor;
 	private String creationHead;
-	private String creationImage;
+	private UploadFile creationFile;
 	private String creationIntro;
 	private List<Writing> writingList;
 	private List<Tag> tagList;
@@ -61,11 +62,11 @@ public class Creation {
 		this.creationInto = creationInto;
 	}
 
-	public String getCreationAuthor() {
+	public User getCreationAuthor() {
 		return creationAuthor;
 	}
 
-	public void setCreationAuthor(String creationAuthor) {
+	public void setCreationAuthor(User creationAuthor) {
 		this.creationAuthor = creationAuthor;
 	}
 
@@ -77,12 +78,12 @@ public class Creation {
 		this.creationHead = creationHead;
 	}
 
-	public String getCreationImage() {
-		return creationImage;
+	public UploadFile getCreationFile() {
+		return creationFile;
 	}
 
-	public void setCreationImage(String creationImage) {
-		this.creationImage = creationImage;
+	public void setCreationFile(UploadFile creationFile) {
+		this.creationFile = creationFile;
 	}
 
 	public String getCreationIntro() {
@@ -153,7 +154,7 @@ public class Creation {
 	public String toString() {
 		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationInto="
 				+ creationInto + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
-				+ ", creationImage=" + creationImage + ", creationIntro=" + creationIntro + ", writingList="
+				+ ", creationFile=" + creationFile + ", creationIntro=" + creationIntro + ", writingList="
 				+ writingList + "tagList"+tagList+", doFunding=" + doFunding + ", grade=" + grade + ", like=" + like + ", subscription="
 				+ subscription + "active"+active+"]";
 	}

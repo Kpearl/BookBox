@@ -50,6 +50,16 @@ public class WritingDAOImpl implements WritingDAO {
 		sqlSession.insert("WritingMapper.addWriting", writing);
 	}
 	
+	/**
+	 * @brief 창작글 업로드 이미지 등록 
+	 * @param User , Writing 
+	 * @throws Exception
+	 * @return void
+	 */	
+	public void addUploadImage(Writing writing) throws Exception{
+		sqlSession.insert("CommonMapper.addUploadImage",writing);
+	}
+	
 
 	/**
 	 * @brief 창작글 수정 

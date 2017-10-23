@@ -7,7 +7,7 @@
 
 <mapper namespace="WritingMapper">
 	
-	<resultMap id="writingSelectMap" type="writing">
+	<resultMap id="writingSelectMap" type="writing" >
 		<result property="writingNo" 					column="writing_no" 						jdbcType="INTEGER"/>
 		<result property="writingTitle"					column="writing_title" 					jdbcType="VARCHAR" />
 		<result property="writingContent" 			column="writing_content" 			jdbcType="VARCHAR" />
@@ -17,11 +17,12 @@
 	
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addWriting"		parameterType="writing" >
+	<insert 	id="addWriting"		parameterType="writing" useGeneratedKeys="true" keyProperty="writingNo" keyColumn="writing_no">
 	 	INSERT
-		INTO writing(writing_title,  writing_content) 
+		INTO writing(writing_title,  writing_content, creation_no) 
 		VALUES	 (#{writingTitle},
-						  #{writingContent})
+						  #{writingContent},
+						  #{writingNo})
 	
 	 </insert>
  
@@ -48,20 +49,13 @@
 	 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getWriting"	parameterType="writing"	 resultMap="writingSelectMap">
 		SELECT
-		writing_title , writing_content, reg_date , update_date, c.author
+		writing_title , writing_content, reg_date , update_date, active
+		c.author, c.creation_title, c.creation_head, c.cration_file_name, c.creation_origin_name, c.creation_intro, c.active
 		FROM writing, creation c
 		<where>
-		 
-		<choose>
-			<when test="email==null and nickname != null">
-		  		nickname= #{nickname}	
-			</when>
-			<otherwise>
-			email = #{email}
-			</otherwise>
-		</choose>
+		 writing_no = #{writingNo}	
 		
-		<if test="active==0 and certificationNo == null">
+		<if test="active==0">
 			AND active = 1
 		</if>
 			

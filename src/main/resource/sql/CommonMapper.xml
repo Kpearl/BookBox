@@ -115,12 +115,12 @@
 		INTO upload_file(category_no, target_no, file_name, origin_name, main_file)
 		VALUES
 		<foreach item="uploadFile" index="index" collection="list"
-      open="(" separator="" close=")">
-        #{uploadFile.categoryNo}, 
+      open="" separator="," close="">
+       ( #{uploadFile.categoryNo}, 
         #{uploadFile.targetNo}, 
         #{uploadFile.fileName},
         #{uploadFile.originName}, 
-        #{uploadFile.mainFile}
+        #{uploadFile.mainFile})
         </foreach>
 		
 		<!-- VALUES ( #{categoryNo}, #{targetNo}, #{fileName},#{originName}, #{mainFile}) -->

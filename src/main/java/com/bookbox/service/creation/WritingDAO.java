@@ -1,10 +1,8 @@
 package com.bookbox.service.creation;
 
 import java.util.List;
-import java.util.Map;
 
 import com.bookbox.common.domain.Search;
-import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -25,6 +23,14 @@ public interface WritingDAO {
 	 * @return void
 	 */	
 	public void addWriting(Writing writing) throws Exception;
+	
+	/**
+	 * @brief 창작글 업로드 이미지 등록 
+	 * @param User , Writing 
+	 * @throws Exception
+	 * @return void
+	 */	
+	public void addUploadImage(Writing writing) throws Exception;
 	
 	/**
 	 * @brief 창작글 수정 
