@@ -1,0 +1,8 @@
+.grade {
+	MARGIN-TOP : 1px; DISPLY:inline; BACKGROUND: url(bggray.gif) repeat-x; FLOAT:left;
+	OVERFLOW: hidden; WIDTH: 65px; HEIGHT: 13px
+}
+
+.grade SPAN {
+	BACKGROUD : url(bgcolor.gif) repeat-xl; FLOAT: left; HEIGHT: 13px}
+}
