@@ -19,7 +19,7 @@ import com.bookbox.service.unifiedsearch.BookService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/context-mybatis.xml", "classpath:config/context-common.xml",
-		"classpath:config/context-transaction.xml", "classpath:config/context-aspect.xml" })
+		"classpath:config/context-transaction.xml", "classpath:config/context-aspect.xml", "classpath:config/context-mail.xml"})
 
 public class commonTest {
 
@@ -44,7 +44,7 @@ public class commonTest {
 		bookService.addBookReply(user, book, reply);
 	}
 
-	@Test 
+	/*@Test */
 	public void deleteReplyTest() {
 
 		user.setEmail("test@test.com");
@@ -56,7 +56,7 @@ public class commonTest {
 		bookService.deleteBookReply(user, book, reply);
 	}
 
-	/* @Test */
+	 @Test 
 	public void getReplyListTest() {
 
 		user.setEmail("test@test.com");
@@ -82,7 +82,7 @@ public class commonTest {
 		user.setEmail("test@test.com");
 		book.setIsbn("9788954874971");
 
-		System.out.println(bookService.getBookGrade(user, book));
+		System.out.println(bookService.getBookGrade(book, user));
 	}
 
 	/*@Test*/
@@ -105,6 +105,6 @@ public class commonTest {
 		user.setEmail("join@google.com");
 		book.setIsbn("9788954874971");
 
-		System.out.println(bookService.getBookLike(user, book));
+		System.out.println(bookService.getBookLike(book, user));
 	}
 }

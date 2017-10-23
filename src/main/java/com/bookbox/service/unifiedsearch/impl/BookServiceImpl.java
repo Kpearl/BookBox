@@ -99,13 +99,13 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Grade getBookGrade(User user, Book book) {
+	public Grade getBookGrade(Book book, User user) {
 		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
 		return commonDAO.getGrade(user, map);
 	}
 
 	@Override
-	public Like getBookLike(User user, Book book) {
+	public Like getBookLike(Book book, User user) {
 		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
 		return commonDAO.getLike(user, map);
 	}

@@ -87,8 +87,8 @@ public class UnifiedsearchController {
 			user = new User();
 		
 		for (Book book : bookList) {
-			book.setLike(bookService.getBookLike(user, book));
-			book.setGrade(bookService.getBookGrade(user, book));
+			book.setLike(bookService.getBookLike(book, user));
+			book.setGrade(bookService.getBookGrade(book, user));
 		}
 
 		model.addAttribute("bookList", bookList);
@@ -122,8 +122,7 @@ public class UnifiedsearchController {
 		System.out.println("/unifiedsearch/getBook : GET");
 
 		HttpSession session = request.getSession();
-		User user = new User();
-		user = (User)session.getAttribute("user");
+		User user = (User)session.getAttribute("user");
 		Book book = new Book();
 		Book resultBook = new Book();
 		book.setIsbn(isbn);
@@ -132,11 +131,12 @@ public class UnifiedsearchController {
 			user = new User();
 		
 		resultBook = bookService.getBook(user, book);
-		resultBook.setLike(bookService.getBookLike(user, book));
-		resultBook.setGrade(bookService.getBookGrade(user, book));
+		resultBook.setLike(bookService.getBookLike(book, user));
+		resultBook.setGrade(bookService.getBookGrade(book, user));
 		resultBook.setReplyList(bookService.getBookReplyList(user, book));
 
 		model.addAttribute("book", resultBook);
+		model.addAttribute("user", user);
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}

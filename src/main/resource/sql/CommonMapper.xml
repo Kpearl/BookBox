@@ -49,8 +49,9 @@
 
 	<select id="getReplyList" parameterType="map" resultMap="replySelectMap">
 		SELECT
-		email, reply_content, reg_date
-		FROM reply
+		reply.email, user.nickname, reply.reply_content, reply.reg_date
+		FROM reply reply left join user user
+        on reply.email = user.email
 		WHERE category_no =
 		#{categoryNo} AND
 		target_no = #{targetNo}

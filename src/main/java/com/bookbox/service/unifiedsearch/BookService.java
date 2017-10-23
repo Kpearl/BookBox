@@ -102,7 +102,7 @@ public interface BookService {
 	 * @author JJ
 	 * @date 2017.10.20
 	 */
-	public Grade getBookGrade(User user, Book book);
+	public Grade getBookGrade(Book book, User user);
 	
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getBookLike.java
@@ -111,5 +111,5 @@ public interface BookService {
 	 * @author JJ
 	 * @date 2017.10.20
 	 */
-	public Like getBookLike(User user, Book book);
+	public Like getBookLike(Book book, User user);
 }
