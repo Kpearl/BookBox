@@ -1,8 +1,11 @@
 package com.bookbox.web.community;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.User;
@@ -105,7 +109,19 @@ public class CommunityController {
 	 */
 	
 	@RequestMapping(value="/addBoard",method=RequestMethod.POST)
-	public String addBoard(@ModelAttribute("Board")Board board) {
+	public String addBoard(@ModelAttribute("Board")Board board, HttpServletRequest request) {
+		
+		
+		//태그추가
+		List<Tag> tagList=new ArrayList<Tag>();
+		String tagNames[]= request.getParameterValues("tagNames");
+		for(int i=0; i<tagNames.length;i++) {
+			System.out.println(tagNames[i]);
+			Tag tag=new Tag();
+			tag.setTagName(tagNames[i]);
+			tagList.add(tag);
+		}
+		board.setTagList(tagList);
 		
 		//테스트용 유저정보//
 		User user=new User();

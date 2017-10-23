@@ -156,6 +156,13 @@
 				c.board_no = #{value}
 	</select>
 	
+	<!-- 댓글 최대깊이 탐색 -->
+	<select id="getCommentMaxLevel" parameterType="_int" resultType="_int">
+		SELECT MAX(level) 
+		FROM comment 
+		WHERE board_no=#{value};
+	</select>
+	
 	<insert id="addRecommend" parameterType="recommend">
 		
 		INSERT INTO recommend (`email`, `target_no`, `category_no`, `pref`) 

@@ -112,6 +112,8 @@ public class Board {
 		this.report = report;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent

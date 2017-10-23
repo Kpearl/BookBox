@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
 import com.bookbox.service.domain.User;
@@ -17,5 +18,7 @@ public interface CommunityService {
 	public List<Board> getBoardList(Map map);
 	
 	public int addRecommend(Recommend recommed);
+	public List getCommentList(int boardNo);
 	public int addReport(Report report);
+	public int addComment(Comment comment);
 }

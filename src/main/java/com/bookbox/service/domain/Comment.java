@@ -19,7 +19,7 @@ public class Comment {
 	private int seniorCommentNo;
 	private User writer;
 	private String content;
-	private Date regDate;
+	private String regDate;
 	private int level;
 	private List<Comment> comment;
 	private int active;
@@ -54,11 +54,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 

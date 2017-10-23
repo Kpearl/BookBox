@@ -23,7 +23,8 @@ import com.bookbox.service.domain.User;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/context-mybatis.xml",
 									"classpath:config/context-common.xml",
-									"classpath:config/context-transaction.xml"})
+									"classpath:config/context-transaction.xml",
+									"classpath:config/context-mail.xml"})
 
 public class CommunityTest {
 
@@ -51,7 +52,7 @@ public class CommunityTest {
 		System.out.println(board.getBoardRegDate());
 	}
 	
-	@Test
+	//@Test
 	public void updateBoard() {
 		Board board=communityDAOImpl.getBoard(3);
 		board.setBoardTitle("updateTitle");
@@ -103,5 +104,11 @@ public class CommunityTest {
 		for(Comment c : commentList) {
 			System.out.println(c);
 		}
+	}
+	
+	@Test
+	public void getCommentMaxLevel() {
+		int level=communityDAOImpl.getCommentMaxLevel(10);
+		System.out.println(level);
 	}
 }

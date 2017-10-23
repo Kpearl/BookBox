@@ -1,5 +1,6 @@
 package com.bookbox.service.community.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagDAO;
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
 import com.bookbox.service.domain.User;
@@ -34,8 +37,13 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int addBoard(User user,Board board) {
 		
+	int result=communityDAOImple.addBorad(board);
+		for(Tag tag: board.getTagList()) {
+			tagDAOImpl.addTag(tag);
+		}
+		tagDAOImpl.addTagGroup(6, board.getBoardNo(), board.getTagList());
 		
-		return communityDAOImple.addBorad(board);
+		return result;
 	}
 
 	@Override
@@ -119,6 +127,54 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		return communityDAOImple.addReport(report);
 	}
+
+	@Override
+	public int addComment(Comment comment) {
+		
+		return communityDAOImple.addComment(comment);
+	}
+
+	@Override
+	public List getCommentList(int boardNo) { 
+		
+		List<Comment> commentList=communityDAOImple.getCommentList(boardNo);
+		int maxLevel=communityDAOImple.getCommentMaxLevel(boardNo)+1;
+		
+		List<Comment>[] commentArray=new List[maxLevel];
+		for(int i=0; i<maxLevel; i++) {
+			commentArray[i]=new ArrayList();
+		}
+		
+		//댓글 레벨별 정리
+		int level=0;
+		for(Comment comment: commentList) {
+			level=comment.getLevel();
+			commentArray[level].add(comment);
+		}
+		
+		for(int i=1;i<maxLevel;i++) {
+			for(int j=0;j<commentArray[i].size();j++) {
+				Comment childComment=commentArray[i].get(j);
+				int seniorNo=childComment.getSeniorCommentNo();
+				for(int k=0;k<commentArray[i-1].size();k++) {
+					Comment seniorComment=commentArray[i-1].get(k);
+					if(seniorComment.getCommentNo()==seniorNo) {
+						if(seniorComment.getComment()==null) {
+							seniorComment.setComment(new ArrayList());
+						}
+						seniorComment.getComment().add(childComment);
+					}
+				}
+				
+			}
+			
+		}
+		
+		return commentArray[0];
+		//return communityDAOImple.getCommentList(boardNo);
+	}
+	
+	
 	
 	
 

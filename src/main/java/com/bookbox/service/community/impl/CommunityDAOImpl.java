@@ -66,6 +66,12 @@ public class CommunityDAOImpl implements CommunityDAO {
 		
 		return sqlSession.selectList("CommunityMapper.getCommentList",boardNo);
 	}
+	
+	@Override
+	public int getCommentMaxLevel(int boardNo) {
+		
+		return sqlSession.selectOne("CommunityMapper.getCommentMaxLevel",boardNo);
+	}
 
 	@Override
 	public int addRecommend(Recommend recommed) {
