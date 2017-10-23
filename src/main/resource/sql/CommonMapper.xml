@@ -25,6 +25,8 @@
 		<result property="totalLike" column="count(*)" jdbcType="NUMERIC" />
 		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
 	</resultMap>
+	
+
 
 	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
 		keyProperty="reply_no">
@@ -34,6 +36,7 @@
 		VALUES ( #{user.email}, #{categoryNo}, #{targetNo},
 		#{reply.content})
 	</insert>
+		
 
 	<delete id="deleteReply" parameterType="map">
 		DELETE FROM
@@ -97,4 +100,28 @@
 		target_no = #{targetNo} AND
 		email = #{user.email}
 	</delete>
+	
+	<insert id="addUploadFile" parameterType="map" >
+		INSERT
+		INTO upload_file(category_no, target_no, file_name, origin_name, main_file)
+		VALUES ( #{categoryNo}, #{targetNo}, #{fileName},#{originName}, #{mainFile)
+	</insert>
+	
+	<select id="getUploadFileList" parameterType="map" resultType="String">
+		SELECT
+			origin_name
+		FROM upload_file
+		WHERE 
+			category_no =	#{categoryNo} AND
+			target_no = #{targetNo}
+	</select>
+	
+	<delete id="deleteUploadFile" parameterType="map">
+		DELETE FROM	upload_file
+		WHERE 
+			category_no = #{categoryNo} AND
+			target_no = #{targetNo}
+	</delete>
+	
+	
 </mapper>

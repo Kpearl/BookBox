@@ -11,8 +11,7 @@ import com.bookbox.service.domain.User;
 public interface CommonDAO {
 
 	/**
-	 * @file com.bookbox.common.service.addLike.java
-	 * @brief addLike
+	  * @brief addLike
 	 * @detail 좋아요 추가
 	 * @author JJ
 	 * @date 2017.10.18
@@ -20,7 +19,6 @@ public interface CommonDAO {
 	public void addLike(User user, Map<String, Object> map);
 
 	/**
-	 * @file com.bookbox.common.service.deleteLike.java
 	 * @brief deleteLike
 	 * @detail 좋아요 취소
 	 * @author JJ
@@ -29,7 +27,6 @@ public interface CommonDAO {
 	public void deleteLike(User user, Map<String, Object> map);
 
 	/**
-	 * @file com.bookbox.common.service.getReplyList.java
 	 * @brief getReplyList
 	 * @detail 댓글 리스트 조회
 	 * @author JJ
@@ -38,7 +35,6 @@ public interface CommonDAO {
 	public List<Reply> getReplyList(User user, Map<String, Object> map);
 	
 	/**
-	 * @file com.bookbox.common.service.addReply.java
 	 * @brief addReply
 	 * @detail 댓글 추가
 	 * @author JJ
@@ -49,7 +45,6 @@ public interface CommonDAO {
 	public void addReply(User user, Map<String, Object> map);
 	
 	/**
-	 * @file com.bookbox.common.service.deleteReply.java
 	 * @brief deleteReply
 	 * @detail 댓글 삭제
 	 * @author JJ
@@ -58,7 +53,6 @@ public interface CommonDAO {
 	public void deleteReply(User user, Map<String, Object> map);
 
 	/**
-	 * @file com.bookbox.common.service.addGrade.java
 	 * @brief addGrade
 	 * @detail 평점 추가
 	 * @author JJ
@@ -67,19 +61,43 @@ public interface CommonDAO {
 	public void addGrade(User user, Map<String, Object> map);
 
 	/**
-	 * @file com.bookbox.common.service.getGrade.java
 	 * @brief getGrade
 	 * @detail 평점 조회
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
 	public Grade getGrade(User user, Map<String, Object> map);
+	
 	/**
-	 * @file com.bookbox.common.service.getLike.java
 	 * @brief getLike
 	 * @detail 좋아요 조회
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
 	public Like getLike(User user, Map<String, Object> map);
+	
+	/**
+	 * @brief addUpladFile
+	 * @detail 파일업로드
+	 * @author HJ
+	 * @date 2017.10.23
+	 */
+	public void addUploadFile(Map<String, Object> map);
+	
+	/**
+	 * @brief getUpladFileList
+	 * @detail 업로드한 파일 조회 
+	 * @author HJ
+	 * @date 2017.10.23
+	 */
+	public List<String> getUploadFileList(Map<String, Object> map);
+	
+	/**
+	 * @brief deleteUploadFile
+	 * @detail 업로드파일 삭제 
+	 * @author HJ
+	 * @date 2017.10.23
+	 */
+	public void deleteUploadFile(Map<String, Object> map);
+	
 }

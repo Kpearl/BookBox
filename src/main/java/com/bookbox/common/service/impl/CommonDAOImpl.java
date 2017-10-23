@@ -41,7 +41,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addLike(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		sqlSession.insert("CommonMapper.addLike", map);
@@ -49,7 +49,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void deleteLike(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		sqlSession.delete("CommonMapper.deleteLike", map);
@@ -57,7 +57,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public Like getLike(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		return sqlSession.selectOne("CommonMapper.getLike", map);
@@ -65,7 +65,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addReply(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		sqlSession.insert("CommonMapper.addReply", map);
@@ -73,7 +73,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void deleteReply(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		sqlSession.delete("CommonMapper.deleteReply", map);
@@ -81,7 +81,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public List<Reply> getReplyList(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		return sqlSession.selectList("CommonMapper.getReplyList", map);
@@ -89,7 +89,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void addGrade(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		sqlSession.insert("CommonMapper.addGrade", map);
@@ -97,9 +97,29 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public Grade getGrade(User user, Map<String, Object> map) {
-		this.map = map;
+		
 		map.put("user", user);
 		
 		return sqlSession.selectOne("CommonMapper.getGrade", map);
 	}
+
+	@Override
+	public void addUploadFile(Map<String, Object> map) {
+		sqlSession.insert("CommonMapper.insertUploadFile", map);
+	
+	}
+
+	@Override
+	public List<String> getUploadFileList(Map<String, Object> map) {
+	
+		return sqlSession.selectList("CommonMapper.getUploadFileList", map);
+	}
+
+	@Override
+	public void deleteUploadFile(Map<String, Object> map) {
+		sqlSession.delete("CommonMapper.deleteUploadFile",map);
+		
+	}
+	
+	
 }
