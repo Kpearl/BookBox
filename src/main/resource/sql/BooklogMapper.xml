@@ -74,7 +74,7 @@
 			<if test="booklogNo != 0">
 				AND u.booklog_no = #{booklogNo}
 			</if>
-			 AND bu.active = 1 AND p.active = 1
+			 AND (bu.active = 1 OR bu.active IS NULL) AND (p.active = 1 OR p.active IS NULL)
 		</where>
 		ORDER BY
 			p.posting_no DESC
@@ -102,6 +102,7 @@
 			<if test="condition == 'bookmark'">
 				AND b.email = #{keyword}
 			</if>
+			AND u.active=1
 		</where>
 		<if test="condition == 'main'">
 			ORDER BY vc.count DESC

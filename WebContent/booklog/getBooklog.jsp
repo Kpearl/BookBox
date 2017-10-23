@@ -42,6 +42,9 @@
 		$('a:contains("포스팅 더 보기")').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition='+booklogUser);
 		});
+		$('a:contains("표지편집")').on('click', function(){
+			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
+		});
 		$('div.div-posting').on('click', function(){
 			var postingNo = $(this).find('input[type="hidden"]').val();
 			$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition=booklog&keyword="+booklogUser);
@@ -68,7 +71,7 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
-	<input type="hidden" name="booklogNo" value="${booklogNo}">
+	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<div class="container-fluid text-center">
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
 		<!-- <img src="http://localhost:8080/BookBox/resources/uploadFiles/images/${booklog.booklogImage}" alt="Image"> -->

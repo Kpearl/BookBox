@@ -96,7 +96,7 @@ $( function() {
 				<h2>birthday :</h2>
 				<input class="long" type="text" name="birth" id="birth">
 			</label>
-			<button class="button-defalut">임시비밀번호 발송</button>
+			<button class="button-default">임시비밀번호 발송</button>
 	</div>	
 </body>
 </html>

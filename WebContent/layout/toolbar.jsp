@@ -82,14 +82,14 @@ $(function() {
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
   	$("a:contains('내 북로그보기')").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}booklog/getBooklog?email=${sessionScope.user.email}");
+ 		$(self.location).attr("href","${param.uri}booklog/getBooklog?user.email=${sessionScope.user.email}");
  		}); 
   });
   
 //============= 구독한 글보기 Event  처리 =============	
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-  	$("a:contains('구독한 글보기')").on("click" , function() {
+  	$("a:contains('구독한글보기')").on("click" , function() {
  		$(self.location).attr("href","${param.uri}creation/getCreation?email=${sessionScope.user.email}&subscribe");
  		}); 
   });
@@ -97,7 +97,7 @@ $(function() {
 //============= 좋아요 책목록 보기 Event  처리 =============	
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-  	$("a:contains('좋아요 책목록 보기')").on("click" , function() {
+  	$("a:contains('좋아요책목록보기')").on("click" , function() {
  		$(self.location).attr("href","${param.uri}booklog/getBookLikeList?email=${sessionScope.user.email}");
  		}); 
   });
@@ -105,8 +105,8 @@ $(function() {
 //============= 책갈피 목록보기 Event  처리 =============	
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-  	$("a:contains('책갈피 목록보기')").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}booklog/getBooklogList?email=${sessionScope.user.email}");
+  	$("a:contains('책갈피목록보기')").on("click" , function() {
+ 		$(self.location).attr("href","${param.uri}booklog/getBooklogList?condition=bookmark&keyword=${sessionScope.user.email}");
  		}); 
   });
   

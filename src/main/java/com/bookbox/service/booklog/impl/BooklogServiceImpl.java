@@ -42,12 +42,6 @@ public class BooklogServiceImpl implements BooklogService {
 	}
 
 	@Override
-	public List<Booklog> getBookmarkList(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void addBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
 		

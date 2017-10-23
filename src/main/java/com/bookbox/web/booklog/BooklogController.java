@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.service.LogService;
@@ -76,25 +78,18 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="getBooklog", method=RequestMethod.GET )
-	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, Model model, HttpSession session) {
+	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, 
+								@ModelAttribute("search")Search search, Model model, HttpSession session) {
 		User user = this.getUser(session);
 		
 		model.addAttribute("booklog", booklogService.getBooklog(user, booklog));
+		model.addAttribute("search", search);
 		return "forward:../booklog/getBooklog.jsp";
 	}
 	
 	
 	public String getBookLikeList() {
 		return null;
-	}
-	
-	@RequestMapping( value="getBookmarkList" )
-	public String getBookmarkList(@ModelAttribute("search")Search search, Model model, HttpSession session) {
-		User user = this.getUser(session);
-		
-		model.addAttribute("booklogList", booklogService.getBookmarkList(user));
-		model.addAttribute("search", search);
-		return "forward:../booklog/listBooklog.jsp";
 	}
 	
 	@RequestMapping( value="addPosting", method=RequestMethod.GET )
@@ -145,7 +140,11 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
-	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, HttpSession session) {
+	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, HttpSession session,
+									@RequestParam("file")MultipartFile file) {
+		if(!file.isEmpty()) {
+			booklog.setBooklogImage(file.getOriginalFilename());
+		}
 		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
 		
 		return "redirect:../booklog/getBooklog?booklogNo="+booklog.getBooklogNo();
