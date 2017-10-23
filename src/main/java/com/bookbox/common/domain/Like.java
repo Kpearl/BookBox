@@ -3,7 +3,7 @@ package com.bookbox.common.domain;
 /**
  * @file com.bookbox.common.domain.Like.java
  * @brief Like domain
- * @detail 책,창작작품(creation)
+ * @detail 책,창작작품 좋아요
  * @author HJ
  * @date 2017.10.11
  */

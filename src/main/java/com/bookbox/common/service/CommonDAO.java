@@ -6,6 +6,7 @@ import java.util.Map;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.service.domain.User;
 
 public interface CommonDAO {
@@ -77,20 +78,29 @@ public interface CommonDAO {
 	public Like getLike(User user, Map<String, Object> map);
 	
 	/**
-	 * @brief addUpladFile
+	 * @brief addUploadFile
 	 * @detail 파일업로드
 	 * @author HJ
 	 * @date 2017.10.23
 	 */
-	public void addUploadFile(Map<String, Object> map);
+	public void addUploadFile(List<UploadFile> list) ;
 	
 	/**
-	 * @brief getUpladFileList
+	 * @brief updateUploadFile
+	 * @detail 업로드파일 수정
+	 * @author HJ
+	 * @date 2017.10.23
+	 */
+	public void updateUploadFile(Map<String, Object> map);
+	
+	/**
+	 * @brief updateUpload
 	 * @detail 업로드한 파일 조회 
 	 * @author HJ
 	 * @date 2017.10.23
 	 */
-	public List<String> getUploadFileList(Map<String, Object> map);
+	public List<UploadFile> getUploadFileList(Map<String, Object> map);
+	
 	
 	/**
 	 * @brief deleteUploadFile

@@ -3,7 +3,7 @@ package com.bookbox.common.domain;
 /**
  * @file com.bookbox.common.domain.Subscription.java
  * @brief Subscription domain
- * @detail 창작작품(creation)
+ * @detail 창작작품구독
  * @author HJ
  * @date 2017.10.11
  */

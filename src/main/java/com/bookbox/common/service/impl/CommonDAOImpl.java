@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.service.domain.User;
 
@@ -104,15 +105,21 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 	@Override
-	public void addUploadFile(Map<String, Object> map) {
-		sqlSession.insert("CommonMapper.insertUploadFile", map);
+	public void addUploadFile(List<UploadFile> list) {
+		sqlSession.insert("CommonMapper.addUploadFile", list);
 	
 	}
 
 	@Override
-	public List<String> getUploadFileList(Map<String, Object> map) {
+	public List<UploadFile> getUploadFileList(Map<String, Object> map) {
 	
 		return sqlSession.selectList("CommonMapper.getUploadFileList", map);
+	}
+
+	@Override
+	public void updateUploadFile(Map<String, Object> map) {
+		sqlSession.delete("CommonMapper.deleteUploadFile", map);
+		sqlSession.insert("CommonMapper.addUploadFile", map);
 	}
 
 	@Override

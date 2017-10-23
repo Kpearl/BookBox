@@ -32,6 +32,7 @@
 		<typeAlias alias="reply" type="com.bookbox.common.domain.Reply"/>
 		<typeAlias alias="grade" type="com.bookbox.common.domain.Grade"/>
 		<typeAlias alias="like" type="com.bookbox.common.domain.Like"/>
+		<typeAlias alias="uploadFile" type="com.bookbox.common.domain.UploadFile"/>
 		
 	<!-- 	<typeAlias alias="const" type="com.bookbox.common.domain.Const"/>
 		<typeAlias alias="page" type="com.bookbox.common.domain.Page"/>

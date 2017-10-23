@@ -26,6 +26,14 @@
 		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
 	</resultMap>
 	
+	<resultMap id="uploadFileSelectMap" type="uploadFile">
+		<result property="uploadNo" 		column="upload_no" 			jdbcType="NUMERIC" />
+		<result property="categoryNo" 	column="category_no" 		jdbcType="NUMERIC" />
+		<result property="targetNo" 		column="target_no" 			jdbcType="NUMERIC" />
+		<result property="fileName" 			column="file_name" 			jdbcType="VARCHAR" />
+		<result property="originName" 	column="origin_name" 		jdbcType="VARCHAR" />
+		<result property="mainFile" 			column="main_file" 				jdbcType="INTEGER" />
+	</resultMap>
 
 
 	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
@@ -102,15 +110,26 @@
 		email = #{user.email}
 	</delete>
 	
-	<insert id="addUploadFile" parameterType="map" >
+	<insert id="addUploadFile" parameterType="list" >
 		INSERT
 		INTO upload_file(category_no, target_no, file_name, origin_name, main_file)
-		VALUES ( #{categoryNo}, #{targetNo}, #{fileName},#{originName}, #{mainFile)
+		VALUES
+		<foreach item="uploadFile" index="index" collection="list"
+      open="(" separator="" close=")">
+        #{uploadFile.categoryNo}, 
+        #{uploadFile.targetNo}, 
+        #{uploadFile.fileName},
+        #{uploadFile.originName}, 
+        #{uploadFile.mainFile}
+        </foreach>
+		
+		<!-- VALUES ( #{categoryNo}, #{targetNo}, #{fileName},#{originName}, #{mainFile}) -->
+		
 	</insert>
 	
-	<select id="getUploadFileList" parameterType="map" resultType="String">
+	<select id="getUploadFileList" parameterType="map" resultMap="uploadFileSelectMap">
 		SELECT
-			origin_name
+			file_name, origin_name
 		FROM upload_file
 		WHERE 
 			category_no =	#{categoryNo} AND

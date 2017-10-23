@@ -3,7 +3,7 @@ package com.bookbox.common.domain;
 /**
  * @file com.bookbox.common.domain.Grade.java
  * @brief Grade domain
- * @detail
+ * @detail 평점
  * @author HJ
  * @date 2017.10.11
  */
