@@ -31,7 +31,7 @@ $(function() {
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
  	$("a:contains('북로그')").on("click" , function() {
-		$(self.location).attr("href","${param.uri}booklog/getBooklogMain");
+		$(self.location).attr("href","${param.uri}booklog/getBooklogMain?condition=main");
 			}); 	
  });
  
@@ -47,7 +47,7 @@ $(function() {
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
  	$("a:contains('회원가입')").on("click" , function() {
-		$(self.location).attr("href","addUser");
+		$(self.location).attr("href","${param.uri}user/addUser");
 		}); 
  });
  
@@ -55,7 +55,7 @@ $(function() {
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
  	$("a:contains('로그인')").on("click" , function() {
-		$(self.location).attr("href","login");
+		$(self.location).attr("href","${param.uri}user/login");
 		}); 
  });
  
@@ -63,7 +63,7 @@ $(function() {
  $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
  	$("a:contains('로그아웃')").on("click" , function() {
-		$(self.location).attr("href","logout");
+		$(self.location).attr("href","${param.uri}user/logout");
 		//self.location = "/user/logout"
 	}); 
  });
@@ -114,7 +114,7 @@ $(function() {
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
   	$("a:contains('회원목록조회')").on("click" , function() {
- 		$(self.location).attr("href","getUserList");
+ 		$(self.location).attr("href","${param.uri}user/getUserList");
  		}); 
   });
   
@@ -122,7 +122,7 @@ $(function() {
  $(function() {
  	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
   	$("a.navigation-home").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}");
+ 		$(self.location).attr("href","${param.uri}index.jsp");
  		}); 
   });
 

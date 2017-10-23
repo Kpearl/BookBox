@@ -21,21 +21,23 @@ import com.bookbox.service.domain.User;
 @ContextConfiguration(locations={"classpath:config/context-mybatis.xml",
 									"classpath:config/context-common.xml",
 									"classpath:config/context-transaction.xml",
-									"classpath:config/context-aspect.xml"})
+									"classpath:config/context-aspect.xml",
+									"classpath:config/context-mail.xml"})
 public class PostingTest {
 	
 	@Autowired
 	@Qualifier("postingServiceImpl")
 	private PostingService postingService;
 	
-//	@Test
+	@Test
 	public void addPostingTest() throws Exception{
 		User user = new User();
 		user.setEmail("wndhks@naver.com");
 		
 		Posting posting = new Posting();
-		posting.setPostingTitle("육번째으로 태그도 올리는 포슽잉");
-		posting.setPostingContent("다섯번째 포스팅은 위치를 포함했었지 육번째는 태그가 들어감");
+		posting.setPostingNo(3);
+		posting.setPostingTitle("육성재으로 올리는 포슽잉");
+		posting.setPostingContent("포스팅놈이 있는 상태에서 넣으면 어떻게될까?");
 		posting.setUser(user);
 //		Location location = new Location();
 //		location.setLocationName("우리집");
@@ -50,6 +52,7 @@ public class PostingTest {
 		posting.setPostingTagList(tagList);
 		
 		postingService.addPosting(user, posting);
+		System.out.println(posting.getPostingNo());
 	}
 
 //	@Test
@@ -63,7 +66,7 @@ public class PostingTest {
 		System.out.println(postingService.getPosting(new User(), posting));
 	}
 	
-	@Test
+//	@Test
 	public void getPostingListTest() throws Exception{
 		Search search = new Search();
 		search.setCondition("booklog");

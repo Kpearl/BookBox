@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,22 +16,9 @@
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
-
-	<div class="container">
-		<div class="activity" style="width:100%;">
-			<c:forEach items="${postingList}" var="posting">
-			<c:set var="text" value="${posting.postingContent }"/>
-			<c:set var="len" value="${fn:length(text)}"/>
-			<c:set var="len" value="${len > 10 ? 10 : len }"/>
-			<div class="activity-list-update div-posting">
-				<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-				<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
-				<p><strong>${posting.postingTitle}</strong>${fn:substring(text,0,len-1)}${len==10 ? '...':'' }<a href="#"> by.${posting.user.nickname}</a>.</p>
-				<div class="clear"></div>
-			</div>
-			</c:forEach>
-		</div>
-	</div>
-
+	
+	
+	
+	
 </body>
 </html>

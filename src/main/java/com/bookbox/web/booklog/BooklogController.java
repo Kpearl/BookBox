@@ -68,7 +68,7 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="getBooklogList" )
-	public String getBooklogList(@RequestParam("search")Search search, Model model) {
+	public String getBooklogList(@ModelAttribute("search")Search search, Model model) {
 
 		model.addAttribute("booklogList", booklogService.getBooklogList(search));
 		model.addAttribute("search", search);
