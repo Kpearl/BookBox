@@ -47,7 +47,7 @@ public class LogToDAO {
 				behavior == Const.Behavior.LIST ||
 				addBehavior == Const.AddBehavior.REPLY) {
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
-		}else if( this.checkUserLogin(joinPoint) ){
+		}else if( !this.checkUserLogin(joinPoint) ){
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
 		}else {
 			System.out.println("Log :: 로그를 남기는 method");
