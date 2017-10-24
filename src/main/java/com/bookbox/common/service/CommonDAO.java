@@ -91,7 +91,7 @@ public interface CommonDAO {
 	 * @author HJ
 	 * @date 2017.10.23
 	 */
-	public void updateUploadFile(Map<String, Object> map);
+	public void updateUploadFile(List<UploadFile> list);
 	
 	/**
 	 * @brief updateUpload
@@ -108,6 +108,6 @@ public interface CommonDAO {
 	 * @author HJ
 	 * @date 2017.10.23
 	 */
-	public void deleteUploadFile(Map<String, Object> map);
+	public void deleteUploadFile(List<UploadFile> list);
 	
 }
