@@ -38,6 +38,7 @@
 		FROM log l, user u
 		WHERE l.email = #{email} AND l.email = u.email
 		ORDER BY l.reg_date DESC
+		LIMIT 10 OFFSET #{active}
 	</select>
 	
  	<select id="getTargetName" parameterType="map" resultType="String">

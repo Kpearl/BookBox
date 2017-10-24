@@ -14,6 +14,6 @@ public interface BooklogService {
 	
 	public void updateBooklog(User user, Booklog booklog);
 	
-	public void addBookmark(User user, Booklog booklog);
+	public void addBooklogBookmark(User user, Booklog booklog);
 
 }

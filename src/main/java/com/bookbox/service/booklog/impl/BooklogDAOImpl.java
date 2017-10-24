@@ -1,6 +1,8 @@
 package com.bookbox.service.booklog.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,10 @@ public class BooklogDAOImpl implements BooklogDAO {
 	@Override
 	public void addBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("booklog", booklog);
+		sqlSession.insert("BooklogMapper.addBookmark", map);
 	}
 
 	@Override

@@ -108,6 +108,14 @@
 			ORDER BY vc.count DESC
 		</if>
 	</select>
+	
+	<insert id="addBookmark" parameterType="map">
+		INSERT
+		INTO bookmark( email, target_email )
+		VALUES( #{user.email}, #{booklog.user.email} )
+	</insert>
+	
+	
 
 
 	<sql id="tagWiring">

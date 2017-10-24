@@ -81,9 +81,13 @@ public class BooklogController {
 	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, 
 								@ModelAttribute("search")Search search, Model model, HttpSession session) {
 		User user = this.getUser(session);
+		booklog = booklogService.getBooklog(user, booklog);
+		User booklogUser = booklog.getUser();
+		booklogUser.setActive(0);
 		
-		model.addAttribute("booklog", booklogService.getBooklog(user, booklog));
+		model.addAttribute("booklog", booklog);
 		model.addAttribute("search", search);
+		model.addAttribute("logList", logService.getLogList(booklogUser));
 		return "forward:../booklog/getBooklog.jsp";
 	}
 	

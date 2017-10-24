@@ -42,9 +42,9 @@ public class BooklogServiceImpl implements BooklogService {
 	}
 
 	@Override
-	public void addBookmark(User user, Booklog booklog) {
+	public void addBooklogBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		booklogDAO.addBookmark(user, booklog);
 	}
 
 	

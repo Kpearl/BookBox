@@ -46,12 +46,26 @@ public class LogToDAO {
 				behavior == Const.NONE ||
 				behavior == Const.Behavior.LIST ||
 				addBehavior == Const.AddBehavior.REPLY) {
+			
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
+			
 		}else if( !this.checkUserLogin(joinPoint) ){
+			
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
+			
 		}else {
+
+			if(behavior == Const.Behavior.GET) {
+				if(this.checkAuthorUser(categoryNo, obj, joinPoint)) {
+					
+					System.out.println("Log :: 자신이 작성한 게시물 조회는 로그를 남기지 않음");
+					return obj;
+					
+				}
+			}
+			
 			System.out.println("Log :: 로그를 남기는 method");
-			Object targetNo = getTargetNo(joinPoint.getArgs()[1]);
+			Object targetNo = getTargetNo(joinPoint.getArgs()[1], obj);
 			
 			Log log = new Log();
 			log.setUser((User)joinPoint.getArgs()[0]);
@@ -61,6 +75,7 @@ public class LogToDAO {
 			log.setTargetNo(targetNo);
 			
 			logService.addLog(log);
+
 		}
 		
 		return obj;
@@ -118,7 +133,7 @@ public class LogToDAO {
 		return Const.NONE;
 	}
 	
-	public Object getTargetNo(Object target) {
+	public Object getTargetNo(Object target, Object returnObject) {
 		
 		Object targetNo = null;
 		
@@ -130,6 +145,9 @@ public class LogToDAO {
 			targetNo = ((Funding)target).getFundingNo();
 		}else if(target instanceof Booklog) {
 			targetNo = ((Booklog)target).getBooklogNo();
+			if(targetNo.equals(0)) {
+				targetNo = ((Booklog)returnObject).getBooklogNo();
+			}
 		}else if(target instanceof Posting) {
 			targetNo = ((Posting)target).getPostingNo();
 		}else if(target instanceof Board) {
@@ -137,7 +155,7 @@ public class LogToDAO {
 		}else if(target instanceof Book) {
 			targetNo = ((Book)target).getIsbn();
 		}
-		
+		System.out.println("Log :: 로그를 남길 targetNo = "+targetNo);
 		return targetNo;
 	}
 	
@@ -153,6 +171,36 @@ public class LogToDAO {
 		}else {
 			return false;
 		}
+	}
+	
+	/**
+	 * @brief 조회시 유저가 작성자 본인인지 판별
+	 * @param categoryNo
+	 * @param joinPoint
+	 * @return 작성자일 경우 true, 아닐경우 false
+	 */
+	public boolean checkAuthorUser(int categoryNo, Object returnObject, ProceedingJoinPoint joinPoint) {
+		User author = new User();
+		switch(categoryNo){
+			case Const.Category.BOARD:
+				author = ((Board)returnObject).getWriter();
+				break;
+			case Const.Category.BOOKLOG:
+				author = ((Booklog)returnObject).getUser();
+				break;
+			case Const.Category.CREATION:
+				author = ((Creation)returnObject).getCreationAuthor();
+				break;
+			case Const.Category.POSTING:
+				author = ((Posting)returnObject).getUser();
+				break;
+//			case Const.Category.WRITING:
+//				author = ((Writing)joinPoint.getArgs()[1]).getWritingAuthor();
+//				break;
+			default:
+				author.setEmail("");
+		}
+		return author.getEmail().equals( ((User)joinPoint.getArgs()[0]).getEmail() );
 	}
 	
 }

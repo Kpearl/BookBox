@@ -106,23 +106,12 @@
 	</div>
 	
 	<div class="container">
-		${posting.postingContent} <br/><br/>
-		<c:forEach items="${posting.postingTagList}" var="tag" >
-			#${tag.tagName} 
-		</c:forEach>
+		일간통계 주간통계 월간통계
 	</div>
 	<div class="container">
-		<input type="hidden" name="condition" value="${search.condition}">
-		<div class="col-md-3 text-center">
-			<br/><br/><a href="#">이전 포스팅</a>
-		</div>
-		<div class="col-md-6">
-		
-		</div>
-		<div class="col-md-3 text-center">
-			<a href="#">포스팅 목록</a>
-			<br/><br/><a href="#">다음 포스팅</a>
-		</div>
+		<c:forEach items="${logList}" var="log">
+			${log.toString()}<br/>
+		</c:forEach>
 	</div>
 	
 	
