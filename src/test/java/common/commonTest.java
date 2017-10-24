@@ -56,7 +56,7 @@ public class commonTest {
 		bookService.deleteBookReply(user, book, reply);
 	}
 
-	 @Test 
+	 /*@Test */
 	public void getReplyListTest() {
 
 		user.setEmail("test@test.com");
@@ -106,5 +106,15 @@ public class commonTest {
 		book.setIsbn("9788954874971");
 
 		System.out.println(bookService.getBookLike(book, user));
+	}
+	
+	@Test
+	public void getBookStaticsTest() {
+		
+		book.setIsbn("9788954874971");
+		
+		List<User> userList = bookService.getBookStatics(book);
+		
+		System.out.println(userList.size());
 	}
 }

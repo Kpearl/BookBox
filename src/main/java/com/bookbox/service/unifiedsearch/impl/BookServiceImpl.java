@@ -109,4 +109,9 @@ public class BookServiceImpl implements BookService {
 		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
 		return commonDAO.getLike(user, map);
 	}
+
+	@Override
+	public List<User> getBookStatics(Book book) {
+		return commonDAO.getBookStatics(book); 
+	}
 }

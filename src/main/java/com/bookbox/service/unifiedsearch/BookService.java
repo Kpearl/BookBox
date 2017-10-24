@@ -1,6 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
@@ -112,4 +113,13 @@ public interface BookService {
 	 * @date 2017.10.20
 	 */
 	public Like getBookLike(Book book, User user);
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.getBookStatics.java
+	 * @brief getBookStatics
+	 * @detail 통계 조회
+	 * @author JJ
+	 * @date 2017.10.24
+	 */
+	public List<User> getBookStatics(Book book);
 }

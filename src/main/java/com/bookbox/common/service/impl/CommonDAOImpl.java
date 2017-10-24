@@ -13,6 +13,7 @@ import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
 /**
@@ -127,6 +128,9 @@ public class CommonDAOImpl implements CommonDAO {
 		sqlSession.delete("CommonMapper.deleteUploadFile",list);
 		
 	}
-	
-	
+
+	@Override
+	public List<User> getBookStatics(Book book) {
+		return sqlSession.selectList("CommonMapper.getBookStatics", book.getIsbn());
+	}	
 }

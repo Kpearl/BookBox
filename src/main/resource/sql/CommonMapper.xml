@@ -26,6 +26,11 @@
 		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
 	</resultMap>
 	
+	<resultMap id="userSelectMap" type="user">
+		<result property="age" column="age" jdbcType="NUMERIC" />
+		<result property="gender" column="gender" jdbcType="VARCHAR" />
+	</resultMap>
+	
 	<resultMap id="uploadFileSelectMap" type="uploadFile">
 		<result property="uploadNo" 		column="upload_no" 			jdbcType="NUMERIC" />
 		<result property="categoryNo" 	column="category_no" 		jdbcType="NUMERIC" />
@@ -34,8 +39,7 @@
 		<result property="originName" 	column="origin_name" 		jdbcType="VARCHAR" />
 		<result property="mainFile" 			column="main_file" 				jdbcType="INTEGER" />
 	</resultMap>
-
-
+	
 	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
 		keyProperty="reply_no">
 		INSERT
@@ -43,8 +47,7 @@
 		reply_content)
 		VALUES ( #{user.email}, #{categoryNo}, #{targetNo},
 		#{reply.content})
-	</insert>
-		
+	</insert>		
 
 	<delete id="deleteReply" parameterType="map">
 		DELETE FROM
@@ -123,8 +126,6 @@
         #{uploadFile.mainFile})
         </foreach>
 		
-		<!-- VALUES ( #{categoryNo}, #{targetNo}, #{fileName},#{originName}, #{mainFile}) -->
-		
 	</insert>
 	
 	<select id="getUploadFileList" parameterType="map" resultMap="uploadFileSelectMap">
@@ -143,5 +144,13 @@
 			target_no = #{targetNo}
 	</delete>
 	
-	
+	<select id="getBookStatics" parameterType="string" resultMap="userSelectMap">
+		SELECT 
+		date_format(NOW(),'%Y')-substring(birth,1,4) as age, gender
+		from user
+		RIGHT JOIN log
+		ON user.email = log.email
+		WHERE category_no = 9 AND
+			  target_no = #{book.isbn}
+	</select>
 </mapper>

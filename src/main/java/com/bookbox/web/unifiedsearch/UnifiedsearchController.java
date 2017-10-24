@@ -130,6 +130,7 @@ public class UnifiedsearchController {
 		if(user == null) 
 			user = new User();
 		
+		List<User> userList = bookService.getBookStatics(book);
 		resultBook = bookService.getBook(user, book);
 		resultBook.setLike(bookService.getBookLike(book, user));
 		resultBook.setGrade(bookService.getBookGrade(book, user));
@@ -137,6 +138,7 @@ public class UnifiedsearchController {
 
 		model.addAttribute("book", resultBook);
 		model.addAttribute("user", user);
+		model.addAttribute("statics", userList);
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}

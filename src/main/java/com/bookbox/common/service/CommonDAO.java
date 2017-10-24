@@ -7,6 +7,7 @@ import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
 public interface CommonDAO {
@@ -101,7 +102,6 @@ public interface CommonDAO {
 	 */
 	public List<UploadFile> getUploadFileList(Map<String, Object> map);
 	
-	
 	/**
 	 * @brief deleteUploadFile
 	 * @detail 업로드파일 삭제 
@@ -110,4 +110,11 @@ public interface CommonDAO {
 	 */
 	public void deleteUploadFile(List<UploadFile> list);
 	
+	/**
+	 * @brief getBookStatics
+	 * @detail 도서 통계 조회
+	 * @author JJ
+	 * @date 2017.10.24
+	 */
+	public List<User> getBookStatics(Book book);
 }
