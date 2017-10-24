@@ -1,6 +1,7 @@
 package com.bookbox.service.creation;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Creation;
@@ -18,15 +19,24 @@ public interface CreationDAO {
 
 	/**
 	 * @brief INSERT/창작작품등록 
-	 * @param User user, Creation creation
+	 * @param Creation 
 	 * @throws Exception
 	 * @return void
 	 */	
 	public void addCreation(Creation creation) throws Exception;
 	
 	/**
+	 * @brief GET/ 창작작품정보 가져오기 
+	 * @param Creation
+	 * @throws Exception
+	 * @return void
+	 */		
+	public Creation getCreation(User user, Creation creation) throws Exception;
+	
+	
+	/**
 	 * @brief UPDATE/ 창작작품수정 
-	 * @param User user, Creation creation
+	 * @param Creation
 	 * @throws Exception
 	 * @return void
 	 */		
@@ -34,7 +44,7 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 창작작품리스트
-	 * @param Search search
+	 * @param Search
 	 * @throws Exception
 	 * @return void
 	 */	
@@ -42,7 +52,7 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 작품리스트 총 개수
-	 * @param Search search
+	 * @param Search
 	 * @throws Exception
 	 * @return void
 	 */
@@ -50,7 +60,7 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 구독작품리스트 
-	 * @param User user
+	 * @param User
 	 * @throws Exception
 	 * @return List<Creation>
 	 */	
@@ -58,18 +68,18 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 작품구독신청
-	 * @param User user, Creation creation
+	 * @param Creation
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void addCreationSubscribe(Creation creation) throws Exception;
+	public void addCreationSubscribe(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 작품구독취소 
-	 * @param User user, Creation creation
+	 * @param User , Creation 
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void deleteCreationSubscribe(User user,Creation creation) throws Exception;
+	public void deleteCreationSubscribe(Map<String, Object> map) throws Exception;
 	
 }

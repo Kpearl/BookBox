@@ -31,11 +31,14 @@
 	   	UPDATE writing
 	   	<set>
 	  	 	<if test ="writingTitle != null">
-	   			creation_title 	= #{writingContent} ,
+	   			writing_title 	= #{writingTitle} ,
 	   		</if>
 	   		<if test ="writingContent != null">
-	   			creation_intro = #{writingContent},
+	   			writing_content = #{writingContent},
 	   		</if>
+	   		
+	   			update_date = now(),		
+	   		
 	   		<if test ="active != null">
 				active 	= #{active}
 			</if>
@@ -49,15 +52,14 @@
 	 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getWriting"	parameterType="writing"	 resultMap="writingSelectMap">
 		SELECT
-		writing_title , writing_content, reg_date , update_date, active
-		c.author, c.creation_title, c.creation_head, c.cration_file_name, c.creation_origin_name, c.creation_intro, c.active
-		FROM writing, creation c
+		writing_no, writing_title , writing_content, reg_date , update_date, active
+		FROM writing
 		<where>
 		 writing_no = #{writingNo}	
 		
-		<if test="active==0">
+		<!-- <if test="active==0">
 			AND active = 1
-		</if>
+		</if> -->
 			
 		</where>
 	 </select>

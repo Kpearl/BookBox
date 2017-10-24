@@ -1,8 +1,6 @@
 package com.bookbox.service.creation.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +13,10 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.util.CommonUtil;
+import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.WritingDAO;
 import com.bookbox.service.creation.WritingService;
+import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -36,6 +36,10 @@ public class WritingServiceImpl implements WritingService {
 	@Autowired
 	@Qualifier("writingDAOImpl")
 	private WritingDAO writingDAO;	
+	
+	@Autowired
+	@Qualifier("creationDAOImpl")
+	private CreationDAO creationDAO;
 	
 	@Autowired
 	@Qualifier("commonDAOImpl")
@@ -59,7 +63,7 @@ public class WritingServiceImpl implements WritingService {
 		
 		writingDAO.addWriting(writing);
 
-		List<UploadFile> uploadFileList = writing.getwritingFileList();
+		List<UploadFile> uploadFileList = writing.getWritingFileList();
 		
 		for(UploadFile uploadFile : uploadFileList) {
 			uploadFile.setCategoryNo(Const.Category.CREATION);
@@ -77,6 +81,16 @@ public class WritingServiceImpl implements WritingService {
 	 * @return void
 	 */		
 	public void updateWriting(User user, Writing writing) throws Exception{
+		
+		List<UploadFile> uploadFileList = writing.getWritingFileList();
+		
+		for(UploadFile uploadFile : uploadFileList) {
+			uploadFile.setCategoryNo(Const.Category.CREATION);
+			uploadFile.setTargetNo(writing.getWritingNo());
+		}
+		
+		System.out.println("updateWriting :: "+uploadFileList);
+		commonDAO.updateUploadFile(uploadFileList);
 		writingDAO.updateWriting(writing);
 	}
 
@@ -87,6 +101,26 @@ public class WritingServiceImpl implements WritingService {
 	 * @return void
 	 */		
 	public Writing getWriting(User user, Writing writing) throws Exception{
+		
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo());
+		
+		writing.setGrade(commonDAO.getGrade(user, map));
+		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(user, map));
+		writing.setWritingFileList(commonDAO.getUploadFileList(map));
+		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
+		
+		Creation creation = creationDAO.getCreation(user,writing.getCreation());
+		System.out.println("getWriting :: Creation :: "+writing.getCreation());
+		
+		
+		creation.setLike(commonDAO.getLike(user, map));
+		System.out.println("getWriting :: Like :: "+commonDAO.getLike(user, map));
+		creation.setGrade(commonDAO.getGrade(user, map));
+		System.out.println("getWriting :: CreationGrade :: "+commonDAO.getGrade(user, map));
+		writing.setCreation(creation);
+		System.out.println("getWriting :: Creation :: "+creation);
+		
+		System.out.println("getWriting :: Writing ::"+writing);
 		return writingDAO.getWriting(writing);
 	}
 	

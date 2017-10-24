@@ -8,12 +8,15 @@
 <mapper namespace="CreationMapper">
 	
 	<resultMap id="creationSelectMap" type="creation">
-		<result property="creationNo" 					column="creation_no" 					jdbcType="INTEGER"/>
-		<result property="creationTitle"					column="creation_title" 					jdbcType="VARCHAR" />
-		<result property="creationIntro" 				column="creation_intro" 				jdbcType="VARCHAR" />
-		<result property="creationHead" 				column="creation_head" 				jdbcType="VARCHAR" />
-			<association property="creationAuthor" javaType="user" resultMap="UserMapper.userSelectMap"/>
-			<association  property="creationFile" 		javaType="uploadFile" resultMap="CommonMapper.uploadFileSelectMap"/>
+		<result property="creationNo" 					column="creation_no" 							jdbcType="INTEGER"/>
+		<result property="creationTitle"					column="creation_title" 							jdbcType="VARCHAR" />
+		<result property="creationIntro" 				column="creation_intro" 						jdbcType="VARCHAR" />
+		<result property="creationHead" 				column="creation_head" 						jdbcType="VARCHAR" />
+		<result property="creationFileName" 					column="creation_file_name" 				jdbcType="VARCHAR" />
+		<result property="creationOriginName" 		column="creation_origin_name" 		jdbcType="VARCHAR" />
+			<association property="creationAuthor" 			javaType="user" 					resultMap="UserMapper.userSelectMap"/>
+			
+			
 	</resultMap>
 	
 	
@@ -25,10 +28,24 @@
 						  #{creationIntro},
 						  #{creationAuthor.email},
 						  #{creationHead},
-						  #{creationFile.fileName},
-						  #{creationFile.originName})
+						  #{creationFileName},
+						  #{creationOriginName})
 	
 	 </insert>
+	 
+	  <!-- SQL : SELECT ONE -->
+	 <select 	id="getCreation"	parameterType="creation"	 resultMap="creationSelectMap">
+		SELECT
+		creation_no, author email, creation_title, creation_head, creation_file_name, creation_origin_name, creation_intro, active
+		FROM creation 
+		<where>
+			creation_no = #{creationNo}
+		 		
+		<if test="active==0">
+			AND active = 1
+		</if>
+		</where>
+	 </select>
 	 
 	 
 	 <!-- SQL : UPDATE -->
@@ -44,8 +61,11 @@
 	   		<if test ="creationHead != null">
 				creation_head		= #{creationHead},
 			</if>
-			<if test ="creationImage != null">
-				creation_file_name 	= #{creationImage}
+			<if test ="creationFileName != null">
+				creation_file_name 	= #{creationFileName},
+			</if>
+			<if test ="creationOriginName != null">
+				creation_origin_name 	= #{creationOriginName},
 			</if>
 			<if test ="active != null">
 				active 	= #{active}
@@ -58,19 +78,26 @@
 	 </update>
 	 
 	 	<!-- SQL : INSERTCreationSubscribe -->
-	<insert 	id="addCreationSubscribe"		parameterType="creation" >
+	<insert 	id="addCreationSubscribe"		parameterType="map" >
 	 	INSERT
 		INTO subscribe (creation_no, email) 
-		VALUES	 (#{creationNo},
-						  #{creationAuthor})
+		VALUES	 (#{creationNo},  #{email})
 	
 	 </insert>
 	 
+	 <!-- SQL : DeleteCreationSubscribe -->
+	<insert 	id="deleteCreationSubscribe"		parameterType="map" >
+	 	DELETE
+		FROM subscribe  
+		WHERE	 creation_no = #{creationNo},  
+						 email = #{email}
+	
+	 </insert>
 
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCreationCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT creationTitle ,author , creationImage, creationHead
+	  	FROM(	SELECT creationTitle ,author , creationFile.fileName, creationHead
 						FROM  creation) countTable						
 	 </select>
 

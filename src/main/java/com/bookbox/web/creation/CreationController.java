@@ -122,7 +122,7 @@ public class CreationController {
 			
 		User user =(User)session.getAttribute("user");
 				
-		List<MultipartFile> uploadFileName = request.getFiles("writingImage");
+		List<MultipartFile> uploadFileName = request.getFiles("writingFile");
 		List<UploadFile> writingFileList = new ArrayList<>();
 	
 		for (MultipartFile multipartFile : uploadFileName ) {
@@ -132,9 +132,12 @@ public class CreationController {
 		
 		writing.setWritingFileList(writingFileList);
 		
-		MultipartFile multipartFile = request.getFile("creationImage");
-		saveFile(multipartFile);
-		creation.setCreationFile(uploadFile);
+		MultipartFile multipartFile = request.getFile("creationFile");
+		
+		String fileName = saveFile(multipartFile).getFileName();
+		String OriginName = saveFile(multipartFile).getOriginName();
+		creation.setCreationFileName(fileName);
+		creation.setCreationOriginName(OriginName);
 		
 		
 		List<Tag> tagList = new ArrayList<>();
@@ -185,12 +188,29 @@ public class CreationController {
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.GET )
 	public String updateCreation(@ModelAttribute("creation") Creation creation,
-														HttpSession session, Model model) throws Exception{
+																@ModelAttribute("Tag") Tag tag,
+																MultipartHttpServletRequest request,
+																HttpSession session, Model model) throws Exception{
 	
 		System.out.println("UserController :: /creation/updateCreation : GET");
 		//Business Logic
 		
 		User user =(User)session.getAttribute("user");
+		
+		MultipartFile multipartFile = request.getFile("creationFile");
+		String fileName = saveFile(multipartFile).getFileName();
+		String OriginName = saveFile(multipartFile).getOriginName();
+		creation.setCreationFileName(fileName);
+		creation.setCreationOriginName(OriginName);
+		
+		List<Tag> tagList = new ArrayList<>();
+		String[] dbTag =  tag.getTagName().split("#");
+		
+		for (int i = 0; i < dbTag.length; i++) {
+			tagList.add(new Tag(dbTag[i]));
+		}	
+		creation.setTagList(tagList);
+		
 		creationService.updateCreation(user, creation);
 		
 		model.addAttribute("user", user);

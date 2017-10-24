@@ -61,19 +61,10 @@ public class CreationServiceImpl implements CreationService {
 	 * @return void
 	 */
 	public void addCreation(User user, Creation creation) throws Exception{
-		creationDAO.addCreation(creation);
 		
-		List<UploadFile> uploadFileList = new ArrayList<>();
-		creation.getCreationFile().setCategoryNo(Const.Category.CREATION);
-		creation.getCreationFile().setTargetNo(creation.getCreationNo());
-		uploadFileList.add(creation.getCreationFile());
-
-//		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo());
-//		map.put("fileName", creation.getCreationImage().getFileName());
-//		map.put("originName", creation.getCreationImage().getOriginName());
-		
+		creationDAO.addCreation(creation);		
 		tagService.addTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
-		commonDAO.addUploadFile(uploadFileList);
+		
 	}
 	
 	/**
@@ -83,6 +74,9 @@ public class CreationServiceImpl implements CreationService {
 	 * @return void
 	 */	
 	public void updateCreation(User user, Creation creation) throws Exception{
+		
+		creationDAO.updateCreation(creation);
+		tagService.updateTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
 	}
 	
 	/**
@@ -119,6 +113,12 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public void addCreationSubscribe(User user, Creation creation) throws Exception{
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("email", user.getEmail());
+		map.put("creationNo", creation.getCreationNo());
+		
+		creation.setDoSubscription(true);
+		creationDAO.addCreationSubscribe(map);
 	}
 	
 	/**
@@ -129,6 +129,12 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public void deleteCreationSubscribe(User user,Creation creation) throws Exception{
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("email", user.getEmail());
+		map.put("creationNo", creation.getCreationNo());
+		
+		creation.setDoSubscription(false);
+		creationDAO.deleteCreationSubscribe(map);
 	}
 
 
