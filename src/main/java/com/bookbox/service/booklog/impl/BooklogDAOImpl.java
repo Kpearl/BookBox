@@ -46,10 +46,7 @@ public class BooklogDAOImpl implements BooklogDAO {
 	@Override
 	public void addBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", user);
-		map.put("booklog", booklog);
-		sqlSession.insert("BooklogMapper.addBookmark", map);
+		sqlSession.insert("BooklogMapper.addBookmark", this.mappingUserBooklog(user, booklog));
 	}
 
 	@Override
@@ -57,6 +54,23 @@ public class BooklogDAOImpl implements BooklogDAO {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean getBookmark(User user, Booklog booklog) {
+		// TODO Auto-generated method stub
+		String value = (String)sqlSession.selectOne("BooklogMapper.getBookmark", this.mappingUserBooklog(user, booklog));
+		if(value == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 	
-	
+	public Map<String, Object> mappingUserBooklog(User user, Booklog booklog){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("booklog", booklog);
+		
+		return map;
+	}
 }

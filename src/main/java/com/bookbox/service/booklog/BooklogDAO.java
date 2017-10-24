@@ -18,4 +18,5 @@ public interface BooklogDAO {
 	
 	public void deleteBookmark(User user, Booklog booklog);
 	
+	public boolean getBookmark(User user, Booklog booklog);
 }

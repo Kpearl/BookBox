@@ -115,6 +115,15 @@
 		VALUES( #{user.email}, #{booklog.user.email} )
 	</insert>
 	
+	<select id="getBookmark" parameterType="map" resultType="String">
+		SELECT
+			email
+		FROM
+			bookmark
+		WHERE
+			email = #{user.email} AND target_email = #{booklog.user.email}
+	</select>
+	
 	
 
 

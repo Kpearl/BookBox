@@ -47,5 +47,10 @@ public class BooklogServiceImpl implements BooklogService {
 		booklogDAO.addBookmark(user, booklog);
 	}
 
-	
+	@Override
+	public boolean getBookmark(User user, Booklog booklog) {
+		// TODO Auto-generated method stub
+		return booklogDAO.getBookmark(user, booklog);
+	}
+
 }

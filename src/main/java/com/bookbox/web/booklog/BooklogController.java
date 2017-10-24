@@ -88,6 +88,7 @@ public class BooklogController {
 		model.addAttribute("booklog", booklog);
 		model.addAttribute("search", search);
 		model.addAttribute("logList", logService.getLogList(booklogUser));
+		model.addAttribute("bookmark", booklogService.getBookmark(user, booklog));
 		return "forward:../booklog/getBooklog.jsp";
 	}
 	

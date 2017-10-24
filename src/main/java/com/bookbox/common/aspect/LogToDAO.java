@@ -100,6 +100,11 @@ public class LogToDAO {
 		
 		for(int i=1; i<=10; i++) {
 			if(lowerCaseMethodName.contains(CommonUtil.getConstProp().getProperty("S_C"+i))) {
+				if(i == Const.Category.BOOK) {
+					if(lowerCaseMethodName.contains(CommonUtil.getConstProp().getProperty("S_AB"+Const.AddBehavior.BOOKMARK))) {
+						continue;
+					}
+				}
 				return i;
 			}
 		}
