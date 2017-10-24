@@ -73,21 +73,22 @@
 		});
 	}
 	
-	//댓글 로딩
+////////////////////댓글 로딩
 	$(function(){
 		
+		loadComment();
+	});
+	
+	function loadComment(){
 		var boardNo=$("input[name=boardNo]").val();
-		
+			
 		$.ajax({
 			url: "rest/getCommentList/"+boardNo,
 			method: "GET",
 			dataType:"json",
 			crossDomain:true,
 			success:function(data){
-				//alert("getCommentList success");
-				//alert(data.length);
-				//alert(JSON.stringify(data));
-				
+		
 			var commentListDiv=$(".commentList");
 	
 			appendComment(commentListDiv,data);
@@ -95,7 +96,7 @@
 			
 			}
 	 	});//ajax 끝 
-	});
+	}
 	//댓글 로딩 끝
 	
 	//대댓글 재귀함수
@@ -166,8 +167,8 @@
 					commentNo=0;
 				}
 				
-				alert(boardNo+","+content+","+level+","+commentNo);
-				/*
+				//alert(boardNo+","+content+","+level+","+commentNo);
+				
 			 	$.ajax({
 					url: "rest/addComment",
 					method: "POST",
@@ -179,16 +180,20 @@
 					data :JSON.stringify({
 						"boardNo": boardNo,
 						"content" : content,
-						"level" : "0"
+						"level" : parseInt(level)+1,
+						"seniorCommentNo":commentNo
 					}),
 					success:function(){
-						alert("addComment success")	
+						//alert("addComment success")	;
+						$(".commentList").html("");
+					 	loadComment();
 					}
-			 	});*///ajax 끝 
+			 	});//ajax 끝 
+			 
 				//commentObj.find(".inputarea").html(""); 등록후 입력창 없애기 , 댓글영역을 리로드할 예정 필요없을지도
 			});//등록 클릭이벤트 끝
 			
-			commentObj.find(".inputarea").eq(0).append(inputObj);
+			commentObj.find(".inputarea:first").append(inputObj);
 			
 		});//댓글 입력창 , 댓글달기 이벤트 추가 부분
 		

@@ -138,6 +138,10 @@ public class CommunityServiceImpl implements CommunityService {
 	public List getCommentList(int boardNo) { 
 		
 		List<Comment> commentList=communityDAOImple.getCommentList(boardNo);
+		
+		if (commentList==null) {
+			return null;
+		}
 		int maxLevel=communityDAOImple.getCommentMaxLevel(boardNo)+1;
 		
 		List<Comment>[] commentArray=new List[maxLevel];
