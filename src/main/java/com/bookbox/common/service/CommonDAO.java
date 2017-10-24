@@ -116,5 +116,5 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.24
 	 */
-	public List<User> getBookStatics(Book book);
+	public List<Map<String, Integer>> getBookStatics(Map<String, Object> map);
 }

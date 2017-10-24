@@ -126,11 +126,10 @@ public class CommonDAOImpl implements CommonDAO {
 	@Override
 	public void deleteUploadFile(List<UploadFile> list) {
 		sqlSession.delete("CommonMapper.deleteUploadFile",list);
-		
 	}
 
 	@Override
-	public List<User> getBookStatics(Book book) {
-		return sqlSession.selectList("CommonMapper.getBookStatics", book.getIsbn());
+	public List<Map<String, Integer>> getBookStatics(Map<String, Object> map) {
+		return sqlSession.selectList("CommonMapper.getBookStatics", map);
 	}	
 }

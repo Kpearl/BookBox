@@ -23,16 +23,7 @@ public class User {
 	private String outerToken;
 	private int active;	
 	private int certificationNo;
-	private int age;
 	
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public User() {
 	}
 

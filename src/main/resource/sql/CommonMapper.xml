@@ -26,11 +26,6 @@
 		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
 	</resultMap>
 	
-	<resultMap id="userSelectMap" type="user">
-		<result property="age" column="age" jdbcType="NUMERIC" />
-		<result property="gender" column="gender" jdbcType="VARCHAR" />
-	</resultMap>
-	
 	<resultMap id="uploadFileSelectMap" type="uploadFile">
 		<result property="uploadNo" 		column="upload_no" 			jdbcType="NUMERIC" />
 		<result property="categoryNo" 	column="category_no" 		jdbcType="NUMERIC" />
@@ -39,6 +34,17 @@
 		<result property="originName" 	column="origin_name" 		jdbcType="VARCHAR" />
 		<result property="mainFile" 			column="main_file" 				jdbcType="INTEGER" />
 	</resultMap>
+	
+	 <resultMap type="hashMap" id="hashMap">
+		<result property="age_0" column="age_0" jdbcType="NUMERIC" />
+		<result property="age_10" column="age_10" jdbcType="NUMERIC" />
+		<result property="age_20" column="age_20" jdbcType="NUMERIC" />
+		<result property="age_30" column="age_30" jdbcType="NUMERIC" />
+		<result property="age_40" column="age_40" jdbcType="NUMERIC" />
+		<result property="age_50" column="age_50" jdbcType="NUMERIC" />
+		<result property="age_60" column="age_60" jdbcType="NUMERIC" />
+		<result property="age_70" column="age_70" jdbcType="NUMERIC" />
+    </resultMap>
 	
 	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
 		keyProperty="reply_no">
@@ -144,13 +150,21 @@
 			target_no = #{targetNo}
 	</delete>
 	
-	<select id="getBookStatics" parameterType="string" resultMap="userSelectMap">
-		SELECT 
-		date_format(NOW(),'%Y')-substring(birth,1,4) as age, gender
-		from user
+	<select id="getBookStatics" parameterType="map" resultMap="hashMap">
+		SELECT
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 0 AND 9 , 1, 0)) AS age_0,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 10 AND 19 , 1, 0)) AS age_10,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 20 AND 29 , 1, 0)) AS age_20,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 30 AND 39 , 1, 0)) AS age_30,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 40 AND 49 , 1, 0)) AS age_40,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 50 AND 59 , 1, 0)) AS age_50,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 60 AND 69 , 1, 0)) AS age_60,
+		SUM(DISTINCT IF(DATE_FORMAT(NOW(),'%Y')-SUBSTRING(birth,1,4) BETWEEN 70 AND 79 , 1, 0)) AS age_70
+		FROM user
 		RIGHT JOIN log
 		ON user.email = log.email
-		WHERE category_no = 9 AND
-			  target_no = #{book.isbn}
+		WHERE target_no = #{targetNo} AND
+			  category_no = 9 and
+			  gender = #{gender}
 	</select>
 </mapper>

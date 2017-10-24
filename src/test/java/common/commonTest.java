@@ -1,7 +1,9 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -111,10 +113,10 @@ public class commonTest {
 	@Test
 	public void getBookStaticsTest() {
 		
-		book.setIsbn("9788954874971");
+		book.setIsbn("9788930705431");
 		
-		List<User> userList = bookService.getBookStatics(book);
+		Map<String, Map<String, Integer>> map = bookService.getBookStatics(book);
 		
-		System.out.println(userList.size());
+		System.out.println(map.toString());
 	}
 }

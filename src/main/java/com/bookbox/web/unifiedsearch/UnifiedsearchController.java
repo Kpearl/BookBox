@@ -1,6 +1,7 @@
 package com.bookbox.web.unifiedsearch;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -130,7 +131,7 @@ public class UnifiedsearchController {
 		if(user == null) 
 			user = new User();
 		
-		List<User> userList = bookService.getBookStatics(book);
+		Map<String, Map<String, Integer>> map = bookService.getBookStatics(book);
 		resultBook = bookService.getBook(user, book);
 		resultBook.setLike(bookService.getBookLike(book, user));
 		resultBook.setGrade(bookService.getBookGrade(book, user));
@@ -138,7 +139,7 @@ public class UnifiedsearchController {
 
 		model.addAttribute("book", resultBook);
 		model.addAttribute("user", user);
-		model.addAttribute("statics", userList);
+		model.addAttribute("statics", map);
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}

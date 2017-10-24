@@ -1,5 +1,6 @@
 package com.bookbox.service.unifiedsearch.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +112,19 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<User> getBookStatics(Book book) {
-		return commonDAO.getBookStatics(book); 
+	public Map<String, Map<String, Integer>> getBookStatics(Book book) {
+		Map<String, Map<String, Integer>> resultMap = new HashMap<String, Map<String, Integer>>();
+		map = new HashMap<String, Object>();
+		map.put("targetNo", book.getIsbn());
+		map.put("gender", "남");
+		
+		resultMap.put("남", commonDAO.getBookStatics(map).get(0));
+		
+		map.put("targetNo", book.getIsbn());
+		map.put("gender", "여");
+		
+		resultMap.put("여", commonDAO.getBookStatics(map).get(0));
+		
+		return resultMap; 
 	}
 }
