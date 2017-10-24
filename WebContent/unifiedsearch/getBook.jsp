@@ -17,9 +17,95 @@
 <link
 	href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
 	rel="stylesheet">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
+    <script src="../resources/daumeditor/js/utils.js"></script>
 <script type="text/javascript"> 
 
+//차트
+var config = {
+	type: 'line',
+	data: {
+	labels: ["0", "10", "20", "30", "40", "50", "60", "70"],
+		datasets: [{
+		label: "여성",
+		borderColor: window.chartColors.red,
+		backgroundColor: window.chartColors.red,
+		data: [
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor(), 
+			randomScalingFactor()
+		],
+		fill: false,
+		}, {
+			label: "남성",
+			borderColor: window.chartColors.blue,
+			backgroundColor: window.chartColors.blue,
+			data: [
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor(), 
+				randomScalingFactor()
+			],
+			fill: false,
+		}]
+	},
+	options: {
+		responsive: true,
+		title:{
+		display: true,
+		text: "책 조회 수 통계 그래프"
+		},
+		tooltips: {
+				mode: 'index',
+			callbacks: {
+			footer: function(tooltipItems, data) {
+				var sum = 0;
+
+				tooltipItems.forEach(function(tooltipItem) {
+					sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+				});
+				return 'Sum: ' + sum;
+				},
+			},
+			footerFontStyle: 'normal'
+		},
+		hover: {
+			mode: 'index',
+			intersect: true
+		},
+		scales: {
+			xAxes: [{
+			display: true,
+			scaleLabel: {
+				show: true,
+				labelString: 'Month'
+				}
+			}],
+			yAxes: [{
+				display: true,
+				scaleLabel: {
+				show: true,
+				labelString: 'Value'
+				}
+			}]
+		}
+	}
+};
+
+    window.onload = function() {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myLine = new Chart(ctx, config);
+    };
+    
 //댓글 추가
 function addReply(isbn) {
 	var content = document.getElementById("content").value;
@@ -55,6 +141,8 @@ function addLike(isbn) {
 			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
 		 } 
 	});
+	
+	alert("좋아요를 등록하셨습니다.");
 }
 
 //좋아요 취소
@@ -70,6 +158,7 @@ function deleteLike(isbn) {
 		 	$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
  		} 
 	});
+	alert("좋아요를 취소하셨습니다.");
 }
 
 //별점 이벤트
@@ -87,8 +176,8 @@ $(function() {
 	});
 
 	$("#starWrap ul li").click(function() {
-		var idx = $(this).index() + 1;
 		$(this).mouseenter();
+		var idx = $(this).index() + 1;
 		$('#starWrap ul li').off();
 		
 		if ("${book.grade.doGrade}" == "true") {
@@ -207,9 +296,12 @@ $(function() {
 						<img src="${book.thumbnail}">
 						<h2>${book.title}</h2>
 						
+ 						<div style="width:75%;">
+        				<canvas id="canvas"></canvas>
+    					</div>
+						
 						<c:choose>
 							<c:when test="${user.email == null}">
-								비회원
 							</c:when>
 		
 							<c:when test="${book.like.doLike == false}">
