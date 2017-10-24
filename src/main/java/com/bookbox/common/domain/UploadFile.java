@@ -80,7 +80,10 @@ public class UploadFile {
 
 	@Override
 	public String toString() {
-		return "UploadFile [uploadNo=" + uploadNo + ", fileName=" + fileName + ", originName=" + originName + ", mainFile="+mainFile+"]";
+		return "UploadFile [uploadNo=" + uploadNo + ", categoryNo=" + categoryNo + ", targetNo=" + targetNo
+				+ ", fileName=" + fileName + ", originName=" + originName + ", mainFile=" + mainFile + "]";
 	}
+
+
 	
 }

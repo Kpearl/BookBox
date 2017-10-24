@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
-import com.bookbox.common.domain.Subscription;
 import com.bookbox.common.domain.Tag;
-import com.bookbox.common.domain.UploadFile;
 
 /**
  * @file com.bookbox.service.domain.Creation.java
@@ -21,17 +19,17 @@ public class Creation {
 	//Field
 	private int creationNo;
 	private String creationTitle;
-	private String creationInto;
+	private String creationIntro;
 	private User creationAuthor;
 	private String creationHead;
-	private UploadFile creationFile;
-	private String creationIntro;
+	private String creationFileName;
+	private String creationOriginName;
 	private List<Writing> writingList;
 	private List<Tag> tagList;
 	private boolean doFunding;
+	private boolean doSubscription;
 	private Grade grade;
 	private Like like;
-	private Subscription subscription;
 	private int active;
 	
 	public Creation() {
@@ -54,14 +52,6 @@ public class Creation {
 		this.creationTitle = creationTitle;
 	}
 
-	public String getCreationInto() {
-		return creationInto;
-	}
-
-	public void setCreationInto(String creationInto) {
-		this.creationInto = creationInto;
-	}
-
 	public User getCreationAuthor() {
 		return creationAuthor;
 	}
@@ -78,12 +68,20 @@ public class Creation {
 		this.creationHead = creationHead;
 	}
 
-	public UploadFile getCreationFile() {
-		return creationFile;
+	public String getCreationFileName() {
+		return creationFileName;
 	}
 
-	public void setCreationFile(UploadFile creationFile) {
-		this.creationFile = creationFile;
+	public void setCreationFileName(String creationFileName) {
+		this.creationFileName = creationFileName;
+	}
+	
+	public String getCreationOriginName() {
+		return creationOriginName;
+	}
+
+	public void setCreationOriginName(String creationOriginName) {
+		this.creationOriginName = creationOriginName;
 	}
 
 	public String getCreationIntro() {
@@ -118,6 +116,14 @@ public class Creation {
 		this.doFunding = doFunding;
 	}
 
+	public boolean isDoSubscription() {
+		return doSubscription;
+	}
+	
+	public void setDoSubscription(boolean doSubscription) {
+		this.doSubscription = doSubscription;
+	}
+	
 	public Grade getGrade() {
 		return grade;
 	}
@@ -134,13 +140,6 @@ public class Creation {
 		this.like = like;
 	}
 
-	public Subscription getSubscription() {
-		return subscription;
-	}
-
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
-	}
 
 	public int getActive() {
 		return active;
@@ -152,10 +151,9 @@ public class Creation {
 
 	@Override
 	public String toString() {
-		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationInto="
-				+ creationInto + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
-				+ ", creationFile=" + creationFile + ", creationIntro=" + creationIntro + ", writingList="
-				+ writingList + "tagList"+tagList+", doFunding=" + doFunding + ", grade=" + grade + ", like=" + like + ", subscription="
-				+ subscription + "active"+active+"]";
+		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationIntro="
+				+ creationIntro + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
+				+ ", creationFileName=" + creationFileName + ", creationOriginName = "+creationOriginName+", writingList=" + writingList + ", tagList=" + tagList
+				+ ", doFunding=" + doFunding + ", doSubscription"+doSubscription+", grade=" + grade + ", like=" + like + ", active=" + active + "]";
 	}
 }

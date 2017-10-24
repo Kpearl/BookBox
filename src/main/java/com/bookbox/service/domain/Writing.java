@@ -19,13 +19,15 @@ public class Writing {
 
 	//Field
 	private int writingNo;
+	private Creation creation;
+	private String writingAuthor;
 	private String writingTitle;
 	private String writingContent;
+	private List<UploadFile> writingFileList;
 	private Date regDate;
 	private Date updateDate;
 	private List<Reply> replyList;
 	private Grade grade;
-	private List<UploadFile> writingFileList;
 	private int viewCount;
 	private int active;
 	
@@ -40,10 +42,23 @@ public class Writing {
 	public void setWritingNo(int writingNo) {
 		this.writingNo = writingNo;
 	}
-
-	public String getWritingTitle() {
-		return writingTitle;
+	
+	public Creation getCreation() {
+		return creation;
 	}
+
+	public void setCreation(Creation creation) {
+		this.creation = creation;
+	}
+
+	public String getWritingAuthor() {
+		return writingAuthor;
+	}
+
+	public void setWritingAuthor(String writingAuthor) {
+		this.writingAuthor = writingAuthor;
+	}
+
 
 	public void setWritingTitle(String writingTitle) {
 		this.writingTitle = writingTitle;
@@ -89,12 +104,16 @@ public class Writing {
 		this.grade = grade;
 	}
 
-	public List<UploadFile> getwritingFileList() {
+	public List<UploadFile> getWritingFileList() {
 		return writingFileList;
 	}
-
+	
 	public void setWritingFileList(List<UploadFile> writingFileList) {
 		this.writingFileList = writingFileList;
+	}
+
+	public String getWritingTitle() {
+		return writingTitle;
 	}
 
 	public int getViewCount() {
@@ -115,7 +134,7 @@ public class Writing {
 
 	@Override
 	public String toString() {
-		return "Writing [writingNo=" + writingNo + ", writingTitle=" + writingTitle + ", writingContent="
+		return "Writing [writingNo=" + writingNo + ", creation= "+creation+", writingTitle=" + writingTitle + ", writingContent="
 				+ writingContent + ", regDate=" + regDate + ", updateDate=" + updateDate + ", replyList=" + replyList
 				+ ", grade=" + grade + ", writingFileList=" + writingFileList + ", viewCount=" + viewCount + ", active="
 				+ active + "]";
