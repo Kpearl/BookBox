@@ -80,7 +80,7 @@
 			<a class="btn btn-defalut" href="#">
 				<c:if test="${sessionScope.user.email != null}">
 					<c:if test="${sessionScope.user.email == booklog.user.email}">
-						표지 편집
+						표지편집
 					</c:if>
 					<c:if test="${sessionScope.user.email != booklog.user.email}">
 						${bookmark == true? '책갈피 삭제' : '책갈피 등록'}

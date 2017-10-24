@@ -124,8 +124,24 @@
 			email = #{user.email} AND target_email = #{booklog.user.email}
 	</select>
 	
+	<select id="getDailyVisitors" parameterType="int" resultType="map">
+		SELECT 
+			code_name day, sum(IFNULL(reg_date,0)) daycount 
+		FROM 
+			codes c
+			left outer join ( 	SELECT 1 reg_date, DAYOFMONTH(reg_date) day
+								FROM log
+								WHERE category_no = 4 AND target_no = #{value} ) logd
+						on day = c.code_name
+		WHERE
+			code_name BETWEEN DAYOFMONTH(CURRENT_DATE()-6) and DAYOFMONTH(CURRENT_DATE())
+		GROUP BY
+			code_name
+		ORDER BY
+			code_name DESC
+	</select>
 	
-
+	
 
 	<sql id="tagWiring">
 		SELECT

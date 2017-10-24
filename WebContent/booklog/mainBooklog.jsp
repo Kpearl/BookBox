@@ -79,6 +79,21 @@
 		인기북로그 <a class="btn btn-default booklog" href="#">더보기</a>
 	    <div class="swiper-container">
 	        <div class="swiper-wrapper">
+<!-- 	        	<div class="swiper-slide">
+		        	<div class="col-sm-6 col-md-4">
+						<div class="thumbnail alert alert-warning">
+							<img src="../images/uploadFiles/empty.GIF" class="img-responsive" data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
+							<div class="caption">
+								<input type="hidden" name="prodNo" value="">
+								<h3>product.prodName</h3>
+								<p><div class="btn-group" role="group">
+								<a href="#" class="btn btn-primary" role="button">aa
+								</a>
+								</div>
+							</div>
+						</div>
+					</div>
+	        	</div> -->
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklogList}" var="booklog">
 	        		<c:set var="i" value="i+1"/>

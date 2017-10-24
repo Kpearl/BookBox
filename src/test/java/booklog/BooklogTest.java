@@ -34,7 +34,7 @@ public class BooklogTest {
 		System.out.println(booklogService.getBooklogList(search));
 	}
 	
-	@Test
+//	@Test
 	public void getBooklogTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
@@ -55,5 +55,13 @@ public class BooklogTest {
 		user.setEmail("xptmxm@nate.com");
 		
 		booklogService.updateBooklog(user, booklog);
+	}
+	
+	@Test
+	public void getDailyVisitorsTest() {
+		Booklog booklog = new Booklog();
+		booklog.setBooklogNo(8);
+		
+		System.out.println(booklogService.getBooklog(new User(), booklog));
 	}
 }

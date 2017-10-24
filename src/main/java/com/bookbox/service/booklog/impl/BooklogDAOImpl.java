@@ -34,7 +34,9 @@ public class BooklogDAOImpl implements BooklogDAO {
 	@Override
 	public Booklog getBooklog(Booklog booklog) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
+		booklog = sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
+		booklog.setVisitorsStatistics(sqlSession.selectMap("BooklogMapper.getDailyVisitors", booklog.getBooklogNo(), "day"));
+		return booklog;
 	}
 
 	@Override

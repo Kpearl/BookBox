@@ -1,6 +1,7 @@
 package com.bookbox.service.domain;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @file com.bookbox.service.domain.Booklog.java
@@ -21,6 +22,7 @@ public class Booklog {
 	private List<Posting> postingList;
 	private List<User> bookmarkList;
 	private int viewCount;
+	private Map<String, Object> visitorsStatistics;
 	
 	public Booklog() {
 		// TODO Auto-generated constructor stub
@@ -90,11 +92,20 @@ public class Booklog {
 		this.viewCount = viewCount;
 	}
 
+	public Map<String, Object> getVisitorsStatistics() {
+		return visitorsStatistics;
+	}
+
+	public void setVisitorsStatistics(Map<String, Object> visitorsStatistics) {
+		this.visitorsStatistics = visitorsStatistics;
+	}
+
 	@Override
 	public String toString() {
 		return "Booklog [booklogNo=" + booklogNo + ", user=" + user + ", booklogName=" + booklogName + ", booklogImage="
 				+ booklogImage + ", booklogIntro=" + booklogIntro + ", postingList=" + postingList + ", bookmarkList="
-				+ bookmarkList + ", viewCount=" + viewCount + "]";
+				+ bookmarkList + ", viewCount=" + viewCount + ", visitorsStatistics=" + visitorsStatistics + "]";
 	}
+
 
 }
