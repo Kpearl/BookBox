@@ -98,6 +98,14 @@
 		target_no = #{targetNo}
 	</select>
 	
+	<select id="getAvgGrade" parameterType="map" resultMap="gradeSelectMap">
+		SELECT avg(g.grade)
+		FROM grade g
+					right outer join writing w on w.writing_no = g.target_no
+					right outer join creation c on c.creation_no = w.creation_no
+		WHERE g.category_no = 2 and c.creation_no = #{targetNo}
+	</select>
+	
 	<insert id="addLike" parameterType="map" useGeneratedKeys="true" keyProperty="like_no">
 		INSERT
 		INTO `like`(email, category_no, target_no) 
