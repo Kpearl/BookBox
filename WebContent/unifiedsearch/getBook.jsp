@@ -75,7 +75,7 @@ function deleteLike(isbn) {
 //별점 이벤트
 $(function() {
 	$(document).ready(function() {
-		if ('${book.grade.doGrade}' == 'true') {
+		if ('${book.grade.doGrade}' == 'true' || '${user.email}' == '') {
 			$('#starWrap ul li').off();
 		}
 	});
@@ -206,8 +206,12 @@ $(function() {
 					<div id="{book.isbn}">
 						<img src="${book.thumbnail}">
 						<h2>${book.title}</h2>
-
+						
 						<c:choose>
+							<c:when test="${user.email == null}">
+								비회원
+							</c:when>
+		
 							<c:when test="${book.like.doLike == false}">
 								<button id="addLike" onclick="addLike(${book.isbn});">좋아요</button>
 							</c:when>
@@ -216,9 +220,6 @@ $(function() {
 								<button id="deleteLike" onclick="deleteLike(${book.isbn});">좋아요
 									취소</button>
 							</c:when>
-							<c:otherwise>
-								비회원
-							</c:otherwise>
 						</c:choose>
 
 						<br> <br> ${book.authors} | ${book.translators}
@@ -238,10 +239,13 @@ $(function() {
 							</ul>
 						</div>
 						<br> <br> 도서 소개 : ${book.contents}<br> <br> <a
-							href="${book.url}">판매 페이지로 이동</a><br> <br> <br> 댓글
-						<input type="text" id="content" placeholder="댓글 입력">
-						<button onclick="addReply(${book.isbn});">댓글입력</button>
-						<br> <br>
+							href="${book.url}">판매 페이지로 이동</a><br> <br> <br> 
+						
+						<c:if test="${user.email != null}">	
+							댓글<input type="text" id="content" placeholder="댓글 입력">
+							<button onclick="addReply(${book.isbn});">댓글입력</button> <br>
+						</c:if>	
+						<br>
 						<h3>댓글리스트</h3>
 						<hr>
 						<p></p>
