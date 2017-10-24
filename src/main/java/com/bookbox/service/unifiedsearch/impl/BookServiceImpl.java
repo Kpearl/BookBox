@@ -118,12 +118,12 @@ public class BookServiceImpl implements BookService {
 		map.put("targetNo", book.getIsbn());
 		map.put("gender", "남");
 		
-		resultMap.put("남", commonDAO.getBookStatics(map).get(0));
+		resultMap.put("men", commonDAO.getBookStatics(map).get(0));
 		
 		map.put("targetNo", book.getIsbn());
 		map.put("gender", "여");
 		
-		resultMap.put("여", commonDAO.getBookStatics(map).get(0));
+		resultMap.put("women", commonDAO.getBookStatics(map).get(0));
 		
 		return resultMap; 
 	}

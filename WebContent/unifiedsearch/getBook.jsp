@@ -22,84 +22,67 @@
 <script type="text/javascript"> 
 
 //차트
-var config = {
-	type: 'line',
-	data: {
-	labels: ["0", "10", "20", "30", "40", "50", "60", "70"],
-		datasets: [{
-		label: "여성",
-		borderColor: window.chartColors.red,
-		backgroundColor: window.chartColors.red,
-		data: [
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor(), 
-			randomScalingFactor()
-		],
-		fill: false,
-		}, {
-			label: "남성",
-			borderColor: window.chartColors.blue,
-			backgroundColor: window.chartColors.blue,
-			data: [
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor(), 
-				randomScalingFactor()
-			],
-			fill: false,
-		}]
-	},
-	options: {
-		responsive: true,
-		title:{
-		display: true,
-		text: "책 조회 수 통계 그래프"
-		},
-		tooltips: {
-				mode: 'index',
-			callbacks: {
-			footer: function(tooltipItems, data) {
-				var sum = 0;
+    var age = ["0", "10", "20", "30", "40", "50", "60", "70"];
 
-				tooltipItems.forEach(function(tooltipItem) {
-					sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-				});
-				return 'Sum: ' + sum;
-				},
-			},
-			footerFontStyle: 'normal'
-		},
-		hover: {
-			mode: 'index',
-			intersect: true
-		},
-		scales: {
-			xAxes: [{
-			display: true,
-			scaleLabel: {
-				show: true,
-				labelString: 'Month'
-				}
-			}],
-			yAxes: [{
-				display: true,
-				scaleLabel: {
-				show: true,
-				labelString: 'Value'
-				}
-			}]
-		}
-	}
-};
+    var config = {
+        type: 'line',
+        data: {
+            labels: ["0", "10", "20", "30", "40", "50", "60", "70"],
+            datasets: [{
+                label: "여성",
+                fill: false,
+                borderColor: window.chartColors.red,
+                backgroundColor: window.chartColors.red,
+                data: [
+                	${women.age_0},
+                	${women.age_10},
+                	${women.age_20},
+                	${women.age_30},
+                	${women.age_40},
+                	${women.age_50},
+                	${women.age_60},
+                	${women.age_70}
+                ]
+            }, {
+                label: "남성",
+                fill: false,
+                borderColor: window.chartColors.blue,
+                backgroundColor: window.chartColors.blue,
+                data: [
+                	${men.age_0},
+                	${men.age_10},
+                	${men.age_20},
+                	${men.age_30},
+                	${men.age_40},
+                	${men.age_50},
+                	${men.age_60},
+                	${men.age_70}
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: "도서 조회 수 통계 그래프"
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    ticks: {
+                        callback: function(dataLabel, index) {
+                            // Hide the label of every 2nd dataset. return null to hide the grid line too
+                            return index % 2 === 0 ? dataLabel : '';
+                        }
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    beginAtZero: false
+                }]
+            }
+        }
+    };
 
     window.onload = function() {
         var ctx = document.getElementById("canvas").getContext("2d");
@@ -202,11 +185,8 @@ $(function() {
 
 <!-- 별점 주는 css -->
 <style type="text/css">
-/* 마우스오버 */
-#starWrap {
-	
-}
 
+/* 마우스오버 */
 #starWrap ul:after {
 	content: '';
 	display: block;
@@ -280,6 +260,12 @@ $(function() {
 	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
 	background-position: 0 -15px;
 }
+
+canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
 </style>
 
 </head>
@@ -295,11 +281,6 @@ $(function() {
 					<div id="{book.isbn}">
 						<img src="${book.thumbnail}">
 						<h2>${book.title}</h2>
-						
- 						<div style="width:75%;">
-        				<canvas id="canvas"></canvas>
-    					</div>
-						
 						<c:choose>
 							<c:when test="${user.email == null}">
 							</c:when>
@@ -337,7 +318,12 @@ $(function() {
 							댓글<input type="text" id="content" placeholder="댓글 입력">
 							<button onclick="addReply(${book.isbn});">댓글입력</button> <br>
 						</c:if>	
+						
+ 						<div style="width:75%;">
+        				<canvas id="canvas"></canvas>
+    					</div>
 						<br>
+						<hr>
 						<h3>댓글리스트</h3>
 						<hr>
 						<p></p>

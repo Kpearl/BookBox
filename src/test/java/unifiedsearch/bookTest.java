@@ -15,7 +15,7 @@ import com.bookbox.service.unifiedsearch.BookService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/context-mybatis.xml", "classpath:config/context-common.xml",
-		"classpath:config/context-transaction.xml", "classpath:config/context-aspect.xml" })
+		"classpath:config/context-transaction.xml", "classpath:config/context-aspect.xml", "classpath:config/context-mail.xml"})
 
 public class bookTest {
 
@@ -46,9 +46,9 @@ public class bookTest {
 		bookService.getBook(user, book);
 	}
 
-	@Test
+	/*@Test*/
 	public void getRecommendBookList() throws Exception {
 
 		bookService.getRecommendBookList();
-	}
+	} 
 }

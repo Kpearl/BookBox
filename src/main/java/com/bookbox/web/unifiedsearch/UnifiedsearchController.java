@@ -139,7 +139,8 @@ public class UnifiedsearchController {
 
 		model.addAttribute("book", resultBook);
 		model.addAttribute("user", user);
-		model.addAttribute("statics", map);
+		model.addAttribute("men", map.get("men"));
+		model.addAttribute("women", map.get("women"));
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}
