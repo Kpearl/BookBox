@@ -110,7 +110,6 @@ function addReply(isbn) {
 	}		
 }
 
-/* <div id="gradeAvg">사이트내 평균 평점 : ${book.grade.average}</div> */
 //좋아요 추가
 function addLike(isbn) {
 	var total = document.getElementById('likeSum').innerHTML;
