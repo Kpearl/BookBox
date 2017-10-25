@@ -22,7 +22,7 @@ public class Booklog {
 	private List<Posting> postingList;
 	private List<User> bookmarkList;
 	private int viewCount;
-	private Map<String, Object> visitorsStatistics;
+	private Map<String, Map<Object, Map<String,Object>>> visitorsStatistics;
 	
 	public Booklog() {
 		// TODO Auto-generated constructor stub
@@ -92,11 +92,11 @@ public class Booklog {
 		this.viewCount = viewCount;
 	}
 
-	public Map<String, Object> getVisitorsStatistics() {
+	public Map<String, Map<Object, Map<String,Object>>> getVisitorsStatistics() {
 		return visitorsStatistics;
 	}
 
-	public void setVisitorsStatistics(Map<String, Object> visitorsStatistics) {
+	public void setVisitorsStatistics(Map<String, Map<Object, Map<String,Object>>> visitorsStatistics) {
 		this.visitorsStatistics = visitorsStatistics;
 	}
 

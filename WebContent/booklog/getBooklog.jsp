@@ -20,6 +20,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js"></script>
 	<!-- Swiper 설정 끝 -->
+
+	<!-- Chart.js 설정 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
+	<!-- Chart.js 설정 끝 -->
 	
     <style>
 	    .swiper-container {
@@ -52,6 +57,7 @@
 	});
 
 	$(function(){
+		/* swiper 설정 */
         var swiper = new Swiper('.swiper-container', {
             spaceBetween: 30,
             centeredSlides: true,
@@ -61,8 +67,117 @@
             },
             loop: false
         });
+        
+        /* chart 설정 */
+		var ctxDaily = $("#dailyChart");
+		var dailyChart = new Chart(ctxDaily, {
+		    type: 'bar',
+		    data: {
+		        labels: [fncGetDate(6)
+		        			, fncGetDate(5)
+		        			, fncGetDate(4)
+		        			, fncGetDate(3)
+		        			, fncGetDate(2)
+		        			, fncGetDate(1)
+		        			, fncGetDate(0)],
+		        datasets: [{
+		            label: '# of DailyVisitors',
+		            data: [${booklog.visitorsStatistics.daily.get(6.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(5.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(4.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(3.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(2.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(1.0).daycount}
+				            , ${booklog.visitorsStatistics.daily.get(0.0).daycount}],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                    //stepSize:1
+		                }
+		            }]
+		        }
+		    }
+		});
+
+		var ctxWeekly = $("#weeklyChart");
+		var weeklyChart = new Chart(ctxWeekly, {
+		    type: 'bar',
+		    data: {
+		        labels: [fncGetDate(6)
+		        			, fncGetDate(5)
+		        			, fncGetDate(4)
+		        			, fncGetDate(3)
+		        			, fncGetDate(2)
+		        			, fncGetDate(1)
+		        			, fncGetDate(0)],
+		        datasets: [{
+		            label: '# of WeeklyVisitors',
+		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(5.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(4.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(3.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(2.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(1.0).weekcount}
+				            , ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                    //stepSize:1
+		                }
+		            }]
+		        }
+		    }
+		});
+
+		
+		/* tab 설정 */
+		$('#chartTab').tab('show');
     })
 	
+    function fncGetDate(day){
+		var nowDate = new Date();
+		var date = nowDate.getTime() - (day * 24 * 60 * 60 * 1000);
+		nowDate.setTime(date);
+		var year = nowDate.getFullYear();
+		var month = nowDate.getMonth() + 1;
+		var day = nowDate.getDate();
+		
+		if(month < 10){
+			month = '0' + month;
+		}
+		if(day < 10){
+			day = '0' + day;
+		}
+		
+		return year + '-' + month + '-' + day;
+	}
+    
 </script>
 </head>
 <body>
@@ -76,7 +191,7 @@
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
 		<!-- <img src="http://localhost:8080/BookBox/resources/uploadFiles/images/${booklog.booklogImage}" alt="Image"> -->
 		<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
-		<div class="col-md-9-offset col-md-3">
+		<div class="col-md-offset-9 col-md-3">
 			<a class="btn btn-defalut" href="#">
 				<c:if test="${sessionScope.user.email != null}">
 					<c:if test="${sessionScope.user.email == booklog.user.email}">
@@ -111,7 +226,34 @@
 	</div>
 	
 	<div class="container">
-		일간통계 주간통계 월간통계
+		<ul class="nav nav-tabs" role="tablist" id="chartTab">
+			<li role="presentation" class="active">
+				<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
+					일간통계
+				</a>
+			</li>
+			<li role="presentation">
+				<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
+					주간통계
+				</a>
+			</li>
+			<li role="presentation">
+				<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
+					월간통계
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="daily">
+				<canvas id="dailyChart" width="400" height="200"></canvas>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="weekly">
+				<canvas id="weeklyChart" width="400" height="200"></canvas>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="monthly">
+				<canvas id="monthlyChart" width="400" height="200"></canvas>
+			</div>
+		</div>
 	</div>
 	<div class="container">
 		<c:forEach items="${logList}" var="log">

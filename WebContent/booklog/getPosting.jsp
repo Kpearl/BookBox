@@ -33,7 +33,7 @@
 	<div class="container-fluid text-center">
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
 		<!-- <img src="http://localhost:8080/BookBox/resources/uploadFiles/images/${posting.postingFileList[0]}" alt="Image"> -->
-		<br/><mark>${posting.postingTitle}</mark>, <em>by ${posting.user.nickname}</em>
+		<br/><mark>${posting.postingTitle}</mark>, <em>by ${posting.user.nickname}</em>, 조회수 : ${posting.viewCount}
 	</div>
 	
 	<div class="container">

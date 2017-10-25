@@ -62,12 +62,13 @@
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
 			u.nickname, l.location_name, l.latitude, l.longitude,
-			tw.tag_name, tw.tag_no
+			tw.tag_name, tw.tag_no, vc.count
 		FROM 
 			posting p
 			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
 			LEFT OUTER JOIN user u ON p.email = u.email
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
+			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
 		WHERE 
 			p.posting_no = #{postingNo} 
 			AND p.active = 1

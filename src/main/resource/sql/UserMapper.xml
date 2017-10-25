@@ -53,7 +53,7 @@
 			</otherwise>
 		</choose>
 		
-		<if test="active==0 and certificationNo == null">
+		<if test="active==0 and certificationNo == 0">
 			AND active = 1
 		</if>
 			

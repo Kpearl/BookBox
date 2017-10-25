@@ -125,20 +125,43 @@
 	</select>
 	
 	<select id="getDailyVisitors" parameterType="int" resultType="map">
-		SELECT 
-			code_name day, sum(IFNULL(reg_date,0)) daycount 
-		FROM 
-			codes c
-			left outer join ( 	SELECT 1 reg_date, DAYOFMONTH(reg_date) day
-								FROM log
-								WHERE category_no = 4 AND target_no = #{value} ) logd
-						on day = c.code_name
-		WHERE
-			code_name BETWEEN DAYOFMONTH(CURRENT_DATE()-6) and DAYOFMONTH(CURRENT_DATE())
+		SELECT
+			num, COUNT(reg_date) daycount
+		FROM
+			( SELECT date(current_date()-(@n:=@n+1)) date, @rnum:=@rnum+1 num
+				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
+				LIMIT 7 ) vt
+			LEFT OUTER JOIN (SELECT 
+								reg_date
+							FROM 
+								log
+							WHERE
+								category_no=4 AND target_no=#{value} AND behavior=1) lg
+						ON date = date(reg_date)
 		GROUP BY
-			code_name
-		ORDER BY
-			code_name DESC
+			date
+		ORDER BY 
+			date DESC
+	</select>
+	
+	<select id="getWeeklyVisitors" parameterType="int" resultType="map">
+		SELECT
+			num, COUNT(reg_date) weekcount
+		FROM
+			( SELECT week(current_date()-7*(@n:=@n+1)) week, @rnum:=@rnum+1 num
+				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
+				LIMIT 7 ) vt
+			LEFT OUTER JOIN (SELECT 
+								reg_date
+							FROM 
+								log
+							WHERE
+								category_no=4 AND target_no=#{value} AND behavior=1) lg
+						ON week = week(reg_date)
+		GROUP BY
+			week
+		ORDER BY 
+			week DESC
 	</select>
 	
 	

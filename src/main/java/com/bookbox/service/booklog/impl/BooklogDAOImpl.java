@@ -35,7 +35,11 @@ public class BooklogDAOImpl implements BooklogDAO {
 	public Booklog getBooklog(Booklog booklog) {
 		// TODO Auto-generated method stub
 		booklog = sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
-		booklog.setVisitorsStatistics(sqlSession.selectMap("BooklogMapper.getDailyVisitors", booklog.getBooklogNo(), "day"));
+		Map<String, Map<Object, Map<String,Object>>> statistics = new HashMap<String, Map<Object, Map<String,Object>>>();
+		statistics.put("daily", sqlSession.selectMap("BooklogMapper.getDailyVisitors", booklog.getBooklogNo(), "num"));
+		statistics.put("weekly", sqlSession.selectMap("BooklogMapper.getWeeklyVisitors", booklog.getBooklogNo(), "num"));
+		statistics.put("monthly", null);
+		booklog.setVisitorsStatistics(statistics);
 		return booklog;
 	}
 

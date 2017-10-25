@@ -62,6 +62,9 @@ public class BooklogTest {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
 		
-		System.out.println(booklogService.getBooklog(new User(), booklog));
+//		System.out.println(booklogService.getBooklog(new User(), booklog));
+		booklog = booklogService.getBooklog(new User(), booklog);
+		System.out.println(booklog);
+		System.out.println(booklog.getVisitorsStatistics().get("daily").get(0.0).get("daycount"));
 	}
 }

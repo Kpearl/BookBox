@@ -68,7 +68,7 @@ public class UserController {
 	
 		System.out.println("UserController :: /user/addUser : GET");
 		
-		return "redirect:/user/addUserView.jsp";
+		return "redirect:../user/addUserView.jsp";
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class UserController {
 		//Business Logic
 		if (user.getOuterAccount() != 0) {
 			userService.addUser(user);
-			resultPage="forward:login";
+			resultPage="forward:../user/login";
 		}else {
 			mailService.sendMail(user);
 			resultPage ="redirect:../index.jsp";
@@ -117,7 +117,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("user", dbuser);
 		
-		return "forward:getUser.jsp";
+		return "forward:../user/getUser.jsp";
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("user", dbuser);
 		
-		return "forward:updateUserView_Test.jsp";
+		return "forward:../user/updateUserView_Test.jsp";
 	}
 	
 	/**
@@ -156,11 +156,11 @@ public class UserController {
 		userService.updateUser(user);
 		
 		String sessionEmail=((User)session.getAttribute("user")).getEmail();
-			if(sessionEmail.equals(user.getEmail())){
-				session.setAttribute("user", user);
-			}
+		if(sessionEmail.equals(user.getEmail())){
+			session.setAttribute("user", user);
+		}
 			
-		return "redirect:getUser?email="+user.getEmail();
+		return "redirect:../user/getUser?email="+user.getEmail();
 	}
 	
 	
@@ -175,20 +175,20 @@ public class UserController {
 	public String checkCertNo(@RequestParam("certificationNo") int certificationNo,
 														@ModelAttribute("user") User user, HttpSession session) throws Exception{
 		// TODO checkCertNo
-				System.out.println("UserController :: /user/checkCertNo : GET");		
-		
-				if (certificationNo == userService.getUser(user).getCertificationNo()) {
-					Map<String, Object> map = new HashMap<>();
-					map.put("email", user.getEmail());
-					map.put("active", user.getActive());
-					
-					userService.updateActive(map);
-				}else {
-					return "redirect:addUserView.jsp";
-				}
+		System.out.println("UserController :: /user/checkCertNo : GET");		
+
+		if (certificationNo == userService.getUser(user).getCertificationNo()) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("email", user.getEmail());
+			map.put("active", user.getActive());
+			
+			userService.updateActive(map);
+		}else {
+			return "redirect:../user/addUserView.jsp";
+		}
 
 				
-		return "redirect:confirmCertNo.jsp";
+		return "redirect:../user/confirmCertNo.jsp";
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class UserController {
 		// TODO
 		System.out.println("UserController :: /user/login : GET");
 		
-		String resultPage = "redirect:loginTest.jsp";
+		String resultPage = "redirect:../user/login.jsp";
 		
 		System.out.println(session.getAttribute("user"));
 		
@@ -228,17 +228,17 @@ public class UserController {
 		
 		String returnValue="redirect:../index.jsp";
 		
-		System.out.println("외부계정 user 정보 :: "+user);
+//		System.out.println("외부계정 user 정보 :: "+user);
 		//Business Logic
 		User dbUser=userService.getUser(user);
 				
 		if(dbUser != null) {
 			if (dbUser.getOuterAccount()==0) {
 				if (user.getPassword().equals(dbUser.getPassword())) {
-							session.setAttribute("user", dbUser);
+					session.setAttribute("user", dbUser);
 							
 				}else {
-					returnValue = "redirect:login";
+					returnValue = "redirect:../user/login";
 				}
 			}else {
 				session.setAttribute("user", dbUser);		
@@ -246,7 +246,7 @@ public class UserController {
 			
 		}else {
 			if (user.getOuterAccount()==0) {
-				returnValue = "redirect:login";
+				returnValue = "redirect:../user/login";
 			}else {
 				model.addAttribute("user", user);
 				System.out.println("Model.getAttribute('user')  :: "+user);
@@ -268,7 +268,7 @@ public class UserController {
 		// TODO
 		System.out.println("UserController :: /user/logout : POST");
 		
-		User user = (User)session.getAttribute("user"); 
+//		User user = (User)session.getAttribute("user"); 
 		
 //		if (user.getOuterAccount() != 0) {
 //			userService.logout(user);
@@ -291,7 +291,7 @@ public class UserController {
 		// TODO 
 		System.out.println("UserController :: /user/findPassword : GET");
 		
-		return "redirect:findPasswordView.jsp";
+		return "redirect:../user/findPasswordView.jsp";
 	}
 	
 	/**
@@ -337,7 +337,7 @@ public class UserController {
 		
 		System.out.println("Controller : activeUser :: "+dbuser);
 		
-		return "redirect:login?email="+dbuser.getEmail();
+		return "redirect:../user/login?email="+dbuser.getEmail();
 	}
 	
 
