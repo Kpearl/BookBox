@@ -57,19 +57,63 @@
 		<where>
 		 writing_no = #{writingNo}	
 		
-		<!-- <if test="active==0">
+		<if test="active==0">
 			AND active = 1
-		</if> -->
+		</if>
 			
 		</where>
 	 </select>
 	 
+	 
+	 <!-- SQL : SELECT WritingLIST -->
+	<select  id="getWritingList"  parameterType="search"	resultMap="writingSelectMap">
+		
+		SELECT
+			c.creation_no,	 c.author email, 
+			c.creation_title, 	c.creation_head, 
+			c.creation_file_name, c.creation_origin_name, 
+			c.creation_intro, c.active,
+			
+			w.writing_no, w.writing_title , 
+			w.writing_content, w.reg_date , 
+			w.update_date, w.active,
+			
+			t.tag_name
+
+		FROM 
+			writing w LEFT JOIN creation c ON w.creation_no = c.creation_no  
+			LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
+			LEFT JOIN tag  t ON ta.tag_no =t.tag_no
+
+		<where>
+			c.creation_no = #{creation.creationNo}
+			
+		</where>
+		LIMIT #{page.startRow}, #{page.pageSize}
+	</select>
+	 
+	 
+	 
+	  <!-- SQL : DELETE -->
+	 <update	id="deleteWriting"	parameterType="writing" >
+	   	UPDATE writing
+	   	<set>
+	  	 	<if test ="active != null">
+				active 	= 0
+			</if>
+	   	</set>
+	   	<where>
+	   		creation_no = #{writing.creation}
+	   	</where>
+	
+	 </update>
+	 
 
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalWritingCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalWritingCount"  parameterType="creation"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT writing_title ,author , creationImage, creationHead
-						FROM  creation) countTable						
+	  	FROM writing
+	  	WHERE creation_no =#{creationNo}						
 	 </select>
 
 </mapper>

@@ -67,57 +67,8 @@
         	paginationClickable: true,
         	spaceBetween: 30
 	    });
+    
     })
-    
-    //============= 창작공간 Navigation Event  처리 =============	
-$(function() {
-	$("a:contains('펀딩제목')").on("click" , function() {
-		$(self.location).attr("href","../creation/getFunding");
-	}); 
-});
-    
-   //============= 펀딩글보기 Navigation Event  처리 =============	
-   $(function() {
-   	$("a[name='펀딩이미지']").on("click" , function() {
-   		$(self.location).attr("href","../creation/getFunding");
-   	}); 
- });
-   
-   //============= 펀딩리스트 더보기 Navigation Event  처리 =============	
-   $(function() {
-	   $("a[name='fundingMore']").on("click" , function() {
-   		$(self.location).attr("href","../creation/getFundingList");
-   	}); 
- });  
-   
-   //============= 픽션 창작리스트 더보기 Navigation Event  처리 =============	
-   $(function() {
-	   $("a.fictionMore").on("click" , function() {
-   		$(self.location).attr("href","../creation/getCreationList?condition=2&keyword=픽션");
-   	}); 
- });   
-   
-   //============= 논픽션 창작리스트 더보기 Navigation Event  처리 =============	
-   $(function() {
-	   $("a[name='nonfictionMore']").on("click" , function() {
-   		$(self.location).attr("href","../creation/getCreationList?condition=2&keyword=논픽션");
-   	}); 
- });   
-   
-   //============= 창작작품 회차리스트 Navigation Event  처리 =============	
-   $(function() {
-   	$("a:contains('창작작품명')").on("click" , function() {
-   		$(self.location).attr("href","../creation/getWritingList?creationNo=");
-   	}); 
- });  
-   
-/*    //============= 창작공간 Navigation Event  처리 =============	
-   $(function() {
-   	$("img[name='creationFile']).on("click" , function() {
-   		$(self.location).attr("href","${param.uri}creation/getWritingList");
-   	}); 
- });   */
-    
     </script>
 		
 
@@ -129,18 +80,16 @@ $(function() {
 	
 <div class="container">	
 	
-	<h2>진행펀딩목록</h2>
+	<h3>진행펀딩목록</h3>
     <!-- Swiper -->
     	<div class="swiper-container" id= list>
         	<div class="swiper-wrapper">
 			        <div class="swiper-slide">
             				<div class="item">
-					<img alt="Image" src="../resources/images/test3.jpg" name="fundingImage" >
-					<h1><a href="#">펀딩제목</a></h1>
-					<p>펀딩 소개글</p>
-					<p>목표금액</p>
+					<img alt="Image" src="../resources/images/test3.jpg">
+					<h1><a href="#">Funding title</a></h1>
+					<p><a href="#">Funding content</a></p>
 					<p>Graph</p>
-					<p>남은기간</p>
 					<a class="button button-buy" href="#">getFunding navigation</a>
 						</div>
             		</div>
@@ -192,16 +141,16 @@ $(function() {
         
    <hr>
    <div class="col-sm-offset-10 col-sm-2">
-   	<a href="#" class="btn btn-success" name="fundingMore">펀딩 더보기</a>
+   	<a href="#" class="btn btn-success" name="more">펀딩 더보기</a>
    </div>
    
-   <h2>픽션</h2>
+   <h3>픽션</h3>
    
    <div class="swiper-container" id= list>
         	<div class="swiper-wrapper">
 			        <div class="swiper-slide">
             				<div class="item">
-					<img alt="Image" src="../resources/images/test1.jpg" name="creationFile">
+					<img alt="Image" src="../resources/images/test1.jpg">
 					<h1><a href="#">창작작품명</a></h1>
 					<p>작성자 닉네임</p>
 					
@@ -220,10 +169,10 @@ $(function() {
             		
     <hr>    
     <div class="col-sm-offset-10 col-sm-2">
-   		<a href="#" class="btn btn-success fictionMore" >더보기</a>
+   		<a href="#" class="btn btn-success" name="more">더보기</a>
   	 </div>    		
             		
-   <h2>논픽션</h2>
+   <h3>논픽션</h3>
    
     <div class="swiper-container" id= list>
         	<div class="swiper-wrapper">
@@ -247,7 +196,7 @@ $(function() {
   	
   	  <hr>    
     <div class="col-sm-offset-10 col-sm-2">
-   		<a href="#" class="btn btn-success" name="nonfictionMore">더보기</a>
+   		<a href="#" class="btn btn-success" name="more">더보기</a>
   	 </div> 
 
 </div>

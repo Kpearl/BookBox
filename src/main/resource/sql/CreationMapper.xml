@@ -93,12 +93,67 @@
 						 email = #{email}
 	
 	 </insert>
+	 
+	 	<!-- SQL : SELECT CreationLIST -->
+	<select  id="getCreationList"  parameterType="map"	resultMap="creationSelectMap">
+		
+		SELECT
+			c.creation_no,	 c.author email, 
+			c.creation_title, 	c.creation_head, 
+			c.creation_file_name, c.creation_origin_name, 
+			c.creation_intro, c.active,
+			t.tag_name
+
+		FROM 
+			creation c LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
+			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
+
+		<where>
+				
+			<if test="search.condition != null">
+					<if test="search.condition == 0 and search.keyword !=''">
+		 				c.creation_title LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 1 and search.keyword !=''">
+		 				c.author nickname LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 2 and search.keyword !=''">
+		 				t.tag_name LIKE '%${search.keyword}%'
+					</if>
+			</if>
+		</where>
+		LIMIT #{page.startRow}, #{page.pageSize}
+	</select>
+	
+	
+	
 
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCreationCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT creationTitle ,author , creationFile.fileName, creationHead
-						FROM  creation) countTable						
+	  	FROM(	SELECT
+							c.creation_no
+						FROM 
+							creation c
+							
+						<if test="condition == 2 and keyword !=''">
+							LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
+							LEFT JOIN tag  t ON tg.tag_no =t.tag_no
+						</if>
+						<where>
+							<if test="condition != null">
+									<if test="condition == 0 and keyword !=''">
+						 				c.creation_title LIKE '%${keyword}%'
+									</if>
+									<if test="condition == 1 and keyword !=''">
+						 				c.author nickname LIKE '%${keyword}%'
+									</if>
+									<if test="condition == 2 and keyword !=''">
+						 				t.tag_name LIKE '%${keyword}%'
+									</if>
+							</if>
+						</where>
+					) countTable						
 	 </select>
 
 </mapper>
