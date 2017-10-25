@@ -29,7 +29,7 @@
 		<result property="regDate" column="reg_date" jdbcType="DATE"/>
 		<result property="level" column="level" jdbcType="NUMERIC"/>
 		<result property="active" column="active" jdbcType="NUMERIC" />
-		<result property="reportCount" column="reportCount" jdbcType="NUMERIC"/>
+		<result property="reportCount" column="report_count" jdbcType="NUMERIC"/>
 		<association property="writer" javaType="user">
 			<result property="email" column="email" jdbcType="VARCHAR"/>
 			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
@@ -112,7 +112,7 @@
 		WHERE (tg.category_no=6 OR tg.category_no IS NULL)
 				AND b.board_no=#{value}
 	</select>
-	
+	<!-- 태그 포함 받아오는 버젼 페이징 문제로 폐기 -->
 	<select id="getBoardList2" parameterType="map" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
 				u.nickname, u.role,
@@ -148,6 +148,28 @@
 				'1');
 	</insert>
 	
+	<select id="getComment" parameterType="_int" resultMap="selectComment">
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, u.nickname
+		FROM	comment c, user u
+		WHERE 
+				c.email = u.email AND
+				c.comment_no = #{value}
+	</select>
+	
+	<update id="updateComment" parameterType="comment">
+		UPDATE comment 
+		SET board_no=#{boardNo}, 
+			senior_comment_no=#{seniorCommentNo}, 
+			email=#{writer.email},
+			level=#{level}, 
+			content=#{content}, 
+			report_count=#{reportCount}, 
+			active=#{active}
+		WHERE 
+			comment_no=#{commentNo};
+		
+	</update>
+	
 	<select id="getCommentList" parameterType="_int" resultMap="selectComment">
 		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, u.nickname
 		FROM	comment c, user u
@@ -177,7 +199,7 @@
 	
 	<insert id="addReport" parameterType="report">
 		
-		INSERT INTO like (`email`, `target_no`, `category_no`) 
+		INSERT INTO report (`email`, `target_no`, `category_no`) 
 		VALUES (
 				#{email:VARCHAR}, 
 				#{targetNo}, 

@@ -15,8 +15,11 @@ public interface CommunityDAO {
 	public int updateBoard(Board board);
 	public int deleteBoard(int boardNo);
 	public List getBoardList(Map map);
+	public List getBoardListUserTagMapper(Map map);
 	
 	public int addComment(Comment comment);
+	public Comment getComment(int commentNo);
+	public int updateCommnet(Comment comment);
 	public List<Comment> getCommentList(int boardNo);
 	public int getCommentMaxLevel(int boardNo);
 	

@@ -76,6 +76,14 @@ public class CommunityServiceImpl implements CommunityService {
 		
 	}
 
+	
+	
+	@Override
+	public List<Board> getBoardListUserTagMapper(Map map) {
+		// TODO Auto-generated method stub
+		return communityDAOImple.getBoardListUserTagMapper(map);
+	}
+
 	@Override
 	public int addRecommend(Recommend recommed) {
 		//게시글 추천일때
@@ -121,7 +129,11 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		}
 		else if(report.getCategory().equals("comment")) {
+			report.setCategoryNo(Const.AddBehavior.COMMENT);
 			
+			Comment comment =communityDAOImple.getComment(report.getTargetNo());
+			comment.setReportCount(comment.getReportCount()+1);
+			communityDAOImple.updateCommnet(comment);
 		}
 		
 		
@@ -146,12 +158,17 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		List<Comment>[] commentArray=new List[maxLevel];
 		for(int i=0; i<maxLevel; i++) {
-			commentArray[i]=new ArrayList();
+			commentArray[i]=new ArrayList();			
 		}
 		
 		//댓글 레벨별 정리
 		int level=0;
 		for(Comment comment: commentList) {
+			//블라인드 체크
+			if(comment.getReportCount()>50) {
+				comment.setBlind(true);
+			}
+			
 			level=comment.getLevel();
 			commentArray[level].add(comment);
 		}

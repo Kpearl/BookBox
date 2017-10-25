@@ -56,9 +56,26 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
+	public List getBoardListUserTagMapper(Map map) {
+		return sqlSession.selectList("CommunityMapper.getBoardList",map);
+	}
+
+	@Override
 	public int addComment(Comment comment) {
 
 		return sqlSession.insert("CommunityMapper.addComment",comment);
+	}
+
+	@Override
+	public Comment getComment(int commentNo) {
+		
+		return sqlSession.selectOne("CommunityMapper.getComment",commentNo);
+	}
+
+	@Override
+	public int updateCommnet(Comment comment) {
+	
+		return sqlSession.update("CommunityMapper.updateComment",comment);
 	}
 
 	@Override

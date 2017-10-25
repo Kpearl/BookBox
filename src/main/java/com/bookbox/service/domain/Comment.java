@@ -121,6 +121,6 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "Comment [commentNo=" + commentNo +", boardNo="+boardNo+", writer=" + writer + ", content=" + content + ", regDate="
-				+ regDate + ", level=" + level + ", comment=" + comment + ", blind=" + blind + "]";
+				+ regDate + ", level=" + level + ", ReportCount"+reportCount +", blind=" + blind+ ", comment=" + comment + "]";
 	}
 }

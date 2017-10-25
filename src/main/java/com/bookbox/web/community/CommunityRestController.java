@@ -69,11 +69,20 @@ public class CommunityRestController {
 		
 	}
 	
+	/**
+	 * @brief 댓글게시판 , 댓글 신고
+	 * @param Comment
+	 * @return 
+	 */
 	@RequestMapping(value="/addReport")
 	public void addReport(@ModelAttribute("Report")Report report) {
 		
-		System.out.println(report);
+		System.out.println("addReport() Reprot= "+report);
+		User user=new User();
+		user.setEmail("test@test.com");
+		report.setEmail(user.getEmail());
 		
+		communityServiceImpl.addReport(report);
 	}
 	
 	
@@ -98,6 +107,11 @@ public class CommunityRestController {
 		
 	}
 	
+	/**
+	 * @brief 댓글게시판 댓글 리스트 조회
+	 * @param int boardNo
+	 * @return List<Comment> 
+	 */
 	@RequestMapping(value="/getCommentList/{boardNo}")
 	public List getCommentList(@PathVariable("boardNo")int boardNo) {
 		

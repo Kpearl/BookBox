@@ -172,7 +172,8 @@ public class CommunityController {
 		
 		
 		List boardList;
-		boardList=communityServiceImpl.getBoardList(map);
+		//boardList=communityServiceImpl.getBoardList(map);
+		boardList=communityServiceImpl.getBoardListUserTagMapper(map);
 		System.out.println(boardList.size());
 		
 		model.addAttribute(boardList);

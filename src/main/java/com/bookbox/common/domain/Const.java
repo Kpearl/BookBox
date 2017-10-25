@@ -35,6 +35,7 @@ public class Const {
 		public static final int GRADE = 3;
 		public static final int BOOKMARK = 4;
 		public static final int REPLY = 5;
+		public static final int COMMENT =6 ;
 	}
 	
 }

@@ -32,13 +32,13 @@
 	$(function(){
 		
 		$("#recommend").on("click",function(){
-			var boardNo=$("#boardNo").val();
+			var boardNo=$("input[name=boardNo]").val();
 			var param="targetNo="+boardNo+"&category=board&pref=up";
 			sendRecommend(param);
 		});
 		
 		$("#report").on("click",function(){
-			var boardNo=$("#boardNo").val();
+			var boardNo=$("input[name=boardNo]").val();
 			var param="targetNo="+boardNo+"&category=board";
 			sendReport(param);
 		});
@@ -63,6 +63,7 @@
 	}
 //////////////////////	신고 추가 부분
 	function sendReport(param){
+	alert(param);
 		$.ajax({
 			url: "rest/addReport",
 			method: "POST",
@@ -115,20 +116,28 @@
 				var comment=commentList[i];
 				
 				var commentObj=$("<div class='media'>"+
-									"<input name='commentNo' value='"+comment.commentNo+"'>"+ //히든처리할거
-									"<input name='level' value='"+comment.level+"'>"+ //히든처리할거
+									"<input name='commentNo' type='hidden' value='"+comment.commentNo+"'>"+ //히든처리할거
+									"<input name='level' type='hidden' value='"+comment.level+"'>"+ //히든처리할거
 									"<div class='media-left'>"+
 										"<img src='../resources/images/comment.png' class='media-object' style='width:20px'>"+
 									"</div>"+
 									"<div class='media-body'>"+
 										"<h4 class='media-heading'>"+ comment.writer.nickname +"<small><i>"+comment.regDate+"</i></small></h4>"+
-										"<p>"+comment.content+"</p>"+
+										"<p class='comment-content'>"+comment.content+"</p>"+
 										"<a class='btn' id='addCommentArea'>답변</a>"+
+										"<a class='btn report'>신고</a>"+
 										"<div class='inputarea'>"+
 										"</div>"+
 									"</div>"+
 								"</div>"	);
-			
+				
+				//블라인드 처리
+				if(comment.blind==true){
+					alert("blindTest")
+					commentObj.find(".comment-content").before("<p>블라인드 된 글 입니다.</p>");
+					commentObj.find(".comment-content").css("display","none");
+				}
+				//
 			commentEventInit(commentObj);
 			
 			appendPoint.append(commentObj);
@@ -196,6 +205,15 @@
 			commentObj.find(".inputarea:first").append(inputObj);
 			
 		});//댓글 입력창 , 댓글달기 이벤트 추가 부분
+		
+		//신고 이벤트 등록 시작 
+		commentObj.find(".btn.report").on("click",function(){
+			alert("reportbtn test");
+			var commentNo=commentObj.find("input[name='commentNo']").val();
+			var param="targetNo="+commentNo+"&category=comment";
+			sendReport(param);
+		});
+		//신고 이벤트 등록 끝
 		
 	}//이벤트 초기화끝
 </script>

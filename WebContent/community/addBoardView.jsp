@@ -48,11 +48,17 @@
 		//태그 자동완성 끝
 		//태그 추가 
 		$("#addTagBtn").on("click",function(){
-			alert(	$("#tagInput").val());
+		//	alert(	$("#tagInput").val());
 			var tag = $("#tagInput").val();
 			
-			var tagName=$("<input type='text' name='tagNames' value='"+tag+"'>");
-			alert(tagName.val());
+			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly><a class='btn removeBtn'>x</a></span>");
+			tagName.find("a.removeBtn").on("click",function(){
+				//alert("test");
+				tagName.remove();
+			});
+			
+			
+			//alert(tagName.val());
 			$("#tagNames").append(tagName);
 		});
 		//
