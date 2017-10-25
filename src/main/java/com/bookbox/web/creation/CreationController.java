@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
@@ -59,7 +61,7 @@ public class CreationController {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
-
+	
 //	@Autowired
 //	@Qualifier("fundingServiceImpl")
 	private FundingService fundingService;
@@ -147,7 +149,10 @@ public class CreationController {
 			tagList.add(new Tag(dbTag[i]));
 		}	
 		creation.setTagList(tagList);
-		creationService.addCreation(user, creation);
+		
+		if (creation.getCreationNo() == 0) {
+			creationService.addCreation(user, creation);
+		}
 		writingService.addWriting(user, writing);
 	
 		return "forward:/creation/getWritingList.jsp";
@@ -264,7 +269,7 @@ public class CreationController {
 	/**
 	 * @brief updateWriting/ 작품글수정
 	 * @details POST
-	 * @param Writing writing
+	 * @param Writing 
 	 * @throws Exception
 	 * @return ""
 	 */
@@ -275,9 +280,9 @@ public class CreationController {
 		//Business Logic
 		
 		User user= (User)session.getAttribute("user");
-//		writingService.updateWriting(user, writing);
+		writingService.updateWriting(user, writing);
 		
-		return "";
+		return  "redirect:getWriting?writingNo=writing.getWritingNo()";
 	}
 	
 	/**
@@ -301,16 +306,105 @@ public class CreationController {
 		// Model 과 View 연결
 		model.addAttribute("writing", writing);
 		
-		return "forward:getwriting.jsp";
+		return "forward:getWriting.jsp";
+	}	
+	
+	/**
+	 * @brief getCreationList/창작작품리스트 조회
+	 * @details GET
+	 * @param Creation
+	 * @throws Exception
+	 * @return "forward:getCreationList.jsp"
+	 */
+	@RequestMapping( value="getCreationList", method=RequestMethod.GET )
+	public String getCreationList( @ModelAttribute("search") Search search, 
+															@ModelAttribute("page") Page page, Model model) throws Exception {
+		// TODO getCreationList
+		System.out.println("CreationController :: /creation/getCreationList : GET");
+
+		System.out.println("getCreationList :: getSearch :: "+search);
+		System.out.println("getCreationList :: getPage :: "+page);
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		
+		List<Creation> creationList = creationService.getCreationList(map);
+		System.out.println("getCreationList :: "+creationList);
+
+		// Model 과 View 연결
+		model.addAttribute("creationList", creationList);
+		
+		System.out.println("CreationController :: /creation/getCreationList : GET ===> END");
+		return "forward:listCreation.jsp";
+	}	
+	
+	/**
+	 * @brief getWritingList/창작글 리스트 조회
+	 * @details GET
+	 * @param Creation
+	 * @throws Exception
+	 * @return "forward:getWritingList.jsp"
+	 */
+	@RequestMapping( value="getWritingList", method=RequestMethod.GET )
+	public String getWritingList( @ModelAttribute("creation") Creation creation,
+															@ModelAttribute("search") Search search, 
+															@ModelAttribute("page") Page page, Model model) throws Exception {
+		// TODO getCreationList
+		System.out.println("CreationController :: /creation/getWritingList : GET  ===>START");
+
+		System.out.println("getCreationList :: getSearch :: "+search);
+		System.out.println("getCreationList :: getPage :: "+page);
+		
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		map.put("creation", creation);
+		
+		List<Writing> writingList = writingService.getWritingList(map);
+		System.out.println("getWritingList"+writingList);
+
+		// Model 과 View 연결
+		model.addAttribute("writingList", writingList);
+		
+		System.out.println("CreationController :: /creation/getCreationList : GET ===> END");
+		return "forward:getCreationList.jsp";
 	}	
 
 	
 	/**
 	 * @brief deleteCreation/작품삭제
 	 * @details GET
-	 * @param Creation creation 
+	 * @param Creation 
 	 * @throws Exception
-	 * @return "forward:getCreationList?creationAuthor=creationAuthor"
+	 * @return 
 	 */
 	@RequestMapping( value="deleteCreation", method=RequestMethod.GET )
 	public String deleteCreation(@ModelAttribute("creation") Creation creation,
@@ -321,7 +415,7 @@ public class CreationController {
 		User user = (User)session.getAttribute("user");
 		creation.setCreationAuthor(user);
 		
-		creationService.updateCreation(user, creation);
+		creationService.deleteCreation(creation);
 		
 		return "forward:getCreationList?creationAuthor="+user.getNickname();
 	}
@@ -334,17 +428,14 @@ public class CreationController {
 	 * @return "forward:getWritingList?creationNo=creation.getCreationNo()"
 	 */
 	@RequestMapping( value="deleteWriting", method=RequestMethod.GET )
-	public String deleteWriting(@ModelAttribute("creation") Creation creation, @ModelAttribute("writing") Writing writing,
-																HttpSession session) throws Exception {
+	public String deleteWriting(@ModelAttribute("creation") Creation creation,
+															HttpSession session) throws Exception {
 		// TODO deleteWriting
 		System.out.println("CreationController :: /creation/deleteWriting : GET");
-		
-//		writingService.updateWriting(User, writing);
-		
+	
 		User user = (User)session.getAttribute("user");
-		creation.setCreationAuthor(user);
-		
-		creationService.updateCreation(user, creation);
+			
+		creationService.deleteCreation(creation);
 		
 		return "forward:getCreationList?creationAuthor="+user.getNickname();
 	}	

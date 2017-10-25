@@ -49,12 +49,12 @@ public class CreationTest {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	//@Test
+	@Test
 	public void testAddWriting() throws Exception {
 		// TODO testAddWriting()
 		/////////SET 
 		User user = new User();
-		user.setEmail("wndhks@naver.com");
+		user.setEmail("krinsa@naver.com");
 		user = userService.getUser(user);
 		
 		
@@ -67,8 +67,9 @@ public class CreationTest {
 				+uploadFile.getOriginName().substring(uploadFile.getOriginName().lastIndexOf("."));
 	
 		Creation creation = new Creation();
-		creation.setCreationTitle("창작공간 픽션글 3호");
-		creation.setCreationIntro("화요일인데 벌써 피곤피곤하구만 졸려");
+		creation.setCreationNo(25);
+		creation.setCreationTitle("창작공간 픽션글 1호");
+		creation.setCreationIntro("창작작품 테스트 첫번째 Title ");
 		creation.setCreationAuthor(user);
 		creation.setCreationHead("논픽션");
 		creation.setCreationFileName(fileName);
@@ -88,13 +89,13 @@ public class CreationTest {
 		uploadFileList.add(uploadFile3);
 		
 		Writing writing = new Writing();
-		writing.setWritingTitle("10월 24일 화요일");
-		writing.setWritingContent("테스트 빨리 끝내자아아아아");
+		writing.setWritingTitle("창작글 테스트 Title(2)");
+		writing.setWritingContent("창작글 테스트 첫번째 글입니다. ");
 		writing.setWritingFileList(uploadFileList);
 		
 		
 		Tag tag = new Tag();
-		tag.setTagName("#화요일#우울#졸려#목표치언제채움");
+		tag.setTagName("#수요일#픽션#테스트");
 		///////////SET END
 				
 		List<Tag> tagList = new ArrayList<>();
@@ -112,7 +113,7 @@ public class CreationTest {
 		System.out.println("UploadFile :: "+uploadFile);
 		
 		////////INSERT
-		creationService.addCreation(user, creation);
+	//	creationService.addCreation(user, creation);
 		writing.setWritingNo(creation.getCreationNo());
 		writingService.addWriting(user, writing);
 		///////
@@ -225,7 +226,7 @@ public class CreationTest {
 		
 	}
 	 
-	@Test
+	//@Test
 	public void testGetWriting() throws Exception {
 		
 		User user = new User();
@@ -242,8 +243,7 @@ public class CreationTest {
 		
 		//==> console 확인
 		System.out.println("testGetWriting() :: "+writing);
-		
-	
+
 	}
 	
 	

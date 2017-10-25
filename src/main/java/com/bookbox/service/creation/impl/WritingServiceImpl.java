@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
@@ -130,11 +131,24 @@ public class WritingServiceImpl implements WritingService {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public Map<String, Object> getWritingList(Search search) throws Exception{
+	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
-		Map<String, Object> map = new HashMap<>();
+		Page page = (Page)map.get("page");
+		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("cration")));
 		
-		return map;
+		List<Writing> writingList = writingDAO.getWritingList(map);
+		
+		return writingList;
+	}
+	
+	/**
+	 * @brief 창작글 삭제 
+	 * @param Writing
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deleteWriting(Writing writing) throws Exception{
+		writingDAO.deleteWriting(writing);
 	}
 	
 }

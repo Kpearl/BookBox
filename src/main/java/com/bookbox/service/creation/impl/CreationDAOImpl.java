@@ -60,12 +60,12 @@ public class CreationDAOImpl implements CreationDAO {
 		sqlSession.update("CreationMapper.updateCreation", creation);
 	}
 	
-	public List<Creation> getCreationList(Search search) throws Exception{
-		return sqlSession.selectList("CreationMapper.getCreationList", search);
+	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList("CreationMapper.getCreationList", map);
 	}
 	
 	public int getTotalCreationCount(Search search) throws Exception{
-		return sqlSession.selectOne("CreationMapper.getTotalCount", search);
+		return sqlSession.selectOne("CreationMapper.getTotalCreationCount", search);
 	}
 	
 	public List<Creation> getCreationSubscribeList(User user) throws Exception{

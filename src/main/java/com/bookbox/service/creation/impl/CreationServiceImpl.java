@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
@@ -18,8 +19,11 @@ import com.bookbox.common.service.TagService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.CreationService;
+import com.bookbox.service.creation.WritingDAO;
+import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.domain.Writing;
 
 /**
  * @file com.bookbox.service.creation.impl.CreationServieceImpl.java
@@ -39,12 +43,17 @@ public class CreationServiceImpl implements CreationService {
 	private CreationDAO creationDAO;
 	
 	@Autowired
+	@Qualifier("writingServiceImpl")
+	private WritingService writingService;
+	
+	@Autowired
 	@Qualifier("commonDAOImpl")
 	private CommonDAO commonDAO;
 	
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
+	
 	
 	
 	/**
@@ -85,11 +94,16 @@ public class CreationServiceImpl implements CreationService {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public Map<String, Object> getCreationList(Search search) throws Exception{
+	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		
-		Map<String, Object> map = new HashMap<>(); 
+		//Map<String, Object> map = new HashMap<>(); 
+		Page page=(Page)map.get("page");
+		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
+		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
 		
-		return map;
+		List<Creation> creationList = creationDAO.getCreationList(map);
+		
+		return creationList;
 	}
 	
 	/**
@@ -135,6 +149,22 @@ public class CreationServiceImpl implements CreationService {
 		
 		creation.setDoSubscription(false);
 		creationDAO.deleteCreationSubscribe(map);
+	}
+	
+	/**
+	 * @brief 작품삭제
+	 * @param User, Creation
+	 * @throws Exception
+	 * @return 
+	 */	
+	public void deleteCreation(Creation creation) throws Exception{
+		
+		Writing writing = new Writing();
+		writing.setCreation(creation);
+		
+		creationDAO.updateCreation(creation);
+		writingService.deleteWriting(writing);
+		System.out.println("deleteCreation 확인 :: ");
 	}
 
 

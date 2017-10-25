@@ -1,8 +1,10 @@
 package com.bookbox.service.creation;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -54,7 +56,7 @@ public interface WritingDAO {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public List<Writing> getWritingList(Search search) throws Exception;
+	public List<Writing> getWritingList(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 창작글리스트 총 개수
@@ -62,7 +64,15 @@ public interface WritingDAO {
 	 * @throws Exception
 	 * @return void
 	 */
-	public int getTotalCreationCount(Search search) throws Exception;
+	public int getTotalWritingCount(Creation creation) throws Exception;
 
+	
+	/**
+	 * @brief 창작글 삭제 
+	 * @param Writing
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deleteWriting(Writing writing) throws Exception;
 	
 }

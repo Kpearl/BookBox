@@ -48,7 +48,7 @@ public interface CreationDAO {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public List<Creation> getCreationList(Search search) throws Exception;
+	public List<Creation> getCreationList(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 작품리스트 총 개수

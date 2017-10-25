@@ -1,5 +1,6 @@
 package com.bookbox.service.creation;
 
+import java.util.List;
 import java.util.Map;
 
 import com.bookbox.common.domain.Search;
@@ -45,7 +46,13 @@ public interface WritingService {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public Map<String, Object> getWritingList(Search search) throws Exception;
+	public List<Writing> getWritingList(Map<String, Object> map) throws Exception;
 
-	
+	/**
+	 * @brief 창작글 삭제 
+	 * @param Writing
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deleteWriting(Writing writing) throws Exception;
 }

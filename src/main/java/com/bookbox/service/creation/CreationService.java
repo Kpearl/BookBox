@@ -3,6 +3,7 @@ package com.bookbox.service.creation;
 import java.util.List;
 import java.util.Map;
 
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
@@ -38,7 +39,7 @@ public interface CreationService {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public Map<String, Object> getCreationList(Search search) throws Exception;
+	public List<Creation> getCreationList(Map<String, Object> map) throws Exception;
 
 	/**
 	 * @brief 구독작품리스트 
@@ -63,5 +64,13 @@ public interface CreationService {
 	 * @return 
 	 */	
 	public void deleteCreationSubscribe(User user,Creation creation) throws Exception;
+	
+	/**
+	 * @brief 작품삭제
+	 * @param User, Creation
+	 * @throws Exception
+	 * @return 
+	 */	
+	public void deleteCreation(Creation creation) throws Exception;
 	
 }

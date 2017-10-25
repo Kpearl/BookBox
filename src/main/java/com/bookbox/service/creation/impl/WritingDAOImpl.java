@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.creation.WritingDAO;
+import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -87,11 +88,9 @@ public class WritingDAOImpl implements WritingDAO {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public List<Writing> getWritingList(Search search) throws Exception{
+	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
-		List<Writing> list = new ArrayList();
-		
-		return list;
+		return sqlSession.selectList("WritingMapper.getWrititngList", map);
 	}
 	
 	/**
@@ -100,8 +99,19 @@ public class WritingDAOImpl implements WritingDAO {
 	 * @throws Exception
 	 * @return void
 	 */	
-	public int getTotalCreationCount(Search search) throws Exception{
-		return sqlSession.selectOne("CreationMapper.getTotalCount", search);
+	public int getTotalWritingCount(Creation creation) throws Exception{
+		return sqlSession.selectOne("WritingMapper.getTotalCount", creation);
+	}
+	
+	/**
+	 * @brief 창작글 삭제 
+	 * @param Writing
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deleteWriting(Writing writing) throws Exception{
+		sqlSession.update("WritingMapper.deleteWriting", writing);
+		
 	}
 	
 }
