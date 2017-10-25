@@ -21,8 +21,11 @@ public class Page {
 	
 	public Page() {
 		// TODO Auto-generated constructor stub
+		currentPage=1;
 	}
 
+	
+	
 	public int getCurrentPage() {
 		return currentPage;
 	}
@@ -37,6 +40,20 @@ public class Page {
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
+		
+		this.maxPage = (pageSize == 0) ? totalCount :  (totalCount-1)/pageSize +1;
+		
+		this.beginUnitPage=( (currentPage-1) / pageUnit ) * pageUnit +1 ;
+		
+		if( maxPage <= pageUnit ){
+			this.endUnitPage = maxPage;
+		}else{
+			this.endUnitPage = beginUnitPage + (pageUnit -1);
+			if( maxPage <= endUnitPage){
+				this.endUnitPage = maxPage;
+			}
+		}
+		
 	}
 
 	public int getPageUnit() {
@@ -82,6 +99,7 @@ public class Page {
 	public int getStartRow() {
 		return (currentPage-1)*pageSize;
 	}
+
 	@Override
 	public String toString() {
 		return "Page [currentPage=" + currentPage + ", totalCount=" + totalCount + ", pageUnit=" + pageUnit
