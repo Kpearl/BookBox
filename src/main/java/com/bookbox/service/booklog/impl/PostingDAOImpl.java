@@ -25,14 +25,14 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean addPosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.insert("PostingMapper.addPosting", posting);
-		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
+//		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
 //			Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.POSTING, posting.getPostingNo());
 //			map.put("originName", posting.getPostingFileList().get(0));
 //			map.put("fileName", Calendar.getInstance().getTimeInMillis());
 //			commonDAO.addUploadFile(user, map);
 //				sqlSession.insert("PostingMapper.addPostingFile", posting);
-		}
-		addPostingLocation(posting);
+//		}
+//		addPostingLocation(posting);
 		return true;
 	}
 

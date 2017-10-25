@@ -1,5 +1,9 @@
 package com.bookbox.web.booklog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.BooklogService;
@@ -101,6 +106,27 @@ public class BooklogController {
 	public String addPosting() {
 		
 		return "redirect:../booklog/addPostingView.jsp";
+		
+	}
+	
+	@RequestMapping( value="addPosting", method=RequestMethod.POST )
+	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request, HttpSession session) {
+
+		User user = this.getUser(session);
+		String[] tagArray = request.getParameterValues("tag");
+		List<Tag> tagList = new ArrayList<Tag>();
+		
+		for(String tag : tagArray) {
+			if(!tag.equals("")) {
+				tagList.add(new Tag(tag));
+			}
+		}
+
+		posting.setPostingTagList(tagList);
+		posting.setUser(user);
+		postingService.addPosting(user, posting);
+		
+		return "redirect:../booklog/getPostingList?condition="+user.getEmail();
 		
 	}
 	
