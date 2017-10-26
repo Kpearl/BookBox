@@ -1,8 +1,8 @@
 package com.bookbox.service.user;
 
+import java.util.List;
 import java.util.Map;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 
 /**
@@ -37,6 +37,14 @@ public interface UserService {
 	 * @return User
 	 */
 	public User getUser(User user) throws Exception;
+	
+	/**
+	 * @brief 회원목록조회
+	 * @param User user
+	 * @throws Exception
+	 * @return List<User>
+	 */
+	public List<User> getUserList(Map<String, Object> map) throws Exception;
 
 	/**
 	 * @brief 로그아웃
@@ -46,14 +54,6 @@ public interface UserService {
 	 */
 	public void logout(User user) throws Exception;
 	
-	/**
-	 * @brief 회원정보리스트
-	 * @param Search search
-	 * @throws Exception
-	 * @return Map<String, Object>
-	 */
-	public Map<String, Object> getUserList(Search search) throws Exception;
-
 	/**
 	 * @brief 이메일 중복체크 
 	 * @param User user

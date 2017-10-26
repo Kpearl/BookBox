@@ -74,6 +74,14 @@ public class UserDAOImpl implements UserDAO {
 	public User getUser(User user) throws Exception{
 		return sqlSession.selectOne("UserMapper.getUser", user);
 	}
+	
+
+	@Override
+	public List<User> getUserList(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("UserMapper.getUserList", map);
+	}
+
 
 	/**
 	 * @brief SELECT LIST

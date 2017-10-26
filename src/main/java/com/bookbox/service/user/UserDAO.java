@@ -46,7 +46,7 @@ public interface UserDAO {
 	 * @throws Exception
 	 * @return List<User>
 	 */
-	public List<User> getUserList(Search search) throws Exception ;
+	public List<User> getUserList(Map<String , Object> map) throws Exception ;
 
 	
 	/**

@@ -1,6 +1,5 @@
 package com.bookbox.service.user.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.user.UserDAO;
@@ -107,7 +107,26 @@ public class UserServiceImpl implements UserService {
 		return dbuser;
 	
 	}
+
+	/**
+	 * @brief 회원목록조회
+	 * @param User
+	 * @throws Exception
+	 * @return List<User>
+	 */
+	@Override
+	public List<User> getUserList(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
 	
+		Page page=(Page)map.get("page");
+		page.setTotalCount(userDAO.getTotalCount((Search)map.get("search")));
+		System.out.println("getUserList :: getTotalCount ::"+page.getTotalCount());
+		
+		List<User> userList = userDAO.getUserList(map);
+		
+		return userList;
+	}
+
 	/**
 	 * @brief 로그아웃
 	 * @param User user
@@ -139,25 +158,6 @@ public class UserServiceImpl implements UserService {
 	 */
 	public void updateActive(Map<String, Object> map) throws Exception{
 		userDAO.updateActive(map);
-	}
-	
-
-	/**
-	 * @brief 회원정보리스트/SELECT LIST
-	 * @param Search search
-	 * @throws Exception
-	 * @return List<User>
-	 */
-	public Map<String, Object> getUserList(Search search) throws Exception{
-		
-		List<User> list = userDAO.getUserList(search);
-		int totalCount = userDAO.getTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("totalCount", totalCount);
-		
-		return map;
 	}
 	
 	/**

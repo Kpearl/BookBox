@@ -1,12 +1,14 @@
 package com.bookbox.web.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.user.MailService;
 import com.bookbox.service.user.UserService;
@@ -47,6 +51,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("javaMailSenderImplGoogle")
 	private JavaMailSenderImpl javaMailSenderImpl;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 		
 		/**
 		 * @brief  Constructor
@@ -119,6 +128,53 @@ public class UserController {
 		
 		return "forward:../user/getUser.jsp";
 	}
+	
+	/**
+	 * @brief getUserList/회원리스트 조회
+	 * @details GET
+	 * @param User
+	 * @throws Exception
+	 * @return "forward:listUser.jsp"
+	 */
+	@RequestMapping( value="getUserList", method=RequestMethod.GET )
+	public String getUserList( @ModelAttribute("user") User user , 
+														@ModelAttribute("Search") Search search,
+														@ModelAttribute("Page") Page page,
+														Model model ) throws Exception {
+		// TODO getUser
+		System.out.println("UserController :: /user/getUserList : GET");
+		//Business Logic
+		System.out.println(user.getOuterAccount());
+		System.out.println(user.getActive());
+		
+		System.out.println("getCreationList :: getSearch :: "+search);
+		System.out.println("getCreationList :: getPage :: "+page);
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(pageSize);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(pageUnit);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		
+		List<User> userList = userService.getUserList(map);
+		
+		// Model 과 View 연결
+		model.addAttribute("userList", userList);
+		
+		return "forward:../user/getUser.jsp";
+	}
+	
 	
 	/**
 	 * @brief updateUser/회원정보수정화면으로 이동
