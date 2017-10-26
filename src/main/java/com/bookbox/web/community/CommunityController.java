@@ -1,9 +1,11 @@
 package com.bookbox.web.community;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
@@ -22,6 +25,7 @@ import com.bookbox.common.domain.Tag;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.User;
+
 
 /**
  * @file com.bookbox.web.community.CommunityCrontroller.java
@@ -115,13 +119,15 @@ public class CommunityController {
 		//태그추가
 		List<Tag> tagList=new ArrayList<Tag>();
 		String tagNames[]= request.getParameterValues("tagNames");
-		for(int i=0; i<tagNames.length;i++) {
-			System.out.println(tagNames[i]);
-			Tag tag=new Tag();
-			tag.setTagName(tagNames[i]);
-			tagList.add(tag);
+		if(tagNames!=null) {
+			for(int i=0; i<tagNames.length;i++) {
+				System.out.println(tagNames[i]);
+				Tag tag=new Tag();
+				tag.setTagName(tagNames[i]);
+				tagList.add(tag);
+			}
+			board.setTagList(tagList);
 		}
-		board.setTagList(tagList);
 		
 		//테스트용 유저정보//
 		User user=new User();
@@ -162,7 +168,7 @@ public class CommunityController {
 			page.setCurrentPage(1);
 		}
 		if(page.getPageSize()==0) {
-			page.setPageSize(5);
+			page.setPageSize(10);
 		}
 	//	System.out.println(page);
 		
@@ -179,5 +185,32 @@ public class CommunityController {
 		model.addAttribute(boardList);
 		
 		return "forward:listBoard.jsp";
+	}
+	
+	
+	@RequestMapping(value="uploadCKEditor")
+	public String uploadCKEditor(HttpServletRequest request,
+									@RequestParam("upload")MultipartFile file,
+									Model model) throws Exception{
+		
+		String CKEditor=request.getParameter("CKEditor");
+		int CKEditorFuncNum=Integer.parseInt(request.getParameter("CKEditorFuncNum"));
+		
+		String url=request.getRealPath("resources/upload_files/images/");
+		
+		String fileName=UUID.randomUUID().toString();
+		
+		File toFile=new File(url+"/"+fileName);
+		
+		//System.out.println(file.getOriginalFilename()+file.getSize());
+		file.transferTo(toFile);
+		
+		
+		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
+		model.addAttribute("url", "../resources/upload_files/images/"+fileName);
+		System.out.println(url);
+		
+		
+		return "forward:uploadCKEditor.jsp";
 	}
 }

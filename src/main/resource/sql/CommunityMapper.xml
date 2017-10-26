@@ -180,7 +180,7 @@
 	
 	<!-- 댓글 최대깊이 탐색 -->
 	<select id="getCommentMaxLevel" parameterType="_int" resultType="_int">
-		SELECT MAX(level) 
+		SELECT IFNULL( MAX(level),0)
 		FROM comment 
 		WHERE board_no=#{value};
 	</select>

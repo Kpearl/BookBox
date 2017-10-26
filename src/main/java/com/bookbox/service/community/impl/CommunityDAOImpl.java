@@ -35,7 +35,7 @@ public class CommunityDAOImpl implements CommunityDAO {
 	@Override
 	public Board getBoard(int boardNo) {
 		
-		return sqlSession.selectOne("CommunityMapper.getBoard2",boardNo);
+		return sqlSession.selectOne("CommunityMapper.getBoard",boardNo);
 		
 	}
 

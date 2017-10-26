@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -42,6 +42,15 @@
    			background-color: #444;
    		}
     </style>
+    <script type="text/javascript">
+    	$(function(){
+    		$(".board_item").on("click",function(){
+    			self.location="getBoard?boardNo="+$(this).find(".boardNo").val();
+    			
+    		});
+    		
+    	})
+    </script>
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" />

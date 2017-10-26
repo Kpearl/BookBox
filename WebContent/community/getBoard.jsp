@@ -24,6 +24,9 @@
 .container img{
 	max-width: none;
 }
+.media .media-left{
+	border-right: solid 1px; 
+}
 </style>
 
 <script type="text/javascript">
@@ -133,8 +136,9 @@
 				
 				//블라인드 처리
 				if(comment.blind==true){
-					alert("blindTest")
-					commentObj.find(".comment-content").before("<p>블라인드 된 글 입니다.</p>");
+					//alert("blindTest")
+					
+					commentObj.find(".comment-content").before("<p class='blind'>블라인드 된 글 입니다.<a class='btn viewBlind'>보기</a></p>");
 					commentObj.find(".comment-content").css("display","none");
 				}
 				//
@@ -214,6 +218,16 @@
 			sendReport(param);
 		});
 		//신고 이벤트 등록 끝
+		
+		//블라인드 보기 
+		if(commentObj.find(".viewBlind").length!=0){
+			commentObj.find(".viewBlind").on("click",function(){
+				commentObj.find(".comment-content:first").css("display","");
+				commentObj.find(".blind:first").remove();
+			//	alert(commentObj.html());
+			});
+		}
+		//
 		
 	}//이벤트 초기화끝
 </script>

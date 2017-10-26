@@ -38,21 +38,24 @@ public class CommunityServiceImpl implements CommunityService {
 	public int addBoard(User user,Board board) {
 		
 	int result=communityDAOImple.addBorad(board);
-		for(Tag tag: board.getTagList()) {
-			tagDAOImpl.addTag(tag);
+	
+		if(board.getTagList()!=null) {
+			for(Tag tag: board.getTagList()) {
+				tagDAOImpl.addTag(tag);
+			}
+			tagDAOImpl.addTagGroup(6, board.getBoardNo(), board.getTagList());
 		}
-		tagDAOImpl.addTagGroup(6, board.getBoardNo(), board.getTagList());
-		
 		return result;
 	}
 
 	@Override
 	public Board getBoard(User user,Board board) {
 		
+		
 		board= communityDAOImple.getBoard(board.getBoardNo());
 		
-		List tagList=tagDAOImpl.getTagGroupList(Const.Category.BOARD, board.getBoardNo());
-		board.setTagList(tagList);
+		//List tagList=tagDAOImpl.getTagGroupList(Const.Category.BOARD, board.getBoardNo());
+		//board.setTagList(tagList);
 		
 		return board;
 	}
