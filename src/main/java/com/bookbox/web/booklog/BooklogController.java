@@ -117,7 +117,7 @@ public class BooklogController {
 		List<Tag> tagList = new ArrayList<Tag>();
 		
 		for(String tag : tagArray) {
-			if(!tag.equals("")) {
+			if(!tag.trim().equals("")) {
 				tagList.add(new Tag(tag));
 			}
 		}

@@ -149,7 +149,7 @@ $(function() {
 		<div class="container signup">
 		
 		<form>
-			<h1>Sign up for BookBox</h1>
+			<h1>Update User</h1>
 			<hr>
 			<label>
 				<h2>Your email:</h2>

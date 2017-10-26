@@ -14,16 +14,17 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
 	<!-- CKEditor 추가 -->
-	<!-- <script src="../resources/javascript/ckeditor/ckeditor.js"></script> -->
+	<script src="../resources/javascript/ckeditor/ckeditor.js"></script>
 		<!-- CDN Version -->
-	<script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+	<!-- <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script> -->
 	<!-- CKEditor -->
 	
 	
 	<script type="text/javascript">
 		var tagHtml;
+		var num;
 		$(function(){
-			tagHtml = '<input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+			num = 0;
 			$('a:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.postingContent.getData();
 				$('textarea').val(data);
@@ -32,6 +33,8 @@
 			});
 			
 			$('a:contains("추가하기")').on('click',function(){
+				num = num + 1;
+				tagHtml = '<span id="tag'+num+'">, # <input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 				$('.tag-list').append(tagHtml);
 			});
 		});
@@ -39,6 +42,10 @@
 		$(function(){
 			CKEDITOR.replace('postingContent');
 		});
+		
+		function fncRemoveTag(num){
+			$('#tag'+num).remove();
+		}
 	</script>
 </head>
 <body>
@@ -60,7 +67,7 @@
 			<div class="form-group tag-list">
 				<label>태그</label>
 				<a href="#" class="btn">추가하기</a>
-				<input type="text" name="tag">
+				<span># <input type="text" name="tag" id="tag"></span>
 			</div>
 			<a href="#" class="btn">등록하기</a>
 		</form>
