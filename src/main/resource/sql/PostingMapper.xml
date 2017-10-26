@@ -24,10 +24,7 @@
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
 			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
 		</collection>
-		<collection property="postingTagList" ofType="tag" column="tag_no">
-			<result property="tagName" column="tag_name"/>
-			<result property="tagNo" column="tag_no"/>
-		</collection>
+		<collection property="postingTagList" ofType="tag" column="{categoryNo=category_no,targetNo=posting_no}" select="TagMapper.getTagGroupList"/>
 	</resultMap>
 	
 
@@ -58,7 +55,7 @@
 
 	
 	<select id="getPosting" parameterType="posting" resultMap="postingSelectMap">
-		SELECT 
+		<!-- SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
 			u.nickname, l.location_name, l.latitude, l.longitude,
@@ -71,11 +68,24 @@
 			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
 		WHERE 
 			p.posting_no = #{postingNo} 
+			AND p.active = 1 -->
+		SELECT 
+			p.posting_no, p.email, p.posting_title, 
+			p.posting_content, p.reg_date, p.update_date, 
+			u.nickname, l.location_name, l.latitude, l.longitude,
+			'5' category_no, vc.count
+		FROM 
+			posting p
+			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
+			LEFT OUTER JOIN user u ON p.email = u.email
+			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
+		WHERE 
+			p.posting_no = #{postingNo} 
 			AND p.active = 1
 	</select>
 	
 	<select id="getPostingList" parameterType="search" resultMap="postingSelectMap">
-		SELECT 
+		<!-- SELECT 
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
 			p.reg_date, p.update_date,
@@ -95,7 +105,28 @@
 			<if test="condition == 'main'">
 				vc.count DESC,
 			</if>
-			 p.posting_no DESC
+			 p.posting_no DESC -->
+		SELECT 
+			p.posting_no, p.email, u.nickname, 
+			p.posting_title, p.posting_content, 
+			p.reg_date, p.update_date,
+			'5' category_no, vc.count
+		FROM
+			posting p
+			LEFT JOIN user u ON p.email = u.email
+			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
+		<where>
+			p.active = 1
+			<if test="condition == 'booklog'">
+				AND p.email = #{keyword}
+			</if>
+		</where>
+		ORDER BY
+			<if test="condition == 'main'">
+				vc.count DESC,
+			</if>
+			p.posting_no DESC
+		LIMIT 0, 10
 	</select>
 	
 	<update id="updatePosting" parameterType="posting">

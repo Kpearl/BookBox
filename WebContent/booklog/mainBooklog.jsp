@@ -82,7 +82,7 @@
 <!-- 	        	<div class="swiper-slide">
 		        	<div class="col-sm-6 col-md-4">
 						<div class="thumbnail alert alert-warning">
-							<img src="../images/uploadFiles/empty.GIF" class="img-responsive" data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
+							<img src="../resources/upload_files/images/empty.GIF" class="img-responsive" data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
 							<div class="caption">
 								<input type="hidden" name="prodNo" value="">
 								<h3>product.prodName</h3>
@@ -116,11 +116,11 @@
 			<c:forEach items="${postingList}" var="posting">
 				<c:set var="text" value="${posting.postingContent }"/>
 				<c:set var="len" value="${fn:length(text)}"/>
-				<c:set var="len" value="${len > 10 ? 10 : len }"/>
+				<c:set var="len" value="${len > 30 ? 30 : len }"/>
 				<div class="activity-list-update div-posting">
 					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
-					<p><strong>${posting.postingTitle}</strong>${fn:substring(text,0,len-1)}${len==10 ? '...':'' }<a href="#"> by.${posting.user.nickname}</a>.</p>
+					<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.<br/>${fn:substring(text,0,len-1)}${len==30 ? '...':'' }</p>
 					<div class="clear"></div>
 				</div>
 			</c:forEach>

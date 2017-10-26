@@ -44,10 +44,10 @@
 	var booklogUser;
 	$(function(){
 		booklogUser = $('input[name="user.email"]').val()
-		$('a:contains("포스팅 더 보기")').on('click',function(){
+		$('a.posting-list').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition='+booklogUser);
 		});
-		$('a:contains("표지편집")').on('click', function(){
+		$('a.var-btn:contains("표지편집")').on('click', function(){
 			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
 		});
 		$('div.div-posting').on('click', function(){
@@ -116,13 +116,13 @@
 		var weeklyChart = new Chart(ctxWeekly, {
 		    type: 'bar',
 		    data: {
-		        labels: [fncGetDate(6)
-		        			, fncGetDate(5)
-		        			, fncGetDate(4)
-		        			, fncGetDate(3)
-		        			, fncGetDate(2)
-		        			, fncGetDate(1)
-		        			, fncGetDate(0)],
+		        labels: ['6주 전'
+		        			, '5주 전'
+		        			, '4주 전'
+		        			, '3주 전'
+		        			, '2주 전'
+		        			, '1주 전'
+		        			, '이번주'],
 		        datasets: [{
 		            label: '# of WeeklyVisitors',
 		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount}
@@ -158,7 +158,7 @@
 		
 		/* tab 설정 */
 		$('#chartTab').tab('show');
-    })
+    });
 	
     function fncGetDate(day){
 		var nowDate = new Date();
@@ -176,7 +176,7 @@
 		}
 		
 		return year + '-' + month + '-' + day;
-	}
+	};
     
 </script>
 </head>
@@ -189,10 +189,10 @@
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<div class="container-fluid text-center">
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
-		<!-- <img src="http://localhost:8080/BookBox/resources/uploadFiles/images/${booklog.booklogImage}" alt="Image"> -->
+		<!-- <img src="http://localhost:8080/BookBox/resources/upload_files/images/${booklog.booklogImage}" alt="Image"> -->
 		<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
 		<div class="col-md-offset-9 col-md-3">
-			<a class="btn btn-defalut" href="#">
+			<a class="btn btn-defalut var-btn" href="#">
 				<c:if test="${sessionScope.user.email != null}">
 					<c:if test="${sessionScope.user.email == booklog.user.email}">
 						표지편집
@@ -206,17 +206,18 @@
 	</div>
 
 	<div class="container">
+		<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
 	    <div class="swiper-container">
 	        <div class="swiper-wrapper">
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklog.postingList}" var="posting">
 					<c:set var="text" value="${posting.postingContent }"/>
 					<c:set var="len" value="${fn:length(text)}"/>
-					<c:set var="len" value="${len > 10 ? 10 : len }"/>
+					<c:set var="len" value="${len > 30 ? 30 : len }"/>
 					<div class="swiper-slide div-posting" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
 						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 						포스팅명 : ${posting.postingTitle}<br/>
-						포스팅내용 : ${fn:substring(text,0,len-1)}${len==10 ? '...':'' }<br/>
+						포스팅내용 : ${fn:substring(text,0,len-1)}${len==30 ? '...':'' }<br/>
 		            </div>
 	        	</c:forEach>
 	        </div>

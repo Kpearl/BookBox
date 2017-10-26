@@ -15,7 +15,7 @@
 
 	<script type="text/javascript">
 		$(function(){
-			$('a:contains("포스팅 등록")').on('click',function(){
+			$('a.posting-add:contains("포스팅 등록")').on('click',function(){
 				$(self.location).attr('href','../booklog/addPosting');
 			})
 
@@ -36,16 +36,16 @@
 
 	<div class="container">
 		<input type="hidden" name="condition" value="${search.condition}">
-		<a class="btn btn-default" href="#">포스팅 등록</a><br/>
+		<a class="btn btn-default posting-add" href="#">포스팅 등록</a><br/>
 		<div class="activity" style="width:100%;">
 			<c:forEach items="${postingList}" var="posting">
 			<c:set var="text" value="${posting.postingContent }"/>
 			<c:set var="len" value="${fn:length(text)}"/>
-			<c:set var="len" value="${len > 10 ? 10 : len }"/>
+			<c:set var="len" value="${len > 30 ? 30 : len }"/>
 			<div class="activity-list-update div-posting">
 				<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 				<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
-				<p><strong>${posting.postingTitle}</strong>${fn:substring(text,0,len-1)}${len==10 ? '...':'' }<a href="#"> by.${posting.user.nickname}</a>.</p>
+				<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.<br/>${fn:substring(text,0,len-1)}${len==30 ? '...':'' }</p>
 				<div class="clear"></div>
 			</div>
 			</c:forEach>

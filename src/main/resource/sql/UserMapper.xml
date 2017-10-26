@@ -114,7 +114,7 @@
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				email LIKE '%${search.keyword}%'
 					</if>
-					<if test="search.condition == 2 and search.keyword !=''">
+					<if test="search.condition == 3 and search.keyword !=''">
 		 				nickname LIKE '%${search.keyword}%'
 					</if>
 			</if>

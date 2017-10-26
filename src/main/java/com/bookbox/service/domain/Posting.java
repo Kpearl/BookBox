@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bookbox.common.domain.Location;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
 
 /**
  * @file com.bookbox.service.domain.Posting.java
@@ -21,7 +22,7 @@ public class Posting {
 	private User user;
 	private String postingTitle;
 	private String postingContent;
-	private List<String> postingFileList;
+	private List<UploadFile> postingFileList;
 	private Date postingRegDate;
 	private Date postingUpdateDate;
 	private List<Location> postingLocationList;
@@ -64,11 +65,11 @@ public class Posting {
 		this.postingContent = postingContent;
 	}
 
-	public List<String> getPostingFileList() {
+	public List<UploadFile> getPostingFileList() {
 		return postingFileList;
 	}
 
-	public void setPostingFileList(List<String> postingFileList) {
+	public void setPostingFileList(List<UploadFile> postingFileList) {
 		this.postingFileList = postingFileList;
 	}
 

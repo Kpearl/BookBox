@@ -1,8 +1,10 @@
 package com.bookbox.web.booklog;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.BooklogService;
@@ -110,7 +113,7 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="addPosting", method=RequestMethod.POST )
-	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request, HttpSession session) {
+	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request, HttpSession session) throws Exception{
 
 		User user = this.getUser(session);
 		String[] tagArray = request.getParameterValues("tag");
@@ -121,6 +124,14 @@ public class BooklogController {
 				tagList.add(new Tag(tag));
 			}
 		}
+		
+		List<UploadFile> postingFileList = new ArrayList<UploadFile>();
+		for(Cookie cookie : request.getCookies()) {
+			if(posting.getPostingContent().contains(cookie.getName())) {
+				postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8")));
+			}
+		}
+		System.out.println(postingFileList);
 
 		posting.setPostingTagList(tagList);
 		posting.setUser(user);
