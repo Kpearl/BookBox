@@ -199,6 +199,7 @@ public class CommunityController {
 		String url=request.getRealPath("resources/upload_files/images/");
 		
 		String fileName=UUID.randomUUID().toString();
+		String originFileName=file.getOriginalFilename();
 		
 		File toFile=new File(url+"/"+fileName);
 		
@@ -208,6 +209,8 @@ public class CommunityController {
 		
 		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
 		model.addAttribute("url", "../resources/upload_files/images/"+fileName);
+		model.addAttribute("fileName",fileName);
+		model.addAttribute("originFileName",originFileName);
 		System.out.println(url);
 		
 		

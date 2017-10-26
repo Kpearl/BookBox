@@ -25,7 +25,7 @@
 	max-width: none;
 }
 .media .media-left{
-	border-right: solid 1px; 
+	border-left: solid 1px; 
 }
 </style>
 
