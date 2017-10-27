@@ -131,7 +131,7 @@ public class UnifiedsearchController {
 		if(user == null) 
 			user = new User();
 		
-		Map<String, Map<String, Integer>> map = bookService.getBookStatics(book);
+		Map<String, Map<String, Integer>> map = bookService.getBookStatistics(book);
 		resultBook = bookService.getBook(user, book);
 		resultBook.setLike(bookService.getBookLike(book, user));
 		resultBook.setGrade(bookService.getBookGrade(book, user));

@@ -35,8 +35,7 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "addReply", method = RequestMethod.POST)
-	public void addReply(HttpSession session, @RequestParam("content") String content,
-			@RequestParam("isbn") String isbn) {
+	public void addReply(HttpSession session, @RequestParam("content") String content, @RequestParam("isbn") String isbn) {
 		System.out.println("/unifiedsearch/rest/addReply : POST");
 		User user = (User) session.getAttribute("user");
 
@@ -79,7 +78,8 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "addGrade", method = RequestMethod.POST)
-	public float getGradeList(HttpSession session, @RequestParam("isbn") String isbn, @RequestParam("userCount") String userCount) {
+	public float getGradeList(HttpSession session, @RequestParam("isbn") String isbn,
+			@RequestParam("userCount") String userCount) {
 		System.out.println("/unifiedsearch/rest/addGrade : GET");
 		User user = (User) session.getAttribute("user");
 		Book book = new Book();
@@ -92,7 +92,7 @@ public class UnifiedsearchRestController {
 			user = new User();
 
 		bookService.addBookGrade(user, book, grade);
-		
-		return bookService.getBookGrade(book, user).getAverage();	
+
+		return bookService.getBookGrade(book, user).getAverage();
 	}
 }

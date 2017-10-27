@@ -7,8 +7,6 @@ import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
-import com.bookbox.service.domain.Book;
-import com.bookbox.service.domain.User;
 
 public interface CommonDAO {
 
@@ -18,7 +16,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void addLike(User user, Map<String, Object> map);
+	public void addLike(Map<String, Object> map);
 
 	/**
 	 * @brief deleteLike
@@ -26,7 +24,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void deleteLike(User user, Map<String, Object> map);
+	public void deleteLike(Map<String, Object> map);
 
 	/**
 	 * @brief getReplyList
@@ -34,7 +32,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public List<Reply> getReplyList(User user, Map<String, Object> map);
+	public List<Reply> getReplyList(Map<String, Object> map);
 	
 	/**
 	 * @brief addReply
@@ -44,7 +42,7 @@ public interface CommonDAO {
 	 * 
 	 * 
 	 */
-	public void addReply(User user, Map<String, Object> map);
+	public void addReply(Map<String, Object> map);
 	
 	/**
 	 * @brief deleteReply
@@ -52,7 +50,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void deleteReply(User user, Map<String, Object> map);
+	public void deleteReply(Map<String, Object> map);
 
 	/**
 	 * @brief addGrade
@@ -60,7 +58,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public void addGrade(User user, Map<String, Object> map);
+	public void addGrade(Map<String, Object> map);
 
 	/**
 	 * @brief getGrade
@@ -68,7 +66,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Grade getGrade(User user, Map<String, Object> map);
+	public Grade getGrade(Map<String, Object> map);
 	
 	/**
 	 * @brief getAvgGrade
@@ -84,7 +82,7 @@ public interface CommonDAO {
 	 * @author JJ
 	 * @date 2017.10.18
 	 */
-	public Like getLike(User user, Map<String, Object> map);
+	public Like getLike(Map<String, Object> map);
 	
 	/**
 	 * @brief addUploadFile

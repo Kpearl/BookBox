@@ -18,12 +18,12 @@
 	<resultMap id="gradeSelectMap" type="grade">
 		<result property="average" column="average" jdbcType="DECIMAL" />
 		<result property="userCount" column="grade" jdbcType="NUMERIC" />
-		<result property="doGrade" column="doGrade" jdbcType="BOOLEAN" />
+		<result property="doGrade" column="do_grade" jdbcType="BOOLEAN" />
 	</resultMap>
 
 	<resultMap id="likeSelectMap" type="like">
-		<result property="totalLike" column="count(*)" jdbcType="NUMERIC" />
-		<result property="doLike" column="doLike" jdbcType="BOOLEAN" />
+		<result property="totalLike" column="total_like" jdbcType="NUMERIC" />
+		<result property="doLike" column="do_like" jdbcType="BOOLEAN" />
 	</resultMap>
 	
 	<resultMap id="uploadFileSelectMap" type="uploadFile">
@@ -46,42 +46,34 @@
 		<result property="age7" column="age_70" jdbcType="NUMERIC" />
     </resultMap>
 	
-	<insert id="addReply" parameterType="map" useGeneratedKeys="true"
-		keyProperty="reply_no">
+	<insert id="addReply" parameterType="map" useGeneratedKeys="true" keyProperty="reply_no">
 		INSERT
-		INTO reply(email, category_no, target_no,
-		reply_content)
-		VALUES ( #{user.email}, #{categoryNo}, #{targetNo},
-		#{reply.content})
+		INTO reply(email, category_no, target_no, reply_content)
+		VALUES ( #{user.email}, #{categoryNo}, #{targetNo},	#{reply.content})
 	</insert>		
 
 	<delete id="deleteReply" parameterType="map">
-		DELETE FROM
-		reply
-		WHERE
-		category_no = #{categoryNo} AND
-		target_no = #{targetNo} AND
-		reply_content = #{reply.content} 
+		DELETE 
+		FROM reply
+		WHERE category_no = #{categoryNo} AND
+			  target_no = #{targetNo} AND
+			  reply_content = #{reply.content} 
 	</delete>
 
 	<select id="getReplyList" parameterType="map" resultMap="replySelectMap">
-		SELECT
-		reply.email, user.nickname, reply.reply_content, reply.reg_date
-		FROM reply reply left join user user
-        on reply.email = user.email
-		WHERE category_no =
-		#{categoryNo} AND
-		target_no = #{targetNo}
+		SELECT reply.email, user.nickname, reply.reply_content, reply.reg_date
+		FROM reply LEFT JOIN user
+        ON reply.email = user.email
+		WHERE category_no = #{categoryNo} AND
+			  target_no = #{targetNo}
 	</select>
 
 	<select id="viewCount" parameterType="map" resultType="int">
-		SELECT
-		count(*)
+		SELECT count(*)
 		FROM log
 		WHERE category_no = #{categoryNo} AND
-		target_no =
-		#{targetNo} AND
-		behavior = 1
+			   target_no = #{targetNo} AND
+			   behavior = 1
 	</select>
 
 	<insert id="addGrade" parameterType="map" useGeneratedKeys="true" keyProperty="grade_no">
@@ -92,18 +84,18 @@
 
 	<select id="getGrade" parameterType="map" resultMap="gradeSelectMap">
 		SELECT
-		ifnull(avg(grade),0) average, ifnull(grade, 0), sum(if( email=#{user.email}, true, 0)) AS doGrade
+		ifnull(avg(grade),0) average, ifnull(grade, 0) grade, sum(if( email=#{user.email}, true, 0)) AS do_grade
 		FROM grade
 		WHERE category_no =	#{categoryNo} AND
-		target_no = #{targetNo}
+			  target_no = #{targetNo}
 	</select>
 	
 	<select id="getAvgGrade" parameterType="map" resultMap="gradeSelectMap">
 		SELECT avg(g.grade)
 		FROM grade g
-					right outer join writing w on w.writing_no = g.target_no
+			right outer join writing w on w.writing_no = g.target_no
 					right outer join creation c on c.creation_no = w.creation_no
-		WHERE g.category_no = 2 and c.creation_no = #{targetNo}
+			WHERE g.category_no = 2 and c.creation_no = #{targetNo}
 	</select>
 	
 	<insert id="addLike" parameterType="map" useGeneratedKeys="true" keyProperty="like_no">
@@ -114,10 +106,10 @@
 	
 	<select id="getLike" parameterType="map" resultMap="likeSelectMap">
 		SELECT
-		count(*) totalLike, sum(if( email=#{user.email}, true, false)) AS doLike
+		count(*) total_like, sum(if( email=#{user.email}, true, false)) AS do_like
 		FROM `like`
 		WHERE category_no =	#{categoryNo} AND
-		target_no = #{targetNo}
+			  target_no = #{targetNo}
 	</select>
 	
 	<delete id="deleteLike" parameterType="map">

@@ -62,57 +62,57 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void addBookLike(User user, Book book) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
-		commonDAO.addLike(user, map);
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
+		commonDAO.addLike(map);
 	}
 
 	@Override
 	public void deleteBookLike(User user, Book book) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
-		commonDAO.deleteLike(user, map);
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);		
+		commonDAO.deleteLike(map);
 	}
 
 	@Override
 	public List<Reply> getBookReplyList(User user, Book book) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
-		return commonDAO.getReplyList(user, map);
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
+		return commonDAO.getReplyList(map);
 	}
 
 	@Override
 	public void addBookReply(User user, Book book, Reply reply) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
 		map.put("reply", reply);
-		commonDAO.addReply(user, map);
+		commonDAO.addReply(map);
 	}
 
 	@Override
 	public void deleteBookReply(User user, Book book, Reply reply) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
 		map.put("reply", reply);
-		commonDAO.deleteReply(user, map);
+		commonDAO.deleteReply(map);
 	}
 
 	@Override
 	public void addBookGrade(User user, Book book, Grade grade) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
 		map.put("grade", grade);
-		commonDAO.addGrade(user, map);
+		commonDAO.addGrade(map);
 	}
 
 	@Override
 	public Grade getBookGrade(Book book, User user) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
-		return commonDAO.getGrade(user, map);
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
+		return commonDAO.getGrade(map);
 	}
 
 	@Override
 	public Like getBookLike(Book book, User user) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn());
-		return commonDAO.getLike(user, map);
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
+		return commonDAO.getLike(map);
 	}
 
 	@Override
-	public Map<String, Map<String, Integer>> getBookStatics(Book book) {
+	public Map<String, Map<String, Integer>> getBookStatistics(Book book) {
 		Map<String, Map<String, Integer>> resultMap = new HashMap<String, Map<String, Integer>>();
 		map = new HashMap<String, Object>();
 		map.put("targetNo", book.getIsbn());
@@ -120,7 +120,6 @@ public class BookServiceImpl implements BookService {
 		
 		resultMap.put("men", commonDAO.getBookStatics(map).get(0));
 		
-		map.put("targetNo", book.getIsbn());
 		map.put("gender", "여");
 		
 		resultMap.put("women", commonDAO.getBookStatics(map).get(0));

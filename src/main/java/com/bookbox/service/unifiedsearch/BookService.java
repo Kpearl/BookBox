@@ -15,7 +15,7 @@ public interface BookService {
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getBookList.java
 	 * @brief getBookList
-	 * @detail 키워드가 포한된 도서 리스트 정보를 KAKAO API를 이용하여 출력
+	 * @detail 키워드가 포한된 도서 리스트 정보를 조회하여 출력
 	 * @author JJ
 	 * @throws Exception 
 	 * @date 2017.10.16
@@ -25,7 +25,7 @@ public interface BookService {
 	/**
 	 * @file com.bookbox.service.unifiedsearch.getBook.java
 	 * @brief getBook
-	 * @detail 사용자가 선택한 도서 정보를 KAKAO API를 이용하여 출력
+	 * @detail 사용자가 선택한 도서 정보를 조회하여 출력
 	 * @author JJ
 	 * @throws Exception 
 	 * @date 2017.10.20
@@ -121,5 +121,5 @@ public interface BookService {
 	 * @author JJ
 	 * @date 2017.10.24
 	 */
-	public Map<String,  Map<String, Integer>> getBookStatics(Book book);
+	public Map<String,  Map<String, Integer>> getBookStatistics(Book book);
 }

@@ -2,9 +2,7 @@ package com.bookbox.service.unifiedsearch.impl;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
 
@@ -33,9 +32,6 @@ import com.bookbox.service.unifiedsearch.BookSearchDAO;
 @Service("bookSearchKakaoAladinDAOImpl")
 public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
-	private Book book;
-	private List<Book> bookList;
-
 	public BookSearchKakaoAladinDAOImpl() {
 		System.out.println("Constructor :: " + this.getClass().getName());
 	}
@@ -46,36 +42,10 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
 
-		// java API 를 이용 HttpRequest
-		URL url = new URL(daumOpenAPIURL);
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.setRequestProperty("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
 
-		// Response Code GET
-		int responseCode = con.getResponseCode();
-
-		BufferedReader br = null;
-
-		if (responseCode == 200) {
-			br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-		} else { // 에러 발생
-			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		}
-
-		// JSON Data 읽기
-		String jsonData = "";
-		StringBuffer response = new StringBuffer();
-
-		while ((jsonData = br.readLine()) != null) {
-			response.append(URLDecoder.decode(jsonData, "UTF-8"));
-		}
-
-		br.close();
-
-		jsonParser(response.toString());
-
-		return bookList;
+		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map));
 	}
 
 	@Override
@@ -83,39 +53,11 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		String text = URLEncoder.encode(isbn, "UTF-8");
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
 
-		// java API 를 이용 HttpRequest
-		URL url = new URL(daumOpenAPIURL);
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.setRequestProperty("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
 
-		// Response Code GET
-		int responseCode = con.getResponseCode();
+		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map)).get(0);
 
-		BufferedReader br = null;
-
-		if (responseCode == 200) {
-			br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-		} else { // 에러 발생
-			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		}
-
-		// JSON Data 읽기
-		String jsonData = "";
-		StringBuffer response = new StringBuffer();
-
-		while ((jsonData = br.readLine()) != null) {
-			response.append(URLDecoder.decode(jsonData, "UTF-8"));
-		}
-
-		br.close();
-
-		jsonParser(response.toString());
-
-		// Console 확인
-		System.out.println(response.toString());
-		
-		return book;
 	}
 
 	@Override
@@ -152,11 +94,11 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		in.close();
 	}
 
-	@SuppressWarnings("unchecked")
-	public void jsonParser(String str) throws Exception {
+	public List<Book> jsonParser(String str) throws Exception {
 
 		JSONParser jsonParser = new JSONParser();
-		bookList = new ArrayList<Book>();
+		List<Book> bookList = new ArrayList<Book>();
+		Book book;
 
 		// JSON데이터를 넣어 JSON Object 로 만들어 준다.
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
@@ -164,30 +106,38 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		// books의 배열을 추출
 		JSONArray bookInfoArray = (JSONArray) jsonObject.get("documents");
 
-		if(bookInfoArray.size() < 2) { }
-		
 		for (int i = 0; i < bookInfoArray.size(); i++) {
 
 			JSONObject bookObject = (JSONObject) bookInfoArray.get(i);
-
 			if (bookObject.get("isbn").equals(null) == false) {
-				if (((String) bookObject.get("isbn")).length() > 13) {
-					book = new Book();
 
-					book.setIsbn((String) bookObject.get("isbn"));
-					book.setTitle((String) bookObject.get("title"));
-					book.setAuthors((List<String>) bookObject.get("authors"));
-					book.setPrice((Long) bookObject.get("price"));
-					book.setPublisher((String) bookObject.get("publisher"));
-					book.setDatetime((String) bookObject.get("datetime"));
-					book.setThumbnail((String) bookObject.get("thumbnail"));
-					book.setContents((String) bookObject.get("contents"));
-					book.setUrl((String) bookObject.get("url"));
-					book.setTranslators((List<String>) bookObject.get("translators"));
-					
+				book = parsor(bookObject);
+				if (book != null) {
 					bookList.add(book);
 				}
 			}
 		}
+		return bookList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Book parsor(JSONObject bookObject) {
+		Book book = null;
+
+		if (((String) bookObject.get("isbn")).length() > 13) {
+			book = new Book();
+
+			book.setIsbn((String) bookObject.get("isbn"));
+			book.setTitle((String) bookObject.get("title"));
+			book.setAuthors((List<String>) bookObject.get("authors"));
+			book.setPrice((Long) bookObject.get("price"));
+			book.setPublisher((String) bookObject.get("publisher"));
+			book.setDatetime((String) bookObject.get("datetime"));
+			book.setThumbnail((String) bookObject.get("thumbnail"));
+			book.setContents((String) bookObject.get("contents"));
+			book.setUrl((String) bookObject.get("url"));
+			book.setTranslators((List<String>) bookObject.get("translators"));
+		}
+		return book;
 	}
 }

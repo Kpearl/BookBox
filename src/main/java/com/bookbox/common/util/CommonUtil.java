@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.bookbox.service.domain.User;
+
 public class CommonUtil {
 	
 	private static Properties constProp;
@@ -47,6 +49,13 @@ public class CommonUtil {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("categoryNo", category);
 		map.put("targetNo", target);
+		
+		return map;
+	}
+	
+	public static Map<String, Object> mappingCategoryTarget(int category, Object target, User user){
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(category, target);
+		map.put("user", user);
 		
 		return map;
 	}
