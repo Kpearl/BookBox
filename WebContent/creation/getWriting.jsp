@@ -196,7 +196,7 @@ $(function() {
 
 	<!-- 말머리 -->
 	<section class="blank items">
-	<h2>${writing.creation.creationHead }</h2>
+	<h2>${creation.creationHead }</h2>
 	<br>
 	
 	<div class="row">
