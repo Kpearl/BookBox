@@ -32,6 +32,14 @@ public interface CreationService {
 	 * @return void
 	 */		
 	public void updateCreation(User user, Creation creation) throws Exception;
+	
+	/**
+	 * @brief 창작작품 가져오기 
+	 * @param Creation 
+	 * @throws Exception
+	 * @return Creation
+	 */		
+	public Creation getCreation(Creation creation) throws Exception;
 
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수

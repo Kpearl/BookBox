@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +64,14 @@ public class CreationController {
 //	@Qualifier("fundingServiceImpl")
 	private FundingService fundingService;
 
+	@Autowired
+	@Qualifier("uploadDirResource")
 	private FileSystemResource uploadDirResource;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 	
 
 	/**
@@ -323,8 +331,6 @@ public class CreationController {
 		// TODO getCreationList
 		System.out.println("CreationController :: /creation/getCreationList : GET");
 
-		System.out.println("getCreationList :: getSearch :: "+search);
-		System.out.println("getCreationList :: getPage :: "+page);
 		//Business Logic
 		if(search.getKeyword() == null) {
 			search.setKeyword("");
@@ -333,18 +339,20 @@ public class CreationController {
 			search.setCondition("0");
 		}
 		if(page.getPageSize() ==0) {
-			page.setPageSize(5);
+			page.setPageSize(pageSize);
 		}
 		if(page.getPageUnit()==0) {
-			page.setPageUnit(5);
+			page.setPageUnit(pageUnit);
 		}
+		System.out.println("getCreationList :: getSearch :: "+search+"/n");
+		System.out.println("getCreationList :: getPage :: "+page+"/n");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
 		
 		List<Creation> creationList = creationService.getCreationList(map);
-		System.out.println("getCreationList :: "+creationList);
+		System.out.println("getCreationList :: "+creationList+"/n");
 
 		// Model 과 View 연결
 		model.addAttribute("creationList", creationList);
@@ -376,23 +384,26 @@ public class CreationController {
 			search.setCondition("0");
 		}
 		if(page.getPageSize() ==0) {
-			page.setPageSize(5);
+			page.setPageSize(pageSize);
 		}
 		if(page.getPageUnit()==0) {
-			page.setPageUnit(5);
+			page.setPageUnit(pageUnit);
 		}
 		
-		System.out.println("getCreationList :: getSearch :: "+search);
-		System.out.println("getCreationList :: getPage :: "+page);
-		System.out.println("getCreationList :: getCreation :: "+creation);
+		System.out.println("getCreationList :: getSearch :: "+search+"/n");
+		System.out.println("getCreationList :: getPage :: "+page+"/n");
+		System.out.println("getCreationList :: getCreation :: "+creation+"/n");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
 		map.put("creation", creation);
+		
+		creation = creationService.getCreation(creation);
+		System.out.println("creation :: "+creation);
 				
 		List<Writing> writingList = writingService.getWritingList(map);
-		System.out.println("getWritingList"+writingList);
+		System.out.println("getWritingList"+writingList+"/n");
 		creation.setWritingList(writingList);
 	
 		// Model 과 View 연결

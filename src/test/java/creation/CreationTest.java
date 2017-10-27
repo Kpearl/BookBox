@@ -67,21 +67,21 @@ public class CreationTest {
 				+uploadFile.getOriginName().substring(uploadFile.getOriginName().lastIndexOf("."));
 	
 		Creation creation = new Creation();
-		creation.setCreationNo(25);
-		creation.setCreationTitle("창작공간 픽션글 1호");
-		creation.setCreationIntro("창작작품 테스트 첫번째 Title ");
+		creation.setCreationNo(29);
+		creation.setCreationTitle("창작공간 픽션글 2호");
+		creation.setCreationIntro("창작작품 테스트 두번째 Title ");
 		creation.setCreationAuthor(user);
-		creation.setCreationHead("논픽션");
+		creation.setCreationHead("픽션");
 		creation.setCreationFileName(fileName);
 		creation.setCreationOriginName("Creation.jsp");
 		
 		List<UploadFile> uploadFileList =new ArrayList<>();
 		
-		UploadFile uploadFile1 = new UploadFile(fileName,"오리진파일1.jsp");
+		UploadFile uploadFile1 = new UploadFile(fileName,"2-3 이미지1.jsp");
 		uploadFile1.setMainFile(0);
-		UploadFile uploadFile2 = new UploadFile(fileName,"오리진파일2.jsp");
+		UploadFile uploadFile2 = new UploadFile(fileName,"2-3 이미지2.jsp");
 		uploadFile2.setMainFile(0);
-		UploadFile uploadFile3 = new UploadFile(fileName,"오리진파일3.jsp");
+		UploadFile uploadFile3 = new UploadFile(fileName,"2-3 이미지3.jsp");
 		uploadFile3.setMainFile(0);
 		
 		uploadFileList.add(uploadFile1);
@@ -89,13 +89,13 @@ public class CreationTest {
 		uploadFileList.add(uploadFile3);
 		
 		Writing writing = new Writing();
-		writing.setWritingTitle("창작글 테스트 Title(2)");
-		writing.setWritingContent("창작글 테스트 첫번째 글입니다. ");
+		writing.setWritingTitle("두번째 창작글 테스트 Title(3)");
+		writing.setWritingContent("두번째 창작글 테스트 세번째 글입니다. ");
 		writing.setWritingFileList(uploadFileList);
 		
 		
 		Tag tag = new Tag();
-		tag.setTagName("#수요일#픽션#테스트");
+		tag.setTagName("#목요일#픽션#아자아자");
 		///////////SET END
 				
 		List<Tag> tagList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class CreationTest {
 		System.out.println("UploadFile :: "+uploadFile);
 		
 		////////INSERT
-	//	creationService.addCreation(user, creation);
+//		creationService.addCreation(user, creation);
 		writing.setWritingNo(creation.getCreationNo());
 		writingService.addWriting(user, writing);
 		///////
@@ -237,7 +237,7 @@ public class CreationTest {
 		Writing writing = new Writing();
 		creation.setCreationNo(24);
 		writing.setWritingNo(17);	
-		writing.setCreation(creation);
+		//writing.setCreationNo(creation);
 		
 		writing = writingService.getWriting(user, writing);
 		

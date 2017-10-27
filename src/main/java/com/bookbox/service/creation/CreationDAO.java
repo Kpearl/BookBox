@@ -31,7 +31,7 @@ public interface CreationDAO {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public Creation getCreation(User user, Creation creation) throws Exception;
+	public Creation getCreation(Creation creation) throws Exception;
 	
 	
 	/**

@@ -198,7 +198,7 @@
 
     <!-- 말머리 -->
 	<section class="blank items">
-	<h2>${creationHead }</h2>
+	<h2>${creation.creationHead }</h2>
 		<div class="row">
 			<div class="col-md-12 text-right">
 				<a type="button" class="btn btn-addWriting">창작글쓰기</a>
@@ -263,9 +263,9 @@
 				<div class="activity-list-update div-posting">
 				
 					<input type ="text" calss="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
-					<img src="../resources/images/${writing.creation.creationFileName }" alt="Image" width="100px" height="80px">
+					<img src="../resources/images/${creation.creationFileName }" alt="Image" width="100px" height="80px">
 					<p><a href ="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
-					<p>${creation.creationAuthor.nickname }</p>
+					<p>${writing.writingAuthor.nickname }</p>
 					
 					<p>${writing.regDate }</p>
 					<!-- 별점 -->

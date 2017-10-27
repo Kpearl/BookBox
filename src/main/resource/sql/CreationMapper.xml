@@ -14,9 +14,10 @@
 		<result property="creationHead" 				column="creation_head" 									jdbcType="VARCHAR" />
 		<result property="creationFileName" 					column="creation_file_name" 				jdbcType="VARCHAR" />
 		<result property="creationOriginName" 		column="creation_origin_name" 		jdbcType="VARCHAR" />
+		<result property="active" 		column="active" 		jdbcType="INTEGER" />			
 					<association property="creationAuthor" 			javaType="user" 					resultMap="UserMapper.userSelectMap"/>
 					<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=creation_no}" select="TagMapper.getTagGroupList"/>					
-					<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=creation_no}" select="WritingMapper.getWritingList"/>
+					
 	</resultMap>
 	
 	
@@ -36,24 +37,25 @@
 	  <!-- SQL : SELECT ONE -->
 	 <select 	id="getCreation"	parameterType="creation"	 resultMap="creationSelectMap">
 		SELECT
-		creation_no, 
-		author email, 
-		creation_title, 
-		creation_head, 
-		creation_file_name, 
-		creation_origin_name, 
-		creation_intro, 
+		c.creation_no, 
+		c.author email,
+		u.nickname, 
+		c.creation_title, 
+		c.creation_head, 
+		c.creation_file_name, 
+		c.creation_origin_name, 
+		c.creation_intro, 
 		'1' AS category_no,
-		active
+		c.active
 		
-		FROM creation 
-		
+		From
+			user u
+			LEFT JOIN creation c ON u.email = c.author		
 		<where>
-		
 			creation_no = #{creationNo}
-		 		
+	
 		<if test="active==0">
-			AND active = 1
+			AND c.active = 1
 		</if>
 		</where>
 	 </select>

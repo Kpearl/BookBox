@@ -88,6 +88,12 @@ public class CreationServiceImpl implements CreationService {
 		tagService.updateTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
 	}
 	
+	@Override
+	public Creation getCreation(Creation creation) throws Exception {
+		// TODO Auto-generated method stub
+		return creationDAO.getCreation(creation);
+	}
+
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수
 	 * @param Search search

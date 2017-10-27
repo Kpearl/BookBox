@@ -48,7 +48,7 @@ public class CreationDAOImpl implements CreationDAO {
 		sqlSession.insert("CreationMapper.addCreation", creation);
 	}
 	
-	public Creation getCreation(User user, Creation creation) throws Exception{
+	public Creation getCreation(Creation creation) throws Exception{
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo());
 		creation.setGrade(commonDAO.getAvgGrade(map));
