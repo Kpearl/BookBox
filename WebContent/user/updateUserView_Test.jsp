@@ -29,6 +29,16 @@ $(function() {
 	});
 });
 
+
+//============= "회원탈퇴" Event 연결 ============
+$(function(){
+	$('a.user-shut-out').bind('click', function(){
+		if( confirm("정말 탈퇴 하시겠습니까?") ){
+			$(self.location).attr('href', '../user/deleteUser');
+		}
+	});
+});
+
 //=============fncAddUser()=================
 	function fncUpdateUser() {
 			
@@ -81,6 +91,9 @@ $(function() {
 	    $("#birth").datepicker({ 
 	    	dateFormat:"yy-mm-dd",
 	    	showOn: "button",
+	    	changeMonth: true,
+	    	changeYear: true,
+	    	defaultDate: '-20y',
 	    	buttonImageOnly : true,
 	    	buttonImage: "https://icongr.am/octicons/calendar.svg?size=25",
 	    	buttonText : "Select date"});
@@ -189,7 +202,7 @@ $(function() {
 			
 			<label>
 				<h2>Choose your birthday</h2>
-				<input class="long" type="text" id="birth" name="birth" >
+				<input class="long" type="text" id="birth" name="birth" readonly value="${user.birth}">
 			</label>
 			
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
@@ -197,6 +210,9 @@ $(function() {
 
 			<button type="button" class="btn btn-default">정보수정</button>
 
+			<div class="row">
+				<a href="#" class="btn btn-warning user-shut-out">회원탈퇴</a>
+			</div>
 		</form>
 	</div>	
 </body>

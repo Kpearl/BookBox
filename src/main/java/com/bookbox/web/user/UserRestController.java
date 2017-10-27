@@ -1,8 +1,5 @@
 package com.bookbox.web.user;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -114,13 +114,10 @@
 		인기포스팅 <a class="btn btn-default posting" href="#">더보기</a>
    		<div class="activity" style="width:100%;">
 			<c:forEach items="${postingList}" var="posting">
-				<c:set var="text" value="${posting.postingContent }"/>
-				<c:set var="len" value="${fn:length(text)}"/>
-				<c:set var="len" value="${len > 30 ? 30 : len }"/>
 				<div class="activity-list-update div-posting">
 					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
-					<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.<br/>${fn:substring(text,0,len-1)}${len==30 ? '...':'' }</p>
+					<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.</p>
 					<div class="clear"></div>
 				</div>
 			</c:forEach>

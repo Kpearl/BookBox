@@ -82,7 +82,7 @@ $(function() {
   
 //============= 홈버튼 Event  처리 =============	
   	$("a.navigation-home").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}index.jsp");
+ 		$(self.location).attr("href","${param.uri}");
 	}); 
 
 // JJ : Search Button View

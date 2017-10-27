@@ -135,6 +135,7 @@ public class BooklogController {
 
 		posting.setPostingTagList(tagList);
 		posting.setUser(user);
+		posting.setPostingFileList(postingFileList);
 		postingService.addPosting(user, posting);
 		
 		return "redirect:../booklog/getPostingList?condition="+user.getEmail();

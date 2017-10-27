@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Location;
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.domain.Posting;
 
@@ -25,13 +27,11 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean addPosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.insert("PostingMapper.addPosting", posting);
-//		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
-//			Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.POSTING, posting.getPostingNo());
-//			map.put("originName", posting.getPostingFileList().get(0));
-//			map.put("fileName", Calendar.getInstance().getTimeInMillis());
-//			commonDAO.addUploadFile(user, map);
-//				sqlSession.insert("PostingMapper.addPostingFile", posting);
-//		}
+		for(UploadFile uploadFile : posting.getPostingFileList()) {
+			uploadFile.setCategoryNo(Const.Category.POSTING);
+			uploadFile.setTargetNo(posting.getPostingNo());
+			sqlSession.insert("PostingMapper.addPostingFile", uploadFile);
+		}
 //		addPostingLocation(posting);
 		return true;
 	}

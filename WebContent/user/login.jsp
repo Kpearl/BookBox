@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,7 +92,7 @@
 			$("#email").focus();
 			
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a:contains('Login')").on("click" , function() {
+			$("a.user-login").on("click" , function() {
 				var email=$("input[name='email']").val();
 				var pw=$("input[name='password']").val();
 				
@@ -114,7 +115,7 @@
 		//============= 회원원가입화면이동 =============
 		$( function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a:contains('Join')").on("click" , function() {
+			$("a.user-sign-in").on("click" , function() {
 				self.location = "../user/addUser"
 			});
 		});
@@ -122,7 +123,7 @@
 		//============= 비밀번호 찾기 화면이동 =============
 		$( function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a:contains('Find Password')").on("click" , function() {
+			$("a.user-find-password").on("click" , function() {
 				
 				var popURL = "../user/findPassword";
 				var popOption ="width = 800, height = 320, resizable = yes, scrollbars= no, status= no;"
@@ -151,7 +152,7 @@
 					<div class="form-group">
 						<label for="email" class="col-sm-6 col-md-4 control-label">Your email :</label>
 						<div class="col-sm-6 col-md-8">
-							<input type="text" class="form-control" id="email" name="email" placeholder="email@bookbox.com">
+							<input type="text" class="form-control" id="email" name="email" placeholder="email@bookbox.com" value="${user.email}">
 						</div>
 					</div>
 					
@@ -161,6 +162,9 @@
 							<input type="password" class="form-control" id="password" name="password" placeholder="password">
 						</div>
 					</div>
+					<c:if test="${!empty msg}">
+						${msg}<br/>
+					</c:if>
 					
 					<input type="hidden" name="outerToken" id="outerToken"> 
 					<input type="hidden" name="outerAccount" id="outerAccount" value="0">
@@ -168,13 +172,13 @@
 					<br/>
 					<div class="row">
 						<div class="col-xs-3">
-							<a class="btn btn-success">Login</a>
+							<a class="btn btn-success user-login">Login</a>
 						</div>
 						<div class="col-xs-3">
-							<a class="btn btn-success"> Join</a>
+							<a class="btn btn-success user-sign-in">Sign in</a>
 						</div>
 						<div class="col-xs-6">
-							<a class="btn btn-success">Find Password</a>
+							<a class="btn btn-success user-find-password">Find Password</a>
 						</div>
 					</div>
 					

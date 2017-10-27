@@ -22,6 +22,7 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.user.MailService;
 import com.bookbox.service.user.UserService;
+import com.bookbox.service.user.impl.MailRunnableImpl;
 
 
 /**
@@ -101,7 +102,8 @@ public class UserController {
 			userService.addUser(user);
 			resultPage="forward:../user/login";
 		}else {
-			mailService.sendMail(user);
+			new Thread(new MailRunnableImpl(mailService, user)).start();
+//			mailService.sendMail(user);
 			resultPage ="redirect:../index.jsp";
 		}
 		
@@ -172,7 +174,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("userList", userList);
 		
-		return "forward:../user/getUser.jsp";
+		return "forward:../user/listUser.jsp";
 	}
 	
 	
@@ -294,7 +296,9 @@ public class UserController {
 					session.setAttribute("user", dbUser);
 							
 				}else {
-					returnValue = "redirect:../user/login";
+					model.addAttribute("user", user);
+					model.addAttribute("msg", "이메일 또는 비밀번호가 잘못되었습니다.");
+					returnValue = "forward:../user/login.jsp";
 				}
 			}else {
 				session.setAttribute("user", dbUser);		
@@ -302,7 +306,10 @@ public class UserController {
 			
 		}else {
 			if (user.getOuterAccount()==0) {
-				returnValue = "redirect:../user/login";
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "잘못된 회원 정보입니다.");
+
+				returnValue = "forward:../user/login.jsp";
 			}else {
 				model.addAttribute("user", user);
 				System.out.println("Model.getAttribute('user')  :: "+user);
@@ -367,6 +374,8 @@ public class UserController {
 		map.put("active", 2);
 		
 		userService.updateActive(map);
+		
+		session.invalidate();
 		
 		return "redirect:../index.jsp";
 	}

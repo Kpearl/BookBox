@@ -18,7 +18,7 @@
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
 		</association>
-		<collection property="postingFileList" ofType="String" column="upload_no" select="selectPostingFileList"/>
+		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="selectPostingFileList"/>
 		<collection property="postingLocationList" ofType="location" column="location_no">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
@@ -39,11 +39,13 @@
 			)
 	</insert>
 	
-<!-- 	<insert id="addPostingFile" parameterType="posting">
+	<insert id="addPostingFile" parameterType="uploadFile">
 		INSERT
-		INTO upload_file( category_no, target_no, file_name, origin_name )
-		
-	</insert> -->
+		INTO
+			upload_file( category_no, target_no, file_name, origin_name )
+		VALUES
+			( #{categoryNo}, #{targetNo}, #{fileName}, #{originName} )
+	</insert>
 	
 	<insert id="addPostingLocation" parameterType="map">
 		INSERT
@@ -153,7 +155,14 @@
 			posting_no=#{postingNo}
 	</delete>
 	
-	
+	<select id="selectPostingFileList" parameterType="map" resultType="uploadFile">
+		SELECT
+			upload_no, category_no, target_no, file_name, origin_name, main_file
+		FROM
+			upload_file
+		WHERE
+			category_no = #{categoryNo} AND target_no = #{targetNo}
+	</select>
 	
 	
 	<sql id="tagWiring">

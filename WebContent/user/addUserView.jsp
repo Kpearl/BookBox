@@ -83,7 +83,9 @@ $(function() {
 			if( nicknameJSONData == false ) {				
 				alert("사용불가능한 닉네임입니다.");
 				return;
-			}			
+			}
+			
+			alert("전송된 메일에서 링크를 클릭하시면 회원가입이 완료됩니다.");
 			
 			$("form").attr("method" , "POST").attr("action" , "addUser").submit();
 			
@@ -94,6 +96,9 @@ $(function() {
 	    $("#birth").datepicker({ 
 	    	dateFormat:"yy-mm-dd",
 	    	showOn: "button",
+	    	changeMonth: true,
+	    	changeYear: true,
+	    	defaultDate: '-20y',
 	    	buttonImageOnly : true,
 	    	buttonImage: "https://icongr.am/octicons/calendar.svg?size=25",
 	    	buttonText : "Select date"});
@@ -250,7 +255,7 @@ $(function() {
 			
 			<label>
 				<h2>Choose your birthday</h2>
-				<input class="long" type="text" id="birth" name="birth" >
+				<input class="long" type="text" id="birth" name="birth" readonly>
 			</label>
 			
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount">

@@ -45,7 +45,7 @@
 	$(function(){
 		booklogUser = $('input[name="user.email"]').val()
 		$('a.posting-list').on('click',function(){
-			$(self.location).attr('href','../booklog/getPostingList?condition='+booklogUser);
+			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
 		});
 		$('a.var-btn:contains("표지편집")').on('click', function(){
 			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
@@ -211,13 +211,9 @@
 	        <div class="swiper-wrapper">
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklog.postingList}" var="posting">
-					<c:set var="text" value="${posting.postingContent }"/>
-					<c:set var="len" value="${fn:length(text)}"/>
-					<c:set var="len" value="${len > 30 ? 30 : len }"/>
 					<div class="swiper-slide div-posting" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
 						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 						포스팅명 : ${posting.postingTitle}<br/>
-						포스팅내용 : ${fn:substring(text,0,len-1)}${len==30 ? '...':'' }<br/>
 		            </div>
 	        	</c:forEach>
 	        </div>

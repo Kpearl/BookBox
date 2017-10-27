@@ -10,6 +10,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.font_names = CKEDITOR.config.font_names = '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;' + CKEDITOR.config.font_names;
 	config.enterMode = CKEDITOR.ENTER_BR;
+	config.height = '500px';
 	
 	config.extraPlugins = 'filetools,uploadimage,uploadwidget,locationmap,widget,widgetselection,notificationaggregator,lineutils,notification,toolbar,clipboard';
 	
@@ -34,5 +35,5 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] }
 	];
 
-	config.removeButtons = 'PasteFromWord,Templates,Print,Preview,NewPage,SelectAll,Scayt,Find,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,BidiRtl,Anchor,Flash,About,Save,Iframe,PageBreak';
+	config.removeButtons = 'PasteFromWord,Templates,Print,Preview,NewPage,SelectAll,Scayt,Find,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,BidiRtl,Anchor,Flash,About,Save,PageBreak';
 };

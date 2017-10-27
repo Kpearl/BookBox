@@ -23,14 +23,16 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO user( email , nickname , password , gender , birth,  outer_account, active) 
+		INTO user( email , nickname , password , gender , birth,  outer_account, active, booklog_name, booklog_intro ) 
 		VALUES	 (	#{email} , 
 							#{nickname} , 
 							#{password} , 
 							#{gender} ,
 							 #{birth}, 
 							 #{outerAccount}, 
-							 #{active})
+							 #{active},
+							 '${nickname}님의 북로그',
+							 '${nickname}님의 북로그 입니다.')
 
 		
 		
@@ -46,7 +48,7 @@
 		 
 		<choose>
 			<when test="email==null and nickname != null">
-		  		nickname= #{nickname}	
+		  		nickname= #{nickname} COLLATE utf8_bin
 			</when>
 			<otherwise>
 			email = #{email}
