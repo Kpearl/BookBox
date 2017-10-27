@@ -149,6 +149,12 @@ $(function() {
 		if ('${book.grade.doGrade}' == 'true' || '${user.email}' == '') {
 			$('#starWrap ul li').off();
 		}
+		
+		var className=$("#starWrap").attr("class");
+		className=className.split(".");
+		//alert(className[0]);
+		$("#starWrap").attr("class",className[0]);
+		
 	});
 
 	$('#starWrap ul li').mouseenter(function() {
@@ -171,9 +177,9 @@ $(function() {
 				url: "../unifiedsearch/rest/addGrade",
 				method: "POST",
 				data: {"isbn": '${book.isbn}', "userCount": idx},
-				success: function() {
+				success: function(data) {
 					alert("평점이 등록되었습니다.");
-					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + ${book.grade.average})/2 + "</span>");
+					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + data + "</span>");
 				}
 			});
 		}
@@ -313,14 +319,15 @@ canvas {
 						<br> <br> 도서 소개 : ${book.contents}<br> <br> <a
 							href="${book.url}">판매 페이지로 이동</a><br> <br> <br> 
 						
+ 						<div style="width:75%;">
+        					<canvas id="canvas"></canvas>
+    					</div>
+						
+						<br><br>
 						<c:if test="${user.email != null}">	
 							댓글<input type="text" id="content" placeholder="댓글 입력">
 							<button onclick="addReply(${book.isbn});">댓글입력</button> <br>
 						</c:if>	
-						
- 						<div style="width:75%;">
-        				<canvas id="canvas"></canvas>
-    					</div>
 						<br>
 						<hr>
 						<h3>댓글리스트</h3>
