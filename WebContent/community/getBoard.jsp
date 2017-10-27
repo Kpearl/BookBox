@@ -33,6 +33,10 @@
 	padding: 5px;
 	margin-bottom: 10px; 
 }
+.blind{
+	color: 	#FF1493;
+	
+}
 
 </style>
 
