@@ -103,6 +103,7 @@ public class CreationController {
 	 * @throws Exception
 	 * @return "forward:addWritingView.jsp"
 	 */
+	@RequestMapping(value="addWriting", method=RequestMethod.GET)
 	public String addWriting() throws Exception{
 		
 		System.out.println("Creation Controller :: /creation/addWriting : GET");
@@ -298,8 +299,7 @@ public class CreationController {
 	 * @return "forward:getUser.jsp"
 	 */
 	@RequestMapping( value="getWriting", method=RequestMethod.GET )
-	public String getWriting( @ModelAttribute("creation") Creation creation,
-													@ModelAttribute("writing") Writing writing ,
+	public String getWriting( @ModelAttribute("writing") Writing writing ,
 													HttpSession session,
 													Model model ) throws Exception {
 		// TODO getWriting
@@ -308,11 +308,16 @@ public class CreationController {
 		System.out.println("CreationController :: getWriting :: "+writing);
 		//Business Logic
 		User user=(User)session.getAttribute("user");
-//		writing.setCreation(creation);
-		writingService.getWriting(user, writing);
+		
+		Creation creation = new Creation();
+		creation.setCreationNo(writing.getCreationNo());
+		
+		creation = creationService.getCreation(creation);
+		writing = writingService.getWriting(user, writing);
 		
 		// Model 과 View 연결
 		model.addAttribute("writing", writing);
+		model.addAttribute("creation", creation);
 		
 		return "forward:getWriting.jsp";
 	}	

@@ -120,8 +120,8 @@
 			u.nickname
 
 		FROM 
-			user u
-			LEFT JOIN creation c ON u.email = c.author
+			creation c
+			LEFT JOIN user u ON c.author = u.email
 			LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
 			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
 
@@ -132,14 +132,72 @@
 		 				c.creation_title LIKE '%${search.keyword}%'
 					</if>
 					<if test="search.condition == 1 and search.keyword !=''">
-		 				c.author nickname LIKE '%${search.keyword}%'
+		 				u.nickname LIKE '%${search.keyword}%'
 					</if>
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				t.tag_name LIKE '%${search.keyword}%'
 					</if>
+					<if test="search.condition == 3 and search.keyword !=''">
+		 				t.tag_name LIKE '%${search.keyword}%' OR 
+		 				u.nickname LIKE '%${search.keyword}%' OR 
+		 				t.tag_name LIKE '%${search.keyword}%' 
+					</if>
 			</if>
 		</where>
+		GROUP BY
+			c.creation_no, email, 
+			c.creation_title, 	c.creation_head, 
+			c.creation_file_name, c.creation_origin_name, 
+			c.creation_intro, c.active,
+			category_no,
+	
+			u.nickname
+
 		LIMIT #{page.startRow}, #{page.pageSize}
+		
+<!-- 				SELECT vt.*
+		FROM
+		(SELECT
+			c.creation_no, c.author email, 
+			c.creation_title, 	c.creation_head, 
+			c.creation_file_name, c.creation_origin_name, 
+			c.creation_intro, c.active,
+			'1' AS category_no,
+	
+			u.nickname
+
+		FROM 
+			creation c
+			LEFT JOIN user u ON c.author = u.email
+
+		<where>
+				
+			<if test="search.condition != null">
+					<if test="search.condition == 0 and search.keyword !=''">
+		 				c.creation_title LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 1 and search.keyword !=''">
+		 				u.nickname LIKE '%${search.keyword}%'
+					</if>
+			</if>
+		</where>
+		LIMIT #{page.startRow}, #{page.pageSize} ) vt
+			LEFT JOIN tag_group tg ON vt.creation_no = tg.target_no 
+			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
+			
+			<where>
+				<if test="search.condition != null">
+					<if test="search.condition == 2 and search.keyword !=''">
+		 				t.tag_name LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 3 and search.keyword !=''">
+		 				t.tag_name LIKE '%${search.keyword}%' OR 
+		 				u.nickname LIKE '%${search.keyword}%' OR 
+		 				t.tag_name LIKE '%${search.keyword}%' 
+					</if>
+				</if>
+			</where> -->
+		
 	</select>
 	
 	
@@ -149,27 +207,47 @@
 	 <select  id="getTotalCreationCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT
-							c.creation_no
+							c.creation_no, c.author email, 
+							c.creation_title, 	c.creation_head, 
+							c.creation_file_name, c.creation_origin_name, 
+							c.creation_intro, c.active,
+							'1' AS category_no,
+					
+							u.nickname
+				
 						FROM 
 							creation c
-							
-						<if test="condition == 2 and keyword !=''">
+							LEFT JOIN user u ON c.author = u.email
 							LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
 							LEFT JOIN tag  t ON tg.tag_no =t.tag_no
-						</if>
+				
 						<where>
+								
 							<if test="condition != null">
 									<if test="condition == 0 and keyword !=''">
 						 				c.creation_title LIKE '%${keyword}%'
 									</if>
 									<if test="condition == 1 and keyword !=''">
-						 				c.author nickname LIKE '%${keyword}%'
+						 				u.nickname LIKE '%${keyword}%'
 									</if>
 									<if test="condition == 2 and keyword !=''">
 						 				t.tag_name LIKE '%${keyword}%'
 									</if>
+									<if test="condition == 3 and keyword !=''">
+						 				t.tag_name LIKE '%${keyword}%' OR 
+						 				u.nickname LIKE '%${keyword}%' OR 
+						 				t.tag_name LIKE '%${keyword}%' 
+									</if>
 							</if>
 						</where>
+						GROUP BY
+							c.creation_no, email, 
+							c.creation_title, 	c.creation_head, 
+							c.creation_file_name, c.creation_origin_name, 
+							c.creation_intro, c.active,
+							category_no,
+					
+							u.nickname
 					) countTable						
 	 </select>
 

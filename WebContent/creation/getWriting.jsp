@@ -37,7 +37,7 @@ function addReply(targetNo) {
 	}		
 }
 
-//좋아요 추가
+//=====================좋아요 추가=====================
 function addLike(targetNo) {
 	var total = document.getElementById('likeSum').innerHTML;
 	
@@ -54,7 +54,7 @@ function addLike(targetNo) {
 	alert("좋아요를 등록하셨습니다.");
 }
 
-//좋아요 취소
+//====================좋아요 취소=====================
 function deleteLike(targetNo) {
 	var total = document.getElementById('likeSum').innerHTML;
 	
@@ -70,7 +70,7 @@ function deleteLike(targetNo) {
 	alert("좋아요를 취소하셨습니다.");
 }
 
-//별점 이벤트
+//=====================별점 이벤트=================
 $(function() {
 	$(document).ready(function() {
 		if ('${grade.doGrade}' == 'true' || '${user.email}' == '') {
@@ -200,15 +200,21 @@ $(function() {
 	<br>
 	
 	<div class="row">
-  		<div class="col-md-4">
-    		<div>
-				펀딩진행중 여부
-			</div>
-    		<img src="../resources/images/creation.jpg" width="320px" height="200px">
-  		</div>
-			<div class="col-md-2">
-				  글제목 / 작가닉네임 <br>#태그<br>글소개
-  			</div>
+	  		<div class="col-md-4">
+	  			<div>
+					펀딩진행중 여부
+				</div>
+				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
+	    		<img src="../resources/images/${creation.creationFileName }" width="320px" height="200px">
+	  		</div>
+				<div class="col-md-2">
+					  <p>${creation.creationTitle }</p> 
+					  <p>${creation.creationAuthor.nickname }</p> 
+					  <c:forEach var="tag" items="${creation.tagList}">	  
+					  	<p>#${tag.tagName }</p>	
+					  </c:forEach>
+					  <p>${creation.creationIntro }</p>
+	  			</div>
 		</div>
 		
 		<br>
@@ -239,7 +245,12 @@ $(function() {
 		</div>
 		
 		<br>
-		글제목 / 말머리 / 등록일시
+		<div class = "row">
+				<p>${writing.writingTitle }</p>
+			<div class="col-md-12 text-right">
+				<p>${writing.regDate }</p>
+			</div>
+		</div>
 		<br>
 		<br>
 		

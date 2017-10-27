@@ -58,13 +58,30 @@
 
     <script>
     
-           //============= 창작글리스트 조회 Navigation Event  처리 =============	
+  //============= 창작글리스트 조회 Navigation Event  처리 =============	
    $(function() {
-	  $("a.creationTitle").off('click').on("click" , function() {
+	  $("a.creationTitle").on("click" , function() {
    		$(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr("id"));
    	
    	}); 
  });  
+           
+   //============= 검색 Event  처리 =============	
+   $(function() {
+	  $("a.creationSearch").on("click" , function() {
+   		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
+   	
+   	}); 
+ });         
+   
+ //============= 창작글쓰기 Navigation Event  처리 =============	
+   $(function() {
+	  $("a.addWriting").on("click" , function() {
+		  alert("와이낫");
+   		$(self.location).attr("href","../creation/addWriting");
+   	
+   	}); 
+ });       
     
     </script>
 		
@@ -79,7 +96,7 @@
 		<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left">
-			<a class="btn">창작글 쓰기</a><a class="btn" href="addBoard">펀딩등록하기</a>
+			<a class="btn addWriting">창작글 쓰기</a><a class="btn" href="addBoard">펀딩등록하기</a>
 			</div>
 			<!-- 생성버튼 끝 -->
 		 	
@@ -87,13 +104,17 @@
 			  <div class="form-group">
 			    <div class="input-group">
 			      <div class="input-group-addon">
-			      	<select class="form-control">
-			      		<option>옵션</option>
+			      	<select class="form-control" name="condition">
+			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
+			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
+			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
+			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
 			      	</select>
 			      </div>
 			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
 			  	 	<div class="input-group-addon">
-			  			<button type="submit" class="btn">검색</button>
+			  			<a class="btn creationSearch">검색</a> 
+			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
 					</div>
 			    </div>
 			  </div>

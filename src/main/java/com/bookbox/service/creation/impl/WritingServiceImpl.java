@@ -105,11 +105,11 @@ public class WritingServiceImpl implements WritingService {
 		
 		System.out.println("writingService :: writing :: "+writing);
 		
-		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo());
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo(),user);
 		System.out.println("writingService :: getWriting :: map :: "+map);
 		
-		writing.setGrade(commonDAO.getGrade(user, map));
-		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(user, map));
+		writing.setGrade(commonDAO.getGrade(map));
+		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(map));
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
