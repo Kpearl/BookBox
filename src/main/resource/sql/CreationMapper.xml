@@ -8,15 +8,15 @@
 <mapper namespace="CreationMapper">
 	
 	<resultMap id="creationSelectMap" type="creation">
-		<result property="creationNo" 					column="creation_no" 							jdbcType="INTEGER"/>
-		<result property="creationTitle"					column="creation_title" 							jdbcType="VARCHAR" />
-		<result property="creationIntro" 				column="creation_intro" 						jdbcType="VARCHAR" />
-		<result property="creationHead" 				column="creation_head" 						jdbcType="VARCHAR" />
+		<result property="creationNo" 					column="creation_no" 										jdbcType="INTEGER"/>
+		<result property="creationTitle"					column="creation_title" 										jdbcType="VARCHAR" />
+		<result property="creationIntro" 				column="creation_intro" 									jdbcType="VARCHAR" />
+		<result property="creationHead" 				column="creation_head" 									jdbcType="VARCHAR" />
 		<result property="creationFileName" 					column="creation_file_name" 				jdbcType="VARCHAR" />
 		<result property="creationOriginName" 		column="creation_origin_name" 		jdbcType="VARCHAR" />
-			<association property="creationAuthor" 			javaType="user" 					resultMap="UserMapper.userSelectMap"/>
-			
-			
+					<association property="creationAuthor" 			javaType="user" 					resultMap="UserMapper.userSelectMap"/>
+					<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=creation_no}" select="TagMapper.getTagGroupList"/>					
+					<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=creation_no}" select="WritingMapper.getWritingList"/>
 	</resultMap>
 	
 	
@@ -36,9 +36,20 @@
 	  <!-- SQL : SELECT ONE -->
 	 <select 	id="getCreation"	parameterType="creation"	 resultMap="creationSelectMap">
 		SELECT
-		creation_no, author email, creation_title, creation_head, creation_file_name, creation_origin_name, creation_intro, active
+		creation_no, 
+		author email, 
+		creation_title, 
+		creation_head, 
+		creation_file_name, 
+		creation_origin_name, 
+		creation_intro, 
+		'1' AS category_no,
+		active
+		
 		FROM creation 
+		
 		<where>
+		
 			creation_no = #{creationNo}
 		 		
 		<if test="active==0">
@@ -98,14 +109,18 @@
 	<select  id="getCreationList"  parameterType="map"	resultMap="creationSelectMap">
 		
 		SELECT
-			c.creation_no,	 c.author email, 
+			c.creation_no, c.author email, 
 			c.creation_title, 	c.creation_head, 
 			c.creation_file_name, c.creation_origin_name, 
 			c.creation_intro, c.active,
-			t.tag_name
+			'1' AS category_no,
+	
+			u.nickname
 
 		FROM 
-			creation c LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
+			user u
+			LEFT JOIN creation c ON u.email = c.author
+			LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
 			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
 
 		<where>

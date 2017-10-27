@@ -4,11 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
@@ -293,14 +290,17 @@ public class CreationController {
 	 * @return "forward:getUser.jsp"
 	 */
 	@RequestMapping( value="getWriting", method=RequestMethod.GET )
-	public String getWriting( @ModelAttribute("writing") Writing writing ,
+	public String getWriting( @ModelAttribute("creation") Creation creation,
+													@ModelAttribute("writing") Writing writing ,
 													HttpSession session,
 													Model model ) throws Exception {
 		// TODO getWriting
 		System.out.println("CreationController :: /creation/getWriting : GET");
 
+		System.out.println("CreationController :: getWriting :: "+writing);
 		//Business Logic
 		User user=(User)session.getAttribute("user");
+//		writing.setCreation(creation);
 		writingService.getWriting(user, writing);
 		
 		// Model 과 View 연결
@@ -317,7 +317,8 @@ public class CreationController {
 	 * @return "forward:getCreationList.jsp"
 	 */
 	@RequestMapping( value="getCreationList", method=RequestMethod.GET )
-	public String getCreationList( @ModelAttribute("search") Search search, 
+	public String getCreationList(@ModelAttribute("tag") Tag tag, 
+															@ModelAttribute("search") Search search, 
 															@ModelAttribute("page") Page page, Model model) throws Exception {
 		// TODO getCreationList
 		System.out.println("CreationController :: /creation/getCreationList : GET");
@@ -363,11 +364,9 @@ public class CreationController {
 	public String getWritingList( @ModelAttribute("creation") Creation creation,
 															@ModelAttribute("search") Search search, 
 															@ModelAttribute("page") Page page, Model model) throws Exception {
-		// TODO getCreationList
+		// TODO getWritingList
 		System.out.println("CreationController :: /creation/getWritingList : GET  ===>START");
 
-		System.out.println("getCreationList :: getSearch :: "+search);
-		System.out.println("getCreationList :: getPage :: "+page);
 		
 		//Business Logic
 		if(search.getKeyword() == null) {
@@ -383,19 +382,24 @@ public class CreationController {
 			page.setPageUnit(5);
 		}
 		
+		System.out.println("getCreationList :: getSearch :: "+search);
+		System.out.println("getCreationList :: getPage :: "+page);
+		System.out.println("getCreationList :: getCreation :: "+creation);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
 		map.put("creation", creation);
-		
+				
 		List<Writing> writingList = writingService.getWritingList(map);
 		System.out.println("getWritingList"+writingList);
-
+		creation.setWritingList(writingList);
+	
 		// Model 과 View 연결
-		model.addAttribute("writingList", writingList);
+		model.addAttribute("creation", creation);
 		
-		System.out.println("CreationController :: /creation/getCreationList : GET ===> END");
-		return "forward:getCreationList.jsp";
+		System.out.println("CreationController :: /creation/getWritingList : GET ===> END");
+		return "forward:listWriting.jsp";
 	}	
 
 	

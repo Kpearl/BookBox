@@ -19,7 +19,7 @@ public class Writing {
 
 	//Field
 	private int writingNo;
-	private Creation creation;
+	private int creationNo;
 	private String writingAuthor;
 	private String writingTitle;
 	private String writingContent;
@@ -43,12 +43,12 @@ public class Writing {
 		this.writingNo = writingNo;
 	}
 	
-	public Creation getCreation() {
-		return creation;
+	public int getCreationNo() {
+		return creationNo;
 	}
 
-	public void setCreation(Creation creation) {
-		this.creation = creation;
+	public void setCreationNo(int creationNo) {
+		this.creationNo = creationNo;
 	}
 
 	public String getWritingAuthor() {
@@ -134,7 +134,7 @@ public class Writing {
 
 	@Override
 	public String toString() {
-		return "Writing [writingNo=" + writingNo + ", creation= "+creation+", writingTitle=" + writingTitle + ", writingContent="
+		return "Writing [writingNo=" + writingNo + ", creationNo = "+creationNo+", writingTitle=" + writingTitle + ", writingContent="
 				+ writingContent + ", regDate=" + regDate + ", updateDate=" + updateDate + ", replyList=" + replyList
 				+ ", grade=" + grade + ", writingFileList=" + writingFileList + ", viewCount=" + viewCount + ", active="
 				+ active + "]";

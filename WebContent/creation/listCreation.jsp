@@ -55,19 +55,17 @@
     </style>
 
 	
-	 <!-- Initialize Swiper -->
+
     <script>
     
-    $(function(){
-   
-    	var swiper = new Swiper('.swiper-container', {
-        	pagination: '.swiper-pagination',
-        	slidesPerView: 3,
-        	paginationClickable: true,
-        	spaceBetween: 30
-	    });
+           //============= 창작글리스트 조회 Navigation Event  처리 =============	
+   $(function() {
+	  $("a.creationTitle").off('click').on("click" , function() {
+   		$(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr("id"));
+   	
+   	}); 
+ });  
     
-    })
     </script>
 		
 
@@ -107,16 +105,19 @@
 	<div class="row">
         
 		<div class="activity" style="width:100%; ">
-			<%-- <c:forEach items="${postingList}" var="posting">
-				<c:set var="text" value="${posting.postingContent }"/>
-				<c:set var="len" value="${fn:length(text)}"/>
-				<c:set var="len" value="${len > 10 ? 10 : len }"/> --%>
-				<div class="activity-list-update div-posting">
-					<input type="hidden" name="postingNo" value=""/>
-					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
+			<c:forEach var="creation" items="${creationList}" >
+					<div class="activity-list-update div-creation">
+					
+					<input type ="text" name="creationNo" value="${creation.creationNo }"/>
+					<img src="/images/uploadFiles/${creation.creationFileName }" alt="Image" width="100px" height="80px">
 					<p>펀딩여부</p>
-					<p><a href ="#">글제목</a></p><p>작가닉네임</p>
-					<p>태그</p>
+					<p><a  class="creationTitle" id="${creation.creationNo }">${creation.creationTitle }</a></p>
+					<p>${creation.creationAuthor.nickname }</p>
+						<c:forEach var="tag" items="${creation.tagList }">	
+							<p>#${tag.tagName }</p>
+						</c:forEach>
+				
+					
 					<!-- 별점 -->
 						<div id="starWrap" class="star<%-- ${book.grade.average} --%>">
 							<ul>
@@ -130,7 +131,7 @@
 					<!-- 별점끝 -->	
 					<div class="clear"></div>
 				</div>
-			<%-- </c:forEach> --%>
+			</c:forEach>
 		</div>        
 		
 		<hr>

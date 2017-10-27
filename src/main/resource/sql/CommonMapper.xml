@@ -144,7 +144,7 @@
 	
 	<select id="getUploadFileList" parameterType="map" resultMap="uploadFileSelectMap">
 		SELECT
-			file_name, origin_name
+			category_no, target_no, file_name, origin_name, main_file
 		FROM upload_file
 		WHERE 
 			category_no =	#{categoryNo} AND

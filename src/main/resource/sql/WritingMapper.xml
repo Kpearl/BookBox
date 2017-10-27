@@ -13,6 +13,14 @@
 		<result property="writingContent" 			column="writing_content" 			jdbcType="VARCHAR" />
 		<result property="regDate" 						column="reg_date" 							jdbcType="DATE" />
 		<result property="updateDate" 				column="update_date" 					jdbcType="DATE" />	
+		<!-- 
+			<association property="creation" 			javaType="creation" 					select="CreationMapper.getCreation"/>
+		 -->
+		 
+		 
+		
+			<collection property="writingFileList" javaType="java.util.ArrayList" ofType="uploadFile" 
+								column="{categoryNo=writing_category_no,targetNo=writing_no}" select="CommonMapper.getUploadFileList"/>
 	</resultMap>
 	
 	
@@ -52,7 +60,8 @@
 	 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getWriting"	parameterType="writing"	 resultMap="writingSelectMap">
 		SELECT
-		writing_no, writing_title , writing_content, reg_date , update_date, active
+		writing_no, writing_title , writing_content, reg_date , update_date, active,
+		'2' as writing_category_no, '1' as category_no 
 		FROM writing
 		<where>
 		 writing_no = #{writingNo}	
@@ -66,24 +75,27 @@
 	 
 	 
 	 <!-- SQL : SELECT WritingLIST -->
-	<select  id="getWritingList"  parameterType="search"	resultMap="writingSelectMap">
+	<select  id="getWritingList"  parameterType="map"	resultMap="writingSelectMap">
 		
 		SELECT
 			c.creation_no,	 c.author email, 
 			c.creation_title, 	c.creation_head, 
 			c.creation_file_name, c.creation_origin_name, 
 			c.creation_intro, c.active,
+			'1' as category_no,
 			
 			w.writing_no, w.writing_title , 
 			w.writing_content, w.reg_date , 
 			w.update_date, w.active,
+			'2' as writing_category_no,
 			
-			t.tag_name
+			u.nickname
 
 		FROM 
-			writing w LEFT JOIN creation c ON w.creation_no = c.creation_no  
-			LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
-			LEFT JOIN tag  t ON ta.tag_no =t.tag_no
+			user u
+			LEFT JOIN creation c ON u.email = c.author  
+			LEFT JOIN writing w ON w.creation_no = c.creation_no  
+			
 
 		<where>
 			c.creation_no = #{creation.creationNo}
@@ -103,7 +115,7 @@
 			</if>
 	   	</set>
 	   	<where>
-	   		creation_no = #{writing.creation}
+	   		creation_no = #{writing.creation.creationNo}
 	   	</where>
 	
 	 </update>

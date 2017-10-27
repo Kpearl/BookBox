@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -193,7 +196,7 @@ $(function() {
 
 	<!-- 말머리 -->
 	<section class="blank items">
-	<h2>말머리 (픽션/논픽션)</h2>
+	<h2>${writing.creation.creationHead }</h2>
 	<br>
 	
 	<div class="row">

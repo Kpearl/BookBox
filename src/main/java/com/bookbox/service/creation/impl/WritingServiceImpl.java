@@ -67,7 +67,7 @@ public class WritingServiceImpl implements WritingService {
 		List<UploadFile> uploadFileList = writing.getWritingFileList();
 		
 		for(UploadFile uploadFile : uploadFileList) {
-			uploadFile.setCategoryNo(Const.Category.CREATION);
+			uploadFile.setCategoryNo(Const.Category.WRITING);
 			uploadFile.setTargetNo(writing.getWritingNo());
 		}
 		
@@ -103,23 +103,26 @@ public class WritingServiceImpl implements WritingService {
 	 */		
 	public Writing getWriting(User user, Writing writing) throws Exception{
 		
+		System.out.println("writingService :: writing :: "+writing);
+		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo());
+		System.out.println("writingService :: getWriting :: map :: "+map);
 		
 		writing.setGrade(commonDAO.getGrade(user, map));
 		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(user, map));
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
-		Creation creation = creationDAO.getCreation(user,writing.getCreation());
-		System.out.println("getWriting :: Creation :: "+writing.getCreation());
+//		Creation creation = creationDAO.getCreation(user,writing.getCreationNo());
+		System.out.println("getWriting :: Creation :: "+writing.getCreationNo());
 		
 		
-		creation.setLike(commonDAO.getLike(user, map));
-		System.out.println("getWriting :: Like :: "+commonDAO.getLike(user, map));
-		creation.setGrade(commonDAO.getGrade(user, map));
-		System.out.println("getWriting :: CreationGrade :: "+commonDAO.getGrade(user, map));
-		writing.setCreation(creation);
-		System.out.println("getWriting :: Creation :: "+creation);
+//		creation.setLike(commonDAO.getLike(user, map));
+//		System.out.println("getWriting :: Like :: "+commonDAO.getLike(user, map));
+//		creation.setGrade(commonDAO.getGrade(user, map));
+//		System.out.println("getWriting :: CreationGrade :: "+commonDAO.getGrade(user, map));
+//		writing.setCreation(creation);
+//		System.out.println("getWriting :: Creation :: "+creation);
 		
 		System.out.println("getWriting :: Writing ::"+writing);
 		return writingDAO.getWriting(writing);

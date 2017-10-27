@@ -96,7 +96,6 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		
-		//Map<String, Object> map = new HashMap<>(); 
 		Page page=(Page)map.get("page");
 		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
 		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
@@ -160,7 +159,7 @@ public class CreationServiceImpl implements CreationService {
 	public void deleteCreation(Creation creation) throws Exception{
 		
 		Writing writing = new Writing();
-		writing.setCreation(creation);
+		writing.setCreationNo(creation.getCreationNo());
 		
 		creationDAO.updateCreation(creation);
 		writingService.deleteWriting(writing);

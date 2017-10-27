@@ -90,7 +90,7 @@ public class WritingDAOImpl implements WritingDAO {
 	 */	
 	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
-		return sqlSession.selectList("WritingMapper.getWrititngList", map);
+		return sqlSession.selectList("WritingMapper.getWritingList", map);
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class WritingDAOImpl implements WritingDAO {
 	 * @return void
 	 */	
 	public int getTotalWritingCount(Creation creation) throws Exception{
-		return sqlSession.selectOne("WritingMapper.getTotalCount", creation);
+		return sqlSession.selectOne("WritingMapper.getTotalWritingCount", creation);
 	}
 	
 	/**
