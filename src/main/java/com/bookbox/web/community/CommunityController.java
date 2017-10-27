@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -113,9 +115,9 @@ public class CommunityController {
 	 */
 	
 	@RequestMapping(value="/addBoard",method=RequestMethod.POST)
-	public String addBoard(@ModelAttribute("Board")Board board, HttpServletRequest request) {
+	public String addBoard(@ModelAttribute("Board")Board board, HttpServletRequest request,HttpSession session) {
 		
-		
+		System.out.println(board);
 		//태그추가
 		List<Tag> tagList=new ArrayList<Tag>();
 		String tagNames[]= request.getParameterValues("tagNames");
@@ -129,9 +131,14 @@ public class CommunityController {
 			board.setTagList(tagList);
 		}
 		
+		
+		User user=(User)session.getAttribute("user");
 		//테스트용 유저정보//
-		User user=new User();
-		user.setEmail("test@test.com");
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+		}
+		
 		board.setWriter(user);
 		System.out.println(board);
 		communityServiceImpl.addBoard(user,board);
@@ -140,11 +147,13 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/getBoard")
-	public String getBoard(@RequestParam("boardNo")int boardNo,Model model) {
+	public String getBoard(@RequestParam("boardNo")int boardNo,Model model,HttpSession session) {
 		
-		//테스트 유저
-		User user=new User();
-		user.setEmail("test@test.com");
+		User user=(User)session.getAttribute("user");
+		//테스트용 유저정보//
+		if(user==null) {
+			user=new User();
+		}
 		
 		Board board=new Board();
 		board.setBoardNo(boardNo);

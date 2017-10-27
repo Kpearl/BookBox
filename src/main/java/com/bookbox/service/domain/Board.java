@@ -27,7 +27,7 @@ public class Board {
 	private List<Tag> tagList;
 	private List<Comment> comment;
 	private boolean blind;
-
+	private String thumbnailUrl;
 	public Board() {
 		// TODO Auto-generated constructor stub
 	}
@@ -111,13 +111,19 @@ public class Board {
 	public void setReport(int report) {
 		this.report = report;
 	}
+	
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
 
-
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
 
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", boardRegDate=" + boardRegDate + ", writer=" + writer + ", recommend=" + recommend + ", comment="
-			+"reprot="+report+ comment + ", blind=" + blind +"tagList="+tagList+ "]";
+			+"reprot="+report+ comment + ", blind=" + blind +"tagList="+tagList+",thumbnailUrl="+thumbnailUrl +"]";
 	}
 }

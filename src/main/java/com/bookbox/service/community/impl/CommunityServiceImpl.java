@@ -75,6 +75,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public List<Board> getBoardList(Map map) {
 		//System.out.println("[communityServiceImpl.getBoardList() start...]");
+		
 		return communityDAOImple.getBoardList(map);
 		
 	}

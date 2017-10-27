@@ -30,8 +30,8 @@
    		}
    		
    		.board_item img{
-   			height: 150px;
-   			float: left;
+   			height: 120px;
+   			
    		}
    		.board_item p{
    			text-overflow:ellipsis;
@@ -39,6 +39,8 @@
    			margin: 0;
    		}
    		.board_item .content{
+   			padding: 10px;
+   			height:120px;
    			background-color: #444;
    		}
     </style>
@@ -133,19 +135,29 @@
 			<div>
 				<c:forEach items="${ boardList }" var="board">
 				<div class="board_item row">
-					<div class="content">
+					<div class="col-md-2 text-center">
+						<c:if test="${empty board.thumbnailUrl}">
+							<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+						</c:if>
+						<c:if test="${!empty board.thumbnailUrl}">
+							<img src="${board.thumbnailUrl}">
+						</c:if>
+					</div>
+					<div class="content col-md-10">
 						<input type="hidden" value="${board.boardNo}" class="boardNo">
-						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+					
+						
 						<p>${board.boardTitle }</p>
 						<p>${board.writer.nickname }</p>
+						<!-- 
 						<p>${board.boardContent }</p>
+						 -->
 						<p>댓글수 0 신고수 ${board.report }</p>
 						
 						<p>
 						<c:forEach items="${board.tagList}" var="tag" >
 							#${tag.tagName}
 						</c:forEach>
-						#보노보노
 						</p>
 					</div>
 				</div>

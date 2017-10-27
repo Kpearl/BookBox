@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 		window.parent.CKEDITOR.tools.callFunction(${CKEditorFuncNum},"${url}","이미지업로드성공");
 		var imgObj=$("<div>"+
-						"<input name='image' value='${fileName}' readonly>"+
+						"<input type='hidden' name='image' value='${fileName}' readonly>"+ //hidden 처리
 						//"<label>"+
 						//	"<input type='radio' name='primeImg' value='${fileName}'/>대표이미지지정"+
 						//"</label>"+

@@ -13,6 +13,7 @@
 		<result property="boardRegDate" column="reg_date" jdbcType="DATE"/>
 		<result property="recommend" column="recommend_count" jdbcType="NUMERIC"/>
 		<result property="report" column="report_count" jdbcType="NUMERIC"/>
+		<result property="thumbnailUrl" column="thumbnail_url" jdbcType="VARCHAR"/>
 		<association property="writer" javaType="user">
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
@@ -57,11 +58,12 @@
 
 	<insert id="addBoard" parameterType="Board" useGeneratedKeys="true" 
 		keyProperty="boardNo" keyColumn="board_no">
-			INSERT INTO board (email, board_title, board_content) 
+			INSERT INTO board (email, board_title, board_content,thumbnail_url) 
 			VALUES (
 						#{writer.email:VARCHAR}, 
 						#{boardTitle:VARCHAR}, 
-						#{boardContent:VARCHAR}
+						#{boardContent:VARCHAR},
+						#{thumbnailUrl:VARCHAR}
 					)
 	</insert>
 	
@@ -87,7 +89,7 @@
 	</update>
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, b.thumbnail_url ,'6' as category_no,
 		u.nickname, u.role
 		FROM board b, user u
 		WHERE

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,16 +53,21 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="/addRecommend")
-	public void addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend ) {
+	public void addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend,HttpSession session ) {
 		
 		//파라미터 확인용
 	//	System.out.print("targetNo : "+request.getParameter("targetNo")+" ");
 	//	System.out.print("category : "+request.getParameter("category")+" ");
 	//	System.out.print("pref : "+request.getParameter("pref")+" ");
 		System.out.println(recommend);
-		//테스트용 유저
-		User user=new User();
-		user.setEmail("test@test.com");
+		
+		User user=(User)session.getAttribute("user");
+		
+		//테스트용 유저정보////////////////////////////
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+		}
 		
 		recommend.setEmail(user.getEmail());
 			
@@ -76,11 +82,17 @@ public class CommunityRestController {
 	 * @return 
 	 */
 	@RequestMapping(value="/addReport")
-	public void addReport(@ModelAttribute("Report")Report report) {
+	public void addReport(@ModelAttribute("Report")Report report,HttpSession session) {
 		
 		System.out.println("addReport() Reprot= "+report);
-		User user=new User();
-		user.setEmail("test@test.com");
+		
+		User user=(User)session.getAttribute("user");
+		//////////////테스트용 유저정보/////////////////////
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+		}
+		
 		report.setEmail(user.getEmail());
 		
 		communityServiceImpl.addReport(report);
@@ -93,12 +105,15 @@ public class CommunityRestController {
 	 * @return 
 	 */
 	@RequestMapping(value="/addComment")
-	public void addComment(@RequestBody Comment comment) {
+	public void addComment(@RequestBody Comment comment,HttpSession session) {
 		
 	
-		//테스트유저 
-		User user=new User();
-		user.setEmail("test@test.com");
+		User user=(User)session.getAttribute("user");
+		//테스트용 유저정보//
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+		}
 		
 		
 		comment.setWriter(user);

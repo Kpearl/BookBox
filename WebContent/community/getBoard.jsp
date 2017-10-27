@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,6 +28,12 @@
 .media .media-left{
 	border-left: solid 1px; 
 }
+.board{
+	border: solid 1px;
+	padding: 5px;
+	margin-bottom: 10px; 
+}
+
 </style>
 
 <script type="text/javascript">
@@ -64,7 +71,7 @@
 		});
 		
 	}
-//////////////////////	신고 추가 부분
+//////////////////////	신고 추가 부분 //////////////////
 	function sendReport(param){
 	alert(param);
 		$.ajax({
@@ -77,7 +84,7 @@
 		});
 	}
 	
-////////////////////댓글 로딩
+////////////////////댓글 로딩////////////////////////////
 	$(function(){
 		
 		loadComment();
@@ -94,7 +101,7 @@
 			success:function(data){
 		
 			var commentListDiv=$(".commentList");
-	
+			$(".commentList").html("");
 			appendComment(commentListDiv,data);
 				
 			
@@ -198,12 +205,12 @@
 					}),
 					success:function(){
 						//alert("addComment success")	;
-						$(".commentList").html("");
+						
 					 	loadComment();
 					}
 			 	});//ajax 끝 
 			 
-				//commentObj.find(".inputarea").html(""); 등록후 입력창 없애기 , 댓글영역을 리로드할 예정 필요없을지도
+				commentObj.find(".inputarea").html(""); //등록후 입력창 없애기 , 댓글영역을 리로드할 예정 필요없을지도
 			});//등록 클릭이벤트 끝
 			
 			commentObj.find(".inputarea:first").append(inputObj);
@@ -240,23 +247,29 @@
 	<div class="container">
 		
 		<div class="board">
-			히든예정<input type="text" value="${board.boardNo}" name="boardNo" readonly="readonly"/>
+			<input type="hidden" value="${board.boardNo}" name="boardNo" readonly="readonly"/>
 			
 				
 			<div class="title">
 				제목:	${board.boardTitle}
 			</div>
-			<!-- 추천 신고 -->
-			<a class="btn recommend" id="recommend">추천</a> <span id="recommedCount">${board.recommend}</span>
-			<a class="btn recommend" id="unRecommend">비추천</a>
-			<a class="btn report" id="report">신고</a>
-			
+			<div class="row text-right">
+				<!-- 추천 신고 -->
+				<spen>${board.boardRegDate}</spen>
+				<a class="btn recommend" id="recommend">추천</a> <span id="recommedCount">${board.recommend}</span>
+				<a class="btn recommend" id="unRecommend">비추천</a>
+				<a class="btn report" id="report">신고</a>
+			</div>
 			<div class="content">
 				내용:
 				<br/>
 				${board.boardContent}
 			</div>
-			
+			<div class="tagList">
+				<c:forEach items="${board.tagList}" var="tag" >
+						<span>#${tag.tagName}</span>
+				</c:forEach>
+			</div>
 			<a class="btn" id=addCommentArea>답변달기</a>
 			<div class="inputarea"></div><!-- 여기 무조건 붙어있어야함 -->
 			

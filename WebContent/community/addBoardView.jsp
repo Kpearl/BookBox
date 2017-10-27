@@ -77,6 +77,13 @@
 			var content = CKEDITOR.instances.boardContent.getData();
 			$("textarea[name='boardContent']").val(content);
 			//alert(content);
+			//썸네일 설정
+			var tempObj=$("<div>"+content+"</div>");
+			var url=tempObj.find("img:first").attr("src");
+			//alert(url);
+			$("input[name='thumbnailUrl']").val(url);
+			//alert($("input[name='thumbnailUrl']").val());		
+			//
 			$("form").submit();
 		});
 	});
@@ -97,10 +104,11 @@
 		
 		<!--  !!!!!!!제목 추가!!!!!!!!!!!! -->
 		제목<input type="text" name="boardTitle" class="input-title"> 
-		태그<input type="text" id="tagInput"><button class="btn" id="addTagBtn">추가</button>
+			<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
+		태그<input type="text" id="tagInput"><a class="btn" id="addTagBtn">추가</a>
 		<div id="tagNames"></div>
 		<textarea rows="10" cols="80" name="boardContent"></textarea>
-	
+		
 		<a id="submit" class="btn">등록</a>
 			
 		<div class="imgList">
