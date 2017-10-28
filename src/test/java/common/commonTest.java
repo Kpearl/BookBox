@@ -115,7 +115,7 @@ public class commonTest {
 		
 		book.setIsbn("9788930705431");
 		
-		Map<String, Map<String, Integer>> map = bookService.getBookStatics(book);
+		Map<String, Map<String, Integer>> map = bookService.getBookStatistics(book);
 		
 		System.out.println(map.toString());
 	}
