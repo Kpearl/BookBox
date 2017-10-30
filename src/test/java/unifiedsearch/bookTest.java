@@ -27,7 +27,7 @@ public class bookTest {
 	private Book book = new Book();
 	private Search search = new Search();
 
-	/* @Test */
+	 /*@Test*/ 
 	public void bookListSearchTest() throws Exception {
 
 		search.setKeyword("죄와벌");
@@ -37,7 +37,7 @@ public class bookTest {
 		bookService.getBookList(search);
 	}
 
-	/* @Test */
+	/*@Test*/ 
 	public void bookSearchTest() throws Exception {
 
 		user.setEmail("test@test.com");

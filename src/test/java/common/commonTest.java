@@ -36,7 +36,7 @@ public class commonTest {
 	private Grade grade = new Grade();
 	private List<Reply> listReply = new ArrayList<Reply>();
 
-	/* @Test */
+	/*@Test*/ 
 	public void addReplyTest() {
 
 		user.setEmail("test@test.com");
@@ -46,7 +46,7 @@ public class commonTest {
 		bookService.addBookReply(user, book, reply);
 	}
 
-	/*@Test */
+	/*@Test*/ 
 	public void deleteReplyTest() {
 
 		user.setEmail("test@test.com");
@@ -58,7 +58,7 @@ public class commonTest {
 		bookService.deleteBookReply(user, book, reply);
 	}
 
-	 /*@Test */
+	@Test 
 	public void getReplyListTest() {
 
 		user.setEmail("test@test.com");
