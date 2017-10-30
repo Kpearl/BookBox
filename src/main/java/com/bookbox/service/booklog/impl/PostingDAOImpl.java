@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Location;
 import com.bookbox.common.domain.Search;
-import com.bookbox.common.domain.UploadFile;
 import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.domain.Posting;
 
@@ -27,12 +25,6 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean addPosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.insert("PostingMapper.addPosting", posting);
-		for(UploadFile uploadFile : posting.getPostingFileList()) {
-			uploadFile.setCategoryNo(Const.Category.POSTING);
-			uploadFile.setTargetNo(posting.getPostingNo());
-			sqlSession.insert("PostingMapper.addPostingFile", uploadFile);
-		}
-//		addPostingLocation(posting);
 		return true;
 	}
 
@@ -52,8 +44,8 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean updatePosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.update("PostingMapper.updatePosting", posting);
-		sqlSession.delete("PostingMapper.deletePostingLocation", posting);
-		addPostingLocation(posting);
+//		sqlSession.delete("PostingMapper.deletePostingLocation", posting);
+//		addPostingLocation(posting);
 		return true;
 	}
 	

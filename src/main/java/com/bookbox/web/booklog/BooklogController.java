@@ -1,11 +1,13 @@
 package com.bookbox.web.booklog;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +115,8 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="addPosting", method=RequestMethod.POST )
-	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request, HttpSession session) throws Exception{
+	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
+													HttpServletResponse response, HttpSession session) throws Exception{
 
 		User user = this.getUser(session);
 		String[] tagArray = request.getParameterValues("tag");
@@ -128,10 +131,14 @@ public class BooklogController {
 		List<UploadFile> postingFileList = new ArrayList<UploadFile>();
 		for(Cookie cookie : request.getCookies()) {
 			if(posting.getPostingContent().contains(cookie.getName())) {
-				postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8")));
+				postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8").split(":")[1]));
+			}
+			if(URLDecoder.decode(cookie.getValue(),"UTF-8").contains("file:")) {
+				cookie.setMaxAge(0);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 			}
 		}
-		System.out.println(postingFileList);
 
 		posting.setPostingTagList(tagList);
 		posting.setUser(user);
@@ -161,15 +168,46 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="updatePosting", method=RequestMethod.GET )
-	public String updatePosting(@ModelAttribute("posting")Posting posting, Model model) {
-		model.addAttribute("posting", postingService.getPosting(new User(), posting));
+	public String updatePosting(@ModelAttribute("posting")Posting posting, Model model, HttpServletResponse response) throws Exception {
+		posting = postingService.getPosting(new User(), posting);
+		model.addAttribute("posting", posting);
+		for(UploadFile uploadFile : posting.getPostingFileList()) {
+			Cookie cookie = new Cookie(uploadFile.getFileName(), URLEncoder.encode("file:"+uploadFile.getOriginName(), "UTF-8"));
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
 		
 		return "forward:../booklog/updatePostingView.jsp";
 	}
 	
 	@RequestMapping( value="updatePosting", method=RequestMethod.POST )
-	public String updatePosting(@ModelAttribute("posting")Posting posting, HttpSession session) {
+	public String updatePosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
+														HttpServletResponse response, HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("user");
+		String[] tagArray = request.getParameterValues("tag");
+		List<Tag> tagList = new ArrayList<Tag>();
+		
+		for(String tag : tagArray) {
+			if(!tag.trim().equals("")) {
+				tagList.add(new Tag(tag));
+			}
+		}
+		
+		List<UploadFile> postingFileList = new ArrayList<UploadFile>();
+		for(Cookie cookie : request.getCookies()) {
+			if(posting.getPostingContent().contains(cookie.getName())) {
+				postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8").split(":")[1]));
+			}
+			if(URLDecoder.decode(cookie.getValue(),"UTF-8").contains("file:")) {
+				cookie.setMaxAge(0);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+			}
+		}
+
+		posting.setPostingTagList(tagList);
+		posting.setUser(user);
+		posting.setPostingFileList(postingFileList);
 		postingService.updatePosting(user, posting);
 		
 		return "redirect:../booklog/getPostingList?condition=booklog&keyword="+user.getEmail();

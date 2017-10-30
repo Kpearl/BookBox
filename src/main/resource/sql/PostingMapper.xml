@@ -18,7 +18,7 @@
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
 		</association>
-		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="selectPostingFileList"/>
+		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="CommonMapper.getUploadFileList"/>
 		<collection property="postingLocationList" ofType="location" column="location_no">
 			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
@@ -37,14 +37,6 @@
 			( 
 				#{user.email}, #{postingTitle}, #{postingContent}
 			)
-	</insert>
-	
-	<insert id="addPostingFile" parameterType="uploadFile">
-		INSERT
-		INTO
-			upload_file( category_no, target_no, file_name, origin_name )
-		VALUES
-			( #{categoryNo}, #{targetNo}, #{fileName}, #{originName} )
 	</insert>
 	
 	<insert id="addPostingLocation" parameterType="map">
@@ -74,8 +66,7 @@
 		SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
-			u.nickname, l.location_name, l.latitude, l.longitude,
-			'5' category_no, vc.count
+			u.nickname, '5' category_no, vc.count
 		FROM 
 			posting p
 			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
@@ -155,14 +146,14 @@
 			posting_no=#{postingNo}
 	</delete>
 	
-	<select id="selectPostingFileList" parameterType="map" resultType="uploadFile">
+<!-- 	<select id="selectPostingFileList" parameterType="map" resultMap="uploadFile">
 		SELECT
 			upload_no, category_no, target_no, file_name, origin_name, main_file
 		FROM
 			upload_file
 		WHERE
 			category_no = #{categoryNo} AND target_no = #{targetNo}
-	</select>
+	</select> -->
 	
 	
 	<sql id="tagWiring">

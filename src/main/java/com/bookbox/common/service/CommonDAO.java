@@ -114,7 +114,7 @@ public interface CommonDAO {
 	 * @author HJ
 	 * @date 2017.10.23
 	 */
-	public void deleteUploadFile(List<UploadFile> list);
+	public void deleteUploadFile(Map<String, Object> map);
 	
 	/**
 	 * @brief getBookStatics

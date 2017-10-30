@@ -3,6 +3,8 @@ package com.bookbox.web.booklog;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bookbox.common.domain.Tag;
+import com.bookbox.common.service.TagService;
+
 @RestController
 @RequestMapping("booklog/rest/*")
 public class BooklogRestController {
@@ -26,6 +31,10 @@ public class BooklogRestController {
 	@Autowired
 	@Qualifier("uploadDirResource")
 	private FileSystemResource fsr;
+	
+	@Autowired
+	@Qualifier("tagServiceImpl")
+	private TagService tagService;
 
 	@RequestMapping( value="uploadFile", method=RequestMethod.POST )
 	public void uploadFile(@RequestParam("upload")MultipartFile file, 
@@ -49,7 +58,7 @@ public class BooklogRestController {
 								.append("'Upload Success!')</script>").toString();
 			file.transferTo(new File(fileURL, fileName));
 			
-			Cookie cookie = new Cookie(fileName, URLEncoder.encode(originName,"UTF-8"));
+			Cookie cookie = new Cookie(fileName, URLEncoder.encode("file:"+originName,"UTF-8"));
 			cookie.setPath("/");
 			response.addCookie(cookie);
 			
@@ -82,7 +91,7 @@ public class BooklogRestController {
 			String fileURL = request.getServletContext().getRealPath("/resources/upload_files/images/");
 			file.transferTo(new File(fileURL, fileName));
 			
-			Cookie cookie = new Cookie(fileName, URLEncoder.encode(originName,"UTF-8"));
+			Cookie cookie = new Cookie(fileName, URLEncoder.encode("file:"+originName,"UTF-8"));
 			cookie.setPath("/");
 			response.addCookie(cookie);
 			
@@ -99,4 +108,16 @@ public class BooklogRestController {
 		return jsonObject.toString();
 	}
 
+	@RequestMapping( value="tag", method=RequestMethod.POST )
+	public List<String> getTagList(@RequestParam("tagName") String tagName) {
+		
+		List<Tag> tagList = tagService.getTagList(new Tag(tagName)); 
+		List<String> stringTagList = new ArrayList<String>();
+		for(Tag tag : tagList) {
+			stringTagList.add(tag.getTagName());
+		}
+		
+		return stringTagList;
+	}
+	
 }

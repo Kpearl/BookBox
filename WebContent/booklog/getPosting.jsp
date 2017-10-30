@@ -19,8 +19,11 @@
 	$(function(){
 		condition = $('input[name="condition"]').val();
 		keyword = $('input[name="keyword"]').val();
-		$('a:contains("포스팅 목록")').on('click',function(){
+		$('a.posting-list:contains("포스팅 목록")').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition='+condition+'&keyword='+keyword);
+		});
+		$('a.posting-update:contains("수정하기")').on('click',function(){
+			$(self.location).attr('href','../booklog/updatePosting?postingNo='+$('input[name="postingNo"]').val());
 		});
 	});
 </script>
@@ -31,6 +34,7 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	<div class="container-fluid text-center">
+		<input type="hidden" name="postingNo" value="${posting.postingNo}">
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
 		<!-- <img src="http://localhost:8080/BookBox/resources/upload_files/images/${posting.postingFileList[0]}" alt="Image"> -->
 		<br/><mark>${posting.postingTitle}</mark>, <em>by ${posting.user.nickname}</em>, 조회수 : ${posting.viewCount}
@@ -46,13 +50,16 @@
 		<input type="hidden" name="condition" value="${search.condition}">
 		<input type="hidden" name="keyword" value="${search.keyword}">
 		<div class="col-md-3 text-center">
+			<c:if test="${sessionScope.user.email == posting.user.email}">
+				<a class="posting-update" href="#">수정하기</a>
+			</c:if>
 			<br/><br/><a href="#">이전 포스팅</a>
 		</div>
 		<div class="col-md-6">
 		
 		</div>
 		<div class="col-md-3 text-center">
-			<a href="#">포스팅 목록</a>
+			<a class="posting-list" href="#">포스팅 목록</a>
 			<br/><br/><a href="#">다음 포스팅</a>
 		</div>
 	</div>

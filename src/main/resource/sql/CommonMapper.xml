@@ -143,7 +143,7 @@
 			target_no = #{targetNo}
 	</select>
 	
-	<delete id="deleteUploadFile" parameterType="uploadFile">
+	<delete id="deleteUploadFile" parameterType="map">
 		DELETE FROM	upload_file
 		WHERE 
 			category_no = #{categoryNo} AND

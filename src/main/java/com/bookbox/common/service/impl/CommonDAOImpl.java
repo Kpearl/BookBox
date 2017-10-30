@@ -100,12 +100,14 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 	@Override
-	public void deleteUploadFile(List<UploadFile> list) {
-		sqlSession.delete("CommonMapper.deleteUploadFile",list);
-	}
+	public void deleteUploadFile(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("CommonMapper.deleteUploadFile",map);
+	}	
 
 	@Override
 	public List<Map<String, Integer>> getBookStatics(Map<String, Object> map) {
 		return sqlSession.selectList("CommonMapper.getBookStatics", map);
-	}	
+	}
+
 }

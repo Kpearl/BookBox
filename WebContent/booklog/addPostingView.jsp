@@ -12,6 +12,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<link rel="stylesheet" href="../resources/css/style.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<!-- CKEditor 추가 -->
 	<script src="../resources/ckeditor/ckeditor.js"></script>
@@ -24,12 +27,14 @@
 		var tagHtml;
 		var num;
 		var editor;
+
 		$(function(){
 			num = 0;
+			fncTagAutocomplete();
+
 			$('a.posting-add:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.postingContent.getData();
 				$('textarea').val(data);
-				alert($('textarea').val());
 				$('form').attr('method','post').attr('action','../booklog/addPosting').attr('enctype','multipart/form-data').submit();
 			});
 			
@@ -37,16 +42,33 @@
 				num = num + 1;
 				tagHtml = '<span id="tag'+num+'">, # <input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 				$('.tag-list').append(tagHtml);
+				fncTagAutocomplete();
 			});
+
 		});
 	
 		$(function(){
 			editor = CKEDITOR.replace('postingContent', { customConfig : 'config_posting.js'});
 			
 		});
-		
-		
-		
+
+
+		function fncTagAutocomplete(){
+			$( "input[name='tag']" ).autocomplete({
+				source: function( request, response ) {
+				    $.ajax( {
+				    	url: "rest/tag",
+				        method: "post",
+				        dataType: "json",
+				        data: "tagName="+request.term,
+				        success: function( data ) {
+			        	  	response(data);
+			        	}
+					} );
+			    }
+			});
+		}
+
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
 		}
