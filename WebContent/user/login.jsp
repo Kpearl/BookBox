@@ -20,6 +20,9 @@
 	<meta name="google-signin-client_id" content="427136160435-92p0s5pu0e988v74q17q7smnevk92hns.apps.googleusercontent.com"/>
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	
+	<!-- google login custom button -->
+	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+	
 	<!-- 참조 : naver login -->	
   	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
@@ -44,7 +47,24 @@
 			
 			plusCheck();
 		}
- */		
+ */		  
+ 			//로그인 버튼 이미지 변경을 위한 스크립트
+		 function loginWithKakao() {
+	 		
+		   //Kakao.init('4f67f74235560f00f4a1567103ae4b88');
+		   // 로그인 창을 띄웁니다.
+		   Kakao.Auth.login({
+		     success: function(authObj) {
+		       alert(JSON.stringify(authObj));
+		       $("#outerToken").val(authObj.access_token);
+			      $("#outerAccount").val(2);
+				  $("form").attr("method","POST").attr("action","../user/login").submit();
+		     },
+		     fail: function(err) {
+		       alert(JSON.stringify(err));
+		     }
+		   });
+		 };
 		//============= kakao 로그인  =============
 		$(function(){
 		
@@ -64,8 +84,8 @@
 		         alert(JSON.stringify(err));
 		      }
 		    });
-		  //]]>
-			
+			  //]]>
+
 		})
 		
 		//============= 구글 로그인  =============
@@ -85,6 +105,32 @@
 			  $("form").attr("method","POST").attr("action","../user/login").submit();
 	  
 			}
+		//===========구글 로그인 커스텀 버튼======================
+		
+			function onSuccess(googleUser) {
+				 var profile = googleUser.getBasicProfile();  
+				 var id_token = googleUser.getAuthResponse().id_token;
+				  console.log("ID Token: " + id_token);
+				  $('#outerToken').val(id_token);
+				  $('#email').val(profile.getEmail());
+				  $('#outerAccount').val(3);
+				  $("form").attr("method","POST").attr("action","../user/login").submit();
+    		}
+		    function onFailure(error) {
+		      console.log(error);
+		    }
+		    function renderButton() {
+		      gapi.signin2.render('my-signin2', {
+		        'scope': 'profile email',
+		        'width': 240,
+		        'height': 50,
+		        'longtitle': false,
+		        'theme': 'dark',
+		        'onsuccess': onSuccess,
+		        'onfailure': onFailure
+		      });
+		    }
+			
 
 		//============= "로그인"  Event 연결 =============
 		$( function() {
@@ -188,8 +234,14 @@
 					<a href="http://developers.kakao.com/logout"></a>
 					<br/>
 					<br/>
+					<!-- kakao 커스텀 버튼 -->
+					<a id="custom-login-btn" href="javascript:loginWithKakao()">
+					<img src="../resources/images/kakao_login_btn/login/en/kakao_login_btn_small.png" />
+					</a>
 					<!-- google 아이디로로그인 버튼 노출 영역 -->
 	  				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	  				<!-- google 로그인 커스텀 -->
+	  				<div id="my-signin2"></div>
 					
 					<!-- <a class="btn btn-default">NAVER LOGIN</a> -->
 				</form>
