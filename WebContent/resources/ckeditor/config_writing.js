@@ -19,21 +19,23 @@ CKEDITOR.editorConfig = function( config ) {
 //	config.filebrowserUploadUrl = '../booklog/rest/uploadFile';
 		
 	config.toolbarGroups = [
-		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		{ name: 'insert', groups: [ 'insert' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'clipboard', groups: ['clipboard' , 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
 		{ name: 'forms', groups: [ 'forms' ] },
+		{ name: 'about', groups: [ 'about' ] },
+		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-		{ name: 'links', groups: [ 'links' ] },
-		{ name: 'insert', groups: [ 'insert' ] },
 		'/',
 		{ name: 'styles', groups: [ 'styles' ] },
 		{ name: 'colors', groups: [ 'colors' ] },
-		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'document', groups: [ 'document', 'doctools', 'mode' ] },
 		{ name: 'others', groups: [ 'others' ] },
-		{ name: 'about', groups: [ 'about' ] },
-		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] }
 	];
 
-	config.removeButtons = 'PasteFromWord,Templates,Print,Preview,NewPage,SelectAll,Scayt,Find,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,BidiRtl,Anchor,Flash,About,Save,PageBreak';
+	config.removeButtons = 'Save,NewPage,Preview,Link,Unlink,About,RemoveFormat,CopyFormatting,PageBreak,Flash,Superscript,Subscript,Radio,Form,Checkbox,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Print,Paste,Copy';
+
 };

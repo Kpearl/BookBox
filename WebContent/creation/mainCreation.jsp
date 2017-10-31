@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,6 +114,14 @@ $(function() {
    	}); 
  });  
    
+   //============= 창작글쓰기 Navigation Event  처리 =============	
+   $(function() {
+	  $("a.addWriting").on("click" , function() {
+		  $(self.location).attr("href","../creation/addWriting");
+   	
+   	}); 
+ });   
+   
 /*    //============= 창작공간 Navigation Event  처리 =============	
    $(function() {
    	$("img[name='creationFile']).on("click" , function() {
@@ -128,6 +139,40 @@ $(function() {
 	</jsp:include>
 	
 <div class="container">	
+	<div class="row">
+			<!-- 글쓰기, 펀딩등록 버튼 -->
+						<!-- 글쓰기, 펀딩등록 버튼 -->
+			<div class="col-md-6 text-left">
+			<c:if test="${!empty sessionScope.user }">
+				<a class="btn btn-default addWriting">창작글 쓰기</a>
+				<a class="btn btn-default addfunding">펀딩등록하기</a>
+			</c:if>
+			</div>
+			<!-- 생성버튼 끝 -->
+		 	
+		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
+			  <div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">
+			      	<select class="form-control" name="condition">
+			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
+			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
+			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
+			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
+			      	</select>
+			      </div>
+			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어" >
+			  	 	<div class="input-group-addon">
+			  			<a class="btn creationSearch">검색</a> 
+			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
+					</div>
+			    </div>
+			  </div>
+			</form>
+			
+		</div>
+
+
 	
 	<h2>진행펀딩목록</h2>
     <!-- Swiper -->

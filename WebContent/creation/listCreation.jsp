@@ -77,8 +77,7 @@
  //============= 창작글쓰기 Navigation Event  처리 =============	
    $(function() {
 	  $("a.addWriting").on("click" , function() {
-		  alert("와이낫");
-   		$(self.location).attr("href","../creation/addWriting");
+		  $(self.location).attr("href","../creation/addWriting");
    	
    	}); 
  });       
@@ -96,7 +95,10 @@
 		<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left">
-			<a class="btn addWriting">창작글 쓰기</a><a class="btn" href="addBoard">펀딩등록하기</a>
+				<c:if test="${!empty sessionScope.user }">
+					<a class="btn btn-default addWriting">창작글 쓰기</a>
+					<a class="btn btn-default addfunding">펀딩등록하기</a>
+				</c:if>
 			</div>
 			<!-- 생성버튼 끝 -->
 		 	
@@ -135,7 +137,7 @@
 					<p><a  class="creationTitle" id="${creation.creationNo }">${creation.creationTitle }</a></p>
 					<p>${creation.creationAuthor.nickname }</p>
 						<c:forEach var="tag" items="${creation.tagList }">	
-							<p>#${tag.tagName }</p>
+							<span>#${tag.tagName }</span>
 						</c:forEach>
 				
 					
