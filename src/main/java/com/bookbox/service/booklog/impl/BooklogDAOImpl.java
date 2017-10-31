@@ -50,15 +50,15 @@ public class BooklogDAOImpl implements BooklogDAO {
 	}
 
 	@Override
-	public void addBookmark(User user, Booklog booklog) {
+	public int addBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		sqlSession.insert("BooklogMapper.addBookmark", this.mappingUserBooklog(user, booklog));
+		return sqlSession.insert("BooklogMapper.addBookmark", this.mappingUserBooklog(user, booklog));
 	}
 
 	@Override
-	public void deleteBookmark(User user, Booklog booklog) {
+	public int deleteBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		return sqlSession.delete("BooklogMapper.deleteBookmark", this.mappingUserBooklog(user, booklog));
 	}
 
 	@Override

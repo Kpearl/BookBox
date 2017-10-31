@@ -115,6 +115,12 @@
 		VALUES( #{user.email}, #{booklog.user.email} )
 	</insert>
 	
+	<delete id="deleteBookmark" parameterType="map">
+		DELETE
+		FROM bookmark
+		WHERE email = #{user.email} AND target_email = #{booklog.user.email}
+	</delete>
+	
 	<select id="getBookmark" parameterType="map" resultType="String">
 		SELECT
 			email

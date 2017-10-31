@@ -14,9 +14,9 @@ public interface BooklogDAO {
 	
 	public void updateBooklog(Booklog booklog);
 	
-	public void addBookmark(User user, Booklog booklog);
+	public int addBookmark(User user, Booklog booklog);
 	
-	public void deleteBookmark(User user, Booklog booklog);
+	public int deleteBookmark(User user, Booklog booklog);
 	
 	public boolean getBookmark(User user, Booklog booklog);
 }
