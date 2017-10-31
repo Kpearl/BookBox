@@ -1,17 +1,28 @@
 package com.bookbox.web.creation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.domain.Creation;
@@ -40,6 +51,10 @@ public class CreationRestController {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
+	
+	@Autowired
+	@Qualifier("uploadDirResource")
+	private FileSystemResource uploadDirResource;
 	
 	/**
 	 * @brief Constructor
@@ -93,6 +108,78 @@ public class CreationRestController {
 		return null;
 	}
 	
+	/**
+	 * @brief addCreation/ 창작작품 등록
+	 * @details POST
+	 * @param 
+	 * @throws Exception
+	 * @return
+	 */
+	@RequestMapping(value="addCreation", method=RequestMethod.POST)
+	public Map<String, Object> addCreation(@RequestParam("creation") String json, 
+																					HttpServletRequest request,
+																					@RequestParam(value="file", required=false) MultipartFile multipartFile,
+																					HttpSession session) throws Exception{
+		// TODO addCreation
+		System.out.println("CreationRestController :: /creation/rest/addCreation : POST ===> START");
+		
+		User user = (User)session.getAttribute("user");
+		System.out.println("addCreation :: "+user.getEmail());
+	
+		Creation creation = new ObjectMapper().readValue(json.toString(), Creation.class);
+		System.out.println("restController :: addCreation :: creation ::"+creation);
+		
+		UploadFile uploadFile = creationService.saveFile(multipartFile, uploadDirResource);
+		creation.setCreationFileName(uploadFile.getFileName());
+		creation.setCreationOriginName(uploadFile.getOriginName());
+		
+		List<Tag> tagList = new ArrayList<>();
+		String[] dbTag = request.getParameterValues("tag");
+		
+		for (String tag : dbTag) {
+			if (!tag.equals("")) {
+				tagList.add(new Tag(tag));
+			}
+		}	
+		
+		creation.setTagList(tagList);
+		creation.setCreationAuthor(user);
+		creationService.addCreation(user, creation);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", session.getAttribute("user"));
+		List<Creation> creationList =creationService.getCreationList(map);
+		
+		map.put("creationList", creationList);
+		map.put("creation", creation);
+		
+		System.out.println("CreationRestController :: /creation/rest/addCreation ==> END");
+		
+		return map;
+	}
+	
+	/**
+	 * @brief getCreation/ 창작작품 정보조회
+	 * @details GET
+	 * @param Creation
+	 * @throws Exception
+	 * @return Creation
+	 */
+	@RequestMapping(value="getCreation", method=RequestMethod.GET)
+	public Creation getCreation(@RequestParam("creationNo") int creationNo) throws Exception{
+		System.out.println("CreationRestController :: /creation/rest/getCreation : GET ===> START");
+		// TODO getCreation
+		
+		Creation creation = new Creation();
+		creation.setCreationNo(creationNo);
+		
+		List<Tag> tagList =tagService.getTagGroupList(Const.Category.CREATION, creation.getCreationNo());
+		creation.setTagList(tagList);
+		creation = creationService.getCreation(creation);
+		
+		System.out.println("CreationRestController :: /creation/rest/getCreation : GET ===> END");
+		return creation;
+	}
 	
 	
 	

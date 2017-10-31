@@ -68,8 +68,8 @@ public class CreationTest {
 	
 		Creation creation = new Creation();
 		creation.setCreationNo(29);
-		creation.setCreationTitle("창작공간 픽션글 2호");
-		creation.setCreationIntro("창작작품 테스트 두번째 Title ");
+		creation.setCreationTitle("창작공간 픽션글 1호");
+		creation.setCreationIntro("창작작품 테스트 첫번째 Title ");
 		creation.setCreationAuthor(user);
 		creation.setCreationHead("픽션");
 		creation.setCreationFileName(fileName);
@@ -77,9 +77,9 @@ public class CreationTest {
 		
 		List<UploadFile> uploadFileList =new ArrayList<>();
 		
-		UploadFile uploadFile1 = new UploadFile(fileName,"2-3 이미지1.jsp");
+		UploadFile uploadFile1 = new UploadFile(fileName,"2-1 이미지1.jsp");
 		uploadFile1.setMainFile(0);
-		UploadFile uploadFile2 = new UploadFile(fileName,"2-3 이미지2.jsp");
+		UploadFile uploadFile2 = new UploadFile(fileName,"2-2 이미지2.jsp");
 		uploadFile2.setMainFile(0);
 		UploadFile uploadFile3 = new UploadFile(fileName,"2-3 이미지3.jsp");
 		uploadFile3.setMainFile(0);
@@ -89,13 +89,13 @@ public class CreationTest {
 		uploadFileList.add(uploadFile3);
 		
 		Writing writing = new Writing();
-		writing.setWritingTitle("두번째 창작글 테스트 Title(3)");
-		writing.setWritingContent("두번째 창작글 테스트 세번째 글입니다. ");
+		writing.setWritingTitle("첫번째 창작글 테스트 Title(2)");
+		writing.setWritingContent("첫번째 창작글 테스트 두번째 글입니다. ");
 		writing.setWritingFileList(uploadFileList);
 		
 		
 		Tag tag = new Tag();
-		tag.setTagName("#목요일#픽션#아자아자");
+		tag.setTagName("#토요일#픽션#좋은날씨#세번째");
 		///////////SET END
 				
 		List<Tag> tagList = new ArrayList<>();
@@ -113,8 +113,9 @@ public class CreationTest {
 		System.out.println("UploadFile :: "+uploadFile);
 		
 		////////INSERT
-//		creationService.addCreation(user, creation);
-		writing.setWritingNo(creation.getCreationNo());
+		//creationService.addCreation(user, creation);
+		writing.setCreationNo(creation.getCreationNo());
+		writing.setCreationNo(30);
 		writingService.addWriting(user, writing);
 		///////
 		

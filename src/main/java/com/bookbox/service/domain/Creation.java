@@ -1,5 +1,6 @@
 package com.bookbox.service.domain;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.bookbox.common.domain.Grade;
@@ -24,6 +25,7 @@ public class Creation {
 	private String creationHead;
 	private String creationFileName;
 	private String creationOriginName;
+	private Date regDate;
 	private List<Writing> writingList;
 	private List<Tag> tagList;
 	private boolean doFunding;
@@ -92,6 +94,14 @@ public class Creation {
 		this.creationIntro = creationIntro;
 	}
 
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
 	public List<Writing> getWritingList() {
 		return writingList;
 	}
@@ -153,7 +163,7 @@ public class Creation {
 	public String toString() {
 		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationIntro="
 				+ creationIntro + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
-				+ ", creationFileName=" + creationFileName + ", creationOriginName = "+creationOriginName+", writingList=" + writingList + ", tagList=" + tagList
+				+ ", creationFileName=" + creationFileName + ", creationOriginName = "+creationOriginName+"regDate="+regDate+", writingList=" + writingList + ", tagList=" + tagList
 				+ ", doFunding=" + doFunding + ", doSubscription"+doSubscription+", grade=" + grade + ", like=" + like + ", active=" + active + "]";
 	}
 }

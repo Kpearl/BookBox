@@ -3,8 +3,10 @@ package com.bookbox.service.creation;
 import java.util.List;
 import java.util.Map;
 
-import com.bookbox.common.domain.Page;
-import com.bookbox.common.domain.Search;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.bookbox.common.domain.UploadFile;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 
@@ -81,4 +83,13 @@ public interface CreationService {
 	 */	
 	public void deleteCreation(Creation creation) throws Exception;
 	
+	
+	/**
+	 * @brief saveFile/파일저장
+	 * @param MultipartFile
+	 * @throws Exception
+	 * @return UploadFile
+	 */
+	public UploadFile saveFile(MultipartFile multipartFile,
+														FileSystemResource uploadDirResource) throws Exception;
 }

@@ -1,8 +1,6 @@
 package com.bookbox.web.creation;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,11 +61,11 @@ public class CreationController {
 //	@Autowired
 //	@Qualifier("fundingServiceImpl")
 	private FundingService fundingService;
-
+	
 	@Autowired
 	@Qualifier("uploadDirResource")
 	private FileSystemResource uploadDirResource;
-	
+
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
@@ -104,9 +102,20 @@ public class CreationController {
 	 * @return "forward:addWritingView.jsp"
 	 */
 	@RequestMapping(value="addWriting", method=RequestMethod.GET)
-	public String addWriting() throws Exception{
+	public String addWriting(HttpSession session, Model model) throws Exception{
 		
 		System.out.println("Creation Controller :: /creation/addWriting : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("addWriting :: "+user.getEmail());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", session.getAttribute("user"));
+		List<Creation> creationList =creationService.getCreationList(map);
+		
+		model.addAttribute("creationList", creationList);
+		
 		
 		return "forward:addWritingView.jsp";
 	}
@@ -135,15 +144,15 @@ public class CreationController {
 	
 		for (MultipartFile multipartFile : uploadFileName ) {
 
-			writingFileList.add(saveFile(multipartFile));
+			writingFileList.add(creationService.saveFile(multipartFile,uploadDirResource));
 		}
 		
 		writing.setWritingFileList(writingFileList);
 		
 		MultipartFile multipartFile = request.getFile("creationFile");
 		
-		String fileName = saveFile(multipartFile).getFileName();
-		String OriginName = saveFile(multipartFile).getOriginName();
+		String fileName = creationService.saveFile(multipartFile, uploadDirResource).getFileName();
+		String OriginName = creationService.saveFile(multipartFile, uploadDirResource).getOriginName();
 		creation.setCreationFileName(fileName);
 		creation.setCreationOriginName(OriginName);
 		
@@ -162,31 +171,6 @@ public class CreationController {
 		writingService.addWriting(user, writing);
 	
 		return "forward:/creation/getWritingList.jsp";
-	}
-	
-	/**
-	 * @brief saveFile
-	 * @details 파일저장
-	 * @param MultipartFile
-	 * @throws Exception
-	 * @return UploadFile
-	 */
-	public UploadFile saveFile(MultipartFile multipartFile) throws Exception{
-		
-		UploadFile uploadFile = new UploadFile();
-		
-		String path = uploadDirResource.getPath();
-		String originName = multipartFile.getOriginalFilename();
-		String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis())
-																		+originName.substring(originName.lastIndexOf("."));
-		System.out.println(fileName);
-		File  target = new File(path+fileName);
-		multipartFile.transferTo(target);
-		
-		uploadFile.setFileName(fileName);
-		uploadFile.setOriginName(originName);
-
-		return uploadFile;
 	}
 	
 	
@@ -209,8 +193,8 @@ public class CreationController {
 		User user =(User)session.getAttribute("user");
 		
 		MultipartFile multipartFile = request.getFile("creationFile");
-		String fileName = saveFile(multipartFile).getFileName();
-		String OriginName = saveFile(multipartFile).getOriginName();
+		String fileName = creationService.saveFile(multipartFile, uploadDirResource).getFileName();
+		String OriginName = creationService.saveFile(multipartFile, uploadDirResource).getOriginName();
 		creation.setCreationFileName(fileName);
 		creation.setCreationOriginName(OriginName);
 		

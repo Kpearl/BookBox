@@ -1,25 +1,26 @@
 package com.bookbox.service.creation.impl;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
-import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.service.TagService;
-import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.CreationService;
-import com.bookbox.service.creation.WritingDAO;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
@@ -53,7 +54,6 @@ public class CreationServiceImpl implements CreationService {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
-	
 	
 	
 	/**
@@ -102,9 +102,12 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		
+		if (map.get("page") != null) {
+			
 		Page page=(Page)map.get("page");
 		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
 		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
+		}
 		
 		List<Creation> creationList = creationDAO.getCreationList(map);
 		
@@ -170,6 +173,32 @@ public class CreationServiceImpl implements CreationService {
 		creationDAO.updateCreation(creation);
 		writingService.deleteWriting(writing);
 		System.out.println("deleteCreation 확인 :: ");
+	}
+	
+	/**
+	 * @brief saveFile/파일저장
+	 * @param MultipartFile
+	 * @throws Exception
+	 * @return UploadFile
+	 */
+	public UploadFile saveFile(MultipartFile multipartFile,
+														FileSystemResource uploadDirResource) throws Exception{
+		
+		UploadFile uploadFile = new UploadFile();
+		
+		
+		String path = uploadDirResource.getPath();
+		String originName = multipartFile.getOriginalFilename();
+		String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis())
+																		+originName.substring(originName.lastIndexOf("."));
+		System.out.println(fileName);
+		File  target = new File(path+fileName);
+		multipartFile.transferTo(target);
+		
+		uploadFile.setFileName(fileName);
+		uploadFile.setOriginName(originName);
+
+		return uploadFile;
 	}
 
 

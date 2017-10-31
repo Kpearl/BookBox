@@ -126,8 +126,11 @@
 			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
 
 		<where>
+			<if test="user !=  null and search == null">
+		 			c.author = #{user.email} 
+			</if>
 				
-			<if test="search.condition != null">
+			<if test="search != null and search.condition != null">
 					<if test="search.condition == 0 and search.keyword !=''">
 		 				c.creation_title LIKE '%${search.keyword}%'
 					</if>
@@ -152,8 +155,10 @@
 			category_no,
 	
 			u.nickname
-
+		
+		<if test="page != null">
 		LIMIT #{page.startRow}, #{page.pageSize}
+		</if>
 		
 <!-- 				SELECT vt.*
 		FROM
