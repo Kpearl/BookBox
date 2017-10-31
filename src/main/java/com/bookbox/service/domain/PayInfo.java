@@ -14,6 +14,8 @@ public class PayInfo {
 	
 	//Field
 	private int payInfoNo;
+	private int fundingNo;
+	private String fundingTitle;
 	private User user;
 	private int tid;
 	private String userName;	
@@ -31,6 +33,22 @@ public class PayInfo {
 
 	public void setPayInfoNo(int payInfoNo) {
 		this.payInfoNo = payInfoNo;
+	}
+
+	public int getFundingNo() {
+		return fundingNo;
+	}
+
+	public void setFundingNo(int fundingNo) {
+		this.fundingNo = fundingNo;
+	}
+
+	public String getFundingTitle() {
+		return fundingTitle;
+	}
+
+	public void setFundingTitle(String fundingTitle) {
+		this.fundingTitle = fundingTitle;
 	}
 
 	public User getUser() {
@@ -83,7 +101,7 @@ public class PayInfo {
 
 	@Override
 	public String toString() {
-		return "PayInfo [payInfoNo=" + payInfoNo + ", user=" + user + ", tid=" + tid + ", userName=" + userName
+		return "PayInfo [payInfoNo=" + payInfoNo + ", fundingNo = "+fundingNo+"fundingTitle"+fundingTitle+", user=" + user + ", tid=" + tid + ", userName=" + userName
 				+ ", addr=" + addr + ", phone=" + phone + ", regDate=" + regDate + "]";
 	}
 }

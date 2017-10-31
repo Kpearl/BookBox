@@ -24,6 +24,7 @@ public class Funding {
 	private int fundingTarget;
 	private int perFunding;
 	private String fundingImage;
+	private int active;
 	
 	public Funding() {
 		// TODO Auto-generated constructor stub
@@ -109,11 +110,19 @@ public class Funding {
 		this.fundingImage = fundingImage;
 	}
 			
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Funding [fundingNo=" + fundingNo + ", fundingTitle=" + fundingTitle + ", creation=" + creation
 				+ ", PayInfoList=" + payInfoList + ", fundingIntro=" + fundingIntro + ", fundingRegDate="
 				+ fundingRegDate + ", fundingEndDate=" + fundingEndDate + ", fundingTarget=" + fundingTarget
-				+ ", perFunding=" + perFunding + ", fundingImage=" + fundingImage + "]";
+				+ ", perFunding=" + perFunding + ", fundingImage=" + fundingImage + ", active = "+active+"]";
 	}
 }

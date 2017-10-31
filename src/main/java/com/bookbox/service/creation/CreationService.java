@@ -45,9 +45,9 @@ public interface CreationService {
 
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수
-	 * @param Search search
+	 * @param Map<String, Object>
 	 * @throws Exception
-	 * @return void
+	 * @return List<Creation>
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception;
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
@@ -30,6 +28,7 @@ import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -60,8 +59,8 @@ public class CreationController {
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
 	
-//	@Autowired
-//	@Qualifier("fundingServiceImpl")
+	@Autowired
+	@Qualifier("fundingServiceImpl")
 	private FundingService fundingService;
 	
 	@Autowired
@@ -414,6 +413,32 @@ public class CreationController {
 		
 		return "forward:getCreationList?creationAuthor="+user.getNickname();
 	}	
+	
+	/**
+	 * @brief addFunding/ 펀딩등록화면으로 이동
+	 * @details GET
+	 * @param 
+	 * @throws Exception
+	 * @return "forward:addFundingView.jsp"
+	 */
+	@RequestMapping(value="addFunding", method=RequestMethod.GET)
+	public String addFunding(HttpSession session, Model model) throws Exception{
+		// TODO addFunding
+		System.out.println("Creation Controller :: /creation/addFunding : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("addFunding :: "+user.getEmail());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", session.getAttribute("user"));
+		List<Funding> fundingList =fundingService.getFundingList(map);
+		
+		model.addAttribute("creationList", fundingList);
+		
+		
+		return "forward:addWritingView.jsp";
+	}
 	
 
 }
