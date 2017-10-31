@@ -5,15 +5,14 @@
 
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<!-- 기본설정 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
+	<!-- 기본설정 끝 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
 	 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
@@ -22,18 +21,6 @@
 	
 
 <style type="text/css">
-    html, body {
-        position: relative;
-        height: 100%;
-    }
-    body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color:#000;
-        margin: 0;
-        padding: 0;
-    }
   
   /* ////////////////별점 CSS  //////////// */
 /* ////////////마우스오버///////////////// */
@@ -122,6 +109,14 @@
    		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id")+"&creationNo="+$("input[name='creationNo']").val());
    	}); 
    }); 
+       
+   //============= 창작작품 수정 Navigation Event  처리 =============	
+   $(function() {
+	   $("a.updateCreation").on("click" , function() {
+		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
+		   
+   	}); 
+   }); 
     
 
 
@@ -173,7 +168,8 @@
 	<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left">
-			<a class="btn">창작글 쓰기</a><a class="btn" href="addBoard">펀딩등록하기</a>
+			<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
+			<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
 			</div>
 			<!-- 생성버튼 끝 -->
 		 	
@@ -197,11 +193,12 @@
 
 
     <!-- 말머리 -->
+    <form name="creationForm">
 	<section class="blank items">
 	<h2>${creation.creationHead }</h2>
 		<div class="row">
 			<div class="col-md-12 text-right">
-				<a type="button" class="btn btn-addWriting">창작글쓰기</a>
+				
 			</div>
 		</div>
 	<br>
@@ -218,7 +215,9 @@
 					  <p>${creation.creationTitle }</p> 
 					  <p>${creation.creationAuthor.nickname }</p> 
 					  <c:forEach var="tag" items="${creation.tagList}">	  
-					  	<p>#${tag.tagName }</p>	
+					  	<p><span>
+					  	# <input type="text" name="tag" id="tag"  value="${ tag.tagName}" readonly>
+					  </span></p>
 					  </c:forEach>
 					  <p>${creation.creationIntro }</p>
 	  			</div>
@@ -248,6 +247,9 @@
 			<button>이전글</button>
 			<button>다음글</button>
 			<button>목록</button>
+			<%-- <c:if test="${sessionScope.user == creation.author.email }"> --%>
+				<a type="button" class="btn btn-defalt updateCreation">수정하기</a>
+			<%-- </c:if> --%>
 		</div>
 
 	<br>
@@ -255,7 +257,7 @@
 		<div>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></div><br>
 
 	</section>
-		
+	</form>
 		<div class="row">
         
 		<div class="activity" style="width:100%; ">

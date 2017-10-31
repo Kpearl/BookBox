@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<!-- 기본설정 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<!-- 기본설정 끝 -->
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
 	 
@@ -21,18 +21,6 @@
 	
 	
 	<style>
-    html, body {
-        position: relative;
-        height: 100%;
-    }
-    body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color:#000;
-        margin: 0;
-        padding: 0;
-    }
     .swiper-container {
         width: 100%;
         height: 35%;
@@ -102,7 +90,7 @@ $(function() {
    
    //============= 논픽션 창작리스트 더보기 Navigation Event  처리 =============	
    $(function() {
-	   $("a[name='nonfictionMore']").on("click" , function() {
+	   $("a.nonfictionMore").on("click" , function() {
    		$(self.location).attr("href","../creation/getCreationList?condition=2&keyword=논픽션");
    	}); 
  });   
@@ -180,7 +168,7 @@ $(function() {
         	<div class="swiper-wrapper">
 			        <div class="swiper-slide">
             				<div class="item">
-					<img alt="Image" src="../resources/images/test3.jpg" name="fundingImage" >
+					<img class="img-responsive" alt="Image" src="../resources/images/test3.jpg" name="fundingImage" >
 					<h1><a href="#">펀딩제목</a></h1>
 					<p>펀딩 소개글</p>
 					<p>목표금액</p>
@@ -193,7 +181,7 @@ $(function() {
             <div class="swiper-slide">
             	
 				<div class="item">
-					<img alt="Image" src="../resources/images/test4.jpg"/>
+					<img class="img-responsive" alt="Image" src="../resources/images/test4.jpg"/>
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -203,7 +191,7 @@ $(function() {
 			</div>
             <div class="swiper-slide">
             	<div class="item">
-					<img alt="Image" src="../resources/images/test2.jpg" />
+					<img class="img-responsive" alt="Image" src="../resources/images/test2.jpg" />
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -213,7 +201,7 @@ $(function() {
             
             <div class="swiper-slide">
             	<div class="item">
-					<img alt="Image" src="../resources/images/test3.jpg" />
+					<img class="img-responsive" alt="Image" src="../resources/images/test3.jpg" />
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -223,7 +211,7 @@ $(function() {
             
             <div class="swiper-slide">
             	<div class="item">
-					<img alt="Image" src="../resources/images/test4.jpg"/>
+					<img class="img-responsive" alt="Image" src="../resources/images/test4.jpg"/>
 					<h1>Funding title</h1>
 					<p>Funding content</p>
 					<p>Graph</p>
@@ -246,7 +234,7 @@ $(function() {
         	<div class="swiper-wrapper">
 			        <div class="swiper-slide">
             				<div class="item">
-					<img alt="Image" src="../resources/images/test1.jpg" name="creationFile">
+					<img class="img-responsive" alt="Image" src="../resources/images/test1.jpg" name="creationFile">
 					<h1><a href="#">창작작품명</a></h1>
 					<p>작성자 닉네임</p>
 					
@@ -274,7 +262,7 @@ $(function() {
         	<div class="swiper-wrapper">
 			        <div class="swiper-slide">
             				<div class="item">
-					<img alt="Image" src="../resources/images/test2.jpg">
+					<img class="img-responsive" alt="Image" src="../resources/images/test2.jpg">
 					<h1><a href="#">창작작품명</a></h1>
 					<p>작성자 닉네임</p>
 					
@@ -292,7 +280,7 @@ $(function() {
   	
   	  <hr>    
     <div class="col-sm-offset-10 col-sm-2">
-   		<a href="#" class="btn btn-success" name="nonfictionMore">더보기</a>
+   		<a href="#" class="btn btn-success nonfictionMore">더보기</a>
   	 </div> 
 
 </div>
