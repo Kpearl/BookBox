@@ -94,7 +94,7 @@
 	$(function() {
 			
 					$("select[name='creationNo']").on('change', function() {
-						var creationNo = $("select[name='creationNo']").find("option:selected").val().trim();
+						var creationNo = $("select option:selected").val().trim();
 						alert("creationNo = "+creationNo);
 						
 						if (creationNo == 0 ) {
@@ -219,9 +219,9 @@
   		<div class="panel-body" >
 		<form id="creationForm" name="creationForm" >
 			<div class="form-group">
-				말머리 선택
-				<input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
-				<input class="inputValue" type="radio" name ="creationHead"  value ="논픽션" ${creation.creationHead =='논픽션' ? 'checked' : '' } >논픽션
+				펀딩명
+				<input class="inputValue" type="text" name ="fundingTitle" >
+				
 				<p></p>
 				<p>작품명</p>
 				<input class="inputValue" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
@@ -237,7 +237,7 @@
 				
 				<p></p>
 				<p>작품소개</p>
-				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
+				<textarea class="inputValue" name="creationIntro" rows="50" cols="50">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
 			<img src="../resources/uploadFiles/images/${creation.creationFileName }"/>

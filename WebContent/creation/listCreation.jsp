@@ -70,6 +70,13 @@
    	}); 
  });       
     
+   //============= 펀딩등록하기 Navigation Event  처리 =============	
+   $(function() {
+	  $("a.addfunding").on("click" , function() {
+		  $(self.location).attr("href","../creation/addFunding");
+   	
+   	}); 
+ });
     </script>
 		
 
