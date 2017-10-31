@@ -2,6 +2,11 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="shortcut icon" href="${param.uri}resources/images/icon.png">
+<link rel="icon" href="${param.uri}resources/images/icon.png">
+
+<title>BookBox</title>
+
 <script type="text/javascript">
 
 //============= 창작공간 Navigation Event  처리 =============	
@@ -24,7 +29,7 @@ $(function() {
  
 //============= 공지사항 Navigation Event  처리 =============	
  	$("a.nav-notice").on("click" , function() {
-		$(self.location).attr("href","${param.uri}booklog/getBooklog?booklogNo=11");
+		$(self.location).attr("href","${param.uri}booklog/getBooklog?user.email=admin");
 	}); 	
 
 //============= 회원가입 Event  처리 =============	
@@ -82,18 +87,18 @@ $(function() {
 
 // JJ : Search Button View
 //============= 검색버튼 Event  처리 =============
-	$("a.nav-search").on("click" , function() {
-		searchCheck();
-	});
-	
-	$('a.navigation-search').on('click', function(){
-		if($('li.nav-search.sr-only').length == 1){
-			$('li.nav-search.sr-only').removeClass('sr-only');
-			$('li.nav-default').addClass('sr-only');
-		}else{
-			$('li.nav-default.sr-only').removeClass('sr-only');
-			$('li.nav-search').addClass('sr-only');
-		}
+	$("a.navigation-search").on("click" , function() {
+		$(this).fadeOut(100);
+		$(this).fadeIn(function() { 
+			$(this).replaceWith('<select id="keyField">' +
+								'<option value="unifiedsearch">통합검색</option>' +
+								'<option value="book">도서</option>' +
+								'<option value="creation">창작공간</option>' +
+								'<option value="community">소모임</option>' +
+								'<option value="posting">포스팅</option></select>' + 
+								'<input type="text" placeholder="검색어 입력" id="keyWord">' +
+								'<button class="icon-large icon-search" onclick="searhCheck();"></button>'); 
+		});
 	});
 	
 });
@@ -101,7 +106,7 @@ $(function() {
 //JJ : Search Exception & Navigation
 //============= Search Option Event 처리 =============	
   
-function searchCheck(){
+function searhCheck(){
 	var keyword = document.getElementById("keyWord").value;
 	
 	if(keyword == '') {  
@@ -121,58 +126,55 @@ function searchCheck(){
 }
 </script>
 
+<section class="blank">
+	<nav class="navigation">
+		<ul>
+			<li>
+				<a href="#" class="focus navigation-home">
+					<i class="icon-large icon-home"></i>
+				</a>
+			</li>
+			<li><a class="nav-creation" href="#">창작공간</a></li>
+			<li><a class="nav-community" href="#">소모임</a></li>
+			<li><a class="nav-booklog" href="#">북로그</a></li>
+			<li><a class="nav-notice" href="#">공지사항</a></li>
+			<li class="lefty">
+				<a class="navigation-settings navigation-search"> 
+					<i class="icon-large icon-search"></i>
+				</a>
+			</li>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header"><a class="navbar-brand navbar-link navigation-home" href="#"><i class="glyphicon glyphicon-book"></i><span class="text-title">Bookbox </span></a>
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-        </div>
-        <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav navbar-left">
-                <li role="presentation"><a class="nav-creation" href="#">창작공간 </a></li>
-                <li role="presentation"><a class="nav-community" href="#">소모임 </a></li>
-                <li role="presentation"><a class="nav-booklog" href="#">북로그</a></li>
-                <li role="presentation"><a class="nav-notice" href="#">공지사항</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-            <c:choose>
-            	<c:when test="${empty sessionScope.user}">
-	                <li class="nav-default" role="presentation"><a class="nav-login" href="#">로그인 </a></li>
-	                <li class="nav-default" role="presentation"><a class="nav-signin" href="#">회원가입 </a></li>
-                </c:when>
-                <c:otherwise>
-   	                <li class="nav-default" role="presentation"><a class="nav-logout" href="#">로그아웃</a></li>
-                </c:otherwise>
-            </c:choose>
-            <c:if test="${!empty sessionScope.user}">
-                <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">More.. <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a class="nav-booklog-my" href="#">내 북로그보기</a></li>
-                        <li role="presentation"><a class="nav-subscribe" href="#">구독한글보기</a></li>
-                        <li role="presentation"><a class="nav-booklike" href="#">좋아요책목록보기</a></li>
-                        <li role="presentation"><a class="nav-bookmark" href="#">책갈피목록보기</a></li>
-					<c:if test="${sessionScope.user.role == 'admin'}">
-                        <li role="presentation"><a class="nav-userlist" href="#">회원목록조회</a></li>
-                    </c:if>
-                        <li role="presentation"><a class="nav-userinfo" href="#">내 정보조회</a></li>
-                    </ul>
-                </li>
-			</c:if>
-				<li class="sr-only nav-search" role="presentation">
-				    <select id="keyField" class="input-sm">
-				        <option value="unifiedsearch">통합검색</option>
-				        <option value="book">도서</option>
-				        <option value="creation">창작공간</option>
-				        <option value="community">소모임</option>
-				        <option value="posting">포스팅</option>
-				    </select>
-				    <input type="text" class="input-sm" placeholder="검색어 입력" id="keyWord" style="display:inline-block;">
-				    <a class="btn btn-default btn-sm nav-search" role="button" href="#" style="display:inline-block;">검색</a>
+			<c:if test="${!empty sessionScope.user}">
+				<li class="lefty dropdown">
+					<a href="#" id="drop3" data-toggle="dropdown"> 
+						<i class="icon-large icon-th-list"></i>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="drop3">
+						<li><a class="nav-booklog-my" href="#">내 북로그보기</a></li>
+						<li><a class="nav-subscribe" href="#">구독한글보기</a></li>
+						<li><a class="nav-booklike" href="#">좋아요책목록보기</a></li>
+						<li><a class="nav-bookmark" href="#">책갈피목록보기</a></li>
+						<c:if test="${sessionScope.user.role == 'admin'}">
+							<li><a class="nav-userlist" href="#">회원목록조회</a></li>
+						</c:if>
+						<li><a class="nav-userinfo" href="#">내 정보조회</a></li>
+					</ul>
 				</li>
-                <li role="presentation">
-                    <a class="navigation-search" href="#"><i class="glyphicon glyphicon-search"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+			</c:if>
+	
+			<c:choose>
+				<c:when test="${empty sessionScope.user}">
+					<li class="lefty"><a class="nav-signin" href="#">회원가입</a></li>
+					<li class="lefty"><a class="nav-login" href="#">로그인</a></li>
+				</c:when>
+				<c:otherwise>	
+					<li class="lefty"><a class="nav-logout" href="#">로그아웃</a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+		
+		
+		<br class="clear">
+	</nav>
+</section>
+

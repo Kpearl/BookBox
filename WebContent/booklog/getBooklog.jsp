@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<!-- 기본설정 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<!-- 기본설정 끝 -->
 
 	<!-- Swiper 설정 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
@@ -187,7 +187,7 @@
 	<!-- 여기부터 코딩 -->
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
-	<div class="container-fluid text-center">
+	<div class="container text-center">
 		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
 		<!-- <img src="http://localhost:8080/BookBox/resources/upload_files/images/${booklog.booklogImage}" alt="Image"> -->
 		<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
