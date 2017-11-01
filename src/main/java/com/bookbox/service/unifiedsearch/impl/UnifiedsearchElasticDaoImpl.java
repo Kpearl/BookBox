@@ -32,19 +32,19 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	@Override
 	public void elasticInsert(Map<String, Object> map) throws Exception {
 		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
-		System.out.println("Elastic insert :: " + sendToElastic(query, map.get("json").toString(), "POST").toString());
+		sendToElastic(query, map.get("json").toString(), "POST");
 	}
 
 	@Override
 	public void elasticUpdate(Map<String, Object> map) throws Exception {
 		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
-		System.out.println("Elastic update :: " + sendToElastic(query, map.get("json").toString(), "PUT").toString());		
+		sendToElastic(query, map.get("json").toString(), "PUT");		
 	}
 
 	@Override
 	public void elasticDelete(Map<String, Object> map) throws Exception {
 		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
-		System.out.println("Elastic delete :: " + sendToElastic(query, map.get("json").toString(), "DELETE").toString());	
+		sendToElastic(query, map.get("json").toString(), "DELETE");	
 	}
 
 	@Override
@@ -61,6 +61,8 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 				query = "http://localhost:9200/bookbox/board/_search";
 			if(search.getCategory() == 7)
 				query = "http://localhost:9200/bookbox/chatroom/_search";
+			if(search.getCategory() == 11)
+				json ="{\"query\":{\"multi_match\":{ \"fields\":[\"tag\"], \"query\":\"" + search.getKeyword() + "\"}}}";
 		}
 					
 		System.out.println("Elastic search :: " + sendToElastic(query, json, "POST").toString());

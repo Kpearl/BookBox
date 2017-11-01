@@ -49,17 +49,18 @@ public class SearchTest {
 		tagList.add(tag);
 		tagList.add(tag2);
 		
-		user.setNickname("챗 유저 압데이트");
+		user.setNickname("창작 유저 압데이트");
 		
-		chatroom.setContent("이것은 챗이다 챗이다");
-		chatroom.setRoomNo(1);
-		chatroom.setTitle("챗 제목");
-		chatroom.setRegDate(new Date(20170101));
-		chatroom.setHost(user);
+		creation.setCreationIntro("이것은 창작이다 창작이다");
+		creation.setCreationNo(2);
+		creation.setCreationTitle("창작 제목");
+		creation.setRegDate(new Date(20170101));
+		creation.setCreationAuthor(user);
+		creation.setTagList(tagList);
 		
-		search.setCategory(Category.CREATION);
-		search.setKeyword("포스");
+		search.setCategory(Category.TAG);
+		search.setKeyword("태그다");
 		
-		unifiedsearchService.elasticSearch(search);
+		unifiedsearchService.elasticInsert(creation);
 	}
 }

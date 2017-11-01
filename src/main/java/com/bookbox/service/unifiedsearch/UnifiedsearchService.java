@@ -11,7 +11,7 @@ public interface UnifiedsearchService {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public void elasticInsert(Object object, Search search) throws Exception;
+	public void elasticInsert(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticUpdate.java
@@ -21,7 +21,7 @@ public interface UnifiedsearchService {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public void elasticUpdate(Object object, Search search) throws Exception;
+	public void elasticUpdate(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticDelete.java
@@ -31,7 +31,7 @@ public interface UnifiedsearchService {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public void elasticDelete(Object object, Search search) throws Exception;
+	public void elasticDelete(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticSearch.java

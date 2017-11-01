@@ -1,6 +1,8 @@
 package com.bookbox.service.unifiedsearch.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Creation;
@@ -36,18 +39,18 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	}
 
 	@Override
-	public void elasticInsert(Object object, Search search) throws Exception {
-		unifiedsearchDAO.elasticInsert(compareToCategory(object, search));
+	public void elasticInsert(Object object) throws Exception {
+		unifiedsearchDAO.elasticInsert(compareToCategory(object));
 	}
 
 	@Override
-	public void elasticUpdate(Object object, Search search) throws Exception {
-		unifiedsearchDAO.elasticUpdate(compareToCategory(object, search));
+	public void elasticUpdate(Object object) throws Exception {
+		unifiedsearchDAO.elasticUpdate(compareToCategory(object));
 	}
 
 	@Override
-	public void elasticDelete(Object object, Search search) throws Exception {
-		unifiedsearchDAO.elasticDelete(compareToCategory(object, search));
+	public void elasticDelete(Object object) throws Exception {
+		unifiedsearchDAO.elasticDelete(compareToCategory(object));
 	}
 
 	@Override
@@ -55,54 +58,51 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 		return unifiedsearchDAO.elasticSearch(search);
 	}
 
-	public Map<String, Object> compareToCategory(Object object, Search search) throws Exception {
+	public Map<String, Object> compareToCategory(Object object) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject obj = new JSONObject();
 
-		switch (search.getCategory()) {
-		case 1:
+		switch (object.getClass().getSimpleName()) {
+		case "Creation":
 			Creation creation = (Creation) object;
 
 			obj.put("title", creation.getCreationTitle());
 			obj.put("content", creation.getCreationIntro());
-			obj.put("tag", creation.getTagList());
+			obj.put("tag", tagParse(creation.getTagList()));
 			obj.put("nick_name", creation.getCreationAuthor().getNickname());
 			obj.put("reg_date", creation.getRegDate());
 
 			map.put("category", "creation");
 			map.put("id", creation.getCreationNo());
 			map.put("json", obj);
-			map.put("keyword", search.getKeyword());
 			break;
-		case 5:
+		case "Posting":
 			Posting posting = (Posting) object;
 
 			obj.put("title", posting.getPostingTitle());
 			obj.put("content", posting.getPostingContent());
-			obj.put("tag", posting.getPostingTagList());
+			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
 			obj.put("reg_date", posting.getPostingRegDate());
 
 			map.put("category", "posting");
 			map.put("id", posting.getPostingNo());
 			map.put("json", obj);
-			map.put("keyword", search.getKeyword());
 			break;
-		case 6:
+		case "Board":
 			Board board = (Board) object;
 
 			obj.put("title", board.getBoardTitle());
 			obj.put("content", board.getBoardContent());
-			obj.put("tag", board.getTagList());
+			obj.put("tag", tagParse(board.getTagList()));
 			obj.put("nick_name", board.getWriter().getNickname());
 			obj.put("reg_date", board.getBoardRegDate());
 
 			map.put("category", "board");
 			map.put("id", board.getBoardNo());
 			map.put("json", obj);
-			map.put("keyword", search.getKeyword());
 			break;
-		case 7:
+		case "ChatRoom":
 			ChatRoom chatroom = (ChatRoom) object;
 
 			obj.put("title", chatroom.getTitle());
@@ -113,12 +113,19 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			map.put("category", "chatroom");
 			map.put("id", chatroom.getRoomNo());
 			map.put("json", obj);
-			map.put("keyword", search.getKeyword());
-			break;
-		case 10:
-			map.put("keyword", search.getKeyword());
 			break;
 		}
 		return map;
+	}
+
+	public List<String> tagParse(List<Tag> tagList) {
+		List<String> list = new ArrayList<String>();
+
+		if (!tagList.isEmpty()) {			
+			for (Tag tag : tagList) {
+				list.add(tag.getTagName());
+			}
+		}
+		return list;
 	}
 }
