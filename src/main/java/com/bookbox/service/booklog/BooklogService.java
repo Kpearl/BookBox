@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 public interface BooklogService {
@@ -19,5 +20,5 @@ public interface BooklogService {
 	public boolean deleteBooklogBookmark(User user, Booklog booklog);
 	
 	public boolean getBookmark(User user, Booklog booklog);
-
+	public Funding test(Funding funding);
 }

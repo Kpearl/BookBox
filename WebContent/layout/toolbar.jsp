@@ -116,6 +116,7 @@ function searchCheck(){
 			case "creation" : $(self.location).attr("href","${param.uri}unifiedsearch/getCreationList?keyword="+keyword); break;
 			case "community" : $(self.location).attr("href","${param.uri}unifiedsearch/getCommunityList?keyword="+keyword); break;
 			case "posting" : $(self.location).attr("href","${param.uri}unifiedsearch/getPostingList?keyword="+keyword); break; 
+//			case "tag" : $(self.location).attr("href","${param.uri}unifiedsearch/**********?keyword="+keyword); break; 
 		}
 	}
 }
@@ -159,15 +160,20 @@ function searchCheck(){
                 </li>
 			</c:if>
 				<li class="sr-only nav-search" role="presentation">
-				    <select id="keyField" class="input-sm">
-				        <option value="unifiedsearch">통합검색</option>
-				        <option value="book">도서</option>
-				        <option value="creation">창작공간</option>
-				        <option value="community">소모임</option>
-				        <option value="posting">포스팅</option>
-				    </select>
-				    <input type="text" class="input-sm" placeholder="검색어 입력" id="keyWord" style="display:inline-block;">
-				    <a class="btn btn-default btn-sm nav-search" role="button" href="#" style="display:inline-block;">검색</a>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+						    <select id="keyField" class="form-control">
+						        <option value="unifiedsearch">통합검색</option>
+						        <option value="book">도서</option>
+						        <option value="creation">창작공간</option>
+						        <option value="community">소모임</option>
+						        <option value="posting">포스팅</option>
+						        <option value="tag">태그</option>
+						    </select>
+							<input type="text" class="form-control" id="keyWord" placeholder="검색어 입력">
+						</div>
+						<a href="#" class="btn btn-default nav-search">검색</a>
+					</form>
 				</li>
                 <li role="presentation">
                     <a class="navigation-search" href="#"><i class="glyphicon glyphicon-search"></i></a>

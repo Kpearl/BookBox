@@ -8,12 +8,12 @@ import com.bookbox.service.domain.User;
 
 public interface PostingService {
 
-	public boolean addPosting(User user, Posting posting);
+	public boolean addPosting(User user, Posting posting) throws Exception;
 	
 	public Posting getPosting(User user, Posting posting);
 	
 	public List<Posting> getPostingList(Search search);
 	
-	public boolean updatePosting(User user, Posting posting);
+	public boolean updatePosting(User user, Posting posting) throws Exception;
 	
 }

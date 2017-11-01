@@ -26,6 +26,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
 	<!-- Chart.js 설정 끝 -->
 	
+	<script src="../resources/javascript/custom.js"></script>
+	
     <style>
 	    .swiper-container {
 	        width: 100%;
@@ -128,22 +130,61 @@
 		var weeklyChart = new Chart(ctxWeekly, {
 		    type: 'bar',
 		    data: {
-		        labels: ['6주 전'
-		        			, '5주 전'
-		        			, '4주 전'
-		        			, '3주 전'
-		        			, '2주 전'
-		        			, '1주 전'
-		        			, '이번주'],
+		        labels: ['6주 전',
+		        			'5주 전',
+		        			'4주 전',
+		        			'3주 전',
+		        			'2주 전',
+		        			'1주 전',
+		        			'이번주'],
 		        datasets: [{
 		            label: '# of WeeklyVisitors',
-		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(5.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(4.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(3.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(2.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(1.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(5.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(4.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(3.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(2.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(1.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                    //stepSize:1
+		                }
+		            }]
+		        }
+		    }
+		});
+
+		var ctxMonthly = $("#monthlyChart");
+		var monthlyChart = new Chart(ctxMonthly, {
+		    type: 'bar',
+		    data: {
+		        labels: ['4달 전',
+		        			'3달 전',
+		        			'2달 전',
+		        			'1달 전',
+		        			'이번달'],
+		        datasets: [{
+		            label: '# of MonthlyVisitors',
+		            data: [${booklog.visitorsStatistics.monthly.get(4.0).monthcount},
+				    		${booklog.visitorsStatistics.monthly.get(3.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(2.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(1.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(0.0).monthcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)'
@@ -171,24 +212,6 @@
 		/* tab 설정 */
 		$('#chartTab').tab('show');
     });
-	
-    function fncGetDate(day){
-		var nowDate = new Date();
-		var date = nowDate.getTime() - (day * 24 * 60 * 60 * 1000);
-		nowDate.setTime(date);
-		var year = nowDate.getFullYear();
-		var month = nowDate.getMonth() + 1;
-		var day = nowDate.getDate();
-		
-		if(month < 10){
-			month = '0' + month;
-		}
-		if(day < 10){
-			day = '0' + day;
-		}
-		
-		return year + '-' + month + '-' + day;
-	};
 	
 	function fncAddBookmark(elmA){
 		$.ajax({
@@ -254,7 +277,8 @@
 				</c:if>
 			</div>
 		</div>
-		
+	</div>
+	<div class="container">
 		<div class="row">
 			<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
 		    <div class="swiper-container">

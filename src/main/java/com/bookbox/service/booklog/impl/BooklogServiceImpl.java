@@ -10,6 +10,7 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 @Service("booklogServiceImpl")
@@ -65,6 +66,12 @@ public class BooklogServiceImpl implements BooklogService {
 	public boolean getBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
 		return booklogDAO.getBookmark(user, booklog);
+	}
+
+	@Override
+	public Funding test(Funding funding) {
+		// TODO Auto-generated method stub
+		return booklogDAO.test(funding);
 	}
 
 }
