@@ -46,7 +46,9 @@ public class PostingServiceImpl implements PostingService {
 			tagService.addTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
 		}
 		this.insertPostingNoIntoUploadFileList(posting);
-		commonDAO.addUploadFile(posting.getPostingFileList());
+		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
+			commonDAO.addUploadFile(posting.getPostingFileList());
+		}
 		
 		unifiedsearchDAO.elasticInsert(posting);
 		return true;

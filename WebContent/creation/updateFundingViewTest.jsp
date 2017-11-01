@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html>
+<jsp:include page="fundingData.jsp"/>
 <head>
 	<!-- 기본설정 -->
     <meta charset="utf-8">

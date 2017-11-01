@@ -21,6 +21,14 @@
 	
 
 <style type="text/css">
+
+/* 페이지 css 설정 */
+span.tag{
+	margin-right: 5px;
+}
+div.row.writing-border{
+	border-top: 1px solid #eeeeee;
+}
   
   /* ////////////////별점 CSS  //////////// */
 /* ////////////마우스오버///////////////// */
@@ -36,6 +44,7 @@
 	float: left;
 	background: url('../resources/images/bgStarSolo.png') no-repeat;
 	cursor: pointer;
+	display: inline-block;
 }
 
 #starWrap.star1 .s1 {
@@ -164,114 +173,127 @@
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 	
-<div class="container">	
-	<div class="row">
+    <div class="container">
+		<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left">
-			<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
-			<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
+				<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
+				<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
 			</div>
-			<!-- 생성버튼 끝 -->
-		 	
+				<!-- 생성버튼 끝 -->
+			 	
 		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
-			  <div class="form-group">
-			    <div class="input-group">
-			      <div class="input-group-addon">
-			      	<select class="form-control">
-			      		<option>옵션</option>
-			      	</select>
-			      </div>
-			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
-			  	 	<div class="input-group-addon">
-			  			<button type="submit" class="btn">검색</button>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<select class="form-control">
+								<option>옵션</option>
+							</select>
+						</div>
+						<input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
+						<div class="input-group-addon">
+							<button type="submit" class="btn">검색</button>
+						</div>
 					</div>
-			    </div>
-			  </div>
-			</form>
-			
-	</div>
-
-
-    <!-- 말머리 -->
-    <form name="creationForm">
-	<section class="blank items">
-	<h2>${creation.creationHead }</h2>
-		<div class="row">
-			<div class="col-md-12 text-right">
-				
-			</div>
-		</div>
-	<br>
-	
-	<div class="row">
-	  		<div class="col-md-4">
-	  			<div>
-					펀딩진행중 여부
 				</div>
-				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-	    		<img src="../resources/images/${creation.creationFileName }" width="320px" height="200px">
-	  		</div>
-				<div class="col-md-2">
-					  <p>${creation.creationTitle }</p> 
-					  <p>${creation.creationAuthor.nickname }</p> 
-					  <c:forEach var="tag" items="${creation.tagList}">	  
-					  	<p><span>
-					  	# <input type="text" name="tag" id="tag"  value="${ tag.tagName}" readonly>
-					  </span></p>
-					  </c:forEach>
-					  <p>${creation.creationIntro }</p>
-	  			</div>
-		</div>
-		
-		<br>
-	
-		<div>
-			<button>펀딩보러가기</button>
-			<button>구독</button>
-			<c:choose>
-				<c:when test="${sessionScope.email == null}">
-				</c:when>
-		
-				<c:when test="${like.doLike == false}">
-					<button id="addLike" onclick="addLike(${targetNo});">좋아요</button>
-				</c:when>
-
-				<c:when test="${like.doLike == true}">
-					<button id="deleteLike" onclick="deleteLike(${targetNo});">좋아요 취소</button>
-				</c:when>
-			</c:choose>
-		</div>
-	
-	<br>
-		<div>
-			<button>이전글</button>
-			<button>다음글</button>
-			<button>목록</button>
-			<%-- <c:if test="${sessionScope.user == creation.author.email }"> --%>
-				<a type="button" class="btn btn-defalt updateCreation">수정하기</a>
-			<%-- </c:if> --%>
-		</div>
-
-	<br>
-		<div>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></div><br>
-		<div>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></div><br>
-
-	</section>
-	</form>
-		<div class="row">
-        
-		<div class="activity" style="width:100%; ">
-			<c:forEach var = "writing" items="${creation.writingList }">
-				<div class="activity-list-update div-posting">
+			</form>
 				
-					<input type ="text" calss="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
-					<img src="../resources/images/${creation.creationFileName }" alt="Image" width="100px" height="80px">
-					<p><a href ="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
-					<p>${writing.writingAuthor.nickname }</p>
-					
-					<p>${writing.regDate }</p>
-					<!-- 별점 -->
-						<div id="starWrap" class="star<%-- ${book.grade.average} --%>">
+		</div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3>${creation.creationHead}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
+            	<img class="img-rounded img-responsive" src="../resources/images/${creation.creationFileName }">
+            	<c:if test="${creation.doFunding}">
+            		펀딩 진행 중!
+            	</c:if>
+            </div>
+            <div class="col-md-7">
+                <h4>${creation.creationTitle}</h4>
+                <h5>${creation.creationAuthor.nickname}</h5>
+                <p>${creation.creationIntro}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-11 col-xs-offset-1">
+           	<c:forEach items="${creation.tagList}" var="tag">
+           		<span class="tag"># Text</span>
+           	</c:forEach>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <c:if test="${creation.doFunding}">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-default getFunding" type="button">펀딩 보러 가기</a>
+                </div>
+            </c:if>
+            <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-default updateCreation" type="button">수정하기</a>
+                </div>
+            </c:if>
+                <div class="btn-group" role="group" style="float:right">
+                <c:if test="${creation.doSubscription}">
+                    <a class="btn btn-default cancelSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독 취소</a>
+                </c:if>
+                <c:if test="${!creation.doSubscription}">
+                    <a class="btn btn-default doSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독 하기</a>
+                </c:if>
+                <c:if test="${like.doLike}">
+                    <a class="btn btn-default" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요 취소</a>
+                </c:if>
+                <c:if test="${!like.doLike}">
+                    <a class="btn btn-default" type="button"><i class="glyphicon glyphicon-heart-empty"></i> 좋아요</a>
+                </c:if>
+                </div>
+            </div>
+            <div class="col-md-12">
+				<p>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></p>
+				<p>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="container">
+        <div class="row hidden-xs hidden-sm">
+            <div class="col-md-2 text-center">
+                <p>이미지</p>
+            </div>
+            <div class="col-md-7 text-center">
+                <p>제목</p>
+            </div>
+            <div class="col-md-2 text-center">
+                <p>평점</p>
+            </div>
+            <div class="col-md-1 text-center">
+                <p>등록일</p>
+            </div>
+        </div>
+        
+    <c:forEach items="${creation.writingList}" var="writing">
+        <div class="row writing-border">
+        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
+            <div class="col-md-2 col-xs-3">
+            	<img src="../resources/images/${creation.creationFileName }">
+            </div>
+            <div class="col-md-7 col-xs-9">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
+                    </div>
+                </div>
+                <div class="row hidden-md hidden-lg">
+                    <div class="col-xs-7">
+						<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
 							<ul>
 								<li class="s1"></li>
 								<li class="s2"></li>
@@ -280,19 +302,26 @@
 								<li class="s5"></li>
 							</ul>
 						</div>
-					<!-- 별점끝 -->	
-					<div class="clear"></div>
+					</div>
+                    <div class="col-xs-5"><span>${writing.regDate}</span></div>
+                </div>
+            </div>
+            <div class="col-md-2 hidden-xs hidden-sm">
+				<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
+					<ul>
+						<li class="s1"></li>
+						<li class="s2"></li>
+						<li class="s3"></li>
+						<li class="s4"></li>
+						<li class="s5"></li>
+					</ul>
 				</div>
-			</c:forEach>
-		</div>        
-		
-		<hr>
-        	
-   	</div>
-
-</div>
-
-	
+			</div>
+            <div class="col-md-1 hidden-xs hidden-sm"><span>${writing.regDate}</span></div>
+        </div>
+	</c:forEach>
+        <div class="row"></div>
+    </div>
 	
    
 </body>

@@ -25,18 +25,25 @@
 			$('button.funding-join').on('click', function(){
 				//$(self.location).attr('href', '../creation/addPayInfo?fundingNo='+fundingNo));
 				alert('(e^-\')c준비 중 입니다.');
+				$(self.location).attr('href', 'addPayInfoView.jsp');
 			});
 			$('button.funding-creation').on('click', function(){
 				$(self.location).attr('href', '../creation/getWritingList?creationNo='+creationNo);
 			});
 			$('button.funding-update').on('click', function(){
-				$(self.location).attr('href', '../creation/updateFundingView?fundingNo='+fundingNo);
+				//$(self.location).attr('href', '../creation/updateFundingView?fundingNo='+fundingNo);
+				alert('(e^-\')c준비 중 입니다.');
+				$(self.location).attr('href', 'updateFundinvViewTest.jsp');
 			});
 			$('button.funding-userlist').on('click', function(){
-				$(self.location).attr('href', '../creation/getFundingUserList?fundingNo='+fundingNo);
+				//$(self.location).attr('href', '../creation/getFundingUserList?fundingNo='+fundingNo);
+				alert('(e^-\')c준비 중 입니다.');
+				$(self.location).attr('href', 'listFundingUser.jsp');
 			});
 			$('button.funding-pay-info').on('click', function(){
-				$(self.location).attr('href', '../creation/getPayInfo?payInfoNo='+payInfoNo);
+				//$(self.location).attr('href', '../creation/getPayInfo?payInfoNo='+payInfoNo);
+				alert('(e^-\')c준비 중 입니다.');
+				$(self.location).attr('href', 'getPayInfo.jsp');
 			});
 		});
 	</script>
