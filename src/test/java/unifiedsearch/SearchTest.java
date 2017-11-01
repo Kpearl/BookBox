@@ -19,6 +19,7 @@ import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,6 +31,10 @@ public class SearchTest {
 	@Autowired
 	@Qualifier("unifiedsearchServiceImpl")
 	private UnifiedsearchService unifiedsearchService;
+	
+	@Autowired
+	@Qualifier("unifiedsearchElasticDAOImpl")
+	private UnifiedsearchDAO unifiedsearchDAO;
 
 	private Posting posting = new Posting();
 	private Creation creation = new Creation();
@@ -61,6 +66,7 @@ public class SearchTest {
 		search.setCategory(Category.TAG);
 		search.setKeyword("태그다");
 		
-		unifiedsearchService.elasticInsert(creation);
+		unifiedsearchDAO.elasticDelete(creation);
+		//unifiedsearchService.elasticSearch(search);
 	}
 }

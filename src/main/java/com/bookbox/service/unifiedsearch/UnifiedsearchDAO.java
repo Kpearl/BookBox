@@ -1,7 +1,5 @@
 package com.bookbox.service.unifiedsearch;
 
-import java.util.Map;
-
 import com.bookbox.common.domain.Search;
 
 public interface UnifiedsearchDAO {

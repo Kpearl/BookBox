@@ -32,6 +32,8 @@ import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 
 @Service("unifiedsearchElasticDAOImpl")
 public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
+	
+	private String url = "http://192.168.0.37:9200/bookbox/";
 
 	public UnifiedsearchElasticDaoImpl() {
 		System.out.println("Constructor :: "+ this.getClass().getName());
@@ -41,7 +43,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	public void elasticInsert(Object object) throws Exception {
 		 Map<String, Object> map = compareToCategory(object);
 		
-		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
+		String query = url + map.get("category") + "/" + map.get("id");
 		sendToElastic(query, map.get("json").toString(), "POST");
 	}
 
@@ -49,7 +51,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	public void elasticUpdate(Object object) throws Exception {
 		Map<String, Object> map = compareToCategory(object);
 		
-		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
+		String query = url + map.get("category") + "/" + map.get("id");
 		sendToElastic(query, map.get("json").toString(), "PUT");		
 	}
 
@@ -57,24 +59,24 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	public void elasticDelete(Object object) throws Exception {
 		Map<String, Object> map = compareToCategory(object);
 		
-		String query = "http://localhost:9200/bookbox/" + map.get("category") + "/" + map.get("id");
+		String query = url + map.get("category") + "/" + map.get("id");
 		sendToElastic(query, map.get("json").toString(), "DELETE");	
 	}
 
 	@Override
 	public String elasticSearch(Search search) throws Exception {
-		String query = "http://localhost:9200/bookbox/_search";
+		String query = url + "_search";
 		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\"" + search.getKeyword() + "\"}}}";
 		
 		if(!(search.getCategory() == 10)) {
 			if(search.getCategory() == 1)
-				query = "http://localhost:9200/bookbox/creation/_search";
+				query = url + "creation/_search";
 			if(search.getCategory() == 5)
-				query = "http://localhost:9200/bookbox/posting/_search";
+				query = url + "posting/_search";
 			if(search.getCategory() == 6)
-				query = "http://localhost:9200/bookbox/board/_search";
+				query = url + "board/_search";
 			if(search.getCategory() == 7)
-				query = "http://localhost:9200/bookbox/chatroom/_search";
+				query = url + "chatroom/_search";
 			if(search.getCategory() == 11)
 				json ="{\"query\":{\"multi_match\":{ \"fields\":[\"tag\"], \"query\":\"" + search.getKeyword() + "\"}}}";
 		}
