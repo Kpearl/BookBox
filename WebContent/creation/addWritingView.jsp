@@ -108,7 +108,7 @@
 							});
 							
 							$('.addThing').remove();
-							$('img').attr('src','');
+							$('img').attr('src','../resources/upload_files/images/noImg_2.jpg');
 							$('.glyphicon-remove').on('click',function(){
 								fncRemoveTag(num);
 							});
@@ -124,14 +124,14 @@
 						success : function(JSONData, status) {
 							
 							//Debug...
-						//alert(status);
+						alert(status);
 							
 							var offset = $(".inWriting").offset();
 														
 							$('input[name="creationNo"]').val(JSONData.creationNo);
 							$("input[name='creationTitle']").val(JSONData.creationTitle);
 							$("textarea[name='creationIntro']").val(JSONData.creationIntro);
-							$("img").attr("src","../resources/uploadFiles/images/"+JSONData.creationFileName);
+							$("img").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
 							$("input[name='creationHead']").val(JSONData.creationHead);
 							if($("input[name='creationHead']").val()==JSONData.creationHead){
 								$("input[name='creationHead']").attr('checked','checked');
@@ -162,7 +162,7 @@
 		 $(function() {
 
 				$('#add-creation:contains("수정하기")').on('click', function() {
-					self.location().attr('href','../creation/updateCreation');
+					self.location().attr('href','../creation/getWritingList');
 				})
 		 })
 	
@@ -172,13 +172,14 @@
 		var tagHtml;
 		var num;
 		var editor;
+		
 		$(function(){
 			num = 0;
 			$('a.add-writing:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
 				$('textarea').val(data);
 				alert($('textarea').val());
-				$('form')[1].attr('method','post').attr('action','../creation/addCreation').attr('enctype','multipart/form-data').submit();
+				$('form[name="wiritingForm"]').attr('method','post').attr('action','../creation/addWriting').attr('enctype','multipart/form-data').submit();
 			});
 			
 			$('a.tag-add:contains("추가하기")').on('click',function(){
@@ -240,7 +241,12 @@
 				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<img src="../resources/uploadFiles/images/${creation.creationFileName }"/>
+			<c:if test="${!empty creation }">
+				<img src="../resources/upload_files/images/${creation.creationFileName }"/>
+			</c:if>
+			<c:if test="${empty creation }">
+				<img src="../resources/upload_files/images/noImg_2.jpg"/>
+			</c:if>
 			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
 		
 			<div class="form-group tag-list">
@@ -272,7 +278,11 @@
 					<input type = "hidden" name="creationNo">
 				</div>
 				<div class="form-group">
-					<textarea name="writingContent" id="writingContent" rows="10" cols="80"></textarea>
+					<textarea name="writingContent" id="writingContent" rows="20" cols="80"></textarea>
+				</div>
+				
+				<div class="panel imgList">
+				
 				</div>
 			
 				<a href="#" class="btn btn-default" id="add-writing">등록하기</a>

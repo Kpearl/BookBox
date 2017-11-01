@@ -43,7 +43,7 @@
 	
 		<bean id = "uploadDirResource"  class="org.springframework.core.io.FileSystemResource">
 		<constructor-arg>
-			 <value>C:\\Users\\Bitcamp\\git\\BookBox\\WebContent\\resources\\uploadFiles\\images\\</value>
+			 <value>C:\\Users\\Bitcamp\\git\\BookBox\\WebContent\\resources\\upload_files\\images\\</value>
 		</constructor-arg>
 	</bean>
 	

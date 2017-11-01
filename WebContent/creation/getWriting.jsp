@@ -195,7 +195,7 @@ $(function() {
 	</jsp:include>
 
 	<!-- 말머리 -->
-	<section class="blank items">
+	<section class="container">
 	<h2>${creation.creationHead }</h2>
 	<br>
 	
@@ -205,7 +205,7 @@ $(function() {
 					펀딩진행중 여부
 				</div>
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-	    		<img src="../resources/images/${creation.creationFileName }" width="320px" height="200px">
+	    		<img src="../resources/upload_files/images/${creation.creationFileName }" width="320px" height="200px">
 	  		</div>
 				<div class="col-md-2">
 					  <p>${creation.creationTitle }</p> 

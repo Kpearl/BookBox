@@ -27,9 +27,7 @@
 			$('form[name="creationForm"]').attr('method','post').attr('action','../creation/updateCreation').attr('enctype','multipart/form-data');
 		})
 		
-		
-	
-	
+
 	//=============말머리 선택시 태그에 추가=========
 	
 	$(function() {
