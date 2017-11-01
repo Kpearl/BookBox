@@ -13,7 +13,7 @@ public interface UnifiedsearchDAO {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public void elasticInsert(Map<String, Object> map) throws Exception;
+	public void elasticInsert(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticUpdate.java
@@ -23,7 +23,7 @@ public interface UnifiedsearchDAO {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public void elasticUpdate(Map<String, Object> map) throws Exception;
+	public void elasticUpdate(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticDelete.java
@@ -33,7 +33,7 @@ public interface UnifiedsearchDAO {
 	 * @throws Exception 
 	 * @date 2017.10.16
 	 */
-	public void elasticDelete(Map<String, Object> map) throws Exception;
+	public void elasticDelete(Object object) throws Exception;
 
 	/**
 	 * @file com.bookbox.service.unifiedsearch.elasticSearch.java

@@ -11,10 +11,10 @@ import com.bookbox.service.domain.User;
 
 public interface CommunityService {
 
-	public int addBoard(User user,Board board);
+	public int addBoard(User user,Board board) throws Exception;
 	public Board getBoard(User user,Board board);
-	public int deleteBoard(int boardNo);
-	public int updateBoard(Board board);
+	public int deleteBoard(int boardNo) throws Exception;
+	public int updateBoard(Board board) throws Exception;
 	public List<Board> getBoardList(Map map);
 	public List<Board> getBoardListUserTagMapper(Map map);
 	

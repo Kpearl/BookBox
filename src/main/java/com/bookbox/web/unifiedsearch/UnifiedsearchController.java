@@ -23,7 +23,6 @@ import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.unifiedsearch.BookService;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
-import com.mysql.jdbc.StringUtils;
 
 /**
  * @file com.bookbox.web.unifiedsearch.UnifiredSearchCrontroller.java
@@ -144,4 +143,6 @@ public class UnifiedsearchController {
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}
+	
+	/*@RequestMapping*/
 }
