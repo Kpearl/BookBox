@@ -42,7 +42,7 @@
 	   		
 	   			update_date = now(),		
 	   		
-	   		<if test ="active != null">
+	   		<if test ="active != 1">
 				active 	= #{active}
 			</if>
 	   	</set>

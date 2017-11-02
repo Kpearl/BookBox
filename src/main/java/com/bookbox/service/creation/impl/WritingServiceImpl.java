@@ -71,7 +71,7 @@ public class WritingServiceImpl implements WritingService {
 			uploadFile.setTargetNo(writing.getWritingNo());
 		}
 		
-		System.out.println("addWriting :: "+uploadFileList);
+		System.out.println("addWriting :: "+uploadFileList+"\n");
 		commonDAO.addUploadFile(uploadFileList);
 	}
 
@@ -90,7 +90,7 @@ public class WritingServiceImpl implements WritingService {
 			uploadFile.setTargetNo(writing.getWritingNo());
 		}
 		
-		System.out.println("updateWriting :: "+uploadFileList);
+		System.out.println("updateWriting :: "+uploadFileList+"\n");
 		commonDAO.updateUploadFile(uploadFileList);
 		writingDAO.updateWriting(writing);
 	}

@@ -2,10 +2,10 @@ package com.bookbox.service.creation.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -189,9 +189,9 @@ public class CreationServiceImpl implements CreationService {
 		
 		String path = uploadDirResource.getPath();
 		String originName = multipartFile.getOriginalFilename();
-		String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis())
+		String fileName = UUID.randomUUID().toString()
 																		+originName.substring(originName.lastIndexOf("."));
-		System.out.println(fileName);
+		//System.out.println(fileName);
 		File  target = new File(path+fileName);
 		multipartFile.transferTo(target);
 		
