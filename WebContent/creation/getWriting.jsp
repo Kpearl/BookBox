@@ -16,7 +16,16 @@
 
 <script type="text/javascript">
 
-//댓글 추가
+//=====================창작글 수정하기 EVENT=================
+$(function() {
+	$('#update-writing').on('click',function() {
+		alert("수정버튼?");
+		$(self.location).attr("href","../creation/updateWriting?writingNo="+$('input[name="writingNo"]').val()+"&creationNo="+$('input[name="creationNo"]').val());
+	})	
+})
+		
+
+//=======================댓글 추가========================
 function addReply(targetNo) {
 	var content = document.getElementById("content").value;
 	var curDate = new Date();
@@ -71,7 +80,7 @@ function deleteLike(targetNo) {
 }
 
 //=====================별점 이벤트=================
-$(function() {
+/* $(function() {
 	$(document).ready(function() {
 		if ('${grade.doGrade}' == 'true' || '${user.email}' == '') {
 			$('#starWrap ul li').off();
@@ -106,6 +115,9 @@ $(function() {
 		}
 	});
 });
+ */
+
+
 </script>
 
 <!-- 별점 주는 css -->
@@ -195,64 +207,29 @@ $(function() {
 	</jsp:include>
 
 	<!-- 말머리 -->
-	<section class="container">
+	<div class="container">
 	<h2>${creation.creationHead }</h2>
 	<br>
 	
 	<div class="row">
-	  		<div class="col-md-4">
-	  			<div>
-					펀딩진행중 여부
-				</div>
+			<div>
+				펀딩진행중 여부
+			</div>
+			<div class="col-md-4">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
 	    		<img src="../resources/upload_files/images/${creation.creationFileName }" width="320px" height="200px">
 	  		</div>
-				<div class="col-md-2">
-					  <p>${creation.creationTitle }</p> 
-					  <p>${creation.creationAuthor.nickname }</p> 
-					  <c:forEach var="tag" items="${creation.tagList}">	  
-					  	<p>#${tag.tagName }</p>	
-					  </c:forEach>
-					  <p>${creation.creationIntro }</p>
-	  			</div>
-		</div>
-		
-		<br>
-	
-		<div>
-			<button>펀딩보러가기</button>
-			<button>구독</button>
-			<c:choose>
-				<c:when test="${user.email == null}">
-				</c:when>
-		
-				<c:when test="${like.doLike == false}">
-					<button id="addLike" onclick="addLike(${targetNo});">좋아요</button>
-				</c:when>
-
-				<c:when test="${like.doLike == true}">
-					<button id="deleteLike" onclick="deleteLike(${targetNo});">좋아요 취소</button>
-				</c:when>
-			</c:choose>
-		</div>
-	</section>
-	
-	<section class="blank items">
-		<div>
-			<button>이전글</button>
-			<button>다음글</button>
-			<button>목록</button>
-		</div>
-		
-		<br>
-		<div class = "row">
-				<p>${writing.writingTitle }</p>
-			<div class="col-md-12 text-right">
-				<p>${writing.regDate }</p>
-			</div>
-		</div>
-		<br>
-		<br>
+			<div class="col-md-6">
+				  <h4>작품명 : ${creation.creationTitle }</h4> 
+				  <p>작성자 : ${creation.creationAuthor.nickname }</p> 
+				  <p>태그리스트 : 
+				  <c:forEach var="tag" items="${creation.tagList}">	  
+				  	<span>#${tag.tagName }</span>	
+				  </c:forEach>
+				  </p>
+				  <p>작품 소개글 : ${creation.creationIntro }</p>
+  			</div>
+	</div>
 		
 		<div>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></div><br>
 		<div>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></div><br>
@@ -268,16 +245,58 @@ $(function() {
 			</ul>
 		</div>
 		<br>
+		<br>
+	
+		<div>
+			<button>펀딩보러가기</button>
+			<c:choose>
+				<c:when test="${!empty user.email}">
+			<button>구독</button>
+				</c:when>
 		
-		<img src="../resources/images/creation.jpg">
+				<c:when test="${like.doLike == false}">
+					<a class="btn" id="addLike" onclick="addLike(${targetNo});">좋아요</a>
+				</c:when>
+
+				<c:when test="${like.doLike == true}">
+					<a class="btn" id="deleteLike" onclick="deleteLike(${targetNo});">좋아요 취소</a>
+				</c:when>
+			</c:choose>
+		</div>
+	
+	<section class="contatiner">
+		<div>
+			<button>이전글</button>
+			<button>다음글</button>
+			<button>목록</button>
+		</div>
+		
+		<br>
+		<form name="writingForm">
+			<div class = "row">
+					<input type ="hidden" name="writingNo" value="${writing.writingNo }">
+					<h5>창작글 제목 : ${writing.writingTitle }</h5>
+				<div class="col-md-12 text-right">
+					<p>창작글 등록일 :${writing.regDate }</p>
+				</div>
+			</div>
+			<div class="panel panel-defalt">
+				<div>
+				${writing.writingContent }	
+				</div>
+			</div>
+		</form>
+		
+		
+		<br>
 		<br>
 		
-		<button>펀딩보러가기</button>
-		
+
+		<a class="btn">펀딩보러가기</a>
 		<br><br>
-		<div class="row">
-			<button>삭제</button>
-			<button>수정</button>
+		<div class="row col-md-12 text-right">
+			<a class="btn delete-writing" id="delete-writing">삭제</a>
+			<a class= "btn update-writing" id="update-writing" >수정</a>
 		</div>
 		<br><br>
 		
@@ -285,7 +304,7 @@ $(function() {
 		댓글 수 / 조회 수<br><br>
 		<c:if test="${user.email != null}">	
 			댓글  <input type="text" id="content" placeholder="댓글 입력">
-			<button onclick="addReply(${book.isbn});">댓글입력</button> <br>
+			<a class="btn" onclick="addReply(${book.isbn});">댓글입력</a><br>
 		</c:if>	
 		
 		<br>
@@ -301,5 +320,6 @@ $(function() {
 		<br>
 		<button>창작글쓰기</button>
 	</section>
+	</div>
 </body>
 </html>

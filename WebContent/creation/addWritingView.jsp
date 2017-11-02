@@ -101,11 +101,7 @@
 							$('form')[0].reset();
 							$('.inputValue').attr('disabled', false);
 							
-							$('a.tag-add:contains("추가하기")').on('click', function(){
-								num = num + 1;
-								tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
-								$('.tag-list').append(tagHtml);
-							});
+							fncAddTag();
 							
 							$('.addThing').remove();
 							$('img').attr('src','../resources/upload_files/images/noImg_2.jpg');
@@ -165,41 +161,39 @@
 					self.location().attr('href','../creation/getWritingList');
 				})
 		 })
-	
-	
-	
+
 	//=============창작 글 등록====================
 		var tagHtml;
 		var num;
 		var editor;
-		
+	
 		$(function(){
 			num = 0;
+			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
+		
 			$('a.add-writing:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
-				$('textarea').val(data);
-				alert($('textarea').val());
-				$('form[name="wiritingForm"]').attr('method','post').attr('action','../creation/addWriting').attr('enctype','multipart/form-data').submit();
+				$('form[name="writingForm"] textarea').val(data);
+				alert($('form[name="writingForm"] textarea').val());
+				$('form[name="writingForm"]').attr('method','post').attr('action','../creation/addWriting').submit();
 			});
 			
-			$('a.tag-add:contains("추가하기")').on('click',function(){
+			fncAddTag();
+		});
+	
+		//=============태그추가====================
+		function fncAddTag(){	
+			$('a.tag-add:contains("추가하기")').on('click', function(){
 				num = num + 1;
 				tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 				$('.tag-list').append(tagHtml);
 			});
-		});
-	
-		$(function(){
-			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
-		
-		});
-	
-
-	 
+		}
+		//=============태그삭제====================
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
 		}
-	 
+		
 
 	</script>
 </head>
@@ -242,10 +236,10 @@
 			</div>
 			<p>대표이미지</p>
 			<c:if test="${!empty creation }">
-				<img src="../resources/upload_files/images/${creation.creationFileName }"/>
+				<img class="img-responsive" src="../resources/upload_files/images/${creation.creationFileName }"/>
 			</c:if>
 			<c:if test="${empty creation }">
-				<img src="../resources/upload_files/images/noImg_2.jpg"/>
+				<img class="img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
 			</c:if>
 			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
 		
@@ -282,10 +276,11 @@
 				</div>
 				
 				<div class="panel imgList">
+				이미지리스트
 				
 				</div>
 			
-				<a href="#" class="btn btn-default" id="add-writing">등록하기</a>
+				<a href="#" class="btn btn-default add-writing" id="add-writing">등록하기</a>
 			</div>
 		
 		</div>

@@ -209,7 +209,7 @@ div.row.writing-border{
         <div class="row">
             <div class="col-md-5">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            	<img class="img-rounded img-responsive" src="../resources/images/${creation.creationFileName }">
+            	<img class="img-rounded img-responsive" src="../resources/upload_files/images/${creation.creationFileName }">
             	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
             	</c:if>
@@ -283,7 +283,7 @@ div.row.writing-border{
         <div class="row writing-border">
         	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
             <div class="col-md-2 col-xs-3">
-            	<img src="../resources/images/${creation.creationFileName }">
+            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
             </div>
             <div class="col-md-7 col-xs-9">
                 <div class="row">
