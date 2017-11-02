@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
+import org.json.simple.JSONObject;
+
 import com.bookbox.common.domain.Search;
 
 public interface UnifiedsearchDAO {
@@ -41,5 +43,5 @@ public interface UnifiedsearchDAO {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public String elasticSearch(Search search) throws Exception;
+	public JSONObject elasticSearch(Search search) throws Exception;
 }

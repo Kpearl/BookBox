@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
+import java.util.Map;
+
 import com.bookbox.common.domain.Search;
 
 public interface UnifiedsearchService {
@@ -12,5 +14,5 @@ public interface UnifiedsearchService {
 	 * @throws Exception 
 	 * @date 2017.11.01
 	 */
-	public String elasticSearch(Search search) throws Exception;
+	public Map<String, Object> elasticSearch(Search search) throws Exception;
 }

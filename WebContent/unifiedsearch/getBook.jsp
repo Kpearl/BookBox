@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 	<!-- 기본설정 -->
+	<meta charset="UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
@@ -15,8 +15,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
     <script src="../resources/daumeditor/js/utils.js"></script>
 	<!-- 기본설정 끝 -->
-<script type="text/javascript"> 
-
+	
+<script type="text/javascript">
 //차트
     var age = ["0", "10", "20", "30", "40", "50", "60", "70"];
 

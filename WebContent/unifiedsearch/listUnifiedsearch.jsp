@@ -10,15 +10,26 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	var str = ${object};
+	
+	alret(str);
+})
+
+</script>
 </head>
+
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
-	<!-- 여기부터 코딩 -->
-	
-	
-	
+
+	<section class="container">
+		<h1 id="object">${object}</h1>
+	</section>
 	
 </body>
 </html>

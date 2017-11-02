@@ -29,7 +29,7 @@ import com.bookbox.service.unifiedsearch.UnifiedsearchService;
  * @brief UnifiredSearchController
  * @detail
  * @author JJ
- * @date 2017.10.20
+ * @date 2017.11.01
  */
 
 @Controller
@@ -63,29 +63,44 @@ public class UnifiedsearchController {
 	public UnifiedsearchController() {
 		System.out.println("Constructor :: " + getClass().getName());
 	}
-
+	
 	@RequestMapping(value = "getUnifiedsearchList", method = RequestMethod.GET)
-	public String getunifiedsearchList(@RequestParam("keyword") String keyword) {
+	public String getunifiedsearchList(Model model, @RequestParam("keyword") String keyword, @RequestParam("category") int category) throws Exception {
 		System.out.println("/unifiedsearch/getUnifiedsearchList : GET");
-
+		
+		Search search = new Search();
+		search.setKeyword(keyword);
+		search.setCategory(category);
+		
+		model.addAttribute("object", unifiedsearchService.elasticSearch(search).toString());
+		
+		switch (category) {
+		case 1:
+			 return "forward:../unifiedsearch/listCreation.jsp";
+		case 5:
+			return  "forward:../unifiedsearch/listPosting.jsp";
+		case 6:
+			return  "forward:../unifiedsearch/listCommunity.jsp";
+		}
 		return "forward:../unifiedsearch/listUnifiedsearch.jsp";
 	}
-
+	
+	
 	@RequestMapping(value = "getBookList", method = RequestMethod.GET)
 	public String getBookList(HttpServletRequest request, Model model, @RequestParam("keyword") String keyword)
 			throws Exception {
 		System.out.println("/unifiedsearch/getBookList : GET");
 
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		search = new Search();
 		search.setKeyword(keyword);
 		search.setCategory(Const.Category.BOOK);
 		List<Book> bookList = bookService.getBookList(search);
-		
-		if(user == null) 
+
+		if (user == null)
 			user = new User();
-		
+
 		for (Book book : bookList) {
 			book.setLike(bookService.getBookLike(book, user));
 			book.setGrade(bookService.getBookGrade(book, user));
@@ -96,40 +111,19 @@ public class UnifiedsearchController {
 		return "forward:../unifiedsearch/listBook.jsp";
 	}
 
-	@RequestMapping(value = "getCreationList", method = RequestMethod.GET)
-	public String getCreationList(Search search) {
-		System.out.println("/unifiedsearch/getCreationList : GET");
-
-		return "forward:../unifiedsearch/listCreation.jsp";
-	}
-
-	@RequestMapping(value = "getCommunityList", method = RequestMethod.GET)
-	public String getCommunityList(Search search) {
-		System.out.println("/unifiedsearch/getCommunityList : GET");
-
-		return "forward:../unifiedsearch/listCommunity.jsp";
-	}
-
-	@RequestMapping(value = "getPostingList", method = RequestMethod.GET)
-	public String getPostingList(Search search) {
-		System.out.println("/unifiedsearch/getPostingList : GET");
-
-		return "forward:../unifiedsearch/listPosting.jsp";
-	}
-
 	@RequestMapping(value = "getBook", method = RequestMethod.GET)
 	public String getBook(HttpServletRequest request, Model model, @RequestParam("isbn") String isbn) throws Exception {
 		System.out.println("/unifiedsearch/getBook : GET");
 
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		Book book = new Book();
 		Book resultBook = new Book();
 		book.setIsbn(isbn);
 
-		if(user == null) 
+		if (user == null)
 			user = new User();
-		
+
 		Map<String, Map<String, Integer>> map = bookService.getBookStatistics(book);
 		resultBook = bookService.getBook(user, book);
 		resultBook.setLike(bookService.getBookLike(book, user));
@@ -143,6 +137,4 @@ public class UnifiedsearchController {
 
 		return "forward:../unifiedsearch/getBook.jsp";
 	}
-	
-	/*@RequestMapping*/
 }

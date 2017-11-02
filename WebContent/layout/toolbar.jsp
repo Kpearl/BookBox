@@ -111,12 +111,12 @@ function searchCheck(){
 		var option_value = select.options[select.selectedIndex].value;
 		 
 		switch (option_value){	  
-			case "unifiedsearch" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?keyword="+keyword); break; 
+			case "unifiedsearch" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=10&keyword="+keyword); break; 
 			case "book" : $(self.location).attr("href","${param.uri}unifiedsearch/getBookList?keyword="+keyword); break;
-			case "creation" : $(self.location).attr("href","${param.uri}unifiedsearch/getCreationList?keyword="+keyword); break;
-			case "community" : $(self.location).attr("href","${param.uri}unifiedsearch/getCommunityList?keyword="+keyword); break;
-			case "posting" : $(self.location).attr("href","${param.uri}unifiedsearch/getPostingList?keyword="+keyword); break; 
-//			case "tag" : $(self.location).attr("href","${param.uri}unifiedsearch/**********?keyword="+keyword); break; 
+			case "creation" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=1&keyword="+keyword); break;
+			case "community" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=6&keyword="+keyword); break;
+			case "posting" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=5&keyword="+keyword); break; 
+			case "tag" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword); break; 
 		}
 	}
 }

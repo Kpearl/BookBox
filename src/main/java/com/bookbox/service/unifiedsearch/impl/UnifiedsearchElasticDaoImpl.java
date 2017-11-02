@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Search;
@@ -64,8 +66,8 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	}
 
 	@Override
-	public String elasticSearch(Search search) throws Exception {
-		String query = url + "_search";
+	public JSONObject elasticSearch(Search search) throws Exception {
+		String query = url + "/_search";
 		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\"" + search.getKeyword() + "\"}}}";
 		
 		if(!(search.getCategory() == 10)) {
@@ -83,7 +85,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 					
 		System.out.println("Elastic search :: " + sendToElastic(query, json, "POST").toString());
 		
-		return sendToElastic(query, json, "POST").toString();
+		return sendToElastic(query, json, "POST");
 	}
 	
 	public Map<String, Object> compareToCategory(Object object) throws Exception {
@@ -139,7 +141,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("reg_date", chatroom.getRegDate());
 
 			map.put("category", "chatroom");
-			map.put("id", chatroom.getRoomNo());
+			//map.put("id", chatroom.get());
 			map.put("json", obj);
 			break;
 		}
@@ -172,8 +174,11 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 
 		// read the response
 		InputStream in = new BufferedInputStream(conn.getInputStream());
-		String result = IOUtils.toString(in, "UTF-8");
-		JSONObject jsonObject = new JSONObject(result);
+		JSONParser jsonParser = new JSONParser();
+		//String result = IOUtils.toString(in, "UTF-8");
+		JSONObject jsonObject = (JSONObject)jsonParser.parse(IOUtils.toString(in, "UTF-8"));
+		
+		//JSONObject jsonObject7;
 
 		in.close();
 		conn.disconnect();
