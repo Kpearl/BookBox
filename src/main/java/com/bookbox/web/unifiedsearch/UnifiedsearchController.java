@@ -72,7 +72,10 @@ public class UnifiedsearchController {
 		search.setKeyword(keyword);
 		search.setCategory(category);
 		
-		model.addAttribute("object", unifiedsearchService.elasticSearch(search).toString());
+		Map<String, Object> map = unifiedsearchService.elasticSearch(search);
+		
+		model.addAttribute("total", map.get("total"));
+		model.addAttribute("result", map.get("result"));
 		
 		switch (category) {
 		case 1:

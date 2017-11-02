@@ -11,7 +11,7 @@ package com.bookbox.common.domain;
 public class Grade {
 	
 	//Field
-	private float average;
+	private int average;
 	private int userCount;
 	private boolean doGrade;
 	
@@ -19,11 +19,11 @@ public class Grade {
 		// TODO Auto-generated constructor stub
 	}
 
-	public float getAverage() {
+	public int getAverage() {
 		return average;
 	}
 
-	public void setAverage(float average) {
+	public void setAverage(int average) {
 		this.average = average;
 	}
 

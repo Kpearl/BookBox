@@ -3,11 +3,9 @@ package unifiedsearch;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

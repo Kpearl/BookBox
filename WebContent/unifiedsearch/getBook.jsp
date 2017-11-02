@@ -5,7 +5,6 @@
 <head>
 	<!-- 기본설정 -->
 	<meta charset="UTF-8">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
@@ -16,6 +15,102 @@
     <script src="../resources/daumeditor/js/utils.js"></script>
 	<!-- 기본설정 끝 -->
 	
+<style type="text/css">
+body{
+	padding-top:0px;
+}
+header{
+	background:url(../resources/images/getBook.jpg) no-repeat center;
+}
+.parallax { 
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* 별점 주는 css */
+/* 마우스오버 */
+#starWrap ul:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+#starWrap ul li {
+	width: 16px;
+	height: 15px;
+	float: left;
+	background: url('../resources/images/bgStarSolo.png') no-repeat;
+	cursor: pointer;
+}
+
+#starWrap.star1 .s1 {
+	background-position: 0 -15px;
+}
+
+#starWrap.star2 .s1, #starWrap.star2 .s2 {
+	background-position: 0 -15px;
+}
+
+#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
+	background-position: 0 -15px;
+}
+
+#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
+	{
+	background-position: 0 -15px;
+}
+
+#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
+	#starWrap.star5 .s5 {
+	background-position: 0 -15px;
+}
+
+/* 마우스클릭 */
+#starWrapClick ul:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+#starWrapClick ul li {
+	width: 16px;
+	height: 15px;
+	float: left;
+	background: url('../resources/images/bgStarSolo.png') no-repeat;
+	cursor: pointer;
+	display: inline-block;
+}
+
+#starWrapClick.star1 .s1 {
+	background-position: 0 -15px;
+}
+
+#starWrapClick.star2 .s1, #starWrapClick.star2 .s2 {
+	background-position: 0 -15px;
+}
+
+#starWrapClick.star3 .s1, #starWrapClick.star3 .s2, #starWrapClick.star3 .s3
+	{
+	background-position: 0 -15px;
+}
+
+#starWrapClick.star4 .s1, #starWrapClick.star4 .s2, #starWrapClick.star4 .s3,
+	#starWrapClick.star4 .s4 {
+	background-position: 0 -15px;
+}
+
+#starWrapClick.star5 .s1, #starWrapClick.star5 .s2, #starWrapClick.star5 .s3,
+	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
+	background-position: 0 -15px;
+}
+
+canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+</style>
+
 <script type="text/javascript">
 //차트
     var age = ["0", "10", "20", "30", "40", "50", "60", "70"];
@@ -145,12 +240,6 @@ $(function() {
 		if ('${book.grade.doGrade}' == 'true' || '${user.email}' == '') {
 			$('#starWrap ul li').off();
 		}
-		
-		var className=$("#starWrap").attr("class");
-		className=className.split(".");
-		//alert(className[0]);
-		$("#starWrap").attr("class",className[0]);
-		
 	});
 
 	$('#starWrap ul li').mouseenter(function() {
@@ -181,163 +270,87 @@ $(function() {
 		}
 	});
 });
-
 </script>
-
-<!-- 별점 주는 css -->
-<style type="text/css">
-
-/* 마우스오버 */
-#starWrap ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrap ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrap.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star2 .s1, #starWrap.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
-	{
-	background-position: 0 -15px;
-}
-
-#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
-	#starWrap.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-/* 마우스클릭 */
-#starWrapClick ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrapClick ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrapClick.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star2 .s1, #starWrapClick.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star3 .s1, #starWrapClick.star3 .s2, #starWrapClick.star3 .s3
-	{
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star4 .s1, #starWrapClick.star4 .s2, #starWrapClick.star4 .s3,
-	#starWrapClick.star4 .s4 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star5 .s1, #starWrapClick.star5 .s2, #starWrapClick.star5 .s3,
-	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-canvas {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-}
-</style>
-
 </head>
+
 <body>
+	<header class="parallax"></header>
 	<jsp:include page="../layout/toolbar.jsp">
 		<jsp:param value="../" name="uri" />
 	</jsp:include>
-
-	<section class="container">
-		<table border="1">
-			<tr>
-				<td>
-					<div id="{book.isbn}">
-						<img src="${book.thumbnail}">
-						<h2>${book.title}</h2>
-						<c:choose>
-							<c:when test="${user.email == null}">
-							</c:when>
-		
-							<c:when test="${book.like.doLike == false}">
-								<button id="addLike" onclick="addLike(${book.isbn});">좋아요</button>
-							</c:when>
-
-							<c:when test="${book.like.doLike == true}">
-								<button id="deleteLike" onclick="deleteLike(${book.isbn});">좋아요
-									취소</button>
-							</c:when>
-						</c:choose>
-
-						<br> <br> ${book.authors} | ${book.translators}
-						|${book.datetime} | ${book.publisher} | ${book.price}원 <br> <br>
-						<div>사이트내 좋아요 개수 : <span  id="likeSum">${book.like.totalLike}</span></div><br> <br>
-						<div>사이트내 평균 평점 : <span id="gradeAvg">${book.grade.average}</span></div>
-						<br> <br>
-
-						<!-- 별점 -->
-						<div id="starWrap" class="star${book.grade.average}">
-							<ul>
-								<li class="s1"></li>
-								<li class="s2"></li>
-								<li class="s3"></li>
-								<li class="s4"></li>
-								<li class="s5"></li>
-							</ul>
-						</div>
-						<br> <br> 도서 소개 : ${book.contents}<br> <br> <a
-							href="${book.url}">판매 페이지로 이동</a><br> <br> <br> 
-						
- 						<div style="width:75%;">
-        					<canvas id="canvas"></canvas>
-    					</div>
-						
-						<br><br>
-						<c:if test="${user.email != null}">	
-							댓글<input type="text" id="content" placeholder="댓글 입력">
-							<button onclick="addReply(${book.isbn});">댓글입력</button> <br>
-						</c:if>	
-						<br>
-						<hr>
-						<h3>댓글리스트</h3>
-						<hr>
-						<p></p>
-						<c:forEach items="${book.replyList}" var="reply">
-							 ${reply.user.nickname} : ${reply.content} / ${reply.regDate}<br>
-							<hr>
-						</c:forEach>
+	
+	<div class="container">
+		<div class="row" id="{book.isbn}">
+            <div class="col-lg-10 col-md-offset-1 post-title">
+                <h1>${book.title}</h1>
+                <p class="author"><strong>${book.authors} | ${book.translators} | ${book.publisher} | ${book.price}원</strong> 
+                <span class="text-muted">${book.datetime}</span></p>
+            </div>
+            <div class="col-lg-2 col-lg-offset-1 col-md-3 col-md-offset-1col-xs-12">
+           		<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="400px" width="300px" onerror="this.src='../resources/images/noimage.jpg'">
+           	 	<div id="starWrap" class="star${book.grade.average}">
+					<ul>
+						<li class="s1"></li>
+						<li class="s2"></li>
+						<li class="s3"></li>
+						<li class="s4"></li>
+						<li class="s5"></li>
+					</ul>
+				</div>
+                <p class="lead author"><strong> </strong> </p>
+            </div>
+            
+            <div class="col-lg-7 col-lg-offset-0 col-lg-push-1 col-lg-pull-0 col-md-7 col-md-offset-0 col-md-push-0 post-body">
+                <p>사이트내 좋아요 개수 : <span  id="likeSum">${book.like.totalLike}</span></p>
+                <p>도서 소개 : ${book.contents}</p>
+                <p><a href="${book.url}">판매 페이지로 이동</a></p>
+                
+                <c:choose>
+					<c:when test="${user.email == null}">
+					</c:when>
+					<c:when test="${book.like.doLike == false}">
+						<button class="btn btn-primary success btn-lg" type="button" disabled="disabled" id="addLike" onclick="addLike(${book.isbn});">Like</button>
+					</c:when>
+					<c:when test="${book.like.doLike == true}">
+						<button class="btn btn-primary success btn-lg" type="button" disabled="disabled" id="deleteLike" onclick="deleteLike(${book.isbn});">List Cancel</button>
+					</c:when>
+				</c:choose>
+            </div>
+                  
+            <div>
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">            
+                        <div style="width:75%;">
+                        <canvas id="canvas"></canvas>
+ 						</div>
 					</div>
-				</td>
-			</tr>
-		</table>
-	</section>
-
+                </div>
+            </div>
+				
+            <div>
+				<div class="row">
+					<div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">
+                    	<h3>댓글 리스트</h3>
+                    <div class="col-xs-1 col-xs-offset-1">
+                       	<p><strong>댓글</strong> </p>
+                    </div>
+                    <div class="col-xs-7">
+                       	<input type="text">
+                    </div>
+                 	</div>
+                 </div>
+                 
+                 <div class="row">
+                    <c:forEach items="${book.replyList}" var="reply">
+			 			<p><strong>${reply.user.nickname}</strong> </p>
+			 			 : ${reply.content}
+			 			<div class="col-xs-2 col-xs-offset-0">
+                    		<span class="text-muted">${reply.regDate}</span>
+                    	</div>
+					</c:forEach>	
+                </div>
+        	</div>
+        </div>
+	</div>
 </body>
 </html>

@@ -21,7 +21,7 @@ import com.bookbox.service.unifiedsearch.UnifiedsearchService;
  * @brief UnifiedsearchServiceImpl
  * @detail
  * @author JJ
- * @date 2017.11.01
+ * @date 2017.11.02
  */
 
 @Service("unifiedsearchServiceImpl")
@@ -43,11 +43,9 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	public Map<String, Object> convertToMap(JSONObject jsonObject) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Unifiedsearch unifiedsearch = null;
-
 		JSONObject object = (JSONObject)jsonObject.get("hits");		
 		JSONArray jsonArray = (JSONArray)object.get("hits");
-
-		map.put("total", object.get("total"));
+		List<Unifiedsearch> list = new ArrayList<Unifiedsearch>();
 		
 		for(int i = 0; i < jsonArray.size(); i++) {
 			JSONObject jo = (JSONObject)jsonArray.get(i);
@@ -62,8 +60,10 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			//unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" : lastJo.get("reg_date").toString());
 			unifiedsearch.setTag((List<String>)lastJo.get("tag"));
 			
-			map.put(i+"", unifiedsearch);
+			list.add(unifiedsearch);
 		}
+		map.put("total", object.get("total"));
+		map.put("result", list);
 		
 		return map;
 	}
