@@ -21,12 +21,34 @@
 	
 	
 	<script type="text/javascript">
+	
+	//=============태그추가====================
+	var tagHtml;
+	var num;
+	
+	function fncRemoveTag(num){
+		$('#tag'+num).remove();
+	}
+	
+	$(function(){
+		num = 0;
+					
+		$('a.tag-add:contains("추가하기")').on('click',function(){
+			num = num + 1;
+			tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
+			$('.tag-list').append(tagHtml);
+		});
+	});
+
+	
 	//==============창작작품 수정=================
 	
-		$('a.tag-add:contains("추가하기")').on('click',function(){
-			$('form[name="creationForm"]').attr('method','post').attr('action','../creation/updateCreation').attr('enctype','multipart/form-data');
-		})
-		
+	$(function() {
+		$('a.update-creation:contains("수정하기")').on('click', function(){
+			alert("수정?");
+			$('form[name="creationForm"]').attr('method','post').attr('action','../creation/updateCreation').submit();
+		});
+	});
 
 	//=============말머리 선택시 태그에 추가=========
 	
@@ -40,30 +62,6 @@
 	})
 		
 	
-	//=============창작 글 등록====================
-		var tagHtml;
-		var num;
-		var editor;
-		
-		$(function(){
-			num = 0;
-						
-			$('a.tag-add:contains("추가하기")').on('click',function(){
-				num = num + 1;
-				tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
-				$('.tag-list').append(tagHtml);
-			});
-		});
-	
-		
-	
-
-	 
-		function fncRemoveTag(num){
-			$('#tag'+num).remove();
-		}
-	 
-
 	</script>
 </head>
 
@@ -81,7 +79,7 @@
 	     <h3>창작작품 수정</h3>
 	  </div>
   		<div class="panel-body" >
-		<form id="creationForm" name="creationForm" >
+		<form id="creationForm" name="creationForm" enctype="multipart/form-data">
 			<div class="form-group">
 				말머리 선택
 				<input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
@@ -89,39 +87,33 @@
 				<p></p>
 				<p>작품명</p>
 				<input class="inputValue" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
-				
-					<c:if test="${!empty creationList}">
-						<select class="form-control" name="creationNo" >
-							<option value="0">새작품</option>
-							<c:forEach var="creation" items="${creationList }">
-					      		<option value="${creation.creationNo }" >${creation.creationTitle }</option>
-							</c:forEach>
-					     </select>
-				     </c:if>
+				<input class="hidden" type="text" name="creationNo" id ="creationNo" value="${creation.creationNo }">
+				<input class="hidden" type="text" name="active" id ="active" value="${creation.active }">
 				
 				<p></p>
 				<p>작품소개</p>
 				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<img src="../resources/uploadFiles/images/${creation.creationFileName }"/>
-			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
+			<img src="../resources/upload_files/images/${creation.creationFileName }"/>
+			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="file" value="${creation.creationOriginName }">
 		
 			<div class="form-group tag-list">
 				<label>태그</label>
 				<input type="hidden" class="headTag" name="tag" id="tag">
 				<a href="#" class="btn tag-add ">추가하기</a>
-				<span># <input type="text" name="tag" id="tag" value="${creation.tagList[0].tagName}"></span>
+				<span class="hidden"># <input type="text" name="tag" id="tag" value="${creation.tagList[0].tagName}"></span>
 				<c:set var="num" value="0"/>
 				<c:forEach items="${creation.tagList}" var="tag" begin="1">
 					<c:set var="num" value="${num+1}"/>
-					<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
+						<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
 				</c:forEach>
 				
 		
 			</div>
 				
-			<a href="#" class="btn btn-default" id="add-creation" >수정하기</a>
+			<a href="#" class="btn btn-default update-creation"  id="update-creation">수정하기</a>
+			<a href="#" class="btn btn-default delete-creation"  id="delete-creation">삭제하기</a>
 	
 		
 		</form>

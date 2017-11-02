@@ -70,6 +70,7 @@
 						$('.inputValue').attr('disabled','true');
 						$('span.glyphicon-remove').remove();
 						$('a.tag-add:contains("추가하기")').off('click');
+						$('input[name="creationNo"]').val();
 					}
 				})
 			})
@@ -97,8 +98,8 @@
 						alert("creationNo = "+creationNo);
 						
 						if (creationNo == 0 ) {
-							$('form')[0].reset();
 							$('.inputValue').attr('disabled', false);
+							$('#creationForm')[0].reset();
 							
 							fncAddTag();
 							
@@ -145,7 +146,7 @@
 							$('.inputValue').attr('disabled','true');
 							$('a.tag-add:contains("추가하기")').off('click');
 					        $('html, body').animate({scrollTop : offset.top}, 400);
-					        $('#add-creation').html('수정하기');
+					       
 					        
 					        alert("창작글 creationNo : "+$('input[name="creationNo"]').val());
 						}
@@ -251,7 +252,7 @@
 				<label>태그</label>
 				<input type="hidden" class="headTag" name="tag" id="tag">
 				<a href="#" class="btn tag-add ">추가하기</a>
-				<span># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
+				<span class="hidden"># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
 							
 			</div>
 		
@@ -273,7 +274,7 @@
 	  		<div class="panel-body">
 				<div class="form-group">
 					글제목 <input type="text" name="writingTitle">
-					<input type = "hidden" name="creationNo">
+					<input type = "hidden" name="creationNo" value="${creation.creationNo }">
 				</div>
 				<div class="form-group">
 					<textarea name="writingContent" id="writingContent" rows="20" cols="80"></textarea>

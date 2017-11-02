@@ -119,12 +119,19 @@ div.row.writing-border{
    	}); 
    }); 
        
-   //============= 창작작품 수정 Navigation Event  처리 =============	
    $(function() {
+   //============= 창작작품 수정 Navigation Event  처리 =============	
 	   $("a.updateCreation").on("click" , function() {
 		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
 		   
-   	}); 
+   		}); 
+
+	   //============= 창작작품 삭제 Navigation Event  처리 =============	
+	   $("a.deleteCreation").on("click" , function() {
+		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
+		   
+   		});	   
+	   
    }); 
     
 
@@ -256,6 +263,7 @@ div.row.writing-border{
             <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
                 <div class="btn-group" role="group">
                     <a class="btn btn-default updateCreation" type="button">수정하기</a>
+                    <a class="btn btn-default deleteCreation" type="button">삭제하기</a>
                 </div>
             </c:if>
         </div>

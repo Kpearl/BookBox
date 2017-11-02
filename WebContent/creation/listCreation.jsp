@@ -127,7 +127,7 @@
 					<div class="activity-list-update div-creation">
 					
 					<input type ="text" name="creationNo" value="${creation.creationNo }"/>
-					<img src="/images/uploadFiles/${creation.creationFileName }" alt="Image" width="100px" height="80px">
+					<img src="../resources/upload_files/images/${creation.creationFileName }" alt="Image" width="100px" height="80px">
 					<p>펀딩여부</p>
 					<p><a  class="creationTitle" id="${creation.creationNo }">${creation.creationTitle }</a></p>
 					<p>${creation.creationAuthor.nickname }</p>

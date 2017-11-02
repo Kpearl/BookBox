@@ -22,6 +22,13 @@ $(function() {
 		$(self.location).attr("href","../creation/updateWriting?writingNo="+$('input[name="writingNo"]').val()+"&creationNo="+$('input[name="creationNo"]').val());
 	})	
 })
+
+//=====================창작글 삭제하기 EVENT=================
+$(function() {
+	$('#delete-writing').on('click',function() {
+		$(self.location).attr("href","../creation/deleteWriting?writingNo="+$('input[name="writingNo"]').val());
+	})	
+})
 		
 
 //=======================댓글 추가========================
