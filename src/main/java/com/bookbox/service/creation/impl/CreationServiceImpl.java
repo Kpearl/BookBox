@@ -160,11 +160,17 @@ public class CreationServiceImpl implements CreationService {
 	
 	/**
 	 * @brief 작품삭제
-	 * @param User, Creation
+	 * @param Creation
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void deleteCreation(Creation creation) throws Exception{
+	public int deleteCreation(Creation creation) throws Exception{
+		
+		creation.setActive(0);
+		
+		for (int i = 0; i < creation.getWritingList().size(); i++) {
+			
+		}
 		
 		Writing writing = new Writing();
 		writing.setCreationNo(creation.getCreationNo());
@@ -172,6 +178,8 @@ public class CreationServiceImpl implements CreationService {
 		creationDAO.updateCreation(creation);
 		writingService.deleteWriting(writing);
 		System.out.println("deleteCreation 확인 :: ");
+		
+		return 0;
 	}
 	
 	/**

@@ -78,9 +78,9 @@ public interface CreationService {
 	 * @brief 작품삭제
 	 * @param User, Creation
 	 * @throws Exception
-	 * @return 
+	 * @return int
 	 */	
-	public void deleteCreation(Creation creation) throws Exception;
+	public int deleteCreation(Creation creation) throws Exception;
 	
 	
 	/**

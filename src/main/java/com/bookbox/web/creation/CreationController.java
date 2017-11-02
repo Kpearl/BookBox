@@ -245,15 +245,40 @@ public class CreationController {
 	 * @return "redirect:getWritingList?creationNo=creation.getCreaionNo()"
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.POST )
-	public String updateCreation(@ModelAttribute("creation") Creation creation, HttpSession session) throws Exception{
+	public String updateCreation(@ModelAttribute("creation") Creation creation, 
+																HttpServletRequest request,
+																@RequestParam("file")MultipartFile multipartFile,
+																HttpSession session) throws Exception{
 		// TODO updateCreation
-		System.out.println("CreationController :: /creation/updateCreation : POST");
+		System.out.println("CreationController :: /creation/updateCreation : POST ===> START");
 		//Business Logic
 		
 		User user= (User)session.getAttribute("user");
+		System.out.println("updateCreation :: "+creation+"\n");
+		
+		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+		
+		UploadFile uploadFile = creationService.saveFile(multipartFile, path);
+		creation.setCreationFileName(uploadFile.getFileName());
+		creation.setCreationOriginName(uploadFile.getOriginName());
+		
+		List<Tag> tagList = new ArrayList<>();
+		String[] dbTag = request.getParameterValues("tag");
+		
+		for (String tag : dbTag) {
+			if (!tag.equals("")) {
+				tagList.add(new Tag(tag));
+			}
+		}	
+		
+		creation.setTagList(tagList);
+		creation.setCreationAuthor(user);
+		
 		creationService.updateCreation(user, creation);
 		
-		return "redirect:getWritingList?creationNo=creation.getCreaionNo()";
+		System.out.println("CreationController :: /creation/updateCreation : POST ===> END");
+		
+		return "redirect:getWritingList?creationNo="+creation.getCreationNo();
 	}
 	
 	/**
@@ -437,7 +462,7 @@ public class CreationController {
 		
 		creationService.deleteCreation(creation);
 		
-		return "forward:getCreationList?creationAuthor="+user.getNickname();
+		return "forward:getCreationList?email="+user.getEmail();
 	}
 
 	/**

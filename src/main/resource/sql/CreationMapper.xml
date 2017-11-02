@@ -138,7 +138,7 @@
 		 				u.nickname LIKE '%${search.keyword}%'
 					</if>
 					<if test="search.condition == 2 and search.keyword !=''">
-		 				t.tag_name LIKE '%${search.keyword}%'
+		 				t.tag_name IN (#{search.keyword}) 
 					</if>
 					<if test="search.condition == 3 and search.keyword !=''">
 		 				t.tag_name LIKE '%${search.keyword}%' OR 
