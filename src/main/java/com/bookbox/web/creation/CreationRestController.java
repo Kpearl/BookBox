@@ -70,8 +70,8 @@ public class CreationRestController {
 	 * @throws Exception
 	 * @return 
 	 */	
-	@RequestMapping(value="addCreationSubscribe", method=RequestMethod.POST )
-	public void addCreationSubscribe(@RequestBody Creation creation,
+	@RequestMapping(value="doCreationSubscribe", method=RequestMethod.GET )
+	public void doCreationSubscribe(@RequestBody Creation creation,
 																		HttpSession session) throws Exception {
 		
 		creationService.addCreationSubscribe((User)session.getAttribute("user"), creation);
@@ -184,6 +184,8 @@ public class CreationRestController {
 		System.out.println("CreationRestController :: /creation/rest/getCreation : GET ===> END");
 		return creation;
 	}
+	
+	
 	
 	
 	

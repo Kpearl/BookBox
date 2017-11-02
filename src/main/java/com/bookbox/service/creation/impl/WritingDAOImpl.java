@@ -110,7 +110,7 @@ public class WritingDAOImpl implements WritingDAO {
 	 * @return void
 	 */		
 	public void deleteWriting(Writing writing) throws Exception{
-		sqlSession.update("WritingMapper.deleteWriting", writing);
+		sqlSession.update("WritingMapper.updateWriting", writing);
 		
 	}
 	

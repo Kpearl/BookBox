@@ -16,20 +16,24 @@
 
 <script type="text/javascript">
 
+
 //=====================창작글 수정하기 EVENT=================
 $(function() {
+	
+	var writingNo = $('input[name="writingNo"]').val();
+	
 	$('#update-writing').on('click',function() {
-		$(self.location).attr("href","../creation/updateWriting?writingNo="+$('input[name="writingNo"]').val()+"&creationNo="+$('input[name="creationNo"]').val());
+		alert(writingNo);
+		$(self.location).attr("href","../creation/updateWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
 	})	
-})
 
 //=====================창작글 삭제하기 EVENT=================
-$(function() {
+
 	$('#delete-writing').on('click',function() {
-		$(self.location).attr("href","../creation/deleteWriting?writingNo="+$('input[name="writingNo"]').val());
-	})	
+		$(self.location).attr("href","../creation/deleteWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
+	
+	})
 })
-		
 
 //=======================댓글 추가========================
 function addReply(targetNo) {

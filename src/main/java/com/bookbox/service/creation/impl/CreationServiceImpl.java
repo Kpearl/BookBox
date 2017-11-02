@@ -168,18 +168,18 @@ public class CreationServiceImpl implements CreationService {
 		
 		creation.setActive(0);
 		
+		Writing writing = new Writing();
 		for (int i = 0; i < creation.getWritingList().size(); i++) {
-			
+			writing = creation.getWritingList().get(i);
+			writing.setActive(0);
+			writingService.deleteWriting(writing);
 		}
 		
-		Writing writing = new Writing();
-		writing.setCreationNo(creation.getCreationNo());
-		
 		creationDAO.updateCreation(creation);
-		writingService.deleteWriting(writing);
-		System.out.println("deleteCreation 확인 :: ");
+
 		
-		return 0;
+		
+		return 1;
 	}
 	
 	/**

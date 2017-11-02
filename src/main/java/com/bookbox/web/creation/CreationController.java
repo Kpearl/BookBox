@@ -330,13 +330,15 @@ public class CreationController {
 
 		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		//Business Logic
-		User user=(User)session.getAttribute("user");
 		
 		Creation creation = new Creation();
-		creation.setCreationNo(writing.getCreationNo());
+		User user=(User)session.getAttribute("user");
 		
-		creation = creationService.getCreation(creation);
 		writing = writingService.getWriting(user, writing);
+		System.out.println("getWriting :: "+writing+"\n");
+		
+		creation.setCreationNo(writing.getCreationNo());
+		creation = creationService.getCreation(creation);
 		
 		// Model 과 View 연결
 		model.addAttribute("writing", writing);
@@ -455,14 +457,21 @@ public class CreationController {
 	public String deleteCreation(@ModelAttribute("creation") Creation creation,
 																HttpSession session) throws Exception {
 		// TODO deleteCreation
-		System.out.println("CreationController :: /creation/deleteCreation : GET");
+		System.out.println("CreationController :: /creation/deleteCreation : GET ===> START\n");
 		
 		User user = (User)session.getAttribute("user");
-		creation.setCreationAuthor(user);
+		creation = creationService.getCreation(creation);
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("creation", creation);
+		writingService.getWritingList(map);
+		
+		creation.setWritingList(writingService.getWritingList(map));
 		creationService.deleteCreation(creation);
 		
-		return "forward:getCreationList?email="+user.getEmail();
+		System.out.println("CreationController :: /creation/deleteCreation : GET ===> END\n\n");
+		
+		return "redirect:getCreationList?email="+user.getEmail();
 	}
 
 	/**
@@ -473,16 +482,16 @@ public class CreationController {
 	 * @return "forward:getWritingList?creationNo=creation.getCreationNo()"
 	 */
 	@RequestMapping( value="deleteWriting", method=RequestMethod.GET )
-	public String deleteWriting(@ModelAttribute("creation") Creation creation,
+	public String deleteWriting(@ModelAttribute("writing") Writing writing,
 															HttpSession session) throws Exception {
 		// TODO deleteWriting
 		System.out.println("CreationController :: /creation/deleteWriting : GET");
-	
-		User user = (User)session.getAttribute("user");
-			
-		creationService.deleteCreation(creation);
 		
-		return "forward:getCreationList?creationAuthor="+user.getNickname();
+//		User user = (User)session.getAttribute("user");
+			
+		writingService.deleteWriting(writing);
+		
+		return "redirect:getWritingList?creationNo="+writing.getCreationNo();
 	}	
 	
 	/**

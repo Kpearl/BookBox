@@ -114,7 +114,7 @@ public class WritingServiceImpl implements WritingService {
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
 //		Creation creation = creationDAO.getCreation(user,writing.getCreationNo());
-		System.out.println("getWriting :: Creation :: "+writing.getCreationNo());
+//		System.out.println("getWriting :: Creation :: "+writing.getCreationNo());
 		
 		
 //		creation.setLike(commonDAO.getLike(user, map));
@@ -124,7 +124,6 @@ public class WritingServiceImpl implements WritingService {
 //		writing.setCreation(creation);
 //		System.out.println("getWriting :: Creation :: "+creation);
 		
-		System.out.println("getWriting :: Writing ::"+writing);
 		return writingDAO.getWriting(writing);
 	}
 	
@@ -136,9 +135,10 @@ public class WritingServiceImpl implements WritingService {
 	 */	
 	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
+		if(map.get("page") != null) {
 		Page page = (Page)map.get("page");
 		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("cration")));
-		
+		}
 		List<Writing> writingList = writingDAO.getWritingList(map);
 		
 		return writingList;
@@ -151,7 +151,9 @@ public class WritingServiceImpl implements WritingService {
 	 * @return void
 	 */		
 	public void deleteWriting(Writing writing) throws Exception{
-		writingDAO.deleteWriting(writing);
+		
+		writing.setActive(0);
+		writingDAO.updateWriting(writing);
 	}
 	
 }

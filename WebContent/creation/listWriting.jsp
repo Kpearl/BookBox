@@ -112,14 +112,13 @@ div.row.writing-border{
 	
     <script>
 
+   $(function() {
+		   
        //============= 창작글 조회 Navigation Event  처리 =============	
-   $(function() {
 	   $("a.writingTitle").on("click" , function() {
-   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id")+"&creationNo="+$("input[name='creationNo']").val());
-   	}); 
-   }); 
-       
-   $(function() {
+	   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id"));
+   		}); 
+
    //============= 창작작품 수정 Navigation Event  처리 =============	
 	   $("a.updateCreation").on("click" , function() {
 		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
@@ -128,11 +127,28 @@ div.row.writing-border{
 
 	   //============= 창작작품 삭제 Navigation Event  처리 =============	
 	   $("a.deleteCreation").on("click" , function() {
+		   alert("정말로 삭제하시겠습니까?");
 		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
-		   
    		});	   
-	   
    }); 
+   
+   
+ //========================구독신청 =======================
+   $(function() {
+	   $("a.doSubscription").on("click" , function() {
+		   
+		   $.ajax ({
+			   url : "rest/doCreationSubscribe",
+	    		method : "POST",
+	    		data : {"targetNo" : targetNo},
+	    		success:function(){
+	    			$("#addLike").replaceWith("<button id='deleteLike' onclick='deleteLike(${targetNo});'>좋아요취소</button>");
+	    			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
+	    		 }); 
+   
+		   }
+	   }
+   })
     
 
 

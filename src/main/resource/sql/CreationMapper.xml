@@ -80,7 +80,7 @@
 			<if test ="creationOriginName != null">
 				creation_origin_name 	= #{creationOriginName},
 			</if>
-			<if test ="active != null">
+			<if test ="active == 0">
 				active 	= #{active}
 			</if>
 	   	</set>
@@ -146,6 +146,10 @@
 		 				t.tag_name LIKE '%${search.keyword}%' 
 					</if>
 			</if>
+			
+				AND c.active 	= 1
+			
+					
 		</where>
 		GROUP BY
 			c.creation_no, email, 
