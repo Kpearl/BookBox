@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,6 +30,7 @@ import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -58,8 +61,8 @@ public class CreationController {
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
 	
-//	@Autowired
-//	@Qualifier("fundingServiceImpl")
+	@Autowired
+	@Qualifier("fundingServiceImpl")
 	private FundingService fundingService;
 	
 	@Autowired
@@ -128,51 +131,61 @@ public class CreationController {
 	 * @throws Exception
 	 * @return "forward:getListWriting"
 	 */
-	public String addWriting(@ModelAttribute("writing")Writing writing, 
-													@ModelAttribute("creation")Creation creation,
-													@ModelAttribute("tag")Tag tag,
-													@ModelAttribute("uploadFile") UploadFile uploadFile,
-													MultipartHttpServletRequest request,
-													HttpSession session) throws Exception{
+	@RequestMapping(value="addWriting", method=RequestMethod.POST)
+	public String addWriting(@ModelAttribute("writing")Writing writing,
+													HttpServletRequest request,
+													HttpSession session, Model model) throws Exception{
 		// TODO addWriting
 		System.out.println("Creation Controller :: /creation/addWriting : POST");
 			
 		User user =(User)session.getAttribute("user");
-				
-		List<MultipartFile> uploadFileName = request.getFiles("writingFile");
-		List<UploadFile> writingFileList = new ArrayList<>();
-	
-		for (MultipartFile multipartFile : uploadFileName ) {
+		
+		List<UploadFile> uplodFileList =new ArrayList<>();
+		String[] writingFileNames = request.getParameterValues("writingFileName");
+		String[] writingOriginNames = request.getParameterValues("writingOriginName");
+		
+		for (int i = 0; i < writingOriginNames.length; i++) {
+				uplodFileList.add(new UploadFile(writingFileNames[i],writingOriginNames[i]));
+		} 
+		
+		writing.setWritingFileList(uplodFileList);		
 
-			writingFileList.add(creationService.saveFile(multipartFile,uploadDirResource));
-		}
-		
-		writing.setWritingFileList(writingFileList);
-		
-		MultipartFile multipartFile = request.getFile("creationFile");
-		
-		String fileName = creationService.saveFile(multipartFile, uploadDirResource).getFileName();
-		String OriginName = creationService.saveFile(multipartFile, uploadDirResource).getOriginName();
-		creation.setCreationFileName(fileName);
-		creation.setCreationOriginName(OriginName);
-		
-		
-		List<Tag> tagList = new ArrayList<>();
-		String[] dbTag =  tag.getTagName().split("#");
-		
-		for (int i = 0; i < dbTag.length; i++) {
-			tagList.add(new Tag(dbTag[i]));
-		}	
-		creation.setTagList(tagList);
-		
-		if (creation.getCreationNo() == 0) {
-			creationService.addCreation(user, creation);
-		}
 		writingService.addWriting(user, writing);
+		System.out.println("addWriting :: writing :: "+writing);
+		
+		model.addAttribute("writing",writing);
 	
-		return "forward:/creation/getWritingList.jsp";
+		return "redirect:/creation/getWritingList?creationNo="+writing.getCreationNo();
 	}
 	
+	/**
+	 * @brief uploadWritingCKEditor
+	 * @details CKEditer 업로드이미지 저장
+	 * @param HttpSevletRequest, MultipartFile
+	 * @throws Exception
+	 * @return "forward:getListWriting"
+	 */
+	@RequestMapping(value="uploadCKEditorFile", method = RequestMethod.POST)
+	public String uploadWritingCKEditor(HttpServletRequest request,
+																			@RequestParam("upload")MultipartFile file,
+																			Model model) throws Exception{
+		System.out.println("Creation Controller :: /creation/uploadCKEditorFile ===> SRART");
+		//String CKEditor=request.getParameter("CKEditor");
+		int CKEditorFuncNum=Integer.parseInt(request.getParameter("CKEditorFuncNum"));
+		System.out.println("Creation Controller :: uploadCKEditorFile 확인 :: "+CKEditorFuncNum);
+		
+		UploadFile uploadFile = creationService.saveFile(file, uploadDirResource);
+				
+		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
+		model.addAttribute("url", "../resources/upload_files/images/"+uploadFile.getFileName());
+		model.addAttribute("fileName",uploadFile.getFileName());
+		model.addAttribute("originName",uploadFile.getOriginName());
+		
+		System.out.println("Creation Controller :: /creation/uploadCKEditorFile ===> END");
+				
+		return "forward:uploadWritingCKEditor.jsp";
+	}
+		
 	
 	/**
 	 * @brief updateCreation/작품수정화면으로 이동
@@ -183,35 +196,16 @@ public class CreationController {
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.GET )
 	public String updateCreation(@ModelAttribute("creation") Creation creation,
-																@ModelAttribute("Tag") Tag tag,
-																MultipartHttpServletRequest request,
-																HttpSession session, Model model) throws Exception{
+																Model model) throws Exception{
 	
 		System.out.println("UserController :: /creation/updateCreation : GET");
 		//Business Logic
 		
-		User user =(User)session.getAttribute("user");
-		
-		MultipartFile multipartFile = request.getFile("creationFile");
-		String fileName = creationService.saveFile(multipartFile, uploadDirResource).getFileName();
-		String OriginName = creationService.saveFile(multipartFile, uploadDirResource).getOriginName();
-		creation.setCreationFileName(fileName);
-		creation.setCreationOriginName(OriginName);
-		
-		List<Tag> tagList = new ArrayList<>();
-		String[] dbTag =  tag.getTagName().split("#");
-		
-		for (int i = 0; i < dbTag.length; i++) {
-			tagList.add(new Tag(dbTag[i]));
-		}	
-		creation.setTagList(tagList);
-		
-		creationService.updateCreation(user, creation);
-		
-		model.addAttribute("user", user);
+		creation = creationService.getCreation(creation);
+				
 		model.addAttribute("creation", creation);
 		
-		return "forward:updateUserView_Test.jsp";
+		return "forward:updateCreationView.jsp";
 	}
 	
 	/**
@@ -229,10 +223,15 @@ public class CreationController {
 		//Business Logic
 		
 		User user =(User)session.getAttribute("user");
-//		WritingService.updateWriting(user, writing);
 		
-		model.addAttribute("user", user);
-		model.addAttribute("creation", writing);
+		Creation creation = new Creation();
+		creation.setCreationNo(writing.getCreationNo());
+		
+		writing = writingService.getWriting(user, writing);
+		creation = creationService.getCreation(creation);
+		
+		model.addAttribute("writing", writing);
+		model.addAttribute("creation", creation);
 		
 		return "forward:updateWritingView.jsp";
 	}
@@ -261,18 +260,41 @@ public class CreationController {
 	 * @details POST
 	 * @param Writing 
 	 * @throws Exception
-	 * @return ""
+	 * @return "forward:getWritingList"
 	 */
 	@RequestMapping( value="updateWriting", method=RequestMethod.POST )
-	public String updateWriting(@ModelAttribute("writing") Writing writing, HttpSession session) throws Exception{
+	public String updateWriting(@ModelAttribute("writing") Writing writing, 
+															HttpServletRequest request,
+														HttpSession session, Model model) throws Exception{
 		// TODO updateWriting
-		System.out.println("CreationController :: /creation/updateWriting : POST");
+		System.out.println("CreationController :: /creation/updateWriting : POST ===> START\n\n");
 		//Business Logic
 		
 		User user= (User)session.getAttribute("user");
-		writingService.updateWriting(user, writing);
 		
-		return  "redirect:getWriting?writingNo=writing.getWritingNo()";
+		List<UploadFile> uplodFileList =new ArrayList<>();
+		String[] writingFileNames = request.getParameterValues("writingFileName");
+		String[] writingOriginNames = request.getParameterValues("writingOriginName");
+		
+		for (int i = 0; i < writingOriginNames.length; i++) {
+				uplodFileList.add(new UploadFile(writingFileNames[i],writingOriginNames[i]));
+		} 
+		writing.setWritingFileList(uplodFileList);		
+		
+				
+		writingService.updateWriting(user, writing);
+		Creation creation = new Creation();
+		creation.setCreationNo(writing.getCreationNo());
+		creation = creationService.getCreation(creation);
+		
+		model.addAttribute("writing", writing);
+		model.addAttribute("creation", creation);
+		model.addAttribute("seach", new Search());
+		model.addAttribute("page", new Page());
+		
+		System.out.println("CreationController :: /creation/updateWriting : POST ===> END\n\n");
+		
+		return  "redirect:getWritingList";
 	}
 	
 	/**
@@ -287,9 +309,9 @@ public class CreationController {
 													HttpSession session,
 													Model model ) throws Exception {
 		// TODO getWriting
-		System.out.println("CreationController :: /creation/getWriting : GET");
+		System.out.println("CreationController :: /creation/getWriting : GET ===> START");
 
-		System.out.println("CreationController :: getWriting :: "+writing);
+		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		//Business Logic
 		User user=(User)session.getAttribute("user");
 		
@@ -302,6 +324,8 @@ public class CreationController {
 		// Model 과 View 연결
 		model.addAttribute("writing", writing);
 		model.addAttribute("creation", creation);
+		
+		System.out.println("CreationController :: /creation/getWriting : GET ===> END\n");
 		
 		return "forward:getWriting.jsp";
 	}	
@@ -379,9 +403,9 @@ public class CreationController {
 			page.setPageUnit(pageUnit);
 		}
 		
-		System.out.println("getCreationList :: getSearch :: "+search+"/n");
-		System.out.println("getCreationList :: getPage :: "+page+"/n");
-		System.out.println("getCreationList :: getCreation :: "+creation+"/n");
+		System.out.println("getCreationList :: getSearch :: "+search+"\n");
+		System.out.println("getCreationList :: getPage :: "+page+"\n");
+		System.out.println("getCreationList :: getCreation :: "+creation+"\n");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
@@ -392,7 +416,7 @@ public class CreationController {
 		System.out.println("creation :: "+creation);
 				
 		List<Writing> writingList = writingService.getWritingList(map);
-		System.out.println("getWritingList"+writingList+"/n");
+		System.out.println("getWritingList"+writingList+"\n");
 		creation.setWritingList(writingList);
 	
 		// Model 과 View 연결
@@ -443,6 +467,32 @@ public class CreationController {
 		
 		return "forward:getCreationList?creationAuthor="+user.getNickname();
 	}	
+	
+	/**
+	 * @brief addFunding/ 펀딩등록화면으로 이동
+	 * @details GET
+	 * @param 
+	 * @throws Exception
+	 * @return "forward:addFundingView.jsp"
+	 */
+	@RequestMapping(value="addFunding", method=RequestMethod.GET)
+	public String addFunding(HttpSession session, Model model) throws Exception{
+		// TODO addFunding
+		System.out.println("Creation Controller :: /creation/addFunding : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("addFunding :: "+user.getEmail());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", session.getAttribute("user"));
+		List<Funding> fundingList =fundingService.getFundingList(map);
+		
+		model.addAttribute("creationList", fundingList);
+		
+		
+		return "forward:addWritingView.jsp";
+	}
 	
 
 }

@@ -1,18 +1,23 @@
 package com.bookbox.web.creation;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -144,7 +149,10 @@ public class CreationRestController {
 		
 		creation.setTagList(tagList);
 		creation.setCreationAuthor(user);
-		creationService.addCreation(user, creation);
+		
+		if (creation.getCreationNo() == 0) {
+			creationService.addCreation(user, creation);
+		}
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", session.getAttribute("user"));

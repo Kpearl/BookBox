@@ -14,13 +14,7 @@
 		<result property="writingContent" 			column="writing_content" 			jdbcType="VARCHAR" />
 		<result property="regDate" 						column="reg_date" 							jdbcType="DATE" />
 		<result property="updateDate" 				column="update_date" 					jdbcType="DATE" />	
-		<!-- 
-			<association property="creation" 			javaType="creation" 					select="CreationMapper.getCreation"/>
-		 -->
-		 
-		 
-		
-			<collection property="writingFileList" javaType="java.util.ArrayList" ofType="uploadFile" 
+				<collection property="writingFileList" javaType="java.util.ArrayList" ofType="uploadFile" 
 								column="{categoryNo=writing_category_no,targetNo=writing_no}" select="CommonMapper.getUploadFileList"/>
 	</resultMap>
 	
@@ -48,7 +42,7 @@
 	   		
 	   			update_date = now(),		
 	   		
-	   		<if test ="active != null">
+	   		<if test ="active != 1">
 				active 	= #{active}
 			</if>
 	   	</set>

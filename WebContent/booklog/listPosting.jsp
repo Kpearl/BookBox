@@ -38,7 +38,9 @@
 	<div class="container">
 		<input type="hidden" name="condition" value="${search.condition}">
 		<input type="hidden" name="keyword" value="${search.keyword}">
-		<a class="btn btn-default posting-add" href="#">포스팅 등록</a><br/>
+		<c:if test="${!empty sessionScope.user}">
+			<a class="btn btn-default posting-add" href="#">포스팅 등록</a><br/>
+		</c:if>
 		<div class="activity" style="width:100%;">
 			<c:forEach items="${postingList}" var="posting">
 			<div class="activity-list-update div-posting">

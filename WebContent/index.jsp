@@ -77,36 +77,36 @@
             <div class="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-4">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="thumbnail"><img>
+                        <div class="thumbnail"><img alt="Image" src="resources/images/book1.jpg">
                             <div class="caption">
-                                <h3>Thumbnail label</h3>
-                                <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                <h3>BestSeller</h3>
+                                <p>Author : amugae</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="thumbnail"><img>
+                        <div class="thumbnail"><img alt="Image" src="resources/images/book2.jpg">
                             <div class="caption">
-                                <h3>Thumbnail label</h3>
-                                <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                <h3>BestSeller</h3>
+                                <p>Author : amugae</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="thumbnail"><img>
+                        <div class="thumbnail"><img alt="Image" src="resources/images/book3.jpg">
                             <div class="caption">
-                                <h3>Thumbnail label</h3>
-                                <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                <h3>BestSeller</h3>
+                                <p>Author : amugae</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="thumbnail"><img>
+                        <div class="thumbnail"><img alt="Image" src="resources/images/book4.jpg">
                             <div class="caption">
-                                <h3>Thumbnail label</h3>
-                                <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                <h3>BestSeller</h3>
+                                <p>Author : amugae</p>
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
             <div class="col-md-6">
                 <div class="media">
                     <div class="media-left">
-                        <a><img></a>
+                        <a><img class="img-responsive" src="resources/images/test.jpg"></a>
                     </div>
                     <div class="media-body">
                         <h4>Media Heading</h4>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="media">
                     <div class="media-left">
-                        <a><img></a>
+                        <a><img class="img-responsive" src="resources/images/test.jpg" ></a>
                     </div>
                     <div class="media-body">
                         <h4>Media Heading</h4>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="media">
                     <div class="media-left">
-                        <a><img></a>
+                        <a><img class="img-responsive" src="resources/images/test.jpg" ></a>
                     </div>
                     <div class="media-body">
                         <h4>Media Heading</h4>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="media">
                     <div class="media-left">
-                        <a><img></a>
+                        <a><img class="img-responsive" src="resources/images/test.jpg" ></a>
                     </div>
                     <div class="media-body">
                         <h4>Media Heading</h4>

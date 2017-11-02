@@ -17,6 +17,7 @@ import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 
 @Service("postingServiceImpl")
 public class PostingServiceImpl implements PostingService {
@@ -33,15 +34,23 @@ public class PostingServiceImpl implements PostingService {
 	@Qualifier("commonDAOImpl")
 	private CommonDAO commonDAO;
 	
+	@Autowired
+	@Qualifier("unifiedsearchElasticDAOImpl")
+	private UnifiedsearchDAO unifiedsearchDAO;
+	
 	@Override
-	public boolean addPosting(User user, Posting posting) {
+	public boolean addPosting(User user, Posting posting) throws Exception{
 		// TODO Auto-generated method stub
 		postingDAO.addPosting(posting);
 		if(posting.getPostingTagList() != null && posting.getPostingTagList().size() != 0) {
 			tagService.addTagGroup(Const.Category.POSTING, posting.getPostingNo(), posting.getPostingTagList());
 		}
 		this.insertPostingNoIntoUploadFileList(posting);
-		commonDAO.addUploadFile(posting.getPostingFileList());
+		if(posting.getPostingFileList() != null && posting.getPostingFileList().size() != 0) {
+			commonDAO.addUploadFile(posting.getPostingFileList());
+		}
+		
+		unifiedsearchDAO.elasticInsert(posting);
 		return true;
 	}
 
@@ -58,7 +67,7 @@ public class PostingServiceImpl implements PostingService {
 	}
 
 	@Override
-	public boolean updatePosting(User user, Posting posting) {
+	public boolean updatePosting(User user, Posting posting) throws Exception{
 		// TODO Auto-generated method stub
 		postingDAO.updatePosting(posting);
 		if(posting.getPostingTagList() != null && posting.getPostingTagList().size() != 0) {
@@ -71,6 +80,8 @@ public class PostingServiceImpl implements PostingService {
 			Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.POSTING, posting.getPostingNo());
 			commonDAO.deleteUploadFile(map);
 		}
+		
+		unifiedsearchDAO.elasticInsert(posting);
 		return true;
 	}
 	

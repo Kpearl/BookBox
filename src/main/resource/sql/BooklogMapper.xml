@@ -39,6 +39,20 @@
 		</collection>
 	</resultMap>
 	
+	<resultMap id="fundingSelectMap" type="funding">
+		<result property="fundingNo" column="funding_no" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<select id="getFundingTest" parameterType="funding" resultMap="fundingSelectMap">
+		SELECT
+			funding_no, nickname AS 'creation.creationAuthor.nickname'
+		FROM
+			funding f
+			LEFT JOIN creation c ON f.creation_no = c.creation_no
+			LEFT JOIN user u ON c.author = u.email
+		WHERE
+			u.email = c.author AND f.funding_no = #{fundingNo}
+	</select>
 	
 	<update id="updateBooklog" parameterType="booklog">
 		UPDATE user
@@ -115,6 +129,12 @@
 		VALUES( #{user.email}, #{booklog.user.email} )
 	</insert>
 	
+	<delete id="deleteBookmark" parameterType="map">
+		DELETE
+		FROM bookmark
+		WHERE email = #{user.email} AND target_email = #{booklog.user.email}
+	</delete>
+	
 	<select id="getBookmark" parameterType="map" resultType="String">
 		SELECT
 			email
@@ -128,7 +148,7 @@
 		SELECT
 			num, COUNT(reg_date) daycount
 		FROM
-			( SELECT date(current_date()-(@n:=@n+1)) date, @rnum:=@rnum+1 num
+			( SELECT date(current_date()-INTERVAL (@n:=@n+1) day) date, @rnum:=@rnum+1 num
 				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
 				LIMIT 7 ) vt
 			LEFT OUTER JOIN (SELECT 
@@ -148,7 +168,7 @@
 		SELECT
 			num, COUNT(reg_date) weekcount
 		FROM
-			( SELECT week(current_date()-7*(@n:=@n+1)) week, @rnum:=@rnum+1 num
+			( SELECT week(current_date()- INTERVAL (@n:=@n+1) week) week, @rnum:=@rnum+1 num
 				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
 				LIMIT 7 ) vt
 			LEFT OUTER JOIN (SELECT 
@@ -162,6 +182,26 @@
 			week
 		ORDER BY 
 			week DESC
+	</select>
+	
+	<select id="getVisitors" parameterType="map" resultType="map">
+		SELECT
+			num, COUNT(reg_date) ${interval}count
+		FROM
+			( SELECT ${interval}(current_date()-INTERVAL (@n:=@n+1) ${interval}) ${interval}, @rnum:=@rnum+1 num
+				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
+				LIMIT 7 ) vt
+			LEFT OUTER JOIN (SELECT 
+								reg_date
+							FROM 
+								log
+							WHERE
+								category_no=4 AND target_no=#{value} AND behavior=1) lg
+						ON ${interval} = ${interval}(reg_date)
+		GROUP BY
+			${interval}
+		ORDER BY 
+			${interval} DESC
 	</select>
 	
 	

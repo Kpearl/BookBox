@@ -26,6 +26,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
 	<!-- Chart.js 설정 끝 -->
 	
+	<script src="../resources/javascript/custom.js"></script>
+	
     <style>
 	    .swiper-container {
 	        width: 100%;
@@ -42,17 +44,29 @@
 
 <script type="text/javascript">
 	var booklogUser;
+	var booklogNo;
+	var booklogName;
+
 	$(function(){
-		booklogUser = $('input[name="user.email"]').val()
+		booklogUser = $('input[name="user.email"]').val();
+		booklogNo = $('input[name="booklogNo"]').val();
+		booklogName = $('input[name="booklogName"]').val();
+		
 		$('a.posting-list').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
-		});
-		$('a.var-btn:contains("표지편집")').on('click', function(){
-			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
 		});
 		$('div.div-posting').on('click', function(){
 			var postingNo = $(this).find('input[type="hidden"]').val();
 			$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition=booklog&keyword="+booklogUser);
+		});
+		$('a.var-btn:contains("표지편집")').on('click', function(){
+			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
+		});
+		$('a.var-btn:contains("책갈피 등록")').on('click', function(){
+			fncAddBookmark($(this));
+		});
+		$('a.var-btn:contains("책갈피 삭제")').on('click', function(){
+			fncDeleteBookmark($(this));
 		});
 	});
 
@@ -116,22 +130,61 @@
 		var weeklyChart = new Chart(ctxWeekly, {
 		    type: 'bar',
 		    data: {
-		        labels: ['6주 전'
-		        			, '5주 전'
-		        			, '4주 전'
-		        			, '3주 전'
-		        			, '2주 전'
-		        			, '1주 전'
-		        			, '이번주'],
+		        labels: ['6주 전',
+		        			'5주 전',
+		        			'4주 전',
+		        			'3주 전',
+		        			'2주 전',
+		        			'1주 전',
+		        			'이번주'],
 		        datasets: [{
 		            label: '# of WeeklyVisitors',
-		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(5.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(4.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(3.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(2.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(1.0).weekcount}
-				            , ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(5.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(4.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(3.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(2.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(1.0).weekcount},
+				            ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                    //stepSize:1
+		                }
+		            }]
+		        }
+		    }
+		});
+
+		var ctxMonthly = $("#monthlyChart");
+		var monthlyChart = new Chart(ctxMonthly, {
+		    type: 'bar',
+		    data: {
+		        labels: ['4달 전',
+		        			'3달 전',
+		        			'2달 전',
+		        			'1달 전',
+		        			'이번달'],
+		        datasets: [{
+		            label: '# of MonthlyVisitors',
+		            data: [${booklog.visitorsStatistics.monthly.get(4.0).monthcount},
+				    		${booklog.visitorsStatistics.monthly.get(3.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(2.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(1.0).monthcount},
+				            ${booklog.visitorsStatistics.monthly.get(0.0).monthcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)'
@@ -160,23 +213,41 @@
 		$('#chartTab').tab('show');
     });
 	
-    function fncGetDate(day){
-		var nowDate = new Date();
-		var date = nowDate.getTime() - (day * 24 * 60 * 60 * 1000);
-		nowDate.setTime(date);
-		var year = nowDate.getFullYear();
-		var month = nowDate.getMonth() + 1;
-		var day = nowDate.getDate();
-		
-		if(month < 10){
-			month = '0' + month;
-		}
-		if(day < 10){
-			day = '0' + day;
-		}
-		
-		return year + '-' + month + '-' + day;
-	};
+	function fncAddBookmark(elmA){
+		$.ajax({
+			url : '../booklog/rest/addBookmark/'+booklogUser+'/'+booklogNo,
+			method : 'get',
+			dataType : 'json',
+			success : function(data){
+				if(data){
+					alert("'"+booklogName+"' 북로그를 책갈피에 등록하였습니다.");
+					$(elmA).html('책갈피 삭제').off('click').on('click', function(){
+						fncDeleteBookmark(elmA);
+					});
+				}else{
+					alert("잠시 후 다시 시도해 주세요..");
+				}
+			}
+		});
+	}
+	
+	function fncDeleteBookmark(elmA){
+		$.ajax({
+			url : '../booklog/rest/deleteBookmark/'+booklogUser+'/'+booklogNo,
+			method : 'get',
+			dataType : 'json',
+			success : function(data){
+				if(data){
+					alert("'"+booklogName+"' 북로그를 책갈피에서 삭제하였습니다.");
+					$(elmA).html('책갈피 등록').off('click').on('click', function(){
+						fncAddBookmark(elmA);
+					});
+				}else{
+					alert("잠시 후 다시 시도해 주세요..");
+				}
+			}
+		});
+	}
     
 </script>
 </head>
@@ -187,75 +258,81 @@
 	<!-- 여기부터 코딩 -->
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
-	<div class="container text-center">
-		<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image">
-		<!-- <img src="http://localhost:8080/BookBox/resources/upload_files/images/${booklog.booklogImage}" alt="Image"> -->
-		<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
-		<div class="col-md-offset-9 col-md-3">
-			<a class="btn btn-defalut var-btn" href="#">
+	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
+	<div class="container-fluid">
+		<div class="row text-center">
+			<img class="img-responsive center-block" src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+			<!-- <img class="img-responsive center-block" src="../resources/upload_files/images/${booklog.booklogImage}"> -->
+			<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
+			<div class="col-md-offset-9 col-md-3">
 				<c:if test="${sessionScope.user.email != null}">
-					<c:if test="${sessionScope.user.email == booklog.user.email}">
-						표지편집
-					</c:if>
-					<c:if test="${sessionScope.user.email != booklog.user.email}">
-						${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
-					</c:if>
+					<a class="btn btn-defalut var-btn" href="#">
+						<c:if test="${sessionScope.user.email == booklog.user.email}">
+							표지편집
+						</c:if>
+						<c:if test="${sessionScope.user.email != booklog.user.email}">
+							${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
+						</c:if>
+					</a>
 				</c:if>
-			</a>
+			</div>
 		</div>
 	</div>
-
 	<div class="container">
-		<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
-	    <div class="swiper-container">
-	        <div class="swiper-wrapper">
-	        	<c:set var="i" value="0"/>
-	        	<c:forEach items="${booklog.postingList}" var="posting">
-					<div class="swiper-slide div-posting" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
-						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-						포스팅명 : ${posting.postingTitle}<br/>
-		            </div>
-	        	</c:forEach>
-	        </div>
-	        <!-- Add Pagination -->
-	        <div class="swiper-pagination"></div>
-	    </div>
-	</div>
+		<div class="row">
+			<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
+		    <div class="swiper-container">
+		        <div class="swiper-wrapper">
+		        	<c:set var="i" value="0"/>
+		        	<c:forEach items="${booklog.postingList}" var="posting">
+						<div class="swiper-slide div-posting" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
+							<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+							포스팅명 : ${posting.postingTitle}<br/>
+			            </div>
+		        	</c:forEach>
+		        </div>
+		        <!-- Add Pagination -->
+		        <div class="swiper-pagination"></div>
+		    </div>
+		</div>
 	
-	<div class="container">
-		<ul class="nav nav-tabs" role="tablist" id="chartTab">
-			<li role="presentation" class="active">
-				<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
-					일간통계
-				</a>
-			</li>
-			<li role="presentation">
-				<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
-					주간통계
-				</a>
-			</li>
-			<li role="presentation">
-				<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
-					월간통계
-				</a>
-			</li>
-		</ul>
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane fade in active" id="daily">
-				<canvas id="dailyChart" width="400" height="200"></canvas>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="weekly">
-				<canvas id="weeklyChart" width="400" height="200"></canvas>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="monthly">
-				<canvas id="monthlyChart" width="400" height="200"></canvas>
+		<div class="row">
+			<ul class="nav nav-tabs" role="tablist" id="chartTab">
+				<li role="presentation" class="active">
+					<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
+						일간통계
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
+						주간통계
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
+						월간통계
+					</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane fade in active" id="daily">
+					<canvas id="dailyChart"></canvas>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="weekly">
+					<canvas id="weeklyChart"></canvas>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="monthly">
+					<canvas id="monthlyChart"></canvas>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<c:forEach items="${logList}" var="log">
-			${log.toString()}<br/>
-		</c:forEach>
+		
+		<div class="row">
+			<c:forEach items="${logList}" var="log">
+				${log.toString()}<br/>
+			</c:forEach>
+		</div>
+
 	</div>
 	
 	

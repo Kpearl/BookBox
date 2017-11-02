@@ -49,6 +49,7 @@
 		<mapper resource="sql/BooklogMapper.xml"/>
 		<mapper resource="sql/CreationMapper.xml"/>
 		<mapper resource="sql/WritingMapper.xml"/>
+		<mapper resource="sql/FundingMapper.xml"/>
 		
 		<mapper resource="sql/TagMapper.xml"/>
 		<mapper resource="sql/LogMapper.xml"/>

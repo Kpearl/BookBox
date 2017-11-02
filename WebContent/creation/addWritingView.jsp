@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<!-- 기본설정 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<!-- 기본설정 끝 -->
 
 	<!-- CKEditor 추가 -->
 	<script src="../resources/ckeditor/ckeditor.js"></script>
@@ -74,22 +74,40 @@
 					}
 				})
 			})
-	})			 
+	})		
+	
+	//=============말머리 선택시 태그에 추가=======
+	
+	$(function() {
+	
+		$('input:radio[name="creationHead"]').on('click', function() {
+				$('input.headTag').val( $('input:radio[name="creationHead"]:checked').val().trim() );
+				alert( $('input:radio[name="creationHead"]:checked').val() );
+				alert("hiddenTag = "+$('input.headTag').val());
+		})		
+	})
+		
+	
 	
 	//==============있는 작품 선택================
 		
 	$(function() {
-	
+			
 					$("select[name='creationNo']").on('change', function() {
-						var creationNo = $("select option:selected").val().trim();
+						var creationNo = $("select[name='creationNo']").find("option:selected").val().trim();
 						alert("creationNo = "+creationNo);
 						
 						if (creationNo == 0 ) {
 							$('form')[0].reset();
 							$('.inputValue').attr('disabled', false);
-							$('a.tag-add:contains("추가하기")').on('click');
+							
+							fncAddTag();
+							
 							$('.addThing').remove();
-							$('img').attr('src','');
+							$('img').attr('src','../resources/upload_files/images/noImg_2.jpg');
+							$('.glyphicon-remove').on('click',function(){
+								fncRemoveTag(num);
+							});
 							$('form[name="writingForm"]').attr('class','hidden');
 						}
 						
@@ -100,15 +118,16 @@
 						method : "get",
 						dataType : "json",
 						success : function(JSONData, status) {
-							alert(JSON.stringify(JSONData));
+							
 							//Debug...
-							alert(	$("input[name='creationIntro']").length);
+						alert(status);
 							
 							var offset = $(".inWriting").offset();
-												
+														
+							$('input[name="creationNo"]').val(JSONData.creationNo);
 							$("input[name='creationTitle']").val(JSONData.creationTitle);
 							$("textarea[name='creationIntro']").val(JSONData.creationIntro);
-							$("img").attr("src","../resources/uploadFiles/images/"+JSONData.creationFileName);
+							$("img").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
 							$("input[name='creationHead']").val(JSONData.creationHead);
 							if($("input[name='creationHead']").val()==JSONData.creationHead){
 								$("input[name='creationHead']").attr('checked','checked');
@@ -123,50 +142,59 @@
 								$('.tag-list').append(tagHtml);
 							}
 							
-							$("form:hidden").show("fast");
+							$('form[name=writingForm]').attr('class','visible').show();
 							$('.inputValue').attr('disabled','true');
 							$('a.tag-add:contains("추가하기")').off('click');
 					        $('html, body').animate({scrollTop : offset.top}, 400);
+					        $('#add-creation').html('수정하기');
+					        
+					        alert("창작글 creationNo : "+$('input[name="creationNo"]').val());
 						}
 					})
 				})
-		})			
-	
-	
-	
+		})		
+		
+	//============창작작품 수정하러가기 버튼========
+		 $(function() {
+
+				$('#add-creation:contains("수정하기")').on('click', function() {
+					self.location().attr('href','../creation/getWritingList');
+				})
+		 })
+
 	//=============창작 글 등록====================
 		var tagHtml;
 		var num;
 		var editor;
+	
 		$(function(){
 			num = 0;
+			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
+		
 			$('a.add-writing:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
-				$('textarea').val(data);
-				alert($('textarea').val());
-				$('form').attr('method','post').attr('action','../booklog/addPosting').attr('enctype','multipart/form-data').submit();
+				$('form[name="writingForm"] textarea').val(data);
+				alert($('form[name="writingForm"] textarea').val());
+				$('form[name="writingForm"]').attr('method','post').attr('action','../creation/addWriting').submit();
 			});
 			
-			$('a.tag-add:contains("추가하기")').on('click',function(){
+			fncAddTag();
+		});
+	
+		//=============태그추가====================
+		function fncAddTag(){	
+			$('a.tag-add:contains("추가하기")').on('click', function(){
 				num = num + 1;
 				tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 				$('.tag-list').append(tagHtml);
 			});
-		});
-	
-		$(function(){
-			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
-		
-		});
-	
+		}
+		//=============태그삭제====================
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
 		}
 		
-		
-		
 
-				
 	</script>
 </head>
 
@@ -204,14 +232,20 @@
 				
 				<p></p>
 				<p>작품소개</p>
-				<textarea class="inputValue" name="creationIntro" rows="50" cols="50">${creation.creationIntro }</textarea>
+				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<img src="../resources/uploadFiles/images/${creation.creationFileName }"/>
+			<c:if test="${!empty creation }">
+				<img class="img-responsive" src="../resources/upload_files/images/${creation.creationFileName }"/>
+			</c:if>
+			<c:if test="${empty creation }">
+				<img class="img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
+			</c:if>
 			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
 		
 			<div class="form-group tag-list">
 				<label>태그</label>
+				<input type="hidden" class="headTag" name="tag" id="tag">
 				<a href="#" class="btn tag-add ">추가하기</a>
 				<span># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
 							
@@ -235,12 +269,18 @@
 	  		<div class="panel-body">
 				<div class="form-group">
 					글제목 <input type="text" name="writingTitle">
+					<input type = "hidden" name="creationNo">
 				</div>
 				<div class="form-group">
-					<textarea name="writingContent" id="writingContent" rows="10" cols="80"></textarea>
+					<textarea name="writingContent" id="writingContent" rows="20" cols="80"></textarea>
+				</div>
+				
+				<div class="panel imgList">
+				이미지리스트
+				
 				</div>
 			
-				<a href="#" class="btn btn-default" id="add-writing">등록하기</a>
+				<a href="#" class="btn btn-default add-writing" id="add-writing">등록하기</a>
 			</div>
 		
 		</div>

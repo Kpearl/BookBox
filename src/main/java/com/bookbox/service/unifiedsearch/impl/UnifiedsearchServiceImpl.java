@@ -1,8 +1,11 @@
 package com.bookbox.service.unifiedsearch.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
 
 /**
@@ -10,38 +13,22 @@ import com.bookbox.service.unifiedsearch.UnifiedsearchService;
  * @brief UnifiedsearchServiceImpl
  * @detail
  * @author JJ
- * @date 2017.10.16
+ * @date 2017.11.01
  */
 
 @Service("unifiedsearchServiceImpl")
-public class UnifiedsearchServiceImpl implements UnifiedsearchService{
+public class UnifiedsearchServiceImpl implements UnifiedsearchService {
+
+	@Autowired
+	@Qualifier("unifiedsearchElasticDAOImpl")
+	private UnifiedsearchDAO unifiedsearchDAO;
 
 	public UnifiedsearchServiceImpl() {
-		System.out.println("Constructor :: "+ this.getClass().getName());
-	}
-	
-	@Override
-	public void getCommunityList(Search search) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Constructor :: " + this.getClass().getName());
 	}
 
 	@Override
-	public void getCreationList(Search search) {
-		// TODO Auto-generated method stub
-		
+	public String elasticSearch(Search search) throws Exception {
+		return unifiedsearchDAO.elasticSearch(search);
 	}
-
-	@Override
-	public void getUnifiedsearchList(Search search) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getPostingList(Search search) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

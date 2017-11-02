@@ -6,7 +6,7 @@ header{
 }
 
 body{
-	padding-top:75px;
+	padding-top:80px;
 }
 
 .navbar-nav{
@@ -83,7 +83,7 @@ nav.navbar.navbar-default{
 
 @media (min-width:768px) {
   .navbar-nav li{
-    margin-left:10px;
+    margin-left:8px;
   }
 }
 
@@ -163,4 +163,17 @@ div.container.post{
 
 div.row{
 	margin-top:10px;
+}
+
+a.btn.btn-default.nav-search{
+	background-color:rgba(255,255,255,0.5);
+	color:#000000;
+}
+
+.navbar-form .form-control{
+	color:#b6e1f9;
+}
+
+.navbar-form .form-control option{
+	color:#000000;
 }

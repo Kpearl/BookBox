@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -57,7 +58,7 @@ public class BooklogTest {
 		booklogService.updateBooklog(user, booklog);
 	}
 	
-	@Test
+//	@Test
 	public void getDailyVisitorsTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
@@ -66,5 +67,14 @@ public class BooklogTest {
 		booklog = booklogService.getBooklog(new User(), booklog);
 		System.out.println(booklog);
 		System.out.println(booklog.getVisitorsStatistics().get("daily").get(0.0).get("daycount"));
+	}
+	
+	@Test
+	public void testets() {
+		Funding funding = new Funding();
+		
+		funding.setFundingNo(1);
+		
+		System.out.println(booklogService.test(funding));
 	}
 }

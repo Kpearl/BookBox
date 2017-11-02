@@ -1,0 +1,137 @@
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 기본설정 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<!-- 기본설정 끝 -->
+
+	<!-- CKEditor 추가 -->
+	<script src="../resources/ckeditor/ckeditor.js"></script>
+		<!-- CDN Version -->
+	<!-- <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script> -->
+	<!-- CKEditor -->
+	
+	
+	<script type="text/javascript">
+	//==============창작작품 수정=================
+	
+		$('a.tag-add:contains("추가하기")').on('click',function(){
+			$('form[name="creationForm"]').attr('method','post').attr('action','../creation/updateCreation').attr('enctype','multipart/form-data');
+		})
+		
+
+	//=============말머리 선택시 태그에 추가=========
+	
+	$(function() {
+	
+		$('input:radio[name="creationHead"]').on('click', function() {
+				$('input.headTag').val( $('input:radio[name="creationHead"]:checked').val().trim() );
+				alert( $('input:radio[name="creationHead"]:checked').val() );
+				alert("hiddenTag = "+$('input.headTag').val());
+		})		
+	})
+		
+	
+	//=============창작 글 등록====================
+		var tagHtml;
+		var num;
+		var editor;
+		
+		$(function(){
+			num = 0;
+						
+			$('a.tag-add:contains("추가하기")').on('click',function(){
+				num = num + 1;
+				tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
+				$('.tag-list').append(tagHtml);
+			});
+		});
+	
+		
+	
+
+	 
+		function fncRemoveTag(num){
+			$('#tag'+num).remove();
+		}
+	 
+
+	</script>
+</head>
+
+<body>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
+	<!-- 여기부터 코딩 -->
+	
+	<div class="container">
+	
+		<!--창작작품 등록란  -->
+	<div class="panel panel-default">
+  		<div class="panel-heading">
+	     <h3>창작작품 수정</h3>
+	  </div>
+  		<div class="panel-body" >
+		<form id="creationForm" name="creationForm" >
+			<div class="form-group">
+				말머리 선택
+				<input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
+				<input class="inputValue" type="radio" name ="creationHead"  value ="논픽션" ${creation.creationHead =='논픽션' ? 'checked' : '' } >논픽션
+				<p></p>
+				<p>작품명</p>
+				<input class="inputValue" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
+				
+					<c:if test="${!empty creationList}">
+						<select class="form-control" name="creationNo" >
+							<option value="0">새작품</option>
+							<c:forEach var="creation" items="${creationList }">
+					      		<option value="${creation.creationNo }" >${creation.creationTitle }</option>
+							</c:forEach>
+					     </select>
+				     </c:if>
+				
+				<p></p>
+				<p>작품소개</p>
+				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
+			</div>
+			<p>대표이미지</p>
+			<img src="../resources/uploadFiles/images/${creation.creationFileName }"/>
+			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
+		
+			<div class="form-group tag-list">
+				<label>태그</label>
+				<input type="hidden" class="headTag" name="tag" id="tag">
+				<a href="#" class="btn tag-add ">추가하기</a>
+				<span># <input type="text" name="tag" id="tag" value="${creation.tagList[0].tagName}"></span>
+				<c:set var="num" value="0"/>
+				<c:forEach items="${creation.tagList}" var="tag" begin="1">
+					<c:set var="num" value="${num+1}"/>
+					<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
+				</c:forEach>
+				
+		
+			</div>
+				
+			<a href="#" class="btn btn-default" id="add-creation" >수정하기</a>
+	
+		
+		</form>
+		</div>
+	</div>
+	
+
+	
+</div>
+	
+	
+</body>
+</html>

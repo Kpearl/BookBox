@@ -3,40 +3,43 @@ package com.bookbox.service.unifiedsearch;
 import com.bookbox.common.domain.Search;
 
 public interface UnifiedsearchDAO {
+	/**
+	 * @file com.bookbox.service.unifiedsearch.elasticInsert.java
+	 * @brief elasticInsert
+	 * @detail Elastic Server 에 데이터 입력
+	 * @author JJ
+	 * @throws Exception 
+	 * @date 2017.11.01
+	 */
+	public void elasticInsert(Object object) throws Exception;
 
 	/**
-	 * @file com.bookbox.service.unifiedsearch.getCommunity.java
-	 * @brief getCommunity
-	 * @detail
+	 * @file com.bookbox.service.unifiedsearch.elasticUpdate.java
+	 * @brief elasticUpdate
+	 * @detail Elastic Server 에 데이터 수정
 	 * @author JJ
-	 * @date 2017.10.16
+	 * @throws Exception 
+	 * @date 2017.11.01
 	 */
-	public void getCommunity(Search search);
+	public void elasticUpdate(Object object) throws Exception;
 
 	/**
-	 * @file com.bookbox.service.unifiedsearch.getCreation.java
-	 * @brief getCreation
-	 * @detail
+	 * @file com.bookbox.service.unifiedsearch.elasticDelete.java
+	 * @brief elasticDelete
+	 * @detail Elastic Server 에 데이터 삭제
 	 * @author JJ
+	 * @throws Exception 
 	 * @date 2017.10.16
 	 */
-	public void getCreation(Search search);
+	public void elasticDelete(Object object) throws Exception;
 
 	/**
-	 * @file com.bookbox.service.unifiedsearch.getUnifiedsearchList.java
-	 * @brief getUnifiedsearchList
-	 * @detail
+	 * @file com.bookbox.service.unifiedsearch.elasticSearch.java
+	 * @brief elasticSearch
+	 * @detail Elastic Server 에 데이터 검색
 	 * @author JJ
-	 * @date 2017.10.16
+	 * @throws Exception 
+	 * @date 2017.11.01
 	 */
-	public void getUnifiedsearchList(Search search);
-
-	/**
-	 * @file com.bookbox.service.unifiedsearch.getPosting.java
-	 * @brief getPosting
-	 * @detail
-	 * @author JJ
-	 * @date 2017.10.16
-	 */
-	public void getPosting(Search search);
+	public String elasticSearch(Search search) throws Exception;
 }

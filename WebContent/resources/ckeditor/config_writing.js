@@ -14,8 +14,8 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.extraPlugins = 'filetools,uploadimage,uploadwidget,locationmap,widget,widgetselection,notificationaggregator,lineutils,notification,toolbar,clipboard';
 	
-	config.imageUploadUrl = '../booklog/rest/uploadFileDragAndDrop';
-	config.filebrowserImageUploadUrl = '../booklog/rest/uploadFile';
+//	config.imageUploadUrl = '../creation/rest/uploadFileDragAndDrop';
+	config.filebrowserImageUploadUrl = 'uploadCKEditorFile';
 //	config.filebrowserUploadUrl = '../booklog/rest/uploadFile';
 		
 	config.toolbarGroups = [

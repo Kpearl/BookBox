@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 @Repository("booklogDAOImpl")
@@ -37,8 +38,12 @@ public class BooklogDAOImpl implements BooklogDAO {
 		booklog = sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
 		Map<String, Map<Object, Map<String,Object>>> statistics = new HashMap<String, Map<Object, Map<String,Object>>>();
 		statistics.put("daily", sqlSession.selectMap("BooklogMapper.getDailyVisitors", booklog.getBooklogNo(), "num"));
-		statistics.put("weekly", sqlSession.selectMap("BooklogMapper.getWeeklyVisitors", booklog.getBooklogNo(), "num"));
-		statistics.put("monthly", null);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("value", booklog.getBooklogNo());
+		map.put("interval", "week");
+		statistics.put("weekly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
+		map.put("interval", "month");
+		statistics.put("monthly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
 		booklog.setVisitorsStatistics(statistics);
 		return booklog;
 	}
@@ -50,15 +55,15 @@ public class BooklogDAOImpl implements BooklogDAO {
 	}
 
 	@Override
-	public void addBookmark(User user, Booklog booklog) {
+	public int addBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		sqlSession.insert("BooklogMapper.addBookmark", this.mappingUserBooklog(user, booklog));
+		return sqlSession.insert("BooklogMapper.addBookmark", this.mappingUserBooklog(user, booklog));
 	}
 
 	@Override
-	public void deleteBookmark(User user, Booklog booklog) {
+	public int deleteBookmark(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		
+		return sqlSession.delete("BooklogMapper.deleteBookmark", this.mappingUserBooklog(user, booklog));
 	}
 
 	@Override
@@ -78,5 +83,11 @@ public class BooklogDAOImpl implements BooklogDAO {
 		map.put("booklog", booklog);
 		
 		return map;
+	}
+
+	@Override
+	public Funding test(Funding funding) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("BooklogMapper.getFundingTest", funding);
 	}
 }
