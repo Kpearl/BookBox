@@ -1,6 +1,9 @@
 package com.bookbox.service.domain;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.bookbox.common.domain.Tag;
 
 /**
  * @file com.bookbox.service.domain.ChatRoom.java
@@ -13,26 +16,30 @@ import java.sql.Date;
 public class ChatRoom {
 	
 	//Field
-	private int roomNo;
+	private String roomId;
 	private String title;
-	private Date regDate;
+	private String regDate;
 	private String content;
 	private int type;
 	private int maxUser;
 	private String image;
 	private User host;
+	private List<Tag> tagList;
 	
 	public ChatRoom() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getRoomNo() {
-		return roomNo;
+	
+	public String getRoomId() {
+		return roomId;
 	}
 
-	public void setRoomNo(int roomNo) {
-		this.roomNo = roomNo;
+
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
+
 
 	public String getTitle() {
 		return title;
@@ -42,11 +49,11 @@ public class ChatRoom {
 		this.title = title;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 
@@ -90,9 +97,18 @@ public class ChatRoom {
 		this.host = host;
 	}
 
+	public List getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List tagList) {
+		this.tagList = tagList;
+	}
+
+
 	@Override
 	public String toString() {
-		return "ChatRoom [roomNo=" + roomNo + ", title=" + title + ", regDate=" + regDate + ", content=" + content
-				+ ", type=" + type + ", maxUser=" + maxUser + ", image=" + image + ", host=" + host + "]";
+		return "ChatRoom [roomId=" + roomId + ", title=" + title + ", regDate=" + regDate + ", content=" + content
+				+ ", type=" + type + ", maxUser=" + maxUser + ", image=" + image + ", host=" + host + ", TagList="+ tagList+"]";
 	}
 }

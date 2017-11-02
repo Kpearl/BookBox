@@ -1,7 +1,12 @@
 package com.bookbox.web.community;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +31,10 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.User;
+
+import sun.util.resources.CalendarData;
 
 
 /**
@@ -61,7 +69,7 @@ public class CommunityController {
 	public String getCommunityMain(
 									//@RequestParam(value="condition")String Condition,
 									//@RequestParam(value="keyword")String keyword,
-									@ModelAttribute("search")Search search ,Model model) {
+									@ModelAttribute("search")Search search ,Model model) throws Exception {
 		System.out.println("[Community.getCommunityMain() start...]");
 	
 		
@@ -83,12 +91,35 @@ public class CommunityController {
 		map.put("search",search);
 		map.put("page", page);
 		
+		
 		List<Board> boardList;
 		boardList=communityServiceImpl.getBoardList(map);
 		//확인용
-		for(Board b: boardList) {
-			System.out.println(b);
+		//for(Board b: boardList) {
+		//	System.out.println(b);
+		//}
+		
+		//===========채팅방 목록조회============
+		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
+
+		for(Map.Entry<String, ChatRoom> elem: camChatMap.entrySet()) {
+			camChatList.add(elem.getValue());
 		}
+	
+		//========방송 목록조회============
+		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
+		
+		//
+		for(Map.Entry<String, ChatRoom> elem: castMap.entrySet()) {
+			castList.add(elem.getValue());
+		}
+		
+		
+		
+		
+		
+		model.addAttribute("castList",castList);
+		model.addAttribute("camChatList",camChatList);
 		model.addAttribute("boardList", boardList);
 		//
 		return "forward:mainCommunity.jsp";
@@ -102,7 +133,7 @@ public class CommunityController {
 	 */
 	
 	@RequestMapping(value="/addBoard",method=RequestMethod.GET)
-	public String addBoard() {
+	public String addBoard() throws Exception{
 		
 		return "redirect:addBoardView.jsp";
 	}
@@ -115,7 +146,7 @@ public class CommunityController {
 	 */
 	
 	@RequestMapping(value="/addBoard",method=RequestMethod.POST)
-	public String addBoard(@ModelAttribute("Board")Board board, HttpServletRequest request,HttpSession session) {
+	public String addBoard(@ModelAttribute("Board")Board board, HttpServletRequest request,HttpSession session) throws Exception {
 		
 		System.out.println(board);
 		//태그추가
@@ -147,7 +178,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/getBoard")
-	public String getBoard(@RequestParam("boardNo")int boardNo,Model model,HttpSession session) {
+	public String getBoard(@RequestParam("boardNo")int boardNo,Model model,HttpSession session) throws Exception {
 		
 		User user=(User)session.getAttribute("user");
 		//테스트용 유저정보//
@@ -163,9 +194,16 @@ public class CommunityController {
 		return "forward:getBoard.jsp";
 	}
 	
+	
+	/**
+	 * @brief getBoardList
+	 * @detail 게시글 목록 조회 
+	 * @param Search search
+	 * @return forward:listBoard.jsp
+	 */
 	@RequestMapping(value="/getBoardList")
 	public String getBoardList(@ModelAttribute("Search")Search search,
-								@ModelAttribute("Page")Page page,Model model) {
+								@ModelAttribute("Page")Page page,Model model) throws Exception{
 		
 		if(search.getKeyword()==null) {
 			search.setKeyword("");
@@ -196,7 +234,12 @@ public class CommunityController {
 		return "forward:listBoard.jsp";
 	}
 	
-	
+	/**
+	 * @brief uploadCKEditor
+	 * @detail CKEditor 이미지 업로드 
+	 * @param MultipartFile file 이미지 파일
+	 * @return forward:uploadCKEditor.jsp
+	 */
 	@RequestMapping(value="uploadCKEditor")
 	public String uploadCKEditor(HttpServletRequest request,
 									@RequestParam("upload")MultipartFile file,
@@ -225,4 +268,187 @@ public class CommunityController {
 		
 		return "forward:uploadCKEditor.jsp";
 	}
+	
+	
+	//==========================채팅방 ==================================
+	/**
+	 * @brief addChatRoom
+	 * @detail 채팅방생성으로 단순 네비게이션 
+	 * @param 
+	 * @return redirect:addChatRoom.jsp
+	 */
+	@RequestMapping(value="/addChatRoom" ,method=RequestMethod.GET)
+	public String addChatRoom() throws Exception{
+		return "redirect:addChatRoomView.jsp";
+	}
+
+	/**
+	 * @brief addChatRoom
+	 * @detail 채팅방생성 
+	 * @param 
+	 * @return redirect:addChatRoom.jsp
+	 */
+	static Map<String, ChatRoom> camChatMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());;
+	static Map<String, ChatRoom> castMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());
+	
+	@RequestMapping(value="addChatRoom" ,method=RequestMethod.POST)
+	public String addChatRoom(HttpServletRequest request,HttpSession session,
+								@ModelAttribute("ChatRoom")ChatRoom chatRoom,@RequestParam("file")MultipartFile file,
+								Model model) throws Exception{
+		
+		User user=(User)session.getAttribute("user");
+		
+		///////////////테스트 유저///////////////////////////////////
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+			user.setNickname("테스트");
+		}
+		//태그 추가
+		String []tagNames=request.getParameterValues("tagNames");
+		if(tagNames!=null) {
+		List tagList=new ArrayList<Tag>();
+			for(String tagName:tagNames) {
+				Tag tag=new Tag();
+				tag.setTagName(tagName);
+				tagList.add(tag);
+			}
+			chatRoom.setTagList(tagList);
+		}
+		//
+		//이미지업로드
+		if(file!=null) {
+			String uploadName=UUID.randomUUID().toString();
+			String originName=file.getOriginalFilename();
+			String path=request.getRealPath("resources/upload_files/images/")+uploadName;
+			File uploadFile=new File(path);
+			file.transferTo(uploadFile);
+			chatRoom.setImage("../"+path);
+		}
+		//
+		chatRoom.setHost(user);
+		chatRoom.setRoomId(UUID.randomUUID().toString());
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String regDate=format.format(new Date());
+		chatRoom.setRegDate(regDate);
+		
+		System.out.println(chatRoom);
+		
+		
+		
+		if(chatRoom.getType()==0) {
+			camChatMap.put(chatRoom.getRoomId(), chatRoom);
+			return "redirect:getCamChat?roomId="+chatRoom.getRoomId();			
+		}
+		else if(chatRoom.getType()==1) {
+			castMap.put(chatRoom.getRoomId(), chatRoom);
+			return "redirect:getCast?roomId="+chatRoom.getRoomId();
+		}
+		return "redirect:../";
+	}
+	
+	
+	/**
+	 * @brief getCamChat
+	 * @detail 화상채팅방 조회
+	 * @param String rooId
+	 * @return 
+	 */
+	@RequestMapping(value="/getCamChat")
+	public String getCamChat(@RequestParam("roomId")String roomId,HttpSession session ,Model model) throws Exception{
+		System.out.println("[getCamChat() start...]");
+		User user=(User)session.getAttribute("user");
+		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+			user.setNickname("테스트");
+		}
+		//////////////////////////////////////////////////////////////////
+		
+		//방정보 탐색
+		ChatRoom chatRoom=camChatMap.get(roomId);
+		if(chatRoom==null) {
+			System.out.println("채팅방 탐색실패");
+			return "redirect:getCommunityMain";
+		}
+		//방정보
+		model.addAttribute("chatRoom",chatRoom);
+		//유저정보
+		model.addAttribute("user",user);
+		return "forward:getCamChat.jsp";
+	}
+	
+	/**
+	 * @brief getCast
+	 * @detail 방송 조회
+	 * @param String rooId
+	 * @return 
+	 */
+	@RequestMapping(value="/getCast")
+	public String getCast(@RequestParam("roomId")String roomId,HttpSession session ,Model model) throws Exception{
+		
+		User user=(User)session.getAttribute("user");
+		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
+		if(user==null) {
+			user=new User();
+			user.setEmail("test@test.com");
+			user.setNickname("테스트");
+		}
+		//////////////////////////////////////////////////////////////////
+		
+		//방정보 탐색
+		ChatRoom chatRoom=camChatMap.get(roomId);
+		if(chatRoom==null)
+			return "redirect:getCommunityMain";
+		//방정보
+		model.addAttribute("chatRoom",chatRoom);
+		//유저정보
+		model.addAttribute("user",user);
+		return "forward:getCast.jsp";
+	}
+	
+	/**
+	 * @brief getCamChatList
+	 * @detail 화상채팅방 목록조회
+	 * @param 
+	 * @return List ChatRoom 
+	 */
+	@RequestMapping(value="/getCamChatList")
+	public String getCamChatList(Model model) throws Exception{
+		
+		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
+		
+		//
+		for(Map.Entry<String, ChatRoom> elem: camChatMap.entrySet()) {
+			camChatList.add(elem.getValue());
+		}
+		
+		model.addAttribute("camChatList",camChatList);
+		
+		return "forward:listCamChat.jsp";
+	}
+	
+	/**
+	 * @brief getCastList
+	 * @detail 방송 목록조회
+	 * @param 
+	 * @return List ChatRoom 
+	 */
+	@RequestMapping(value="/getCastList")
+	public String getCastList(Model model) throws Exception{
+		
+		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
+		
+		//
+		for(Map.Entry<String, ChatRoom> elem: castMap.entrySet()) {
+			castList.add(elem.getValue());
+		}
+		
+		model.addAttribute("castList",castList);
+		
+		return "forward:listCamChat.jsp";
+	}
+	
+	
 }

@@ -1,6 +1,8 @@
 package community;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,9 +108,16 @@ public class CommunityTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void getCommentMaxLevel() {
 		int level=communityDAOImpl.getCommentMaxLevel(10);
 		System.out.println(level);
+	}
+	
+	@Test
+	public void commonTest() {
+		Calendar calendar=Calendar.getInstance();
+		System.out.println(calendar.toString());
+		
 	}
 }

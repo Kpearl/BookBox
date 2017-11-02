@@ -15,9 +15,7 @@
 
 <!-- 
  -->
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	
 <title>Insert title here</title>
 

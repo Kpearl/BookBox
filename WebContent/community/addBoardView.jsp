@@ -13,8 +13,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="../resources/css/custom.css">
 
 	<script src="../resources/ckeditor/ckeditor.js"></script>
 <title>Insert title here</title>

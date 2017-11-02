@@ -5,12 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="../resources/css/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+  	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 	
 	<style>
    		.room_item{
@@ -72,7 +74,7 @@
 		<div class="row">
 			<!-- 생성버튼 -->
 			<div class="col-md-6 text-left">
-			<a class="btn">채팅방 생성</a><a class="btn" href="addBoard">게시글 작성</a>
+			<a class="btn" href="addChatRoom">채팅방 생성</a><a class="btn" href="addBoard">게시글 작성</a>
 			</div>
 			<!-- 생성버튼 끝 -->
 		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
@@ -95,38 +97,63 @@
 		
 		<h1>CAST</h1>
 		<hr/>
+		<c:forEach items="${castList}" var="cast">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="room_item">
-					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+					<c:if test="${empty cast.image }">
+						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+					</c:if>
+					<c:if test="${empty cast.image }">
+						<img src="${cast.image}">
+					</c:if>
 					<div class="content">
-						<p>주제:보노보노</p>
-						<p>닉네임:보노보노</p>
-						<p>소개글:보노보노보노보보노보노보노보노보보노</p>
+						<p>${cast.title}</p>
+						<p>${cast.host.nickname}</p>
+						<p>${cast.content}</p>
 						<p>인원:0/100</p>
-						<p>#보노보노</p>
+						<p>
+						<c:forEach items="cast.tagList" var="tag">
+						<span>tag.tagName</span>
+						</c:forEach>
+						</p>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		</c:forEach>
+		
 					
 		<br/>
 		<h1>CAMCHAT</h1>
 		<hr/>
+		<c:forEach items="${camChatList}" var="camChat">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="room_item">
-					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+					<c:if test="${empty camChat.image }">
+						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+					</c:if>
+					<c:if test="${empty camChat.image }">
+						<img src="${cast.image}">
+					</c:if>
 					<div class="content">
-						<p>주제:보노보노</p>
-						<p>닉네임:보노보노</p>
-						<p>소개글:보노보노보노보보노보노보노보노보보노노보노보노보노보노보노보노보노</p>
-						<p>인원:1/10</p>
-						<p>#보노보노</p>
+						<p>${camChat.title}</p>
+						<p>${camChat.host.nickname}</p>
+						<p>${camChat.content}</p>
+						<p>인원:0/100</p>
+						<p>
+						<c:forEach items="camChat.tagList" var="tag">
+						<span>tag.tagName</span>
+						</c:forEach>
+						</p>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	
+		</c:forEach>
+		
 		
 		<br/>
 		<h1>BOARD</h1>
