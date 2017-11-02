@@ -26,7 +26,7 @@
 				<result property="email" column="posting_email"/>
 				<result property="nickname" column="posting_nickname"/>
 			</association>
-			<collection property="postingFileList" ofType="String" column="upload_no" select="selectPostingFileList"/>
+			<collection property="postingFileList" ofType="uploadFile" column="{targetNo=posting_no}" select="selectPostingFileList"/>
 			<collection property="postingLocationList" ofType="location" column="location_no">
 				<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
 				<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
@@ -39,19 +39,13 @@
 		</collection>
 	</resultMap>
 	
-	<resultMap id="fundingSelectMap" type="funding">
-		<result property="fundingNo" column="funding_no" jdbcType="NUMERIC"/>
-	</resultMap>
-	
-	<select id="getFundingTest" parameterType="funding" resultMap="fundingSelectMap">
+	<select id="selectPostingFileList" parameterType="map" resultMap="CommonMapper.uploadFileSelectMap">
 		SELECT
-			funding_no, nickname AS 'creation.creationAuthor.nickname'
+			file_name, origin_name
 		FROM
-			funding f
-			LEFT JOIN creation c ON f.creation_no = c.creation_no
-			LEFT JOIN user u ON c.author = u.email
+			upload_file
 		WHERE
-			u.email = c.author AND f.funding_no = #{fundingNo}
+			category_no = 5 AND target_no = #{targetNo} AND main_file = 1
 	</select>
 	
 	<update id="updateBooklog" parameterType="booklog">
@@ -96,7 +90,7 @@
 	
 	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">
 		SELECT
-			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no, @rnum:=@rnum+1
+			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no, @rnum:=@rnum+1, '5' posting_no
 		FROM
 			user u
 			<if test="condition == 'main'">
@@ -163,27 +157,7 @@
 		ORDER BY 
 			date DESC
 	</select>
-	
-	<select id="getWeeklyVisitors" parameterType="int" resultType="map">
-		SELECT
-			num, COUNT(reg_date) weekcount
-		FROM
-			( SELECT week(current_date()- INTERVAL (@n:=@n+1) week) week, @rnum:=@rnum+1 num
-				FROM codes, (SELECT @n:=-1) tmp, (SELECT @rnum:=-1) tmp2
-				LIMIT 7 ) vt
-			LEFT OUTER JOIN (SELECT 
-								reg_date
-							FROM 
-								log
-							WHERE
-								category_no=4 AND target_no=#{value} AND behavior=1) lg
-						ON week = week(reg_date)
-		GROUP BY
-			week
-		ORDER BY 
-			week DESC
-	</select>
-	
+		
 	<select id="getVisitors" parameterType="map" resultType="map">
 		SELECT
 			num, COUNT(reg_date) ${interval}count
@@ -204,6 +178,29 @@
 			${interval} DESC
 	</select>
 	
+	<select id="getTagStatistics" parameterType="map" resultType="map">
+		SELECT
+			vt.tag_name, vt.count, @rnum:=@rnum+1 num
+		FROM
+			(SELECT @rnum:=-1) tmp,
+			(SELECT 
+				t.tag_name, count(t.tag_name) count
+			FROM
+				tag t
+				LEFT JOIN tag_group tg ON t.tag_no = tg.tag_no
+				LEFT JOIN log l ON tg.category_no = l.category_no AND tg.target_no = l.target_no
+			WHERE
+				l.email = #{email}
+				and l.behavior in (1,2,4)
+			GROUP BY 
+				t.tag_name
+			ORDER BY 
+				count DESC
+			LIMIT
+				0, 10) vt
+		ORDER BY 
+			vt.count DESC
+	</select>
 	
 
 	<sql id="tagWiring">

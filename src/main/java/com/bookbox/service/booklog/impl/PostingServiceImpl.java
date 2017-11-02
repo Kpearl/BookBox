@@ -67,7 +67,19 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	public List<Posting> getPostingList(Search search) {
 		// TODO Auto-generated method stub
-		return postingDAO.getPostingList(search);
+		List<Posting> postingList = postingDAO.getPostingList(search); 
+		for(Posting posting : postingList) {
+			StringBuffer content = new StringBuffer();
+			for(String seq : posting.getPostingContent().split("<")) {
+				if(seq.indexOf(">") != -1) {
+					content.append(seq.substring(seq.indexOf(">")+1));
+				}else {
+					content.append(seq);
+				}
+			}
+			posting.setPostingContent(content.toString());
+		}
+		return postingList;
 	}
 
 	@Override

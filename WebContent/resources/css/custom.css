@@ -177,3 +177,7 @@ a.btn.btn-default.nav-search{
 .navbar-form .form-control option{
 	color:#000000;
 }
+
+span.tag{
+	margin-right:14px;
+}

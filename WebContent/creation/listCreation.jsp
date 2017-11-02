@@ -14,7 +14,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 
-	
+	<!-- 평점 별 css -->
+	<link rel="stylesheet" href="../resources/css/star.css">
 	
 	<style>
     .swiper-container {
@@ -46,36 +47,40 @@
 
     <script>
     
-  //============= 창작글리스트 조회 Navigation Event  처리 =============	
    $(function() {
+  //============= 창작글리스트 조회 Navigation Event  처리 =============	
 	  $("a.creationTitle").on("click" , function() {
    		$(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr("id"));
    	
    	}); 
- });  
            
    //============= 검색 Event  처리 =============	
-   $(function() {
 	  $("a.creationSearch").on("click" , function() {
    		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
    	
    	}); 
- });         
    
  //============= 창작글쓰기 Navigation Event  처리 =============	
-   $(function() {
 	  $("a.addWriting").on("click" , function() {
 		  $(self.location).attr("href","../creation/addWriting");
    	
    	}); 
- });       
     
    //============= 펀딩등록하기 Navigation Event  처리 =============	
-   $(function() {
 	  $("a.addfunding").on("click" , function() {
 		  $(self.location).attr("href","../creation/addFunding");
    	
    	}); 
+   
+	//이미지 불러오기 실패시 기본 이미지 출력
+	$('img.creation-img').on('error', function(){
+		console.log("에러");
+		$(this).attr('src', '../resources/images/creation_noimage.jpg');
+	});
+	
+	$('.creation-row:nth-child(2n)').find('.col-md-5').addClass('col-md-push-7');
+	$('.creation-row:nth-child(2n)').find('.col-md-7').addClass('col-md-pull-5');
+
  });
     </script>
 		
@@ -120,44 +125,41 @@
 		</div>
       	  
 	<h3>창작리스트</h3>
+
 	<div class="row">
-        
-		<div class="activity" style="width:100%; ">
-			<c:forEach var="creation" items="${creationList}" >
-					<div class="activity-list-update div-creation">
-					
-					<input type ="text" name="creationNo" value="${creation.creationNo }"/>
-					<img src="../resources/upload_files/images/${creation.creationFileName }" alt="Image" width="100px" height="80px">
-					<p>펀딩여부</p>
-					<p><a  class="creationTitle" id="${creation.creationNo }">${creation.creationTitle }</a></p>
-					<p>${creation.creationAuthor.nickname }</p>
-						<c:forEach var="tag" items="${creation.tagList }">	
-							<span>#${tag.tagName }</span>
-						</c:forEach>
-				
-					
-					<!-- 별점 -->
-						<div id="starWrap" class="star<%-- ${book.grade.average} --%>">
-							<ul>
-								<li class="s1"></li>
-								<li class="s2"></li>
-								<li class="s3"></li>
-								<li class="s4"></li>
-								<li class="s5"></li>
-							</ul>
-						</div>
-					<!-- 별점끝 -->	
-					<div class="clear"></div>
+		<c:forEach var="creation" items="${creationList}" >
+		<div class="row creation-row">
+			<%-- <input type ="text" name="creationNo" value="${creation.creationNo }"/> --%>
+			<div class="col-md-5">
+				<img class="img-responsive creation-img" src="../resources/upload_files/images/${creation.creationFileName}" alt="Image">
+				<!-- <img class="img-responsive creation-img" src="../resources/images/creation_noimage.jpg" alt="Image"> -->
+				<p>펀딩여부</p>
+			</div>
+			<div class="col-md-7">
+				<p><a  class="creationTitle" id="${creation.creationNo }">${creation.creationTitle }</a></p>
+				<p>${creation.creationAuthor.nickname }</p>
+					<c:forEach var="tag" items="${creation.tagList }">	
+						<span>#${tag.tagName }</span>
+					</c:forEach>
+						
+				<!-- 별점 -->
+				<div id="starWrap" class="star5<%-- ${book.grade.average} --%>">
+					<ul>
+						<li class="s1"></li>
+						<li class="s2"></li>
+						<li class="s3"></li>
+						<li class="s4"></li>
+						<li class="s5"></li>
+					</ul>
 				</div>
-			</c:forEach>
+				<!-- 별점끝 -->	
+			</div>
 		</div>        
+		</c:forEach>
+	</div>
 		
-		<hr>
         	
-   	</div>
-   		
 </div>
-   
 
 </body>
 </html>

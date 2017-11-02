@@ -44,6 +44,8 @@ public class BooklogDAOImpl implements BooklogDAO {
 		statistics.put("weekly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
 		map.put("interval", "month");
 		statistics.put("monthly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
+		map.put("email", booklog.getUser().getEmail());
+		statistics.put("tag", sqlSession.selectMap("BooklogMapper.getTagStatistics", map, "num"));
 		booklog.setVisitorsStatistics(statistics);
 		return booklog;
 	}

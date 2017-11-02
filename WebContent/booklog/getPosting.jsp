@@ -67,7 +67,7 @@
 	<div class="container">
 		${posting.postingContent} <br/><br/>
 		<c:forEach items="${posting.postingTagList}" var="tag" >
-			#${tag.tagName} 
+			<span class="tag"># ${tag.tagName}</span> 
 		</c:forEach>
 	</div>
 	<div class="container">

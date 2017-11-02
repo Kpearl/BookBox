@@ -12,7 +12,25 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
-
+	
+	<style>
+		span.posting-content{
+			text-overflow:ellipsis;
+			white-space:normal;
+			word-wrap:normal;
+			overflow:hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 4; /* 라인수 */
+			-webkit-box-orient: vertical;
+			word-wrap:break-word; 
+			line-height: 1.2em;
+			height: 4.8em;
+  		}
+  		img.posting-img{
+  			opacity:0.8;
+  		}
+	</style>
+	
 	<script type="text/javascript">
 		$(function(){
 			$('a.posting-add:contains("포스팅 등록")').on('click',function(){
@@ -24,6 +42,11 @@
 				var condition = $('input[name="condition"]').val();
 				var keyword = $('input[name="keyword"]').val();
 				$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition="+condition+"&keyword="+keyword);
+			});
+			
+			//이미지 불러오기 실패시 기본 이미지 출력
+			$('img.posting-img').on('error', function(){
+				$(this).attr('src', '../resources/images/noimage.jpeg');
 			});
 		});
 	</script>
@@ -41,15 +64,23 @@
 		<c:if test="${!empty sessionScope.user}">
 			<a class="btn posting-add" href="#">포스팅 등록</a><br/>
 		</c:if>
-		<div class="row">
-			<c:forEach items="${postingList}" var="posting">
-			<div class="activity-list-update div-posting">
-				<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-				<img src="../resources/upload_files/images/${empty posting.postingFileList? '../../images/noimage.jpeg':posting.postingFileList[0].fileName}" alt="Image" width="100px" height="80px">
-				<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.</p>
+
+		<c:forEach items="${postingList}" var="posting">
+		<div class="row div-posting">
+			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+			<div class="col-xs-4 col-md-4 text-center">
+				<img class="img-responsive posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
 			</div>
-			</c:forEach>
+			<div class="col-xs-8 col-md-8">
+				<h3><strong>${posting.postingTitle}</strong></h3>
+				<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
+				<span class="posting-content">${posting.postingContent}</span>
+				<c:forEach items="${posting.postingTagList}" var="tag">
+					<span class="tag"># ${tag.tagName}</span>
+				</c:forEach>
+			</div>
 		</div>
+		</c:forEach>
 	</div>
 
 </body>

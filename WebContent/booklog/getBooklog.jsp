@@ -15,10 +15,11 @@
 	<!-- 기본설정 끝 -->
 
 	<!-- Swiper 설정 -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.min.css">
 	 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.min.js"></script>
 	<!-- Swiper 설정 끝 -->
 
 	<!-- Chart.js 설정 -->
@@ -31,14 +32,13 @@
     <style>
 	    .swiper-container {
 	        width: 100%;
+	        height: 400px;
 	        padding-top: 50px;
 	        padding-bottom: 50px;
 	    }
 	    .swiper-slide {
 	        background-position: center;
 	        background-size: cover;
-	        width: 300px;
-	        height: 300px;
 	    }
     </style>
 
@@ -78,6 +78,10 @@
             pagination: {
             	el: '.swiper-pagination',
             	clickable: true
+            },
+            navigation: {
+            	nextEl: '.swiper-button-next',
+              	prevEl: '.swiper-button-next'
             },
             loop: false
         });
@@ -207,6 +211,45 @@
 		        }
 		    }
 		});
+		
+		var ctxTag = $('#tagChart');
+		var tagChart = new Chart(ctxTag, {
+			type: 'bubble',
+			data: {
+				datasets: [{
+					label: 'Tag Dataset',
+					data: [
+						{x: 15,y: 15,r: ${booklog.visitorsStatistics.tag.get(0.0).count}},
+						{x: 14,y: 15,r: ${booklog.visitorsStatistics.tag.get(1.0).count}},
+						{x: 14,y: 14,r: ${booklog.visitorsStatistics.tag.get(2.0).count}},
+						{x: 15,y: 14,r: ${booklog.visitorsStatistics.tag.get(3.0).count}},
+						{x: 16,y: 14,r: ${booklog.visitorsStatistics.tag.get(4.0).count}},
+						{x: 16,y: 15,r: ${booklog.visitorsStatistics.tag.get(5.0).count}},
+						{x: 16,y: 16,r: ${booklog.visitorsStatistics.tag.get(6.0).count}},
+						{x: 15,y: 16,r: ${booklog.visitorsStatistics.tag.get(7.0).count}},
+						{x: 14,y: 16,r: ${booklog.visitorsStatistics.tag.get(8.0).count}},
+						{x: 13,y: 15,r: ${booklog.visitorsStatistics.tag.get(9.0).count}}
+					],
+					backgroundColor: 'rgb(255, 99, 132)'
+				}]
+			},
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    //beginAtZero:true
+		                    stepSize:1
+		                }
+		            }],
+		            xAxes: [{
+		                ticks: {
+		                    //beginAtZero:true
+		                    stepSize:1
+		                }
+		            }]
+		        }
+		    }
+		});
 
 		
 		/* tab 설정 */
@@ -283,16 +326,19 @@
 			<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
 		    <div class="swiper-container">
 		        <div class="swiper-wrapper">
-		        	<c:set var="i" value="0"/>
-		        	<c:forEach items="${booklog.postingList}" var="posting">
-						<div class="swiper-slide div-posting" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
-							<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-							포스팅명 : ${posting.postingTitle}<br/>
-			            </div>
-		        	</c:forEach>
+	        	<c:set var="i" value="0"/>
+	        	<c:forEach items="${booklog.postingList}" var="posting">
+	        		<div class="swiper-slide div-posting" style="background-image:url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/noimage.jpeg'})">
+						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+						<p>포스팅명 : ${posting.postingTitle}</p>
+	        		</div>
+	        	</c:forEach>
 		        </div>
 		        <!-- Add Pagination -->
-		        <div class="swiper-pagination"></div>
+		        <div class="swiper-pagination swiper-pagination-black"></div>
+		        <!-- Add Arrows -->
+		        <div class="swiper-button-next swiper-button-white"></div>
+		        <div class="swiper-button-prev swiper-button-white "></div>
 		    </div>
 		</div>
 	
@@ -325,6 +371,10 @@
 					<canvas id="monthlyChart"></canvas>
 				</div>
 			</div>
+		</div>
+		
+		<div class="row">
+			<canvas id="tagChart"></canvas>
 		</div>
 		
 		<div class="row">
