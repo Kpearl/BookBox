@@ -26,20 +26,39 @@
 		var tagHtml;
 		var num;
 		var editor;
-
+	
 		$(function(){
 			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
-		});
-		
-		$(function(){
 			num = 0;
+		
 			$('a.update-writing').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
 				$('form[name="updateForm"] textarea').val(data);
 				alert($('form[name="updateForm"] textarea').val());
 				$("form[name='updateForm']").attr('method','post').attr('action','../creation/updateWriting').submit();
 			});
+		});	
+				
+		$(function(){	
+			$(".removeImg").on("click",function(){
+			
+					var content=CKEDITOR.instances.writingContent.getData();
+					//alert(content);
+					var contentObj=$("<div>"+content+"</div>");
+					var src=$(this).attr("id");
+				//	alert(temp.html());
+					contentObj.find("img[src*='"+src+"']").remove();
+					alert(src);
+				//	alert($("textarea[name='boardContent']",parent.document).find("img[src='resources']").attr("src"));
+				//	$("textarea[name='boardContent']",parent.document).find("img[src*='"+src+"']").remove();
+					
+					//다른곳에서 쓸때는 에디터 접근 이름변경
+					CKEDITOR.instances.writingContent.setData(contentObj.html());
+					$(this).parent("div").remove();	
+					
+			});
 		});
+		
 
 </script>
 
@@ -52,6 +71,7 @@
 
 	<!-- 말머리 -->
 	<div class="container">
+		<form id="updateForm" name="updateForm">
 		<div class="panel">
 			<h2>${creation.creationHead }</h2>
 			<br>
@@ -95,12 +115,12 @@
 		
 		<div class="inWriting" id="inWriting">
 		<!--창작글 등록란  -->
-		<form id="updateForm" name="updateForm">
 			<div class="panel panel-default">
 		  		 <div class="panel-body">
 					<div class="form-group">
 						글제목 <input type="text" name="writingTitle" value="${writing.writingTitle }">
 						<input type = "hidden" name="writingNo" value="${writing.writingNo }">
+						<input type = "hidden" name="active" value="${writing.active }">
 					</div>
 					<div class="form-group">
 						<textarea name="writingContent" id="writingContent" rows="20" cols="80">
@@ -109,13 +129,21 @@
 					
 					<div class="panel imgList">
 					이미지리스트
+					<c:forEach var ="uploadFile" items="${writing.writingFileList }">
+					<div id="${uploadFile.fileName}">
+						<input type="hidden" name="writingFileName"   value="${uploadFile.fileName}" readonly>
+						<input type="hidden" name="writingOriginName"    value="${uploadFile.originName}" readonly>
+						<span>${uploadFile.originName}</span>
+						<a class='btn removeImg' id="${uploadFile.fileName}">x</a>
+					</div>		
+					</c:forEach>
 					
 					</div>
 				</div>
 			
 			</div>
-		</form>
 	</div>
+		</form>
 		
 		<div class="row ">
 			<div class="col-md-12 text-right">

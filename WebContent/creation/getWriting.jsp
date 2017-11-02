@@ -19,7 +19,6 @@
 //=====================창작글 수정하기 EVENT=================
 $(function() {
 	$('#update-writing').on('click',function() {
-		alert("수정버튼?");
 		$(self.location).attr("href","../creation/updateWriting?writingNo="+$('input[name="writingNo"]').val()+"&creationNo="+$('input[name="creationNo"]').val());
 	})	
 })
@@ -278,6 +277,7 @@ function deleteLike(targetNo) {
 					<h5>창작글 제목 : ${writing.writingTitle }</h5>
 				<div class="col-md-12 text-right">
 					<p>창작글 등록일 :${writing.regDate }</p>
+					<p>창작글 수정일 :${writing.updateDate }</p>
 				</div>
 			</div>
 			<div class="panel panel-defalt">

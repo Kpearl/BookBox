@@ -215,16 +215,16 @@ div.row.writing-border{
             	</c:if>
             </div>
             <div class="col-md-7">
-                <h4>${creation.creationTitle}</h4>
-                <h5>${creation.creationAuthor.nickname}</h5>
-                <p>${creation.creationIntro}</p>
+                <h4>창작작품명 : ${creation.creationTitle}</h4>
+                <h5>작성자 : ${creation.creationAuthor.nickname}</h5>
+                <p>소개글 : ${creation.creationIntro}</p>
+        <div class="row">
+            <div class="col-xs-12 ">
+           	<c:forEach items="${creation.tagList}" var="tag">
+           		<span class="tag">#${tag.tagName}</span>
+           	</c:forEach>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-11 col-xs-offset-1">
-           	<c:forEach items="${creation.tagList}" var="tag">
-           		<span class="tag"># Text</span>
-           	</c:forEach>
             </div>
         </div>
         <div class="row">
@@ -232,11 +232,6 @@ div.row.writing-border{
             <c:if test="${creation.doFunding}">
                 <div class="btn-group" role="group">
                     <a class="btn btn-default getFunding" type="button">펀딩 보러 가기</a>
-                </div>
-            </c:if>
-            <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
-                <div class="btn-group" role="group">
-                    <a class="btn btn-default updateCreation" type="button">수정하기</a>
                 </div>
             </c:if>
                 <div class="btn-group" role="group" style="float:right">
@@ -255,9 +250,14 @@ div.row.writing-border{
                 </div>
             </div>
             <div class="col-md-12">
-				<p>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></p>
-				<p>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></p>
+				<p>좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></p>
+				<p>평균 평점 : <span id="gradeAvg">${grade.average}</span></p>
             </div>
+            <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-default updateCreation" type="button">수정하기</a>
+                </div>
+            </c:if>
         </div>
     </div>
     

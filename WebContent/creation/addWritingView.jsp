@@ -49,8 +49,7 @@
 				 for(i=0; i< $('input[name="tag"]').length; i++){
 					 formData.append('tag' , $($('input[name="tag"]')[i]).val());
 				 }
-				 alert("입력된 값은 "+formData.getAll('tag'));
-				
+				 				
 				 /////////ajax 적용/////////
 				$.ajax({
 					url : "rest/addCreation/",
@@ -173,6 +172,11 @@
 		
 			$('a.add-writing:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
+				
+				if($('input[name="writingTitle"]').val() == null){
+					alert("글제목을 입력해 주세요.");
+				}
+				
 				$('form[name="writingForm"] textarea').val(data);
 				alert($('form[name="writingForm"] textarea').val());
 				$('form[name="writingForm"]').attr('method','post').attr('action','../creation/addWriting').submit();

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,8 +8,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	
 	<script type="text/javascript">
-		window.parent.CKEDITOR.tools.callFunction(${CKEditorFuncNum},"${url}","Upload Success!");
-		
+		window.parent.CKEDITOR.tools.callFunction("${CKEditorFuncNum}","${url}","Upload Success!");
 		var imgObj=$("<div>"+
 						"<input type='hidden' name='writingFileName' value='${fileName}' readonly>"+ //hidden 처리
 						"<input type='hidden' name='writingOriginName' value='${originName}' readonly>"+ //hidden 처리
@@ -37,7 +36,7 @@
 					imgObj.remove();
 			});
 			alert(imgObj.html());
-		//	alert(imgObj.find(".removeImg").html());
+			alert(imgObj.find(".removeImg").html());
 		
 		//	var content=window.parent.CKEDITOR.instances.boardContent.getData();
 		//alert(content);
