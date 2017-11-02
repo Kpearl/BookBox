@@ -316,14 +316,20 @@ public class CommunityController {
 			chatRoom.setTagList(tagList);
 		}
 		//
+
 		//이미지업로드
-		if(file!=null) {
-			String uploadName=UUID.randomUUID().toString();
+		if(!file.isEmpty()) {
 			String originName=file.getOriginalFilename();
-			String path=request.getRealPath("resources/upload_files/images/")+uploadName;
-			File uploadFile=new File(path);
+			int beginIndex=originName.lastIndexOf(".");
+			int endIndex=originName.length();
+			
+			String uploadName=UUID.randomUUID().toString()+originName.substring(beginIndex, endIndex);
+			
+			String path=request.getRealPath("resources/upload_files/images");
+			File uploadFile=new File(path+"/"+uploadName);
+			//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+uploadFile.getPath());
 			file.transferTo(uploadFile);
-			chatRoom.setImage("../"+path);
+			chatRoom.setImage("../resources/upload_files/images/"+uploadName);
 		}
 		//
 		chatRoom.setHost(user);
@@ -398,9 +404,11 @@ public class CommunityController {
 		//////////////////////////////////////////////////////////////////
 		
 		//방정보 탐색
-		ChatRoom chatRoom=camChatMap.get(roomId);
-		if(chatRoom==null)
+		ChatRoom chatRoom=castMap.get(roomId);
+		if(chatRoom==null) {
+			System.out.println("채팅방 탐색실패");
 			return "redirect:getCommunityMain";
+		}
 		//방정보
 		model.addAttribute("chatRoom",chatRoom);
 		//유저정보

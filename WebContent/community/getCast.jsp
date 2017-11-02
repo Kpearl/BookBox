@@ -1,30 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <title>WebRTC Scalable Broadcast using RTCMultiConnection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+ 	
+ 	<!-- RTC -->
+ 	<script src="../resources/javascript/community/RTCMultiConnection.min.js"></script>
+	<script src="../resources/javascript/community/socket.io.js"></script>
+ 	
+ 	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+  	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
 
 <body>
- 
+ 	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
+ <!--  비출력 정보 -->
+ 	<div class="container">
+	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
+	 <input type="hidden" id="nickname" value="${user.nickname }">
+	 
+	 <!--  방정보 출력 -->
+	 <div class="roomInfo">
+	 		<div class="input-group">
+	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
+			 <input type="text" name="title" class="form-control" value="${chatRoom.title}" placeholder="Title" aria-describedby="title-addon" disabled/>
+			</div>
+			
+			<div class="input-group">
+	 			<span class="input-group-addon" id="content-addon">방 내용</span>
+				<textarea  name="content" class="form-control" placeholder="Title" aria-describedby="content-addon">${chatRoom.content }</textarea>
+			</div>
+			<div class="input-group">
+	 		 <span class="input-group-addon" id="title-addon">최대인원</span>
+			 <input type="text" name="maxUser" value="${chatRoom.maxUser}" class="form-control" placeholder="Title" aria-describedby="title-addon"/>
+			</div>
+			<div id="tagNames">
+				<c:forEach items="${chatRoom.tagList}" var="tag">
+				<span>${tag.tagName }</span>
+				</c:forEach>
+			</div>
+	</div>
+	 <!--  방정보 끝 -->
 
-  <section class="make-center">
-      <div class="make-center">
+   
+      <!-- 
       <input type="text" id="broadcast-id" value="room-xyz" autocorrect=off autocapitalize=off size=20>
       <button id="open-or-join">Open or Join Broadcast</button>
-
+		
       <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-      <div class="make-center" id="broadcast-viewers-counter"></div>
+       -->
+	<div class="row">
+		<div class="col-md-6 video-container">
+	      <div class="make-center" id="broadcast-viewers-counter"></div>
+	      <video id="video-preview" controls loop></video>
+		</div>
+		<div class="col-md-6 chat-container">
+		
+		</div>
+	</div>
 
-      <video id="video-preview" controls loop></video>
-  </section>
-	<h1></h1>
-<script src="../resources/javascript/community/RTCMultiConnection.min.js"></script>
-<script src="../resources/javascript/community/socket.io.js"></script>
+	<h1 style="display: none;"></h1>
+</div>
 <!-- <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script> -->
 <script>
 // recording is disabled because it is resulting for browser-crash
@@ -44,9 +90,11 @@ connection.maxRelayLimitPerUser = 1;
 connection.autoCloseEntireSession = true;
 
 // by default, socket.io server is assumed to be deployed on your own URL
-//로컬 테스트 
-//	connection.socketURL = 'https://127.0.0.1:9001/';
+
+	//학원테스트
 	connection.socketURL = 'https://192.168.0.21:433/';
+	//집에서 테스트
+	//connection.socketURL = 'https://192.168.219.167:433/';
 // comment-out below line if you do not have your own socket.io server
 // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
@@ -193,6 +241,7 @@ connection.onstream = function(event) {
 // ask node.js server to look for a broadcast
 // if broadcast is available, simply join it. i.e. "join-broadcaster" event should be emitted.
 // if broadcast is absent, simply create it. i.e. "start-broadcasting" event should be fired.
+/*
 document.getElementById('open-or-join').onclick = function() {
     var broadcastId = document.getElementById('broadcast-id').value;
     if (broadcastId.replace(/^\s+|\s+$/g, '').length <= 0) {
@@ -226,7 +275,7 @@ document.getElementById('open-or-join').onclick = function() {
         });
     });
 };
-
+*/
 connection.onstreamended = function() {};
 
 connection.onleave = function(event) {
@@ -296,60 +345,8 @@ function disableInputButtons() {
     document.getElementById('broadcast-id').disabled = true;
 }
 
-// ......................................................
-// ......................Handling broadcast-id................
-// ......................................................
 
-function showRoomURL(broadcastId) {
-    var roomHashURL = '#' + broadcastId;
-    var roomQueryStringURL = '?broadcastId=' + broadcastId;
-
-    var html = '<h2>Unique URL for your room:</h2><br>';
-
-    html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
-    html += '<br>';
-    html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
-
-    var roomURLsDiv = document.getElementById('room-urls');
-    roomURLsDiv.innerHTML = html;
-
-    roomURLsDiv.style.display = 'block';
-}
-
-(function() {
-    var params = {},
-        r = /([^&=]+)=?([^&]*)/g;
-
-    function d(s) {
-        return decodeURIComponent(s.replace(/\+/g, ' '));
-    }
-    var match, search = window.location.search;
-    while (match = r.exec(search.substring(1)))
-        params[d(match[1])] = d(match[2]);
-    window.params = params;
-})();
-
-var broadcastId = '';
-if (localStorage.getItem(connection.socketMessageEvent)) {
-    broadcastId = localStorage.getItem(connection.socketMessageEvent);
-} else {
-    broadcastId = connection.token();
-}
-document.getElementById('broadcast-id').value = broadcastId;
-document.getElementById('broadcast-id').onkeyup = function() {
-    localStorage.setItem(connection.socketMessageEvent, this.value);
-};
-
-var hashString = location.hash.replace('#', '');
-if (hashString.length && hashString.indexOf('comment-') == 0) {
-    hashString = '';
-}
-
-var broadcastId = params.broadcastId;
-if (!broadcastId && hashString.length) {
-    broadcastId = hashString;
-}
-
+/*
 if (broadcastId && broadcastId.length) {
     document.getElementById('broadcast-id').value = broadcastId;
     localStorage.setItem(connection.socketMessageEvent, broadcastId);
@@ -368,7 +365,7 @@ if (broadcastId && broadcastId.length) {
 
     disableInputButtons();
 }
-
+*/
 // below section detects how many users are viewing your broadcast
 
 connection.onNumberOfBroadcastViewersUpdated = function(event) {
@@ -376,9 +373,42 @@ connection.onNumberOfBroadcastViewersUpdated = function(event) {
 
     document.getElementById('broadcast-viewers-counter').innerHTML = 'Number of broadcast viewers: <b>' + event.numberOfBroadcastViewers + '</b>';
 };
+
+
+//자동연결
+setTimeout(function(){           
+	
+	  var broadcastId = $("#roomId").val();
+
+	    connection.session = {
+	        audio: true,
+	        video: true,
+	        oneway: true
+	    };
+
+	    var socket = connection.getSocket();
+
+	    socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
+	        if (!isBroadcastExists) {
+	            // the first person (i.e. real-broadcaster) MUST set his user-id
+	            connection.userid = broadcastId;
+	        }
+
+	        console.log('check-broadcast-presence', broadcastId, isBroadcastExists);
+
+	        socket.emit('join-broadcast', {
+	            broadcastId: broadcastId,
+	            userid: connection.userid,
+	            typeOfStreams: connection.session
+	        });
+	    });
+	
+	
+},2000);
+
+
+
 </script>
 
-
-  <script src="https://cdn.webrtc-experiment.com/common.js"></script>
 </body>
 </html>

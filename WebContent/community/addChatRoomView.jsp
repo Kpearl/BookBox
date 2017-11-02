@@ -54,7 +54,7 @@
 		
 		//submit 버튼 이벤트 등록
 		$(".submit").on("click",function(){
-			alert("submit");
+		//	alert("submit");
 			$("form").submit();
 		});
 		

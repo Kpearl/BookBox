@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
 <body>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
 
 </body>
 </html>

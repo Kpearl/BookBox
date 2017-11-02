@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
@@ -21,6 +21,7 @@
    		}
    		.room_item .content{
    			background-color: #444;
+   			height: 200px;
    		}
    		.room_item img{
    			height: 150px;
@@ -29,6 +30,7 @@
    			text-overflow:ellipsis;
    			width: 100%;
    			margin: 0;
+   			
    		}
    		
    		.board_item img{
@@ -48,7 +50,14 @@
     </style>
     
     <script type="text/javascript">
-    	
+    //채팅방 상세보기 이벤트
+    $(function(){
+    	$(".room_item").on("click",function(){
+    		//alert($("input",this).val())
+    		self.location=$("input",this).val();
+    	});
+    });
+    
     $(function(){
     	//게시판 상세보기 이벤트	
     	$(".board_item").on("click",function(){
@@ -97,62 +106,66 @@
 		
 		<h1>CAST</h1>
 		<hr/>
-		<c:forEach items="${castList}" var="cast">
 		<div class="row">
-			<div class="col-md-3">
-				<div class="room_item">
-					<c:if test="${empty cast.image }">
-						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
-					</c:if>
-					<c:if test="${empty cast.image }">
-						<img src="${cast.image}">
-					</c:if>
-					<div class="content">
-						<p>${cast.title}</p>
-						<p>${cast.host.nickname}</p>
-						<p>${cast.content}</p>
-						<p>인원:0/100</p>
-						<p>
-						<c:forEach items="cast.tagList" var="tag">
-						<span>tag.tagName</span>
-						</c:forEach>
-						</p>
+			<c:forEach items="${castList}" var="cast">
+				<div class="col-md-3">
+					<div class="room_item">
+						<input type="hidden" value="getCast?roomId=${cast.roomId}">
+						<div class="image text-center">
+							<c:if test="${empty cast.image }">
+								<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+							</c:if>
+							<c:if test="${!empty cast.image }">
+								<img src="${cast.image}">
+							</c:if>
+						</div>
+						<div class="content">
+							<p>${cast.title}</p>
+							<p>${cast.host.nickname}</p>
+							<p>${cast.content}</p>
+							<p>인원:0/${ cast.maxUser }</p>
+							<p>
+							<c:forEach items="${cast.tagList}" var="tag">
+								<span>#${tag.tagName}</span>
+							</c:forEach>
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			</c:forEach>
 		</div>
-		
-		</c:forEach>
-		
 					
 		<br/>
 		<h1>CAMCHAT</h1>
 		<hr/>
-		<c:forEach items="${camChatList}" var="camChat">
 		<div class="row">
+		<c:forEach items="${camChatList}" var="camChat">
 			<div class="col-md-3">
 				<div class="room_item">
-					<c:if test="${empty camChat.image }">
-						<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
-					</c:if>
-					<c:if test="${empty camChat.image }">
-						<img src="${cast.image}">
-					</c:if>
+					<input type="hidden" value="getCamChat?roomId=${camChat.roomId}">
+					<div class="image text-center">
+						<c:if test="${empty camChat.image }">
+							<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
+						</c:if>
+						<c:if test="${!empty camChat.image }">
+							<img src="${camChat.image}">
+						</c:if>
+					</div>
 					<div class="content">
 						<p>${camChat.title}</p>
 						<p>${camChat.host.nickname}</p>
 						<p>${camChat.content}</p>
-						<p>인원:0/100</p>
+						<p>인원:0/${ camChat.maxUser }</p>
 						<p>
-						<c:forEach items="camChat.tagList" var="tag">
-						<span>tag.tagName</span>
+						<c:forEach items="${camChat.tagList}" var="tag">
+							<span>#${tag.tagName}</span>
 						</c:forEach>
 						</p>
 					</div>
 				</div>
 			</div>
-		</div>	
 		</c:forEach>
+		</div>	
 		
 		
 		<br/>
