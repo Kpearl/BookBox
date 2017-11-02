@@ -37,6 +37,10 @@ public class PostingServiceImpl implements PostingService {
 	@Autowired
 	@Qualifier("unifiedsearchElasticDAOImpl")
 	private UnifiedsearchDAO unifiedsearchDAO;
+
+	public PostingServiceImpl() {
+		System.out.println("Constructor :: "+this.getClass().getName());
+	}
 	
 	@Override
 	public boolean addPosting(User user, Posting posting) throws Exception{

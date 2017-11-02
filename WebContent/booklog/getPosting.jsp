@@ -18,8 +18,8 @@
     		padding-top:0px;
     	}
     	header{
-    		background:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609) no-repeat center;
-    		/* background:url(../resources/upload_files/images/${posting.postingFileList[0]}) no-repeat center; */
+    		/* background:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609) no-repeat center; */
+    		background:url(../resources/upload_files/images/${empty mainFile? '../../images/noimage.jpeg':mainFile.fileName}) no-repeat center;
     	}
     	.parallax { 
 		    background-attachment: fixed;
@@ -33,6 +33,7 @@
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			keyword = $('input[name="keyword"]').val();
+			
 			$('a.posting-list:contains("포스팅 목록")').on('click',function(){
 				$(self.location).attr('href','../booklog/getPostingList?condition='+condition+'&keyword='+keyword);
 			});
@@ -40,18 +41,27 @@
 				$(self.location).attr('href','../booklog/updatePosting?postingNo='+$('input[name="postingNo"]').val());
 			});
 		});
+		
+		$(window).scroll(function(){
+			var max = $(document).height() - $(window).height();
+			if(max < 500){
+				max = 500;
+			}
+			$('header').css('opacity', (max - $(window).scrollTop())/max);
+		});
 	</script>
 </head>
 <body>
-	<header class="parallax">
-		<jsp:include page="../layout/toolbar.jsp" >
-			<jsp:param value="../" name="uri"/>
-		</jsp:include>
-	</header>
+	<header class="parallax"></header>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
+	
 	<!-- 여기부터 코딩 -->
 	<div class="container text-center">
 		<input type="hidden" name="postingNo" value="${posting.postingNo}">
-		<br/><mark>${posting.postingTitle}</mark>, <em>by ${posting.user.nickname}</em>, 조회수 : ${posting.viewCount}
+		<p><mark>${posting.postingTitle}</mark>, <em>by ${posting.user.nickname}</em>, 조회수 : ${posting.viewCount}</p>
+		<p>${posting.postingRegDate}</p>
 	</div>
 	
 	<div class="container">

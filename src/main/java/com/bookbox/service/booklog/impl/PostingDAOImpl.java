@@ -20,6 +20,10 @@ public class PostingDAOImpl implements PostingDAO {
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+	
+	public PostingDAOImpl() {
+		System.out.println("Constructor :: "+this.getClass().getName());
+	}
 
 	@Override
 	public boolean addPosting(Posting posting) {

@@ -1,9 +1,11 @@
 package com.bookbox.web.booklog;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -53,10 +55,6 @@ public class BooklogController {
 	@Autowired
 	@Qualifier("logServiceImpl")
 	private LogService logService;
-	
-//	@Autowired
-//	@Qualifier("bookServiceImpl")
-//	private BookService bookService;
 	
 	@Autowired
 	@Qualifier("tagServiceImpl")
@@ -116,7 +114,8 @@ public class BooklogController {
 	
 	@RequestMapping( value="addPosting", method=RequestMethod.POST )
 	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
-													HttpServletResponse response, HttpSession session) throws Exception{
+													HttpServletResponse response, HttpSession session,
+													@RequestParam(value="mainFile") MultipartFile multipartFile) throws Exception{
 
 		User user = this.getUser(session);
 		String[] tagArray = request.getParameterValues("tag");
@@ -139,6 +138,17 @@ public class BooklogController {
 				response.addCookie(cookie);
 			}
 		}
+		
+		if(!multipartFile.isEmpty()) {
+			String originName = multipartFile.getOriginalFilename();
+			String fileName = UUID.randomUUID().toString() + originName.substring(originName.lastIndexOf('.'));
+			String fileURL = request.getServletContext().getRealPath("/resources/upload_files/images/");
+			multipartFile.transferTo(new File(fileURL, fileName));
+			
+			UploadFile mainFile = new UploadFile(fileName, originName);
+			mainFile.setMainFile(1);
+			postingFileList.add(mainFile);
+		}
 
 		posting.setPostingTagList(tagList);
 		posting.setUser(user);
@@ -154,8 +164,18 @@ public class BooklogController {
 							@ModelAttribute("search")Search search,
 							Model model, HttpSession session) {
 		User user = this.getUser(session);
-		model.addAttribute("posting", postingService.getPosting(user, posting));
-		model.addAttribute("search", search);	
+		posting = postingService.getPosting(user, posting);
+		UploadFile mainFile = null;
+		for(UploadFile uploadFile : posting.getPostingFileList()) {
+			if(uploadFile.getMainFile() == 1) {
+				mainFile = uploadFile;
+				System.out.println(mainFile);
+			}
+		}
+
+		model.addAttribute("posting", posting);
+		model.addAttribute("search", search);
+		model.addAttribute("mainFile", mainFile);
 		return "forward:../booklog/getPosting.jsp";
 	}
 
@@ -229,14 +249,6 @@ public class BooklogController {
 		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
 		
 		return "redirect:../booklog/getBooklog?booklogNo="+booklog.getBooklogNo();
-	}
-	
-	public String getLogList() {
-		return null;
-	}
-	
-	public String getSubscribeList() {
-		return null;
 	}
 	
 	

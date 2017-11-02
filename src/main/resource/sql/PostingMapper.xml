@@ -27,6 +27,21 @@
 		<collection property="postingTagList" ofType="tag" column="{categoryNo=category_no,targetNo=posting_no}" select="TagMapper.getTagGroupList"/>
 	</resultMap>
 	
+	<resultMap id="postingListMap" type="posting">
+		<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
+		<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
+		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
+		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
+		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<result property="viewCount" column="count" jdbcType="INTEGER"/>
+		<association property="user" javaType="user">
+			<result property="email" column="email"/>
+			<result property="nickname" column="nickname"/>
+		</association>
+		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="getMainFile"/>
+		<collection property="postingTagList" ofType="tag" column="{categoryNo=category_no,targetNo=posting_no}" select="TagMapper.getTagGroupList"/>
+	</resultMap>
+	
 
 
 	<insert id="addPosting" parameterType="posting" useGeneratedKeys="true" keyProperty="postingNo">
@@ -77,7 +92,7 @@
 			AND p.active = 1
 	</select>
 	
-	<select id="getPostingList" parameterType="search" resultMap="postingSelectMap">
+	<select id="getPostingList" parameterType="search" resultMap="postingListMap">
 		<!-- SELECT 
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
@@ -120,6 +135,15 @@
 			</if>
 			p.posting_no DESC
 		LIMIT 0, 10
+	</select>
+	
+	<select id="getMainFile" parameterType="map" resultMap="CommonMapper.uploadFileSelectMap">
+		SELECT
+			file_name, origin_name
+		FROM
+			upload_file
+		WHERE
+			category_no = #{categoryNo} AND target_no = #{targetNo} AND main_file = 1
 	</select>
 	
 	<update id="updatePosting" parameterType="posting">

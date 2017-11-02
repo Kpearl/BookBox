@@ -44,6 +44,10 @@ public class BooklogRestController {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
+	
+	public BooklogRestController() {
+		System.out.println("Constructor :: "+this.getClass().getName());
+	}
 
 	@RequestMapping( value="uploadFile", method=RequestMethod.POST )
 	public void uploadFile(@RequestParam("upload")MultipartFile file, 
@@ -55,7 +59,7 @@ public class BooklogRestController {
 		if(file != null) {
 		
 			String originName = file.getOriginalFilename();
-			String fileName = UUID.randomUUID().toString();
+			String fileName = UUID.randomUUID().toString() + originName.substring(originName.lastIndexOf('.'));
 			String fileURL = request.getServletContext().getRealPath("/resources/upload_files/images/");
 			String callbackURL = new StringBuilder()
 								.append("<script type='text/javascript'>")
@@ -96,7 +100,7 @@ public class BooklogRestController {
 		if(file != null) {
 		
 			String originName = file.getOriginalFilename();
-			String fileName = UUID.randomUUID().toString();
+			String fileName = UUID.randomUUID().toString() + originName.substring(originName.lastIndexOf('.'));
 			String fileURL = request.getServletContext().getRealPath("/resources/upload_files/images/");
 			file.transferTo(new File(fileURL, fileName));
 			

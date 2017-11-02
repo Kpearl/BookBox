@@ -39,15 +39,14 @@
 		<input type="hidden" name="condition" value="${search.condition}">
 		<input type="hidden" name="keyword" value="${search.keyword}">
 		<c:if test="${!empty sessionScope.user}">
-			<a class="btn btn-default posting-add" href="#">포스팅 등록</a><br/>
+			<a class="btn posting-add" href="#">포스팅 등록</a><br/>
 		</c:if>
-		<div class="activity" style="width:100%;">
+		<div class="row">
 			<c:forEach items="${postingList}" var="posting">
 			<div class="activity-list-update div-posting">
 				<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-				<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
+				<img src="../resources/upload_files/images/${empty posting.postingFileList? '../../images/noimage.jpeg':posting.postingFileList[0].fileName}" alt="Image" width="100px" height="80px">
 				<p><strong>${posting.postingTitle}</strong><a href="#"> by.${posting.user.nickname}</a>.</p>
-				<div class="clear"></div>
 			</div>
 			</c:forEach>
 		</div>

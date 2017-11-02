@@ -4,13 +4,11 @@
 
 <script type="text/javascript">
 
-//============= 창작공간 Navigation Event  처리 =============	
 $(function() {
+//============= 창작공간 Navigation Event  처리 =============	
 	$("a.nav-creation").on("click" , function() {
 		$(self.location).attr("href","${param.uri}creation/getCreationMain");
-		//self.location = "/user/logout"
 	}); 
-
 
 //============= 소모임 Navigation Event  처리 =============	
  	$("a.nav-community").on("click" , function() {
@@ -43,12 +41,10 @@ $(function() {
 		//self.location = "/user/logout"
 	}); 
 		
-		
 //============= 내정보조회 Event  처리 =============	
   	$("a.nav-userinfo").on("click" , function() {
  		$(self.location).attr("href","${param.uri}user/getUser?email=${sessionScope.user.email}");
 	}); 
-
 
 //============= 내북로그보기 Event  처리 =============	
   	$("a.nav-booklog-my").on("click" , function() {
@@ -129,7 +125,19 @@ function searchCheck(){
             <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
         </div>
         <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav navbar-left">
+        	<!-- sm용 dropdown menu -->
+            <ul class="nav navbar-nav navbar-left hidden-xs hidden-md hidden-lg">
+	            <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">More.. <span class="caret"></span></a>
+	                <ul class="dropdown-menu" role="menu">
+		                <li role="presentation"><a class="nav-creation" href="#">창작공간 </a></li>
+		                <li role="presentation"><a class="nav-community" href="#">소모임 </a></li>
+		                <li role="presentation"><a class="nav-booklog" href="#">북로그</a></li>
+		                <li role="presentation"><a class="nav-notice" href="#">공지사항</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	        
+            <ul class="nav navbar-nav navbar-left hidden-sm">
                 <li role="presentation"><a class="nav-creation" href="#">창작공간 </a></li>
                 <li role="presentation"><a class="nav-community" href="#">소모임 </a></li>
                 <li role="presentation"><a class="nav-booklog" href="#">북로그</a></li>
@@ -146,7 +154,7 @@ function searchCheck(){
                 </c:otherwise>
             </c:choose>
             <c:if test="${!empty sessionScope.user}">
-                <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">More.. <span class="caret"></span></a>
+                <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">${sessionScope.user.nickname} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation"><a class="nav-booklog-my" href="#">내 북로그보기</a></li>
                         <li role="presentation"><a class="nav-subscribe" href="#">구독한글보기</a></li>
