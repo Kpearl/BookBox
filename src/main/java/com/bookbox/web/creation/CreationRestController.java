@@ -134,7 +134,9 @@ public class CreationRestController {
 		Creation creation = new ObjectMapper().readValue(json.toString(), Creation.class);
 		System.out.println("restController :: addCreation :: creation ::"+creation);
 		
-		UploadFile uploadFile = creationService.saveFile(multipartFile, uploadDirResource);
+		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+		
+		UploadFile uploadFile = creationService.saveFile(multipartFile, path);
 		creation.setCreationFileName(uploadFile.getFileName());
 		creation.setCreationOriginName(uploadFile.getOriginName());
 		

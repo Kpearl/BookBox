@@ -3,7 +3,6 @@ package com.bookbox.service.creation;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.UploadFile;
@@ -90,6 +89,5 @@ public interface CreationService {
 	 * @throws Exception
 	 * @return UploadFile
 	 */
-	public UploadFile saveFile(MultipartFile multipartFile,
-														FileSystemResource uploadDirResource) throws Exception;
+	public UploadFile saveFile(MultipartFile multipartFile, String path) throws Exception;
 }

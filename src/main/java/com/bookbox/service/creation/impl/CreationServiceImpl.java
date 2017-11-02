@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -181,22 +180,21 @@ public class CreationServiceImpl implements CreationService {
 	 * @throws Exception
 	 * @return UploadFile
 	 */
-	public UploadFile saveFile(MultipartFile multipartFile,
-														FileSystemResource uploadDirResource) throws Exception{
+	public UploadFile saveFile(MultipartFile multipartFile, String path) throws Exception{
 		
 		UploadFile uploadFile = new UploadFile();
 		
-		
-		String path = uploadDirResource.getPath();
 		String originName = multipartFile.getOriginalFilename();
 		String fileName = UUID.randomUUID().toString()
 																		+originName.substring(originName.lastIndexOf("."));
 		//System.out.println(fileName);
-		File  target = new File(path+fileName);
+		File  target = new File(path,fileName);
 		multipartFile.transferTo(target);
 		
 		uploadFile.setFileName(fileName);
 		uploadFile.setOriginName(originName);
+		
+		System.out.println("target :: "+target);
 
 		return uploadFile;
 	}

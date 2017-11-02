@@ -86,7 +86,7 @@ public class WritingServiceImpl implements WritingService {
 		List<UploadFile> uploadFileList = writing.getWritingFileList();
 		
 		for(UploadFile uploadFile : uploadFileList) {
-			uploadFile.setCategoryNo(Const.Category.CREATION);
+			uploadFile.setCategoryNo(Const.Category.WRITING);
 			uploadFile.setTargetNo(writing.getWritingNo());
 		}
 		

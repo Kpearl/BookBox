@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
@@ -174,14 +173,16 @@ public class CreationController {
 		int CKEditorFuncNum=Integer.parseInt(request.getParameter("CKEditorFuncNum"));
 		System.out.println("Creation Controller :: uploadCKEditorFile 확인 :: "+CKEditorFuncNum);
 		
-		UploadFile uploadFile = creationService.saveFile(file, uploadDirResource);
+		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+		
+		UploadFile uploadFile = creationService.saveFile(file, path);
 				
 		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
 		model.addAttribute("url", "../resources/upload_files/images/"+uploadFile.getFileName());
 		model.addAttribute("fileName",uploadFile.getFileName());
 		model.addAttribute("originName",uploadFile.getOriginName());
 		
-		System.out.println("Creation Controller :: /creation/uploadCKEditorFile ===> END");
+		System.out.println("Creation Controller :: /creation/uploadCKEditorFile ===> END\n");
 				
 		return "forward:uploadWritingCKEditor.jsp";
 	}
@@ -267,7 +268,7 @@ public class CreationController {
 															HttpServletRequest request,
 														HttpSession session, Model model) throws Exception{
 		// TODO updateWriting
-		System.out.println("CreationController :: /creation/updateWriting : POST ===> START\n\n");
+		System.out.println("CreationController :: /creation/updateWriting : POST ===> START\n");
 		//Business Logic
 		
 		User user= (User)session.getAttribute("user");
@@ -281,20 +282,11 @@ public class CreationController {
 		} 
 		writing.setWritingFileList(uplodFileList);		
 		
-				
 		writingService.updateWriting(user, writing);
-		Creation creation = new Creation();
-		creation.setCreationNo(writing.getCreationNo());
-		creation = creationService.getCreation(creation);
-		
-		model.addAttribute("writing", writing);
-		model.addAttribute("creation", creation);
-		model.addAttribute("seach", new Search());
-		model.addAttribute("page", new Page());
-		
+
 		System.out.println("CreationController :: /creation/updateWriting : POST ===> END\n\n");
 		
-		return  "redirect:getWritingList";
+		return  "redirect:getWritingList?creationNo="+writing.getCreationNo();
 	}
 	
 	/**
@@ -309,7 +301,7 @@ public class CreationController {
 													HttpSession session,
 													Model model ) throws Exception {
 		// TODO getWriting
-		System.out.println("CreationController :: /creation/getWriting : GET ===> START");
+		System.out.println("CreationController :: /creation/getWriting : GET ===> START\n");
 
 		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		//Business Logic
@@ -325,7 +317,7 @@ public class CreationController {
 		model.addAttribute("writing", writing);
 		model.addAttribute("creation", creation);
 		
-		System.out.println("CreationController :: /creation/getWriting : GET ===> END\n");
+		System.out.println("CreationController :: /creation/getWriting : GET ===> END\n\n");
 		
 		return "forward:getWriting.jsp";
 	}	
