@@ -72,12 +72,12 @@ public class CreationDAOImpl implements CreationDAO {
 		return sqlSession.selectList("CreationMapper.getCreationList", user);
 	}
 	
-	public void addCreationSubscribe(Map<String, Object> map) throws Exception{
-		sqlSession.insert("CreationMapper.addCreationSubscibe", map);
+	public void doCreationSubscribe(Map<String, Object> map) throws Exception{
+		sqlSession.insert("CreationMapper.doCreationSubscribe", map);
 	}
 	
 	public void deleteCreationSubscribe(Map<String, Object> map) throws Exception{
-		sqlSession.delete("CreationMapper.deleteCreationSubscibe", map);
+		sqlSession.delete("CreationMapper.deleteCreationSubscribe", map);
 	}
 	
 }

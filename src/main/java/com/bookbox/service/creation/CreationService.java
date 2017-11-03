@@ -64,7 +64,7 @@ public interface CreationService {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void addCreationSubscribe(User user,Creation creation) throws Exception;
+	public boolean doCreationSubscribe(User user,Creation creation) throws Exception;
 
 	/**
 	 * @brief 작품구독취소 

@@ -111,11 +111,10 @@
 				
 		
 			</div>
-				
-			<a href="#" class="btn btn-default update-creation"  id="update-creation">수정하기</a>
-			<a href="#" class="btn btn-default delete-creation"  id="delete-creation">삭제하기</a>
-	
-		
+			<div class="text-right">
+				<a href="#" class="btn btn-default update-creation"  id="update-creation">수정하기</a>
+				<a href="#" class="btn btn-default delete-creation"  id="delete-creation">삭제하기</a>
+			</div>
 		</form>
 		</div>
 	</div>

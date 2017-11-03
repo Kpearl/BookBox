@@ -137,18 +137,44 @@ div.row.writing-border{
    $(function() {
 	   $("a.doSubscription").on("click" , function() {
 		   
+		   if (${empty sessionScope.user }) {
+			alert("로그인 후 이용가능합니다.");
+			$(self.location).attr("href","../user/login");
+		}else{
+		   
 		   $.ajax ({
-			   url : "rest/doCreationSubscribe",
-	    		method : "POST",
-	    		data : {"targetNo" : targetNo},
-	    		success:function(){
-	    			$("#addLike").replaceWith("<button id='deleteLike' onclick='deleteLike(${targetNo});'>좋아요취소</button>");
-	    			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
-	    		 }); 
-   
-		   }
-	   }
-   })
+			   url : "rest/doCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
+	    		method : "get",
+	    		dataType : "json",
+	    		success: function(JSONData, status){
+	    			$("a.doSubscription").replaceWith("<a style='background-color:rgba(232, 138, 138, 0.44);' class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
+	    		 }  
+		   });
+		}
+	   });
+   });
+ 
+   //========================구독신청 취소=======================
+   $(function() {
+	   $("a.doSubscription").on("click" , function() {
+		   
+		   if (${empty sessionScope.user }) {
+			alert("로그인 후 이용가능합니다.");
+			$(self.location).attr("href","../user/login");
+		}else{
+		   
+		   $.ajax ({
+			   url : "rest/deleteCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
+	    		method : "get",
+	    		dataType : "json",
+	    		success: function(JSONData, status){
+	    			$("a.doSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독 하기</a>");
+	    		 }  
+		   });
+		}
+	   });
+   });
+	   
     
 
 
@@ -199,10 +225,12 @@ div.row.writing-border{
     <div class="container">
 		<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
-			<div class="col-md-6 text-left">
-				<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
-				<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
-			</div>
+			<c:if test="${!empty sessionScope.user }">
+				<div class="col-md-6 text-left">
+					<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
+					<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
+				</div>
+			</c:if>
 				<!-- 생성버튼 끝 -->
 			 	
 		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
@@ -259,7 +287,7 @@ div.row.writing-border{
             </c:if>
                 <div class="btn-group" role="group" style="float:right">
                 <c:if test="${creation.doSubscription}">
-                    <a class="btn btn-default cancelSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독 취소</a>
+                    <a class="btn btn-default cancelSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a>
                 </c:if>
                 <c:if test="${!creation.doSubscription}">
                     <a class="btn btn-default doSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독 하기</a>

@@ -72,7 +72,7 @@ public interface CreationDAO {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void addCreationSubscribe(Map<String, Object> map) throws Exception;
+	public void doCreationSubscribe(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 작품구독취소 

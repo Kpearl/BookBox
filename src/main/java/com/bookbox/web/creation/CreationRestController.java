@@ -71,10 +71,18 @@ public class CreationRestController {
 	 * @return 
 	 */	
 	@RequestMapping(value="doCreationSubscribe", method=RequestMethod.GET )
-	public void doCreationSubscribe(@RequestBody Creation creation,
+	public boolean doCreationSubscribe(@RequestParam("creationNo") int creationNo,
 																		HttpSession session) throws Exception {
+		System.out.println("CreationRestController :: /creation/rest/doCreationSubscribe : GET ===> START\n");
 		
-		creationService.addCreationSubscribe((User)session.getAttribute("user"), creation);
+		Creation creation = new Creation();
+		creation.setCreationNo(creationNo);
+		creation = creationService.getCreation(creation);
+		creationService.doCreationSubscribe((User)session.getAttribute("user"), creation);
+
+		System.out.println("CreationRestController :: /creation/rest/doCreationSubscribe : GET ===> END\n\n");
+		
+		return creationService.doCreationSubscribe((User)session.getAttribute("user"), creation);
 	}
 	
 	/**

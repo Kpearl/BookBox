@@ -61,7 +61,7 @@
 					success : function(JSONData, status) {
 
 						//Debug...
-						alert(status);
+						//alert(status);
 						
 						var offset = $(".inWriting").offset();
 				        $('html, body').animate({scrollTop : offset.top}, 400);
@@ -82,8 +82,8 @@
 	
 		$('input:radio[name="creationHead"]').on('click', function() {
 				$('input.headTag').val( $('input:radio[name="creationHead"]:checked').val().trim() );
-				alert( $('input:radio[name="creationHead"]:checked').val() );
-				alert("hiddenTag = "+$('input.headTag').val());
+				//alert( $('input:radio[name="creationHead"]:checked').val() );
+				//alert("hiddenTag = "+$('input.headTag').val());
 		})		
 	})
 		
@@ -95,7 +95,7 @@
 			
 					$("select[name='creationNo']").on('change', function() {
 						var creationNo = $("select[name='creationNo']").find("option:selected").val().trim();
-						alert("creationNo = "+creationNo);
+						//alert("creationNo = "+creationNo);
 						
 						if (creationNo == 0 ) {
 							$('.inputValue').attr('disabled', false);
@@ -253,7 +253,7 @@
 				<input type="hidden" class="headTag" name="tag" id="tag">
 				<a href="#" class="btn tag-add ">추가하기</a>
 				<span class="hidden"># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
-							
+				<span ># <input class="inputValue" type="text" name="tag" id="tag"  ></span>			
 			</div>
 		
 		<%-- <c:if test="${creationList != null }"> --%>	

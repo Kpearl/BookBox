@@ -24,6 +24,7 @@ import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
+import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 
 /**
  * @file com.bookbox.service.creation.impl.CreationServieceImpl.java
@@ -54,6 +55,9 @@ public class CreationServiceImpl implements CreationService {
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
 	
+	@Autowired
+	@Qualifier("unifiedsearchElasticDAOImpl")
+	private UnifiedsearchDAO unifiedsearchElasticDAO;
 	
 	/**
 	 * @brief Constructor
@@ -72,7 +76,7 @@ public class CreationServiceImpl implements CreationService {
 		
 		creationDAO.addCreation(creation);		
 		tagService.addTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
-		
+		unifiedsearchElasticDAO.elasticInsert(creation);
 	}
 	
 	/**
@@ -85,6 +89,7 @@ public class CreationServiceImpl implements CreationService {
 		
 		creationDAO.updateCreation(creation);
 		tagService.updateTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
+		unifiedsearchElasticDAO.elasticInsert(creation);
 	}
 	
 	@Override
@@ -132,14 +137,16 @@ public class CreationServiceImpl implements CreationService {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void addCreationSubscribe(User user, Creation creation) throws Exception{
+	public boolean doCreationSubscribe(User user, Creation creation) throws Exception{
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("email", user.getEmail());
 		map.put("creationNo", creation.getCreationNo());
 		
 		creation.setDoSubscription(true);
-		creationDAO.addCreationSubscribe(map);
+		creationDAO.doCreationSubscribe(map);
+
+		return true; 
 	}
 	
 	/**
@@ -176,8 +183,7 @@ public class CreationServiceImpl implements CreationService {
 		}
 		
 		creationDAO.updateCreation(creation);
-
-		
+		unifiedsearchElasticDAO.elasticInsert(creation);		
 		
 		return 1;
 	}

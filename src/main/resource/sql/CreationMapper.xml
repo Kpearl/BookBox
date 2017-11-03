@@ -91,7 +91,7 @@
 	 </update>
 	 
 	 	<!-- SQL : INSERTCreationSubscribe -->
-	<insert 	id="addCreationSubscribe"		parameterType="map" >
+	<insert 	id="doCreationSubscribe"		parameterType="map" >
 	 	INSERT
 		INTO subscribe (creation_no, email) 
 		VALUES	 (#{creationNo},  #{email})
