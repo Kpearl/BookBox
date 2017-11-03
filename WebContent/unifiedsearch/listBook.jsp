@@ -11,6 +11,9 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<link rel="stylesheet" href="../resources/css/star.css">
+	
+
 <style>
 body{
 	padding-top:0px;
@@ -22,38 +25,6 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
-
-#starWrap.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star2 .s1, #starWrap.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
-	{
-	background-position: 0 -15px;
-}
-
-#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
-	#starWrap.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-#starWrap ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-	display: inline-block;
-}
-
 </style>
 
 <script>
@@ -61,8 +32,8 @@ function getBook(isbn) {
 	$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
 }
 </script>
-
 </head>
+
 <body>
 	<header class="parallax"></header>
 

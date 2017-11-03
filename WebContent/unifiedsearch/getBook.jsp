@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="../resources/css/custom.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<!-- 기본설정 끝 -->
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="../resources/css/star.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
     <script src="../resources/daumeditor/js/utils.js"></script>
-	<!-- 기본설정 끝 -->
 	
 <style type="text/css">
 body{
@@ -25,83 +26,6 @@ header{
 .parallax { 
     background-attachment: fixed;
     background-size: cover;
-}
-
-/* 별점 주는 css */
-/* 마우스오버 */
-#starWrap ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrap ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrap.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star2 .s1, #starWrap.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
-	{
-	background-position: 0 -15px;
-}
-
-#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
-	#starWrap.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-/* 마우스클릭 */
-#starWrapClick ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrapClick ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-	display: inline-block;
-}
-
-#starWrapClick.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star2 .s1, #starWrapClick.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star3 .s1, #starWrapClick.star3 .s2, #starWrapClick.star3 .s3
-	{
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star4 .s1, #starWrapClick.star4 .s2, #starWrapClick.star4 .s3,
-	#starWrapClick.star4 .s4 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star5 .s1, #starWrapClick.star5 .s2, #starWrapClick.star5 .s3,
-	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
-	background-position: 0 -15px;
 }
 
 canvas {
@@ -194,8 +118,8 @@ function addReply(isbn) {
 			method : "POST",
 			data : {"content" : content, "isbn" : isbn},
 			success:function(){
-				$("p").prepend("${user.nickname} : " + content + " / " + date + "<br><hr>");
-                document.getElementById("content").value = "";
+				$("#restReply").prepend("<div class='col-xs-10 col-xs-offset-0 col-xs-pull-0'><div class='col-xs-1 col-xs-offset-1'><p><strong>${user.nickname}</strong></p></div><div class='col-xs-7'> : "+content+"</div><div class='col-xs-2 col-xs-offset-0'><span class='text-muted'>"+date+"</span></div></div>");
+				document.getElementById("content").value = "";
 			} 
 		});
 	}		
@@ -210,7 +134,7 @@ function addLike(isbn) {
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$("#addLike").replaceWith("<button id='deleteLike' onclick='deleteLike(${book.isbn});'>좋아요취소</button>");
+			$("#addLike").replaceWith("<span class='btn-primary success btn-lg' disabled='disabled' id='deleteLike' onclick='deleteLike(${book.isbn});'>Like Cancel</span>");
 			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
 		 } 
 	});
@@ -227,7 +151,7 @@ function deleteLike(isbn) {
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$("#deleteLike").replaceWith("<button id='addLike' onclick='addLike(${book.isbn});'>좋아요</button>");
+			$("#deleteLike").replaceWith("<span class='btn-primary success btn-lg' disabled='disabled' id='addLike' onclick='addLike(${book.isbn});'>Like</span>");
 		 	$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
  		} 
 	});
@@ -283,8 +207,14 @@ $(function() {
 		<div class="row" id="{book.isbn}">
             <div class="col-lg-10 col-md-offset-1 post-title">
                 <h1>${book.title}</h1>
-                <p class="author"><strong>${book.authors} | ${book.translators} | ${book.publisher} | ${book.price}원</strong> 
-                <span class="text-muted">${book.datetime}</span></p>
+                <p class="author"><strong>
+                	<c:forEach items="${book.authors}" var="str" varStatus="status">
+		   				${str} | </c:forEach>
+   					<c:forEach items="${book.translators}" var="str" varStatus="status">
+               	 		${str} |
+   					</c:forEach> ${book.publisher} | ${book.price}원</strong> 
+                	<span class="text-muted">${book.datetime}</span>
+                </p>
             </div>
             <div class="col-lg-2 col-lg-offset-1 col-md-3 col-md-offset-1col-xs-12">
            		<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="400px" width="300px" onerror="this.src='../resources/images/noimage.jpg'">
@@ -309,10 +239,10 @@ $(function() {
 					<c:when test="${user.email == null}">
 					</c:when>
 					<c:when test="${book.like.doLike == false}">
-						<button class="btn btn-primary success btn-lg" type="button" disabled="disabled" id="addLike" onclick="addLike(${book.isbn});">Like</button>
+						<span class="btn-primary success btn-lg" disabled="disabled" id="addLike" onclick="addLike(${book.isbn});">Like</span>
 					</c:when>
 					<c:when test="${book.like.doLike == true}">
-						<button class="btn btn-primary success btn-lg" type="button" disabled="disabled" id="deleteLike" onclick="deleteLike(${book.isbn});">List Cancel</button>
+						<span class="btn-primary success btn-lg" disabled="disabled" id="deleteLike" onclick="deleteLike(${book.isbn});">Like Cancel</span>
 					</c:when>
 				</c:choose>
             </div>
@@ -331,26 +261,43 @@ $(function() {
 				<div class="row">
 					<div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">
                     	<h3>댓글 리스트</h3>
-                    <div class="col-xs-1 col-xs-offset-1">
-                       	<p><strong>댓글</strong> </p>
-                    </div>
-                    <div class="col-xs-7">
-                       	<input type="text">
-                    </div>
-                 	</div>
-                 </div>
+                    
+	                    <c:if test="${user.email ne null}">	
+	                    	<div class="col-xs-1 col-xs-offset-1">
+    	                   		<p><strong>댓글</strong> </p>
+        	            	</div>
+                    		<div class="col-xs-7">
+    	                   		<input type="text" id="content" placeholder="댓글 입력">
+								<span  class="btn-primary success btn-sm" disabled="disabled" onclick="addReply(${book.isbn});">Send</span><br>
+            	       		</div>
+						</c:if>
+					</div>
+				</div>
                  
-                 <div class="row">
-                    <c:forEach items="${book.replyList}" var="reply">
-			 			<p><strong>${reply.user.nickname}</strong> </p>
-			 			 : ${reply.content}
-			 			<div class="col-xs-2 col-xs-offset-0">
-                    		<span class="text-muted">${reply.regDate}</span>
-                    	</div>
-					</c:forEach>	
-                </div>
+            	<div id="restReply" class="row"></div>
+            	
+            	<c:forEach items="${book.replyList}" var="reply">
+            		<div class="row">
+            			<div class="col-xs-10 col-xs-offset-0 col-xs-pull-0">
+            	   	 		<div class="col-xs-1 col-xs-offset-1">
+								<p><strong>${reply.user.nickname}</strong> </p>
+							</div>
+            	   	 		<div class ="col-xs-7">
+					 			: ${reply.content}
+							</div>
+            	    		<div class="col-xs-2 col-xs-offset-0">
+            	    			<span class="text-muted">${reply.regDate} </span>
+            	    		</div>
+						</div>	
+           	 		</div>
+            	</c:forEach>
         	</div>
         </div>
+	</div>
+	
+	<div  class="row">
+		<br>
+		<br>
 	</div>
 </body>
 </html>
