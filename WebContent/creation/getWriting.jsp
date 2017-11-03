@@ -16,6 +16,12 @@
 
 <script type="text/javascript">
 
+//=====================메뉴 Navigation=================
+$(function() {
+	$('.menu').on('click',function() {
+		history.back();
+	})
+})
 
 //=====================창작글 수정하기 EVENT=================
 $(function() {
@@ -23,7 +29,6 @@ $(function() {
 	var writingNo = $('input[name="writingNo"]').val();
 	
 	$('#update-writing').on('click',function() {
-		alert(writingNo);
 		$(self.location).attr("href","../creation/updateWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
 	})	
 
@@ -311,6 +316,7 @@ function deleteLike(targetNo) {
 				<a class= "btn update-writing" id="update-writing" >수정</a>
 			</div>
 		</c:if>
+		<a class= "btn menu" id="update-writing" >메뉴</a>
 		<br><br>
 		
 		<!-- 댓글 -->

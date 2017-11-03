@@ -114,6 +114,13 @@ div.row.writing-border{
 
    $(function() {
 	   
+	 //=====================메뉴 Navigation=================
+	   $(function() {
+		   	$('.menu').on('click',function() {
+		   		history.back();
+		   	})
+	   })
+	   
 	   //============= 창작글쓰기 Navigation Event  처리 =============	
 	   $(function() {
 		  $("a.addWriting").on("click" , function() {
@@ -324,6 +331,7 @@ div.row.writing-border{
                     <a class="btn btn-default deleteCreation" type="button">삭제하기</a>
                 </div>
             </c:if>
+            <a class= "btn menu" id="update-writing" >메뉴</a>
         </div>
     </div>
     
