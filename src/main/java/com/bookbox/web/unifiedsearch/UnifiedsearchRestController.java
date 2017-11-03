@@ -1,5 +1,10 @@
 package com.bookbox.web.unifiedsearch;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +25,7 @@ import com.bookbox.service.unifiedsearch.BookService;
  * @brief UnifiredSearchRestCrontroller
  * @detail
  * @author JJ
- * @date 2017.10.23
+ * @date 2017.11.03
  */
 
 @RestController
@@ -35,7 +40,8 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "addReply", method = RequestMethod.POST)
-	public void addReply(HttpSession session, @RequestParam("content") String content, @RequestParam("isbn") String isbn) {
+	public void addReply(HttpSession session, @RequestParam("content") String content,
+			@RequestParam("isbn") String isbn) {
 		System.out.println("/unifiedsearch/rest/addReply : POST");
 		User user = (User) session.getAttribute("user");
 
@@ -78,7 +84,7 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "addGrade", method = RequestMethod.POST)
-	public float getGradeList(HttpSession session, @RequestParam("isbn") String isbn,
+	public int getGradeList(HttpSession session, @RequestParam("isbn") String isbn,
 			@RequestParam("userCount") String userCount) {
 		System.out.println("/unifiedsearch/rest/addGrade : GET");
 		User user = (User) session.getAttribute("user");
@@ -94,5 +100,26 @@ public class UnifiedsearchRestController {
 		bookService.addBookGrade(user, book, grade);
 
 		return bookService.getBookGrade(book, user).getAverage();
+	}
+
+	@RequestMapping(value = "recommendBook")
+	public List<Book> recommendBookList() throws Exception {
+		List<String> list = (List<String>) bookService.getRecommendBookList();
+		List<Book> bookList = new ArrayList<Book>();
+		Book book = null;
+
+		for (int i = 0; i < list.size(); i++) {
+			book = new Book();
+			book.setIsbn(list.get(i));
+			
+			if(i == 4) {
+				break;
+			}
+			
+			if(bookService.getBook(new User(), book) != null) {
+				bookList.add(bookService.getBook(new User(), book));
+			}
+		}
+		return bookList;
 	}
 }

@@ -10,11 +10,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.json.XML;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.util.HttpUtil;
@@ -26,7 +34,7 @@ import com.bookbox.service.unifiedsearch.BookSearchDAO;
  * @brief BookSearchKakaoAladinDAOImpl
  * @detail
  * @author JJ
- * @date 2017.10.16
+ * @date 2017.11.03
  */
 
 @Service("bookSearchKakaoAladinDAOImpl")
@@ -61,8 +69,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	}
 
 	@Override
-	public void getRecommendBookList() throws Exception {
-
+	public List<String> getRecommendBookList() throws Exception {
 		Map<String, String> hm = new HashMap<String, String>();
 		hm.put("output", "xml&Version=20131101");
 		hm.put("MaxResults", "10");
@@ -76,22 +83,10 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 		while (iter.hasNext()) {
 			String key = iter.next();
-			String val = hm.get(key);
-			sb.append(key).append("=").append(val).append("&");
+			sb.append(key).append("=").append(hm.get(key)).append("&");
 		}
-
-		URL url = new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString());
-		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-		String inputLine;
-
-		while ((inputLine = in.readLine()) != null)
-			sb.append(inputLine.trim());
-
-		org.json.JSONObject obj = XML.toJSONObject(sb.toString());
-
-		System.out.println(obj.toString());
-
-		in.close();
+		
+		return xmlParser(new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString()));
 	}
 
 	public List<Book> jsonParser(String str) throws Exception {
@@ -111,7 +106,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			JSONObject bookObject = (JSONObject) bookInfoArray.get(i);
 			if (bookObject.get("isbn").equals(null) == false) {
 
-				book = parsor(bookObject);
+				book = parser(bookObject);
 				if (book != null) {
 					bookList.add(book);
 				}
@@ -121,7 +116,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Book parsor(JSONObject bookObject) {
+	public Book parser(JSONObject bookObject) {
 		Book book = null;
 
 		if (((String) bookObject.get("isbn")).length() > 13) {
@@ -139,5 +134,32 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			book.setTranslators((List<String>) bookObject.get("translators"));
 		}
 		return book;
+	}
+
+	public List<String> xmlParser(URL url) throws Exception {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(url.openStream());
+		NodeList nodeList = doc.getElementsByTagName("object");
+		List<String> list = new ArrayList<String>();
+
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node mainNode = nodeList.item(i);
+			if (mainNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element firstElement = (Element) mainNode;
+				NodeList forumidNameList = firstElement.getElementsByTagName("item");
+				
+				for (int j = 0; j < forumidNameList.getLength(); ++j) {
+					Element value = (Element) forumidNameList.item(j);
+					NodeList conditionList = value.getElementsByTagName("isbn13");
+					
+					for (int k = 0; k < conditionList.getLength(); ++k) {
+                        Element condition = (Element) conditionList.item(k);
+                        list.add(condition.getFirstChild().getNodeValue());
+                    }
+				}
+			}
+		}
+		return list;
 	}
 }

@@ -56,8 +56,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void getRecommendBookList() throws Exception {
-		bookSearchDAO.getRecommendBookList();
+	public List<String> getRecommendBookList() throws Exception {
+		return bookSearchDAO.getRecommendBookList();
 	}
 
 	@Override

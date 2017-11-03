@@ -293,11 +293,11 @@ $(function() {
             	</c:forEach>
         	</div>
         </div>
-	</div>
 	
-	<div  class="row">
-		<br>
-		<br>
+		<div  class="row">
+			<br>
+			<br>
+		</div>
 	</div>
 </body>
 </html>

@@ -33,7 +33,7 @@ public interface BookSearchDAO {
 	 * @detail AladinAPI를 이용하여 추천도서, 베스트셀러 리스트 출력
 	 * @author JJ
 	 * @throws Exception 
-	 * @date 2017.10.17
+	 * @date 2017.11.03
 	 */
-	public void getRecommendBookList() throws Exception;
+	public List<String>  getRecommendBookList() throws Exception;
 }

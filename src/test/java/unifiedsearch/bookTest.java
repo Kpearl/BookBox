@@ -1,5 +1,7 @@
 package unifiedsearch;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +48,9 @@ public class bookTest {
 		bookService.getBook(user, book);
 	}
 
-	/*@Test*/
+	@Test
 	public void getRecommendBookList() throws Exception {
-
-		bookService.getRecommendBookList();
+		List<String> list = bookService.getRecommendBookList();
+		System.out.println(list.toString());
 	} 
 }

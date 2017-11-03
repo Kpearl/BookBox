@@ -76,7 +76,6 @@ function getBook(isbn) {
 	            </div>
 	            <div class="col-md-12"></div>
             </c:forEach> 
-            <!-- 끝 -->
         </div>
     </div>
 </body>
