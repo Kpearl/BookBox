@@ -50,7 +50,7 @@
 				<textarea  name="content" class="form-control" placeholder="Title" aria-describedby="content-addon">${chatRoom.content }</textarea>
 			</div>
 			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">최대인원</span>
+	 		 <span class="input-group-addon" id="title-addon">인원</span>
 			 <input type="text" name="maxUser" value="${chatRoom.maxUser}" class="form-control" placeholder="Title" aria-describedby="title-addon"/>
 			</div>
 			<div id="tagNames">
@@ -74,7 +74,7 @@
 	     -->
 		<input type="text" id="input-text-chat" placeholder="채팅내용입력+엔터" disabled>
 	   	<button id="input-text-btn btn">전송</button>
-	    <button id="share-file" disabled>Share File</button>
+	    <button id="share-file" disabled>파일공유</button>
 	    <br><br>
 	
 	    <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
@@ -202,6 +202,9 @@ connection.socketURL = 'https://192.168.0.21:433/';
 
 connection.socketMessageEvent = 'video-conference-demo';
 
+connection.chunkSize = 64 * 1000;
+connection.enableFileSharing = true;
+
 var nickname=$("#nickname").val();
 connection.extra={nickname:nickname};
 connection.session = {
@@ -286,13 +289,22 @@ connection.filesContainer = document.getElementById('file-container');
 connection.onopen = function(e) {
 	
 	writeChat(e.extra.nickname+"님이 입장하였습니다.");
-   // document.getElementById('share-file').disabled = false;
+    document.getElementById('share-file').disabled = false;
     document.getElementById('input-text-chat').disabled = false;
     //document.getElementById('btn-leave-room').disabled = false;
 
     document.querySelector('h1').innerHTML = 'You are connected with: ' + connection.getAllParticipants().join(', ');
 };
 
+connection.onclose = function() {
+    console.log(ionnection.getAllParticipants().length);
+   
+};
+
+connection.onUserIdAlreadyTaken = function(useridAlreadyTaken, yourNewUserId) {
+    // seems room is already opened
+    connection.join(useridAlreadyTaken);
+};
 //파라미터 있을시 자동연결
 connection.openOrJoin( $("#roomId").val(), function(isRoomExists, roomid) {
         if (!isRoomExists) {

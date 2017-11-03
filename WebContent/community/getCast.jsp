@@ -41,7 +41,7 @@
 				<textarea  name="content" class="form-control" placeholder="Title" aria-describedby="content-addon">${chatRoom.content }</textarea>
 			</div>
 			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">최대인원</span>
+	 		 <span class="input-group-addon" id="title-addon">인원</span>
 			 <input type="text" name="maxUser" value="${chatRoom.maxUser}" class="form-control" placeholder="Title" aria-describedby="title-addon"/>
 			</div>
 			<div id="tagNames">
@@ -65,7 +65,9 @@
 	      <video id="video-preview" controls loop></video>
 		</div>
 		<div class="col-md-6 chat-container">
-		
+			<div class="chat-output">
+			</div>
+			<input type="text" class="chat-input"><button>전송</button>
 		</div>
 	</div>
 
@@ -143,7 +145,7 @@ connection.connectSocket(function(socket) {
         // alert('Broadcast has been stopped.');
         // location.reload();
         console.error('broadcast-stopped', broadcastId);
-        alert('This broadcast has been stopped.');
+        alert('방송이 중지.');
     });
 
     // this event is emitted when a broadcast is absent.
@@ -371,7 +373,7 @@ if (broadcastId && broadcastId.length) {
 connection.onNumberOfBroadcastViewersUpdated = function(event) {
     if (!connection.isInitiator) return;
 
-    document.getElementById('broadcast-viewers-counter').innerHTML = 'Number of broadcast viewers: <b>' + event.numberOfBroadcastViewers + '</b>';
+    document.getElementById('broadcast-viewers-counter').innerHTML = '시청자: <b>' + event.numberOfBroadcastViewers + '</b>';
 };
 
 
