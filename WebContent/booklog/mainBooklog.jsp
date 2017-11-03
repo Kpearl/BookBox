@@ -14,14 +14,18 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
+	<!-- Swiper 설정 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.min.css">
 	 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.min.js"></script>
+	<!-- Swiper 설정 끝 -->
 
     <style>
 	    .swiper-container {
 	        width: 100%;
+	        height: 400px;
 	        padding-top: 50px;
 	        padding-bottom: 50px;
 	    }
@@ -72,7 +76,7 @@
 		
 			//이미지 불러오기 실패시 기본 이미지 출력
 			$('img.posting-img').on('error', function(){
-				$(this).attr('src', '../resources/images/noimage.jpeg');
+				$(this).attr('src', '../resources/images/posting_noimage.jpeg');
 			});
 			
 		});
@@ -115,7 +119,7 @@
 	        	</c:forEach>
 	        </div>
 	        <!-- Add Pagination -->
-	        <div class="swiper-pagination"></div>
+	        <div class="swiper-pagination swiper-pagination-black"></div>
 	    </div>
 		
 

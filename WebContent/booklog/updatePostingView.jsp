@@ -69,7 +69,36 @@
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
 		}
+
 		
+		// 커버이미지 미리보기 설정
+		var upload;
+		var preview;
+		
+		if(typeof window.FileReader === 'undefined'){
+			alert('커버이미지 미리보기를 지원하지 않는 브라우저 입니다..');
+		}
+		
+		$(function(){
+			upload = document.getElementById('mainFile');
+			preview = $('div.preview');
+
+			upload.onchange = function(e){
+				e.preventDefault();
+				
+				var file = upload.files[0],
+					reader = new FileReader();
+				reader.onload = function(event){
+					var img = new Image();
+					img.src = event.target.result;
+					$(preview).css('background','url('+img.src+') no-repeat center');
+				}
+				reader.readAsDataURL(file);
+				
+				return false;
+			};
+		})
+
 	</script>
 </head>
 <body>
@@ -79,12 +108,26 @@
 	<!-- 여기부터 코딩 -->
 	
 	<div class="container">
-		<form>
+		<form class="posting">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}">
-			<div class="form-group">
-				<label>포스팅 제목</label>
-				<input type="text" name="postingTitle" value="${posting.postingTitle}">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>포스팅 제목</label>
+						<input type="text" name="postingTitle" value="${posting.postingTitle}">
+					</div>
+					<div class="form-group">
+						<label>커버 이미지 (기존 파일 : ${mainFile.originName})</label>
+						<input type="file" id="mainFile" name="mainFile">
+						<input type="hidden" name="originFileName" value="${mainFile.originName}">
+						<input type="hidden" name="fileName" value="${mainFile.fileName}">
+					</div>
+				</div>
 			</div>
+	
+			<div class="row preview" style="height:200px; margin-bottom:5px; background:url(../resources/upload_files/images/${mainFile.fileName}) no-repeat center"></div>
+			
+			
 			<div class="form-group">
 				<textarea name="postingContent" id="postingContent" rows="10" cols="80">${posting.postingContent}</textarea>
 			</div>

@@ -51,7 +51,7 @@
  			//로그인 버튼 이미지 변경을 위한 스크립트
 		 function loginWithKakao() {
 	 		
-		   //Kakao.init('4f67f74235560f00f4a1567103ae4b88');
+		   Kakao.init('4f67f74235560f00f4a1567103ae4b88');
 		   // 로그인 창을 띄웁니다.
 		   Kakao.Auth.login({
 		     success: function(authObj) {
@@ -70,7 +70,7 @@
 		
 			  //<![CDATA[
 		    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-		    Kakao.init('4f67f74235560f00f4a1567103ae4b88');
+/* 		    Kakao.init('4f67f74235560f00f4a1567103ae4b88');
 		    // 카카오 로그인 버튼을 생성합니다.
 		    Kakao.Auth.createLoginButton({
 		      container: '#kakao-login-btn',
@@ -84,11 +84,11 @@
 		         alert(JSON.stringify(err));
 		      }
 		    });
-			  //]]>
+ */			  //]]>
 
 		})
 		
-		//============= 구글 로그인  =============
+/* 		//============= 구글 로그인  =============
  		 function onSignIn(googleUser) {
 			  var profile = googleUser.getBasicProfile();
 			  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -105,16 +105,18 @@
 			  $("form").attr("method","POST").attr("action","../user/login").submit();
 	  
 			}
-		//===========구글 로그인 커스텀 버튼======================
+ */		//===========구글 로그인 커스텀 버튼======================
 		
 			function onSuccess(googleUser) {
-				 var profile = googleUser.getBasicProfile();  
-				 var id_token = googleUser.getAuthResponse().id_token;
-				  console.log("ID Token: " + id_token);
-				  $('#outerToken').val(id_token);
-				  $('#email').val(profile.getEmail());
-				  $('#outerAccount').val(3);
-				  $("form").attr("method","POST").attr("action","../user/login").submit();
+	 			if(false){
+					 var profile = googleUser.getBasicProfile();  
+					 var id_token = googleUser.getAuthResponse().id_token;
+					  console.log("ID Token: " + id_token);
+					  $('#outerToken').val(id_token);
+					  $('#email').val(profile.getEmail());
+					  $('#outerAccount').val(3);
+					  $("form").attr("method","POST").attr("action","../user/login").submit();
+	 			}
     		}
 		    function onFailure(error) {
 		      console.log(error);
@@ -122,10 +124,10 @@
 		    function renderButton() {
 		      gapi.signin2.render('my-signin2', {
 		        'scope': 'profile email',
-		        'width': 240,
-		        'height': 50,
-		        'longtitle': false,
-		        'theme': 'dark',
+		        'width': 205,
+		        'height': 49,
+		        'longtitle': true,
+		        'theme': 'light',
 		        'onsuccess': onSuccess,
 		        'onfailure': onFailure
 		      });
@@ -191,7 +193,7 @@
 	</jsp:include>
 	<div class="container login">
 		<div class="row">
-			<div class="col-md-offset-4 col-md-8">
+			<div class="col-md-offset-3 col-md-6">
 				<form class="form-horizontal">
 					<h1>Login</h1>
 					<hr>
@@ -209,7 +211,7 @@
 						</div>
 					</div>
 					<c:if test="${!empty msg}">
-						${msg}<br/>
+						<p>${msg}<p/>
 					</c:if>
 					
 					<input type="hidden" name="outerToken" id="outerToken"> 
@@ -217,31 +219,28 @@
 					
 					<br/>
 					<div class="row">
-						<div class="col-xs-3">
-							<a class="btn btn-success user-login">Login</a>
-						</div>
-						<div class="col-xs-3">
-							<a class="btn btn-success user-sign-in">Sign in</a>
-						</div>
-						<div class="col-xs-6">
-							<a class="btn btn-success user-find-password">Find Password</a>
+						<div class="btn-group btn-group-justified" role="group">
+							<a class="btn user-login" role="button">Login</a>
+							<a class="btn user-sign-in" role="button">Sign in</a>
+							<a class="btn user-find-password" role="button">Find Password</a>
 						</div>
 					</div>
 					
 					<br/>
-					<!-- kakao 아이디로로그인 버튼 노출 영역 -->
+<!-- 					kakao 아이디로로그인 버튼 노출 영역
 					<a id="kakao-login-btn"></a>
 					<a href="http://developers.kakao.com/logout"></a>
-					<br/>
-					<br/>
-					<!-- kakao 커스텀 버튼 -->
-					<a id="custom-login-btn" href="javascript:loginWithKakao()">
-					<img src="../resources/images/kakao_login_btn/login/en/kakao_login_btn_small.png" />
-					</a>
-					<!-- google 아이디로로그인 버튼 노출 영역 -->
+-->
+					<div class="form-group">
+						<!-- kakao 커스텀 버튼 -->
+						<a id="custom-login-btn" href="javascript:loginWithKakao()">
+							<img src="../resources/images/kakao_login_btn/login/en/kakao_account_login_btn_medium_narrow.png" />
+						</a>
+		  				<!-- google 로그인 커스텀 -->
+		  				<div id="my-signin2"></div>
+					</div>
+<!-- 					google 아이디로로그인 버튼 노출 영역
 	  				<div class="g-signin2" data-onsuccess="onSignIn"></div>
-	  				<!-- google 로그인 커스텀 -->
-	  				<div id="my-signin2"></div>
 					
 					<!-- <a class="btn btn-default">NAVER LOGIN</a> -->
 				</form>

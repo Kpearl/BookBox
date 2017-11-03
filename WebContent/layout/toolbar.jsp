@@ -92,6 +92,14 @@ $(function() {
 		}
 	});
 	
+	//검색창 Enter 키 이벤트 설정
+	$('input.nav-search-keyword').on('keydown', function(event){
+		if(event.which == 13){
+			event.preventDefault();
+			searchCheck();
+		}
+	});
+	
 });
 	  
 //JJ : Search Exception & Navigation
@@ -178,7 +186,7 @@ function searchCheck(){
 						        <option value="posting">포스팅</option>
 						        <option value="tag">태그</option>
 						    </select>
-							<input type="text" class="form-control" id="keyWord" placeholder="검색어 입력">
+							<input type="text" class="form-control nav-search-keyword" id="keyWord" placeholder="검색어 입력">
 						</div>
 						<a href="#" class="btn btn-default nav-search">검색</a>
 					</form>

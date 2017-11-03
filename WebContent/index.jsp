@@ -26,14 +26,18 @@
 		    background-size: cover;
 		}
     </style>
-
+    
+    <script type="text/javascript">
+    	$(window).scroll(function(){
+    		
+    	});
+    </script>
 
 </head>
 
 <body>
-    <header class="parallax">
-    	<jsp:include page="layout/toolbar.jsp"/>
-    </header>
+   	<jsp:include page="layout/toolbar.jsp"/>
+    <header class="parallax"></header>
     <div class="container">
         <div class="carousel slide" data-ride="carousel" id="carousel-1">
             <div class="carousel-inner" role="listbox">

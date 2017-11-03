@@ -180,7 +180,7 @@
 	
 	<select id="getTagStatistics" parameterType="map" resultType="map">
 		SELECT
-			vt.tag_name, vt.count, @rnum:=@rnum+1 num
+			vt.tag_name tagName, vt.count, @rnum:=@rnum+1 num
 		FROM
 			(SELECT @rnum:=-1) tmp,
 			(SELECT 

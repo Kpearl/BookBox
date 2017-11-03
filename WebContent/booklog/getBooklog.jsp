@@ -91,29 +91,39 @@
 		var dailyChart = new Chart(ctxDaily, {
 		    type: 'bar',
 		    data: {
-		        labels: [fncGetDate(6)
-		        			, fncGetDate(5)
-		        			, fncGetDate(4)
-		        			, fncGetDate(3)
-		        			, fncGetDate(2)
-		        			, fncGetDate(1)
-		        			, fncGetDate(0)],
+		        labels: [fncGetDate(6),
+		        			fncGetDate(5),
+		        			fncGetDate(4),
+		        			fncGetDate(3),
+		        			fncGetDate(2),
+		        			fncGetDate(1),
+		        			fncGetDate(0)],
 		        datasets: [{
 		            label: '# of DailyVisitors',
-		            data: [${booklog.visitorsStatistics.daily.get(6.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(5.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(4.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(3.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(2.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(1.0).daycount}
-				            , ${booklog.visitorsStatistics.daily.get(0.0).daycount}],
+		            data: [${booklog.visitorsStatistics.daily.get(6.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(5.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(4.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(3.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(2.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(1.0).daycount},
+				            ${booklog.visitorsStatistics.daily.get(0.0).daycount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(0, 0, 0, 0.2)'
 		            ],
 		            borderColor: [
-		                'rgba(255,99,132,1)',
-		                'rgba(54, 162, 235, 1)'
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(0, 0, 0, 0.2)'
 		            ],
 		            borderWidth: 1
 		        }]
@@ -152,11 +162,21 @@
 				            ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(0, 0, 0, 0.2)'
 		            ],
 		            borderColor: [
-		                'rgba(255,99,132,1)',
-		                'rgba(54, 162, 235, 1)'
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(0, 0, 0, 0.2)'
 		            ],
 		            borderWidth: 1
 		        }]
@@ -191,11 +211,17 @@
 				            ${booklog.visitorsStatistics.monthly.get(0.0).monthcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)'
 		            ],
 		            borderColor: [
-		                'rgba(255,99,132,1)',
-		                'rgba(54, 162, 235, 1)'
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)'
 		            ],
 		            borderWidth: 1
 		        }]
@@ -219,7 +245,7 @@
 				datasets: [{
 					label: 'Tag Dataset',
 					data: [
-						{x: 15,y: 15,r: ${booklog.visitorsStatistics.tag.get(0.0).count}},
+/* 						{x: 15,y: 15,r: ${booklog.visitorsStatistics.tag.get(0.0).count}},
 						{x: 14,y: 15,r: ${booklog.visitorsStatistics.tag.get(1.0).count}},
 						{x: 14,y: 14,r: ${booklog.visitorsStatistics.tag.get(2.0).count}},
 						{x: 15,y: 14,r: ${booklog.visitorsStatistics.tag.get(3.0).count}},
@@ -228,7 +254,8 @@
 						{x: 16,y: 16,r: ${booklog.visitorsStatistics.tag.get(6.0).count}},
 						{x: 15,y: 16,r: ${booklog.visitorsStatistics.tag.get(7.0).count}},
 						{x: 14,y: 16,r: ${booklog.visitorsStatistics.tag.get(8.0).count}},
-						{x: 13,y: 15,r: ${booklog.visitorsStatistics.tag.get(9.0).count}}
+						{x: 13,y: 15,r: ${booklog.visitorsStatistics.tag.get(9.0).count}} */
+						{x:15,y:15,r:60}
 					],
 					backgroundColor: 'rgb(255, 99, 132)'
 				}]
@@ -375,6 +402,20 @@
 		
 		<div class="row">
 			<canvas id="tagChart"></canvas>
+		</div>
+		
+		<div class="row">
+			<h4>Tag 노출 횟수</h4>
+			<p>${booklog.visitorsStatistics.tag.get(0.0).tagName} : ${booklog.visitorsStatistics.tag.get(0.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(1.0).tagName} : ${booklog.visitorsStatistics.tag.get(1.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(2.0).tagName} : ${booklog.visitorsStatistics.tag.get(2.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(3.0).tagName} : ${booklog.visitorsStatistics.tag.get(3.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(4.0).tagName} : ${booklog.visitorsStatistics.tag.get(4.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(5.0).tagName} : ${booklog.visitorsStatistics.tag.get(5.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(6.0).tagName} : ${booklog.visitorsStatistics.tag.get(6.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(7.0).tagName} : ${booklog.visitorsStatistics.tag.get(7.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(8.0).tagName} : ${booklog.visitorsStatistics.tag.get(8.0).count}회
+			<p>${booklog.visitorsStatistics.tag.get(9.0).tagName} : ${booklog.visitorsStatistics.tag.get(9.0).count}회
 		</div>
 		
 		<div class="row">

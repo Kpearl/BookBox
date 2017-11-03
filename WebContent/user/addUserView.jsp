@@ -211,56 +211,79 @@ $(function() {
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
-		<div class="container signup">
+	<div class="container signup">
 		
-		<form>
+		<div class="col-md-offset-3 col-md-6">
 			<h1>Sign up for BookBox</h1>
-			<hr>
-			<label>
-				<h2>Your email:</h2>
-				<input id="email" name="email"  class="long" type="text">
-			</label>
-			
-			<span id="checkEmail">
-			
-			</span>
+			<hr/>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="email" class="col-sm-5 control-label">
+						Your email
+					</label>
+					<div class="col-sm-7">
+						<input id="email" name="email" type="text">
+					</div>
+				</div>
+				
+				<span id="checkEmail"></span>
 					
-			<label>
-				<h2>Your nickName:</h2>
-				<input id="nickname" name="nickname" class="long" type="text">
-			</label>
-
-			<span id="checkNickname">
-			
-			</span>
-
-			<label>
-				<h2>Choose your password</h2>
-				<input id="password" name="password" class="long" type="password">
-			</label>
-
-			<label>
-				<h2>Repeat your password</h2>
-				<input id="chekPassword" name="checkPassword" class="long" type="password">
-			</label>
-			
-			<label>
-				<h2>Choose your gender</h2>
-				<input class="long" type="radio" id="gender" name="gender" value="남"> 남
-				<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
-			</label>
-			
-			<label>
-				<h2>Choose your birthday</h2>
-				<input class="long" type="text" id="birth" name="birth" readonly>
-			</label>
-			
+				<div class="form-group">
+					<label for="nickname" class="col-sm-5 control-label">
+						Your nickName
+					</label>
+					<div class="col-sm-7">
+						<input id="nickname" name="nickname" class="long" type="text">
+					</div>
+				</div>	
+	
+				<span id="checkNickname"></span>
+	
+				<div class="form-group">
+					<label for="password" class="col-sm-5 control-label">
+						Choose your password
+					</label>
+					<div class="col-sm-7">
+						<input id="password" name="password" class="long" type="password">
+					</div>
+				</div>
+	
+				<div class="form-group">
+					<label for="checkPassword" class="col-sm-5 control-label">
+						Repeat your password
+					</label>
+					<div class="col-sm-7">
+						<input id="chekPassword" name="checkPassword" class="long" type="password">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="gender" class="col-sm-5 control-label" >
+						Choose your gender
+					</label>
+					<div class="col-sm-7">
+						<input class="long" type="radio" id="gender" name="gender" value="남"> 남
+						<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="birth" class="col-sm-5 control-label">
+						Choose your birthday
+					</label>
+					<div class="col-sm-7">
+						<input class="long" type="text" id="birth" name="birth" readonly>
+					</div>
+				</div>
+				
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
 				<input class="long" type="hidden" id="active" name="active">
-
-			<button type="button" class="btn btn-default">Sign Up</button>
-
-		</form>
+	
+				<button type="button" class="btn btn-default">Sign Up</button>
+	
+			</form>
+		</div>
+		
 	</div>	
 </body>
 </html>

@@ -190,19 +190,33 @@ public class BooklogController {
 	@RequestMapping( value="updatePosting", method=RequestMethod.GET )
 	public String updatePosting(@ModelAttribute("posting")Posting posting, Model model, HttpServletResponse response) throws Exception {
 		posting = postingService.getPosting(new User(), posting);
-		model.addAttribute("posting", posting);
+		
 		for(UploadFile uploadFile : posting.getPostingFileList()) {
 			Cookie cookie = new Cookie(uploadFile.getFileName(), URLEncoder.encode("file:"+uploadFile.getOriginName(), "UTF-8"));
 			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 		
+		UploadFile mainFile = null;
+		for(UploadFile uploadFile : posting.getPostingFileList()) {
+			if(uploadFile.getMainFile() == 1) {
+				mainFile = uploadFile;
+				System.out.println(mainFile);
+			}
+		}
+
+		model.addAttribute("posting", posting);
+		model.addAttribute("mainFile", mainFile);
+		
 		return "forward:../booklog/updatePostingView.jsp";
 	}
 	
 	@RequestMapping( value="updatePosting", method=RequestMethod.POST )
 	public String updatePosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
-														HttpServletResponse response, HttpSession session) throws Exception {
+														HttpServletResponse response, HttpSession session,
+														@RequestParam(value="mainFile", required=false) MultipartFile multipartFile,
+														@RequestParam("originFileName")String originFileName,
+														@RequestParam("fileName")String fileName) throws Exception {
 		User user = (User)session.getAttribute("user");
 		String[] tagArray = request.getParameterValues("tag");
 		List<Tag> tagList = new ArrayList<Tag>();
@@ -223,6 +237,21 @@ public class BooklogController {
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
+		}
+		
+		if(multipartFile != null && !multipartFile.isEmpty()) {
+			String newOriginName = multipartFile.getOriginalFilename();
+			String newFileName = UUID.randomUUID().toString() + newOriginName.substring(newOriginName.lastIndexOf('.'));
+			String fileURL = request.getServletContext().getRealPath("/resources/upload_files/images/");
+			multipartFile.transferTo(new File(fileURL, newFileName));
+			
+			UploadFile mainFile = new UploadFile(newFileName, newOriginName);
+			mainFile.setMainFile(1);
+			postingFileList.add(mainFile);
+		}else {
+			UploadFile mainFile = new UploadFile(fileName, originFileName);
+			mainFile.setMainFile(1);
+			postingFileList.add(mainFile);
 		}
 
 		posting.setPostingTagList(tagList);

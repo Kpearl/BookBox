@@ -46,8 +46,9 @@
 			
 			//이미지 불러오기 실패시 기본 이미지 출력
 			$('img.posting-img').on('error', function(){
-				$(this).attr('src', '../resources/images/noimage.jpeg');
+				$(this).attr('src', '../resources/images/posting_noimage.jpeg');
 			});
+			
 		});
 	</script>
 
@@ -68,6 +69,7 @@
 		<c:forEach items="${postingList}" var="posting">
 		<div class="row div-posting">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+			<%-- <div class="col-xs-4 col-md-4 text-center" style="background:url(../resources/upload_files/images/${posting.postingFileList[0].fileName}) no-repeat center; background-size: cover;"> --%>
 			<div class="col-xs-4 col-md-4 text-center">
 				<img class="img-responsive posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
 			</div>
