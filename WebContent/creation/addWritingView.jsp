@@ -19,6 +19,11 @@
 	<!-- <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script> -->
 	<!-- CKEditor -->
 	
+	<style>
+		#imgPreview, #imgPreview > img{
+			height: 300px;
+		}
+	</style>
 	
 	<script type="text/javascript">
 	//============창작작품 등록하기=============
@@ -120,7 +125,7 @@
 						success : function(JSONData, status) {
 							
 							//Debug...
-						alert(status);
+					//	alert(status);
 							
 							var offset = $(".inWriting").offset();
 														
@@ -145,10 +150,10 @@
 							$('form[name=writingForm]').attr('class','visible').show();
 							$('.inputValue').attr('disabled','true');
 							$('a.tag-add:contains("추가하기")').off('click');
-					        $('html, body').animate({scrollTop : offset.top}, 400);
+					        $('html, body').animate({scrollTop : offset.top-80}, 400);
 					       
 					        
-					        alert("창작글 creationNo : "+$('input[name="creationNo"]').val());
+					   //     alert("창작글 creationNo : "+$('input[name="creationNo"]').val());
 						}
 					})
 				})
@@ -174,13 +179,14 @@
 			$('a.add-writing:contains("등록하기")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
 				
-				if($('input[name="writingTitle"]').val() == null){
+				if($('input[name="writingTitle"]').val() == null || $('input[name="writingTitle"]').val() == ""){
 					alert("글제목을 입력해 주세요.");
-				}
+				}else{
 				
 				$('form[name="writingForm"] textarea').val(data);
-				alert($('form[name="writingForm"] textarea').val());
+			//	alert($('form[name="writingForm"] textarea').val());
 				$('form[name="writingForm"]').attr('method','post').attr('action','../creation/addWriting').submit();
+				}
 			});
 			
 			fncAddTag();
@@ -198,6 +204,35 @@
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
 		}
+	
+		//============== 커버이미지 미리보기 설정===========
+		var upload;
+		var preview;
+		
+		if(typeof window.FileReader === 'undefined'){
+			alert('커버이미지 미리보기를 지원하지 않는 브라우저 입니다..');
+		}
+		
+		$(function(){
+			upload = document.getElementById('creationOriginName');
+			holder = document.getElementById('imgPreview'),
+			
+			upload.onchange = function(e){
+				e.preventDefault();
+				
+				var file = upload.files[0],
+					reader = new FileReader();
+				reader.onload = function(event){
+					var img = new Image();
+					img.src = event.target.result;
+					holder.innerHTML = '';
+				    holder.appendChild(img);
+				}
+				reader.readAsDataURL(file);
+				
+				return false;
+			};
+		})
 		
 
 	</script>
@@ -240,14 +275,15 @@
 				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<c:if test="${!empty creation }">
-				<img class="img-responsive" src="../resources/upload_files/images/${creation.creationFileName }"/>
-			</c:if>
-			<c:if test="${empty creation }">
-				<img class="img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
-			</c:if>
-			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
-		
+			<div id="imgPreview">
+				<c:if test="${!empty creation }">
+					<img class="img img-responsive" src="../resources/upload_files/images/${creation.creationFileName }"/>
+				</c:if>
+				<c:if test="${empty creation }">
+					<img class="img img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
+				</c:if>
+			</div>
+				<input type="file"  class="inputValue" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
 			<div class="form-group tag-list">
 				<label>태그</label>
 				<input type="hidden" class="headTag" name="tag" id="tag">

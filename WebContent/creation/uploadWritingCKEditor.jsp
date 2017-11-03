@@ -35,8 +35,8 @@
 					window.parent.CKEDITOR.instances.writingContent.setData(contentObj.html());
 					imgObj.remove();
 			});
-			alert(imgObj.html());
-			alert(imgObj.find(".removeImg").html());
+	//		alert(imgObj.html());
+	//		alert(imgObj.find(".removeImg").html());
 		
 		//	var content=window.parent.CKEDITOR.instances.boardContent.getData();
 		//alert(content);

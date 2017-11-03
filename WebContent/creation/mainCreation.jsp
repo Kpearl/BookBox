@@ -110,6 +110,12 @@ $(function() {
    	}); 
  });   
    
+   //============= 검색 Event  처리 =============	
+	  $("a.creationSearch").on("click" , function() {
+		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
+	
+	}); 
+   
 /*    //============= 창작공간 Navigation Event  처리 =============	
    $(function() {
    	$("img[name='creationFile']).on("click" , function() {
@@ -138,7 +144,7 @@ $(function() {
 			</div>
 			<!-- 생성버튼 끝 -->
 		 	
-		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
+		 	<form class="form-inline text-right col-md-6" >
 			  <div class="form-group">
 			    <div class="input-group">
 			      <div class="input-group-addon">

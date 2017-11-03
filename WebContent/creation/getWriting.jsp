@@ -305,10 +305,12 @@ function deleteLike(targetNo) {
 
 		<a class="btn">펀딩보러가기</a>
 		<br><br>
-		<div class="row col-md-12 text-right">
-			<a class="btn delete-writing" id="delete-writing">삭제</a>
-			<a class= "btn update-writing" id="update-writing" >수정</a>
-		</div>
+		<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+			<div class="row col-md-12 text-right">
+				<a class="btn delete-writing" id="delete-writing">삭제</a>
+				<a class= "btn update-writing" id="update-writing" >수정</a>
+			</div>
+		</c:if>
 		<br><br>
 		
 		<!-- 댓글 -->

@@ -113,6 +113,13 @@ div.row.writing-border{
     <script>
 
    $(function() {
+	   
+	   //============= 창작글쓰기 Navigation Event  처리 =============	
+	   $(function() {
+		  $("a.addWriting").on("click" , function() {
+			  $(self.location).attr("href","../creation/addWriting");
+	   	}); 
+	 });   
 		   
        //============= 창작글 조회 Navigation Event  처리 =============	
 	   $("a.writingTitle").on("click" , function() {
@@ -131,6 +138,12 @@ div.row.writing-border{
 		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
    		});	   
    }); 
+   
+   //============= 검색 Event  처리 =============	
+	  $("a.creationSearch").on("click" , function() {
+		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
+	
+	}); 
    
    
  //========================구독신청 =======================
@@ -174,9 +187,6 @@ div.row.writing-border{
 		}
 	   });
    });
-	   
-    
-
 
     //========================좋아요 추가=======================
     function addLike(targetNo) {
@@ -233,20 +243,24 @@ div.row.writing-border{
 			</c:if>
 				<!-- 생성버튼 끝 -->
 			 	
-		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon">
-							<select class="form-control">
-								<option>옵션</option>
-							</select>
-						</div>
-						<input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
-						<div class="input-group-addon">
-							<button type="submit" class="btn">검색</button>
-						</div>
+		 	<form class="form-inline text-right " >
+			  <div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">
+			      	<select class="form-control" name="condition">
+			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
+			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
+			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
+			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
+			      	</select>
+			      </div>
+			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
+			  	 	<div class="input-group-addon">
+			  			<a class="btn creationSearch">검색</a> 
+			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
 					</div>
-				</div>
+			    </div>
+			  </div>
 			</form>
 				
 		</div>

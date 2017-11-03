@@ -45,7 +45,6 @@
 	
 	$(function() {
 		$('a.update-creation:contains("수정하기")').on('click', function(){
-			alert("수정?");
 			$('form[name="creationForm"]').attr('method','post').attr('action','../creation/updateCreation').submit();
 		});
 	});
@@ -60,6 +59,35 @@
 				alert("hiddenTag = "+$('input.headTag').val());
 		})		
 	})
+	
+	//============== 커버이미지 미리보기 설정===========
+		var upload;
+		var preview;
+		
+		if(typeof window.FileReader === 'undefined'){
+			alert('커버이미지 미리보기를 지원하지 않는 브라우저 입니다..');
+		}
+		
+		$(function(){
+			upload = document.getElementById('creationOriginName');
+			holder = document.getElementById('imgPreview'),
+			
+			upload.onchange = function(e){
+				e.preventDefault();
+				
+				var file = upload.files[0],
+					reader = new FileReader();
+				reader.onload = function(event){
+					var img = new Image();
+					img.src = event.target.result;
+					holder.innerHTML = '';
+				    holder.appendChild(img);
+				}
+				reader.readAsDataURL(file);
+				
+				return false;
+			};
+		})
 		
 	
 	</script>
@@ -95,8 +123,10 @@
 				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<img src="../resources/upload_files/images/${creation.creationFileName }"/>
-			<input class="inputValue" type="file"  class="form-control" id="creationOriginName" name="file" value="${creation.creationOriginName }">
+			<div id="imgPreview">
+				<img src="../resources/upload_files/images/${creation.creationFileName }"/>
+			</div>
+			<input class="inputValue" type="file"   id="creationOriginName" name="file" value="${creation.creationOriginName }">
 		
 			<div class="form-group tag-list">
 				<label>태그</label>
