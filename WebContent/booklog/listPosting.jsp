@@ -20,11 +20,11 @@
 			word-wrap:normal;
 			overflow:hidden;
 			display: -webkit-box;
-			-webkit-line-clamp: 4; /* 라인수 */
+			-webkit-line-clamp: 3; /* 라인수 */
 			-webkit-box-orient: vertical;
 			word-wrap:break-word; 
 			line-height: 1.2em;
-			height: 4.8em;
+			height: 3.6em;
   		}
   		img.posting-img{
   			opacity:0.8;

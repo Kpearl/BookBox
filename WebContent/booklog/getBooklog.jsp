@@ -100,13 +100,13 @@
 		        			fncGetDate(0)],
 		        datasets: [{
 		            label: '# of DailyVisitors',
-		            data: [${booklog.visitorsStatistics.daily.get(6.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(5.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(4.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(3.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(2.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(1.0).daycount},
-				            ${booklog.visitorsStatistics.daily.get(0.0).daycount}],
+		            data: [${booklog.visitorsStatistics.daily[6].daycount},
+				            ${booklog.visitorsStatistics.daily[5].daycount},
+				            ${booklog.visitorsStatistics.daily[4].daycount},
+				            ${booklog.visitorsStatistics.daily[3].daycount},
+				            ${booklog.visitorsStatistics.daily[2].daycount},
+				            ${booklog.visitorsStatistics.daily[1].daycount},
+				            ${booklog.visitorsStatistics.daily[0].daycount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -153,13 +153,13 @@
 		        			'이번주'],
 		        datasets: [{
 		            label: '# of WeeklyVisitors',
-		            data: [${booklog.visitorsStatistics.weekly.get(6.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(5.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(4.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(3.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(2.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(1.0).weekcount},
-				            ${booklog.visitorsStatistics.weekly.get(0.0).weekcount}],
+		            data: [${booklog.visitorsStatistics.weekly[6].weekcount},
+				            ${booklog.visitorsStatistics.weekly[5].weekcount},
+				            ${booklog.visitorsStatistics.weekly[4].weekcount},
+				            ${booklog.visitorsStatistics.weekly[3].weekcount},
+				            ${booklog.visitorsStatistics.weekly[2].weekcount},
+				            ${booklog.visitorsStatistics.weekly[1].weekcount},
+				            ${booklog.visitorsStatistics.weekly[0].weekcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -204,11 +204,11 @@
 		        			'이번달'],
 		        datasets: [{
 		            label: '# of MonthlyVisitors',
-		            data: [${booklog.visitorsStatistics.monthly.get(4.0).monthcount},
-				    		${booklog.visitorsStatistics.monthly.get(3.0).monthcount},
-				            ${booklog.visitorsStatistics.monthly.get(2.0).monthcount},
-				            ${booklog.visitorsStatistics.monthly.get(1.0).monthcount},
-				            ${booklog.visitorsStatistics.monthly.get(0.0).monthcount}],
+		            data: [${booklog.visitorsStatistics.monthly[4].monthcount},
+				    		${booklog.visitorsStatistics.monthly[3].monthcount},
+				            ${booklog.visitorsStatistics.monthly[2].monthcount},
+				            ${booklog.visitorsStatistics.monthly[1].monthcount},
+				            ${booklog.visitorsStatistics.monthly[0].monthcount}],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -239,23 +239,45 @@
 		});
 		
 		var ctxTag = $('#tagChart');
+		var datas = [	${booklog.visitorsStatistics.tag[0].per},
+						${booklog.visitorsStatistics.tag[1].per},
+						${booklog.visitorsStatistics.tag[2].per},
+						${booklog.visitorsStatistics.tag[3].per},
+						${booklog.visitorsStatistics.tag[4].per},
+						${booklog.visitorsStatistics.tag[5].per},
+						${booklog.visitorsStatistics.tag[6].per},
+						${booklog.visitorsStatistics.tag[7].per},
+						${booklog.visitorsStatistics.tag[8].per},
+						${booklog.visitorsStatistics.tag[9].per}	];
+		var labels = [	'${booklog.visitorsStatistics.tag[0].tagName}',
+						'${booklog.visitorsStatistics.tag[1].tagName}',
+						'${booklog.visitorsStatistics.tag[2].tagName}',
+						'${booklog.visitorsStatistics.tag[3].tagName}',
+						'${booklog.visitorsStatistics.tag[4].tagName}',
+						'${booklog.visitorsStatistics.tag[5].tagName}',
+						'${booklog.visitorsStatistics.tag[6].tagName}',
+						'${booklog.visitorsStatistics.tag[7].tagName}',
+						'${booklog.visitorsStatistics.tag[8].tagName}',
+						'${booklog.visitorsStatistics.tag[9].tagName}'	];
+		
+		var diff = 20 / (datas[0] - datas[9]);
+
 		var tagChart = new Chart(ctxTag, {
 			type: 'bubble',
 			data: {
 				datasets: [{
 					label: 'Tag Dataset',
 					data: [
-/* 						{x: 15,y: 15,r: ${booklog.visitorsStatistics.tag.get(0.0).count}},
-						{x: 14,y: 15,r: ${booklog.visitorsStatistics.tag.get(1.0).count}},
-						{x: 14,y: 14,r: ${booklog.visitorsStatistics.tag.get(2.0).count}},
-						{x: 15,y: 14,r: ${booklog.visitorsStatistics.tag.get(3.0).count}},
-						{x: 16,y: 14,r: ${booklog.visitorsStatistics.tag.get(4.0).count}},
-						{x: 16,y: 15,r: ${booklog.visitorsStatistics.tag.get(5.0).count}},
-						{x: 16,y: 16,r: ${booklog.visitorsStatistics.tag.get(6.0).count}},
-						{x: 15,y: 16,r: ${booklog.visitorsStatistics.tag.get(7.0).count}},
-						{x: 14,y: 16,r: ${booklog.visitorsStatistics.tag.get(8.0).count}},
-						{x: 13,y: 15,r: ${booklog.visitorsStatistics.tag.get(9.0).count}} */
-						{x:15,y:15,r:60}
+						{x: 15,y: 15,r: datas[0] * diff},
+						{x: 15+Math.cos(radians(60))*(datas[0]+datas[1])/50,y: 15+Math.sin(radians(60))*(datas[0]+datas[1])/50,r: datas[1] * diff},
+						{x: 15+Math.cos(radians(180))*(datas[0]+datas[2])/50,y: 15+Math.sin(radians(180))*(datas[0]+datas[2])/50,r: datas[2] * diff},
+						{x: 15+Math.cos(radians(300))*(datas[0]+datas[3])/50,y: 15+Math.sin(radians(300))*(datas[0]+datas[3])/50,r: datas[3] * diff},
+						{x: 15+Math.cos(radians(240))*(datas[0]+datas[4])/50,y: 15+Math.sin(radians(240))*(datas[0]+datas[4])/50,r: datas[4] * diff},
+						{x: 15+Math.cos(radians(0))*(datas[0]+datas[5])/50,y: 15+Math.sin(radians(0))*(datas[0]+datas[5])/50,r: datas[5] * diff},
+						{x: 15+Math.cos(radians(120))*(datas[0]+datas[6])/50,y: 15+Math.sin(radians(120))*(datas[0]+datas[6])/50,r: datas[6] * diff},
+						{x: 15+Math.cos(radians(330))*(datas[0]+datas[7])*Math.sqrt(3)/100,y: 15+Math.sin(radians(330))*(datas[0]+datas[7])*Math.sqrt(3)/100,r: datas[7] * diff},
+						{x: 15+Math.cos(radians(210))*(datas[0]+datas[8])*Math.sqrt(3)/100,y: 15+Math.sin(radians(210))*(datas[0]+datas[8])*Math.sqrt(3)/100,r: datas[8] * diff},
+						{x: 15+Math.cos(radians(90))*(datas[0]+datas[9])*Math.sqrt(3)/100,y: 15+Math.sin(radians(90))*(datas[0]+datas[9])*Math.sqrt(3)/100,r: datas[9] * diff} 
 					],
 					backgroundColor: 'rgb(255, 99, 132)'
 				}]
@@ -265,15 +287,36 @@
 		            yAxes: [{
 		                ticks: {
 		                    //beginAtZero:true
-		                    stepSize:1
+		                    //stepSize:1
+		                    //suggestedMin: 15-${booklog.visitorsStatistics.tag[0].per / 20},
+		                    //suggestedMax: 15+${booklog.visitorsStatistics.tag[0].per / 20}
 		                }
 		            }],
 		            xAxes: [{
 		                ticks: {
 		                    //beginAtZero:true
-		                    stepSize:1
+		                    //stepSize:1
+		                    //suggestedMin: 15-${booklog.visitorsStatistics.tag[0].per / 15},
+		                    //suggestedMax: 15+${booklog.visitorsStatistics.tag[0].per / 15}
 		                }
 		            }]
+		        },
+		        tooltips: {
+		        	callbacks: {
+		        		label: function(tooltipItem, data){
+		        			var labels = [	'${booklog.visitorsStatistics.tag[0].tagName}',
+								'${booklog.visitorsStatistics.tag[1].tagName}',
+								'${booklog.visitorsStatistics.tag[2].tagName}',
+								'${booklog.visitorsStatistics.tag[3].tagName}',
+								'${booklog.visitorsStatistics.tag[4].tagName}',
+								'${booklog.visitorsStatistics.tag[5].tagName}',
+								'${booklog.visitorsStatistics.tag[6].tagName}',
+								'${booklog.visitorsStatistics.tag[7].tagName}',
+								'${booklog.visitorsStatistics.tag[8].tagName}',
+								'${booklog.visitorsStatistics.tag[9].tagName}'	];
+		        			return labels[tooltipItem.index]+', '+Math.round(data.datasets[0].data[tooltipItem.index].r/diff)+'%';
+		        		}
+		        	}
 		        }
 		    }
 		});
@@ -318,8 +361,14 @@
 			}
 		});
 	}
+	
+	function radians(degree){
+		return degree * Math.PI / 180;
+	}
     
 </script>
+
+
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
@@ -333,6 +382,10 @@
 		<div class="row text-center">
 			<img class="img-responsive center-block" src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
 			<!-- <img class="img-responsive center-block" src="../resources/upload_files/images/${booklog.booklogImage}"> -->
+		</div>
+	</div>
+	<div class="container">
+		<div class="row text-center">
 			<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
 			<div class="col-md-offset-9 col-md-3">
 				<c:if test="${sessionScope.user.email != null}">
@@ -347,8 +400,6 @@
 				</c:if>
 			</div>
 		</div>
-	</div>
-	<div class="container">
 		<div class="row">
 			<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
 		    <div class="swiper-container">
@@ -360,6 +411,9 @@
 						<p>포스팅명 : ${posting.postingTitle}</p>
 	        		</div>
 	        	</c:forEach>
+	        	<c:if test="${i == 0}">
+	        		<h3>아직 등록된 포스팅이 없습니다!</h3>
+	        	</c:if>
 		        </div>
 		        <!-- Add Pagination -->
 		        <div class="swiper-pagination swiper-pagination-black"></div>
@@ -403,25 +457,25 @@
 		<div class="row">
 			<canvas id="tagChart"></canvas>
 		</div>
-		
+				
 		<div class="row">
 			<h4>Tag 노출 횟수</h4>
-			<p>${booklog.visitorsStatistics.tag.get(0.0).tagName} : ${booklog.visitorsStatistics.tag.get(0.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(1.0).tagName} : ${booklog.visitorsStatistics.tag.get(1.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(2.0).tagName} : ${booklog.visitorsStatistics.tag.get(2.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(3.0).tagName} : ${booklog.visitorsStatistics.tag.get(3.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(4.0).tagName} : ${booklog.visitorsStatistics.tag.get(4.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(5.0).tagName} : ${booklog.visitorsStatistics.tag.get(5.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(6.0).tagName} : ${booklog.visitorsStatistics.tag.get(6.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(7.0).tagName} : ${booklog.visitorsStatistics.tag.get(7.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(8.0).tagName} : ${booklog.visitorsStatistics.tag.get(8.0).count}회
-			<p>${booklog.visitorsStatistics.tag.get(9.0).tagName} : ${booklog.visitorsStatistics.tag.get(9.0).count}회
+			<c:forEach items="${booklog.visitorsStatistics.tag}" var="tagMap">
+				<p>${tagMap.tagName} : ${tagMap.count}회</p>
+			</c:forEach>
+			<c:if test="${empty booklog.visitorsStatistics.tag}">
+				<p>아직 노출된 Tag가 없습니다!</p>
+			</c:if>
 		</div>
 		
 		<div class="row">
+			<h4>활동내역</h4>
 			<c:forEach items="${logList}" var="log">
-				${log.toString()}<br/>
+				<p>${log.toString()}<p/>
 			</c:forEach>
+			<c:if test="${empty logList}">
+				<p>활동내역이 없습니다!</p>
+			</c:if>
 		</div>
 
 	</div>

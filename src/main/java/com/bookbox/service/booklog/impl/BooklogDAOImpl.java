@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.statistics.Statistics;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.domain.Booklog;
-import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 @Repository("booklogDAOImpl")
@@ -36,16 +36,16 @@ public class BooklogDAOImpl implements BooklogDAO {
 	public Booklog getBooklog(Booklog booklog) {
 		// TODO Auto-generated method stub
 		booklog = sqlSession.selectOne("BooklogMapper.getBooklog", booklog);
-		Map<String, Map<Object, Map<String,Object>>> statistics = new HashMap<String, Map<Object, Map<String,Object>>>();
-		statistics.put("daily", sqlSession.selectMap("BooklogMapper.getDailyVisitors", booklog.getBooklogNo(), "num"));
+		Map<String, List<Map<String,Object>>> statistics = new HashMap<String, List<Map<String,Object>>>();
+		statistics.put("daily", sqlSession.selectList("BooklogMapper.getDailyVisitors", booklog.getBooklogNo()));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("value", booklog.getBooklogNo());
 		map.put("interval", "week");
-		statistics.put("weekly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
+		statistics.put("weekly", sqlSession.selectList("BooklogMapper.getVisitors", map));
 		map.put("interval", "month");
-		statistics.put("monthly", sqlSession.selectMap("BooklogMapper.getVisitors", map, "num"));
+		statistics.put("monthly", sqlSession.selectList("BooklogMapper.getVisitors", map));
 		map.put("email", booklog.getUser().getEmail());
-		statistics.put("tag", sqlSession.selectMap("BooklogMapper.getTagStatistics", map, "num"));
+		statistics.put("tag", Statistics.calcRatio(sqlSession.selectList("BooklogMapper.getTagStatistics", map)));
 		booklog.setVisitorsStatistics(statistics);
 		return booklog;
 	}
@@ -86,10 +86,5 @@ public class BooklogDAOImpl implements BooklogDAO {
 		
 		return map;
 	}
-
-	@Override
-	public Funding test(Funding funding) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("BooklogMapper.getFundingTest", funding);
-	}
+	
 }

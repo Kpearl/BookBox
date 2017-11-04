@@ -8,9 +8,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
-import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +25,11 @@ public class BooklogTest {
 	@Qualifier("booklogServiceImpl")
 	private BooklogService booklogService;
 	
+	@Autowired
+	@Qualifier("booklogDAOImpl")
+	private BooklogDAO booklogDAO;
+
+	
 //	@Test
 	public void getBooklogListTest() {
 		Search search = new Search();
@@ -35,7 +40,7 @@ public class BooklogTest {
 		System.out.println(booklogService.getBooklogList(search));
 	}
 	
-//	@Test
+	@Test
 	public void getBooklogTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
@@ -58,23 +63,5 @@ public class BooklogTest {
 		booklogService.updateBooklog(user, booklog);
 	}
 	
-//	@Test
-	public void getDailyVisitorsTest() {
-		Booklog booklog = new Booklog();
-		booklog.setBooklogNo(8);
-		
-//		System.out.println(booklogService.getBooklog(new User(), booklog));
-		booklog = booklogService.getBooklog(new User(), booklog);
-		System.out.println(booklog);
-		System.out.println(booklog.getVisitorsStatistics().get("daily").get(0.0).get("daycount"));
-	}
-	
-	@Test
-	public void testets() {
-		Funding funding = new Funding();
-		
-		funding.setFundingNo(1);
-		
-		System.out.println(booklogService.test(funding));
-	}
+
 }

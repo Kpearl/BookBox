@@ -91,7 +91,7 @@
 				reader.onload = function(event){
 					var img = new Image();
 					img.src = event.target.result;
-					$(preview).css('background','url('+img.src+') no-repeat center');
+					$(preview).css('background','url('+img.src+') no-repeat center').css('background-size','cover');
 				}
 				reader.readAsDataURL(file);
 				
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 	
-			<div class="row preview" style="height:200px; margin-bottom:5px; background:url(../resources/upload_files/images/${mainFile.fileName}) no-repeat center"></div>
+			<div class="row preview" style="height:200px; margin-bottom:5px; background:url(../resources/upload_files/images/${mainFile.fileName}) no-repeat center; background-size:cover;"></div>
 			
 			
 			<div class="form-group">

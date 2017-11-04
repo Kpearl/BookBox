@@ -44,11 +44,10 @@
 		});
 		
 		$(window).scroll(function(){
-			var max = $(document).height() - $(window).height();
-			if(max < 500){
+			if($(window).scrollTop() < 500){
 				max = 500;
+				$('header').css('opacity', (max - $(window).scrollTop())/max);
 			}
-			$('header').css('opacity', (max - $(window).scrollTop())/max);
 		});
 	</script>
 </head>

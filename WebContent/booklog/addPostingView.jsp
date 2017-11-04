@@ -93,7 +93,7 @@
 				reader.onload = function(event){
 					var img = new Image();
 					img.src = event.target.result;
-					$(preview).css('background','url('+img.src+') no-repeat center');
+					$(preview).css('background','url('+img.src+') no-repeat center').css('background-size','cover');
 				}
 				reader.readAsDataURL(file);
 				

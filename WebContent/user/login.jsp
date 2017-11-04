@@ -107,70 +107,52 @@
 			}
  */		//===========구글 로그인 커스텀 버튼======================
 		
-			function onSuccess(googleUser) {
-	 			if(false){
-					 var profile = googleUser.getBasicProfile();  
-					 var id_token = googleUser.getAuthResponse().id_token;
-					  console.log("ID Token: " + id_token);
-					  $('#outerToken').val(id_token);
-					  $('#email').val(profile.getEmail());
-					  $('#outerAccount').val(3);
-					  $("form").attr("method","POST").attr("action","../user/login").submit();
-	 			}
-    		}
-		    function onFailure(error) {
-		      console.log(error);
-		    }
-		    function renderButton() {
-		      gapi.signin2.render('my-signin2', {
-		        'scope': 'profile email',
-		        'width': 205,
-		        'height': 49,
-		        'longtitle': true,
-		        'theme': 'light',
-		        'onsuccess': onSuccess,
-		        'onfailure': onFailure
-		      });
-		    }
+		function onSuccess(googleUser) {
+			if(false){
+				var profile = googleUser.getBasicProfile();  
+				var id_token = googleUser.getAuthResponse().id_token;
+				console.log("ID Token: " + id_token);
+				$('#outerToken').val(id_token);
+				$('#email').val(profile.getEmail());
+				$('#outerAccount').val(3);
+				$("form").attr("method","POST").attr("action","../user/login").submit();
+			}
+		}
+	    function onFailure(error) {
+			console.log(error);
+		}
+	    function renderButton() {
+			gapi.signin2.render('my-signin2', {
+				'scope': 'profile email',
+				'width': 205,
+				'height': 49,
+				'longtitle': true,
+				'theme': 'light',
+				'onsuccess': onSuccess,
+				'onfailure': onFailure
+			});
+	    }
 			
 
-		//============= "로그인"  Event 연결 =============
 		$( function() {
 			
 			$("#email").focus();
+			if($('#email').val() != ''){
+				$('#password').focus();
+			}
 			
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//============= "로그인"  Event 연결 =============
 			$("a.user-login").on("click" , function() {
-				var email=$("input[name='email']").val();
-				var pw=$("input[name='password']").val();
-				
-				if(email == null || email.length <1) {
-					alert('이메일을 입력하지 않으셨습니다.');
-					$("#email").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("#password").focus();
-					return;
-				}
-				$("form").attr("method","POST").attr("action","../user/login").submit();
+				fncLoginProcess();
 			});
-		});	
 		
 		
 		//============= 회원원가입화면이동 =============
-		$( function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("a.user-sign-in").on("click" , function() {
 				self.location = "../user/addUser"
 			});
-		});
 		
 		//============= 비밀번호 찾기 화면이동 =============
-		$( function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("a.user-find-password").on("click" , function() {
 				
 				var popURL = "../user/findPassword";
@@ -179,7 +161,35 @@
 				window.open(popURL,"비밀번호 찾기",popOption);
 				
 			});
-		});		
+		
+		
+		//============= 엔터키로 로그인 =================
+			$('#password').on('keydown', function(event){
+				if(event.which == 13){
+					event.preventDefault();
+					fncLoginProcess();
+				}
+			});
+		});
+		
+		
+		function fncLoginProcess(){
+			var email=$("input[name='email']").val();
+			var pw=$("input[name='password']").val();
+			
+			if(email == null || email.length <1) {
+				alert('이메일을 입력하지 않으셨습니다.');
+				$("#email").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length <1) {
+				alert('패스워드를 입력하지 않으셨습니다.');
+				$("#password").focus();
+				return;
+			}
+			$("form").attr("method","POST").attr("action","../user/login").submit();
+		}
 		
 		
 	</script>		

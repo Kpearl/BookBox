@@ -37,6 +37,7 @@
 		SELECT l.email, u.nickname, l.reg_date, l.target_no, l.add_behavior, l.behavior, l.category_no
 		FROM log l, user u
 		WHERE l.email = #{email} AND l.email = u.email
+		GROUP BY l.email, u.nickname, date(l.reg_date), l.target_no, l.add_behavior, l.behavior, l.category_no
 		ORDER BY l.reg_date DESC
 		LIMIT 10 OFFSET #{active}
 	</select>
