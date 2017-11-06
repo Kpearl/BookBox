@@ -80,9 +80,9 @@ $(function() {
 	$('.openbtn').on('mouseup', function(){
 		$(".sidenav").css('width', "250px");
 		$('.navbtn').addClass('sr-only');
-		$(window).on('mousedown', function(event){
+		$(document).on('mousedown', function(event){
 			var target = event.target.className;
-			if(!target.includes('bookbox-nav')){
+			if(target.indexOf('bookbox-nav') == -1){
 				$('.sidenav').css('width', '0');
 				$('.navbtn').removeClass('sr-only');
 				$(this).off('mousedown');
@@ -93,9 +93,9 @@ $(function() {
 	$('.findbtn').on('mouseup', function(){
 		$('.searchnav').css('transform', 'translate(-300px, 0)');
 		$('.searchbtn').addClass('sr-only');
-		$(window).on('mousedown', function(event){
+		$(document).on('mousedown', function(event){
 			var target = event.target.className;
-			if(!target.includes('bookbox-search')){
+			if(target.indexOf('bookbox-search') == -1){
 				$('.searchnav').css('transform', 'translate(0, 0)');
 				$('.searchbtn').removeClass('sr-only');
 				$(this).off('mousedown');
@@ -164,9 +164,15 @@ function searchCheck(){
 		left: 0;
 		background-color: rgba(72, 65, 65, 0.65);
 		overflow-x: hidden;
-		padding-top: 60px;
-		transition: 0.5s;
-		transform: translate(0, 70px);
+		-webkit-border-radius: 0 7px 7px 0;
+		   -moz-border-radius: 0 7px 7px 0;
+				border-radius: 0 7px 7px 0;
+		-webkit-transition: 0.5s;
+		   -moz-transition: 0.5s;
+				transition: 0.5s;
+		-webkit-transform: translate(0, 70px);
+		   -moz-transform: translate(0, 70px);
+				transform: translate(0, 70px);
 	}
 	
 	.sidenav a{
@@ -175,7 +181,9 @@ function searchCheck(){
 		font-size: 16px;
 		color: #ffffff;
 		display: block;
-		transition: 0.3s;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
 	}
 	
 	.searchnav a{
@@ -183,7 +191,9 @@ function searchCheck(){
 		font-size: 16px;
 		color: #ffffff;
 		display: block;
-		transition: 0.3s;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
 	}
 	
 	.sidenav a:hover, .offcanvas a:focus{
@@ -203,7 +213,9 @@ function searchCheck(){
 	 	top: 50%;
 	 	left: 0;
 	 	width: 240px;
-	 	transform: translate(0, -50%);
+	 	-webkit-transform: translate(0, -50%);
+	 	   -moz-transform: translate(0, -50%);
+			 	transform: translate(0, -50%);
 	 }
 	
 	.homebtn{
@@ -214,7 +226,9 @@ function searchCheck(){
 		height: 50px;
 		width: 60px;
 		font-size: 20px;
-		transition: 0.5s;
+		-webkit-transition: 0.5s;
+		   -moz-transition: 0.5s;
+				transition: 0.5s;
 		overflow: hidden;
 	}
 	
@@ -222,15 +236,21 @@ function searchCheck(){
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transition: 0.3s;
 		width: 60px;
 		text-decoration: none;
 		font-size: 28px;
 		color: black;
-		border-radius: 0 5px 5px 0;
 		background-color: rgba(255, 255, 255, 0);
 		cursor: pointer;
-		transform: translate(-50%, -50%);
+		-webkit-border-radius: 0 5px 5px 0;
+		   -moz-border-radius: 0 5px 5px 0;
+				border-radius: 0 5px 5px 0;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
+		-webkit-transform: translate(-50%, -50%);
+		   -moz-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
 	}
 
 	.navbtn{
@@ -241,21 +261,27 @@ function searchCheck(){
 		height: 50px;
 		width: 40px;
 		font-size: 20px;
-		transition: 0.5s;
+		-webkit-transition: 0.5s;
+		   -moz-transition: 0.5s;
+				transition: 0.5s;
 	}
 	
 	.navbtn span{
 		position: absolute;
 		left: 0;
-		transition: 0.3s;
 		padding: 5px;
 		width: 60px;
 		text-decoration: none;
 		font-size: 20px;
 		color: white;
-		border-radius: 0 5px 5px 0;
 		background-color: rgba(206, 163, 121, 0.47);
 		cursor: pointer;
+		-webkit-border-radius: 0 5px 5px 0;
+		   -moz-border-radius: 0 5px 5px 0;
+				border-radius: 0 5px 5px 0;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
 	}
 
 	.searchnav{
@@ -267,8 +293,12 @@ function searchCheck(){
 		left: 100%;
 		background-color: rgba(72, 65, 65, 0.65);
 		padding-top: 60px;
-		transition: 0.5s;
-		border-radius: 7px 0 0 7px;
+		-webkit-border-radius: 7px 0 0 7px;
+		   -moz-border-radius: 7px 0 0 7px;
+				border-radius: 7px 0 0 7px;
+		-webkit-transition: 0.5s;
+		   -moz-transition: 0.5s;
+				transition: 0.5s;
 	}
 	
 	.searchnav form a{
@@ -277,7 +307,9 @@ function searchCheck(){
 		font-size: 16px;
 		color: #000000;
 		display: block;
-		transition: 0.3s;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
 	}
 	
 	.searchbtn{
@@ -288,37 +320,45 @@ function searchCheck(){
 		height: 50px;
 		width: 40px;
 		font-size: 20px;
-		transition: 0.5s;
+		-webkit-transition: 0.5s;
+		   -moz-transition: 0.5s;
+				transition: 0.5s;
 	}
 	
 	.searchbtn span{
 		position: absolute;
 		left: -60px;
-		transition: 0.3s;
 		padding: 5px;
 		width: 60px;
 		text-decoration: none;
 		font-size: 20px;
 		color: white;
-		border-radius: 5px 0 0 5px;
 		background-color: rgba(206, 163, 121, 0.47);
 		cursor: pointer;
+		-webkit-border-radius: 5px 0 0 5px;
+		   -moz-border-radius: 5px 0 0 5px;
+				border-radius: 5px 0 0 5px;
+		-webkit-transition: 0.3s;
+		   -moz-transition: 0.3s;
+				transition: 0.3s;
 	}
 	
 	select.search-form{
 		position: absolute;
 		top: 50%;
 		left: 0;
-		transform: translate(0, -50%);
 		width: 80px;
 		display: inline-block;
 		background-color: rgba(72, 65, 65, 0);
 		margin-left: 5px;
-		box-shadow: none;
-		-webkit-box-shadow: none;
 		color: #ffffff;
 		font-size: 14px;
 		height: 16px;
+		-webkit-box-shadow: none;
+				box-shadow: none;
+		-webkit-transform: translate(0, -50%);
+		   -moz-transform: translate(0, -50%);
+				transform: translate(0, -50%);
 	}
 	
 	select.search-form option{
@@ -329,7 +369,6 @@ function searchCheck(){
 		position: absolute;
 		top: 50%;
 		left: 80px;
-		transform: translate(0, -50%);
 		width: 150px;
 		display: inline-block;
 		background-color: rgba(72, 65, 65, 0);
@@ -337,10 +376,19 @@ function searchCheck(){
 		font-size: 16px;
 		height: 22px;
 		color: #ffffff;
+		-webkit-transform: translate(0, -50%);
+		   -moz-transform: translate(0, -50%);
+				transform: translate(0, -50%);
 	}
 	
 	.input-group-btn .nav-search{
+		position: absolute;
+		top: 50%;
+		left: 15px;
 		padding: 0;
+		-webkit-transform: translate(0, -50%);
+		   -moz-transform: translate(0, -50%);
+				transform: translate(0, -50%);
 	}
 	
 </style>
@@ -352,7 +400,7 @@ function searchCheck(){
 <div id="sidenav" class="sidenav bookbox-nav">
 
 <c:if test="${!empty sessionScope.user}">
-	<li class="dropdown nav-default bookbox-nav"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret"></span></a>
+	<li class="dropdown nav-default bookbox-nav"><a class="dropdown-toggle bookbox-nav" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret"></span></a>
 		<ul class="dropdown-menu bookbox-nav" role="menu">
 			<li role="presentation"><a class="nav-booklog-my bookbox-nav" href="javascript:void(0)">내 북로그보기</a></li>
 			<li role="presentation"><a class="nav-subscribe bookbox-nav" href="javascript:void(0)">구독한글보기</a></li>
