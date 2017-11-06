@@ -40,6 +40,18 @@
 	        background-position: center;
 	        background-size: cover;
 	    }
+	    
+	    div.div-posting img{
+	    	max-width: 100%;
+	    	position: absolute;
+	    	top: 50%;
+	    	left: 50%;
+	    	transform: translate(-50%, -50%);
+	    }
+	    
+	    div.div-posting{
+	    	overflow: hidden;
+	    }
     </style>
 
 <script type="text/javascript">
@@ -406,7 +418,10 @@
 		        <div class="swiper-wrapper">
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklog.postingList}" var="posting">
-	        		<div class="swiper-slide div-posting" style="background-image:url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/noimage.jpeg'})">
+	        		<c:set var="i" value="${i+1}"/>
+	        		<div class="swiper-slide div-posting">
+	        		<%-- <div class="swiper-slide div-posting" style="background-image:url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'})"> --%>
+	        			<img src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
 						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 						<p>포스팅명 : ${posting.postingTitle}</p>
 	        		</div>

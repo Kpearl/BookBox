@@ -72,13 +72,40 @@ $(function() {
 	}); 
   
 //============= 홈버튼 Event  처리 =============	
-  	$("a.navigation-home").on("click" , function() {
+  	$("a.nav-home").on("click" , function() {
  		$(self.location).attr("href","${param.uri}");
 	}); 
 
+//============= 네비게이션 open/close =============
+	$('.openbtn').on('mouseup', function(){
+		$(".sidenav").css('width', "250px");
+		$('.navbtn').addClass('sr-only');
+		$(window).on('mousedown', function(event){
+			var target = event.target.className;
+			if(!target.includes('bookbox-nav')){
+				$('.sidenav').css('width', '0');
+				$('.navbtn').removeClass('sr-only');
+				$(this).off('mousedown');
+			}
+		})
+	});
+	
+	$('.findbtn').on('mouseup', function(){
+		$('.searchnav').css('transform', 'translate(-300px, 0)');
+		$('.searchbtn').addClass('sr-only');
+		$(window).on('mousedown', function(event){
+			var target = event.target.className;
+			if(!target.includes('bookbox-search')){
+				$('.searchnav').css('transform', 'translate(0, 0)');
+				$('.searchbtn').removeClass('sr-only');
+				$(this).off('mousedown');
+			}
+		});
+	});
+
 // JJ : Search Button View
 //============= 검색버튼 Event  처리 =============
-	$("a.nav-search").on("click" , function() {
+	$("button.nav-search").on("click" , function() {
 		searchCheck();
 	});
 	
@@ -124,77 +151,261 @@ function searchCheck(){
 		}
 	}
 }
+
 </script>
 
+<style>
+	.sidenav{
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 100;
+		top: 0;
+		left: 0;
+		background-color: rgba(72, 65, 65, 0.65);
+		overflow-x: hidden;
+		padding-top: 60px;
+		transition: 0.5s;
+		transform: translate(0, 70px);
+	}
+	
+	.sidenav a{
+		padding: 8px 8px 8px 32px;
+		text-decoration: none;
+		font-size: 16px;
+		color: #ffffff;
+		display: block;
+		transition: 0.3s;
+	}
+	
+	.searchnav a{
+		text-decoration: none;
+		font-size: 16px;
+		color: #ffffff;
+		display: block;
+		transition: 0.3s;
+	}
+	
+	.sidenav a:hover, .offcanvas a:focus{
+		color: #f1f1f1;
+	}
+	
+	.sidenav .nav-home{
+		position: absolute;
+		top: 0;
+		left: 0;
+		font-size: 28px;
+		width: 190px;
+	}
+	
+	 .searchnav .input-group{
+	 	position: absolute;
+	 	top: 50%;
+	 	left: 0;
+	 	width: 240px;
+	 	transform: translate(0, -50%);
+	 }
+	
+	.homebtn{
+		position: fixed;
+		top: 10px;
+		z-index: 50;
+		left: 0;
+		height: 50px;
+		width: 60px;
+		font-size: 20px;
+		transition: 0.5s;
+		overflow: hidden;
+	}
+	
+	.homebtn a{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transition: 0.3s;
+		width: 60px;
+		text-decoration: none;
+		font-size: 28px;
+		color: black;
+		border-radius: 0 5px 5px 0;
+		background-color: rgba(255, 255, 255, 0);
+		cursor: pointer;
+		transform: translate(-50%, -50%);
+	}
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header"><a class="navbar-brand navbar-link navigation-home" href="#"><i class="glyphicon glyphicon-book"></i><span class="text-title">Bookbox </span></a>
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-        </div>
-        <div class="collapse navbar-collapse" id="navcol-1">
-        	<!-- sm용 dropdown menu -->
-            <ul class="nav navbar-nav navbar-left hidden-xs hidden-md hidden-lg">
-	            <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">More.. <span class="caret"></span></a>
-	                <ul class="dropdown-menu" role="menu">
-		                <li role="presentation"><a class="nav-creation" href="#">창작공간 </a></li>
-		                <li role="presentation"><a class="nav-community" href="#">소모임 </a></li>
-		                <li role="presentation"><a class="nav-booklog" href="#">북로그</a></li>
-		                <li role="presentation"><a class="nav-notice" href="#">공지사항</a></li>
-	                </ul>
-	            </li>
-	        </ul>
+	.navbtn{
+		position: fixed;
+		top: 70px;
+		z-index: 50;
+		left: 0;
+		height: 50px;
+		width: 40px;
+		font-size: 20px;
+		transition: 0.5s;
+	}
+	
+	.navbtn span{
+		position: absolute;
+		left: 0;
+		transition: 0.3s;
+		padding: 5px;
+		width: 60px;
+		text-decoration: none;
+		font-size: 20px;
+		color: white;
+		border-radius: 0 5px 5px 0;
+		background-color: rgba(206, 163, 121, 0.47);
+		cursor: pointer;
+	}
+
+	.searchnav{
+		height: 50px;
+		width: 300px;
+		position: fixed;
+		z-index: 100;
+		top: 65px;
+		left: 100%;
+		background-color: rgba(72, 65, 65, 0.65);
+		padding-top: 60px;
+		transition: 0.5s;
+		border-radius: 7px 0 0 7px;
+	}
+	
+	.searchnav form a{
+		padding: 8px 8px 8px 32px;
+		text-decoration: none;
+		font-size: 16px;
+		color: #000000;
+		display: block;
+		transition: 0.3s;
+	}
+	
+	.searchbtn{
+		position: fixed;
+		top: 70px;
+		z-index: 50;
+		left: 100%;
+		height: 50px;
+		width: 40px;
+		font-size: 20px;
+		transition: 0.5s;
+	}
+	
+	.searchbtn span{
+		position: absolute;
+		left: -60px;
+		transition: 0.3s;
+		padding: 5px;
+		width: 60px;
+		text-decoration: none;
+		font-size: 20px;
+		color: white;
+		border-radius: 5px 0 0 5px;
+		background-color: rgba(206, 163, 121, 0.47);
+		cursor: pointer;
+	}
+	
+	select.search-form{
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translate(0, -50%);
+		width: 80px;
+		display: inline-block;
+		background-color: rgba(72, 65, 65, 0);
+		margin-left: 5px;
+		box-shadow: none;
+		-webkit-box-shadow: none;
+		color: #ffffff;
+		font-size: 14px;
+		height: 16px;
+	}
+	
+	select.search-form option{
+		color: #000000;
+	}
+	
+	input.search-form{
+		position: absolute;
+		top: 50%;
+		left: 80px;
+		transform: translate(0, -50%);
+		width: 150px;
+		display: inline-block;
+		background-color: rgba(72, 65, 65, 0);
+		margin-left: 5px;
+		font-size: 16px;
+		height: 22px;
+		color: #ffffff;
+	}
+	
+	.input-group-btn .nav-search{
+		padding: 0;
+	}
+	
+</style>
+
+<div id="homebtn" class="homebtn text-center">
+    <a class="nav-home" href="javascript:void(0)"><i class="glyphicon glyphicon-book"></i></a>
+</div>
+
+<div id="sidenav" class="sidenav bookbox-nav">
+
+<c:if test="${!empty sessionScope.user}">
+	<li class="dropdown nav-default bookbox-nav"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret"></span></a>
+		<ul class="dropdown-menu bookbox-nav" role="menu">
+			<li role="presentation"><a class="nav-booklog-my bookbox-nav" href="javascript:void(0)">내 북로그보기</a></li>
+			<li role="presentation"><a class="nav-subscribe bookbox-nav" href="javascript:void(0)">구독한글보기</a></li>
+			<li role="presentation"><a class="nav-booklike bookbox-nav" href="javascript:void(0)">좋아요책목록보기</a></li>
+			<li role="presentation"><a class="nav-bookmark bookbox-nav" href="javascript:void(0)">책갈피목록보기</a></li>
+		<c:if test="${sessionScope.user.role == 'admin'}">
+			<li role="presentation"><a class="nav-userlist bookbox-nav" href="javascript:void(0)">회원목록조회</a></li>
+		</c:if>
+			<li role="presentation"><a class="nav-userinfo bookbox-nav" href="javascript:void(0)">내 정보조회</a></li>
+		</ul>
+	</li>
+</c:if>
+<c:choose>
+	<c:when test="${empty sessionScope.user}">
+		<a class="nav-login bookbox-nav" href="javascript:void(0)">로그인 </a>
+		<a class="nav-signin bookbox-nav" href="javascript:void(0)">회원가입 </a>
+	</c:when>
+	<c:otherwise>
+		<a class="nav-logout bookbox-nav" href="javascript:void(0)">로그아웃</a>
+	</c:otherwise>
+</c:choose>
+
+	<hr/>
+
+	<a class="nav-creation bookbox-nav" href="javascript:void(0)">창작공간 </a>
+	<a class="nav-community bookbox-nav" href="javascript:void(0)">소모임 </a>
+	<a class="nav-booklog bookbox-nav" href="javascript:void(0)">북로그</a>
+	<a class="nav-notice bookbox-nav" href="javascript:void(0)">공지사항</a>
 	        
-            <ul class="nav navbar-nav navbar-left hidden-sm">
-                <li role="presentation"><a class="nav-creation" href="#">창작공간 </a></li>
-                <li role="presentation"><a class="nav-community" href="#">소모임 </a></li>
-                <li role="presentation"><a class="nav-booklog" href="#">북로그</a></li>
-                <li role="presentation"><a class="nav-notice" href="#">공지사항</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-            <c:choose>
-            	<c:when test="${empty sessionScope.user}">
-	                <li class="nav-default" role="presentation"><a class="nav-login" href="#">로그인 </a></li>
-	                <li class="nav-default" role="presentation"><a class="nav-signin" href="#">회원가입 </a></li>
-                </c:when>
-                <c:otherwise>
-   	                <li class="nav-default" role="presentation"><a class="nav-logout" href="#">로그아웃</a></li>
-                </c:otherwise>
-            </c:choose>
-            <c:if test="${!empty sessionScope.user}">
-                <li class="dropdown nav-default"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">${sessionScope.user.nickname} <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a class="nav-booklog-my" href="#">내 북로그보기</a></li>
-                        <li role="presentation"><a class="nav-subscribe" href="#">구독한글보기</a></li>
-                        <li role="presentation"><a class="nav-booklike" href="#">좋아요책목록보기</a></li>
-                        <li role="presentation"><a class="nav-bookmark" href="#">책갈피목록보기</a></li>
-					<c:if test="${sessionScope.user.role == 'admin'}">
-                        <li role="presentation"><a class="nav-userlist" href="#">회원목록조회</a></li>
-                    </c:if>
-                        <li role="presentation"><a class="nav-userinfo" href="#">내 정보조회</a></li>
-                    </ul>
-                </li>
-			</c:if>
-				<li class="sr-only nav-search" role="presentation">
-					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-						    <select id="keyField" class="form-control">
-						        <option value="unifiedsearch">통합검색</option>
-						        <option value="book">도서</option>
-						        <option value="creation">창작공간</option>
-						        <option value="community">소모임</option>
-						        <option value="posting">포스팅</option>
-						        <option value="tag">태그</option>
-						    </select>
-							<input type="text" class="form-control nav-search-keyword" id="keyWord" placeholder="검색어 입력">
-						</div>
-						<a href="#" class="btn btn-default nav-search">검색</a>
-					</form>
-				</li>
-                <li role="presentation">
-                    <a class="navigation-search" href="#"><i class="glyphicon glyphicon-search"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+</div>
+
+<div id="navbtn" class="navbtn text-center bookbox-nav">
+	<span class="openbtn bookbox-nav"><img src="https://icongr.am/octicons/three-bars.svg?size=40"></span>
+</div>
+
+<div id="searchnav" class="searchnav bookbox-search">
+	<div class="input-group bookbox-search">
+		<select id="keyField" class="search-form bookbox-search">
+			<option value="unifiedsearch" class="bookbox-search">통합검색</option>
+			<option value="book" class="bookbox-search">도서</option>
+			<option value="creation" class="bookbox-search">창작공간</option>
+			<option value="community" class="bookbox-search">소모임</option>
+			<option value="posting" class="bookbox-search">포스팅</option>
+			<option value="tag" class="bookbox-search">태그</option>
+		</select>
+		<input type="text" class="search-form nav-search-keyword bookbox-search" id="keyWord" placeholder="검색어 입력">
+		<span class="input-group-btn bookbox-search">
+			<a href="javascript:void(0)" class="btn nav-search bookbox-search" type="button"><img src="https://icongr.am/octicons/search.svg?size=32&color=ffffff"></a>
+		</span>
+	</div>
+</div>
+
+<div id="searchbtn" class="searchbtn text-center bookbox-search">
+	<span class="findbtn bookbox-search"><img src="https://icongr.am/octicons/search.svg?size=40"></span>
+</div>
+

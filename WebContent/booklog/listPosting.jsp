@@ -14,20 +14,35 @@
 	<!-- 기본설정 끝 -->
 	
 	<style>
+		div.div-posting, div.posting-img{
+			height: 200px;
+			overflow: hidden;
+		}
 		span.posting-content{
-			text-overflow:ellipsis;
-			white-space:normal;
-			word-wrap:normal;
-			overflow:hidden;
+			text-overflow: ellipsis;
+			white-space: normal;
+			word-wrap: normal;
+			overflow: hidden;
 			display: -webkit-box;
 			-webkit-line-clamp: 3; /* 라인수 */
 			-webkit-box-orient: vertical;
-			word-wrap:break-word; 
+			word-wrap: break-word; 
 			line-height: 1.2em;
 			height: 3.6em;
   		}
   		img.posting-img{
-  			opacity:0.8;
+  			position: absolute;
+  			left: 50%;
+  			top: 50%;
+  			transform: translate(-50%, -50%);
+  			opacity: 0.8;
+  			transition: 0.5s;
+  		}
+  		img.posting-img:hover{
+  			transform: translate(-50%, -50%) scale(1.3);
+  		}
+  		div.hidden-md img{
+  			opacity: 0.4;
   		}
 	</style>
 	
@@ -69,17 +84,31 @@
 		<c:forEach items="${postingList}" var="posting">
 		<div class="row div-posting">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-			<%-- <div class="col-xs-4 col-md-4 text-center" style="background:url(../resources/upload_files/images/${posting.postingFileList[0].fileName}) no-repeat center; background-size: cover;"> --%>
-			<div class="col-xs-4 col-md-4 text-center">
-				<img class="img-responsive posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
+			<div class="row hidden-xs">
+				<div class="col-sm-4 text-center posting-img">
+					<img class="img-thumbnail posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
+				</div>
+				<div class="col-sm-8">
+					<h3><strong>${posting.postingTitle}</strong></h3>
+					<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
+					<span class="posting-content">${posting.postingContent}</span>
+					<c:forEach items="${posting.postingTagList}" var="tag">
+						<span class="tag"># ${tag.tagName}</span>
+					</c:forEach>
+				</div>
 			</div>
-			<div class="col-xs-8 col-md-8">
-				<h3><strong>${posting.postingTitle}</strong></h3>
-				<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
-				<span class="posting-content">${posting.postingContent}</span>
-				<c:forEach items="${posting.postingTagList}" var="tag">
-					<span class="tag"># ${tag.tagName}</span>
-				</c:forEach>
+			<div class="row hidden-sm hidden-md hidden-lg">
+				<div class="col-xs-12 posting-img">
+					<div class="col-xs-10 col-xs-offset-1">
+						<h4><strong>${posting.postingTitle}</strong></h4>
+						<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
+						<span class="posting-content">${posting.postingContent}</span>
+						<c:forEach items="${posting.postingTagList}" var="tag">
+							<span class="tag"># ${tag.tagName}</span>
+						</c:forEach>
+					</div>
+					<img class="img-thumbnail posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" style="width: 100%;">
+				</div>
 			</div>
 		</div>
 		</c:forEach>

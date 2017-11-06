@@ -19,7 +19,7 @@
     	}
     	header{
     		/* background:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609) no-repeat center; */
-    		background:url(../resources/upload_files/images/${empty mainFile? '../../images/noimage.jpeg':mainFile.fileName}) no-repeat center;
+    		background:url(../resources/upload_files/images/${empty mainFile? '../../images/posting_noimage.jpeg':mainFile.fileName}) no-repeat center;
     	}
     	.parallax { 
 		    background-attachment: fixed;
@@ -52,10 +52,10 @@
 	</script>
 </head>
 <body>
-	<header class="parallax"></header>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 	
 	<!-- 여기부터 코딩 -->
 	<div class="container text-center">
@@ -64,7 +64,7 @@
 		<p>${posting.postingRegDate}</p>
 	</div>
 	
-	<div class="container">
+	<div class="container" style="overflow: auto;">
 		${posting.postingContent} <br/><br/>
 		<c:forEach items="${posting.postingTagList}" var="tag" >
 			<span class="tag"># ${tag.tagName}</span> 

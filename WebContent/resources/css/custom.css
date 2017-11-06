@@ -4,11 +4,11 @@ header{
   background-size:cover;
   margin-bottom:5px;
 }
-
+/* side-navigation 적용으로 미적용처리
 body{
 	padding-top:80px;
 }
-
+ */
 .navbar-nav{
   margin-top:14px;
 }
