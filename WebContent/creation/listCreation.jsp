@@ -131,7 +131,7 @@
 		<div class="row creation-row">
 			<%-- <input type ="text" name="creationNo" value="${creation.creationNo }"/> --%>
 			<div class="col-md-5">
-				<img class="img-responsive creation-img" src="../resources/upload_files/images/${creation.creationFileName}" alt="Image">
+				<img class="img-responsive creation-img" src="../resources/upload_files/images/${creation.creationFileName}" alt="Image" onerror="this.src='../resources/images/noimage.jpg'">
 				<!-- <img class="img-responsive creation-img" src="../resources/images/creation_noimage.jpg" alt="Image"> -->
 				<p>펀딩여부</p>
 			</div>

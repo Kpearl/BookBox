@@ -1,6 +1,23 @@
+<%@page import="java.util.Random"%>
+<%@page import="com.bookbox.service.domain.User"%>
+<%@page import="com.bookbox.service.domain.ChatRoom"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% if(request.getAttribute("chatRoom")==null){
+	ChatRoom chatRoom=new ChatRoom();
+	chatRoom.setRoomId("test0001");
+	request.setAttribute("chatRoom", chatRoom);
+	Random rand=new Random();
+	User user=new User();
+	user.setNickname("user"+rand.nextInt(1000));
+	request.setAttribute("user", user);
+}
+%>
+
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" dir="ltr">
 <head>
@@ -18,6 +35,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
   	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
+    
+    <style type="text/css">
+    	video{
+    		width: 400px;
+    		height: 300px;
+    	}
+    
+    </style>
 </head>
 
 <body>
@@ -28,6 +53,13 @@
  	<div class="container">
 	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
 	 <input type="hidden" id="nickname" value="${user.nickname }">
+	 <c:if test="${ user.email == chatRoom.host.email }">
+		 <input type="hidden" id="role" value="host">
+	 </c:if>
+	 <c:if test="${ user.email != chatRoom.host.email }">
+	 	<input type="hidden" id="role" value="guest">
+	 </c:if>
+	 
 	 
 	 <!--  방정보 출력 -->
 	 <div class="roomInfo">
@@ -52,13 +84,6 @@
 	</div>
 	 <!--  방정보 끝 -->
 
-   
-      <!-- 
-      <input type="text" id="broadcast-id" value="room-xyz" autocorrect=off autocapitalize=off size=20>
-      <button id="open-or-join">Open or Join Broadcast</button>
-		
-      <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-       -->
 	<div class="row">
 		<div class="col-md-6 video-container">
 	      <div class="make-center" id="broadcast-viewers-counter"></div>
@@ -75,6 +100,8 @@
 </div>
 <!-- <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script> -->
 <script>
+
+   
 // recording is disabled because it is resulting for browser-crash
 // if you enable below line, please also uncomment above "RecordRTC.js"
 var enableRecordings = false;
@@ -163,8 +190,9 @@ connection.connectSocket(function(socket) {
         // we can skip this function always; it is totally optional here.
         // we can use "connection.getUserMediaHandler" instead
         connection.open(connection.userid, function() {
-            showRoomURL(connection.sessionid);
+           //showRoomURL(connection.sessionid);
         });
+        
     });
 });
 
@@ -379,17 +407,21 @@ connection.onNumberOfBroadcastViewersUpdated = function(event) {
 
 //자동연결
 setTimeout(function(){           
-	
+	//	console.log("join Room");
 	  var broadcastId = $("#roomId").val();
 
 	    connection.session = {
 	        audio: true,
 	        video: true,
+	       // screen:true,
 	        oneway: true
 	    };
 
 	    var socket = connection.getSocket();
-
+		console.log(socket);
+		
+		try{
+			
 	    socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
 	        if (!isBroadcastExists) {
 	            // the first person (i.e. real-broadcaster) MUST set his user-id
@@ -405,9 +437,49 @@ setTimeout(function(){
 	        });
 	    });
 	
+		}catch (e) {
+			console.log(e);
+		}
 	
 },2000);
 
+//=================================채팅========================================================
+//채팅 서버연결
+
+var chatSocket=io.connect('https://192.168.0.21:433/chat');
+	
+	//chatSocket.join($("#roomId").val());
+
+	chatSocket.on("success-connect",function(data){
+		console.log(data)
+		chatSocket.emit("initUserInfo",{nickname:$("#nickname").val(),
+											roomId:$("#roomId").val()});
+		chatSocket.emit("infoTest");
+	});
+	
+	chatSocket.on("receiveChatMessage",function(data){
+		//alert(data.nickname+":"+data.message);
+		writeChatOutput(data.nickname+":"+data.message);	
+	});
+
+	//채팅입력이벤트
+	$(".chat-input").on("keyup",function(event){
+		if(event.keyCode!=13){
+			return;
+		}
+		var message=$(this).val();
+		chatSocket.emit("sendChatMessage",message);
+		writeChatOutput("자신:"+message);
+		$(this).val("");
+	});
+	
+	function writeChatOutput(message){
+		var outObj=$("<p>"+message+"</p>")
+		$(".chat-output").append(outObj);
+	}
+	
+
+ 
 
 
 </script>
