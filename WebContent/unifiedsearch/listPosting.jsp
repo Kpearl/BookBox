@@ -27,11 +27,10 @@ header{
 </head>
 
 <body>
-	<header class="parallax"></header>
-
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 
 	<div class="container">
 		<h1>검색 결과 총 ${total} 건</h1>

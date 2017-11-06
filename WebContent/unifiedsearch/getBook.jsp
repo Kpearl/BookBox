@@ -198,10 +198,10 @@ $(function() {
 </head>
 
 <body>
-	<header class="parallax"></header>
 	<jsp:include page="../layout/toolbar.jsp">
 		<jsp:param value="../" name="uri" />
 	</jsp:include>
+	<header class="parallax"></header>
 	
 	<div class="container">
 		<div class="row" id="{book.isbn}">
