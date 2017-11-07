@@ -6,7 +6,7 @@
 
 <!DOCTYPE html>
 <html>
-<jsp:include page="fundingData.jsp"/>
+
 <head>
 	<!-- 기본설정 -->
     <meta charset="utf-8">
@@ -20,8 +20,8 @@
 	<script type="text/javascript">
 		$(function(){
 			$('.funding-get').on('click', function(){
-//				$(self.location).attr('href', '../creation/getFunding?fundingNo='+$(this).parent().parent().find('input[name="fundingNo"]').val());
-				$(self.location).attr('href', '../creation/getFundingTest.jsp');
+				$(self.location).attr('href', '../creation/getFunding?fundingNo='+$(this).parent().parent().find('input[name="fundingNo"]').val());
+	//			$(self.location).attr('href', '../creation/getFundingTest.jsp');
 			});
 			
 			$('img.funding-get').hover(function(){
@@ -157,7 +157,7 @@
                         <div class="row">
                            	<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
                             <div class="col-md-5 col-xs-4">
-                            	<img class="img-thumbnail img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingImage}">
+                            	<img class="img-thumbnail img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
                             </div>
                             <div class="col-md-7 col-xs-8">
                                 <h4 class="btn-link funding-get">${funding.fundingTitle}</h4>

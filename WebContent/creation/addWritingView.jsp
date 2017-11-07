@@ -62,7 +62,7 @@
 					data : formData,
 					contentType: false,
 					processData: false,
-						dataType : "json",
+					dataType : "json",
 					success : function(JSONData, status) {
 
 						//Debug...

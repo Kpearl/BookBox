@@ -18,6 +18,12 @@
 
 	<script src="../resources/javascript/custom.js"></script>
 	
+		<style>
+		#imgPreview, #imgPreview > img{
+			height: 300px;
+		}
+	</style>
+	
 	<script type="text/javascript">
 		$( function() {
 		    $("#fundingEndDate").datepicker({ 
@@ -32,11 +38,41 @@
 		    var date = new Date();
 		    $('#fundingRegDate').val(fncGetDate(0));
 		} );	
-
+	
+		//============== 펀딩등록 Event===========
 		$(function(){
 			$('a.funding-add').on('click', function(){
-//				$('form.funding-add').attr('method', 'post').attr('enctype' ,'multipart/form-data').attr('target', '../creation/addFunding').submit();
-			});
+				$('form.funding-add').attr('method', 'post').attr('enctype' ,'multipart/form-data').attr('action', '../creation/addFunding').submit();
+				});
+		})
+		
+		//============== 커버이미지 미리보기 설정===========
+		var upload;
+		var preview;
+		
+		if(typeof window.FileReader === 'undefined'){
+			alert('커버이미지 미리보기를 지원하지 않는 브라우저 입니다..');
+		}
+		
+		$(function(){
+			upload = document.getElementById('file');
+			holder = document.getElementById('imgPreview'),
+			
+			upload.onchange = function(e){
+				e.preventDefault();
+				
+				var file = upload.files[0],
+					reader = new FileReader();
+				reader.onload = function(event){
+					var img = new Image();
+					img.src = event.target.result;
+					holder.innerHTML = '';
+				    holder.appendChild(img);
+				}
+				reader.readAsDataURL(file);
+				
+				return false;
+			};
 		})
 
 	</script>
@@ -64,10 +100,10 @@
                     <label class="control-label" for="creationTitle">작품 제목</label>
                 </div>
                 <div class="col-sm-8">
-                    <select class="form-control" name="creationTitle">
+                    <select class="form-control" name="creation.creationNo">
                     	<c:forEach items="${creationList}" var="creation">
-	                        <option value="${creationNo}">${creationTitle}</option>
-                    	</c:forEach>
+	                        <option value="${creation.creationNo}">${creation.creationTitle}</option>
+	                   	</c:forEach>
                     </select>
                 </div>
             </div>
@@ -76,7 +112,7 @@
                     <label class="control-label" for="fundingTarget">목표 금액</label>
                 </div>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" name="fundingTarget" placeholder="목표금액" inputmode="numeric" id="fundingTarget">
+                    <input class="form-control" type="text" name="fundingTarget" placeholder="목표금액"   id="fundingTarget">
                 </div>
             </div>
             <div class="form-group">
@@ -98,7 +134,10 @@
                     <label class="control-label" for="fundingImage">파일첨부</label>
                 </div>
                 <div class="col-sm-8">
-                    <input type="file" name="fundingImage" id="fundingImage">
+					<div id="imgPreview">
+						<img class="img img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
+					</div>
+                    <input type="file" name="file" id="file">
                 </div>
             </div>
             <div class="form-group">
@@ -106,7 +145,7 @@
                     <label class="control-label" for="perFunding">1인당 금액</label>
                 </div>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" name="perFunding" placeholder="1인당금액" inputmode="numeric" id="perFunding">
+                    <input class="form-control" type="text" name="perFunding" placeholder="1인당금액"  id="perFunding">
                 </div>
             </div>
             <div class="form-group">
@@ -117,15 +156,7 @@
                     <textarea class="form-control" rows="5" name="fundingIntro" placeholder="글소개" id="fundingIntro"></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 col-sm-offset-2">
-                    <label class="control-label">Static Control</label>
-                </div>
-                <div class="col-sm-8">
-                    <p class="form-static-control">A basic template showing the proper way to create bootstrap forms using form group components, labels and input fields.</p>
-                </div>
-            </div>
-            <div class="form-group">
+               <div class="form-group">
                 <div class="col-sm-8 col-sm-offset-4">
                     <a class="btn btn-primary funding-add" href="#">등록</a>
                 </div>

@@ -112,121 +112,145 @@ div.row.writing-border{
 	
     <script>
 
-   $(function() {
 	   
-	 //=====================메뉴 Navigation=================
-	   $(function() {
-		   	$('.menu').on('click',function() {
-		   		history.back();
-		   	})
-	   })
-	   
-	   //============= 창작글쓰기 Navigation Event  처리 =============	
-	   $(function() {
-		  $("a.addWriting").on("click" , function() {
-			  $(self.location).attr("href","../creation/addWriting");
-	   	}); 
-	 });   
-		   
-       //============= 창작글 조회 Navigation Event  처리 =============	
-	   $("a.writingTitle").on("click" , function() {
-	   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id"));
-   		}); 
-
-   //============= 창작작품 수정 Navigation Event  처리 =============	
-	   $("a.updateCreation").on("click" , function() {
-		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
-		   
-   		}); 
-
-	   //============= 창작작품 삭제 Navigation Event  처리 =============	
-	   $("a.deleteCreation").on("click" , function() {
-		   alert("정말로 삭제하시겠습니까?");
-		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
-   		});	   
-   }); 
-   
-   //============= 검색 Event  처리 =============	
-	  $("a.creationSearch").on("click" , function() {
-		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
-	
-	}); 
-   
-   
- //========================구독신청 =======================
-   $(function() {
-	   $("a.doSubscription").on("click" , function() {
-		   
-		   if (${empty sessionScope.user }) {
-			alert("로그인 후 이용가능합니다.");
-			$(self.location).attr("href","../user/login");
-		}else{
-		   
+	   function fncDoSubscription(){
 		   $.ajax ({
 			   url : "rest/doCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
 	    		method : "get",
 	    		dataType : "json",
 	    		success: function(JSONData, status){
-	    			$("a.doSubscription").replaceWith("<a style='background-color:rgba(232, 138, 138, 0.44);' class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
-	    		 }  
+	    			alert(JSONData);
+	    			$("a.doSubscription").css('background-color','rgba(106, 98, 230, 0.46)').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i>구독중</a>").off('click');
+	    		//	$("a.doSubscription").replaceWith("<a style='background-color:rgba(106, 98, 230, 0.46);' class='btn btn-default deleteSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
+	    			 $("a.deleteSubscription").on("click" , function() {
+			   	    		alert("구독취소");
+			   	    		fncDeleteSubscription();
+			   	    	}); 
+	    		}  
 		   });
-		}
-	   });
-   });
- 
-   //========================구독신청 취소=======================
-   $(function() {
-	   $("a.doSubscription").on("click" , function() {
-		   
-		   if (${empty sessionScope.user }) {
-			alert("로그인 후 이용가능합니다.");
-			$(self.location).attr("href","../user/login");
-		}else{
-		   
+	   }
+	   
+	   function fncDeleteSubscription(){
 		   $.ajax ({
 			   url : "rest/deleteCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
 	    		method : "get",
 	    		dataType : "json",
 	    		success: function(JSONData, status){
-	    			$("a.doSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독 하기</a>");
-	    		 }  
+	    			alert(JSONData);
+	    			$("a.deleteSubscription").css('background-color','#ffffff').removeClass('deleteSubscription').addClass('doSubscription').html("<i class='glyphicon glyphicon-tags'></i>구독</a>").off('click');
+	    		//	$("a.deleteSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독</a>");
+	    			 $("a.doSubscription").on("click" , function() {
+			   	    		alert("구독");
+			   	    		fncDeleteSubscription();
+			   	    	});  
+	    		
+	    		}  
 		   });
-		}
+	   }
+	   
+	   function fncAddCreationLike(){   
+		   var total = document.getElementById('likeSum').innerHTML;  	
+		   	$.ajax ({
+		   		url : "rest/addCreationLike?creationNo="+$("input[name='creationNo']").val(),
+		   		method : "GET",
+		   		success:function(JSONData, status){
+		   			alert(status);
+		   			alert(JSONData);
+		   			
+		   			$("a.addCreationLike").css('background-color','rgba(230, 157, 157, 0.48)').removeClass('addCreationLike').addClass('deleteCreationLike').html('<i class="glyphicon glyphicon-heart"></i> 좋아요</a>').off('click');
+		   		//	$("#addLike").replaceWith('<a style="background-color:rgba(230, 157, 157, 0.48);" id="deleteLike" class="btn btn-default deleteLike" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요</a>');
+		   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
+		   	   		 $("a.deleteCreationLike").on("click" , function() {
+		   	    		alert("좋아요취소");
+		   	    		fncDeleteCreationLike();
+		   	    	});
+		   		 } 
+		   	});
+		}  
+	   
+	   function fncDeleteCreationLike(){   
+		   var total = document.getElementById('likeSum').innerHTML;	   	   	
+	   	   	$.ajax ({
+	   	   		url : "rest/deleteCreationLike?creationNo="+$("input[name='creationNo']").val(),
+	   	   		method : "GET",
+	   	   		success:function(JSONData, status){
+	   	   			
+	   	   		$("a.deleteCreationLike").css('background-color','#ffffff').removeClass('deleteCreationLike').addClass('addCreationLike').html('<i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>').off('click');
+	   	   		//	$("#addLike").replaceWith('<a id="addLike" class="btn btn-default addLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>');
+	   	   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
+		   	   		 $("a.addCreationLike").on("click" , function() {
+		   	    		alert("좋아요");
+		   	    		fncAddCreationLike();
+		   		    	
+		   	    	});
+	   	   		} 
+	   	   	});
+		} 
+
+	   
+   $(function() {
+	 //=====================메뉴 Navigation=================
+		   	$('.menu').on('click',function() {
+		   		history.back();
+		   	})
+	   //============= 창작글쓰기 Navigation Event  처리 =============	
+		  $("a.addWriting").on("click" , function() {
+			  $(self.location).attr("href","../creation/addWriting");
+	   	}); 
+       //============= 창작글 조회 Navigation Event  처리 =============	
+	   $("a.writingTitle").on("click" , function() {
+	   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id"));
+   		}); 
+	   //============= 창작작품 수정 Navigation Event  처리 =============	
+	   $("a.updateCreation").on("click" , function() {
+		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
+   		}); 
+	   //============= 창작작품 삭제 Navigation Event  처리 =============	
+	   $("a.deleteCreation").on("click" , function() {
+		   alert("정말로 삭제하시겠습니까?");
+		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
+   		});	   
+ 	   //============= 검색 Event  처리 ====================	
+	  $("a.creationSearch").on("click" , function() {
+		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
+		}); 
+	  
+		//============= 펀딩등록 ====================	
+	  $("a.addFunding").on("click" , function() {
+		$(self.location).attr("href","../creation/addFunding");
+	  });	
+		
+	//============= 펀딩보러가기 ====================	
+	  $("a.getFunding").on("click" , function() {
+		$(self.location).attr("href","../creation/getFundingList?creationNo="+$("input[name='creationNo']").val());
+	  });
+		
+   }); 
+ 	   
+   $(function() {
+ //========================구독신청 =======================
+	   $("a.doSubscription").on("click" , function() {
+		   alert("구독");
+		   fncDoSubscription();	
 	   });
-   });
+   //========================구독신청 취소=======================
+	   $("a.deleteSubscription").on("click" , function() {
+		   alert("구독취소");		   
+		   fncDeleteSubscription();
+		});
 
     //========================좋아요 추가=======================
-    function addLike(targetNo) {
-    	var total = document.getElementById('likeSum').innerHTML;
-    	
-    	$.ajax ({
-    		url : "../creation/rest/addLike",
-    		method : "POST",
-    		data : {"targetNo" : targetNo},
-    		success:function(){
-    			$("#addLike").replaceWith("<button id='deleteLike' onclick='deleteLike(${targetNo});'>좋아요취소</button>");
-    			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
-    		 } 
+     	 $("a.addCreationLike").on("click" , function() {
+    		alert("좋아요");
+    		fncAddCreationLike();
+	    	
     	});
-    	
-    	alert("좋아요를 등록하셨습니다.");
-    }
-
     //=========================좋아요 취소=================================
-    function deleteLike(targetNo) {
-    	var total = document.getElementById('likeSum').innerHTML;
-    	
-    	$.ajax ({
-    		url : "../creation/rest/deleteLike",
-    		method : "POST",
-    		data : {"targetNo" : targetNo},
-    		success:function(){
-    			$("#deleteLike").replaceWith("<button id='addLike' onclick='addLike(${targetNo});'>좋아요</button>");
-    		 	$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
-    		} 
+      	 $("a.deleteCreationLike").on("click" , function() {
+    		alert("좋아요취소");
+    		fncDeleteCreationLike();
     	});
-    	alert("좋아요를 취소하셨습니다.");
-    }
+    });
 
 
     
@@ -301,29 +325,29 @@ div.row.writing-border{
         </div>
         <div class="row">
             <div class="col-md-12">
-            <c:if test="${creation.doFunding}">
+            <%-- <c:if test="${creation.doFunding}"> --%>
                 <div class="btn-group" role="group">
                     <a class="btn btn-default getFunding" type="button">펀딩 보러 가기</a>
                 </div>
-            </c:if>
+            <%-- </c:if> --%>
                 <div class="btn-group" role="group" style="float:right">
                 <c:if test="${creation.doSubscription}">
-                    <a class="btn btn-default cancelSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a>
+                    <a style="background-color:rgba(106, 98, 230, 0.46);" class="btn btn-default deleteSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a>
                 </c:if>
                 <c:if test="${!creation.doSubscription}">
-                    <a class="btn btn-default doSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독 하기</a>
+                    <a class="btn btn-default doSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독</a>
                 </c:if>
-                <c:if test="${like.doLike}">
-                    <a class="btn btn-default" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요 취소</a>
+                <c:if test="${creation.like.doLike}">
+                    <a style="background-color:rgba(230, 157, 157, 0.48);" class="btn btn-default deleteCreationLike" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요</a>
                 </c:if>
-                <c:if test="${!like.doLike}">
-                    <a class="btn btn-default" type="button"><i class="glyphicon glyphicon-heart-empty"></i> 좋아요</a>
+                <c:if test="${!creation.like.doLike}">
+                    <a class="btn btn-default addCreationLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>
                 </c:if>
                 </div>
             </div>
             <div class="col-md-12">
-				<p>좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></p>
-				<p>평균 평점 : <span id="gradeAvg">${grade.average}</span></p>
+				<p>좋아요 개수 : <span  id="likeSum">${creation.like.totalLike}</span></p>
+				<p>평균 평점 : <span id="gradeAvg">${creation.grade.average}</span></p>
             </div>
             <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
                 <div class="btn-group" role="group">

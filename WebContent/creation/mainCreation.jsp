@@ -60,7 +60,7 @@
 	    });
     })
     
-    //============= 창작공간 Navigation Event  처리 =============	
+    //============= 펀딩글보기 Navigation Event  처리 =============	
 $(function() {
 	$("a:contains('펀딩제목')").on("click" , function() {
 		$(self.location).attr("href","../creation/getFunding");
@@ -109,6 +109,14 @@ $(function() {
    	
    	}); 
  });   
+   
+   //============= 펀딩등록하기 Navigation Event  처리 =============	
+   $(function() {
+	  $("a.addfunding").on("click" , function() {
+		  $(self.location).attr("href","../creation/addFunding");
+   	
+   	}); 
+ });  
    
    //============= 검색 Event  처리 =============	
 	  $("a.creationSearch").on("click" , function() {
