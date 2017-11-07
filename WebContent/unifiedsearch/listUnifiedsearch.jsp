@@ -32,10 +32,7 @@ header{
 	</jsp:include>
 	<header class="parallax"></header>
 
-	<div class="container">
-		<h1>검색 결과 총 ${total} 건</h1>
-		
-		<c:forEach items="${result}" var="result">
+		<%-- 
      	   <div class="row">
     	        <div class="col-md-12"></div>
     	       	 <div class="col-lg-10 col-md-offset-1">
@@ -43,14 +40,29 @@ header{
       	       	   <p class="author"><strong>${result.nick_name}</strong> <span class="text-muted"></span></p>
       	      </div>
        	     <div class="col-md-push-0 col-xs-3 col-xs-offset-1 col-xs-push-0"><img class="img-thumbnail" src="../resources/images/unifiedsearch.jpg"></div>
-       	     	<div class="col-xs-7">
-               	 <p class="lead author">
-               	 	<strong><c:forEach items="${result.tag}" var="tag">${tag} /</c:forEach></strong>
-               	 </p>
-               	 <p>${result.content}</p>
-            	</div>
+   	     		<div class="col-xs-7">
+           	 		<p class="lead author">
+           	 		<strong><c:forEach items="${result.tag}" var="tag">${tag} /</c:forEach></strong>
+           	 		</p>
+           	 		<p>${result.content}</p>
+         		</div>
         	</div>
+        	
+        	  --%>
+	<div class="container">
+		<h1>검색 결과 총 ${total} 건</h1>
+		<c:forEach items="${result}" var="result">
+   	 		<div class="row product">
+      			<div class="col-md-5">
+             	<h2>${result.title}</h2><span class="review-date">${result.category} | ${result.nick_name}</span><img class="img-responsive" src="../resources/images/unifiedsearch.jpg">
+             	<h3>Creation</h3>
+             	<p class="lead author">
+           	 		<strong><c:forEach items="${result.tag}" var="tag">${tag} | </c:forEach></strong>
+           	 		</p>
+           		<p>${result.content}</p>
+         	</div>
+       	</div>
         </c:forEach>
-    </div>
-</body>	
+   </div>
+   </body>
 </html>

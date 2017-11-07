@@ -100,6 +100,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("tag", tagParse(creation.getTagList()));
 			obj.put("nick_name", creation.getCreationAuthor().getNickname());
 			obj.put("reg_date", creation.getRegDate());
+			obj.put("image", creation.getCreationFileName());
 
 			map.put("category", "creation");
 			map.put("id", creation.getCreationNo());
@@ -113,6 +114,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
 			obj.put("reg_date", posting.getPostingRegDate());
+			obj.put("image", posting.getPostingFileList().get(0).toString());
 
 			map.put("category", "posting");
 			map.put("id", posting.getPostingNo());
@@ -126,6 +128,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("tag", tagParse(board.getTagList()));
 			obj.put("nick_name", board.getWriter().getNickname());
 			obj.put("reg_date", board.getBoardRegDate());
+			obj.put("image", board.getThumbnailUrl());
 
 			map.put("category", "board");
 			map.put("id", board.getBoardNo());

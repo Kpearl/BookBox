@@ -18,10 +18,21 @@ public class Unifiedsearch {
 	private String reg_date;
 	private String id;
 	private String category;
+	private String image;
 	
 	public Unifiedsearch() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public String getImage() {
+		return image;
+	}
+
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public String getId() {
 		return id;
 	}

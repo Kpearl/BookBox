@@ -25,6 +25,7 @@ import com.bookbox.common.domain.Tag;
 import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 /**
  * @file com.bookbox.service.unifiedsearch.BookSearchKakaoAladinDAOImpl.java
@@ -44,13 +45,15 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	@Override
 	public List<Book> getBookList(Search search) throws Exception {
 		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");
+		System.out.println(search.getKeyword());
+		
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Authorization", "KakaoAK d4677d98128ed114d1c0f5f0cb5ad784");
-		map.put("sort", "recency");
+		/*map.put("sort", "recency");
 		map.put("category", search.getCondition());
-		map.put("size", search.getOrder());
+		map.put("size", search.getOrder());*/
 		
 		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map));
 	}
@@ -67,14 +70,15 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	}
 	
 	@Override
-	public List<String> getRecommendBookList() throws Exception {
+	public List<String> getRecommendBookList(String type) throws Exception {
 		Map<String, String> hm = new HashMap<String, String>();
 		hm.put("output", "xml&Version=20131101");
 		hm.put("MaxResults", "10");
 		hm.put("start", "1");
 		hm.put("SearchTarget", "Book");
-		hm.put("QueryType", "Bestseller");
+		hm.put("QueryType", type);
 		hm.put("ttbkey", "ttb1015wlswn1921003");
+		hm.put("MaxResults", "4");
 
 		StringBuffer sb = new StringBuffer();
 		Iterator<String> iter = hm.keySet().iterator();
@@ -83,6 +87,8 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			String key = iter.next();
 			sb.append(key).append("=").append(hm.get(key)).append("&");
 		}
+		
+		System.out.println(sb.toString());
 		
 		return xmlParser(new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString()));
 	}

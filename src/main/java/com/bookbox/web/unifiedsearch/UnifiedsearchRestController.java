@@ -105,31 +105,13 @@ public class UnifiedsearchRestController {
 	@RequestMapping(value = "recommendBook")
 	public Map<String, Object> recommendBookList(HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<String> list = (List<String>) bookService.getRecommendBookList();
-		List<Book> recommendList = new ArrayList<Book>();
-		List<Book> userRecommendList = new ArrayList<Book>();
 		User user = (User) session.getAttribute("user");
-		Book book = null;
 		
-		if (user != null) {
-			userRecommendList = bookService.getUserLikeBook(user.getEmail());
-			map.put("userRecommendList", userRecommendList);
-		}
+		if (user != null) 
+			map.put("userRecommendList", bookService.getUserLikeBook(user.getEmail()));
 		
-		for (int i = 0; i < list.size(); i++) {
-			book = new Book();
-			book.setIsbn(list.get(i));
-			
-			if(i == 4) {
-				break;
-			}
-			
-			if(bookService.getBook(new User(), book) != null) {
-				recommendList.add(bookService.getBook(new User(), book));
-			}
-		}
-		
-		map.put("recommendList", recommendList);
+		map.put("bestsellerList", bookService.getRecommendBookList("Bestseller"));
+		map.put("newBookList", bookService.getRecommendBookList("ItemNewSpecial"));
 		
 		return map;
 	}

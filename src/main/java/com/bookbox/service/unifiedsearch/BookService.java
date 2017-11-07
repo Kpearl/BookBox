@@ -41,7 +41,7 @@ public interface BookService {
 	 * @throws Exception 
 	 * @date 2017.10.18
 	 */
-	public List<String> getRecommendBookList() throws Exception;
+	public List<String> getRecommendBookList(String type) throws Exception;
 	
 	/**
 	 * @file com.bookbox.service.unifiedsearch.addBookLike.java

@@ -36,5 +36,5 @@ public interface BookSearchDAO {
 	 * @throws Exception 
 	 * @date 2017.11.03
 	 */
-	public List<String> getRecommendBookList() throws Exception;
+	public List<String> getRecommendBookList(String type) throws Exception;
 }

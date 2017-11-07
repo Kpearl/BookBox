@@ -59,6 +59,7 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			unifiedsearch.setCategory(jo.get("_type").toString());
 			//unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" : lastJo.get("reg_date").toString());
 			unifiedsearch.setTag((List<String>)lastJo.get("tag"));
+			unifiedsearch.setImage(lastJo.containsKey("image") && !lastJo.equals(null)?lastJo.get("image").toString():null);
 			
 			list.add(unifiedsearch);
 		}

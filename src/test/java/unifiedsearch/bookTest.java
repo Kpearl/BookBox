@@ -48,13 +48,13 @@ public class bookTest {
 		bookService.getBook(user, book);
 	}
 
-	/*@Test*/
+	@Test
 	public void getRecommendBookList() throws Exception {
-		List<String> list = bookService.getRecommendBookList();
+		List<String> list = bookService.getRecommendBookList("ItemNewSpecial");
 		System.out.println(list.toString());
 	} 
 	
-	@Test
+	/*@Test*/
 	public void getUserBookListTest() throws Exception {
 		user.setEmail("jj@jj.com");	
 		System.out.println(bookService.getUserLikeBook(user.getEmail()));

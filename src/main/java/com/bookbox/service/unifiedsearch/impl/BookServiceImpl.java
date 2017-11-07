@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> getBookList(Search search) throws Exception {
-		search.setKeyword("query=" + search.getKeyword());
+		search.setKeyword(search.getKeyword());
 		return bookSearchDAO.getBookList(search);
 	}
 
@@ -68,8 +68,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<String> getRecommendBookList() throws Exception {
-		return bookSearchDAO.getRecommendBookList();
+	public List<String> getRecommendBookList(String type) throws Exception {
+		return bookSearchDAO.getRecommendBookList(type);
 	}
 
 	@Override
