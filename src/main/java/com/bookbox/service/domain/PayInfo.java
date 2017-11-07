@@ -17,7 +17,7 @@ public class PayInfo {
 	private int fundingNo;
 	private String fundingTitle;
 	private User user;
-	private int tid;
+	private String tid;
 	private String userName;	
 	private String addr;
 	private String phone;
@@ -59,11 +59,11 @@ public class PayInfo {
 		this.user = user;
 	}
 
-	public int getTid() {
+	public String getTid() {
 		return tid;
 	}
 
-	public void setTid(int tid) {
+	public void setTid(String tid) {
 		this.tid = tid;
 	}
 

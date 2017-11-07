@@ -55,7 +55,7 @@ public interface FundingDAO {
 	 * @throws Exception
 	 * @return int
 	 */
-	public int getTotalFundingCount(Search search) throws Exception;
+	public int getTotalFundingCount(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 펀딩참여자리스트
@@ -96,5 +96,13 @@ public interface FundingDAO {
 	 * @return void
 	 */		
 	public PayInfo getPayInfo(PayInfo payInfo) throws Exception;
+	
+	/**
+	 * @brief 펀딩참여정보 조회 
+	 * @param Map<String,Object>
+	 * @throws Exception
+	 * @return int
+	 */		
+	public int getDoFunding(Map<String, Object> map) throws Exception;
 
 }

@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.creation.WritingService;
@@ -197,12 +199,13 @@ public class CreationController {
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.GET )
 	public String updateCreation(@ModelAttribute("creation") Creation creation,
+																HttpSession session,
 																Model model) throws Exception{
 	
 		System.out.println("UserController :: /creation/updateCreation : GET");
 		//Business Logic
-		
-		creation = creationService.getCreation(creation);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), (User)session.getAttribute("user"));
+		creation = creationService.getCreation(map);
 				
 		model.addAttribute("creation", creation);
 		
@@ -222,14 +225,13 @@ public class CreationController {
 	
 		System.out.println("UserController :: /creation/updateCreation : GET");
 		//Business Logic
-		
-		User user =(User)session.getAttribute("user");
-		
+
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, writing.getCreationNo(), (User)session.getAttribute("user"));
 		Creation creation = new Creation();
 		creation.setCreationNo(writing.getCreationNo());
 		
-		writing = writingService.getWriting(user, writing);
-		creation = creationService.getCreation(creation);
+		writing = writingService.getWriting((User)session.getAttribute("user"), writing);
+		creation = creationService.getCreation(map);
 		
 		model.addAttribute("writing", writing);
 		model.addAttribute("creation", creation);
@@ -328,17 +330,15 @@ public class CreationController {
 		// TODO getWriting
 		System.out.println("CreationController :: /creation/getWriting : GET ===> START\n");
 
-		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		//Business Logic
-		
 		Creation creation = new Creation();
-		User user=(User)session.getAttribute("user");
-		
-		writing = writingService.getWriting(user, writing);
-		System.out.println("getWriting :: "+writing+"\n");
+	
+		writing = writingService.getWriting((User)session.getAttribute("user"), writing);
+		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		
 		creation.setCreationNo(writing.getCreationNo());
-		creation = creationService.getCreation(creation);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));
+		creation = creationService.getCreation(map);
 		
 		// Model 과 View 연결
 		model.addAttribute("writing", writing);
@@ -403,7 +403,8 @@ public class CreationController {
 	@RequestMapping( value="getWritingList", method=RequestMethod.GET )
 	public String getWritingList( @ModelAttribute("creation") Creation creation,
 															@ModelAttribute("search") Search search, 
-															@ModelAttribute("page") Page page, Model model) throws Exception {
+															@ModelAttribute("page") Page page, 
+															HttpSession session, Model model) throws Exception {
 		// TODO getWritingList
 		System.out.println("CreationController :: /creation/getWritingList : GET  ===>START");
 
@@ -426,16 +427,16 @@ public class CreationController {
 		System.out.println("getCreationList :: getPage :: "+page+"\n");
 		System.out.println("getCreationList :: getCreation :: "+creation+"\n");
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));
 		map.put("search", search);
 		map.put("page", page);
 		map.put("creation", creation);
 		
-		creation = creationService.getCreation(creation);
+		creation = creationService.getCreation(map);
 		System.out.println("creation :: "+creation);
 				
 		List<Writing> writingList = writingService.getWritingList(map);
-		System.out.println("getWritingList"+writingList+"\n");
+//		System.out.println("getWritingList"+writingList+"\n");
 		creation.setWritingList(writingList);
 	
 		// Model 과 View 연결
@@ -460,9 +461,9 @@ public class CreationController {
 		System.out.println("CreationController :: /creation/deleteCreation : GET ===> START\n");
 		
 		User user = (User)session.getAttribute("user");
-		creation = creationService.getCreation(creation);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),user);
+		creation = creationService.getCreation(map);
 		
-		Map<String, Object> map = new HashMap<>();
 		map.put("creation", creation);
 		writingService.getWritingList(map);
 		
@@ -502,23 +503,129 @@ public class CreationController {
 	 * @return "forward:addFundingView.jsp"
 	 */
 	@RequestMapping(value="addFunding", method=RequestMethod.GET)
-	public String addFunding(HttpSession session, Model model) throws Exception{
+	public String addFunding(@ModelAttribute Creation creation,
+														HttpSession session, Model model) throws Exception{
 		// TODO addFunding
-		System.out.println("Creation Controller :: /creation/addFunding : GET");
+		System.out.println("Creation Controller :: /creation/addFunding : GET ===> START");
 		
+		//Business Logic
 		User user = (User)session.getAttribute("user");
 		
-		System.out.println("addFunding :: "+user.getEmail());
+		System.out.println("addWriting :: "+user.getEmail());
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", session.getAttribute("user"));
-		List<Funding> fundingList =fundingService.getFundingList(map);
+		List<Creation> creationList =creationService.getCreationList(map);
 		
-		model.addAttribute("creationList", fundingList);
+		model.addAttribute("creationList", creationList);
 		
-		
-		return "forward:addWritingView.jsp";
+		System.out.println("Creation Controller :: /creation/addFunding : GET ===> END");
+	
+		return "forward:addFundingViewTest.jsp";
 	}
+	
+	/**
+	 * @brief addFunding/ 펀딩글 등록
+	 * @details POST
+	 * @param Funding
+	 * @throws Exception
+	 * @return "forward:getFunding"
+	 */
+	@RequestMapping(value="addFunding", method=RequestMethod.POST)
+	public String addFunding(@ModelAttribute("Funding") Funding funding,
+													HttpServletRequest request, @RequestParam("file")MultipartFile multipartFile,
+													HttpSession session, Model model) throws Exception{
+		// TODO addWriting
+		System.out.println("Creation Controller :: /creation/addWriting : POST");
+			
+		User user = (User)session.getAttribute("user");
+//		System.out.println("addCreation :: "+user.getEmail());
+	
+		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+		
+		UploadFile uploadFile = creationService.saveFile(multipartFile, path);
+		funding.setFundingFileName(uploadFile.getFileName());
+		funding.setFundingOriginName(uploadFile.getOriginName());
+		
+		fundingService.addFunding(user, funding);
+	
+		return "redirect:/creation/getFunding?fundingNo="+funding.getFundingNo();
+	}
+	
+	/**
+	 * @brief getFunding/펀딩글 조회
+	 * @details GET
+	 * @param Funding
+	 * @throws Exception
+	 * @return "forward:getFunding.jsp"
+	 */
+	@RequestMapping( value="getFunding", method=RequestMethod.GET )
+	public String getFunding( @ModelAttribute("funding") Funding funding ,
+													HttpSession session,
+													Model model ) throws Exception {
+		// TODO getWriting
+		System.out.println("CreationController :: /creation/getFunding : GET ===> START\n");
+
+		//Business Logic
+		funding = fundingService.getFunding((User)session.getAttribute("user"), funding);
+		Creation creation = funding.getCreation();
+		
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));
+		creation = creationService.getCreation(map);
+		funding.setCreation(creation);
+				
+		// Model 과 View 연결
+		model.addAttribute("funding", funding);
+				
+		System.out.println("CreationController :: /creation/getFunding : GET ===> END\n\n");
+		
+		return "forward:getFundingTest.jsp";
+	}		
+	
+	/**
+	 * @brief getFundingList/펀딩글리스트 조회
+	 * @details GET
+	 * @param Creation
+	 * @throws Exception
+	 * @return "forward:getFundingList.jsp"
+	 */
+	@RequestMapping( value="getFundingList", method=RequestMethod.GET )
+	public String getFundingList(@ModelAttribute("creation") Creation creation,
+															@ModelAttribute("search") Search search,
+															@ModelAttribute("page") Page page, Model model) throws Exception {
+		// TODO getFundingList
+		System.out.println("CreationController :: /creation/getFundingList : GET\n");
+
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(pageSize);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(pageUnit);
+		}
+		System.out.println("getFundingList :: getSearch :: "+search+"n");
+		System.out.println("getFundingList :: getPage :: "+page+"\n");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		map.put("targetNo", creation.getCreationNo());
+		
+		List<Funding> fundingList = fundingService.getFundingList(map);
+		System.out.println("getFundingList :: "+fundingList+"/n");
+
+		// Model 과 View 연결
+		model.addAttribute("fundingList", fundingList);
+		
+		System.out.println("CreationController :: /creation/getFundingList : GET ===> END\n\n");
+		return "forward:listFundingTest.jsp";
+	}	
 	
 
 }

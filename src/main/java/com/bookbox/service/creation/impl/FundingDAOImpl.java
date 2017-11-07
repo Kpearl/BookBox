@@ -62,15 +62,15 @@ public class FundingDAOImpl implements FundingDAO {
 	}
 
 	@Override
-	public int getTotalFundingCount(Search search) throws Exception {
+	public int getTotalFundingCount(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundingMapper.getTotalFundingCount", search);
+		return sqlSession.selectOne("FundingMapper.getTotalFundingCount", map);
 	}
 
 	@Override
 	public List<PayInfo> getFundingUserList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundingMapper.getTotalFundingUserCount", map);
+		return sqlSession.selectList("FundingMapper.getTotalFundingUserCount", map);
 	}
 
 	@Override
@@ -96,6 +96,14 @@ public class FundingDAOImpl implements FundingDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("FundingMapper.getPayInfo", payInfo);
 	}
+
+	@Override
+	public int getDoFunding(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundingMapper.getDoFunding",map);
+	}
+	
+	
 
 	
 }

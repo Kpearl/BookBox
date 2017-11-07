@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
@@ -113,17 +114,6 @@ public class WritingServiceImpl implements WritingService {
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
-//		Creation creation = creationDAO.getCreation(user,writing.getCreationNo());
-//		System.out.println("getWriting :: Creation :: "+writing.getCreationNo());
-		
-		
-//		creation.setLike(commonDAO.getLike(user, map));
-//		System.out.println("getWriting :: Like :: "+commonDAO.getLike(user, map));
-//		creation.setGrade(commonDAO.getGrade(user, map));
-//		System.out.println("getWriting :: CreationGrade :: "+commonDAO.getGrade(user, map));
-//		writing.setCreation(creation);
-//		System.out.println("getWriting :: Creation :: "+creation);
-		
 		return writingDAO.getWriting(writing);
 	}
 	
@@ -135,11 +125,14 @@ public class WritingServiceImpl implements WritingService {
 	 */	
 	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
+		 commonDAO.getLike(map);
+		
 		if(map.get("page") != null) {
 		Page page = (Page)map.get("page");
 		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("cration")));
 		}
 		List<Writing> writingList = writingDAO.getWritingList(map);
+		
 		
 		return writingList;
 	}

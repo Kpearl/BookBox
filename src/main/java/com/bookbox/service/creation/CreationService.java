@@ -40,7 +40,7 @@ public interface CreationService {
 	 * @throws Exception
 	 * @return Creation
 	 */		
-	public Creation getCreation(Creation creation) throws Exception;
+	public Creation getCreation(Map<String, Object> map) throws Exception;
 
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수
@@ -72,7 +72,7 @@ public interface CreationService {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void deleteCreationSubscribe(User user,Creation creation) throws Exception;
+	public boolean deleteCreationSubscribe(User user,Creation creation) throws Exception;
 	
 	/**
 	 * @brief 작품삭제
@@ -90,4 +90,20 @@ public interface CreationService {
 	 * @return UploadFile
 	 */
 	public UploadFile saveFile(MultipartFile multipartFile, String path) throws Exception;
+	
+	/**
+	 * @brief 작품좋아요
+	 * @param User, Creation
+	 * @throws Exception
+	 * @return boolean
+	 */	
+	public boolean addCreationLike(User user,Creation creation) throws Exception;
+
+	/**
+	 * @brief 작품구독취소 
+	 * @param User user, Creation creation
+	 * @throws Exception
+	 * @return boolean
+	 */	
+	public boolean deleteCreationLike(User user,Creation creation) throws Exception;
 }

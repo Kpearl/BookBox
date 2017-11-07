@@ -31,7 +31,7 @@ public interface CreationDAO {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public Creation getCreation(Creation creation) throws Exception;
+	public Creation getCreation(Map<String, Object> map) throws Exception;
 	
 	
 	/**
@@ -76,10 +76,20 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 작품구독취소 
-	 * @param User , Creation 
+	 * @param Map 
 	 * @throws Exception
 	 * @return 
 	 */	
 	public void deleteCreationSubscribe(Map<String, Object> map) throws Exception;
 	
+
+
+/**
+ * @brief 작품 구독정보 가져오기 
+ * @param Map
+ * @throws Exception
+ * @return 
+ */	
+public int getCreationSubscribe(Map<String, Object> map) throws Exception;
+
 }

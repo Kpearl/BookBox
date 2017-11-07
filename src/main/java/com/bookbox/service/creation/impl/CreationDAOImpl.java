@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.service.CommonDAO;
-import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
@@ -48,12 +46,9 @@ public class CreationDAOImpl implements CreationDAO {
 		sqlSession.insert("CreationMapper.addCreation", creation);
 	}
 	
-	public Creation getCreation(Creation creation) throws Exception{
+	public Creation getCreation(Map<String, Object> map) throws Exception{
 		
-		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo());
-		creation.setGrade(commonDAO.getAvgGrade(map));
-		
-		return sqlSession.selectOne("CreationMapper.getCreation", creation);
+		return sqlSession.selectOne("CreationMapper.getCreation", map);
 	}
 	
 	public void updateCreation(Creation creation) throws Exception{
@@ -78,6 +73,12 @@ public class CreationDAOImpl implements CreationDAO {
 	
 	public void deleteCreationSubscribe(Map<String, Object> map) throws Exception{
 		sqlSession.delete("CreationMapper.deleteCreationSubscribe", map);
+	}
+
+	@Override
+	public int getCreationSubscribe(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("CreationMapper.getCreationSubscribe", map);
 	}
 	
 }

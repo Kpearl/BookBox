@@ -80,4 +80,5 @@ public interface FundingService {
 	 * @return void
 	 */		
 	public PayInfo getPayInfo(User user, PayInfo payInfo) throws Exception;
+	
 }

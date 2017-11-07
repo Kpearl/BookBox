@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
+import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.domain.Funding;
@@ -32,7 +33,9 @@ public class FundingServiceImpl implements FundingService {
 	@Qualifier("fundingDAOImpl")
 	private FundingDAO fundingDAO;
 	
-	
+	@Autowired
+	@Qualifier("creationDAOImpl")
+	private CreationDAO creationDAO;
 	
 	
 	
@@ -69,11 +72,14 @@ public class FundingServiceImpl implements FundingService {
 		if (map.get("page") != null) {
 			
 			Page page=(Page)map.get("page");
-			page.setTotalCount(fundingDAO.getTotalFundingCount((Search)map.get("search")));
+			page.setTotalCount(fundingDAO.getTotalFundingCount(map));
 			System.out.println("getFundingList :: getTotalFundingCount ::"+page.getTotalCount());
 			}
 		
 		List<Funding> fundingList =fundingDAO.getFundingList(map);
+		for(Funding funding : fundingList) {
+			funding.setCreation(creationDAO.getCreation(map));	
+		}
 
 		return fundingList;
 	}

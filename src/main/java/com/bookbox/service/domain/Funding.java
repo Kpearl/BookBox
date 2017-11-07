@@ -17,14 +17,15 @@ public class Funding {
 	private int fundingNo;
 	private String fundingTitle;
 	private Creation creation;
-	private List<PayInfo> payInfoList;
 	private String fundingIntro;
 	private Date fundingRegDate;
 	private Date fundingEndDate;
 	private int fundingTarget;
 	private int perFunding;
-	private String fundingImage;
+	private String fundingFileName;
+	private String fundingOriginName;
 	private int active;
+	private List<PayInfo> payInfoList;
 	
 	public Funding() {
 		// TODO Auto-generated constructor stub
@@ -102,14 +103,22 @@ public class Funding {
 		this.perFunding = perFunding;
 	}
 
-	public String getFundingImage() {
-		return fundingImage;
+	public String getfundingFileName() {
+		return fundingFileName;
 	}
 
-	public void setFundingImage(String fundingImage) {
-		this.fundingImage = fundingImage;
+	public void setFundingFileName(String fundingFileName) {
+		this.fundingFileName = fundingFileName;
 	}
 			
+	public String getFundingOriginName() {
+		return fundingOriginName;
+	}
+
+	public void setFundingOriginName(String fundingOriginName) {
+		this.fundingOriginName = fundingOriginName;
+	}
+
 	public int getActive() {
 		return active;
 	}
@@ -121,8 +130,11 @@ public class Funding {
 	@Override
 	public String toString() {
 		return "Funding [fundingNo=" + fundingNo + ", fundingTitle=" + fundingTitle + ", creation=" + creation
-				+ ", PayInfoList=" + payInfoList + ", fundingIntro=" + fundingIntro + ", fundingRegDate="
-				+ fundingRegDate + ", fundingEndDate=" + fundingEndDate + ", fundingTarget=" + fundingTarget
-				+ ", perFunding=" + perFunding + ", fundingImage=" + fundingImage + ", active = "+active+"]";
+				+ ", fundingIntro=" + fundingIntro + ", fundingRegDate=" + fundingRegDate + ", fundingEndDate="
+				+ fundingEndDate + ", fundingTarget=" + fundingTarget + ", perFunding=" + perFunding
+				+ ", fundingFileName=" + fundingFileName + ", fundingOriginName=" + fundingOriginName + ", active="
+				+ active + ", payInfoList=" + payInfoList + "]";
 	}
+
+
 }

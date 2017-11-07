@@ -2,7 +2,6 @@ package com.bookbox.service.creation.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,8 +17,10 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.service.TagService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.CreationService;
+import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
@@ -46,6 +47,10 @@ public class CreationServiceImpl implements CreationService {
 	@Autowired
 	@Qualifier("writingServiceImpl")
 	private WritingService writingService;
+
+	@Autowired
+	@Qualifier("fundingDAOImpl")
+	private FundingDAO fundingDAO;
 	
 	@Autowired
 	@Qualifier("commonDAOImpl")
@@ -93,16 +98,27 @@ public class CreationServiceImpl implements CreationService {
 	}
 	
 	@Override
-	public Creation getCreation(Creation creation) throws Exception {
+	public Creation getCreation(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return creationDAO.getCreation(creation);
+		Creation creation = creationDAO.getCreation(map);
+		creation.setGrade(commonDAO.getAvgGrade(map));
+		creation.setLike(commonDAO.getLike(map));
+		
+		if (creationDAO.getCreationSubscribe(map) !=0) {
+			creation.setDoSubscription(true);
+		}
+		
+		if (fundingDAO.getDoFunding(map) !=0) {
+			creation.setDoFunding(true);
+		}
+		return creation;
 	}
 
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수
 	 * @param Search search
 	 * @throws Exception
-	 * @return void
+	 * @return List<Creation>
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		
@@ -139,11 +155,8 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public boolean doCreationSubscribe(User user, Creation creation) throws Exception{
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("email", user.getEmail());
-		map.put("creationNo", creation.getCreationNo());
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
 		
-		creation.setDoSubscription(true);
 		creationDAO.doCreationSubscribe(map);
 
 		return true; 
@@ -155,14 +168,12 @@ public class CreationServiceImpl implements CreationService {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void deleteCreationSubscribe(User user,Creation creation) throws Exception{
+	public boolean deleteCreationSubscribe(User user,Creation creation) throws Exception{
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("email", user.getEmail());
-		map.put("creationNo", creation.getCreationNo());
-		
-		creation.setDoSubscription(false);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
 		creationDAO.deleteCreationSubscribe(map);
+		
+		return true;
 	}
 	
 	/**
@@ -213,5 +224,36 @@ public class CreationServiceImpl implements CreationService {
 		return uploadFile;
 	}
 
+	/**
+	 * @brief addCreationLike
+	 * @param User, Creation
+	 * @throws Exception
+	 * @return boolean
+	 */
+	@Override
+	public boolean addCreationLike(User user, Creation creation) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
+		
+		commonDAO.addLike(map);
+			
+		return true;
+	}
+
+	/**
+	 * @brief deleteCreationLike
+	 * @param User, Creation
+	 * @throws Exception
+	 * @return boolean
+	 */
+	@Override
+	public boolean deleteCreationLike(User user, Creation creation) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
+		
+		commonDAO.deleteLike(map);
+				
+		return true;
+	}
 
 }
