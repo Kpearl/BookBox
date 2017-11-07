@@ -7,6 +7,8 @@ import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
+import com.bookbox.service.domain.Book;
+import com.bookbox.service.domain.User;
 
 public interface CommonDAO {
 
@@ -123,4 +125,12 @@ public interface CommonDAO {
 	 * @date 2017.10.24
 	 */
 	public List<Map<String, Integer>> getBookStatics(Map<String, Object> map);
+
+	/**
+	 * @brief getUserBookList
+	 * @detail 사용자 추천도서 조회
+	 * @author JJ
+	 * @date 2017.11.06
+	 */
+	public String getUserLikeBook(String email);
 }

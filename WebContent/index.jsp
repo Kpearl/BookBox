@@ -44,9 +44,14 @@
    		$.ajax ({
    			url : "unifiedsearch/rest/recommendBook",
    			success:function(data){
-   				for(var i=0; i<data.length; i++) {
-	   				$("#BestSeller").append("<div class='col-xs-3 col-xs-offset-0'><img class='img-thumbnail' height='170px' width='230px' src='http://t1.daumcdn.net/book/KOR"+data[i].isbn+"' onerror='this.src='../resources/images/noimage.jpg''><div class='caption'><h4 style='color:black;'>"+data[i].title+"</h4><p style='color:black;'><strong><c:forEach items='"+data[i].authors+"' var='str' varStatus='status'> ${str} <c:if test='${!status.last}'> | </c:if></c:forEach></strong> </p></div></div></div>");
+   				for(var i=3; i=>0; i--) {
+	   				$("#bestSeller").prepend("<div class='col-xs-2 col-xs-offset-0'><img class='img-thumbnail' height='170px' width='230px' src='http://t1.daumcdn.net/book/KOR" +data.recommendList[i].isbn+ "' onerror=\"this.src='"+data.recommendList[i].thumbnail+"'\"'><div class='caption'><h4 style='color:black;'>"+data.recommendList[i].title+"</h4><p style='color:black;'><strong><c:forEach items='"+data.recommendList[i].authors+"' var='str' varStatus='status'> ${str} <c:if test='${!status.last}'> | </c:if></c:forEach></strong> </p></div></div>");
+	   				
+	   				if(data.userRecommendList != null) {
+   						$("#userRecommend").prepend("<div class='col-xs-2 col-xs-offset-0'><img class='img-thumbnail' height='170px' width='230px' src='http://t1.daumcdn.net/book/KOR" +data.userRecommendList[i].isbn+ "' onerror=\"this.src='"+data.userRecommendList[i].thumbnail+"'\"'><div class='caption'><h4 style='color:black;'>"+data.userRecommendList.title+"</h4><p style='color:black;'><strong><c:forEach items='"+data.userRecommendList[i].authors+"' var='str' varStatus='status'> ${str} <c:if test='${!status.last}'> | </c:if></c:forEach></strong> </p></div></div>")
+	   				};
    				}
+
    			}
     	})	
     });
@@ -54,6 +59,8 @@
 </head>
 
 <body>
+	<jsp:include page="layout/toolbar.jsp" ></jsp:include>
+
     <header>
        <div class="row">
             <div class="col-xs-10">
@@ -116,15 +123,17 @@
             <div class="item active"><img src="resources/images/book1.jpg">
                <div class="carousel-caption">
 					<div class="row">
-						<div id="BestSeller">
+						<div id="bestSeller">
 						</div>
 					</div>
                </div>
              </div>
              <div class="item"><img src="resources/images/book1.jpg">
                  <div class="carousel-caption">
-                     <h3>Slide Title</h3>
-                     <p>Slide Caption</p>
+                     <div class="row">
+						<div id="userRecommend">
+						</div>
+					</div>
                  </div>
              </div>
              <div class="item"><img src="resources/images/book1.jpg">

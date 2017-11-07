@@ -3,6 +3,7 @@ package com.bookbox.service.unifiedsearch;
 import java.util.List;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.service.domain.Book;
 
 public interface BookSearchDAO {
@@ -35,5 +36,5 @@ public interface BookSearchDAO {
 	 * @throws Exception 
 	 * @date 2017.11.03
 	 */
-	public List<String>  getRecommendBookList() throws Exception;
+	public List<String> getRecommendBookList() throws Exception;
 }

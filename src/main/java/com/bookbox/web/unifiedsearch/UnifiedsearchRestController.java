@@ -25,7 +25,7 @@ import com.bookbox.service.unifiedsearch.BookService;
  * @brief UnifiredSearchRestCrontroller
  * @detail
  * @author JJ
- * @date 2017.11.03
+ * @date 2017.11.07
  */
 
 @RestController
@@ -103,11 +103,19 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "recommendBook")
-	public List<Book> recommendBookList() throws Exception {
+	public Map<String, Object> recommendBookList(HttpSession session) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<String> list = (List<String>) bookService.getRecommendBookList();
-		List<Book> bookList = new ArrayList<Book>();
+		List<Book> recommendList = new ArrayList<Book>();
+		List<Book> userRecommendList = new ArrayList<Book>();
+		User user = (User) session.getAttribute("user");
 		Book book = null;
-
+		
+		if (user != null) {
+			userRecommendList = bookService.getUserLikeBook(user.getEmail());
+			map.put("userRecommendList", userRecommendList);
+		}
+		
 		for (int i = 0; i < list.size(); i++) {
 			book = new Book();
 			book.setIsbn(list.get(i));
@@ -117,9 +125,12 @@ public class UnifiedsearchRestController {
 			}
 			
 			if(bookService.getBook(new User(), book) != null) {
-				bookList.add(bookService.getBook(new User(), book));
+				recommendList.add(bookService.getBook(new User(), book));
 			}
 		}
-		return bookList;
+		
+		map.put("recommendList", recommendList);
+		
+		return map;
 	}
 }

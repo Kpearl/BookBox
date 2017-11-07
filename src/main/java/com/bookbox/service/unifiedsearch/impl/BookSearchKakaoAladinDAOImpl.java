@@ -1,7 +1,5 @@
 package com.bookbox.service.unifiedsearch.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -17,14 +15,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Tag;
 import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
@@ -46,13 +43,15 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 	@Override
 	public List<Book> getBookList(Search search) throws Exception {
-
 		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
 
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
-
+		map.put("Authorization", "KakaoAK d4677d98128ed114d1c0f5f0cb5ad784");
+		map.put("sort", "recency");
+		map.put("category", search.getCondition());
+		map.put("size", search.getOrder());
+		
 		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map));
 	}
 
@@ -65,9 +64,8 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		map.put("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
 
 		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map)).get(0);
-
 	}
-
+	
 	@Override
 	public List<String> getRecommendBookList() throws Exception {
 		Map<String, String> hm = new HashMap<String, String>();
@@ -132,6 +130,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			book.setContents((String) bookObject.get("contents"));
 			book.setUrl((String) bookObject.get("url"));
 			book.setTranslators((List<String>) bookObject.get("translators"));
+			book.setTag(new Tag((String) bookObject.get("category")));
 		}
 		return book;
 	}

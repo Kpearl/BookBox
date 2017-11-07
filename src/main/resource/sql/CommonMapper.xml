@@ -168,4 +168,12 @@
 			  gender = #{gender} AND
 			  behavior = 1
 	</select>
+	
+	<select id="getUserBook" parameterType="String" resultType="String">
+		SELECT tag_name FROM tag t
+		LEFT JOIN tag_group tg ON t.tag_no = tg.tag_no AND tg.category_no = 12
+		LEFT JOIN log l ON l.target_no = tg.target_no
+		 WHERE l.category_no = 9 AND email = #{value} AND l.behavior = 1
+		GROUP BY tag_name ORDER BY count(tag_name) DESC
+	</select>
 </mapper>

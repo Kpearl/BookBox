@@ -122,5 +122,16 @@ public interface BookService {
 	 * @author JJ
 	 * @date 2017.10.24
 	 */
-	public Map<String,  Map<String, Integer>> getBookStatistics(Book book);
+	public Map<String, Map<String, Integer>> getBookStatistics(Book book);
+	
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.getUserLikeBook.java
+	 * @brief getUserLikeBook
+	 * @detail 사용자가 많이 조회한 도서 장르 조회
+	 * @author JJ
+	 * @throws Exception 
+	 * @date 2017.11.06
+	 */
+	public List<Book> getUserLikeBook(String email) throws Exception;
 }

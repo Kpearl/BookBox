@@ -6,6 +6,7 @@ import java.util.List;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Reply;
+import com.bookbox.common.domain.Tag;
 
 /**
  * @file com.bookbox.service.domain.Book.java
@@ -31,9 +32,18 @@ public class Book {
 	private Grade grade;
 	private Like like;
 	private List<Reply> replyList;
+	private Tag tag;
 
 	public Book() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Tag getTag() {
+		return tag;
+	}
+	
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
 
 	public String getIsbn() {
@@ -143,8 +153,8 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", authors=" + authors + ", publisher=" + publisher
-				+ ", dateTime=" + datetime + ", thumbnail=" + thumbnail + ", price=" + price + ", contents=" + contents
+				+ ", datetime=" + datetime + ", thumbnail=" + thumbnail + ", price=" + price + ", contents=" + contents
 				+ ", url=" + url + ", translators=" + translators + ", grade=" + grade + ", like=" + like
-				+ ", replyList=" + replyList + "]";
+				+ ", replyList=" + replyList + ", tag=" + tag + "]";
 	}
 }

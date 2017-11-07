@@ -16,6 +16,7 @@ public class Const {
 		public static final int BOOK = 9;
 		public static final int UNIFIEDSEARCH = 10;
 		public static final int TAG = 11;
+		public static final int BOOKCATEGORY = 12;
 	}
 	
 	public class Behavior{
