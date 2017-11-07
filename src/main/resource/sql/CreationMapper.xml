@@ -35,7 +35,7 @@
 	 </insert>
 	 
 	  <!-- SQL : SELECT ONE -->
-	 <select 	id="getCreation"	parameterType="creation"	 resultMap="creationSelectMap">
+	 <select 	id="getCreation"	parameterType="map"	 resultMap="creationSelectMap">
 		SELECT
 		c.creation_no, 
 		c.author email,
@@ -52,7 +52,7 @@
 			user u
 			LEFT JOIN creation c ON u.email = c.author		
 		<where>
-			creation_no = #{creationNo}
+			creation_no = #{targetNo}
 	
 		<if test="active==0">
 			AND c.active = 1
@@ -94,7 +94,7 @@
 	<insert 	id="doCreationSubscribe"		parameterType="map" >
 	 	INSERT
 		INTO subscribe (creation_no, email) 
-		VALUES	 (#{creationNo},  #{email})
+		VALUES	 (#{targetNo},  #{user.email})
 	
 	 </insert>
 	 
@@ -102,10 +102,19 @@
 	<insert 	id="deleteCreationSubscribe"		parameterType="map" >
 	 	DELETE
 		FROM subscribe  
-		WHERE	 creation_no = #{creationNo},  
-						 email = #{email}
+		WHERE	 creation_no = #{targetNo} AND  
+						 email = #{user.email}
 	
 	 </insert>
+	 
+	 <!-- SQL :GetCreationSubscribe -->
+	 <select id="getCreationSubscribe" parameterType="map" resultType="int">
+	SELECT COUNT(*)
+	FROM	subscribe
+    WHERE
+	    creation_no =	#{targetNo} AND  
+		email = #{user.email} 
+	</select>
 	 
 	 	<!-- SQL : SELECT CreationLIST -->
 	<select  id="getCreationList"  parameterType="map"	resultMap="creationSelectMap">

@@ -86,7 +86,7 @@
 		<where>
 			w.creation_no =c.creation_no AND
 			u.email = c.author AND
-			w.creation_no = #{creation.creationNo} AND
+			w.creation_no = #{targetNo} AND
 			w.active = 1
 			
 		</where>
