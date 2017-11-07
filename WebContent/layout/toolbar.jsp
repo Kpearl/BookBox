@@ -72,53 +72,46 @@ $(function() {
 	}); 
   
 //============= 홈버튼 Event  처리 =============	
-  	$("a.nav-home").on("click" , function() {
+  	$("div.homebtn").on("click" , function() {
  		$(self.location).attr("href","${param.uri}");
 	}); 
 
 //============= 네비게이션 open/close =============
+
 	$('.openbtn').on('mouseup', function(){
-		$(".sidenav").css('width', "250px");
-		$('.navbtn').addClass('sr-only');
+		$('.side-nav').css('height', '100%');
 		$(document).on('mousedown', function(event){
 			var target = event.target.className;
-			if(target.indexOf('bookbox-nav') == -1){
-				$('.sidenav').css('width', '0');
-				$('.navbtn').removeClass('sr-only');
+			if(target.indexOf('bookbox-nav-menu') == -1 || target.indexOf('openbtn') > -1){
+				$('.side-nav').css('height', '0');
 				$(this).off('mousedown');
 			}
 		})
 	});
 	
 	$('.findbtn').on('mouseup', function(){
-		$('.searchnav').css('transform', 'translate(-300px, 0)');
-		$('.searchbtn').addClass('sr-only');
+		$('div.bookbox-search.search-form-group').css('width', '232px');
+		$('select.search-form').css('width', '72px');
+		$('input.search-form').css('width', '138px');
+		$(this).on('mousedown', function(){
+			searchCheck();
+		});
 		$(document).on('mousedown', function(event){
 			var target = event.target.className;
 			if(target.indexOf('bookbox-search') == -1){
-				$('.searchnav').css('transform', 'translate(0, 0)');
-				$('.searchbtn').removeClass('sr-only');
+				$('input.search-form').css('width', '0');
+				$('select.search-form').css('width', '0');
+				$('div.bookbox-search.search-form-group').css('width', '0');
 				$(this).off('mousedown');
+				$('.findbtn').off('mousedown');
 			}
 		});
 	});
 
+
+	
 // JJ : Search Button View
 //============= 검색버튼 Event  처리 =============
-	$("button.nav-search").on("click" , function() {
-		searchCheck();
-	});
-	
-	$('a.navigation-search').on('click', function(){
-		if($('li.nav-search.sr-only').length == 1){
-			$('li.nav-search.sr-only').removeClass('sr-only');
-			$('li.nav-default').addClass('sr-only');
-		}else{
-			$('li.nav-default.sr-only').removeClass('sr-only');
-			$('li.nav-search').addClass('sr-only');
-		}
-	});
-	
 	//검색창 Enter 키 이벤트 설정
 	$('input.nav-search-keyword').on('keydown', function(event){
 		if(event.which == 13){
@@ -154,306 +147,68 @@ function searchCheck(){
 
 </script>
 
-<style>
-	.sidenav{
-		height: 100%;
-		width: 0;
-		position: fixed;
-		z-index: 100;
-		top: 0;
-		left: 0;
-		background-color: rgba(72, 65, 65, 0.65);
-		overflow-x: hidden;
-		-webkit-border-radius: 0 7px 7px 0;
-		   -moz-border-radius: 0 7px 7px 0;
-				border-radius: 0 7px 7px 0;
-		-webkit-transition: 0.5s;
-		   -moz-transition: 0.5s;
-				transition: 0.5s;
-		-webkit-transform: translate(0, 70px);
-		   -moz-transform: translate(0, 70px);
-				transform: translate(0, 70px);
-	}
-	
-	.sidenav a{
-		padding: 8px 8px 8px 32px;
-		text-decoration: none;
-		font-size: 16px;
-		color: #ffffff;
-		display: block;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-	}
-	
-	.searchnav a{
-		text-decoration: none;
-		font-size: 16px;
-		color: #ffffff;
-		display: block;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-	}
-	
-	.sidenav a:hover, .offcanvas a:focus{
-		color: #f1f1f1;
-	}
-	
-	.sidenav .nav-home{
-		position: absolute;
-		top: 0;
-		left: 0;
-		font-size: 28px;
-		width: 190px;
-	}
-	
-	 .searchnav .input-group{
-	 	position: absolute;
-	 	top: 50%;
-	 	left: 0;
-	 	width: 240px;
-	 	-webkit-transform: translate(0, -50%);
-	 	   -moz-transform: translate(0, -50%);
-			 	transform: translate(0, -50%);
-	 }
-	
-	.homebtn{
-		position: fixed;
-		top: 10px;
-		z-index: 50;
-		left: 0;
-		height: 50px;
-		width: 60px;
-		font-size: 20px;
-		-webkit-transition: 0.5s;
-		   -moz-transition: 0.5s;
-				transition: 0.5s;
-		overflow: hidden;
-	}
-	
-	.homebtn a{
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 60px;
-		text-decoration: none;
-		font-size: 28px;
-		color: black;
-		background-color: rgba(255, 255, 255, 0);
-		cursor: pointer;
-		-webkit-border-radius: 0 5px 5px 0;
-		   -moz-border-radius: 0 5px 5px 0;
-				border-radius: 0 5px 5px 0;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-		-webkit-transform: translate(-50%, -50%);
-		   -moz-transform: translate(-50%, -50%);
-				transform: translate(-50%, -50%);
-	}
-
-	.navbtn{
-		position: fixed;
-		top: 70px;
-		z-index: 50;
-		left: 0;
-		height: 50px;
-		width: 40px;
-		font-size: 20px;
-		-webkit-transition: 0.5s;
-		   -moz-transition: 0.5s;
-				transition: 0.5s;
-	}
-	
-	.navbtn span{
-		position: absolute;
-		left: 0;
-		padding: 5px;
-		width: 60px;
-		text-decoration: none;
-		font-size: 20px;
-		color: white;
-		background-color: rgba(206, 163, 121, 0.47);
-		cursor: pointer;
-		-webkit-border-radius: 0 5px 5px 0;
-		   -moz-border-radius: 0 5px 5px 0;
-				border-radius: 0 5px 5px 0;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-	}
-
-	.searchnav{
-		height: 50px;
-		width: 300px;
-		position: fixed;
-		z-index: 100;
-		top: 65px;
-		left: 100%;
-		background-color: rgba(72, 65, 65, 0.65);
-		padding-top: 60px;
-		-webkit-border-radius: 7px 0 0 7px;
-		   -moz-border-radius: 7px 0 0 7px;
-				border-radius: 7px 0 0 7px;
-		-webkit-transition: 0.5s;
-		   -moz-transition: 0.5s;
-				transition: 0.5s;
-	}
-	
-	.searchnav form a{
-		padding: 8px 8px 8px 32px;
-		text-decoration: none;
-		font-size: 16px;
-		color: #000000;
-		display: block;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-	}
-	
-	.searchbtn{
-		position: fixed;
-		top: 70px;
-		z-index: 50;
-		left: 100%;
-		height: 50px;
-		width: 40px;
-		font-size: 20px;
-		-webkit-transition: 0.5s;
-		   -moz-transition: 0.5s;
-				transition: 0.5s;
-	}
-	
-	.searchbtn span{
-		position: absolute;
-		left: -60px;
-		padding: 5px;
-		width: 60px;
-		text-decoration: none;
-		font-size: 20px;
-		color: white;
-		background-color: rgba(206, 163, 121, 0.47);
-		cursor: pointer;
-		-webkit-border-radius: 5px 0 0 5px;
-		   -moz-border-radius: 5px 0 0 5px;
-				border-radius: 5px 0 0 5px;
-		-webkit-transition: 0.3s;
-		   -moz-transition: 0.3s;
-				transition: 0.3s;
-	}
-	
-	select.search-form{
-		position: absolute;
-		top: 50%;
-		left: 0;
-		width: 80px;
-		display: inline-block;
-		background-color: rgba(72, 65, 65, 0);
-		margin-left: 5px;
-		color: #ffffff;
-		font-size: 14px;
-		height: 16px;
-		-webkit-box-shadow: none;
-				box-shadow: none;
-		-webkit-transform: translate(0, -50%);
-		   -moz-transform: translate(0, -50%);
-				transform: translate(0, -50%);
-	}
-	
-	select.search-form option{
-		color: #000000;
-	}
-	
-	input.search-form{
-		position: absolute;
-		top: 50%;
-		left: 80px;
-		width: 150px;
-		display: inline-block;
-		background-color: rgba(72, 65, 65, 0);
-		margin-left: 5px;
-		font-size: 16px;
-		height: 22px;
-		color: #ffffff;
-		-webkit-transform: translate(0, -50%);
-		   -moz-transform: translate(0, -50%);
-				transform: translate(0, -50%);
-	}
-	
-	.input-group-btn .nav-search{
-		position: absolute;
-		top: 50%;
-		left: 15px;
-		padding: 0;
-		-webkit-transform: translate(0, -50%);
-		   -moz-transform: translate(0, -50%);
-				transform: translate(0, -50%);
-	}
-	
-</style>
-
-<div id="homebtn" class="homebtn text-center">
-    <a class="nav-home" href="javascript:void(0)"><i class="glyphicon glyphicon-book"></i></a>
-</div>
-
-<div id="sidenav" class="sidenav bookbox-nav">
-
-<c:if test="${!empty sessionScope.user}">
-	<li class="dropdown nav-default bookbox-nav"><a class="dropdown-toggle bookbox-nav" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret"></span></a>
-		<ul class="dropdown-menu bookbox-nav" role="menu">
-			<li role="presentation"><a class="nav-booklog-my bookbox-nav" href="javascript:void(0)">내 북로그보기</a></li>
-			<li role="presentation"><a class="nav-subscribe bookbox-nav" href="javascript:void(0)">구독한글보기</a></li>
-			<li role="presentation"><a class="nav-booklike bookbox-nav" href="javascript:void(0)">좋아요책목록보기</a></li>
-			<li role="presentation"><a class="nav-bookmark bookbox-nav" href="javascript:void(0)">책갈피목록보기</a></li>
-		<c:if test="${sessionScope.user.role == 'admin'}">
-			<li role="presentation"><a class="nav-userlist bookbox-nav" href="javascript:void(0)">회원목록조회</a></li>
-		</c:if>
-			<li role="presentation"><a class="nav-userinfo bookbox-nav" href="javascript:void(0)">내 정보조회</a></li>
-		</ul>
-	</li>
-</c:if>
-<c:choose>
-	<c:when test="${empty sessionScope.user}">
-		<a class="nav-login bookbox-nav" href="javascript:void(0)">로그인 </a>
-		<a class="nav-signin bookbox-nav" href="javascript:void(0)">회원가입 </a>
-	</c:when>
-	<c:otherwise>
-		<a class="nav-logout bookbox-nav" href="javascript:void(0)">로그아웃</a>
-	</c:otherwise>
-</c:choose>
-
-	<hr/>
-
-	<a class="nav-creation bookbox-nav" href="javascript:void(0)">창작공간 </a>
-	<a class="nav-community bookbox-nav" href="javascript:void(0)">소모임 </a>
-	<a class="nav-booklog bookbox-nav" href="javascript:void(0)">북로그</a>
-	<a class="nav-notice bookbox-nav" href="javascript:void(0)">공지사항</a>
-	        
-</div>
-
-<div id="navbtn" class="navbtn text-center bookbox-nav">
-	<span class="openbtn bookbox-nav"><img src="https://icongr.am/octicons/three-bars.svg?size=40"></span>
-</div>
-
-<div id="searchnav" class="searchnav bookbox-search">
-	<div class="input-group bookbox-search">
-		<select id="keyField" class="search-form bookbox-search">
-			<option value="unifiedsearch" class="bookbox-search">통합검색</option>
-			<option value="book" class="bookbox-search">도서</option>
-			<option value="creation" class="bookbox-search">창작공간</option>
-			<option value="community" class="bookbox-search">소모임</option>
-			<option value="posting" class="bookbox-search">포스팅</option>
-			<option value="tag" class="bookbox-search">태그</option>
-		</select>
-		<input type="text" class="search-form nav-search-keyword bookbox-search" id="keyWord" placeholder="검색어 입력">
-		<span class="input-group-btn bookbox-search">
-			<a href="javascript:void(0)" class="btn nav-search bookbox-search" type="button"><img src="https://icongr.am/octicons/search.svg?size=32&color=ffffff"></a>
-		</span>
+<div class="bookbox-navigation">
+	<div class="navbtn-group">
+		<div class="navbtn text-center">
+			<span class="openbtn"><img class="bookbox-nav-menu" src="https://icongr.am/octicons/three-bars.svg?size=32&color=727272"></span>
+		</div>
+		<div class="homebtn text-center">
+		    <span class="nav-home"><img class="bookbox-nav-menu" src="https://icongr.am/octicons/book.svg?size=40&color=727272"></span>
+		    <span class="bookbox-brand hidden-xs hidden-sm">BOOKBOX</span>
+		</div>
+	</div>
+	<div class="content-title hidden-xs">
+		넣는다 게시물
+	</div>
+	<div class="search-group">
+		<div class="bookbox-search search-form-group">
+			<select id="keyField" class="bookbox-search search-form">
+				<option value="unifiedsearch" class="bookbox-search">통합검색</option>
+				<option value="book" class="bookbox-search">도서</option>
+				<option value="creation" class="bookbox-search">창작공간</option>
+				<option value="community" class="bookbox-search">소모임</option>
+				<option value="posting" class="bookbox-search">포스팅</option>
+				<option value="tag" class="bookbox-search">태그</option>
+			</select>
+			<input type="text" class="bookbox-search search-form nav-search-keyword" id="keyWord" placeholder="검색어 입력">
+		</div>
+		<div class="bookbox-search searchbtn text-center">
+			<span class="findbtn"><img class="bookbox-search" src="https://icongr.am/octicons/search.svg?size=26&color=727272"></span>
+		</div>
 	</div>
 </div>
 
-<div id="searchbtn" class="searchbtn text-center bookbox-search">
-	<span class="findbtn bookbox-search"><img src="https://icongr.am/octicons/search.svg?size=40"></span>
+<div class="bookbox-nav-menu side-nav">
+	<div class="bookbox-nav-menu side-nav-menu">
+	<c:if test="${!empty sessionScope.user}">
+		<li class="dropdown nav-default bookbox-nav-menu"><a class="dropdown-toggle bookbox-nav-menu" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret bookbox-nav-menu"></span></a>
+			<ul class="dropdown-menu bookbox-nav-menu" role="menu">
+				<li role="presentation"><a class="nav-booklog-my bookbox-nav-menu" href="javascript:void(0)">내 북로그보기</a></li>
+				<li role="presentation"><a class="nav-subscribe bookbox-nav-menu" href="javascript:void(0)">구독한글보기</a></li>
+				<li role="presentation"><a class="nav-booklike bookbox-nav-menu" href="javascript:void(0)">좋아요책목록보기</a></li>
+				<li role="presentation"><a class="nav-bookmark bookbox-nav-menu" href="javascript:void(0)">책갈피목록보기</a></li>
+			<c:if test="${sessionScope.user.role == 'admin'}">
+				<li role="presentation"><a class="nav-userlist bookbox-nav-menu" href="javascript:void(0)">회원목록조회</a></li>
+			</c:if>
+				<li role="presentation"><a class="nav-userinfo bookbox-nav-menu" href="javascript:void(0)">내 정보조회</a></li>
+			</ul>
+		</li>
+	</c:if>
+	<c:choose>
+		<c:when test="${empty sessionScope.user}">
+			<a class="nav-login bookbox-nav-menu" href="javascript:void(0)">로그인 </a>
+			<a class="nav-signin bookbox-nav-menu" href="javascript:void(0)">회원가입 </a>
+		</c:when>
+		<c:otherwise>
+			<a class="nav-logout bookbox-nav-menu" href="javascript:void(0)">로그아웃</a>
+		</c:otherwise>
+	</c:choose>
+	
+		<hr/>
+	
+		<a class="nav-creation bookbox-nav-menu" href="javascript:void(0)">창작공간 </a>
+		<a class="nav-community bookbox-nav-menu" href="javascript:void(0)">소모임 </a>
+		<a class="nav-booklog bookbox-nav-menu" href="javascript:void(0)">북로그</a>
+		<a class="nav-notice bookbox-nav-menu" href="javascript:void(0)">공지사항</a>
+	</div>
 </div>
-

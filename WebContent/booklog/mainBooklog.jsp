@@ -72,6 +72,7 @@
     	}
     	header{
     		background:url(../resources/images/posting.jpeg) no-repeat center;
+    		height: 500px;
     	}
     	.parallax { 
 		    background-attachment: fixed;
