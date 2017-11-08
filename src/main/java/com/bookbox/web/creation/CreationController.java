@@ -32,6 +32,7 @@ import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Funding;
+import com.bookbox.service.domain.PayInfo;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -74,6 +75,13 @@ public class CreationController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	
+	@Value("#{restapiProperties['importAPIKey']}")
+	String importAPIKey;
+	@Value("#{restapiProperties['importAPIsecret']}")
+	String importAPIsecret;
+	@Value("#{restapiProperties['importIDcode']}")
+	String importIDcode;
 	
 
 	/**
@@ -563,19 +571,32 @@ public class CreationController {
 	public String getFunding( @ModelAttribute("funding") Funding funding ,
 													HttpSession session,
 													Model model ) throws Exception {
-		// TODO getWriting
+		// TODO getFunding
 		System.out.println("CreationController :: /creation/getFunding : GET ===> START\n");
 
 		//Business Logic
+		boolean isFunding=false;
 		funding = fundingService.getFunding((User)session.getAttribute("user"), funding);
-		Creation creation = funding.getCreation();
 		
-		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));
-		creation = creationService.getCreation(map);
-		funding.setCreation(creation);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, funding.getCreation().getCreationNo(),(User)session.getAttribute("user"));
+		funding.setCreation(creationService.getCreation(map));
+		funding.setPayInfoList(fundingService.getFundingUserList(map));
+		
+		PayInfo payInfo = new PayInfo();
+		payInfo.setFundingNo(funding.getFundingNo());
+		payInfo.setUser((User)session.getAttribute("user"));
+		
+		if(fundingService.getPayInfo((User)session.getAttribute("user"), payInfo) != null) {
+			 isFunding = true;
+		}
+		
 				
 		// Model 과 View 연결
 		model.addAttribute("funding", funding);
+		model.addAttribute("isFunding", isFunding);
+		model.addAttribute("importAPIKey", importAPIKey);
+		model.addAttribute("importAPIsecret", importAPIsecret);
+		model.addAttribute("importIDcode", importIDcode);
 				
 		System.out.println("CreationController :: /creation/getFunding : GET ===> END\n\n");
 		
@@ -626,6 +647,74 @@ public class CreationController {
 		System.out.println("CreationController :: /creation/getFundingList : GET ===> END\n\n");
 		return "forward:listFundingTest.jsp";
 	}	
+	
+	/**
+	 * @brief getPayInfoList/ 조회
+	 * @details GET
+	 * @param 
+	 * @throws Exception
+	 * @return "forward:getPayInfoList.jsp"
+	 */
+	@RequestMapping( value="getFundingUserList", method=RequestMethod.GET )
+	public String getFundingUserList(@ModelAttribute("funding") Funding funding,
+															@ModelAttribute("search") Search search,
+															@ModelAttribute("page") Page page, Model model) throws Exception {
+		// TODO getFundingUserList
+		System.out.println("CreationController :: /creation/getFundingUserList : GET");
+
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(pageSize);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(pageUnit);
+		}
+		System.out.println("getFundingUserList :: getSearch :: "+search+"n");
+		System.out.println("getFundingUserList :: getPage :: "+page+"\n");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		map.put("fundingNo", funding.getFundingNo());
+		
+		List<PayInfo> payInfoList = fundingService.getFundingUserList(map);
+//		System.out.println("getFundingList :: "+fundingList+"/n");
+
+		// Model 과 View 연결
+		model.addAttribute("payInfoList", payInfoList);
+		
+		System.out.println("CreationController :: /creation/getFundingUserList : GET ===> END\n\n");
+		return "forward:listFundingUser.jsp";
+	}
+	
+	/**
+	 * @brief updatePayInfo/ 펀딩참여정보 수정
+	 * @details POST
+	 * @param PayInfo, HttpSession
+	 * @throws Exception
+	 * @return boolean
+	 */
+	@RequestMapping(value="updatePayInfo", method=RequestMethod.POST)
+	public String updatePayInfo(@ModelAttribute PayInfo payInfo,
+															@RequestParam("creationNo") int creationNo,
+															HttpSession session, Model model) throws Exception{
+		// TODO updatePayInfo
+		System.out.println("CreationRestController :: /creation/updatePayInfo : POST ===> START");
+		
+		System.out.println(payInfo);
+		payInfo.setUser((User)session.getAttribute("user"));
+		fundingService.updatePayInfo(payInfo.getUser(), payInfo);
+		
+		System.out.println("CreationRestController :: /creation/updatePayInfo ==> END");
+		
+		return "redirect:/creation/getFunding?fundingNo="+payInfo.getFundingNo()+"&creationNo="+creationNo;
+	}
 	
 
 }

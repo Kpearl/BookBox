@@ -24,9 +24,12 @@
 	<resultMap id="payInfoSelectMap" type="payInfo">
 		<result property="payInfoNo" 							column="pay_no" 										jdbcType="INTEGER"/>
 		<result property="fundingNo"							column="funding_no" 										jdbcType="INTEGER" />
-		<result property="tid" 											column="tid" 														jdbcType="INTEGER" />
+		<result property="tid" 											column="tid" 														jdbcType="VARCHAR" />
+		<result property="uid" 											column="uid" 														jdbcType="VARCHAR" />
 		<result property="userName" 							column="user_name" 										jdbcType="VARCHAR" />
+		<result property="postCode" 							column="post_code"						 							jdbcType="VARCHAR" />
 		<result property="addr" 										column="addr"						 							jdbcType="VARCHAR" />
+		<result property="addrDetail" 						column="addr_detail"						 							jdbcType="VARCHAR" />
 		<result property="phone" 									column="phone" 												jdbcType="VARCHAR" />
 		<result property="regDate" 								column="reg_date" 											jdbcType="DATE" />
 					<!-- <association property="email" 			javaType="user" 					resultMap="UserMapper.userSelectMap"/> -->
@@ -52,12 +55,15 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addPayInfo"		parameterType="payInfo" useGeneratedKeys="true" keyProperty="payInfoNo" keyColumn="pay_no">
 	 	INSERT
-		INTO pay_info(email, funding_no, tid, user_name, addr, phone) 
+		INTO pay_info(email, funding_no, tid, uid, user_name, post_code, addr, addr_detail , phone) 
 		VALUES	 (#{user.email},
 						  #{fundingNo},
 						  #{tid},
+						  #{uid},
 						  #{userName},
+						  #{postCode},
 						  #{addr},
+						  #{addrDetail},
 						  #{phone})
 						 
 	
@@ -94,16 +100,40 @@
 	 	 	  <!-- SQL : SELECT ONE -->
 	 <select 	id="getPayInfo"	parameterType="payInfo"	 resultMap="payInfoSelectMap">
 		SELECT
-		pay_no, email, funding_no, tid, user_name, addr, phone
-		
-		From
-			pay_info
+		pay_no, email, funding_no, tid, user_name, post_code, addr, addr_detail, phone
+		FROM pay_info
 					
 		<where>
-			pay_no = #{payInfoNo}
-		
+			funding_no = #{fundingNo}
+			AND email= #{user.email}		
 		</where>
 	 </select>
+	 
+	 	 <!-- SQL : UPDATE -->
+	 <update	id="updatePayInfo"	parameterType="payInfo" >
+	   	UPDATE pay_info
+	   	<set>
+	  	 	<if test ="userName != null">
+	   			user_name 	= #{userName} ,
+	   		</if>
+	   		<if test ="postCode != null">
+	   			post_code = #{postCode},
+	   		</if>
+	   		<if test ="addr != null">
+	   			addr = #{addr},
+	   		</if>
+	   		<if test ="addrDetail != null">
+	   			addr_detail = #{addrDetail},
+	   		</if>
+	   		<if test ="phone != null">
+	   			phone = #{phone},
+	   		</if>
+	   	</set>
+	   	<where>
+	   		pay_no = #{payInfoNo}
+	   	</where>
+	
+	 </update>
 	 
 	 
 <!-- SQL : SELECT getFundingLIST -->
@@ -121,9 +151,10 @@
 			
 		<where>
 			<if test="creation != null">
-				creation_no = #{targetNo}	
+				f.creation_no = #{targetNo}	
 			</if>
 		</where>
+		ORDER BY f.reg_date DESC 
 		
 		<if test="page != null">
 		LIMIT #{page.startRow}, #{page.pageSize}
@@ -136,6 +167,62 @@
 	  	SELECT COUNT(*)
 	  	FROM funding 
 		WHERE	creation_no = #{targetNo}							
+	 </select>
+	 
+	 <!-- SQL : SELECT getPayInfoLIST -->
+	<select  id="getFundingUserList"  parameterType="map"	resultMap="payInfoSelectMap">
+		
+		SELECT
+			pay_no, email AS 'user.email', funding_no, user_name, post_code, addr, addr_detail, phone, reg_date
+
+		FROM 
+			pay_info 
+			
+		<where>
+				funding_no = #{fundingNo}	
+			
+			<if test="search != null and search.condition != null">
+					<if test="search.condition == 0 and search.keyword !=''">
+		 				email LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 1 and search.keyword !=''">
+		 				user_name LIKE '%${search.keyword}%'
+					</if>
+					<if test="search.condition == 2 and search.keyword !=''">
+		 				addr LIKE '%${search.keyword}%'
+					</if>
+			</if>
+		</where>
+		ORDER BY reg_date ASC 
+		
+		<if test="page != null">
+		LIMIT #{page.startRow}, #{page.pageSize}
+		</if>
+		
+	</select>
+	
+		<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalFundingUserCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM (SELECT
+							pay_no, email AS 'payInfo.user.email', funding_no, user_name, post_code, addr, addr_detail, phone, reg_date
+						FROM  pay_info 
+						<where>
+								funding_no = #{fundingNo}	
+							
+							<if test="search != null and search.condition != null">
+									<if test="search.condition == 0 and search.keyword !=''">
+						 				email LIKE '%${search.keyword}%'
+									</if>
+									<if test="search.condition == 1 and search.keyword !=''">
+						 				user_name LIKE '%${search.keyword}%'
+									</if>
+									<if test="search.condition == 2 and search.keyword !=''">
+						 				addr LIKE '%${search.keyword}%'
+									</if>
+							</if>
+						</where>
+		) vt				
 	 </select>
 
 </mapper>

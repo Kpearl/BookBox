@@ -251,9 +251,9 @@ public class CreationRestController {
 	/**
 	 * @brief addPayInfo/ 펀딩결제정보 등록
 	 * @details POST
-	 * @param 
+	 * @param PayInfo, HttpSession
 	 * @throws Exception
-	 * @return
+	 * @return boolean
 	 */
 	@RequestMapping(value="addPayInfo", method=RequestMethod.POST)
 	public boolean addPayInfo(@RequestBody PayInfo payInfo,
@@ -268,6 +268,31 @@ public class CreationRestController {
 		System.out.println("CreationRestController :: /creation/rest/addPayInfo ==> END");
 		
 		return true;
+	}
+	
+	/**
+	 * @brief getPayInfo/ 펀딩결제정보조회
+	 * @details GET
+	 * @param FundingNo, HttpSesseion
+	 * @throws Exception
+	 * @return
+	 */
+	@RequestMapping(value="getPayInfo", method=RequestMethod.GET)
+	public PayInfo getPayInfo(@RequestParam("fundingNo") int fundingNo,
+													HttpSession session) throws Exception{
+		// TODO addCreation
+		System.out.println("CreationRestController :: /creation/rest/getPayInfo : GET ===> START");
+		
+		User user = (User)session.getAttribute("user");
+		PayInfo payInfo = new PayInfo();
+		payInfo.setFundingNo(fundingNo);
+		payInfo.setUser(user);
+		
+		payInfo = fundingService.getPayInfo(user, payInfo);
+		
+		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
+		
+		return payInfo;
 	}
 	
 	

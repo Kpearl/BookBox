@@ -3,7 +3,6 @@ package com.bookbox.service.creation;
 import java.util.List;
 import java.util.Map;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.PayInfo;
 
@@ -71,7 +70,7 @@ public interface FundingDAO {
 	 * @throws Exception
 	 * @return int
 	 */
-	public int getTotalFundingUserCount(Search search) throws Exception;
+	public int getTotalFundingUserCount(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 펀딩결제
@@ -83,7 +82,7 @@ public interface FundingDAO {
 	
 	/**
 	 * @brief 펀딩결제 정보수정 
-	 * @param User , Funding 
+	 * @param PayInfo
 	 * @throws Exception
 	 * @return void
 	 */		
@@ -91,7 +90,7 @@ public interface FundingDAO {
 
 	/**
 	 * @brief 펀딩결제 정보조회 
-	 * @param User, Funding
+	 * @param PayInfo
 	 * @throws Exception
 	 * @return void
 	 */		

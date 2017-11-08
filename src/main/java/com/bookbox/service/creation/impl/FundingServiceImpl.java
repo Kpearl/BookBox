@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Page;
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.creation.FundingService;
@@ -62,6 +61,8 @@ public class FundingServiceImpl implements FundingService {
 	@Override
 	public Funding getFunding(User user, Funding funding) throws Exception {
 		// TODO Auto-generated method stub
+		funding = fundingDAO.getFunding(funding);
+		
 		return fundingDAO.getFunding(funding);
 	}
 
@@ -90,7 +91,7 @@ public class FundingServiceImpl implements FundingService {
 		if (map.get("page") != null) {
 			
 			Page page=(Page)map.get("page");
-			page.setTotalCount(fundingDAO.getTotalFundingUserCount((Search)map.get("search")));
+			page.setTotalCount(fundingDAO.getTotalFundingUserCount(map));
 			System.out.println("getFundingUserList :: getTotalFundingUserCount ::"+page.getTotalCount());
 			}
 							

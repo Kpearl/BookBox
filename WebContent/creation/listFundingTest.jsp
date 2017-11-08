@@ -156,6 +156,7 @@
                     <div class="col-md-10 col-md-offset-1" style="border:1px solid">
                         <div class="row">
                            	<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
+                           <%-- 	<input type="hidden" name="creation.creationNo" value="${funding.creation.creationNo}"> --%>
                             <div class="col-md-5 col-xs-4">
                             	<img class="img-thumbnail img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
                             </div>

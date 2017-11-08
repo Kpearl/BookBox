@@ -18,8 +18,11 @@ public class PayInfo {
 	private String fundingTitle;
 	private User user;
 	private String tid;
-	private String userName;	
+	private String uid;
+	private String userName;
+	private String postCode;
 	private String addr;
+	private String addrDetail;
 	private String phone;
 	private Date regDate;
 
@@ -67,12 +70,28 @@ public class PayInfo {
 		this.tid = tid;
 	}
 
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
 	}
 
 	public String getAddr() {
@@ -81,6 +100,14 @@ public class PayInfo {
 
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	
+	public String getAddrDetail() {
+		return addrDetail;
+	}
+
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
 	}
 
 	public String getPhone() {
@@ -101,7 +128,13 @@ public class PayInfo {
 
 	@Override
 	public String toString() {
-		return "PayInfo [payInfoNo=" + payInfoNo + ", fundingNo = "+fundingNo+"fundingTitle"+fundingTitle+", user=" + user + ", tid=" + tid + ", userName=" + userName
-				+ ", addr=" + addr + ", phone=" + phone + ", regDate=" + regDate + "]";
+		return "PayInfo [payInfoNo=" + payInfoNo + ", fundingNo=" + fundingNo + ", fundingTitle=" + fundingTitle
+				+ ", user=" + user + ", tid=" + tid + ", uid=" + uid + ", userName=" + userName + ", postCode="
+				+ postCode + ", addr=" + addr + ", addrDetail=" + addrDetail + ", phone=" + phone + ", regDate="
+				+ regDate + "]";
 	}
+
+	
+
+
 }
