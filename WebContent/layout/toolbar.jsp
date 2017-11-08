@@ -79,18 +79,18 @@ $(function() {
 //============= 네비게이션 open/close =============
 
 	$('.openbtn').on('mouseup', function(){
-		$('.side-nav').css('height', '100%');
+		$('.side-nav').css('width', '230px');
 		$(document).on('mousedown', function(event){
 			var target = event.target.className;
 			if(target.indexOf('bookbox-nav-menu') == -1 || target.indexOf('openbtn') > -1){
-				$('.side-nav').css('height', '0');
+				$('.side-nav').css('width', '0');
 				$(this).off('mousedown');
 			}
 		})
 	});
 	
 	$('.findbtn').on('mouseup', function(){
-		$('div.bookbox-search.search-form-group').css('width', '232px');
+		$('div.bookbox-search.search-form-group').css('width', '217px');
 		$('select.search-form').css('width', '72px');
 		$('input.search-form').css('width', '138px');
 		$(this).on('mousedown', function(){

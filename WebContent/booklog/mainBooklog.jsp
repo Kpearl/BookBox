@@ -13,6 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 
 	<!-- Swiper 설정 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
@@ -72,17 +73,13 @@
     	}
     	header{
     		background:url(../resources/images/posting.jpeg) no-repeat center;
-    		height: 500px;
     	}
-    	.parallax { 
-		    background-attachment: fixed;
-		    background-size: cover;
-		}
 
     </style>
 	
 	<script type="text/javascript">
 		var condition;
+		ToolbarOpacHeight(500);
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			$('a.booklog:contains("더보기")').on('click', function(){
@@ -163,7 +160,7 @@
 
 		인기포스팅 <a class="btn posting" href="#">더보기</a>
 		<c:forEach items="${postingList}" var="posting">
-		<div class="row div-posting">
+		<div class="row div-posting booklog-border booklog-background booklog-font-color">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
 				<div class="col-sm-4 text-center posting-img">
