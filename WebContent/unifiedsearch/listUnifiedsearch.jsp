@@ -11,8 +11,20 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
-
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 <style>
+p#content{
+	text-overflow: ellipsis;
+	white-space: normal;
+	word-wrap: normal;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 3; /* 라인수 */
+	-webkit-box-orient: vertical;
+	word-wrap: break-word; 
+	line-height: 1.2em;
+	height: 3.6em;
+}
 body{
 	padding-top:0px;
 }
@@ -23,7 +35,30 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
+
+.box{ /* 
+ 	border: 1px solid;  
+/* 	padding: 40px 20px; */ */
+	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
+	font-size: 14px;
+}
 </style>
+
+<script type="text/javascript">
+ToolbarOpacHeight(500);
+
+$(function() {
+	$nav("click" , function() {
+		alert("creation");
+		/* switch (category) {
+		case "creation" : $(self.location).attr("href","${param.uri}creation/getWritingList?creationNo="+targetNo);
+		case "posting" : $(self.location).attr("href","${param.uri}booklog/getPosting?postingNo="+targetNo);
+		case "board" : $(self.location).attr("href","${param.uri}unifiedsearch/getBoard?boardNo="+targetNo);
+		} */
+	})
+})
+
+</script>
 </head>
 
 <body>
@@ -31,38 +66,67 @@ header{
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 	<header class="parallax"></header>
+	<div class="container">   	
+		<div class="row post-title">
+			<br>
+			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
+			<br>
+		</div>
 
-		<%-- 
-     	   <div class="row">
-    	        <div class="col-md-12"></div>
-    	       	 <div class="col-lg-10 col-md-offset-1">
-      	       	   <h2>(${result.category}) ${result.title}</h2>
-      	       	   <p class="author"><strong>${result.nick_name}</strong> <span class="text-muted"></span></p>
-      	      </div>
-       	     <div class="col-md-push-0 col-xs-3 col-xs-offset-1 col-xs-push-0"><img class="img-thumbnail" src="../resources/images/unifiedsearch.jpg"></div>
-   	     		<div class="col-xs-7">
-           	 		<p class="lead author">
-           	 		<strong><c:forEach items="${result.tag}" var="tag">${tag} /</c:forEach></strong>
-           	 		</p>
-           	 		<p>${result.content}</p>
-         		</div>
-        	</div>
-        	
-        	  --%>
-	<div class="container">
-		<h1>검색 결과 총 ${total} 건</h1>
 		<c:forEach items="${result}" var="result">
-   	 		<div class="row product">
-      			<div class="col-md-5">
-             	<h2>${result.title}</h2><span class="review-date">${result.category} | ${result.nick_name}</span><img class="img-responsive" src="../resources/images/unifiedsearch.jpg">
-             	<h3>Creation</h3>
-             	<p class="lead author">
-           	 		<strong><c:forEach items="${result.tag}" var="tag">${tag} | </c:forEach></strong>
-           	 		</p>
-           		<p>${result.content}</p>
-         	</div>
-       	</div>
+			<c:choose>
+				<c:when test="${result.category == 'creation'}">
+   					<div class="box" onclick="location.href='../creation/getWritingList?creationNo=${result.id}'">
+           	 			<div class="row">
+            		    	<div class="col-md-8">
+            		        	<font size="8"><strong>${result.title}</strong></font>
+            		        	${result.nick_name} <p style="color:#955940; font-weight: bold;">
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					</p>
+           						<p id="content">${result.content}</p>
+           					</div>
+            		    	<div class="col-xs-4 icon-feature">
+            		        	<img class="img-responsive" src="../resources/upload_files/images/${result.image}" height="430" width="500" onerror="this.src='../resources/images/noimage.jpg'">
+            		    	</div>
+        				</div>
+    				</div>
+				</c:when>
+			
+				<c:when test="${result.category == 'board'}">
+   					<div class="box" onclick="location.href='../community/getBoard?boardNo=${result.id}'">
+            			<div class="row">
+            		    	<div class="col-md-8">
+            	    	    	<font size="8"><strong>${result.title}</strong></font>
+            	        		${result.nick_name} <p style="color:#955940; font-weight: bold;">
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					</p>
+           						<p id="content">${result.content}</p>
+           					</div>
+            	   		 	<div class="col-xs-4 icon-feature">
+            	   		     	<img class="img-responsive" src="${result.image}" height="430" width="500" onerror="this.src='../resources/images/noimage.jpg'">
+            	    		</div>
+        				</div>
+    				</div>
+				</c:when>
+				
+				<c:when test="${result.category == 'posting'}">
+   					<div class="box" onclick="location.href='../booklog/getPosting?postingNo=${result.id}'">
+           	 			<div class="row">
+            		    	<div class="col-md-8">
+            		        	<font size="8"><strong>${result.title}</strong></font>
+            		        	${result.nick_name} <p style="color:#955940; font-weight: bold;">
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					</p>
+           						<p id="content">${result.content}</p>
+           					</div>
+            		    	<div class="col-xs-4 icon-feature">
+            		        	<img class="img-responsive" src="../resources/upload_files/images/${result.image}" height="430" width="500" onerror="this.src='../resources/images/noimage.jpg'">
+            		    	</div>
+        				</div>
+    				</div>
+				</c:when>
+			</c:choose>
         </c:forEach>
-   </div>
+   	</div>
    </body>
 </html>

@@ -20,6 +20,7 @@ import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.domain.Book;
+import com.bookbox.service.domain.Unifiedsearch;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.unifiedsearch.BookService;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
@@ -65,7 +66,7 @@ public class UnifiedsearchController {
 	}
 	
 	@RequestMapping(value = "getUnifiedsearchList", method = RequestMethod.GET)
-	public String getunifiedsearchList(Model model, @RequestParam("keyword") String keyword, @RequestParam("category") int category) throws Exception {
+	public String getUnifiedsearchList(Model model, @RequestParam("keyword") String keyword, @RequestParam("category") int category) throws Exception {
 		System.out.println("/unifiedsearch/getUnifiedsearchList : GET");
 		
 		Search search = new Search();
@@ -74,8 +75,8 @@ public class UnifiedsearchController {
 		
 		Map<String, Object> map = unifiedsearchService.elasticSearch(search);
 		
-		model.addAttribute("total", map.get("total"));
 		model.addAttribute("result", map.get("result"));
+		model.addAttribute("total", map.get("total"));
 		
 		switch (category) {
 		case 1:

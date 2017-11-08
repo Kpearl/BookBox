@@ -49,7 +49,16 @@ function getBook(isbn) {
 	            
 	            <div class="col-lg-2 col-lg-offset-1 col-lg-push-0 col-md-3 col-md-offset-1 col-md-push-0 col-md-pull-0 col-xs-12 col-xs-offset-0 col-xs-push-0 col-xs-pull-0">
 		           	<div class="row"><br><br></div>
-	           		<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">
+		           		<c:choose>
+  							<c:when test="${book.thumbnail == ''}">
+	        		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">  					
+  							</c:when>
+  							<c:otherwise>
+	    						<td rowspan="3">
+    	  							<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='${book.thumbnail}'">
+    							</td>
+  							</c:otherwise>
+						</c:choose>
 	                <div id="starWrap" class="star${book.grade.average}">
 							<ul>
 								<li class="s1"></li>

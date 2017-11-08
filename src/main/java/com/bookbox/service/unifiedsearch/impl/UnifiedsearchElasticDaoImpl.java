@@ -41,7 +41,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	}
 
 	@Override
-	public void elasticInsert(Object object) throws Exception {
+	public void elasticInsert(Object object) throws Exception {		
 		 Map<String, Object> map = compareToCategory(object);
 		
 		String query = url + map.get("category") + "/" + map.get("id");
@@ -87,6 +87,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 		return sendToElastic(query, json, "POST");
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> compareToCategory(Object object) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject obj = new JSONObject();
@@ -110,11 +111,11 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			Posting posting = (Posting) object;
 
 			obj.put("title", posting.getPostingTitle());
-			obj.put("content", posting.getPostingContent());
+			obj.put("content", removeTag(posting.getPostingContent()));
 			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
 			obj.put("reg_date", posting.getPostingRegDate());
-			obj.put("image", posting.getPostingFileList().get(0).toString());
+			obj.put("image", posting.getPostingFileList().size() == 0?"" : posting.getPostingFileList().get(0).toString());
 
 			map.put("category", "posting");
 			map.put("id", posting.getPostingNo());
@@ -124,7 +125,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			Board board = (Board) object;
 
 			obj.put("title", board.getBoardTitle());
-			obj.put("content", board.getBoardContent());
+			obj.put("content", removeTag(board.getBoardContent()));
 			obj.put("tag", tagParse(board.getTagList()));
 			obj.put("nick_name", board.getWriter().getNickname());
 			obj.put("reg_date", board.getBoardRegDate());
@@ -152,8 +153,8 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 
 	public List<String> tagParse(List<Tag> tagList) {
 		List<String> list = new ArrayList<String>();
-
-		if (!tagList.isEmpty()) {			
+		
+		if (tagList != null) {			
 			for (Tag tag : tagList) {
 				list.add(tag.getTagName());
 			}
@@ -174,17 +175,26 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 		os.write(json.getBytes("UTF-8"));
 		os.close();
 
-		// read the response
 		InputStream in = new BufferedInputStream(conn.getInputStream());
 		JSONParser jsonParser = new JSONParser();
-		//String result = IOUtils.toString(in, "UTF-8");
 		JSONObject jsonObject = (JSONObject)jsonParser.parse(IOUtils.toString(in, "UTF-8"));
-		
-		//JSONObject jsonObject7;
 
 		in.close();
 		conn.disconnect();
 		
 		return jsonObject;
+	}
+	
+	public String removeTag(String str) {
+		String content = "";
+		
+		for(String seq : str.split("<")) {
+			if(seq.indexOf(">") != -1) {
+				content += seq.substring(seq.indexOf(">")+1);
+			}else {
+				content += seq;
+			}
+		}
+		return content;
 	}
 }

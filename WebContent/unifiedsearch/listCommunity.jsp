@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,10 +12,13 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 
 <style>
 body{
 	padding-top:0px;
+	text-align:center;
+	color:rgb(94, 86, 76);
 }
 header{
 	background:url(../resources/images/community.jpeg) no-repeat center;
@@ -23,7 +27,30 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
+#box{ 
+  	/* border: 3px solid;   */
+  	border-radius: 10px;
+  	margin: 10px;
+  	padding: 30px 10px;
+	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
+	background-color: #424141;
+	color: #F7FDB6;
+	width:160;
+	height:20;
+}
+
+#box img{
+	width: 200px; 
+	height: auto;
+	border-radius: 7px;
+	-moz-border-radius: 7px;
+	-khtml-border-radius: 7px;
+	-webkit-border-radius: 7px;
+}
 </style>
+<script type="text/javascript">
+	ToolbarOpacHeight(500);
+</script>
 </head>
 
 <body>
@@ -32,26 +59,22 @@ header{
 	</jsp:include>
 	<header class="parallax"></header>
 
-
-	<div class="container">
-		<h1>검색 결과 총 ${total} 건</h1>
-		
+	<div class="container">   	
+		<div class="row post-title">
+			<br>
+			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
+			<br>
+		</div>
 		<c:forEach items="${result}" var="result">
-     	   <div class="row">
-    	        <div class="col-md-12"></div>
-    	       	 <div class="col-lg-10 col-md-offset-1">
-      	       	   <h2>(${result.category}) ${result.title}</h2>
-      	       	   <p class="author"><strong>${result.nick_name}</strong> <span class="text-muted"></span></p>
-      	      </div>
-       	     <div class="col-md-push-0 col-xs-3 col-xs-offset-1 col-xs-push-0"><img class="img-thumbnail" src="../resources/images/unifiedsearch.jpg"></div>
-       	     	<div class="col-xs-7">
-               	 <p class="lead author">
-               	 	<strong><c:forEach items="${result.tag}" var="tag">${tag} /</c:forEach></strong>
-               	 </p>
-               	 <p>${result.content}</p>
-            	</div>
-        	</div>
-        </c:forEach>
-    </div>
-</body>	
+		<div onclick="location.href='../community/getBoard?boardNo=${result.id}'">
+            <div class="col-md-3" id="box">
+				<img class="img-responsive" src="${result.image}" onerror="this.src='../resources/images/commu_noimage.png'" height="200" width="200" style="margin-left: auto; margin-right: auto; display: block;">
+                <font size="7"><strong>${result.title}</strong></font> ${result.nick_name} <p style="color:#A4D792; font-weight: bold;">
+                	<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+                </p>
+            </div>
+        </div>
+       </c:forEach>
+   	</div>
+   </body>	
 </html>

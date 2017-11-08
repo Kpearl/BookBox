@@ -217,7 +217,16 @@ $(function() {
                 </p>
             </div>
             <div class="col-lg-2 col-lg-offset-1 col-md-3 col-md-offset-1col-xs-12">
-           		<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="400px" width="300px" onerror="this.src='../resources/images/noimage.jpg'">
+           		<c:choose>
+					<c:when test="${book.thumbnail == ''}">
+     		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">  					
+					</c:when>
+					<c:otherwise>
+ 						<td rowspan="3">
+	  						<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='${book.thumbnail}'">
+						</td>
+					</c:otherwise>
+				</c:choose>
            	 	<div id="starWrap" class="star${book.grade.average}">
 					<ul>
 						<li class="s1"></li>
@@ -231,7 +240,8 @@ $(function() {
             </div>
             
             <div class="col-lg-7 col-lg-offset-0 col-lg-push-1 col-lg-pull-0 col-md-7 col-md-offset-0 col-md-push-0 post-body">
-                <p>사이트내 좋아요 개수 : <span  id="likeSum">${book.like.totalLike}</span></p>
+                <p>사이트내 좋아요 수 : <span id="likeSum">${book.like.totalLike}</span></p>
+                <p>사이트내 평균 평점 : <span id="avgGrade">${book.grade.average}</span></p>
                 <p>도서 소개 : ${book.contents}</p>
                 <p><a href="${book.url}">판매 페이지로 이동</a></p>
                 
@@ -260,8 +270,7 @@ $(function() {
             <div>
 				<div class="row">
 					<div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">
-                    	<h3>댓글 리스트</h3>
-                    
+                    	<h3>댓글 리스트</h3>                    
 	                    <c:if test="${user.email ne null}">	
 	                    	<div class="col-xs-1 col-xs-offset-1">
     	                   		<p><strong>댓글</strong> </p>
@@ -279,10 +288,10 @@ $(function() {
             	<c:forEach items="${book.replyList}" var="reply">
             		<div class="row">
             			<div class="col-xs-10 col-xs-offset-0 col-xs-pull-0">
-            	   	 		<div class="col-xs-1 col-xs-offset-1">
+            	   	 		<div class="col-xs-2 col-xs-offset-1">
 								<p><strong>${reply.user.nickname}</strong> </p>
 							</div>
-            	   	 		<div class ="col-xs-7">
+            	   	 		<div class ="col-xs-6">
 					 			: ${reply.content}
 							</div>
             	    		<div class="col-xs-2 col-xs-offset-0">
