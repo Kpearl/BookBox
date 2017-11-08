@@ -14,6 +14,7 @@
 							http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:properties id="commonProperties" location="classpath:config/common.properties"/>	
+	<util:properties id="restapiProperties" location="classpath:config/restapi.properties"/>	
 
 	<bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
