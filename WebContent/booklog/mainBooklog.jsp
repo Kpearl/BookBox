@@ -50,6 +50,7 @@
 	<script type="text/javascript">
 		var condition;
 		ToolbarOpacHeight(500);
+//		setToolbarOpac(false);
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			$('a.booklog:contains("더보기")').on('click', function(){
