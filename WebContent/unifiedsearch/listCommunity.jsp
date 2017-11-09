@@ -29,14 +29,13 @@ header{
 }
 #box{ 
   	/* border: 3px solid;   */
-  	border-radius: 10px;
-  	margin: 10px;
-  	padding: 30px 10px;
+  	height:  300px;
+  	/* border-radius: 10px; */
+   	margin: 7px;
+  	padding: 20px 10px; 
 	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
 	background-color: #424141;
 	color: #F7FDB6;
-	width:160;
-	height:20;
 }
 
 #box img{
@@ -51,6 +50,7 @@ header{
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
 </script>
+
 </head>
 
 <body>
@@ -64,17 +64,19 @@ header{
 			<br>
 			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
 			<br>
+			<br>
 		</div>
-		<c:forEach items="${result}" var="result">
-		<div onclick="location.href='../community/getBoard?boardNo=${result.id}'">
-            <div class="col-md-3" id="box">
-				<img class="img-responsive" src="${result.image}" onerror="this.src='../resources/images/commu_noimage.png'" height="200" width="200" style="margin-left: auto; margin-right: auto; display: block;">
-                <font size="7"><strong>${result.title}</strong></font> ${result.nick_name} <p style="color:#A4D792; font-weight: bold;">
-                	<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
-                </p>
-            </div>
-        </div>
-       </c:forEach>
-   	</div>
-   </body>	
+		<div class="row">			
+			<c:forEach items="${result}" var="result">
+	            <div class="col-md-4">
+    	        	<div id="box" onclick="location.href='../community/getBoard?boardNo=${result.id}'">
+						<img class="img-responsive" src="${result.image}" onerror="this.src='../resources/images/commu_noimage.png'" height="200" width="300" style="margin-left: auto; margin-right: auto; display: block;">
+		                <font size="5"><strong>${result.title}</strong></font> ${result.nick_name} <p style="color:#A4D792; font-weight: bold;">
+	                	<c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}   </c:forEach></p>
+        	    	</div>
+            	</div>
+       		</c:forEach>
+		</div>
+	</div>
+</body>	
 </html>
