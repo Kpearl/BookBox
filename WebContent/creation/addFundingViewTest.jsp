@@ -12,6 +12,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -22,9 +23,19 @@
 		#imgPreview, #imgPreview > img{
 			height: 300px;
 		}
+		 body{
+    		padding-top:0px;
+    	}
+    	header{
+    		background:url(../resources/images/creationTest7.jpg) no-repeat center;
+    	}
+		
 	</style>
 	
 	<script type="text/javascript">
+	
+	ToolbarOpacHeight(500);
+	
 		$( function() {
 		    $("#fundingEndDate").datepicker({ 
 		    	dateFormat:"yy-mm-dd",
@@ -44,6 +55,13 @@
 			$('a.funding-add').on('click', function(){
 				$('form.funding-add').attr('method', 'post').attr('enctype' ,'multipart/form-data').attr('action', '../creation/addFunding').submit();
 				});
+		})
+		
+				//============== 펀딩등록 Event===========
+		$(function(){
+			$('.menu').on('click', function(){
+				history.back();
+			})
 		})
 		
 		//============== 커버이미지 미리보기 설정===========
@@ -73,7 +91,7 @@
 				
 				return false;
 			};
-		})
+		});
 
 	</script>
 </head>
@@ -82,38 +100,46 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 	<!-- 여기부터 코딩 -->
 	
     <div class="container">
         <form class="form-horizontal funding-add">
-            <h2 class="text-center">펀딩 등록</h2>
+            
+            
+            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 400;">Create Funding</div>
+            <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
+            
             <div class="form-group">
                 <div class="col-sm-2 col-sm-offset-2">
                     <label class="control-label" for="fundingTitle">펀딩명</label>
                 </div>
-                <div class="col-sm-8">
-                    <input class="form-control" type="text" name="fundingTitle" placeholder="펀딩명" autofocus id="fundingTitle">
+                <div class="col-sm-7">
+                    <input class="form-control inputValue" type="text" name="fundingTitle" placeholder="펀딩명" autofocus id="fundingTitle">
                 </div>
+             <div class="col-sm-1"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-2 col-sm-offset-2">
-                    <label class="control-label" for="creationTitle">작품 제목</label>
+                    <label class="control-label " for="creationTitle">작품 제목</label>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <select class="form-control" name="creation.creationNo">
                     	<c:forEach items="${creationList}" var="creation">
 	                        <option value="${creation.creationNo}">${creation.creationTitle}</option>
 	                   	</c:forEach>
                     </select>
                 </div>
+                <div class="col-sm-1"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-2 col-sm-offset-2">
                     <label class="control-label" for="fundingTarget">목표 금액</label>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <input class="form-control" type="text" name="fundingTarget" placeholder="목표금액"   id="fundingTarget">
                 </div>
+               <div class="col-sm-1"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-2 col-sm-offset-2">
@@ -125,7 +151,7 @@
                 <div class="col-sm-1 col-xs-2">
                     <label class="control-label" for="fundingTitle"> ~ </label>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <input class="form-control" type="text" name="fundingEndDate" readonly placeholder="종료일" id="fundingEndDate">
                 </div>
             </div>
@@ -144,22 +170,26 @@
                 <div class="col-sm-2 col-sm-offset-2">
                     <label class="control-label" for="perFunding">1인당 금액</label>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <input class="form-control" type="text" name="perFunding" placeholder="1인당금액"  id="perFunding">
                 </div>
+               <div class="col-sm-1"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-2 col-sm-offset-2">
                     <label class="control-label" for="fundingIntro">글소개</label>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <textarea class="form-control" rows="5" name="fundingIntro" placeholder="글소개" id="fundingIntro"></textarea>
                 </div>
+               <div class="col-sm-1"></div>
             </div>
                <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <a class="btn btn-primary funding-add" href="#">등록</a>
+                <div class="col-sm-7 col-sm-offset-4 text-right">
+                    <a class="btn btn-primary funding-add" >등록</a>
+                    <a class="btn btn-defalt menu" >menu</a>
                 </div>
+                <div class="col-sm-1"></div>
             </div>
         </form>
     </div>

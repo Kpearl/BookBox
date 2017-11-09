@@ -13,41 +13,30 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 
 	<!-- 평점 별 css -->
 	<link rel="stylesheet" href="../resources/css/star.css">
 	
 	<style>
-    .swiper-container {
-        width: 100%;
-        height: 35%;
-    }
-    .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
+ 
+        body{
+    		padding-top:0px;
+    		
+    	}
+    	header{
+    		background:url(../resources/images/newCreationTest2.jpg) no-repeat center;
+    	}
+    	
     </style>
 
 	
 
     <script>
+	   ToolbarOpacHeight(500);
     
    $(function() {
+	   
   //============= 창작글리스트 조회 Navigation Event  처리 =============	
 	  $("a.creationTitle").on("click" , function() {
    		$(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr("id"));
@@ -90,8 +79,9 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 	
-<div class="container">
+<div class="container" style="background-color:rgba(136, 130, 130, 0.12);">
 		<div class="row">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left">
@@ -126,7 +116,7 @@
       	  
 	<h3>창작리스트</h3>
 
-	<div class="row">
+	<div class="row creation-list" style="margin-left: 15px;margin-right: 15px;">
 		<c:forEach var="creation" items="${creationList}" >
 		<div class="row creation-row">
 			<%-- <input type ="text" name="creationNo" value="${creation.creationNo }"/> --%>
@@ -160,6 +150,10 @@
 		
         	
 </div>
+
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 
 </body>
 </html>

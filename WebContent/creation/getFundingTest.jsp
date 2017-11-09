@@ -20,7 +20,29 @@
 	<!-- <script src="//cdn.poesis.kr/post/search.min.js"></script> -->
 	<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 	 
+	<style>
+	.funding-content-detail{
+		/* margin-top:50px;height: 500px;
+	    margin-left: 70px;
+	    margin-right: 70px;
+	    margin-bottom: 50px;border:1px solid; */
+	    margin-bottom: 50px;
+	    height: 500px;
+	    
+	}
 	
+	div.funding-creation{
+		    background-color: burlywood;
+		    border-radius: 3px;
+		    margin-left: 150px;
+		    margin-right: 150px;
+		    height: 35px;
+		    padding-top: 4px;
+		    font-weight: bolder;
+		    font-size: large;
+	}
+	
+	</style>
 
 	<script type="text/javascript">
 		var fundingNo; 
@@ -80,8 +102,13 @@
 		                            						
 		                            						alert("결제가 완료되었습니다.");
 		                            						$('#add-payInfo').modal("hide");
-		                            						$('a.funding-join').replaceWith('<a class="btn btn-default funding-pay-info" type="button">참여정보조회</a>');
+		                            						$('.funding-join').replaceWith
+		                            						('<div class="row funding-pay-info text-center" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;"><strong>펀딩정보조회</strong></div>');
 															
+		                            						$('.funding-pay-info').on('click', function(){
+		                            							fncFundingPayInfo();
+		                            							});
+		                            						
 		                            						var msg = '결제가 완료되었습니다.';
 		                            		    			msg += '\n고유ID : ' + rsp.imp_uid;
 		                            		    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
@@ -130,48 +157,51 @@
 	//==============참여정보조회====================
 		$(function(){
 						
-			$('a.funding-pay-info').on('click', function(){
-				//	$(self.location).attr('href', '../creation/getPayInfo?payInfoNo='+payInfoNo);
-				
-				/////////ajax 적용/////////
-					$.ajax({
-						url : "rest/getPayInfo?fundingNo="+$('#fundingNo-fundingInfo').val(),
-						method : "get",
-						dataType : "json",
-						success : function(JSONData, status) {
-							//Debug...
-							alert(status);
-											
-							$('#add-payInfo').modal('show');
-							$('.name-fundingInfo').val(JSONData.userName);
-                            $('.postcodify_postcode5').val(JSONData.postCode);
-                             $('.postcodify_address').val(JSONData.addr);
-                             $('.postcodify_details').val(JSONData.addrDetail);
-                             $('.phone').val(JSONData.phone);
-                             $('#payInfoNo').val(JSONData.payInfoNo);
-                             
-                             $('#insert-payInfo').html('펀딩 참여정보 조회');
-                             $('.inputValue').attr('readonly',true);
-                             $('.addrSearch').addClass('sr-only');
-                             $('#pay').attr('id','update').html('수정하기');
-                             
-                             $('#update').off('click').on('click', function(){
-                            	 $('#insert-payInfo').html('펀딩 참여정보 수정하기');
-                            	 $('.inputValue').attr('readonly',false);
-                            	 $('.addrSearch').removeClass('sr-only');
-                            	 $('#update').attr('id','updatePayInfo').html('수정');
-                            
-                            	 $('#updatePayInfo').off('click').on('click', function(){
-                            		 $('.payInfoForm').attr('method','post').attr('action','../creation/updatePayInfo').submit();
-                            		
-                            	 })
-                            	 
-                             });//수정하기 버튼 이벤트 끝
-						}
-					})//ajax 끝
+			$('.funding-pay-info').on('click', function(){
+				fncFundingPayInfo();
 				});
 			
 		});//참여정보조회 이벤트 끝
+		
+		function fncFundingPayInfo() {
+			/////////ajax 적용/////////
+			$.ajax({
+				url : "rest/getPayInfo?fundingNo="+$('#fundingNo-fundingInfo').val(),
+				method : "get",
+				dataType : "json",
+				success : function(JSONData, status) {
+					//Debug...
+					alert(status);
+									
+					$('#add-payInfo').modal('show');
+					$('.name-fundingInfo').val(JSONData.userName);
+                    $('.postcodify_postcode5').val(JSONData.postCode);
+                     $('.postcodify_address').val(JSONData.addr);
+                     $('.postcodify_details').val(JSONData.addrDetail);
+                     $('.phone').val(JSONData.phone);
+                     $('#payInfoNo').val(JSONData.payInfoNo);
+                     
+                     $('#insert-payInfo').html('펀딩 참여정보 조회');
+                     $('.inputValue').attr('readonly',true);
+                     $('.addrSearch').addClass('sr-only');
+                     $('#pay').attr('id','update').html('수정하기');
+                     
+                     $('#update').off('click').on('click', function(){
+                    	 $('#insert-payInfo').html('펀딩 참여정보 수정하기');
+                    	 $('.inputValue').attr('readonly',false);
+                    	 $('.addrSearch').removeClass('sr-only');
+                    	 $('#update').attr('id','updatePayInfo').html('수정');
+                    
+                    	 $('#updatePayInfo').off('click').on('click', function(){
+                    		 $('.payInfoForm').attr('method','post').attr('action','../creation/updatePayInfo').submit();
+                    		
+                    	 })
+                    	 
+                     });//수정하기 버튼 이벤트 끝
+				}
+			})//ajax 끝
+			
+		}
 		
 		
 		
@@ -180,14 +210,43 @@
 		$(function(){
 			fncPostcodify();
 		
-			$('a.funding-creation').on('click', function(){
+			$('.funding-creation').on('click', function(){
 				$(self.location).attr('href', '../creation/getWritingList?creationNo='+$('input[name="creationNo"]').val());
 			});
-			$('a.funding-userlist').on('click', function(){
+			$('.funding-userlist').on('click', function(){
 				$(self.location).attr('href', '../creation/getFundingUserList?fundingNo='+$('input[name="fundingNo"]').val());
 			});
 			
 		});
+		
+		//============= 펀딩 남은기간 계산 =============
+		   $(function(){
+				$('.funding-endDate').html(function(){
+					var today =new Date();
+					var endDay =new Date($(this).html().trim()+" 00:00:00");
+					var diff = endDay.getTime()-today.getTime();
+					if(diff < 0){
+						return '펀딩마감';
+					}
+
+					var days = Math.floor(diff/(1000*60*60*24));
+					if(days > 0){
+						return '<strong style="font-size:20px;">'+days + '</strong>일 남음';
+					}
+					var hours = Math.floor( diff/(1000*60*60) );
+					if(hours > 0){
+						return '<strong style="font-size:20px;">'+hours + '</strong>시간 남음';
+					}
+					var minutes = Math.floor( diff/(1000*60) );
+					if(minutes > 0){
+						return '<strong style="font-size:20px;">'+minutes + '<strong>분 남음';
+					}else{
+						return '마감 임박!!';
+					}
+					
+				})
+				
+			});
 		
 		//===============펀딩자동취소===================
 		$(function(){
@@ -205,8 +264,8 @@
 			} 
 
 			today = yyyy+'-'+mm+'-'+dd;
-			alert(today);
-			alert('${funding.fundingEndDate}');
+		//	alert(today);
+		//	alert('${funding.fundingEndDate}');
 			if('${funding.fundingEndDate}'==today){
 				
 				$.ajax({
@@ -237,59 +296,99 @@
 	<!-- 여기부터 코딩 -->
 
     <div class="container">
-        <div class="row">
+    	
+    	<div class="row" style="background-color:rgba(255, 249, 65, 0.27);padding-bottom: 150px;border-bottom-style: none;">
+    		<div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 400;font-style: italic;position: absolute;padding-left: 15px; top: 120px;">Funding</div>
+        </div>
+        
+    <!-- 펀딩정보 시작 -->
+        <div class="row col-sm-12 col-md-12 get-funding" style="margin-top: 50px;">
            	<input class="fundingNo" type="hidden" name="fundingNo" value="${funding.fundingNo}">
-           	<div class="col-md-6">
-            	<img class="img-responsive" src="../resources/upload_files/images/${funding.fundingFileName}">
+           	<div class="row col-md-8 funding-title-image" style="overflow:hidden;width: 60%;height: 300px;margin-right: 60px;margin-left: 20px;">
+            	<img style="width: 100;transform: translate(-50%, -50%);position: absolute;left: 50%;top: 50%;" class="img-responsive" src="../resources/upload_files/images/${funding.fundingFileName}">
             </div>
-            <div class="col-md-6">
-
-                <div class="fundingTitle">${funding.fundingTitle}</div>
+            
+            <div class="row col-md-4 funding-content">
+				<div class="fundingTitle" style="font-weight: 600;font-size: 25px;">${funding.fundingTitle}</div>
                 <input type="hidden" class="fundingTitle" value="${funding.fundingTitle}">
-               <div class="creationTitle">글제목 : ${funding.creation.creationTitle}</div>
-               <div class="progress">
-                    <div class="progress-bar progress-bar-info progress-bar-striped active" 
+              <%--  <div class="creationTitle">글제목 : ${funding.creation.creationTitle}</div> --%>
+               <div class="row progress" style="height:25px;margin-bottom: 10;margin-top: 30px;">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" 
                     		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
                     		style="width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
                     	${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%
                     </div>
                 </div>
-                <p>남은 진행기간 : ${funding.fundingEndDate}</p>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="perFunding">${funding.perFunding}</div>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                  	<c:forEach items="${funding.payInfoList}" var="payInfo">
+                <div class="row funding-endDate text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">${funding.fundingEndDate}</div>
+                <div class="row funding-percent" style="margin-left: 0;font-size:18px;font-family: unset;">
+                <strong style="font-size:20px;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}</strong>% 달성!
+                </div>
+               	<div class="row perFunding text-right" style="padding-left: 0;margin-left: 0;font-size:20px;font-family: unset;font-weight: 500;margin-top: 15px;">
+               	<strong style="font-size:20px;">${funding.perFunding}</strong> 원
+               	</div>
+                  
+                  <!--payInfoList Hidden  START-->  
+                  <c:forEach items="${funding.payInfoList}" var="payInfo">
                   		<c:if test="${payInfo.user.email == sessionScope.user.email}">
                   			<c:set var="isFunding" value="true"/>
                   			<input type="hidden" name="payInfoNo" value="${payInfo.payInfoNo}">
                   		</c:if>
                   	</c:forEach>
+                  <!--payInfoList Hidden END -->
+              
+               <c:if test="${!empty sessionScope.user}">
+                    	<c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}">
+	                    	<div class="row funding-userlist text-center" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
+	              			<strong>참여자목록조회</strong></div>   
+                        </c:if>
+	                     <c:if test="${!isFunding}">
+				              <div data-toggle="modal" data-target="#add-payInfo" class="row funding-join text-center" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
+				              <strong>펀딩하기</strong></div>    
+	                    </c:if>
+	                    <c:if test="${isFunding}">
+	                    	<div class="row funding-pay-info text-center" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
+	              			<strong>펀딩정보조회</strong></div>
+	                    </c:if>
+	       		</c:if>
+           
+           </div>
+                    
+               
+                
+            </div>
+        <!-- 펀딩정보 끝 -->
+        </div>
+        	<%-- <div class="row col-sm-12 col-md-12 button-position text-right" style="margin-top: 30px;">
                     <c:if test="${!empty sessionScope.user}">
                     	<c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}"> 
                         	<a class="btn btn-default funding-userlist" type="button">참여자목록조회</a>
                     	</c:if>
 	                     <c:if test="${!isFunding}">
-	                        <a class="btn btn-default funding-join" type="button" data-toggle="modal" data-target="#add-payInfo">참여하기</a>
+	                        <a class="btn btn-default funding-join" type="button" data-toggle="modal" data-target="#add-payInfo">펀딩하기</a>
 	                    </c:if>
 	                    <c:if test="${isFunding}">
-	                    	<a class="btn btn-default funding-pay-info" type="button">참여정보조회</a>
+	                    	<a class="btn btn-default funding-pay-info" type="button">펀딩정보조회</a>
  	                   </c:if>
-	                 </c:if>
-                   </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <p>${funding.fundingIntro}</p>
-                <a class="btn btn-link center-block funding-creation" type="button">글보러 가기</a>
-                <c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}">
-	                <button class="btn btn-link funding-update" type="button">수정</button>
-	            </c:if>
-            </div>
-        </div>
+	              </c:if>
+	        </div> --%>
+	        <hr style="margin-bottom:0;    margin-top: 50px;">
+	<div class="container-fluid" style="background-color:rgba(0,0,0,0.075);">
+		<div class="container">
+	        <div class="row funding-content-detail" style="text-align:center;">
+	            <div class="text-center" style="height:100%;background-color:#ffffff;">
+		            <div class="row content-detail" style="margin-bottom: 50px;padding-top:30px;">
+		                ${funding.fundingIntro}
+		            </div>
+	            	<div class="enter-block funding-creation">
+	            	작품보러 가기
+	            	</div>
+	                
+	                <c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}">
+		                <button class="btn btn-link funding-update" type="button">수정</button>
+		            </c:if>
+	            </div>
+	        </div>
+	    </div>
     </div>
     
     <!--===================== addPayInfo Modal================================ -->
@@ -386,7 +485,9 @@
 		  </div>
 		</div>
     
-
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 	
 </body>
 </html>

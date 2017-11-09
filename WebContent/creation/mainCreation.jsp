@@ -31,7 +31,8 @@
         text-align: center;
         font-size: 18px;
         background: #fff;
-        
+        margin-bottom:30px;
+                
         /* Center slide text vertically */
         display: -webkit-box;
         display: -ms-flexbox;
@@ -49,6 +50,7 @@
     
     body{
     		padding-top:0px;
+    		
     	}
     	header{
     		background:url(../resources/images/creationTest7.jpg) no-repeat center;
@@ -64,14 +66,24 @@
     
     .creation-part{
     	margin-top :100px;
-    	margin-bottom: 50px;
+    	
     }
     
     .tag-space{
     	font-size: 15px;
 	    font-weight: 700;
-	    margin-top: 130px;
+	    margin-top: 110px;
 	    margin-left: 8px;
+    }
+    
+    .endfunding-img{
+    	background-color:rgba(24, 24, 25, 0.41);
+    	position:absolute;
+    	top:0;
+    	left:0;
+    	z-index:3;
+    	height:100%;
+    	width:100%;
     }
     	
     	
@@ -87,41 +99,48 @@
    
     	var swiper = new Swiper('.swiper-container', {
         	pagination: '.swiper-pagination',
-        	slidesPerView: 3,
+        	slidesPerView: 4,
         	paginationClickable: true,
-        	spaceBetween: 30
+        	spaceBetween: 20,
+        /* 	autoplay : {
+        		delay : 5000
+        	}, */
+    		navigation : {
+    			nextEl : '.swiper-button-next',
+    			prevEl : '.swiper-button-prev',
+    		}
 	    });
     })
     
     //============= 펀딩글보기 Navigation Event  처리 =============	
 $(function() {
-	$("a:contains('펀딩제목')").on("click" , function() {
-		$(self.location).attr("href","../creation/getFunding");
+	$(".funding-image").on("click" , function() {
+		$(self.location).attr("href","../creation/getFunding?fundingNo="+$(this).attr('id').trim());
 	}); 
 });
     
    //============= 펀딩글보기 Navigation Event  처리 =============	
    $(function() {
-   	$("a[name='펀딩이미지']").on("click" , function() {
-   		$(self.location).attr("href","../creation/getFunding");
+   	$(".funding-title").on("click" , function() {
+   		$(self.location).attr("href","../creation/getFunding?fundingNo="+$(this).attr('id').trim());
    	}); 
  });
    
-   //============= 펀딩리스트 더보기 Navigation Event  처리 =============	
+   //============= 펀딩리스트 전체보기> Navigation Event  처리 =============	
    $(function() {
 	   $("a.fundingMore").on("click" , function() {
    		$(self.location).attr("href","../creation/getFundingList");
    	}); 
  });  
    
-   //============= 픽션 창작리스트 더보기 Navigation Event  처리 =============	
+   //============= 픽션 창작리스트 전체보기> Navigation Event  처리 =============	
    $(function() {
 	   $("a.fictionMore").on("click" , function() {
    		$(self.location).attr("href","../creation/getCreationList?condition=2&keyword=픽션");
    	}); 
  });   
    
-   //============= 논픽션 창작리스트 더보기 Navigation Event  처리 =============	
+   //============= 논픽션 창작리스트 전체보기> Navigation Event  처리 =============	
    $(function() {
 	   $("a.nonfictionMore").on("click" , function() {
    		$(self.location).attr("href","../creation/getCreationList?condition=2&keyword=논픽션");
@@ -151,11 +170,59 @@ $(function() {
    	}); 
  });  
    
+   //============= 창작작품보러가기 Navigation Event  처리 =============	
+   $(function() {
+	  $(".creation-title").on("click" , function() {
+		  $(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr('id'));
+   	
+   	}); 
+ });  
+   
+   //============= 작가북로그 Navigation Event  처리 =============	
+   $(function() {
+	  $(".creation-author").on("click" , function() {
+		  $(self.location).attr("href","../booklog/getBooklog?email="+$(this).attr('id'));
+   	
+   	}); 
+ });  
+   
+
    //============= 검색 Event  처리 =============	
 	  $("a.creationSearch").on("click" , function() {
 		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
 	
 	}); 
+   
+	//============= 펀딩 남은기간 계산 =============
+   $(function(){
+		$('.funding-endDate').html(function(){
+			var today =new Date();
+			var endDay =new Date($(this).html().trim()+" 00:00:00");
+			var diff = endDay.getTime()-today.getTime();
+			if(diff < 0){
+				return '0일 남음';
+			}
+
+			var days = Math.floor(diff/(1000*60*60*24));
+			if(days > 0){
+				return days + '일 남음';
+			}
+			var hours = Math.floor( diff/(1000*60*60) );
+			if(hours > 0){
+				return hours + '시간 남음';
+			}
+			var minutes = Math.floor( diff/(1000*60) );
+			if(minutes > 0){
+				return minutes + '분 남음';
+			}else{
+				return '마감 임박!!';
+			}
+			
+		})
+		
+	});
+		
+		
    
 /*    //============= 창작공간 Navigation Event  처리 =============	
    $(function() {
@@ -210,14 +277,14 @@ $(function() {
 
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
-      <div class="text-center" style="width: 13%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
+      <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
          <span>Funding</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
 	
-		   <div class="row text-right col-sm-offset-11 col-sm-1">
-		   		<a  class="fundingMore" name="fundingMore">더보기</a>
+		   <div class="row text-right col-sm-offset-11 col-sm-1" style="margin-top:50px">
+		   		<a  class="fundingMore" name="fundingMore">전체보기></a>
 		   </div>
 	
     <!-- Swiper -->
@@ -225,57 +292,65 @@ $(function() {
         	<div class="swiper-wrapper">
             <c:forEach items="${fundingList}" var="funding">	
 			        
-            <div class="swiper-slide" >
-				<div class="item">
-					<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
-					<div class="row funding-image" style="height:200px; position:relative;">
-						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-thumbnail img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
+            <div class="swiper-slide" style="border:1px solid;border-color: antiquewhite;border-radius: 10px;overflow:hidden">
+				<div class="item" style="width:100%;position:relative;">
+					<div id="${funding.fundingNo}" class="funding-image" style="height:220px; background-color:rgba(114, 114, 114, 0.48);position:relative;overflow:hidden;">
+						<img style="width:100%;position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
 					</div>
-					<div class="row funding-title">
-					<h4 class="btn-link funding-get">${funding.fundingTitle}</h4>
+					<div class="funding-content" style="height:150px">
+						<div class="funding-title" style="    margin-left: 10px;">
+						<h5 id="${funding.fundingNo}" class="btn-link funding-get text-left funding-title">
+						<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
+						${funding.fundingTitle}</h5>
+						</div>
+						<!--<p>Funding content</p> -->
+						<div class="progress" style="height: 20px;margin-left: 8px;margin-right: 8px;">
+	                          <div class="progress-bar progress-bar-success progress-bar-striped active" 
+	                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
+	                          		style="min-width: 2em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
+	                          	${(funding.perFunding * fn:length(funding.payInfoList)) / funding.fundingTarget * 100}%
+	                          </div>
+	                     </div>
+	                          <div class="row funding-endDate text-right" style="margin-right: 5px;">${funding.fundingEndDate }</div>
 					</div>
-					<p>Funding content</p>
-					<div class="progress">
-                          <div class="progress-bar progress-bar-success progress-bar-striped active" 
-                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
-                          		style="min-width: 2em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
-                          	${(funding.perFunding * fn:length(funding.payInfoList)) / funding.fundingTarget * 100}%
-                          </div>
-                     </div>
-					
+					<c:if test="${funding.active ==0 }">
+					<div class="endfunding-img"><strong style="font-size: -webkit-xxx-large; color: burlywood;position: absolute;">펀딩종료</strong></div>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>
      </div>
         <!-- Add Pagination -->
-        <div class="swiper-pagination row" style="height:6px;"></div>
+        <div class="swiper-pagination" style="height:6px;"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
     </div>
         
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
-      <div class="text-center" style="width: 13%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
+      <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
          <span>Fiction</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
    
-   <div class="row">
+   <div class="row" style="margin-top:50px">
 	   <div class="col-sm-12 col-md-12">
 		<c:forEach var="fiction" items="${fictionList }" >
 		  		 <div class="row creation-list" >
-					<div class="col-sm-4 col-md-4" style="height:100%; background-color:rgba(114, 114, 114, 0.48);">
+					<div class="col-sm-4 col-md-4" style="height:100%;background-color:rgba(114, 114, 114, 0.48);">
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
 					</div>
 					<div class="col-sm-8 col-md-8">
 						<div class="col-sm-"></div>
-							<h5><span>${fiction.creationTitle }</span>&nbsp;&nbsp;&nbsp;<span>by.${fiction.creationAuthor.nickname }</span></h5>
-							<%-- <h6><span>by.${fiction.creationAuthor.nickname }</span></h6> --%>
-						<div class="col-sm-offset-1 col-sm-11 text-left">
+							<strong class="creation-title" id="${fiction.creationNo }" style="font-size:20px">${fiction.creationTitle }   </strong> 
+							<span class="creation-author" id=${fiction.creationAuthor.email } style="font-size:15px;">   by.${fiction.creationAuthor.nickname }</span>
+							<div class="col-sm-offset-1 col-sm-11 text-left" style="padding-top: 15px;">
 						${fiction.creationIntro }
 						</div>
 							<div class="row tag-space">
 						<c:forEach var="tag" items="${fiction.tagList }">
-								<span>#${tag.tagName }</span>
+								<span style="border: 1px solid;border-color: burlywood;border-radius: 15px;">#${tag.tagName }</span>
 						</c:forEach>
 							</div>
 					</div>
@@ -286,29 +361,30 @@ $(function() {
    </div>
    
    <div class="row text-right col-sm-offset-11 col-sm-1">
-		<a  class="fictionMore" name="fundingMore">더보기</a>
+		<a  class="fictionMore" name="fundingMore">전체보기></a>
 	</div>
    
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
-      <div class="text-center" style="width: 13%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
+      <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
          <span>nonFiction</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
    
-   <div class="row">
+   <div class="row" style="margin-top:50px">
 	   <div class="col-sm-12 col-md-12">
 		<c:forEach var="nonfiction" items="${nonFinctionList }" >
 		  		 <div class="row creation-list" >
 					<div class="col-sm-8 col-md-8" >
-						<h5><span>${nonfiction.creationTitle }</span>&nbsp;&nbsp;&nbsp;<span>by.${nonfiction.creationAuthor.nickname }</span></h5>
-						<div class="col-sm-offset-1 col-sm-11 text-left">
+						<strong class="creation-title" id="${nonfiction.creationNo }" style="font-size:20px">${nonfiction.creationTitle }   </strong> 
+						<span class="creation-author" id=${nonfiction.creationAuthor.email } style="font-size:15px;">   by.${nonfiction.creationAuthor.nickname }</span>
+						<div class="col-sm-offset-1 col-sm-11 text-left"  style="padding-top: 15px;">
 						${nonfiction.creationIntro }
 						</div>
 						<div class="row tag-space">
 					<c:forEach var="tag" items="${nonfiction.tagList }">
-							<span>#${tag.tagName }</span>
+							<span style="border: 1px solid;border-color: burlywood;border-radius: 15px;">#${tag.tagName }</span>
 					</c:forEach>
 						</div>
 					</div>
@@ -321,7 +397,7 @@ $(function() {
 	   </div>
    </div>
     <div class="row text-right col-sm-offset-11 col-sm-1">
-		<a  class="nonfictionMore" name="fundingMore">더보기</a>
+		<a  class="nonfictionMore" name="fundingMore">전체보기></a>
 	</div>
 
 

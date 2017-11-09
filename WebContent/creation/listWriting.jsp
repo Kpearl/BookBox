@@ -13,6 +13,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
 	 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
@@ -106,12 +108,20 @@ div.row.writing-border{
 	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
 	background-position: 0 -15px;
 }
+        body{
+    		padding-top:0px;
+    		
+    	}
+    	header{
+    		background:url(../resources/images/newCreationTest1.jpg) no-repeat center;
+    	}
    
     </style>
 
 	
     <script>
-
+    
+	   ToolbarOpacHeight(500);
 	   
 	   function fncDoSubscription(){
 		   $.ajax ({
@@ -262,6 +272,7 @@ div.row.writing-border{
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 	
     <div class="container">
 		<div class="row">
@@ -288,7 +299,7 @@ div.row.writing-border{
 			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
 			  	 	<div class="input-group-addon">
 			  			<a class="btn creationSearch">검색</a> 
-			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
+			  			
 					</div>
 			    </div>
 			  </div>
@@ -421,6 +432,10 @@ div.row.writing-border{
         <div class="row"></div>
     </div>
 	
+	
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
    
 </body>
 </html>
