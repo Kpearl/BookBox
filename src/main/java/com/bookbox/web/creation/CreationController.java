@@ -96,11 +96,11 @@ public class CreationController {
 	 * @details GET
 	 * @param 
 	 * @throws Exception
-	 * @return "redict"
+	 * @return "forward:mainCreation.jsp"
 	 */
 	@RequestMapping(value="getCreationMain", method=RequestMethod.GET)
 	public String getCreationMain(@ModelAttribute Search search, @ModelAttribute Page page, Model model) throws Exception{
-		
+		//TODO getCreationMain
 		System.out.println("Creation Controller :: /creation/getCreationMain : GET===>START");
 		if(search.getKeyword() == null) {
 			search.setKeyword("");
@@ -610,6 +610,7 @@ public class CreationController {
 		funding = fundingService.getFunding((User)session.getAttribute("user"), funding);
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, funding.getCreation().getCreationNo(),(User)session.getAttribute("user"));
+		map.put("fundingNo", funding.getFundingNo());
 		funding.setCreation(creationService.getCreation(map));
 		funding.setPayInfoList(fundingService.getFundingUserList(map));
 		
@@ -661,16 +662,18 @@ public class CreationController {
 		if(page.getPageUnit()==0) {
 			page.setPageUnit(pageUnit);
 		}
-		System.out.println("getFundingList :: getSearch :: "+search+"n");
+		System.out.println("getFundingList :: getSearch :: "+search+"\n");
 		System.out.println("getFundingList :: getPage :: "+page+"\n");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
-		map.put("targetNo", creation.getCreationNo());
-		
+
+		if(creation.getCreationNo() != 0) {
+			map.put("targetNo", creation.getCreationNo());
+		}
 		List<Funding> fundingList = fundingService.getFundingList(map);
-		System.out.println("getFundingList :: "+fundingList+"/n");
+		
 
 		// Model 과 View 연결
 		model.addAttribute("fundingList", fundingList);

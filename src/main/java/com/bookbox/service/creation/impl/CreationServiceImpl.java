@@ -99,7 +99,7 @@ public class CreationServiceImpl implements CreationService {
 	
 	@Override
 	public Creation getCreation(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+		// TODO getCreation
 		Creation creation = creationDAO.getCreation(map);
 		creation.setGrade(commonDAO.getAvgGrade(map));
 		creation.setLike(commonDAO.getLike(map));
@@ -121,17 +121,35 @@ public class CreationServiceImpl implements CreationService {
 	 * @return List<Creation>
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
-		
-		if (map.get("page") != null) {
-			
 		Page page=(Page)map.get("page");
+		
+		if (page != null) {
+			
 		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
 		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
 		}
 		
 		List<Creation> creationList = creationDAO.getCreationList(map);
+		List<Creation> addFundingCreationList = new ArrayList<>();
 		
-		return creationList;
+		if (page == null) {
+		
+			for(Creation creation : creationList) {
+				map.put("targetNo", creation.getCreationNo());
+				int count = fundingDAO.getDoFunding(map);
+				if (count == 0) {
+					System.out.println("=============="+count+"\n");
+					addFundingCreationList.add(creation);	
+				}
+			}
+		}
+		System.out.println("================page :: "+page+"+\n");
+		
+		if (page != null) {
+			return creationList;
+		}else {
+		return addFundingCreationList;
+		}
 	}
 	
 	/**

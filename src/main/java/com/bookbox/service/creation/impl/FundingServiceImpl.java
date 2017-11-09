@@ -71,18 +71,23 @@ public class FundingServiceImpl implements FundingService {
 	public List<Funding> getFundingList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 
+		
+		
 		if (map.get("page") != null) {
 			
 			Page page=(Page)map.get("page");
 			page.setTotalCount(fundingDAO.getTotalFundingCount(map));
 			System.out.println("getFundingList :: getTotalFundingCount ::"+page.getTotalCount());
 			}
-		
-		List<Funding> fundingList =fundingDAO.getFundingList(map);
-		for(Funding funding : fundingList) {
-			funding.setCreation(creationDAO.getCreation(map));	
-		}
 
+		List<Funding> fundingList =fundingDAO.getFundingList(map);
+		
+		for(Funding funding : fundingList) {
+			funding.setCreation(creationDAO.getCreation(map));
+			map.put("fundingNo", funding.getFundingNo());
+			funding.setPayInfoList(fundingDAO.getFundingUserList(map));
+		}
+		
 		return fundingList;
 	}
 

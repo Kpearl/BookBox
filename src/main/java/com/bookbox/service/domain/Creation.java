@@ -163,7 +163,11 @@ public class Creation {
 	public String toString() {
 		return "Creation [creationNo=" + creationNo + ", creationTitle=" + creationTitle + ", creationIntro="
 				+ creationIntro + ", creationAuthor=" + creationAuthor + ", creationHead=" + creationHead
-				+ ", creationFileName=" + creationFileName + ", creationOriginName = "+creationOriginName+"regDate="+regDate+", writingList=" + writingList + ", tagList=" + tagList
-				+ ", doFunding=" + doFunding + ", doSubscription"+doSubscription+", grade=" + grade + ", like=" + like + ", active=" + active + "]";
+				+ ", creationFileName=" + creationFileName + ", creationOriginName=" + creationOriginName + ", regDate="
+				+ regDate + ", writingList=" + writingList + ", tagList=" + tagList + ", doFunding=" + doFunding
+				+ ", doSubscription=" + doSubscription + ", grade=" + grade + ", like=" + like + ", active=" + active
+				+ "]\n";
 	}
+
+
 }

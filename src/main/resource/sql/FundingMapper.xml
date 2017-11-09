@@ -94,7 +94,7 @@
 		SELECT COUNT(*)
 		From 	funding
 		WHERE			
-			creation_no = #{targetNo}
+			creation_no = #{targetNo} AND active = 1
 	 </select>
 	 
 	 	 	  <!-- SQL : SELECT ONE -->
@@ -141,7 +141,7 @@
 		
 		SELECT
 			f.funding_no, f.funding_title, f.creation_no, 
-			f.funding_intro, f.reg_date,
+			f.funding_intro, f.reg_date, per_funding,
 			f.end_date, f.funding_target, 
 			f.funding_file_name, f.funding_origin_name, 
 			f.active
@@ -166,7 +166,9 @@
 	 <select  id="getTotalFundingCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM funding 
-		WHERE	creation_no = #{targetNo}							
+		WHERE	
+			creation_no = #{targetNo}	
+								
 	 </select>
 	 
 	 <!-- SQL : SELECT getPayInfoLIST -->
