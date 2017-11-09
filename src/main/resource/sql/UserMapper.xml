@@ -17,6 +17,7 @@
 		<result property="outerAccount" 	column="outer_account" 		jdbcType="INTEGER" />	
 		<result property="active" 					column="active" 						jdbcType="INTEGER" />	
 		<result property="certificationNo" 					column="certification_no" 						jdbcType="INTEGER" />	
+		<result property="booklogImage"			column="booklog_image"		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	
@@ -42,7 +43,7 @@
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="user"	 resultMap="userSelectMap">
 		SELECT
-		email , password, nickname , gender , birth, role, outer_account, active, certification_no	
+		email , password, nickname , gender , birth, role, outer_account, active, certification_no, booklog_image	
 		FROM user 
 		<where>
 		 
@@ -101,7 +102,7 @@
 	<select  id="getUserList"  parameterType="map"	resultMap="userSelectMap">
 		
 		SELECT
-			email , nickname, gender , birth,  outer_account, active
+			email , nickname, gender , birth,  outer_account, active, booklog_image
 		FROM user  
 		
 		<where>

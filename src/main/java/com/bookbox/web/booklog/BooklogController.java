@@ -101,10 +101,6 @@ public class BooklogController {
 	}
 	
 	
-	public String getBookLikeList() {
-		return null;
-	}
-	
 	@RequestMapping( value="addPosting", method=RequestMethod.GET )
 	public String addPosting() {
 		
@@ -181,6 +177,13 @@ public class BooklogController {
 
 	@RequestMapping( value="getPostingList" )
 	public String getPostingList(@ModelAttribute("search")Search search, Model model) {
+		if(search.getCondition().equals("booklog")) {
+			Booklog booklog = new Booklog();
+			User booklogUser = new User();
+			booklogUser.setEmail(search.getKeyword());
+			booklog.setUser(booklogUser);
+			model.addAttribute("booklog", booklogService.getBooklog(new User(), booklog));
+		}
 		model.addAttribute("postingList", postingService.getPostingList(search));
 		model.addAttribute("search", search);
 		

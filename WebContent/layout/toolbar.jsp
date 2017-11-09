@@ -158,7 +158,18 @@ function searchCheck(){
 		</div>
 	</div>
 	<div class="content-title hidden-xs">
-		넣는다 게시물
+	<c:if test="${!empty posting}">
+		<img src="${param.uri}resources/upload_files/images/${posting.user.booklogImage}" class="img-circle" alt="No Image">
+		<span>${posting.user.nickname}</span>
+	</c:if>
+	<c:if test="${!empty booklog}">
+		<img src="${param.uri}resources/upload_files/images/${booklog.booklogImage}" class="img-circle" alt="No Image">
+		<span>${booklog.user.nickname}</span>
+	</c:if>
+	<c:if test="${!empty creation}">
+		<img src="${param.uri}resources/upload_files/images/${creation.creationFileName}" class="img-circle" alt="No Image">
+		<span>${creation.creationTitle}</span>
+	</c:if>
 	</div>
 	<div class="search-group">
 		<div class="bookbox-search search-form-group">

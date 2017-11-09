@@ -29,10 +29,9 @@
 		header{
 			background-image: url('./resources/images/test2.jpeg');
 			min-height: 100%;
-		    opacity: 0.75;
 		}
 		#main-search{
-			height: 800px;
+			height: 300px;
 			padding: 40px;
 		}
 		#main-search .input-group *{
@@ -46,6 +45,43 @@
 			border: 1px solid #66afe9;
 			box-shadow: 0 0.5px 0.5px 0.1px #66afe9;
 		}
+		#main-recommend-book{
+			position: relative;
+			height: 400px;
+		}
+		.book-div{
+			height: 50%;
+		}
+		.first-level, .second-level{
+			height: 100%;
+			margin: 0;
+			padding: 2px;
+			overflow: hidden;
+		}
+		
+		.book-img{
+			z-index: 0;
+			width: 105%;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			opacity: 0.75;
+			-webkit-transition: 0.1s;
+			   -moz-transition: 0.1s;
+					transition: 0.1s;
+			-webkit-transform: translate(-50%, -50%);
+			   -moz-transform: translate(-50%, -50%);
+					transform: translate(-50%, -50%);
+		}
+		.book-img:hover{
+			opacity: 0.3;
+			-webkit-transition: 0.5s;
+			   -moz-transition: 0.5s;
+					transition: 0.5s;
+/* 			-webkit-transform: translate(-50%, -50%) scale(1.2);
+			   -moz-transform: translate(-50%, -50%) scale(1.2);
+					transform: translate(-50%, -50%) scale(1.2); */
+		}
 		.category{
 			min-height: 100%;
 		}
@@ -53,19 +89,16 @@
 			position: relative;
 		}
 		.category-creation{
-			background-image: url('./resources/images/creation.jpeg');
+			background-image: url('./resources/images/creationTest7.jpg');
 			height: 400px;
-		    opacity: 0.75;
 		}
 		.category-community{
 			background-image: url('./resources/images/community.jpeg');
 			height: 400px;
-		    opacity: 0.75;
 		}
 		.category-booklog{
 			background-image: url('./resources/images/posting.jpeg');
 			height: 400px;
-		    opacity: 0.75;
 		}
 		.font-large{
 			font-size: 24px!important;
@@ -89,17 +122,22 @@
 	</style>
 	
 	<script>
+		//Parallax background-image naturalWidth
+		var communityBackgroundImage = new Image();
+		var booklogBackgroundImage = new Image();
 		//Toolbar 투명도 설정
 		ToolbarOpacHeight($(window).height());
 		//Window Resize시 Toolbar 투명도, Parallax background-position 재설정
 		$(window).resize(function(){
 			ToolbarOpacHeight($(window).height());
-			$('.category-community').css('background-position-x', $(window).width());
-			$('.category-booklog').css('background-position-x', $(window).width() * 2);
+//			$('.category-community').css('background-position-x', $(window).width());
+//			$('.category-booklog').css('background-position-x', $(window).width() * 2);
 		});
 		
 		
 		$(function(){
+			communityBackgroundImage.src = $('.category-community').css('background-image').split('\"')[1];
+			booklogBackgroundImage.src = $('.category-booklog').css('background-image').split('\"')[1];
 			//툴바 검색창 숨김
 			$('.bookbox-navigation .search-group').hide();
 			//메인배너 클릭시 스크롤이동 이벤트
@@ -127,13 +165,18 @@
 			});
 			
 			//Parallax 배경 위치 조절
-			$('.category-community').css('background-position-x', $(window).width());
-			$('.category-booklog').css('background-position-x', $(window).width() * 2);
+//			$('.category-community').css('background-position-x', $(window).width());
+//			$('.category-booklog').css('background-position-x', $(window).width() * 2);
 
 			//스와이퍼 초기화
-			var swiper = new Swiper('.swiper-container', {
-				speed: 400
-			});
+// 			var bookSwiper = new Swiper('.book-swiper-container', {
+//				speed: 400
+//			});
+			
+			
+			//추천도서 CSS
+//			$('.book-div').css('border', '1px solid');
+//			$('.book-div:nth-child(1), .book-div:nth-child(4)').css('')
 		});
 		
 		//검색처리
@@ -152,7 +195,6 @@
 					case "community" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=6&keyword="+keyword); break;
 					case "posting" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=5&keyword="+keyword); break; 
 					case "tag" : $(self.location).attr("href","${param.uri}unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword); break; 
-					case "none" : alert('분류를 선택해주세요..'); break;
 				}
 			}
 		}
@@ -173,7 +215,7 @@
 			<div class="col-sm-offset-3 col-sm-6">
 				<div class="input-group">
 					<div class="input-group-btn">
-						<button type="button" class="btn btn-default selected-menu" aria-expanded="none" style="width: 80px;">선택</button>
+						<button type="button" class="btn btn-default selected-menu" aria-expanded="unifiedsearch" style="width: 80px;">통합검색</button>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="javascript:void(0);" class="unifiedsearch">통합검색</a>
@@ -193,43 +235,95 @@
 		</div>
 	</div>
 	
-	<div class="category swiper-container">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide">
-				<div class="list list-first">
-					<div class="category-creation parallax">
-						<div class="display-middle">
-							<span class="font-large theme-white padding-large wide">CREATION</span>
-						</div>
+	<div id="main-recommend-book" class="container book-swiper-container">
+		<div class="row book-div">
+			<div class="col-sm-6 first-level">
+				<div class="row second-level">
+					<div class="col-sm-6 second-level">
+						<img class="book-img" src="./resources/images/book3.jpg">
 					</div>
-					<div class="container">
-						얍얍1
-					</div>
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="list list-second">
-					<div class="category-community parallax">
-						<div class="display-middle">
-							<span class="font-large theme-white padding-large wide">COMMUNITY</span>
-						</div>
-					</div>
-					<div class="container">
-						얍얍2
+					<div class="col-sm-6 second-level">
+						<p>책 제목제목</p>
+						<p>작가작가</p>
 					</div>
 				</div>
 			</div>
-			<div class="swiper-slide">
-				<div class="list list-third">
-					<div class="category-booklog parallax">
-						<div class="display-middle">
-							<span class="font-large theme-white padding-large wide">BOOKLOG</span>
-						</div>
+			<div class="col-sm-6 first-level">
+				<div class="row second-level">
+					<div class="col-sm-6 second-level">
+						<img class="book-img" src="./resources/images/book3.jpg">
 					</div>
-					<div class="container">
-						얍얍3
+					<div class="col-sm-6 second-level">
+						<p>책 제목제목</p>
+						<p>작가작가</p>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row book-div">
+			<div class="col-sm-6 first-level">
+				<div class="row second-level">
+					<div class="col-sm-6 second-level">
+						<p>책 제목제목</p>
+						<p>작가작가</p>
+					</div>
+					<div class="col-sm-6 second-level">
+						<img class="book-img" src="./resources/images/book3.jpg">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 first-level">
+				<div class="row second-level">
+					<div class="col-sm-6 second-level">
+						<p>책 제목제목</p>
+						<p>작가작가</p>
+					</div>
+					<div class="col-sm-6 second-level">
+						<img class="book-img" src="./resources/images/book3.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+<!-- 	<div class="row">
+		<div style="width: 45%; border: 1px solid; display: inline-block;"></div>
+		<div class="text-center" style="width: 10%; display: inline-block;">
+			<span>Funding</span>
+		</div>
+		<div style="width: 45%; border: 1px solid; display: inline-block;"></div>
+	</div> -->
+	
+	<div class="category">
+		<div class="list list-first">
+			<div class="category-creation parallax">
+				<div class="display-middle">
+					<span class="font-large theme-white padding-large wide">CREATION</span>
+				</div>
+			</div>
+			<div class="container">
+				얍얍1
+			</div>
+		</div>
+		<div class="list list-second">
+			<div class="category-community parallax">
+				<div class="display-middle">
+					<span class="font-large theme-white padding-large wide">COMMUNITY</span>
+				</div>
+			</div>
+			<div class="container">
+				얍얍2
+			</div>
+		</div>
+		<div class="list list-third">
+			<div class="category-booklog parallax">
+				<div class="display-middle">
+					<span class="font-large theme-white padding-large wide">BOOKLOG</span>
+				</div>
+			</div>
+			<div class="container">
+				얍얍3
 			</div>
 		</div>
 	</div>

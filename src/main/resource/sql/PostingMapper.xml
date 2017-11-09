@@ -17,13 +17,9 @@
 		<association property="user" javaType="user">
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
+			<result property="booklogImage" column="booklog_image"/>
 		</association>
 		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="CommonMapper.getUploadFileList"/>
-		<collection property="postingLocationList" ofType="location" column="location_no">
-			<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
-			<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
-			<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
-		</collection>
 		<collection property="postingTagList" ofType="tag" column="{categoryNo=category_no,targetNo=posting_no}" select="TagMapper.getTagGroupList"/>
 	</resultMap>
 	
@@ -37,6 +33,7 @@
 		<association property="user" javaType="user">
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
+			<result property="booklogImage" column="booklog_image"/>
 		</association>
 		<collection property="postingFileList" ofType="uploadFile" column="{categoryNo=category_no,targetNo=posting_no}" select="getMainFile"/>
 		<collection property="postingTagList" ofType="tag" column="{categoryNo=category_no,targetNo=posting_no}" select="TagMapper.getTagGroupList"/>
@@ -54,14 +51,6 @@
 			)
 	</insert>
 	
-	<insert id="addPostingLocation" parameterType="map">
-		INSERT
-		INTO 
-			location( posting_no, location_name, latitude, longitude )
-		VALUES
-			( #{postingNo}, #{locationName}, #{locationLatitude}, #{locationLongitude} )
-	</insert>
-
 	
 	<select id="getPosting" parameterType="posting" resultMap="postingSelectMap">
 		<!-- SELECT 
@@ -81,7 +70,7 @@
 		SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
-			u.nickname, '5' category_no, vc.count
+			u.nickname, u.booklog_image, '5' category_no, vc.count
 		FROM 
 			posting p
 			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
@@ -117,7 +106,7 @@
 		SELECT 
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
-			p.reg_date, p.update_date,
+			p.reg_date, p.update_date, u.booklog_image,
 			'5' category_no, vc.count
 		FROM
 			posting p

@@ -12,25 +12,21 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 	
 	<style>
     	body{
     		padding-top:0px;
     	}
     	header{
-    		/* background:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609) no-repeat center; */
     		background:url(../resources/upload_files/images/${empty mainFile? '../../images/posting_noimage.jpeg':mainFile.fileName}) no-repeat center;
     	}
-    	.parallax { 
-		    background-attachment: fixed;
-		    background-size: cover;
-		}
-    	
 	</style>
 
 	<script type="text/javascript">
 		var condition;
 		var keyword;
+		ToolbarOpacHeight(500);
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			keyword = $('input[name="keyword"]').val();
@@ -41,13 +37,6 @@
 			$('a.posting-update:contains("수정하기")').on('click',function(){
 				$(self.location).attr('href','../booklog/updatePosting?postingNo='+$('input[name="postingNo"]').val());
 			});
-		});
-		
-		$(window).scroll(function(){
-			if($(window).scrollTop() < 500){
-				max = 500;
-				$('header').css('opacity', (max - $(window).scrollTop())/max);
-			}
 		});
 	</script>
 </head>

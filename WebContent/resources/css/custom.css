@@ -16,6 +16,7 @@ header{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    opacity: 0.75;
 }
 .display-middle{
 	position: absolute;
@@ -87,6 +88,8 @@ header{
 	top: 0;
 	left: 50%;
 	width: fit-content;
+	display: block;
+	cursor: pointer;
 	-webkit-transform: translate(-50%, 0);
 	   -moz-transform: translate(-50%, 0);
 			transform: translate(-50%, 0);
@@ -229,7 +232,7 @@ div.container.post{
 span.tag{
 	margin-right:14px;
 }
-
+/******* Booklog CSS Start *******/
 .booklog-border-thin{
 	border: 1px solid #DBE2EF;
 }
@@ -249,3 +252,38 @@ span.tag{
 .booklog-font-color{
 	color: #112D42;
 }
+
+div.div-posting, div.posting-img{
+	height: 200px;
+	overflow: hidden;
+}
+div.div-posting{
+	margin: 6px;
+}
+span.posting-content{
+	text-overflow: ellipsis;
+	white-space: normal;
+	word-wrap: normal;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 3; /* 라인수 */
+	-webkit-box-orient: vertical;
+	word-wrap: break-word; 
+	line-height: 1.6em;
+	height: 4.8em;
+}
+img.posting-img{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0.8;
+	transition: 0.5s;
+}
+img.posting-img:hover{
+	transform: translate(-50%, -50%) scale(1.3);
+}
+div.hidden-md img{
+	opacity: 0.4;
+}
+/******* Booklog CSS End *******/

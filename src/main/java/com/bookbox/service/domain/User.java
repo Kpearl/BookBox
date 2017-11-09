@@ -19,6 +19,7 @@ public class User {
 	private String gender;
 	private Date birth;
 	private String role;
+	private String booklogImage;
 	private int outerAccount;
 	private String outerToken;
 	private int active;	
@@ -75,6 +76,14 @@ public class User {
 		this.role = role;
 	}
 
+	public String getBooklogImage() {
+		return booklogImage;
+	}
+
+	public void setBooklogImage(String booklogImage) {
+		this.booklogImage = booklogImage;
+	}
+
 	public int getOuterAccount() {
 		return outerAccount;
 	}
@@ -110,7 +119,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [email=" + email + ", nickname=" + nickname + ", password=" + password + ", gender=" + gender
-				+ ", birth=" + birth + ", role=" + role + ", outerAccount=" + outerAccount + ", outerToken="
-				+ outerToken + ", active="+active+", certificationNo="+certificationNo+"]";
+				+ ", birth=" + birth + ", role=" + role + ", booklogImage=" + booklogImage + ", outerAccount="
+				+ outerAccount + ", outerToken=" + outerToken + ", active=" + active + ", certificationNo="
+				+ certificationNo + "]";
 	}
+
 }

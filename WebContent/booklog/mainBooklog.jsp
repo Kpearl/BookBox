@@ -37,36 +37,6 @@
 	        height: 300px;
 	    }
 
-		div.div-posting, div.posting-img{
-			height: 200px;
-			overflow: hidden;
-		}
-		span.posting-content{
-			text-overflow:ellipsis;
-			white-space:normal;
-			word-wrap:normal;
-			overflow:hidden;
-			display: -webkit-box;
-			-webkit-line-clamp: 3; /* 라인수 */
-			-webkit-box-orient: vertical;
-			word-wrap:break-word; 
-			line-height: 1.2em;
-			height: 3.6em;
-  		}
-  		img.posting-img{
-  			position: absolute;
-  			left: 50%;
-  			top: 50%;
-  			transform: translate(-50%, -50%);
-  			opacity:0.8;
-  			transition: 0.5s;
-  		}
-  		img.posting-img:hover{
-  			transform: translate(-50%, -50%) scale(1.3);
-  		}
-  		div.hidden-md img{
-  			opacity: 0.4;
-  		}
 
     	body{
     		padding-top:0px;
@@ -119,12 +89,12 @@
 	        });
 	    })
 	    
-   		$(window).scroll(function(){
+/*    		$(window).scroll(function(){
 			if($(window).scrollTop() <= 500){
 				max = 500;
 				$('header').css('opacity', (max - $(window).scrollTop())/max);
 			}
-		});
+		}); */
 
 
 	</script>
@@ -160,10 +130,10 @@
 
 		인기포스팅 <a class="btn posting" href="#">더보기</a>
 		<c:forEach items="${postingList}" var="posting">
-		<div class="row div-posting booklog-border booklog-background booklog-font-color">
+		<div class="row div-posting booklog-border booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img">
+				<div class="col-sm-4 text-center posting-img booklog-border-thin">
 					<img class="img-thumbnail posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">
