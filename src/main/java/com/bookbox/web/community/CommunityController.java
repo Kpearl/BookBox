@@ -102,7 +102,7 @@ public class CommunityController {
 		//===========채팅방 목록조회============
 		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
 
-		for(Map.Entry<String, ChatRoom> elem: camChatMap.entrySet()) {
+		for(Map.Entry<String, ChatRoom> elem: ChatRoom.camChatMap.entrySet()) {
 			camChatList.add(elem.getValue());
 		}
 	
@@ -110,7 +110,7 @@ public class CommunityController {
 		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
 		
 		//
-		for(Map.Entry<String, ChatRoom> elem: castMap.entrySet()) {
+		for(Map.Entry<String, ChatRoom> elem: ChatRoom.castMap.entrySet()) {
 			castList.add(elem.getValue());
 		}
 		
@@ -150,9 +150,9 @@ public class CommunityController {
 		
 		System.out.println(board);
 		//태그추가
-		List<Tag> tagList=new ArrayList<Tag>();
 		String tagNames[]= request.getParameterValues("tagNames");
 		if(tagNames!=null) {
+			List<Tag> tagList=new ArrayList<Tag>();
 			for(int i=0; i<tagNames.length;i++) {
 				System.out.println(tagNames[i]);
 				Tag tag=new Tag();
@@ -168,6 +168,7 @@ public class CommunityController {
 		if(user==null) {
 			user=new User();
 			user.setEmail("test@test.com");
+			user.setNickname("테스트");
 		}
 		
 		board.setWriter(user);
@@ -288,8 +289,8 @@ public class CommunityController {
 	 * @param 
 	 * @return redirect:addChatRoom.jsp
 	 */
-	static Map<String, ChatRoom> camChatMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());;
-	static Map<String, ChatRoom> castMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());
+	//static Map<String, ChatRoom> camChatMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());;
+	//static Map<String, ChatRoom> castMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());
 	
 	@RequestMapping(value="addChatRoom" ,method=RequestMethod.POST)
 	public String addChatRoom(HttpServletRequest request,HttpSession session,
@@ -343,11 +344,11 @@ public class CommunityController {
 		
 		
 		if(chatRoom.getType()==0) {
-			camChatMap.put(chatRoom.getRoomId(), chatRoom);
+			ChatRoom.camChatMap.put(chatRoom.getRoomId(), chatRoom);
 			return "redirect:getCamChat?roomId="+chatRoom.getRoomId();			
 		}
 		else if(chatRoom.getType()==1) {
-			castMap.put(chatRoom.getRoomId(), chatRoom);
+			ChatRoom.castMap.put(chatRoom.getRoomId(), chatRoom);
 			return "redirect:getCast?roomId="+chatRoom.getRoomId();
 		}
 		return "redirect:../";
@@ -373,7 +374,7 @@ public class CommunityController {
 		//////////////////////////////////////////////////////////////////
 		
 		//방정보 탐색
-		ChatRoom chatRoom=camChatMap.get(roomId);
+		ChatRoom chatRoom=ChatRoom.camChatMap.get(roomId);
 		if(chatRoom==null) {
 			System.out.println("채팅방 탐색실패");
 			return "redirect:getCommunityMain";
@@ -404,7 +405,7 @@ public class CommunityController {
 		//////////////////////////////////////////////////////////////////
 		
 		//방정보 탐색
-		ChatRoom chatRoom=castMap.get(roomId);
+		ChatRoom chatRoom=ChatRoom.castMap.get(roomId);
 		if(chatRoom==null) {
 			System.out.println("채팅방 탐색실패");
 			return "redirect:getCommunityMain";
@@ -428,7 +429,7 @@ public class CommunityController {
 		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
 		
 		//
-		for(Map.Entry<String, ChatRoom> elem: camChatMap.entrySet()) {
+		for(Map.Entry<String, ChatRoom> elem: ChatRoom.camChatMap.entrySet()) {
 			camChatList.add(elem.getValue());
 		}
 		
@@ -449,7 +450,7 @@ public class CommunityController {
 		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
 		
 		//
-		for(Map.Entry<String, ChatRoom> elem: castMap.entrySet()) {
+		for(Map.Entry<String, ChatRoom> elem: ChatRoom.castMap.entrySet()) {
 			castList.add(elem.getValue());
 		}
 		

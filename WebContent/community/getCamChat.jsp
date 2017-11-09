@@ -14,19 +14,35 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
   	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
-    
     <!-- RTC -->
     <script src="../resources/javascript/community/RTCMultiConnection.min.js"></script>
 	<script src="../resources/javascript/community/socket.io.js"></script>
+<!-- 
 	<script src="https://cdn.webrtc-experiment.com/getMediaElement.js"></script>
+ -->
+ 	<script src="../resources/javascript/community/getMediaElement.js"></script>
 	<script src="../resources/javascript/community/adapter.js"></script>
 	<script src="../resources/javascript/community/FileBufferReader.js"></script>
+	
 	<style type="text/css">
-	.chat-output{
-		border: solid 1px;
-		height: 250px;
-		overflow: scroll;
+	.chat-container{
+		margin-top: 20px;
 	}
+	.chat-output{
+		border: solid 2px #62BFAD;
+		height: 250px;
+		overflow: auto;
+	}
+	
+	.media-container{
+		border: solid 2px #62BFAD;	
+	}
+	.file-container img{
+		width: 100px;
+		height: 100px;
+		object-fit: contain;
+	}
+	
 	</style>
 </head>
 <body>
@@ -38,8 +54,8 @@
 	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
 	 <input type="hidden" id="nickname" value="${user.nickname }">
 	 
-	 <!--  방정보 출력 -->
-	 <div class="roomInfo">
+	 <!--  방정보 출력  여기 삭제예정-->
+	 <div class="roomInfo" style="display: none">
 	 		<div class="input-group">
 	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
 			 <input type="text" name="title" class="form-control" value="${chatRoom.title}" placeholder="Title" aria-describedby="title-addon" disabled/>
@@ -60,34 +76,37 @@
 			</div>
 	</div>
 	 <!--  방정보 끝 -->
+	 
 	  <h1 style="display: none;">
 	    WebRTC Scalable Video Conferencing using RTCMultiConnection
 	  </h1>
 	
-	  <section class="make-center">
-	    <!-- 
-	    <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
-	    <button id="open-room">Open Room</button>
-	    <button id="join-room">Join Room</button>
-	    <button id="open-or-join-room">Auto Open Or Join Room</button>
-	    <button id="btn-leave-room" disabled>Leave /or close the room</button>
-	     -->
-		<input type="text" id="input-text-chat" placeholder="채팅내용입력+엔터" disabled>
-	   	<button id="input-text-btn btn">전송</button>
-	    <button id="share-file" disabled>파일공유</button>
-	    <br><br>
-	
-	    <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-		<div id="chat-container">
-        	<div id="file-container"></div>
-        	<div class="chat-output"></div>
-   		 </div>
-	    <div id="videos-container"></div>
-	  </section>
+	<!-- 방정보 새로작성 -->
+	<div class="roomInfo">
+		<h5>${chatRoom.title}</h5>
+		<p>${chatRoom.content }</p>
+		<div>
+			<c:forEach items="${chatRoom.tagList}" var="tag">
+				<span>${tag.tagName }</span>
+			</c:forEach>
+		</div>
+	</div>
+	<!-- 방정보 새로작성 끝-->
+		
+	    <div id="videos-container" class="row text-center"></div>
+
+		<div class="chat-container text-center">
+        	<div class="chat-output text-left"></div>
+        	<input type="text" id="input-text-chat" placeholder="" >
+	   		<button id="input-text-btn btn">전송</button>
+	   		<button id="share-file">파일공유</button>
+   		</div>
+   		
+	   
+	    <div id="file-container" class="file-container"></div>
 	</div>
 
 
-<!-- custom layout for HTML5 audio/video elements -->
 
 <script>
 
@@ -186,23 +205,19 @@ function writeChat(message){
     document.getElementById('input-text-chat').focus();
 }
 
-// ......................................................
-// ..................RTCMultiConnection Code.............
-// ......................................................
 
 var connection = new RTCMultiConnection();
 
-// by default, socket.io server is assumed to be deployed on your own URL
 
 //학원 테스트
 connection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
 //connection.socketURL = 'https://192.168.219.167:433/';
-// comment-out below line if you do not have your own socket.io server
-// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
 
 connection.socketMessageEvent = 'video-conference-demo';
 
+//파일공유 설정
 connection.chunkSize = 64 * 1000;
 connection.enableFileSharing = true;
 
@@ -228,11 +243,7 @@ connection.onstream = function(event) {
     event.mediaElement.removeAttribute('srcObject');
 
     var video = document.createElement('video');
-    //
-	//console.log(event.extra.nickname);
-    //var test=$(video);
-    //test.append("<h2>"+event.extra.nickname+"</h2>")
-    //
+
     video.controls = true;
     if(event.type === 'local') {
         video.muted = true;
@@ -243,13 +254,15 @@ connection.onstream = function(event) {
     var width = parseInt(connection.videosContainer.clientWidth / 2) - 20;
     var mediaElement = getMediaElement(event.mediaElement, {
         title: event.userid,
-        buttons: ['full-screen'],
+        buttons: ['mute-audio', 'mute-video','full-screen'],
         width: width,
-        showOnMouseEnter: false
+        showOnMouseEnter: true
     });
     //유저 닉네임 추가
-	var test=$(mediaElement);
-	test.append("<h2>"+event.extra.nickname+"</h2>");
+	var mediaContainer=$(mediaElement);
+	mediaContainer.append("<h6>"+event.extra.nickname+"</h6>");
+	//mediaContainer.addClass("col-xs-3");
+	mediaContainer.css("width","");
 	//console.log(test.html());
 	console.log(event.extra.nickname);
 	
@@ -293,13 +306,22 @@ connection.onopen = function(e) {
     document.getElementById('share-file').disabled = false;
     document.getElementById('input-text-chat').disabled = false;
     //document.getElementById('btn-leave-room').disabled = false;
-
+	currentUser =connection.getAllParticipants().length;
+	console.log("currentUSer: "+currentUser);
+	//참여인원 업데이트
+	updateCurrentUser(currentUser);
+	
+	//사이즈 조절
+	
+	
     document.querySelector('h1').innerHTML = 'You are connected with: ' + connection.getAllParticipants().join(', ');
 };
 
 connection.onclose = function() {
-    console.log(ionnection.getAllParticipants().length);
-   
+    currentUser =connection.getAllParticipants().length;
+	console.log("currentUSer: "+currentUser);
+	//참여인원 업데이트
+	updateCurrentUser(currentUser);
 };
 
 connection.onUserIdAlreadyTaken = function(useridAlreadyTaken, yourNewUserId) {
@@ -312,7 +334,26 @@ connection.openOrJoin( $("#roomId").val(), function(isRoomExists, roomid) {
         //    showRoomURL(roomid);
         }
     });
+    
+function updateCurrentUser(currentUser){
+	
+	 $.ajax({
+	    	url:"rest/updateChatRoomCurrentUser",
+	    	method: "POST",
+	    	data:{
+	    		currentUser: currentUser,
+	    		roomType:"camchat",
+	    		roomId:$("#roomId").val()
+	    	},
+	    	success:function(){
+	    		//alert("success"); 여기다 현재원 수정
+	    	}
+	    });	
+}
 
+function resizeVideo(userNum){
+	
+}
 </script>
 
 </body>

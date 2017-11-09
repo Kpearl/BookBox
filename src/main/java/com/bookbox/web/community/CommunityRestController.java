@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.community.CommunityService;
+import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
@@ -159,7 +160,30 @@ public class CommunityRestController {
 	}
 	
 	
-	
-	
+	//=======================채팅방=============================
+	/**
+	 * @brief 채팅방 현재접속자수 동기화
+	 * @param int currentUser
+	 * @param String roomId
+	 * @param String roomType
+	 * @return 태그이름 리스트
+	 */
+	@RequestMapping(value="/updateChatRoomCurrentUser")
+	public int updateChatRoomCurrentUser(@RequestParam("currentUser")int currentUser,
+												@RequestParam("roomId")String roomId,
+												@RequestParam("roomType")String roomType){
+		
+		ChatRoom chatRoom=null;
+		if(roomType.equals("camchat")) {
+			chatRoom=ChatRoom.camChatMap.get(roomId);
+		}
+		else if(roomType.equals("cast")) {
+			chatRoom=ChatRoom.castMap.get(roomId);
+		}
+		
+		chatRoom.setCurrentUser(currentUser);
+		
+		return chatRoom.getCurrentUser();
+	}
 	
 }

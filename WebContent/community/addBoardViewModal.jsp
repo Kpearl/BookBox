@@ -23,6 +23,8 @@
 		margin: 0 0 0 0;
 		padding: 0 0 0 0;
 	}
+	.ui-autocomplete { z-index:2147483647; }
+
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -72,7 +74,7 @@
 	
 		
 		
-		$("#submit").on("click",function(){
+		$("#submit.addBoard").on("click",function(){
 			var content = CKEDITOR.instances.boardContent.getData();
 			$("textarea[name='boardContent']").val(content);
 			//alert(content);
@@ -92,12 +94,9 @@
 <!-- 뽑아갈거 끝 -->
 </head>
 <body>
-	<jsp:include page="../layout/toolbar.jsp" >
-		<jsp:param value="../" name="uri"/>
-	</jsp:include>	
-	
 
-<div class="container">
+
+<div class="container-fluid">
 	<form name="tx_editor_form" id="tx_editor_form" action="addBoard" method="post" accept-charset="utf-8">
 		<!-- 에디터 컨테이너 시작 -->
 		
@@ -108,7 +107,9 @@
 		<div id="tagNames"></div>
 		<textarea rows="10" cols="80" name="boardContent"></textarea>
 		
+		<!-- 
 		<a id="submit" class="btn">등록</a>
+		 -->
 			
 		<div class="imgList">
 			이미지 목록

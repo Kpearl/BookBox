@@ -38,11 +38,80 @@
     
     <style type="text/css">
     	video{
+    		width: 100%;
+    		/*
     		width: 400px;
     		height: 300px;
+    		*/
+    	}
+    	
+   		.chat-container{
+   			border: solid 2px #62BFAD; 
+   		}
+   		
+   		.chat-output{
+   			height: 85%;
+   			overflow: auto;
+   		}
+   		.chat-input{
+   			height: 10%;
+   		}
+    	.room-info{
+    		margin-top: 20px;
+    	}
+    	.room-info .title{
+    		font-weight: bold;
+    	}
+    	.room-info .content{
+    		word-spacing: normal;
+    		word-break:break-all;
+    	}
+    	
+    	.chat-option{
+    		margin-top: 20px;
     	}
     
+    
+    	hr{
+    		color: #62BFAD;
+    		background-color: #62BFAD;
+    		border-color:  #62BFAD;
+    	}
     </style>
+    
+    <script type="text/javascript">
+    var enableReceiveFlag=true;
+    
+    $(function(){
+   		
+    	function resizeWindow(){
+    		var height=$("#video-preview").height();
+  			//alert(width);
+  			$(".chat-container").height(height);	
+    	}
+    	resizeWindow();
+    	$(window).resize(resizeWindow);
+    	$("#video-preview").resize(resizeWindow);
+    	
+    	$('.chat-output').bind('DOMNodeInserted DOMNodeRemoved', function() {
+			$(this).scrollTop($(this)[0].scrollHeight);
+    	});
+    	
+    	$("#enableReceiveChat").on("change",function(){
+    		var isEnableReceiveChat=$(this).is(":checked");
+    		if(isEnableReceiveChat){
+    			enableReceiveFlag=false;
+    			$('.chat-output').css("background-color","#bbbbbb");
+    		}
+    		else{
+    			enableReceiveFlag=true;
+    			$('.chat-output').css("background-color","");
+    		}
+    		
+    	});
+    
+    });
+    </script>
 </head>
 
 <body>
@@ -62,7 +131,7 @@
 	 
 	 
 	 <!--  방정보 출력 -->
-	 <div class="roomInfo">
+	 <div class="roomInfo" style="display: none;">
 	 		<div class="input-group">
 	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
 			 <input type="text" name="title" class="form-control" value="${chatRoom.title}" placeholder="Title" aria-describedby="title-addon" disabled/>
@@ -81,19 +150,37 @@
 				<span>${tag.tagName }</span>
 				</c:forEach>
 			</div>
+			<div class="make-center" id="broadcast-viewers-counter"></div>
 	</div>
 	 <!--  방정보 끝 -->
 
 	<div class="row">
-		<div class="col-md-6 video-container">
-	      <div class="make-center" id="broadcast-viewers-counter"></div>
+		<div class="col-sm-7 video-container">
 	      <video id="video-preview" controls loop></video>
 		</div>
-		<div class="col-md-6 chat-container">
+		<div class="col-sm-5 chat-container">
 			<div class="chat-output">
 			</div>
-			<input type="text" class="chat-input"><button>전송</button>
+			
+				<input type="text" class="chat-input"><button class="btn btn-default btn-sm">전송</button>
+		
 		</div>
+		<div class="col-sm-7 room-info">
+			<p class="title">${chatRoom.title}</p>
+			<span>시청자</span><span id="currentUser"></span>
+			<hr/>
+			<div>개설자  ${chatRoom.host.nickname}</div>
+			<div>게시일 ${chatRoom.regDate}</div>
+			<div class="content"><br/><br/>${chatRoom.content}</div>
+		</div>
+		<div class="col-sm-5 chat-option">
+			<c:if test="${ user.email == chatRoom.host.email }">
+				<button class="btn btn-default btn-sm" id="chatMute">채팅금지</button>
+				<br>
+				<label><input type="checkbox" id="enableReceiveChat">채팅숨기기</label>
+			</c:if>
+		</div>
+			
 	</div>
 
 	<h1 style="display: none;"></h1>
@@ -118,14 +205,12 @@ connection.maxRelayLimitPerUser = 1;
 // scalable-broadcast.js will handle stuff itself.
 connection.autoCloseEntireSession = true;
 
-// by default, socket.io server is assumed to be deployed on your own URL
 
-	//학원테스트
-	connection.socketURL = 'https://192.168.0.21:433/';
-	//집에서 테스트
-	//connection.socketURL = 'https://192.168.219.167:433/';
-// comment-out below line if you do not have your own socket.io server
-// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+//학원테스트
+connection.socketURL = 'https://192.168.0.21:433/';
+//집에서 테스트
+//connection.socketURL = 'https://192.168.219.167:433/';
+
 
 connection.socketMessageEvent = 'scalable-media-broadcast-demo';
 
@@ -266,6 +351,7 @@ connection.onstream = function(event) {
             repeatedlyRecordStream(event.stream);
         }
     }
+    
 };
 
 // ask node.js server to look for a broadcast
@@ -397,11 +483,28 @@ if (broadcastId && broadcastId.length) {
 }
 */
 // below section detects how many users are viewing your broadcast
-
+//시청자수 변경시 이벤트 방장만 발생
 connection.onNumberOfBroadcastViewersUpdated = function(event) {
     if (!connection.isInitiator) return;
 
     document.getElementById('broadcast-viewers-counter').innerHTML = '시청자: <b>' + event.numberOfBroadcastViewers + '</b>';
+    
+    $.ajax({
+    	url:"rest/updateChatRoomCurrentUser",
+    	method: "POST",
+    	data:{
+    		currentUser: event.numberOfBroadcastViewers,
+    		roomType:"cast",
+    		roomId:$("#roomId").val()
+    	},
+    	success:function(){
+    		//alert("success");
+    	}
+    });
+    
+    //ui 쪽 변경
+    $("#currentUser").html(event.numberOfBroadcastViewers);
+    
 };
 
 
@@ -447,8 +550,7 @@ setTimeout(function(){
 //채팅 서버연결
 
 var chatSocket=io.connect('https://192.168.0.21:433/chat');
-	
-	//chatSocket.join($("#roomId").val());
+//var chatSocket=io.connect('https://192.168.219.167:433/chat');
 
 	chatSocket.on("success-connect",function(data){
 		console.log(data)
@@ -456,10 +558,30 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 											roomId:$("#roomId").val()});
 		chatSocket.emit("infoTest");
 	});
-	
+	//채팅내용 리시브
 	chatSocket.on("receiveChatMessage",function(data){
 		//alert(data.nickname+":"+data.message);
-		writeChatOutput(data.nickname+":"+data.message);	
+		writeChatOutput(data.nickname+":"+data.message,data.fontColor);	
+	});
+	
+	chatSocket.on("joinUser",function(data){
+		//alert(data.nickname+":"+data.message);
+		writeChatOutput(data.nickname +" 님이 입장하였습니다.");	
+	});
+	
+	//채팅금지처리
+	chatSocket.on("chatMute",function(data){
+		if(data==false){
+			//alert("chatMute ON!");
+			writeChatOutput("채팅사용이 금지 되었습니다.","#ff5555");
+			$(".chat-input").attr("disabled","");
+		}
+		else{
+			//alert("chatMute OFF");
+			writeChatOutput("채팅사용이 허가 되었습니다.","#ff5555");
+			$(".chat-input").removeAttr("disabled","");
+		}
+		
 	});
 
 	//채팅입력이벤트
@@ -468,15 +590,38 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 			return;
 		}
 		var message=$(this).val();
+		if(message==""){
+			return;
+		}
 		chatSocket.emit("sendChatMessage",message);
-		writeChatOutput("자신:"+message);
+		writeChatOutput("자신:"+message,"#b8b8b8");
 		$(this).val("");
 	});
 	
-	function writeChatOutput(message){
-		var outObj=$("<p>"+message+"</p>")
+	var chatMuteFlag=false;
+	//채팅금지버튼 이벤트
+	$("#chatMute").on("click",function(){
+		chatSocket.emit("chatMute",chatMuteFlag);
+		if(chatMuteFlag==false){
+			$(this).html("채팅허가");
+			chatMuteFlag=true;			
+		}
+		else{
+			$(this).html("채팅금지");
+			chatMuteFlag=false;
+		}
+	});
+	
+	//채팅 출력쪽에 채팅 내용 삽입
+	function writeChatOutput(message,fontColor){
+		//채팅금지일때 채팅출력 거부
+		if(!enableReceiveFlag){
+			return;
+		}
+		var outObj=$("<p>"+message+"</p>").css("color",fontColor);
 		$(".chat-output").append(outObj);
 	}
+	
 	
 
  

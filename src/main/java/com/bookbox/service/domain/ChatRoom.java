@@ -1,7 +1,9 @@
 package com.bookbox.service.domain;
 
-import java.sql.Date;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.bookbox.common.domain.Tag;
 
@@ -21,10 +23,14 @@ public class ChatRoom {
 	private String regDate;
 	private String content;
 	private int type;
+	private int currentUser;
 	private int maxUser;
 	private String image;
 	private User host;
 	private List<Tag> tagList;
+	
+	static public Map<String, ChatRoom> camChatMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());;
+	static public Map<String, ChatRoom> castMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());
 	
 	public ChatRoom() {
 		// TODO Auto-generated constructor stub
@@ -72,6 +78,15 @@ public class ChatRoom {
 	public void setType(int type) {
 		this.type = type;
 	}
+
+	public int getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(int currentUser) {
+		this.currentUser = currentUser;
+	}
+
 
 	public int getMaxUser() {
 		return maxUser;
