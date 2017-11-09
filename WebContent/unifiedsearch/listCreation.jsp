@@ -24,27 +24,19 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
-span.posting-content{
-	text-overflow: ellipsis;
-	white-space: normal;
-	word-wrap: normal;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 3; /* 라인수 */
-	-webkit-box-orient: vertical;
-	word-wrap: break-word; 
-	line-height: 1.2em;
-	height: 3.6em;
-}
 .box{ /* 
  	border: 1px solid;  
 /* 	padding: 40px 20px; */ */
 	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
 	font-size: 14px;
 }
+footer{
+	margin-top: 70px;
+}
 </style>
 <script type="text/javascript">
 ToolbarOpacHeight(500);
+setToolbarOpac(false);
 </script>
 </head>
 
@@ -54,14 +46,53 @@ ToolbarOpacHeight(500);
 	</jsp:include>
 	<header class="parallax"></header>
 
-	<div class="container">   	
-		<div class="row post-title">
-			<br>
-			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
-			<br>
+	<div class="container">
+		<div class="row" style="margin-top:50px">
+			<font size="8" style=""><strong>Board Search</strong></font>
 		</div>
+		<div class="row">
+			<div class="col-md-7">
+				<p><font size="4">KEYWORD  "${keyword}"</font></p>
+			</div>
+			<div class="col-md-5">
+				<p><font size="4">TOTAL  ${total}</font></p>
+			</div>
+		</div>   
+		<div class="row">	
+			<hr class="community-hr">
+		</div>
+	</div>
+		
+<%-- 		<div class="row" style="margin-bottom:90px">
+			<div class="col-md-3" style="padding-left:30px;">
+				<div class="row">
+					<font size="5"><strong>RELATION TAG</strong></font>
+				</div>
+				
+				<c:if test="${fn:length(tagList) == 0}">
+					<div class="row">
+						<p>관련 태그가 없습니다.</p>
+					</div>
+				</c:if>
+				
+ 				<c:forEach items="${tagList}" var="result">
+					<div class="row">
+						#${result} 					
+					</div>
+				</c:forEach>
+			</div>
+			
+			<div class="col-md-9" id="content">
+				<div class="row" style="padding-left:50px;">
+					<font size="5"><strong>RESULT</strong></font>
+				</div>
+				
+				<c:if test="${total == 0}">
+					<div class="row" style="padding-left:50px;">
+						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
+					</div>
+				</c:if>
 
-		<c:forEach items="${result}" var="result">
    			<div class="box">
             	<div class="row">
                 	<div class="col-md-8">
@@ -82,6 +113,9 @@ ToolbarOpacHeight(500);
         		</div>
     		</div>
         </c:forEach>
-   	</div>
+   	</div> --%>
+   	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
    </body>
 </html>

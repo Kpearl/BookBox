@@ -62,8 +62,11 @@ public class BookServiceImpl implements BookService {
 	public Book getBook(User user, Book book) throws Exception {
 		Book returnBook = bookSearchDAO.getBook(book.getIsbn());
 		List<Tag> tagList = new ArrayList<Tag>();
-		tagList.add(returnBook.getTag());
-		tagService.updateTagGroup(Const.Category.BOOKCATEGORY, returnBook.getIsbn(), tagList);
+		
+		if(!returnBook.getTag().getTagName().trim().equals("")) {
+			tagList.add(returnBook.getTag());
+			tagService.updateTagGroup(Const.Category.BOOK, returnBook.getIsbn(), tagList);
+		}
 		return returnBook;
 	}
 

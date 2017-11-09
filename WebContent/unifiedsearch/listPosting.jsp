@@ -32,7 +32,7 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
-#content p{
+.content-line{
 	text-overflow: ellipsis;
 	white-space: normal;
 	word-wrap: normal;
@@ -43,7 +43,7 @@ header{
 	word-wrap: break-word; 
 	line-height: 1.2em;
 }
-hr {
+.posting-hr {
     border: 3px dashed #c59e7d;
 }
 #content{
@@ -56,17 +56,19 @@ hr {
     background: center center;
     height: 120px;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
-	
 }
 #shadow-box{
 	box-shadow: 0.5px 0.5px 0.5px 1px rgba(128, 128, 128, 0.53);
-	margin: 30px 50px 30px 50px;
 	padding: 25px 20px 25px 10px; 
 	margin: 20px 50px 30px 50px;
+}
+footer{
+	margin-top: 70px;
 }
 </style>
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
+	setToolbarOpac(false);
 </script>
 </head>
 
@@ -89,7 +91,7 @@ hr {
 			</div>
 		</div>   
 		<div class="row">	
-			<hr>
+			<hr class="posting-hr">
 		</div>
 		
 		<div class="row" style="margin-bottom:90px">
@@ -136,7 +138,7 @@ hr {
 									<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
 								</div>
 								<div>
-									<p>${result.content}</p>
+									<p class="content-line">${result.content}</p>
 								</div>
 							</div>
 						</div>

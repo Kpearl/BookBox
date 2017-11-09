@@ -25,6 +25,9 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
+footer{
+	margin-top: 80px;
+}
 </style>
 
 <script>
@@ -87,5 +90,8 @@ function getBook(isbn) {
             </c:forEach> 
         </div>
     </div>
+    <footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>

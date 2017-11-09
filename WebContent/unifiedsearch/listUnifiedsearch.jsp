@@ -42,10 +42,14 @@ header{
 	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
 	font-size: 14px;
 }
+footer{
+	margin-top: 70px;
+}
 </style>
 
 <script type="text/javascript">
 ToolbarOpacHeight(500);
+setToolbarOpac(false);
 
 $(function() {
 	$nav("click" , function() {
@@ -128,5 +132,8 @@ $(function() {
 			</c:choose>
         </c:forEach>
    	</div>
+   	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
    </body>
 </html>

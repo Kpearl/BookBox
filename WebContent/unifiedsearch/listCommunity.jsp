@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,8 +18,6 @@
 <style>
 body{
 	padding-top:0px;
-	text-align:center;
-	color:rgb(94, 86, 76);
 }
 header{
 	background:url(../resources/images/community.jpeg) no-repeat center;
@@ -27,28 +26,45 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
-#box{ 
-  	/* border: 3px solid;   */
-  	height:  300px;
-  	/* border-radius: 10px; */
-   	margin: 7px;
-  	padding: 20px 10px; 
-	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
-	background-color: #424141;
-	color: #F7FDB6;
+.community-hr {
+    border: 3px dashed #5c8350;
 }
-
-#box img{
-	width: 200px; 
-	height: auto;
-	border-radius: 7px;
-	-moz-border-radius: 7px;
-	-khtml-border-radius: 7px;
-	-webkit-border-radius: 7px;
+#content{
+	border-left: 4px dashed #5c8350;
+}
+strong {
+	color:rgba(82, 76, 76, 0.92);
+}
+#title-box{
+	padding: 10px 5px 10px 10px; 
+	height: 100px;
+	background: #74B49B;
+}
+#tag-box{
+	padding: 10px 15px 10px 15px;
+	height: 50px; 
+	height: 100px;
+	background: #D3F6D1;
+}
+#total-box{
+	padding: 10px 35px 30px 35px;
+	height: 240px; 
+}
+.content-img{
+    background: center center;
+    width: 70px;
+    height: 70px;
+    object-fit:cover;
+    border-radius: 50%;
+    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
+}
+footer{
+	margin-top: 70px;
 }
 </style>
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
+	setToolbarOpac(false);
 </script>
 
 </head>
@@ -59,24 +75,73 @@ header{
 	</jsp:include>
 	<header class="parallax"></header>
 
-	<div class="container">   	
-		<div class="row post-title">
-			<br>
-			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
-			<br>
-			<br>
+	<div class="container">
+		<div class="row" style="margin-top:50px">
+			<font size="8" style=""><strong>Board Search</strong></font>
 		</div>
-		<div class="row">			
-			<c:forEach items="${result}" var="result">
-	            <div class="col-md-4">
-    	        	<div id="box" onclick="location.href='../community/getBoard?boardNo=${result.id}'">
-						<img class="img-responsive" src="${result.image}" onerror="this.src='../resources/images/commu_noimage.png'" height="200" width="300" style="margin-left: auto; margin-right: auto; display: block;">
-		                <font size="5"><strong>${result.title}</strong></font> ${result.nick_name} <p style="color:#A4D792; font-weight: bold;">
-	                	<c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}   </c:forEach></p>
-        	    	</div>
-            	</div>
-       		</c:forEach>
+		<div class="row">
+			<div class="col-md-7">
+				<p><font size="4">KEYWORD  "${keyword}"</font></p>
+			</div>
+			<div class="col-md-5">
+				<p><font size="4">TOTAL  ${total}</font></p>
+			</div>
+		</div>   
+		<div class="row">	
+			<hr class="community-hr">
 		</div>
-	</div>
+		
+		<div class="row" style="margin-bottom:90px">
+			<div class="col-md-3" style="padding-left:30px;">
+				<div class="row">
+					<font size="5"><strong>RELATION TAG</strong></font>
+				</div>
+				
+				<c:if test="${fn:length(tagList) == 0}">
+					<div class="row">
+						<p>관련 태그가 없습니다.</p>
+					</div>
+				</c:if>
+				
+ 				<c:forEach items="${tagList}" var="result">
+					<div class="row">
+						#${result} 					
+					</div>
+				</c:forEach>
+			</div>
+			
+			<div class="col-md-9" id="content">
+				<div class="row" style="padding-left:50px;">
+					<font size="5"><strong>RESULT</strong></font>
+				</div>
+				
+				<c:if test="${total == 0}">
+					<div class="row" style="padding-left:50px;">
+						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
+					</div>
+				</c:if>
+					
+				<c:forEach items="${result}" var="result">
+					<div class="col-md-4" id="total-box">
+						<div class="row" id="title-box">
+							<div class="col-md-7" style="padding: 5px;">
+								<p><strong>${result.title}</strong></p>
+								<div >${result.nick_name}</div>
+							</div>
+							<div class="col-md-5"  style="padding-right: 0px;">
+								<img class="content-img" src="${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
+							</div>
+						</div>
+						<div class="row" id="tag-box">
+							<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+   	</div>
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>	
 </html>

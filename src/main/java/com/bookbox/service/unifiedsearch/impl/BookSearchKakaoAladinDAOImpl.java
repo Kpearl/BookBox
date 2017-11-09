@@ -1,6 +1,5 @@
 package com.bookbox.service.unifiedsearch.impl;
 
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,26 +7,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.unifiedsearch.BookSearchDAO;
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 /**
  * @file com.bookbox.service.unifiedsearch.BookSearchKakaoAladinDAOImpl.java

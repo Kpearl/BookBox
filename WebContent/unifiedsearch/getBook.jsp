@@ -33,6 +33,9 @@ canvas {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
+footer{
+	margin-top: 80px;
+}
 </style>
 
 <script type="text/javascript">
@@ -302,11 +305,9 @@ $(function() {
             	</c:forEach>
         	</div>
         </div>
-	
-		<div  class="row">
-			<br>
-			<br>
-		</div>
 	</div>
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>
