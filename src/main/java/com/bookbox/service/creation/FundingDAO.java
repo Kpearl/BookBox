@@ -104,4 +104,11 @@ public interface FundingDAO {
 	 */		
 	public int getDoFunding(Map<String, Object> map) throws Exception;
 
+	/**
+	 * @brief 펀딩취소 
+	 * @param Funding
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void cancelFunding(Funding funding) throws Exception;
 }

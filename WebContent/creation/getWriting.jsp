@@ -16,6 +16,13 @@
 
 <script type="text/javascript">
 
+//================펀딩보러가기 Navigation=================
+$(function() {
+	$('.go-funding').on('click',function() {
+		$(self.location).attr("href","../creation/getFundingList?creationNo="+$('input[name="creationNo"]').val());
+	})
+})
+
 //=====================메뉴 Navigation=================
 $(function() {
 	$('.menu').on('click',function() {
@@ -263,7 +270,7 @@ function deleteLike(targetNo) {
 		<br>
 	
 		<div>
-			<button>펀딩보러가기</button>
+			<a class="btn go-funding">펀딩보러가기</a>
 			<c:choose>
 				<c:when test="${!empty user.email}">
 			<button>구독</button>
@@ -308,7 +315,7 @@ function deleteLike(targetNo) {
 		<br>
 		
 
-		<a class="btn">펀딩보러가기</a>
+		<a class="btn go-funding">펀딩보러가기</a>
 		<br><br>
 		<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
 			<div class="row col-md-12 text-right">

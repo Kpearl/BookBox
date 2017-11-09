@@ -210,23 +210,20 @@
 			if('${funding.fundingEndDate}'==today){
 				
 				$.ajax({
-					url : "https://api.iamport.kr/payments/cancel?_token=b0b7302a1e8dc3957e04c24c49148ddabbfaa919",
-					method : "post",
-					data : JSON.stringify({
-						imp_uid : ${},
-						imp_uid : ${},
-						
-					}), 
+					url : "rest/cancelFunding?fundingNo="+$('input[name="fundingNo"]').val(),
+					method : "get",
 					dataType : "json",
 					headers : {
 						"Accept" : "application/json",
 						"Content-Type" : "application/json"
 						},
 					success : function(JSONData, status) {
+						alert(status);
+					}
 				
+				})
 			}
-				
-			});		
+		})
 			
 		
 	</script>

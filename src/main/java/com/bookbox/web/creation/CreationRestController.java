@@ -27,6 +27,7 @@ import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.FundingService;
 import com.bookbox.service.domain.Creation;
+import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.PayInfo;
 import com.bookbox.service.domain.User;
 
@@ -275,7 +276,7 @@ public class CreationRestController {
 	 * @details GET
 	 * @param FundingNo, HttpSesseion
 	 * @throws Exception
-	 * @return
+	 * @return PayInfo
 	 */
 	@RequestMapping(value="getPayInfo", method=RequestMethod.GET)
 	public PayInfo getPayInfo(@RequestParam("fundingNo") int fundingNo,
@@ -293,6 +294,28 @@ public class CreationRestController {
 		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
 		
 		return payInfo;
+	}
+	
+	/**
+	 * @brief cancelFunding/ 펀딩취소
+	 * @details GET
+	 * @param FundingNo
+	 * @throws Exception
+	 * @return
+	 */
+	@RequestMapping(value="cancelFunding", method=RequestMethod.GET)
+	public Funding cancelFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
+		// TODO addCreation
+		System.out.println("CreationRestController :: /creation/rest/cancelFunding : GET ===> START");
+		
+		new Funding().setFundingNo(fundingNo);
+		Funding funding = new Funding();
+		funding.setFundingNo(fundingNo);
+		fundingService.cancelFunding(funding);
+				
+		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
+		
+		return funding;
 	}
 	
 	

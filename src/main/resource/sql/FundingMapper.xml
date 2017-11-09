@@ -150,7 +150,7 @@
 			funding f
 			
 		<where>
-			<if test="creation != null">
+			<if test="targetNo != null">
 				f.creation_no = #{targetNo}	
 			</if>
 		</where>

@@ -1,5 +1,6 @@
 package com.bookbox.service.creation.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -117,5 +118,22 @@ public class FundingServiceImpl implements FundingService {
 		// TODO Auto-generated method stub
 		return fundingDAO.getPayInfo(payInfo);
 	}
+
+	@Override
+	public Funding cancelFunding(Funding funding) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("fundingNo", funding.getFundingNo());
+		
+		funding.setPayInfoList(fundingDAO.getFundingUserList(map));
+		
+		fundingDAO.cancelFunding(funding);
+		
+		funding.setActive(0);
+		
+		return funding;
+	}
+	
+	
 
 }

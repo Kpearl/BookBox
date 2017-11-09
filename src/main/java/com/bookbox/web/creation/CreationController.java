@@ -99,11 +99,42 @@ public class CreationController {
 	 * @return "redict"
 	 */
 	@RequestMapping(value="getCreationMain", method=RequestMethod.GET)
-	public String getCreationMain() throws Exception{
+	public String getCreationMain(@ModelAttribute Search search, @ModelAttribute Page page, Model model) throws Exception{
 		
-		System.out.println("Creation Controller :: /creation/getCreationMain : GET");
+		System.out.println("Creation Controller :: /creation/getCreationMain : GET===>START");
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(pageSize);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(pageUnit);
+		}
 		
-		return "redirect:mainCreation.jsp";
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		List<Funding> fundingList = fundingService.getFundingList(map);
+		System.out.println("CreationController :: getMain:: getFundingList ::"+fundingList);
+		search.setKeyword("픽션");
+		search.setCondition("2");
+		List<Creation> fictionList =creationService.getCreationList(map);
+		System.out.println("CreationController :: getMain:: getFictionList ::"+fictionList);
+		search.setKeyword("논픽션");
+		List<Creation> nonFinctionList =creationService.getCreationList(map);
+		System.out.println("CreationController :: getMain:: getNonFundingList ::"+nonFinctionList);
+		
+		model.addAttribute("fundingList", fundingList);
+		model.addAttribute("fictionList", fictionList);
+		model.addAttribute("nonFinctionList", nonFinctionList);		
+		
+		System.out.println("Creation Controller :: /creation/getCreationMain : GET===>END\n\n");
+		
+		return "forward:mainCreation.jsp";
 	}
 	
 	/**

@@ -81,4 +81,12 @@ public interface FundingService {
 	 */		
 	public PayInfo getPayInfo(User user, PayInfo payInfo) throws Exception;
 	
+	/**
+	 * @brief 펀딩취소 
+	 * @param Funding
+	 * @throws Exception
+	 * @return void
+	 */		
+	public Funding cancelFunding(Funding funding) throws Exception;
+	
 }

@@ -1,14 +1,20 @@
 package com.bookbox.service.creation.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.bookbox.common.domain.Search;
+import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.PayInfo;
@@ -29,6 +35,19 @@ public class FundingDAOImpl implements FundingDAO {
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+	
+	@Value("#{restapiProperties['importAPIKey']}")
+	String importAPIKey;
+	@Value("#{restapiProperties['importAPIsecret']}")
+	String importAPIsecret;
+	@Value("#{restapiProperties['importIDcode']}")
+	String importIDcode;
+	@Value("#{restapiProperties['_token']}")
+	String accessToken;
+	@Value("#{restapiProperties['importRequestURL']}")
+	String importRequestURL;
+	
+	
 	
 	/**
 	 * Constructor
@@ -102,8 +121,27 @@ public class FundingDAOImpl implements FundingDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("FundingMapper.getDoFunding",map);
 	}
-	
-	
 
+	@Override
+	public void cancelFunding(Funding funding) throws Exception {
+		// TODO Auto-generated method stub
+				
+		Map<String, String> map = new HashMap<>();
+		map.put("Authorization", accessToken);
+		
+		List<PayInfo> payInfoList = funding.getPayInfoList();
+//		JSONArray jsonArray = JSONArray.fromObject(payInfoList);
+		String data="";
+		
+		String response = HttpUtil.requestMethodPost(importRequestURL, map, data);
+		
+        // Console 확인
+        System.out.println("response정보 확인 :: "+response.toString());
+        
+        JSONObject jsonobj = (JSONObject)JSONValue.parse(response.toString());
+        
+         
+       
+	}
 	
 }
