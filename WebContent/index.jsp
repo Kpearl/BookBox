@@ -50,14 +50,11 @@
 			margin-top: 10px;
 			margin-bottom: 60px;
 		}
-		#main-recommend-book .swiper-slide{
-			margin-top: 30px;
-		}
 		.max-height{
 			height: 100%;
 		}
 		.half-height{
-			height: 46%;
+			height: 45%;
 			margin: 0 15px;
 		}
 		.first-level, .second-level{
@@ -65,7 +62,9 @@
 			padding: 2px;
 			overflow: hidden;
 		}
-		
+		.second-level{
+			background-color: rgba(248, 255, 115, 0.5);
+		}
 		.book-img{
 			z-index: 0;
 			width: 105%;
@@ -170,14 +169,15 @@
 			//스와이퍼 초기화
  			var bookSwiper = new Swiper('.book-swiper-container', {
 				speed: 600,
-				spaceBetween: 100,
-				effect: 'coverflow',
+				spaceBetween: 50,
+				effect: 'slide',
 				autoplay: {
 					delay: 5000,
 				},
 				pagination:{
 					el: '.swiper-pagination',
 					type: 'bullets',
+					clickable: true,
 				},
 			});
 			
@@ -192,6 +192,7 @@
 				success: function(data){
 					if(data.userRecommendList == null){
 						$('#userRecommend').remove();
+						bookSwiper.update();
 					};
 					for(var i=0; i<4; i++){
 						var bestSellerContainer = $('#bestSeller .book-content')[i];
@@ -201,7 +202,7 @@
 						
 						$(bestSellerContainer).find('input[name="isbn"]').val(data.bestsellerList[i].isbn);
 						$(bestSellerContainer).find('.book-img').attr('src', 'http://t1.daumcdn.net/book/KOR' + data.bestsellerList[i].isbn)
-																.attr('onerror', 'this.src=' + bestSellerThumbnail);
+																.attr('onerror', 'this.src="' + bestSellerThumbnail + '"');
 						$(bestSellerContainer).find('.book-title').html(data.bestsellerList[i].title);
 						$(bestSellerContainer).find('.book-author').html(function(){
 																		var author = '';
@@ -214,7 +215,7 @@
 
 						$(newBookContainer).find('input[name="isbn"]').val(data.newBookList[i].isbn);
 						$(newBookContainer).find('.book-img').attr('src', 'http://t1.daumcdn.net/book/KOR' + data.newBookList[i].isbn)
-																.attr('onerror', 'this.src=' + newBookThumbnail);
+																.attr('onerror', 'this.src="' + newBookThumbnail + '"');
 						$(newBookContainer).find('.book-title').html(data.newBookList[i].title);
 						$(newBookContainer).find('.book-author').html(function(){
 																		var author = '';
@@ -230,7 +231,7 @@
 							var userRecommendThumbnail = data.userRecommendList[i].thumbnail;
 							$(userRecommendContainer).find('input[name="isbn"]').val(data.userRecommendList[i].isbn);
 							$(userRecommendContainer).find('.book-img').attr('src', 'http://t1.daumcdn.net/book/KOR' + data.userRecommendList[i].isbn)
-																	.attr('onerror', 'this.src=' + userRecommendThumbnail);
+																	.attr('onerror', 'this.src="' + userRecommendThumbnail + '"');
 							$(userRecommendContainer).find('.book-title').html(data.userRecommendList[i].title);
 							$(userRecommendContainer).find('.book-author').html(function(){
 																			var author = '';
@@ -242,9 +243,6 @@
 																		});
 						}
 					}
-					$('.book-img').on('error', function(){
-						$(this).attr('src', './resources/images/noimage.jpg');
-					});
 					
 					$('.book-content').on('click', function(){
 						var isbn = $(this).find('input[name="isbn"]').val();
@@ -259,6 +257,9 @@
 							return 'not-allowed';
 						}
 					});
+/*  					$('.book-img').on('error', function(){
+						$(this).attr('src', './resources/images/noimage.jpg');
+					}); */
 				}
 			});
 			
@@ -322,7 +323,7 @@
 	</div>
 	
 	<div class="container">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-md-offset-1 col-md-10">
 
 			<div id="main-recommend-book" class="swiper-container book-swiper-container">
 				<div class="swiper-wrapper">
@@ -333,9 +334,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -345,9 +346,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -355,27 +356,27 @@
 							</div>
 						</div>
 						<div class="row half-height">
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -388,9 +389,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -400,9 +401,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -410,27 +411,27 @@
 							</div>
 						</div>
 						<div class="row half-height">
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -443,9 +444,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -455,9 +456,9 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
-									<div class="col-sm-6max-height first-level">
+									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
@@ -465,27 +466,27 @@
 							</div>
 						</div>
 						<div class="row half-height">
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-6 max-height second-level">
-								<div class="row max-height second-level book-content">
+							<div class="col-sm-6 max-height first-level">
+								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
-									<div class="col-sm-6 max-height second-level">
-										<img class="book-img" src="./resources/images/noimage.jpg">
+									<div class="col-sm-6 max-height first-level">
+										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -501,7 +502,7 @@
 	
 	
 	
-<!-- 	<div class="category">
+	<div class="category">
 		<div class="list list-first">
 			<div class="category-creation parallax">
 				<div class="display-middle">
@@ -532,9 +533,9 @@
 				얍얍3
 			</div>
 		</div>
-	</div> -->
+	</div>
 
-	<div class="category category-swiper-container swiper-container">
+<!-- 	<div class="category category-swiper-container swiper-container">
 		<div class="swiper-wrapper">
 			<div class="swiper-slide">
 				<div class="category-creation" data-swiper-parallax-y="-100" >
@@ -567,7 +568,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 
 	<footer class="container-fluid">

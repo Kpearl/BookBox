@@ -49,7 +49,7 @@
 				BooklogImage :
 				<input class="long" type="file" name="file">
 			</label>
-			<a href="#" class="btn btn-default">표지 저장</a>
+			<a href="javascript:void(0);" class="btn btn-default">표지 저장</a>
 		</form>
 	</div>	
 </body>

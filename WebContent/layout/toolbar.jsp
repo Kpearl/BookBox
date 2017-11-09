@@ -108,6 +108,19 @@ $(function() {
 		});
 	});
 
+//============= 상단 컨텐츠 Navigation =============
+	$('.content-title').on('click', function(){
+		var content = $(this).find('input:hidden');
+		var contentName = $(content).attr('name');
+		if(contentName == 'booklogNo'){
+			$(self.location).attr('href', '${param.uri}booklog/getBooklog?booklogNo='+$(content).val());
+		}else if(contentName == 'user.email'){
+			$(self.location).attr('href', '${param.uri}booklog/getBooklog?user.email='+$(content).val());
+		}else if(contentName == 'creationNo'){
+			$(self.location).attr('href', '${param.uri}creation/getWritingList?creationNo='+$(content).val());
+		}
+	});
+
 
 	
 // JJ : Search Button View
@@ -159,14 +172,17 @@ function searchCheck(){
 	</div>
 	<div class="content-title hidden-xs">
 	<c:if test="${!empty posting}">
+		<input type="hidden" name="user.email" value="${posting.user.email}">
 		<img src="${param.uri}resources/upload_files/images/${posting.user.booklogImage}" class="img-circle" alt="No Image">
 		<span>${posting.user.nickname}</span>
 	</c:if>
 	<c:if test="${!empty booklog}">
+		<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 		<img src="${param.uri}resources/upload_files/images/${booklog.booklogImage}" class="img-circle" alt="No Image">
 		<span>${booklog.user.nickname}</span>
 	</c:if>
 	<c:if test="${!empty creation}">
+		<input type="hidden" name="creationNo" value="${creation.creationNo}">
 		<img src="${param.uri}resources/upload_files/images/${creation.creationFileName}" class="img-circle" alt="No Image">
 		<span>${creation.creationTitle}</span>
 	</c:if>

@@ -34,7 +34,7 @@
 			<c:set var="text" value="${booklog.booklogIntro }"/>
 			<div class="activity-list-update div-booklog">
 				<input type="hidden" name="booklogNo" value="${booklog.booklogNo}"/>
-				<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609" alt="Image" width="100px" height="80px">
+				<img class="img-circle" src="../resources/upload_files/images/${booklog.booklogImage}" alt="Image" width="100px" height="80px">
 				<p><strong>${booklog.booklogName}</strong>//${booklog.booklogIntro}<a href="#"> by.${booklog.user.nickname}</a>.</p>
 				<div class="clear"></div>
 			</div>

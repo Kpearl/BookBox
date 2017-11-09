@@ -115,8 +115,7 @@
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklogList}" var="booklog">
 	        		<c:set var="i" value="i+1"/>
-		            <%-- <div class="swiper-slide" style="background-image:url(http://lorempixel.com/600/600/nature/${i})"> --%>
-					<div class="swiper-slide div-booklog" style="background-image:url(http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609)">
+					<div class="swiper-slide div-booklog" style="background-image:url('../resources/upload_files/images/${booklog.booklogImage}')">
 						<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 						북로그명 : ${booklog.booklogName}<br/>
 						북로그소개 : ${booklog.booklogIntro}<br/>
@@ -127,6 +126,8 @@
 	        <!-- Add Pagination -->
 	        <div class="swiper-pagination swiper-pagination-black"></div>
 	    </div>
+	    
+	    
 		
 
 		인기포스팅 <a class="btn posting" href="#">더보기</a>

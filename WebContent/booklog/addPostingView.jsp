@@ -131,10 +131,10 @@
 			
 			<div class="form-group tag-list">
 				<label>태그</label>
-				<a href="#" class="btn tag-add">추가하기</a>
+				<a href="javascript:void(0);" class="btn tag-add">추가하기</a>
 				<span># <input type="text" name="tag" id="tag"></span>
 			</div>
-			<a href="#" class="btn posting-add">등록하기</a>
+			<a href="javascript:void(0);" class="btn posting-add">등록하기</a>
 		</form>
 	</div>
 	

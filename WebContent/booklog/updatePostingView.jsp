@@ -134,7 +134,7 @@
 			
 			<div class="form-group tag-list">
 				<label>태그</label>
-				<a href="#" class="btn tag-add">추가하기</a>
+				<a href="javascript:void(0);" class="btn tag-add">추가하기</a>
 				<span># <input type="text" name="tag" id="tag" value="${posting.postingTagList[0].tagName}"></span>
 				<c:set var="num" value="0"/>
 				<c:forEach items="${posting.postingTagList}" var="tag" begin="1">
@@ -142,7 +142,7 @@
 					<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
 				</c:forEach>
 			</div>
-			<a href="#" class="btn posting-update">수정하기</a>
+			<a href="javascript:void(0);" class="btn posting-update">수정하기</a>
 		</form>
 	</div>
 	
