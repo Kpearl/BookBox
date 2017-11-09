@@ -79,6 +79,9 @@ public class Book {
 	}
 
 	public String getDatetime() throws ParseException {
+		if(datetime == null) {
+			return null;
+		}
 		return datetime.substring(0, 10);
 	}
 

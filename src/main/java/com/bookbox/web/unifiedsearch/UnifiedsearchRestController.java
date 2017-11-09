@@ -109,7 +109,7 @@ public class UnifiedsearchRestController {
 			map.put("userRecommendList", bookService.getUserLikeBook(user.getEmail()));
 		
 		map.put("bestsellerList", bookService.getRecommendBookList("Bestseller"));
-		map.put("newBookList", bookService.getRecommendBookList("ItemNewSpecial"));
+		map.put("newBookList", bookService.getRecommendBookList("ItemNewAll"));
 		
 		return map;
 	}

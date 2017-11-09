@@ -43,18 +43,11 @@ header{
 	word-wrap: break-word; 
 	line-height: 1.2em;
 }
-
-.box{ /* 
- 	border: 1px solid;  
-/* 	padding: 40px 20px; */ */
-	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
-	font-size: 14px;
-}
 hr {
-    border: 3px dashed #e9d18f;
+    border: 3px dashed #c59e7d;
 }
 #content{
-	border-left: 4px dashed #e9d18f;
+	border-left: 4px dashed #c59e7d;
 }
 #content div{
 	border-left: 10px;
@@ -68,8 +61,8 @@ hr {
 #shadow-box{
 	box-shadow: 0.5px 0.5px 0.5px 1px rgba(128, 128, 128, 0.53);
 	margin: 30px 50px 30px 50px;
-	padding: 20px 20px 20px 10px; 
-	margin: 10px 10px 10px 20px;
+	padding: 25px 20px 25px 10px; 
+	margin: 20px 50px 30px 50px;
 }
 </style>
 <script type="text/javascript">
@@ -84,8 +77,8 @@ hr {
 	<header class="parallax"></header>
 
 	<div class="container">
-		<div class="row">
-			<font size="8"><strong>Posting Search</strong></font>
+		<div class="row" style="margin-top:50px">
+			<font size="8" style=""><strong>Posting Search</strong></font>
 		</div>
 		<div class="row">
 			<div class="col-md-7">
@@ -99,8 +92,8 @@ hr {
 			<hr>
 		</div>
 		
-		<div class="row">
-			<div class="col-md-3">
+		<div class="row" style="margin-bottom:90px">
+			<div class="col-md-3" style="padding-left:30px;">
 				<div class="row">
 					<font size="5"><strong>RELATION TAG</strong></font>
 				</div>
@@ -113,18 +106,18 @@ hr {
 				
  				<c:forEach items="${tagList}" var="result">
 					<div class="row">
-						${result} 					
+						#${result} 					
 					</div>
 				</c:forEach>
 			</div>
 			
 			<div class="col-md-9" id="content">
-				<div class="row" style="padding-left:40px;">
+				<div class="row" style="padding-left:50px;">
 					<font size="5"><strong>RESULT</strong></font>
 				</div>
 				
 				<c:if test="${total == 0}">
-					<div class="row">
+					<div class="row" style="padding-left:50px;">
 						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
 					</div>
 				</c:if>
@@ -135,7 +128,7 @@ hr {
 							<div class="col-md-3">
 								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">							
 							</div>
-							<div class="col-md-9">
+							<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
 								<div class="row">
 									<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
 								</div>
@@ -148,30 +141,12 @@ hr {
 							</div>
 						</div>
 					</div>
-					<%-- 
-					<div class="row" style="padding-bottom:30px;">
-						<div class="col-md-12" id="shadow-box">
-						<div class="col-md-3">
-							<div class="row">
-							</div>
-						</div>
-					
-						<div class="col-md-9">
-							<div class="row">
-								<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
-							</div>
-							<div class="row">
-								<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
-							</div>
-							<div>
-								<p>${result.content}</p>
-							</div>
-						</div>
-						</div>
-					</div> --%>
 				</c:forEach>
 			</div>
 		</div>
    	</div>
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
    </body>
 </html>

@@ -8,12 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -72,9 +74,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	@Override
 	public List<Book> getRecommendBookList(String type) throws Exception {
 		Map<String, String> hm = new HashMap<String, String>();
-		List<Book> list = new ArrayList<Book>();
-		List<String> bookList;
-		hm.put("output", "xml&Version=20131101");
+		hm.put("output", "js&Version=20131101");
 		hm.put("MaxResults", "10");
 		hm.put("start", "1");
 		hm.put("SearchTarget", "Book");
@@ -89,16 +89,40 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			String key = iter.next();
 			sb.append(key).append("=").append(hm.get(key)).append("&");
 		}
+		return AladinPaser(HttpUtil.requestMethodGet("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString(), hm));
+	}
+	
+	public List<Book> AladinPaser(String str) throws Exception {
+		JSONParser jsonParser = new JSONParser();
+		List<Book> bookList = new ArrayList<Book>();
+		List<String> list;
+		Book book;
+
+		System.out.println(str);
 		
-		System.out.println(sb.toString());
-		
-		bookList = xmlParser(new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString()));
-		
-		for(String isbn : bookList) {
-			list.add(getBook(isbn));
+		// JSON데이터를 넣어 JSON Object 로 만들어 준다.
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
+
+		// books의 배열을 추출
+		JSONArray bookInfoArray = (JSONArray) jsonObject.get("item");
+
+		for (int i = 0; i < bookInfoArray.size(); i++) {
+			JSONObject bookObject = (JSONObject) bookInfoArray.get(i);
+			if (bookObject.get("isbn").equals(null) == false) {
+				list = new ArrayList<String>();
+				book = new Book();
+				
+				if (book != null) {
+					book.setIsbn((String) bookObject.get("isbn13"));
+					book.setTitle((String) bookObject.get("title"));
+					book.setThumbnail((String) bookObject.get("cover"));
+					list.add((String) bookObject.get("author"));
+					book.setAuthors(list);
+					bookList.add(book);
+				}
+			}
 		}
-		
-		return list;
+		return bookList;
 	}
 
 	public List<Book> jsonParser(String str) throws Exception {
@@ -147,32 +171,5 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 			book.setTag(new Tag((String) bookObject.get("category")));
 		}
 		return book;
-	}
-
-	public List<String> xmlParser(URL url) throws Exception {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document doc = db.parse(url.openStream());
-		NodeList nodeList = doc.getElementsByTagName("object");
-		List<String> list = new ArrayList<String>();
-
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node mainNode = nodeList.item(i);
-			if (mainNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element firstElement = (Element) mainNode;
-				NodeList forumidNameList = firstElement.getElementsByTagName("item");
-				
-				for (int j = 0; j < forumidNameList.getLength(); ++j) {
-					Element value = (Element) forumidNameList.item(j);
-					NodeList conditionList = value.getElementsByTagName("isbn13");
-					
-					for (int k = 0; k < conditionList.getLength(); ++k) {
-                        Element condition = (Element) conditionList.item(k);
-                        list.add(condition.getFirstChild().getNodeValue());
-                    }
-				}
-			}
-		}
-		return list;
 	}
 }
