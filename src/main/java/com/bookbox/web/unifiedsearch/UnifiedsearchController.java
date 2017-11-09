@@ -1,5 +1,7 @@
 package com.bookbox.web.unifiedsearch;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,7 @@ public class UnifiedsearchController {
 		System.out.println("Constructor :: " + getClass().getName());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getUnifiedsearchList", method = RequestMethod.GET)
 	public String getUnifiedsearchList(Model model, @RequestParam("keyword") String keyword, @RequestParam("category") int category) throws Exception {
 		System.out.println("/unifiedsearch/getUnifiedsearchList : GET");
@@ -73,10 +76,19 @@ public class UnifiedsearchController {
 		search.setKeyword(keyword);
 		search.setCategory(category);
 		
+		List<String> tagList = new ArrayList<String>();
 		Map<String, Object> map = unifiedsearchService.elasticSearch(search);
+		
+		for(Unifiedsearch unified: ((List<Unifiedsearch>)map.get("result"))) {
+			for(String tag : unified.getTag()) {
+				tagList.add(tag);
+			}
+		}
 		
 		model.addAttribute("result", map.get("result"));
 		model.addAttribute("total", map.get("total"));
+		model.addAttribute("keyword", search.getKeyword());		
+		model.addAttribute("tagList", new ArrayList<String>(new HashSet<String>(tagList)));
 		
 		switch (category) {
 		case 1:

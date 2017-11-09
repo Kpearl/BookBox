@@ -50,7 +50,7 @@ public class bookTest {
 
 	@Test
 	public void getRecommendBookList() throws Exception {
-		List<String> list = bookService.getRecommendBookList("ItemNewSpecial");
+		List<Book> list = bookService.getRecommendBookList("ItemNewSpecial");
 		System.out.println(list.toString());
 	} 
 	

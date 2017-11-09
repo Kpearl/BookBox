@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,13 @@
 body{
 	padding-top:0px;
 }
+font{
+	padding-top:10px;
+	padding-bottom:5px;
+}
+strong {
+	color:rgba(82, 76, 76, 0.92);
+}
 header{
 	background:url(../resources/images/posting.jpeg) no-repeat center;
 }
@@ -24,7 +32,7 @@ header{
     background-attachment: fixed;
     background-size: cover;
 }
-span.posting-content{
+#content p{
 	text-overflow: ellipsis;
 	white-space: normal;
 	word-wrap: normal;
@@ -34,7 +42,6 @@ span.posting-content{
 	-webkit-box-orient: vertical;
 	word-wrap: break-word; 
 	line-height: 1.2em;
-	height: 3.6em;
 }
 
 .box{ /* 
@@ -43,9 +50,30 @@ span.posting-content{
 	font-family: "Source Sans Pro", "Helvertica Neue", Helvertica, Arial, sans-serif;
 	font-size: 14px;
 }
+hr {
+    border: 3px dashed #e9d18f;
+}
+#content{
+	border-left: 4px dashed #e9d18f;
+}
+#content div{
+	border-left: 10px;
+}
+.content-img{
+    background: center center;
+    height: 120px;
+    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
+	
+}
+#shadow-box{
+	box-shadow: 0.5px 0.5px 0.5px 1px rgba(128, 128, 128, 0.53);
+	margin: 30px 50px 30px 50px;
+	padding: 20px 20px 20px 10px; 
+	margin: 10px 10px 10px 20px;
+}
 </style>
 <script type="text/javascript">
-ToolbarOpacHeight(500);
+	ToolbarOpacHeight(500);
 </script>
 </head>
 
@@ -55,34 +83,95 @@ ToolbarOpacHeight(500);
 	</jsp:include>
 	<header class="parallax"></header>
 
-	<div class="container">   	
-		<div class="row post-title">
-			<br>
-			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
-			<br>
+	<div class="container">
+		<div class="row">
+			<font size="8"><strong>Posting Search</strong></font>
 		</div>
-
-		<c:forEach items="${result}" var="result">
-   			<div class="box">
-            	<div class="row">
-                	<div class="col-md-8">
-                    	<font size="8"><strong>${result.title}</strong></font>
-                    	${result.nick_name} <p style="color:#955940; font-weight: bold;">
-           	 			<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
-           	 			</p>
-           				<p>${result.content}</p>
-           			</div>
-                	<div class="col-xs-4 icon-feature">
-                		<c:if test="${result.category == 'board'}">
-                			<img class="img-responsive" src="${result.image}" height="430" width="500" onerror="this.src='../resources/images/noimage.jpg'">
-                		</c:if>
-                		<c:if test="${result.category != 'board'}">
-                    	<img class="img-responsive" src="../resources/upload_files/images/${result.image}" height="430" width="500" onerror="this.src='../resources/images/noimage.jpg'">
-                    	</c:if>
-		            </div>
-        		</div>
-    		</div>
-        </c:forEach>
+		<div class="row">
+			<div class="col-md-7">
+				<p><font size="4">KEYWORD  "${keyword}"</font></p>
+			</div>
+			<div class="col-md-5">
+				<p><font size="4">TOTAL  ${total}</font></p>
+			</div>
+		</div>   
+		<div class="row">	
+			<hr>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-3">
+				<div class="row">
+					<font size="5"><strong>RELATION TAG</strong></font>
+				</div>
+				
+				<c:if test="${fn:length(tagList) == 0}">
+					<div class="row">
+						<p>관련 태그가 없습니다.</p>
+					</div>
+				</c:if>
+				
+ 				<c:forEach items="${tagList}" var="result">
+					<div class="row">
+						${result} 					
+					</div>
+				</c:forEach>
+			</div>
+			
+			<div class="col-md-9" id="content">
+				<div class="row" style="padding-left:40px;">
+					<font size="5"><strong>RESULT</strong></font>
+				</div>
+				
+				<c:if test="${total == 0}">
+					<div class="row">
+						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
+					</div>
+				</c:if>
+				
+				<c:forEach items="${result}" var="result">
+					<div class="row">
+						<div class="row" id="shadow-box">
+							<div class="col-md-3">
+								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">							
+							</div>
+							<div class="col-md-9">
+								<div class="row">
+									<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
+								</div>
+								<div class="row">
+									<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
+								</div>
+								<div>
+									<p>${result.content}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<%-- 
+					<div class="row" style="padding-bottom:30px;">
+						<div class="col-md-12" id="shadow-box">
+						<div class="col-md-3">
+							<div class="row">
+							</div>
+						</div>
+					
+						<div class="col-md-9">
+							<div class="row">
+								<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
+							</div>
+							<div class="row">
+								<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
+							</div>
+							<div>
+								<p>${result.content}</p>
+							</div>
+						</div>
+						</div>
+					</div> --%>
+				</c:forEach>
+			</div>
+		</div>
    	</div>
    </body>
 </html>

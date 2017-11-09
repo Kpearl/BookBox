@@ -70,8 +70,10 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 	}
 	
 	@Override
-	public List<String> getRecommendBookList(String type) throws Exception {
+	public List<Book> getRecommendBookList(String type) throws Exception {
 		Map<String, String> hm = new HashMap<String, String>();
+		List<Book> list = new ArrayList<Book>();
+		List<String> bookList;
 		hm.put("output", "xml&Version=20131101");
 		hm.put("MaxResults", "10");
 		hm.put("start", "1");
@@ -90,7 +92,13 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		
 		System.out.println(sb.toString());
 		
-		return xmlParser(new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString()));
+		bookList = xmlParser(new URL("http://www.aladin.co.kr/ttb/api/ItemList.aspx?" + sb.toString()));
+		
+		for(String isbn : bookList) {
+			list.add(getBook(isbn));
+		}
+		
+		return list;
 	}
 
 	public List<Book> jsonParser(String str) throws Exception {
