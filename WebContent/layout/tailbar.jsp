@@ -4,7 +4,9 @@
 
 <script>
 	$(function(){
-		$('footer').css('top', $(document).height()-170);
+		if($(window).height() == $(document).height()){
+			$('footer').css('bottom', 0);
+		}
 	});
 </script>
 	<h5>BOOKBOX COMMUNITY © 2017</h5>

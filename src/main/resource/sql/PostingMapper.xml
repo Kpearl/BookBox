@@ -56,11 +56,10 @@
 		<!-- SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
-			u.nickname, l.location_name, l.latitude, l.longitude,
+			u.nickname,
 			tw.tag_name, tw.tag_no, vc.count
 		FROM 
 			posting p
-			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
 			LEFT OUTER JOIN user u ON p.email = u.email
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
@@ -73,7 +72,6 @@
 			u.nickname, u.booklog_image, '5' category_no, vc.count
 		FROM 
 			posting p
-			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
 			LEFT OUTER JOIN user u ON p.email = u.email
 			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
 		WHERE 
@@ -150,14 +148,6 @@
 			posting_no = #{postingNo}
 	</update>
 	
-	
-	<delete id="deletePostingLocation" parameterType="posting">
-		DELETE
-		FROM 
-			location
-		WHERE
-			posting_no=#{postingNo}
-	</delete>
 	
 <!-- 	<select id="selectPostingFileList" parameterType="map" resultMap="uploadFile">
 		SELECT

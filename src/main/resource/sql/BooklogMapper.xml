@@ -27,11 +27,6 @@
 				<result property="nickname" column="posting_nickname"/>
 			</association>
 			<collection property="postingFileList" ofType="uploadFile" column="{targetNo=posting_no}" select="selectPostingFileList"/>
-			<collection property="postingLocationList" ofType="location" column="location_no">
-				<result property="locationName" column="location_name" jdbcType="VARCHAR"/>
-				<result property="locationLatitude" column="latitude" jdbcType="FLOAT"/>
-				<result property="locationLongitude" column="longitude" jdbcType="FLOAT"/> 
-			</collection>
 		</collection>
 		<collection property="bookmarkList" ofType="user" column="email">
 			<result property="email" column="bookmark_email" jdbcType="VARCHAR"/>		
@@ -66,12 +61,10 @@
 		SELECT
 			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no,
 			p.posting_no, p.posting_title, p.posting_content, 
-			l.location_name, l.latitude, l.longitude, 
 			bu.email bookmark_email, bu.nickname bookmark_nickname
 		FROM
 			user u
 			LEFT OUTER JOIN posting p ON u.email = p.email
-			LEFT OUTER JOIN location l ON p.posting_no = l.posting_no
 			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
 			LEFT OUTER JOIN bookmark b ON u.email = b.email
 			LEFT OUTER JOIN user bu ON b.target_email = bu.email

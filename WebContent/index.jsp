@@ -27,7 +27,7 @@
 			padding-top: 0;
 		}
 		header{
-			background-image: url('./resources/images/test2.jpeg');
+			background-image: url('./resources/images/main_img.jpg');
 			min-height: 100%;
 		}
 		#main-search{

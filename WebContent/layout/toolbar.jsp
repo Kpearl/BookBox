@@ -22,7 +22,7 @@ $(function() {
  
 //============= 공지사항 Navigation Event  처리 =============	
  	$("a.nav-notice").on("click" , function() {
-		$(self.location).attr("href","${param.uri}booklog/getBooklog?booklogNo=11");
+		$(self.location).attr("href","${param.uri}booklog/getBooklog?booklogNo=1");
 	}); 	
 
 //============= 회원가입 Event  처리 =============	
