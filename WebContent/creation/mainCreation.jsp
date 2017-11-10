@@ -200,7 +200,7 @@ $(function() {
 			var endDay =new Date($(this).html().trim()+" 00:00:00");
 			var diff = endDay.getTime()-today.getTime();
 			if(diff < 0){
-				return '0일 남음';
+				return '펀딩마감';
 			}
 
 			var days = Math.floor(diff/(1000*60*60*24));

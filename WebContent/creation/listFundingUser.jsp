@@ -116,7 +116,9 @@
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
-
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 	
 </body>
 
