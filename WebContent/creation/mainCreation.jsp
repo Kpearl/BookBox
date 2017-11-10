@@ -61,7 +61,7 @@
     	vertical-align: middle;
 	    overflow-y: hidden;
 	    height: 200px;
-    	background-color: rgba(255, 236, 218, 0.63);
+    	background-color: none;/* rgba(255, 236, 218, 0.63); */
     }
     
     .creation-part{
@@ -72,8 +72,8 @@
     .tag-space{
     	font-size: 15px;
 	    font-weight: 700;
-	    margin-top: 110px;
-	    margin-left: 8px;
+        padding-left: 30px;
+   		padding-top: 33px;
     }
     
     .endfunding-img{
@@ -278,7 +278,7 @@ $(function() {
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
-         <span>Funding</span>
+         <span>FUNDING</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
@@ -329,7 +329,7 @@ $(function() {
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
-         <span>Fiction</span>
+         <span>FICTION</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
@@ -342,17 +342,24 @@ $(function() {
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
 					</div>
 					<div class="col-sm-8 col-md-8">
-						<div class="col-sm-"></div>
-							<strong class="creation-title" id="${fiction.creationNo }" style="font-size:20px">${fiction.creationTitle }   </strong> 
-							<span class="creation-author" id=${fiction.creationAuthor.email } style="font-size:15px;">   by.${fiction.creationAuthor.nickname }</span>
-							<div class="col-sm-offset-1 col-sm-11 text-left" style="padding-top: 15px;">
-						${fiction.creationIntro }
-						</div>
-							<div class="row tag-space">
-						<c:forEach var="tag" items="${fiction.tagList }">
-								<span style="border: 1px solid;border-color: burlywood;border-radius: 15px;">#${tag.tagName }</span>
-						</c:forEach>
+						<div class="row">
+							<div class="col-sm-12" style="padding-top: 10px;">
+								<strong class="creation-title" id="${fiction.creationNo }" style="font-size:x-large">${fiction.creationTitle }   </strong> 
+								<span class="creation-author" id=${fiction.creationAuthor.email } style="font-size:15px;">   by.${fiction.creationAuthor.nickname }</span>
 							</div>
+						</div>
+						<div class="row">	
+							<div class="col-sm-offset-1 col-sm-11 text-left" style="padding-top: 15px;    padding-right: 45px;">
+								<span class="posting-content">${fiction.creationIntro }</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="tag-space">
+								<c:forEach var="tag" items="${fiction.tagList }">
+										<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;">#${tag.tagName }</span>
+								</c:forEach>
+							</div>	
+						</div>
 					</div>
 		   		</div>
 		   		<hr>
@@ -367,7 +374,7 @@ $(function() {
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
-         <span>nonFiction</span>
+         <span>NONFICTION</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>
@@ -377,15 +384,23 @@ $(function() {
 		<c:forEach var="nonfiction" items="${nonFinctionList }" >
 		  		 <div class="row creation-list" >
 					<div class="col-sm-8 col-md-8" >
-						<strong class="creation-title" id="${nonfiction.creationNo }" style="font-size:20px">${nonfiction.creationTitle }   </strong> 
-						<span class="creation-author" id=${nonfiction.creationAuthor.email } style="font-size:15px;">   by.${nonfiction.creationAuthor.nickname }</span>
-						<div class="col-sm-offset-1 col-sm-11 text-left"  style="padding-top: 15px;">
-						${nonfiction.creationIntro }
+						<div class="row">
+							<div class="col-sm-12" style="padding-top: 10px;">
+								<strong class="creation-title" id="${nonfiction.creationNo }" style="font-size:x-large">${nonfiction.creationTitle }   </strong> 
+								<span class="creation-author" id=${nonfiction.creationAuthor.email } style="font-size:15px;">   by.${nonfiction.creationAuthor.nickname }</span>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-sm-offset-1 col-sm-11 text-left"  style="padding-top: 15px;padding-right: 45px;">
+								<span class="posting-content">${nonfiction.creationIntro }</span>
+							</div>
 						</div>
-						<div class="row tag-space">
-					<c:forEach var="tag" items="${nonfiction.tagList }">
-							<span style="border: 1px solid;border-color: burlywood;border-radius: 15px;">#${tag.tagName }</span>
-					</c:forEach>
+						<div class="row">
+							<div class="tag-space">
+								<c:forEach var="tag" items="${nonfiction.tagList }">
+										<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;">#${tag.tagName }</span>
+								</c:forEach>
+							</div>
 						</div>
 					</div>
 					<div class="col-sm-4 col-md-4" style="height:100%; background-color:rgba(114, 114, 114, 0.48);">
@@ -396,7 +411,7 @@ $(function() {
 		</c:forEach>	   
 	   </div>
    </div>
-    <div class="row text-right col-sm-offset-11 col-sm-1">
+    <div class="row text-right col-sm-offset-11 col-sm-1" style="    margin-bottom: 80px;">
 		<a  class="nonfictionMore" name="fundingMore">전체보기></a>
 	</div>
 

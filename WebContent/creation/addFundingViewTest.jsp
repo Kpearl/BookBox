@@ -107,7 +107,7 @@
         <form class="form-horizontal funding-add">
             
             
-            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 400;">Create Funding</div>
+            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">펀딩 등록</div>
             <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
             
             <div class="form-group">
@@ -161,7 +161,7 @@
                 </div>
                 <div class="col-sm-8">
 					<div id="imgPreview">
-						<img class="img img-responsive" src="../resources/upload_files/images/noImg_2.jpg"/>
+						<img class="img img-responsive" src="../resources/images/noImg_2.jpg"/>
 					</div>
                     <input type="file" name="file" id="file">
                 </div>

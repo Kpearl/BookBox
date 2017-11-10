@@ -12,6 +12,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 
 	<!-- CKEditor 추가 -->
 	<script src="../resources/ckeditor/ckeditor.js"></script>
@@ -23,9 +24,21 @@
 		#imgPreview, #imgPreview > img{
 			height: 300px;
 		}
+		
+		    body{
+    		padding-top:0px;
+    		
+    	}
+    	header{
+    		background:url(../resources/images/creationTest7.jpg) no-repeat center;
+    	}
+    	
 	</style>
 	
 	<script type="text/javascript">
+	
+	ToolbarOpacHeight(500);
+	
 	//============창작작품 등록하기=============
 		function ConvertFormToJSON(form){
 			 var array = jQuery(form).serializeArray();
@@ -176,7 +189,7 @@
 			num = 0;
 			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
 		
-			$('a.add-writing:contains("등록하기")').on('click',function(){
+			$('a.add-writing:contains("등록")').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
 				
 				if($('input[name="writingTitle"]').val() == null || $('input[name="writingTitle"]').val() == ""){
@@ -243,11 +256,186 @@
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
+	<header class="parallax"></header>
 	
 	<div class="container">
-	
+	       <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">작품 등록</div>
+	       <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
+		
+		<div class="creation-div">
+		<form class="form-horizontal creation-add" id="creationForm" name="creationForm">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="row">
+						<div class="col-md-5">
+							<div id="imgPreview" style="padding-left:20px;">
+								<c:if test="${!empty creation }">
+									<img class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
+								</c:if>
+								<c:if test="${empty creation }">
+									<img class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
+								</c:if>
+							</div>
+                    		<input style="padding-left:20px;" type="file"  class="inputValue" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
+						</div><!--이미지처장 div END  -->
+					
+						<div class="col-md-7">
+							
+							<div class="form-group">
+				                <div class="col-sm-2 col-sm-offset-1 ">
+				                    <label class="control-label" for="creationHead">말머리</label>
+				                </div>
+				                <div class="col-sm-9">
+				                    <input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
+									<input class="inputValue" type="radio" name ="creationHead"  value ="논픽션" ${creation.creationHead =='논픽션' ? 'checked' : '' } >논픽션
+				                </div>
+             				</div>
+            
+				            <div class="form-group">
+				                <div class="col-sm-2 col-sm-offset-1">
+				                    <label class="control-label " for="creationTitle">작품명</label>
+				                </div>
+				                <div class="col-sm-8">
+				                    <input class="inputValue form-control" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
+								
+									<c:if test="${!empty creationList}">
+										<select class="form-control" name="creationNo" >
+											<option value="0">새작품</option>
+											<c:forEach var="creation" items="${creationList }">
+									      		<option value="${creation.creationNo }" >${creation.creationTitle }</option>
+											</c:forEach>
+									     </select>
+								     </c:if>
+								  </div>
+				                <div class="col-sm-1"></div>
+				            </div>
+            
+				            <div class="form-group">
+				                <div class="col-sm-2 col-sm-offset-1">
+				                    <label class="control-label" for="creationIntro">작품소개</label>
+				                </div>
+				                <div class="col-sm-8">
+				                    <textarea class="inputValue" name="creationIntro" rows="5" cols="100" style="width: -webkit-fill-available;resize:none;background-color: rgba(0,0,0,0.075)">${creation.creationIntro }</textarea>
+				                </div>
+				               <div class="col-sm-1"></div>
+				            </div>
+											
+							<div class="form-group">
+				                <div class="col-sm-2 col-sm-offset-1">
+				                    <label class="control-label" for="fundingIntro">태그</label>
+				                </div>
+				                <div class="col-sm-8 tag-list">
+				                    <input type="hidden" class="headTag" name="tag" id="tag">
+										<a class="btn tag-add ">추가하기</a>
+										<span class="hidden"># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
+										<span ># <input class="inputValue" type="text" name="tag" id="tag"  ></span>
+				                </div>
+				               <div class="col-sm-1"></div>
+				            </div>				
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			 <div class="form-group" style="margin-bottom:80px;margin-top:50px;">
+                <div class="col-sm-8 col-sm-offset-4 text-right">
+                    <a class="btn btn-primary" id="add-creation" >등록</a>
+                    <a class="btn btn-defalt menu" >menu</a>
+                </div>
+              </div>	
+		
+		</form>	
+	</div><!--creation div END  -->
+			            
+			            
+			            
+			            
+			            
+           <%--  <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <label class="control-label" for="creationHead">말머리</label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
+					<input class="inputValue" type="radio" name ="creationHead"  value ="논픽션" ${creation.creationHead =='논픽션' ? 'checked' : '' } >논픽션
+                </div>
+             </div>
+            
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <label class="control-label " for="creationTitle">작품명</label>
+                </div>
+                <div class="col-sm-7">
+                    <input class="inputValue form-control" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
+				
+					<c:if test="${!empty creationList}">
+						<select class="form-control" name="creationNo" >
+							<option value="0">새작품</option>
+							<c:forEach var="creation" items="${creationList }">
+					      		<option value="${creation.creationNo }" >${creation.creationTitle }</option>
+							</c:forEach>
+					     </select>
+				     </c:if>
+				  </div>
+                <div class="col-sm-1"></div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <label class="control-label" for="creationIntro">작품소개</label>
+                </div>
+                <div class="col-sm-7">
+                    <textarea class="inputValue" name="creationIntro" rows="5" cols="100" style="width: -webkit-fill-available;background-color: rgba(0,0,0,0.075)">${creation.creationIntro }</textarea>
+                </div>
+               <div class="col-sm-1"></div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                	<label class="control-label" for="fundingImage">파일첨부</label>
+                </div>
+                <div class="col-sm-8">
+					<div id="imgPreview">
+						<c:if test="${!empty creation }">
+							<img class="img img-responsive" src="../resources/upload_files/images/${creation.creationFileName }"/>
+						</c:if>
+						<c:if test="${empty creation }">
+							<img class="img img-responsive" src="../resources/images/noImg_2.jpg"/>
+						</c:if>
+					</div>
+                    <input type="file"  class="inputValue" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <label class="control-label" for="fundingIntro">태그</label>
+                </div>
+                <div class="col-sm-7 tag-list">
+                    <input type="hidden" class="headTag" name="tag" id="tag">
+						<a href="#" class="btn tag-add ">추가하기</a>
+						<span class="hidden"># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
+						<span ># <input class="inputValue" type="text" name="tag" id="tag"  ></span>
+                </div>
+               <div class="col-sm-1"></div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-4 text-right">
+                    <a class="btn btn-primary" id="add-creation" >등록</a>
+                    <a class="btn btn-defalt menu" >menu</a>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>	
+		
+		</form>	
+	</div>	 --%>
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  --> 	
 		<!--창작작품 등록란  -->
-	<div class="panel panel-default">
+	<%-- <div class="panel panel-default">
   		<div class="panel-heading">
 	     <h3>창작작품 등록란</h3>
 	  </div>
@@ -292,27 +480,23 @@
 				<span ># <input class="inputValue" type="text" name="tag" id="tag"  ></span>			
 			</div>
 		
-		<%-- <c:if test="${creationList != null }"> --%>	
+		<c:if test="${creationList != null }">	
 			<a href="#" class="btn btn-default" id="add-creation" >등록하기</a>
-		<%-- </c:if> --%>
+		</c:if>
 		
 		</form>
 		</div>
-	</div>
+	</div> --%>
 	
-	<div class="inWriting" id="inWriting">
+	<div  class="inWriting" id="inWriting">
 		<!--창작글 등록란  -->
-	<form style="display:none;" id="writingForm" name="writingForm">
-		<div class="panel panel-default">
-	  		 <div class="panel-heading">
-		     <h3>창작글 등록란</h3>
-		  </div>
-	  		<div class="panel-body">
-				<div class="form-group">
-					글제목 <input type="text" name="writingTitle">
+	<form style="display:none;"  id="writingForm" name="writingForm">
+		<hr>
+		<div class="form-group">
+					<strong style="font-size: large;">글제목</strong> <input type="text" class="form-control" name="writingTitle">
 					<input type = "hidden" name="creationNo" value="${creation.creationNo }">
 				</div>
-				<div class="form-group">
+				<div class="form-group" >
 					<textarea name="writingContent" id="writingContent" rows="20" cols="80"></textarea>
 				</div>
 				
@@ -320,16 +504,20 @@
 				이미지리스트
 				
 				</div>
-			
-				<a href="#" class="btn btn-default add-writing" id="add-writing">등록하기</a>
-			</div>
 		
-		</div>
 	</form>
+		 <div class="form-group" style="margin-bottom:80px;">
+	           <div class="col-sm-8 col-sm-offset-4 text-right">
+	               <a class="btn btn-primary add-writing" id="add-writing" >등록</a>
+	           </div>
+	   </div>	
+
 	</div>
+	
 	
 </div>
 	
+
 	
 </body>
 </html>
