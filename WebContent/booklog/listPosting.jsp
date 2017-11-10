@@ -52,8 +52,8 @@
 		<div class="row div-posting booklog-border booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img booklog-border-thin">
-					<img class="img-thumbnail posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
+				<div class="col-sm-4 text-center posting-img booklog-border-thin" style="padding-right: 0;">
+					<img class="img-thumbnail img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">
 					<h3><strong>${posting.postingTitle}</strong></h3>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="row hidden-sm hidden-md hidden-lg">
 				<div class="col-xs-12 posting-img">
-					<div class="col-xs-10 col-xs-offset-1">
+					<div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0;">
 						<h4><strong>${posting.postingTitle}</strong></h4>
 						<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
 						<span class="posting-content">${posting.postingContent}</span>
@@ -74,12 +74,16 @@
 							<span class="tag"># ${tag.tagName}</span>
 						</c:forEach>
 					</div>
-					<img class="img-thumbnail posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" style="width: 100%;">
+					<img class="img-thumbnail img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
 				</div>
 			</div>
 		</div>
 		</c:forEach>
 	</div>
-
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
+	
 </body>
 </html>

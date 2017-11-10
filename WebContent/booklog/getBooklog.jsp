@@ -41,16 +41,22 @@
 	        background-size: cover;
 	    }
 	    
+	    .booklog-img{
+	    	height: 300px;
+	    }
+	    
 	    div.div-posting img{
-	    	max-width: 100%;
-	    	position: absolute;
-	    	top: 50%;
-	    	left: 50%;
-	    	transform: translate(-50%, -50%);
+	    	opacity: 0.3;
 	    }
 	    
 	    div.div-posting{
-	    	overflow: hidden;
+	    	margin: 0;
+	    	height: 100%;
+	    }
+	    .posting-preview{
+	    	position: absolute;
+	    	width: 100%;
+	    	height: 100%;
 	    }
     </style>
 
@@ -390,13 +396,14 @@
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
-	<div class="container-fluid">
-		<div class="row text-center">
-			<img class="img-responsive center-block" src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
-			<!-- <img class="img-responsive center-block" src="../resources/upload_files/images/${booklog.booklogImage}"> -->
-		</div>
-	</div>
 	<div class="container">
+
+		<!-- 북로그이미지, 소개글, 이름 -->
+		<div class="row text-center booklog-img">
+			<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+		</div>
+
+
 		<div class="row text-center">
 			<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
 			<div class="col-md-offset-9 col-md-3">
@@ -420,9 +427,10 @@
 	        	<c:forEach items="${booklog.postingList}" var="posting">
 	        		<c:set var="i" value="${i+1}"/>
 	        		<div class="swiper-slide div-posting">
-	        		<%-- <div class="swiper-slide div-posting" style="background-image:url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'})"> --%>
-	        			<img src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
 						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+	        			<div class="posting-preview">
+		        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
+	        			</div>
 						<p>포스팅명 : ${posting.postingTitle}</p>
 	        		</div>
 	        	</c:forEach>
@@ -495,6 +503,9 @@
 
 	</div>
 	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 	
 </body>
 </html>

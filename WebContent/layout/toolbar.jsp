@@ -186,6 +186,11 @@ function searchCheck(){
 		<img src="${param.uri}resources/upload_files/images/${creation.creationFileName}" class="img-circle" alt="No Image">
 		<span>${creation.creationTitle}</span>
 	</c:if>
+	<c:if test="${!empty funding}">
+		<input type="hidden" name="creationNo" value="${funding.creation.creationNo}">
+		<img src="${param.uri}resources/upload_files/images/${funding.creation.creationFileName}" class="img-circle" alt="No Image">
+		<span>${funding.creation.creationTitle}</span>
+	</c:if>
 	</div>
 	<div class="search-group">
 		<div class="bookbox-search search-form-group">

@@ -274,9 +274,10 @@ public class BooklogController {
 	
 	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
 	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, HttpSession session,
-									@RequestParam("file")MultipartFile file) {
+									@RequestParam("file")MultipartFile file, HttpServletRequest request) throws Exception {
 		if(!file.isEmpty()) {
 			booklog.setBooklogImage(file.getOriginalFilename());
+			file.transferTo(new File(request.getServletContext().getRealPath("/resources/upload_files/images/"),file.getOriginalFilename()));
 		}
 		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
 		

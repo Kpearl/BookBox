@@ -40,10 +40,15 @@
 		#main-search input{
 			border: 1px solid #ccc;
 			padding: 0 7px;
+			background-color: rgba(255, 255, 255, 0.8);
 		}
 		#main-search input:focus{
 			border: 1px solid #66afe9;
 			box-shadow: 0 0.5px 0.5px 0.1px #66afe9;
+		}
+		#main-search > .bookbox-relative > div{
+			background-color: rgba(224, 151, 88, 0.89);
+			padding: 30px 5px;
 		}
 		#main-recommend-book{
 			position: relative;
@@ -52,6 +57,7 @@
 		}
 		.max-height{
 			height: 100%;
+			background-color: rgba(248, 255, 115, 0.25);
 		}
 		.half-height{
 			height: 45%;
@@ -63,21 +69,17 @@
 			overflow: hidden;
 		}
 		.second-level{
-			background-color: rgba(248, 255, 115, 0.5);
+			/* background-color: rgba(248, 255, 115, 0.5); */
 		}
 		.book-img{
 			z-index: 0;
-			width: 105%;
-			position: absolute;
-			top: 50%;
-			left: 50%;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
 			opacity: 0.75;
 			-webkit-transition: 0.1s;
 			   -moz-transition: 0.1s;
 					transition: 0.1s;
-			-webkit-transform: translate(-50%, -50%);
-			   -moz-transform: translate(-50%, -50%);
-					transform: translate(-50%, -50%);
 		}
 		.book-content:hover{
 			opacity: 0.3;
@@ -123,7 +125,10 @@
 			padding: 12px 30px!important;
 		}
 		.wide{
-			letter-spacing: 10px;
+			letter-spacing: 15px;
+		}
+		.narrow{
+			letter-spacing: 5px;
 		}
 	</style>
 	
@@ -292,31 +297,35 @@
 	<jsp:include page="./layout/toolbar.jsp"/>
 	<header class="parallax">
 		<div id="main-bookbox" class="display-middle" style="cursor: pointer; white-space: nowrap; display:block;">
-			<span class="font-large theme-black padding-large wide">BOOKBOX<small class="hidden-xs hidden-sm"> Book Community</small></span><br/>
-			<p class="font-large theme-black wide text-center"><small class="hidden-xs hidden-sm"><em class="text-muted font-small">- 책으로 소통하는 공간</em></small></p>
+			<span class="font-large theme-black padding-large wide"><strong>BOOKBOX</strong><small class="hidden-xs hidden-sm narrow"> Book Community</small></span><br/>
+			<p class="font-large theme-black narrow text-center"><small class="hidden-xs hidden-sm"><em class="text-muted font-small">- 책으로 소통하는 공간</em></small></p>
 		</div>
 	</header>
 	
 	<div id="main-search" class="container bookbox-relative">
 		<div class="row bookbox-relative">
-			<div class="col-sm-offset-2 col-sm-8">
-				<div class="input-group">
-					<div class="input-group-btn hidden-xs">
-						<button type="button" class="btn btn-default selected-menu" aria-expanded="unifiedsearch" style="width: 80px;">통합검색</button>
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="javascript:void(0);" class="unifiedsearch">통합검색</a>
-							<li><a href="javascript:void(0);" class="bookr">도서</a>
-							<li><a href="javascript:void(0);" class="creation">창작공간</a>
-							<li><a href="javascript:void(0);" class="community">소모임</a>
-							<li><a href="javascript:void(0);" class="posting">포스팅</a>
-							<li><a href="javascript:void(0);" class="tag">태그</a>
-						</ul>
+			<div class="col-sm-offset-1 col-sm-10">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-8">
+						<div class="input-group">
+							<div class="input-group-btn hidden-xs">
+								<button type="button" class="btn btn-default selected-menu" aria-expanded="unifiedsearch" style="width: 80px;">통합검색</button>
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu" style="min-width: 121px;">
+									<li><a href="javascript:void(0);" class="unifiedsearch">통합검색</a>
+									<li><a href="javascript:void(0);" class="bookr">도서</a>
+									<li><a href="javascript:void(0);" class="creation">창작공간</a>
+									<li><a href="javascript:void(0);" class="community">소모임</a>
+									<li><a href="javascript:void(0);" class="posting">포스팅</a>
+									<li><a href="javascript:void(0);" class="tag">태그</a>
+								</ul>
+							</div>
+							<input type="text" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-default main-search-btn" type="button">검색!</button>
+							</span>
+						</div>
 					</div>
-					<input type="text" class="form-control">
-					<span class="input-group-btn">
-						<button class="btn btn-default main-search-btn" type="button">검색!</button>
-					</span>
 				</div>
 			</div>
 		</div>
@@ -438,7 +447,7 @@
 						</div>
 					</div>
 					<div id="newBook" class="swiper-slide">
-						<h4><em>New Arrival..</em></h4>
+						<h4><em>Bloger's Select..</em></h4>
 						<div class="row half-height">
 							<div class="col-sm-6 max-height first-level">
 								<div class="row max-height first-level book-content">

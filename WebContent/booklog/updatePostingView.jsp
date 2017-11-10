@@ -47,7 +47,6 @@
 	
 		$(function(){
 			editor = CKEDITOR.replace('postingContent', { customConfig : 'config_posting.js'});
-			
 		});
 
 		function fncTagAutocomplete(){
@@ -145,7 +144,6 @@
 			<a href="javascript:void(0);" class="btn posting-update">수정하기</a>
 		</form>
 	</div>
-	
 	
 </body>
 </html>

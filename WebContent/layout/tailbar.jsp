@@ -4,7 +4,7 @@
 
 <script>
 	$(function(){
-		$('footer').css('top', $(document).height()-85);
+		$('footer').css('top', $(document).height()-170);
 	});
 </script>
 	<h5>BOOKBOX COMMUNITY © 2017</h5>

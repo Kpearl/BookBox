@@ -52,5 +52,10 @@
 			<a href="javascript:void(0);" class="btn btn-default">표지 저장</a>
 		</form>
 	</div>	
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
+	
 </body>
 </html>
