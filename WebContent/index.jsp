@@ -313,7 +313,7 @@
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
 								<ul class="dropdown-menu" role="menu" style="min-width: 121px;">
 									<li><a href="javascript:void(0);" class="unifiedsearch">통합검색</a>
-									<li><a href="javascript:void(0);" class="bookr">도서</a>
+									<li><a href="javascript:void(0);" class="book">도서</a>
 									<li><a href="javascript:void(0);" class="creation">창작공간</a>
 									<li><a href="javascript:void(0);" class="community">소모임</a>
 									<li><a href="javascript:void(0);" class="posting">포스팅</a>
