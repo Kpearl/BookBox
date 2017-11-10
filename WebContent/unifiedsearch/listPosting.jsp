@@ -139,7 +139,7 @@ footer{
 					<div class="row nav-posting" id="${result.id}">
 						<div class="row" id="shadow-box">
 							<div class="col-md-3">
-								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">							
+								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.png'">							
 							</div>
 							<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
 								<div class="row">

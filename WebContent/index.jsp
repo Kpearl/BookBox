@@ -97,7 +97,7 @@
 			position: relative;
 		}
 		.category-creation{
-			background-image: url('./resources/images/creationTest7.jpg');
+			background-image: url('./resources/images/creation.jpg');
 			height: 400px;
 		}
 		.category-community{
@@ -263,7 +263,7 @@
 						}
 					});
 /*  					$('.book-img').on('error', function(){
-						$(this).attr('src', './resources/images/noimage.jpg');
+						$(this).attr('src', './resources/images/noimage.png');
 					}); */
 				}
 			});
@@ -343,7 +343,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -355,7 +355,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -373,7 +373,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -385,7 +385,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -398,7 +398,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -410,7 +410,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -428,7 +428,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -440,7 +440,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -453,7 +453,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -465,7 +465,7 @@
 								<div class="row max-height first-level book-content">
 									<input type="hidden" name="isbn" value="0">
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 									<div class="col-sm-6 max-height second-level">
 										<p class="book-title">제목 가져오는 중..</p>
@@ -483,7 +483,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -495,7 +495,7 @@
 										<p class="book-author">작가 가져오는 중..</p>
 									</div>
 									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.jpg" alt="No Image Available">
+										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 									</div>
 								</div>
 							</div>
@@ -513,7 +513,7 @@
 	
 	<div class="category">
 		<div class="list list-first">
-			<div class="category-creation parallax">
+			<div class="category-creation">
 				<div class="display-middle">
 					<span class="font-large theme-white padding-large wide">CREATION</span>
 				</div>
@@ -523,7 +523,7 @@
 			</div>
 		</div>
 		<div class="list list-second">
-			<div class="category-community parallax">
+			<div class="category-community">
 				<div class="display-middle">
 					<span class="font-large theme-white padding-large wide">COMMUNITY</span>
 				</div>
@@ -533,7 +533,7 @@
 			</div>
 		</div>
 		<div class="list list-third">
-			<div class="category-booklog parallax">
+			<div class="category-booklog">
 				<div class="display-middle">
 					<span class="font-large theme-white padding-large wide">BOOKLOG</span>
 				</div>
