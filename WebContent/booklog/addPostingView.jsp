@@ -137,11 +137,5 @@
 			<a href="javascript:void(0);" class="btn posting-add">등록하기</a>
 		</form>
 	</div>
-	
-	
-	<footer class="container-fluid">
-		<jsp:include page="../layout/tailbar.jsp"/>
-	</footer>
-	
 </body>
 </html>
