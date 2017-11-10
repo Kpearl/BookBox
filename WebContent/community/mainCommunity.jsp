@@ -167,7 +167,7 @@
 		<div class="row">
 			<!-- 생성버튼 -->
 			<div class="col-md-6 text-left">
-			<div style="display: none;">
+			<div>
 			<a class="btn btn-default" href="addChatRoom">채팅방 생성</a><a class="btn btn-default" href="addBoard">게시글 작성</a>
 			</div>
 			<br>
