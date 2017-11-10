@@ -48,20 +48,18 @@ footer{
 </style>
 
 <script type="text/javascript">
-ToolbarOpacHeight(500);
-setToolbarOpac(false);
+	ToolbarOpacHeight(500);
+	setToolbarOpac(false);
 
-$(function() {
-	$nav("click" , function() {
-		alert("creation");
-		/* switch (category) {
-		case "creation" : $(self.location).attr("href","${param.uri}creation/getWritingList?creationNo="+targetNo);
-		case "posting" : $(self.location).attr("href","${param.uri}booklog/getPosting?postingNo="+targetNo);
-		case "board" : $(self.location).attr("href","${param.uri}unifiedsearch/getBoard?boardNo="+targetNo);
-		} */
-	})
-})
-
+	$(function() {
+		$(".nav-tag").on("click" , function() {
+			var keyword = this.innerText.replace("#", "");
+			$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
+		});	
+		$(".nav-creation").on("click" , function() {
+			$(self.location).attr("href","../unifiedsearch/getCreationMain");
+		}); 
+	});
 </script>
 </head>
 

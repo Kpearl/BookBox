@@ -42,11 +42,10 @@ strong {
 }
 #tag-box{
 	padding: 10px 15px 10px 15px;
-	height: 50px; 
 	height: 100px;
 	background: #D3F6D1;
 }
-#total-box{
+.total-box{
 	padding: 10px 35px 30px 35px;
 	height: 240px; 
 }
@@ -65,6 +64,17 @@ footer{
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
 	setToolbarOpac(false);
+	
+	$(function() {
+		$(".nav-tag").on("click" , function() {
+			var keyword = this.innerText.replace("#", "");
+			$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
+		});
+		$(".nav-community").on("click" , function() {
+			var targetNo = this.getAttribute('id');
+			$(self.location).attr("href","../community/getBoard?boardNo=" + targetNo);
+		}); 
+	});	
 </script>
 
 </head>
@@ -92,7 +102,7 @@ footer{
 		</div>
 		
 		<div class="row" style="margin-bottom:90px">
-			<div class="col-md-3" style="padding-left:30px;">
+			<div class="col-md-2" style="padding-left:20px;">
 				<div class="row">
 					<font size="5"><strong>RELATION TAG</strong></font>
 				</div>
@@ -104,13 +114,13 @@ footer{
 				</c:if>
 				
  				<c:forEach items="${tagList}" var="result">
-					<div class="row">
+					<div class="row nav-tag">
 						#${result} 					
 					</div>
 				</c:forEach>
 			</div>
 			
-			<div class="col-md-9" id="content">
+			<div class="col-md-10" id="content">
 				<div class="row" style="padding-left:50px;">
 					<font size="5"><strong>RESULT</strong></font>
 				</div>
@@ -122,7 +132,7 @@ footer{
 				</c:if>
 					
 				<c:forEach items="${result}" var="result">
-					<div class="col-md-4" id="total-box">
+					<div class="col-md-4 nav-community total-box" id="${result.id}">
 						<div class="row" id="title-box">
 							<div class="col-md-7" style="padding: 5px;">
 								<p><strong>${result.title}</strong></p>

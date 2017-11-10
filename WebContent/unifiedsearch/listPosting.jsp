@@ -69,6 +69,17 @@ footer{
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
 	setToolbarOpac(false);
+	
+	$(function() {
+		$(".nav-tag").on("click" , function() {
+			var keyword = this.innerText.replace("#", "");
+			$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
+		});
+		$(".nav-posting").on("click" , function() {
+			var targetNo = this.getAttribute('id');
+			$(self.location).attr("href","../booklog/getPosting?postingNo=" + targetNo);
+		}); 
+	});
 </script>
 </head>
 
@@ -95,7 +106,7 @@ footer{
 		</div>
 		
 		<div class="row" style="margin-bottom:90px">
-			<div class="col-md-3" style="padding-left:30px;">
+			<div class="col-md-2" style="padding-left:20px;">
 				<div class="row">
 					<font size="5"><strong>RELATION TAG</strong></font>
 				</div>
@@ -107,13 +118,13 @@ footer{
 				</c:if>
 				
  				<c:forEach items="${tagList}" var="result">
-					<div class="row">
+					<div class="row nav-tag">
 						#${result} 					
 					</div>
 				</c:forEach>
 			</div>
 			
-			<div class="col-md-9" id="content">
+			<div class="col-md-10" id="content">
 				<div class="row" style="padding-left:50px;">
 					<font size="5"><strong>RESULT</strong></font>
 				</div>
@@ -125,7 +136,7 @@ footer{
 				</c:if>
 				
 				<c:forEach items="${result}" var="result">
-					<div class="row">
+					<div class="row nav-posting" id="${result.id}">
 						<div class="row" id="shadow-box">
 							<div class="col-md-3">
 								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">							
