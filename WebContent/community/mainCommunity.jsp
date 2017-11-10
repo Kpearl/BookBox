@@ -21,7 +21,7 @@
     		padding-top:0px;
     	}
     	header{
-    		background:url(../resources/images/community_head.jpg) no-repeat center;
+    		background:url(../resources/images/community.jpeg) no-repeat center;
     	}
 	
    		.room_item{
@@ -202,7 +202,7 @@
 			<div class="col-md-3 col-sm-4 col-xs-6">
 			-->
 				<div class="room_item">
-					<input type="hidden" value="getCamChat?roomId=${room.roomId}">
+					<input type="hidden" value="getCast?roomId=${room.roomId}">
 					<div class="room-image text-center">
 						<c:if test="${empty room.image }">
 							<img src="../resources/images/noimage.png">

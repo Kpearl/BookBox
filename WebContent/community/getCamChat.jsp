@@ -180,8 +180,9 @@ $("#input-text-chat").on("keyup",function(e){
 	    if (!this.value.length) return;
 		
 	    
-	    writeChat("나: "+this.value);
-	    connection.send($("#nickname").val()+": "+this.value);
+	    writeChatSelf(this.value);
+	   // connection.send($("#nickname").val()+": "+this.value);
+	   connection.send(this.value);
 
 	    this.value = '';
 });
@@ -191,12 +192,24 @@ $("#input-text-chat").on("keyup",function(e){
 var chatContainer = $('.chat-output');
 
 function appendDIV(event) {
-	writeChat(event.data);
+	writeChat(event);
 }
 
-function writeChat(message){
+function writeChat(event){
 	var div=$("<div></div>");
-    div.append(message);
+    div.append(event.extra.nickname +" : "+event.data);
+    div.css("color",event.extra.fontColor);
+    chatContainer.append(div);
+
+    chatContainer.scrollTop(chatContainer[0].scrollHeight);
+    //div.tabIndex = 0;
+    //div.focus();
+    document.getElementById('input-text-chat').focus();
+}
+
+function writeChatSelf(message){
+	var div=$("<div></div>");
+    div.append("나 : "+message);
     chatContainer.append(div);
 
     chatContainer.scrollTop(chatContainer[0].scrollHeight);
@@ -221,8 +234,14 @@ connection.socketMessageEvent = 'video-conference-demo';
 connection.chunkSize = 64 * 1000;
 connection.enableFileSharing = true;
 
+
+//추가정보 입력
 var nickname=$("#nickname").val();
-connection.extra={nickname:nickname};
+var fontColor=getRandomColor();
+
+
+
+connection.extra={nickname:nickname,fontColor:fontColor};
 connection.session = {
     audio: true,
     video: true,
@@ -354,6 +373,15 @@ function updateCurrentUser(currentUser){
 function resizeVideo(userNum){
 	
 }
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 </script>
 
 </body>

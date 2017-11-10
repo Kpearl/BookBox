@@ -115,7 +115,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
 			obj.put("reg_date", posting.getPostingRegDate());
-			obj.put("image", posting.getPostingFileList().size() == 0?"" : posting.getPostingFileList().get(0).toString());
+			obj.put("image", posting.getPostingFileList().size() == 0?"" : posting.getPostingFileList().get(0).getFileName());
 
 			map.put("category", "posting");
 			map.put("id", posting.getPostingNo());
