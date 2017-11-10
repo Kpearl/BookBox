@@ -29,7 +29,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/unifiedsearch.jpg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
@@ -57,7 +57,7 @@ footer{
 			$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
 		});	
 		$(".nav-creation").on("click" , function() {
-			$(self.location).attr("href","../unifiedsearch/getCreationMain");
+			$(self.location).attr("href","../unifiedsearch/unifiedsearch_posting");
 		}); 
 	});
 </script>

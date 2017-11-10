@@ -22,7 +22,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/creation.jpeg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_creation.jpeg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;

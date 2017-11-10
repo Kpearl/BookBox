@@ -26,7 +26,7 @@ strong {
 	color:rgba(82, 76, 76, 0.92);
 }
 header{
-	background:url(../resources/images/posting.jpeg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;

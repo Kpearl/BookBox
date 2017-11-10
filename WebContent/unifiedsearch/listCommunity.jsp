@@ -20,7 +20,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/community.jpeg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_community.jpeg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;

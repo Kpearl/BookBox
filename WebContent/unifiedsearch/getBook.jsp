@@ -21,7 +21,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/getBook.jpg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
