@@ -33,6 +33,10 @@
 			fncTagAutocomplete();
 
 			$('a.posting-add:contains("등록하기")').on('click',function(){
+				if(upload.files[0] == null){
+					alert('커버이미지는 필수로 등록하여야 합니다.');
+					return;
+				}
 				var data = CKEDITOR.instances.postingContent.getData();
 				$('textarea').val(data);
 				$('form.posting').attr('method','post').attr('action','../booklog/addPosting').attr('enctype','multipart/form-data').submit();
@@ -43,6 +47,7 @@
 				tagHtml = '<span id="tag'+num+'">, # <input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 				$('.tag-list').append(tagHtml);
 				fncTagAutocomplete();
+				$('#tag'+num).find('input').focus();
 			});
 
 		});

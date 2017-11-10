@@ -126,7 +126,9 @@ public class BooklogController {
 		List<UploadFile> postingFileList = new ArrayList<UploadFile>();
 		for(Cookie cookie : request.getCookies()) {
 			if(posting.getPostingContent().contains(cookie.getName())) {
-				postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8").split(":")[1]));
+				if(!cookie.getValue().equals(multipartFile.getOriginalFilename())) {
+					postingFileList.add(new UploadFile(cookie.getName(), URLDecoder.decode(cookie.getValue(),"UTF-8").split(":")[1]));
+				}
 			}
 			if(URLDecoder.decode(cookie.getValue(),"UTF-8").contains("file:")) {
 				cookie.setMaxAge(0);

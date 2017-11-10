@@ -162,7 +162,6 @@
 			});
 			//검색입력창 EnterKey 이벤트
 			$('#main-search input').on('keydown', function(event){
-				console.log(event.which);
 				if(event.which == 13){
 					event.preventDefault();
 					fncSearch();
@@ -262,9 +261,6 @@
 							return 'not-allowed';
 						}
 					});
-/*  					$('.book-img').on('error', function(){
-						$(this).attr('src', './resources/images/noimage.png');
-					}); */
 				}
 			});
 			

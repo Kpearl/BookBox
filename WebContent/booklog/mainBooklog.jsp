@@ -50,7 +50,6 @@
 	<script type="text/javascript">
 		var condition;
 		ToolbarOpacHeight(500);
-//		setToolbarOpac(false);
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			$('a.booklog:contains("더보기")').on('click', function(){
@@ -90,17 +89,10 @@
 	        });
 	    })
 	    
-/*    		$(window).scroll(function(){
-			if($(window).scrollTop() <= 500){
-				max = 500;
-				$('header').css('opacity', (max - $(window).scrollTop())/max);
-			}
-		}); */
-
 
 	</script>
 </head>
-<body>
+<body class="booklog-background">
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
