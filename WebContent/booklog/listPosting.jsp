@@ -49,11 +49,11 @@
 		</c:if>
 
 		<c:forEach items="${postingList}" var="posting">
-		<div class="row div-posting booklog-border booklog-background">
+		<div class="row div-posting booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
 				<div class="col-sm-4 text-center posting-img booklog-border-thin" style="padding-right: 0;">
-					<img class="img-thumbnail img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
+					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">
 					<h3><strong>${posting.postingTitle}</strong></h3>
@@ -74,7 +74,7 @@
 							<span class="tag"># ${tag.tagName}</span>
 						</c:forEach>
 					</div>
-					<img class="img-thumbnail img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
+					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
 				</div>
 			</div>
 		</div>

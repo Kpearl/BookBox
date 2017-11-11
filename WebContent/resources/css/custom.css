@@ -30,6 +30,14 @@ header{
 .bookbox-relative{
 	position: relative;
 }
+span.tag{
+	margin-right: 2px; 
+	border: 1px solid;
+	border-color: #bbbbbb;
+	border-radius: 15px;
+	padding: 4px;
+	font-weight: bold;
+}
 /******* Toolbar CSS Start *******/
 .bookbox-navigation{
 	position: fixed;
@@ -73,6 +81,9 @@ header{
 .navbtn, .homebtn{
 	margin-right: 5px;
 	width: fit-content;
+}
+.homebtn{
+	cursor: url('https://icongr.am/fontawesome/hand-o-up.svg?size=25'), auto;
 }
 .homebtn span{
 	top: 50%;
@@ -232,9 +243,6 @@ div.container.post{
   margin-bottom:50px;
 }
 
-span.tag{
-	margin-right:14px;
-}
 /******* Booklog CSS Start *******/
 .booklog-border-thin{
 	border: 1px solid #DBE2EF;
@@ -246,6 +254,18 @@ span.tag{
 
 .booklog-border-thick{
 	border: 3px solid #DBE2EF;
+}
+
+.booklog-border-radius-thin{
+	border-radius: 4px;
+}
+
+.booklog-border-radius{
+	border-radius: 8px;
+}
+
+.booklog-border-radius-thick{
+	border-radius: 12px;
 }
 
 .booklog-background{
@@ -292,3 +312,12 @@ div.hidden-md img{
 	object-fit: cover;
 }
 /******* Booklog CSS End *******/
+.btn-form{
+	border: 2px groove; 
+	padding: 5px;
+	border-radius: 7px; 
+	display:inline-block;
+	padding-left: 15px;
+	padding-right: 15px;
+	cursor:pointer;
+}

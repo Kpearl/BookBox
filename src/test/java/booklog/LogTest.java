@@ -1,6 +1,11 @@
 package booklog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +47,7 @@ public class LogTest {
 	}
 	
 	@Test
-	public void getLogListTest() {
+	public void getLogListTest() throws ParseException {
 		User user = new User();
 		user.setEmail("wndhks@naver.com");
 		user.setActive(0);
@@ -50,5 +55,12 @@ public class LogTest {
 		List<Log> logList = logService.getLogList(user);
 		System.out.println(logList);
 		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0900"));
+		Date logDate = simpleDateFormat.parse("2015-07-14 09:00:00.0");
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT+0900"));
+		long diff = now.getTimeInMillis() - logDate.getTime();
+
+		System.out.println(diff);
 	}
 }

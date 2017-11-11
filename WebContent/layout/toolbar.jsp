@@ -79,11 +79,17 @@ $(function() {
 //============= 네비게이션 open/close =============
 
 	$('.openbtn').on('mouseup', function(){
-		$('.side-nav').css('width', '230px');
+		$('.side-nav').css('width', '230px')
+						.css('-webkit-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px')
+						.css('-moz-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px')
+						.css('box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px');
 		$(document).on('mousedown', function(event){
 			var target = event.target.className;
 			if(target.indexOf('bookbox-nav-menu') == -1 || target.indexOf('openbtn') > -1){
-				$('.side-nav').css('width', '0');
+				$('.side-nav').css('width', '0')
+								.css('-webkit-box-shadow', 'none')
+								.css('-moz-box-shadow', 'none')
+								.css('box-shadow', 'none');
 				$(this).off('mousedown');
 			}
 		})
@@ -121,7 +127,7 @@ $(function() {
 		}
 	});
 
-
+	
 	
 // JJ : Search Button View
 //============= 검색버튼 Event  처리 =============
@@ -238,9 +244,18 @@ function searchCheck(){
 	
 		<hr/>
 	
-		<a class="nav-creation bookbox-nav-menu" href="javascript:void(0)">창작공간 </a>
-		<a class="nav-community bookbox-nav-menu" href="javascript:void(0)">소모임 </a>
-		<a class="nav-booklog bookbox-nav-menu" href="javascript:void(0)">북로그</a>
+		<a class="nav-creation bookbox-nav-menu" href="javascript:void(0)">
+			<i class="glyphicon glyphicon-pencil"></i> 창작공간
+		</a>
+		<a class="nav-community bookbox-nav-menu" href="javascript:void(0)">
+			<i class="glyphicon glyphicon-phone"></i> 소모임
+		</a>
+		<a class="nav-booklog bookbox-nav-menu" href="javascript:void(0)">
+			<i class="glyphicon glyphicon-grain"></i> 북로그
+		</a>
+		
+		<hr/>
+		
 		<a class="nav-notice bookbox-nav-menu" href="javascript:void(0)">공지사항</a>
 	</div>
 </div>

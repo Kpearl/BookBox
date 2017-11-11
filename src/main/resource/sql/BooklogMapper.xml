@@ -190,7 +190,7 @@
 			ORDER BY 
 				count DESC
 			LIMIT
-				0, 10) vt
+				0, 20) vt
 		ORDER BY 
 			vt.count DESC
 	</select>

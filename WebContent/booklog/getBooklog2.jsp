@@ -58,83 +58,6 @@
 	    	width: 100%;
 	    	height: 100%;
 	    }
-	    
-	    ul.timeline{
-	    	position: relative;
-	    	margin: 0 0 30px 0;
-	    	padding: 0;
-	    	list-style: none;
-	    }
-	    ul.timeline:before{
-	    	content: '';
-	    	position: absolute;
-	    	top: 0;
-	    	bottom: 0;
-	    	width: 4px;
-	    	background: #ddd;
-	    	left: 21px;
-	    	margin: 0;
-	    	border-radius: 2px;
-	    }
-	    ul.timeline > li{
-	    	position: relative;
-	    	margin-bottom: 15px;
-	    }
-	    ul.timeline > li:after{
-	    	clear: both;
-	    }
-	    ul.timeline > li:before, ul.timeline > li:after{
-	    	content: '';
-	    	display: table;
-	    }
-	    ul.timeline > li > .glyphicon{
-	    	width: 30px;
-	    	height: 30px;
-	    	font-size: 15px;
-	    	line-height: 30px;
-	    	position: absolute;
-	    	border-radius: 50%;
-	    	text-align: center;
-	    	left: 8px;
-	    	top: 0;
-	    	color: #fff;
-	    }
-	    ul.timeline > li > .timeline-item{
-	    	border-radius: 3px;
-	    	margin-top: 0;
-	    	color: #444;
-	    	margin-left: 45px;
-	    	margin-right: 15px;
-	    	padding: 0;
-	    	position: relative;
-	    	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-	    			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-	    }
-	    ul.timeline > li > .timeline-item > .time{
-	    	color: #999;
-	    	float: right;
-	    	padding: 10px;
-	    	font-size: 12px;
-	    }
-	    ul.timeline > li > .timeline-item > .timeline-body{
-	    	padding: 10px;
-	    	cursor: pointer;
-	    }
-	    .log-booklog-background{
-	    	background-color: #0073b7 !important;
-	    }
-	    .log-creation-background{
-	    	background-color: #00c0ef !important;
-	    }
-	    .log-community-background{
-	    	background-color: #f39c12 !important;
-	    }
-	    .log-book-background{
-	    	background-color: #d81b60 !important;
-	    }
-	    .log-more-background{
-	    	background-color: #d2d6de !important;
-	    }
     </style>
 
 <script type="text/javascript">
@@ -163,22 +86,6 @@
 		$('a.var-btn:contains("책갈피 삭제")').on('click', function(){
 			fncDeleteBookmark($(this));
 		});
-		$('.timeline-body').on('click', function(){
-			$(self.location).attr('href', $(this).find('input[name="link"]').val());
-		});
-		
-		$('.log-category').addClass(function(){
-			var category = $(this).find('input').val();
-			if(category == 1 || category == 2 || category == 3){
-				return 'glyphicon-pencil log-creation-background';
-			}else if(category == 4 || category == 5){
-				return 'glyphicon-grain log-booklog-background';
-			}else if(category == 6 || category == 7 || category == 8){
-				return 'glyphicon-phone log-community-background';
-			}else if(category == 9){
-				return 'glyphicon-book log-book-background';
-			}
-		});
 	});
 
 	$(function(){
@@ -192,7 +99,7 @@
             },
             navigation: {
             	nextEl: '.swiper-button-next',
-              	prevEl: '.swiper-button-prev'
+              	prevEl: '.swiper-button-next'
             },
             loop: false
         });
@@ -375,30 +282,6 @@
 		        			return labels[tooltipItem.index]+', '+Math.round(data.datasets[0].data[tooltipItem.index].r)+'%';
 		        		} 
 		        	}
-		        },
-		        scales: {
-		        	yAxes: [{
-		        		ticks: {
-			        		suggestedMin: -0.6,
-			        		suggestedMax: 0.6,
-			        		display: false,
-			        		stepSize: 0.3
-		        		},
-		        		gridLines: {
-		        			display: false
-		        		}
-		        	}],
-		        	xAxes: [{
-		        		ticks: {
-			        		suggestedMin: -0.6,
-			        		suggestedMax: 0.6,
-			        		display: false,
-			        		stepSize: 0.3
-		        		},
-		        		gridLines: {
-		        			display: false
-		        		}
-		        	}]
 		        }
 		    }
 		});
@@ -463,137 +346,104 @@
 	<div class="container">
 
 		<div class="row">
-
-			<div class="col-md-3 col-md-push-9">
-			
-				<div class="row booklog-border-thick booklog-border-radius">
-				
-					<div class="col-md-12">
-						<div class="row text-center booklog-img">
-							<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
-						</div>
-				
-						<!-- 북로그이미지, 소개글, 이름 -->
-						<div class="row text-center">
-							<p><em>${booklog.booklogName}</em></p>
-							<p><mark>${booklog.booklogIntro}</mark></p>
-							<div class="col-md-12">
-								<c:if test="${sessionScope.user.email != null}">
-									<a class="btn var-btn" href="javascript:void(0);">
-										<c:if test="${sessionScope.user.email == booklog.user.email}">
-											표지편집
-										</c:if>
-										<c:if test="${sessionScope.user.email != booklog.user.email}">
-											${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
-										</c:if>
-									</a>
-								</c:if>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				
-				
-				<div class="row">
-					<div class="col-md-12">
-						<ul class="timeline">
-						<c:forEach items="${logList}" var="log">
-							<li>
-								<i class="log-category glyphicon"><input type="hidden" name="category" value="${log.categoryNo}"></i>
-								<div class="timeline-item booklog-background">
-									<span class="time"><i class="glyphicon glyphicon-time"></i> ${log.logTimeAgo}</span>
-									<div class="timeline-body">
-										<input type="hidden" name="link" value="${log.link}">
-										<span><small>${log.toString()}</small></span>
-									</div>
-								</div>
-							</li>
-						</c:forEach>
-							<li>
-								<i class="glyphicon glyphicon-option-vertical log-more-background"></i>
-							</li>
-						</ul>
-					</div>
-				</div>
+			<div class="col-md-10">
 			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+		<!-- 북로그이미지, 소개글, 이름 -->
+		<div class="row text-center booklog-img">
+			<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+		</div>
 
 
-			<div class="col-md-8 col-md-pull-3">
-				<div class="row">
-				
-					<div class="col-md-12">
-					
-						<c:if test="${booklog.postingList.size() != 0}">
-							<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
+		<div class="row text-center">
+			<br/><mark>${booklog.booklogIntro}</mark>, <em>${booklog.booklogName}</em>
+			<div class="col-md-offset-9 col-md-3">
+				<c:if test="${sessionScope.user.email != null}">
+					<a class="btn btn-defalut var-btn" href="#">
+						<c:if test="${sessionScope.user.email == booklog.user.email}">
+							표지편집
 						</c:if>
-					    <div class="swiper-container">
-					        <div class="swiper-wrapper">
-				        	<c:set var="i" value="0"/>
-				        	<c:forEach items="${booklog.postingList}" var="posting">
-				        		<c:set var="i" value="${i+1}"/>
-				        		<div class="swiper-slide div-posting">
-									<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-				        			<div class="posting-preview">
-					        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
-				        			</div>
-									<p>포스팅명 : ${posting.postingTitle}</p>
-				        		</div>
-				        	</c:forEach>
-				        	<c:if test="${i == 0}">
-				        		<h3>아직 등록된 포스팅이 없습니다!</h3>
-				        	</c:if>
-					        </div>
-					        <!-- Add Pagination -->
-					        <div class="swiper-pagination swiper-pagination-black"></div>
-					        <!-- Add Arrows -->
-					        <div class="swiper-button-next swiper-button-black"></div>
-					        <div class="swiper-button-prev swiper-button-black"></div>
-					    </div>
-				
-						<div class="row">
-							<ul class="nav nav-tabs" role="tablist" id="chartTab">
-								<li role="presentation" class="active">
-									<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
-										일간통계
-									</a>
-								</li>
-								<li role="presentation">
-									<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
-										주간통계
-									</a>
-								</li>
-								<li role="presentation">
-									<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
-										월간통계
-									</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane fade in active" id="daily">
-									<canvas id="dailyChart"></canvas>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="weekly">
-									<canvas id="weeklyChart"></canvas>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="monthly">
-									<canvas id="monthlyChart"></canvas>
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<canvas id="tagChart"></canvas>
-						</div>
-
-					</div>
-				</div>
-				
+						<c:if test="${sessionScope.user.email != booklog.user.email}">
+							${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
+						</c:if>
+					</a>
+				</c:if>
 			</div>
-			
-			
 		</div>
 		
+		<div class="row">
+			<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
+		    <div class="swiper-container">
+		        <div class="swiper-wrapper">
+	        	<c:set var="i" value="0"/>
+	        	<c:forEach items="${booklog.postingList}" var="posting">
+	        		<c:set var="i" value="${i+1}"/>
+	        		<div class="swiper-slide div-posting">
+						<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+	        			<div class="posting-preview">
+		        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
+	        			</div>
+						<p>포스팅명 : ${posting.postingTitle}</p>
+	        		</div>
+	        	</c:forEach>
+	        	<c:if test="${i == 0}">
+	        		<h3>아직 등록된 포스팅이 없습니다!</h3>
+	        	</c:if>
+		        </div>
+		        <!-- Add Pagination -->
+		        <div class="swiper-pagination swiper-pagination-black"></div>
+		        <!-- Add Arrows -->
+		        <div class="swiper-button-next swiper-button-white"></div>
+		        <div class="swiper-button-prev swiper-button-white "></div>
+		    </div>
+		</div>
+	
+		<div class="row">
+			<ul class="nav nav-tabs" role="tablist" id="chartTab">
+				<li role="presentation" class="active">
+					<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
+						일간통계
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
+						주간통계
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
+						월간통계
+					</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane fade in active" id="daily">
+					<canvas id="dailyChart"></canvas>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="weekly">
+					<canvas id="weeklyChart"></canvas>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="monthly">
+					<canvas id="monthlyChart"></canvas>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<canvas id="tagChart"></canvas>
+		</div>
+		
+		<div class="row">
+			<h4>활동내역</h4>
+			<c:forEach items="${logList}" var="log">
+				<p>${log.toString()}<p/>
+			</c:forEach>
+			<c:if test="${empty logList}">
+				<p>활동내역이 없습니다!</p>
+			</c:if>
+		</div>
 
 	</div>
 	
