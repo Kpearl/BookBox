@@ -85,6 +85,46 @@
     	height:100%;
     	width:100%;
     }
+    
+    span.tag{
+			margin-right: 2px; 
+			border: 1px solid;
+			border-color: #bbbbbb;
+			border-radius: 15px;
+			padding: 4px;
+			font-weight: bold;
+		}
+		
+	.creation-toolbar{
+		clear: both;
+	    height: 38px;
+	    _height: 40px;
+	    padding: 0 0 2px;
+	    background: #3d3d3d
+	}
+	
+	ul.menu li {
+       float: left;
+   	 	position: relative;
+}
+	ul{
+    	display: block;
+	      -webkit-margin-before: 1em;
+	    -webkit-margin-after: 1em;
+	    -webkit-margin-start: 0px;
+	    -webkit-margin-end: 0px;
+	    -webkit-padding-start: 40px;
+	}
+	
+	li{
+		    list-style: none;
+	        margin: 0;
+    		padding: 0;
+    		text-align: -webkit-match-parent;
+	}
+
+    
+    }
     	
     	
     </style>
@@ -242,6 +282,24 @@ $(function() {
 	<header class="parallax"></header>
 	
 <div class="container">	
+	
+	<div class="row creation-toolbar" >
+		<div class ="creation-toolbar-main" style="display:inline-block;">
+			<!-- <div class="home-btn" style="display:inline-block;">창작홈</div>
+			<div class="creation-btn" style="display:inline-block;">창작작품</div>
+			<div class="funding-btn" style="display:inline-block;">펀딩</div> -->
+			<ul class="creation-menu" style="display:inline-block;">
+				<li class="home" style="display:inline-block;">창작홈</li>
+				<li class="creation-home" style="display:inline-block;">창작작품</li>
+				<li  class="funding-home" style="display:inline-block;">펀딩</li>
+			</ul>
+		</div>
+		<div class="creation-toolbar-sub" style="display:inline-block;">
+		</div>
+	</div>
+
+
+
 	<div class="row" style="vertical-align: middle;">
 			<!-- 글쓰기, 펀딩등록 버튼 -->
 			<div class="col-md-6 text-left" style="vertical-align: middle;">
@@ -356,7 +414,7 @@ $(function() {
 						<div class="row">
 							<div class="tag-space">
 								<c:forEach var="tag" items="${fiction.tagList }">
-										<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;">#${tag.tagName }</span>
+										<span class="tag">#${tag.tagName }</span>
 								</c:forEach>
 							</div>	
 						</div>
@@ -398,7 +456,7 @@ $(function() {
 						<div class="row">
 							<div class="tag-space">
 								<c:forEach var="tag" items="${nonfiction.tagList }">
-										<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;">#${tag.tagName }</span>
+										<span class="tag">#${tag.tagName }</span>
 								</c:forEach>
 							</div>
 						</div>

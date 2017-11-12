@@ -288,7 +288,7 @@ public class CreationController {
 	@RequestMapping( value="updateCreation", method=RequestMethod.POST )
 	public String updateCreation(@ModelAttribute("creation") Creation creation, 
 																HttpServletRequest request,
-																@RequestParam("file")MultipartFile multipartFile,
+																@RequestParam(value="file", required=false)MultipartFile multipartFile,
 																HttpSession session) throws Exception{
 		// TODO updateCreation
 		System.out.println("CreationController :: /creation/updateCreation : POST ===> START");
@@ -297,11 +297,14 @@ public class CreationController {
 		User user= (User)session.getAttribute("user");
 		System.out.println("updateCreation :: "+creation+"\n");
 		
-		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+		if (multipartFile != null && !multipartFile.isEmpty()) {
+			String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
+			
+			UploadFile uploadFile = creationService.saveFile(multipartFile, path);
+			creation.setCreationFileName(uploadFile.getFileName());
+			creation.setCreationOriginName(uploadFile.getOriginName());
+		}
 		
-		UploadFile uploadFile = creationService.saveFile(multipartFile, path);
-		creation.setCreationFileName(uploadFile.getFileName());
-		creation.setCreationOriginName(uploadFile.getOriginName());
 		
 		List<Tag> tagList = new ArrayList<>();
 		String[] dbTag = request.getParameterValues("tag");

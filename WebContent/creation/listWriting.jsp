@@ -25,96 +25,42 @@
 <style type="text/css">
 
 /* 페이지 css 설정 */
-span.tag{
-	margin-right: 5px;
-}
-div.row.writing-border{
-	border-top: 1px solid #eeeeee;
-}
-  
-  /* ////////////////별점 CSS  //////////// */
-/* ////////////마우스오버///////////////// */
-#starWrap ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
+		span.tag{
+			margin-right: 2px; 
+			border: 1px solid;
+			border-color: #bbbbbb;
+			border-radius: 15px;
+			padding: 4px;
+			font-weight: bold;
+		}
+		div.row.writing-border{
+			border-top: 1px solid #eeeeee;
+		}
+		  
+		 
+		body{
+			padding-top:0px;
+			
+		}
+		header{
+			background:url(../resources/images/newCreationTest1.jpg) no-repeat center;
+		}
+		
+		.btn-form{
+	     	border: 2px groove; 
+		    padding: 5px;
+		    border-radius: 7px; 
+		    display:inline-block;
+	        padding-left: 15px;
+   			padding-right: 15px;
+   			cursor:pointer;
+		}
+		.like{
+			padding: 4px 15px; 
+		}
+		
 
-#starWrap ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-	display: inline-block;
-}
 
-#starWrap.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star2 .s1, #starWrap.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
-	{
-	background-position: 0 -15px;
-}
-
-#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
-	#starWrap.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-/*///////////////// 마우스클릭/////////////////////// */
-#starWrapClick ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrapClick ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrapClick.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star2 .s1, #starWrapClick.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star3 .s1, #starWrapClick.star3 .s2, #starWrapClick.star3 .s3
-	{
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star4 .s1, #starWrapClick.star4 .s2, #starWrapClick.star4 .s3,
-	#starWrapClick.star4 .s4 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star5 .s1, #starWrapClick.star5 .s2, #starWrapClick.star5 .s3,
-	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
-	background-position: 0 -15px;
-}
-        body{
-    		padding-top:0px;
-    		
-    	}
-    	header{
-    		background:url(../resources/images/newCreationTest1.jpg) no-repeat center;
-    	}
    
     </style>
 
@@ -129,10 +75,10 @@ div.row.writing-border{
 	    		method : "get",
 	    		dataType : "json",
 	    		success: function(JSONData, status){
-	    			alert(JSONData);
-	    			$("a.doSubscription").css('background-color','rgba(106, 98, 230, 0.46)').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i>구독중</a>").off('click');
+	    		//	alert(JSONData);
+	    			$(".doSubscription").css('background-color','rgba(255, 20, 44, 0.21)').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i><strong>구독중</strong>").off('click');
 	    		//	$("a.doSubscription").replaceWith("<a style='background-color:rgba(106, 98, 230, 0.46);' class='btn btn-default deleteSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
-	    			 $("a.deleteSubscription").on("click" , function() {
+	    			 $(".deleteSubscription").on("click" , function() {
 			   	    		alert("구독취소");
 			   	    		fncDeleteSubscription();
 			   	    	}); 
@@ -147,11 +93,11 @@ div.row.writing-border{
 	    		dataType : "json",
 	    		success: function(JSONData, status){
 	    			alert(JSONData);
-	    			$("a.deleteSubscription").css('background-color','#ffffff').removeClass('deleteSubscription').addClass('doSubscription').html("<i class='glyphicon glyphicon-tags'></i>구독</a>").off('click');
+	    			$(".deleteSubscription").css('background-color','#ffffff').removeClass('deleteSubscription').addClass('doSubscription').html("<strong>구독하기</strong>").off('click');
 	    		//	$("a.deleteSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독</a>");
-	    			 $("a.doSubscription").on("click" , function() {
+	    			 $(".doSubscription").on("click" , function() {
 			   	    		alert("구독");
-			   	    		fncDeleteSubscription();
+			   	    		fncDoSubscription();
 			   	    	});  
 	    		
 	    		}  
@@ -164,13 +110,14 @@ div.row.writing-border{
 		   		url : "rest/addCreationLike?creationNo="+$("input[name='creationNo']").val(),
 		   		method : "GET",
 		   		success:function(JSONData, status){
-		   			alert(status);
+		   		//	alert(status);
 		   			alert(JSONData);
 		   			
-		   			$("a.addCreationLike").css('background-color','rgba(230, 157, 157, 0.48)').removeClass('addCreationLike').addClass('deleteCreationLike').html('<i class="glyphicon glyphicon-heart"></i> 좋아요</a>').off('click');
-		   		//	$("#addLike").replaceWith('<a style="background-color:rgba(230, 157, 157, 0.48);" id="deleteLike" class="btn btn-default deleteLike" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요</a>');
+		   			$(".addCreationLike").removeClass('addCreationLike').addClass('deleteCreationLike').off('click');
+		   			$('img.creationLike-link').attr('src','https://icongr.am/entypo/heart.svg?size=25&color=ff0000');
+		   		
 		   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
-		   	   		 $("a.deleteCreationLike").on("click" , function() {
+		   	   		 $(".deleteCreationLike").on("click" , function() {
 		   	    		alert("좋아요취소");
 		   	    		fncDeleteCreationLike();
 		   	    	});
@@ -185,10 +132,11 @@ div.row.writing-border{
 	   	   		method : "GET",
 	   	   		success:function(JSONData, status){
 	   	   			
-	   	   		$("a.deleteCreationLike").css('background-color','#ffffff').removeClass('deleteCreationLike').addClass('addCreationLike').html('<i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>').off('click');
+	   	   		$(".deleteCreationLike").removeClass('deleteCreationLike').addClass('addCreationLike').off('click');
+	   	   		$('img.creationLike-link').attr('src','https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000');
 	   	   		//	$("#addLike").replaceWith('<a id="addLike" class="btn btn-default addLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>');
 	   	   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
-		   	   		 $("a.addCreationLike").on("click" , function() {
+		   	   		 $(".addCreationLike").on("click" , function() {
 		   	    		alert("좋아요");
 		   	    		fncAddCreationLike();
 		   		    	
@@ -212,11 +160,11 @@ div.row.writing-border{
 	   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id"));
    		}); 
 	   //============= 창작작품 수정 Navigation Event  처리 =============	
-	   $("a.updateCreation").on("click" , function() {
+	   $(".updateCreation").on("click" , function() {
 		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
    		}); 
 	   //============= 창작작품 삭제 Navigation Event  처리 =============	
-	   $("a.deleteCreation").on("click" , function() {
+	   $(".deleteCreation").on("click" , function() {
 		   alert("정말로 삭제하시겠습니까?");
 		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
    		});	   
@@ -239,24 +187,24 @@ div.row.writing-border{
  	   
    $(function() {
  //========================구독신청 =======================
-	   $("a.doSubscription").on("click" , function() {
+	   $(".doSubscription").on("click" , function() {
 		   alert("구독");
 		   fncDoSubscription();	
 	   });
    //========================구독신청 취소=======================
-	   $("a.deleteSubscription").on("click" , function() {
+	   $(".deleteSubscription").on("click" , function() {
 		   alert("구독취소");		   
 		   fncDeleteSubscription();
 		});
 
     //========================좋아요 추가=======================
-     	 $("a.addCreationLike").on("click" , function() {
+     	 $(".addCreationLike").on("click" , function() {
     		alert("좋아요");
     		fncAddCreationLike();
 	    	
     	});
     //=========================좋아요 취소=================================
-      	 $("a.deleteCreationLike").on("click" , function() {
+      	 $(".deleteCreationLike").on("click" , function() {
     		alert("좋아요취소");
     		fncDeleteCreationLike();
     	});
@@ -308,66 +256,82 @@ div.row.writing-border{
 		</div>
 
 
-        <div class="row">
-            <div class="col-md-12">
-                <h3>${creation.creationHead}</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5">
+       
+          
+        <div class="row" style="height:325px">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            	<img class="img-rounded img-responsive" src="../resources/upload_files/images/${creation.creationFileName }">
+            <div class="col-md-5">
+            	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
             	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
             	</c:if>
             </div>
             <div class="col-md-7">
-                <h4>창작작품명 : ${creation.creationTitle}</h4>
-                <h5>작성자 : ${creation.creationAuthor.nickname}</h5>
-                <p>소개글 : ${creation.creationIntro}</p>
-        <div class="row">
-            <div class="col-xs-12 ">
-           	<c:forEach items="${creation.tagList}" var="tag">
-           		<span class="tag">#${tag.tagName}</span>
-           	</c:forEach>
-            </div>
-        </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-            <%-- <c:if test="${creation.doFunding}"> --%>
-                <div class="btn-group" role="group">
-                    <a class="btn btn-default getFunding" type="button">펀딩 보러 가기</a>
+            	<div class="row">
+	            	<strong style="font-size: xx-large;">${creation.creationTitle}  </strong>
+	           		<span style="    font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	          </div>
+	          <div>
+           			<span id="gradeAvg">평균 평점 :${creation.grade.average}</span>
+	          </div>
+   			 <div class="row">
+                	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
+	                	${creation.creationIntro}
+	                </div>
                 </div>
+                
+		        <div class="row">
+		            <div class="col-xs-12 " style="padding-left: 10%;    padding-top: 4%;">
+			           	<c:forEach items="${creation.tagList}" var="tag">
+			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
+			           		<strong>#${tag.tagName}</strong></span>
+			           	</c:forEach>
+		            </div>
+		        </div>
+            </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-6" >
+        		<div class="row">
+				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+                	<div class="btn-form control-btn updateCreation" style="display:inline-block;">수정</div>
+                	<div class="btn-form control-btn deleteCreation" style="display:inline-block;">삭제</div>
+	             </c:if>
+	             </div>
+			</div>
+        
+            <div class="col-md-6">
+            	<div class="row" role="group" style="float:right">
+                	
+                	<%-- <c:if test="${creation.doFunding}"> --%>
+                <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
             <%-- </c:if> --%>
-                <div class="btn-group" role="group" style="float:right">
-                <c:if test="${creation.doSubscription}">
-                    <a style="background-color:rgba(106, 98, 230, 0.46);" class="btn btn-default deleteSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a>
-                </c:if>
-                <c:if test="${!creation.doSubscription}">
-                    <a class="btn btn-default doSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독</a>
-                </c:if>
-                <c:if test="${creation.like.doLike}">
-                    <a style="background-color:rgba(230, 157, 157, 0.48);" class="btn btn-default deleteCreationLike" type="button"><i class="glyphicon glyphicon-heart"></i> 좋아요</a>
-                </c:if>
-                <c:if test="${!creation.like.doLike}">
-                    <a class="btn btn-default addCreationLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>
-                </c:if>
+                
+	                <c:if test="${creation.doSubscription}">
+	                	<div class="subscription deleteSubscription btn-form" style="background-color:rgba(255, 20, 44, 0.21);"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
+	                    <!-- <a style="background-color:rgba(106, 98, 230, 0.46);" class="btn btn-default deleteSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a> -->
+	                </c:if>
+	                <c:if test="${!creation.doSubscription}">
+	                	<div class="subscription doSubscription btn-form"><strong>구독하기</strong></div>
+	                </c:if>
+	                <c:if test="${creation.like.doLike}">
+	                    <div class="like deleteCreationLike btn-form">	
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	                    <!-- </a> -->
+	                </c:if>
+	                <c:if test="${!creation.like.doLike}">
+	                    <div class="like addCreationLike btn-form" >
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	               </c:if>
                 </div>
             </div>
-            <div class="col-md-12">
-				<p>좋아요 개수 : <span  id="likeSum">${creation.like.totalLike}</span></p>
-				<p>평균 평점 : <span id="gradeAvg">${creation.grade.average}</span></p>
-            </div>
-            <c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
-                <div class="btn-group" role="group">
-                    <a class="btn btn-default updateCreation" type="button">수정하기</a>
-                    <a class="btn btn-default deleteCreation" type="button">삭제하기</a>
-                </div>
-            </c:if>
-            <a class= "btn menu" id="update-writing" >메뉴</a>
         </div>
+            
+            
+           <!--  <a class= "btn menu" id="update-writing" >메뉴</a> -->
+    
     </div>
     
     <hr>
@@ -429,7 +393,7 @@ div.row.writing-border{
             <div class="col-md-1 hidden-xs hidden-sm"><span>${writing.regDate}</span></div>
         </div>
 	</c:forEach>
-        <div class="row"></div>
+       
     </div>
 	
 	

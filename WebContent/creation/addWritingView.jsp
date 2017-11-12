@@ -39,6 +39,16 @@
 	
 	ToolbarOpacHeight(500);
 	
+//=============말머리 선택시 태그에 추가=======
+	
+	$(function() {
+	
+		$('.menu').on('click', function() {
+			 $(self.location).attr("href","../creation/getCreationMain");
+				
+		})		
+	})
+	
 	//============창작작품 등록하기=============
 		function ConvertFormToJSON(form){
 			 var array = jQuery(form).serializeArray();
@@ -505,12 +515,12 @@
 				
 				</div>
 		
+				 <div class="form-group" style="margin-bottom:80px;">
+			           <div class="col-sm-8 col-sm-offset-4 text-right">
+			               <a class="btn btn-primary add-writing" id="add-writing" >등록</a>
+			           </div>
+			   </div>	
 	</form>
-		 <div class="form-group" style="margin-bottom:80px;">
-	           <div class="col-sm-8 col-sm-offset-4 text-right">
-	               <a class="btn btn-primary add-writing" id="add-writing" >등록</a>
-	           </div>
-	   </div>	
 
 	</div>
 	

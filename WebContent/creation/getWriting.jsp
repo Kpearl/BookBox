@@ -228,11 +228,6 @@ function deleteLike(targetNo) {
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 
-	<!-- 말머리 -->
-	<div class="container">
-	<h2>${creation.creationHead }</h2>
-	<br>
-	
 	<div class="row">
 			<div>
 				펀딩진행중 여부

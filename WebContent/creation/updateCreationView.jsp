@@ -124,6 +124,8 @@
 			</div>
 			<p>대표이미지</p>
 			<div id="imgPreview">
+				<input type="hidden" name="creationFileName" value="${creation.creationFileName }">
+				<input type="hidden" name="creationOriginName" value="${creation.creationOriginName }">
 				<img src="../resources/upload_files/images/${creation.creationFileName }"/>
 			</div>
 			<input class="inputValue" type="file"   id="creationOriginName" name="file" value="${creation.creationOriginName }">
