@@ -57,7 +57,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Authorization", "KakaoAK ac6d1184e1fd2f18d5318e71495354e7");
 
-		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map)).get(0);
+		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map)).size()==0?null:jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map)).get(0);
 	}
 	
 	@Override

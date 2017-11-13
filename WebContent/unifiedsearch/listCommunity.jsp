@@ -27,7 +27,7 @@ header{
     background-size: cover;
 }
 .community-hr {
-    border: 3px dashed #5c8350;
+    border: 2px solid #56624b;
 }
 #content{
 	border-left: 4px dashed #5c8350;
@@ -58,12 +58,11 @@ strong {
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
 }
 footer{
-	margin-top: 70px;
+	margin-top: 60px;
 }
 </style>
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
-	setToolbarOpac(false);
 	
 	$(function() {
 		$(".nav-tag").on("click" , function() {
@@ -87,69 +86,37 @@ footer{
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="8" style=""><strong>Board Search</strong></font>
-		</div>
-		<div class="row">
-			<div class="col-md-7">
-				<p><font size="4">KEYWORD  "${keyword}"</font></p>
-			</div>
-			<div class="col-md-5">
-				<p><font size="4">TOTAL  ${total}</font></p>
-			</div>
-		</div>   
+			<font size="5"><strong>소모임   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+		</div>  
+		 
 		<div class="row">	
 			<hr class="community-hr">
 		</div>
-		
-		<div class="row" style="margin-bottom:90px">
-			<div class="col-md-2" style="padding-left:20px;">
-				<div class="row">
-					<font size="5"><strong>RELATION TAG</strong></font>
-				</div>
 				
-				<c:if test="${fn:length(tagList) == 0}">
-					<div class="row">
-						<p>관련 태그가 없습니다.</p>
-					</div>
-				</c:if>
-				
- 				<c:forEach items="${tagList}" var="result">
-					<div class="row nav-tag">
-						#${result} 					
-					</div>
-				</c:forEach>
+		<c:if test="${total == 0}">
+			<div class="row" style="padding-left:50px;">
+				<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
 			</div>
-			
-			<div class="col-md-10" id="content">
-				<div class="row" style="padding-left:50px;">
-					<font size="5"><strong>RESULT</strong></font>
-				</div>
-				
-				<c:if test="${total == 0}">
-					<div class="row" style="padding-left:50px;">
-						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
-					</div>
-				</c:if>
+		</c:if>
 					
-				<c:forEach items="${result}" var="result">
-					<div class="col-md-4 nav-community total-box" id="${result.id}">
-						<div class="row" id="title-box">
-							<div class="col-md-7" style="padding: 5px;">
-								<p><strong>${result.title}</strong></p>
-								<div >${result.nick_name}</div>
-							</div>
-							<div class="col-md-5"  style="padding-right: 0px;">
-								<img class="content-img" src="${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
-							</div>
-						</div>
-						<div class="row" id="tag-box">
-							<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
-						</div>
+		<c:forEach items="${result}" var="result">
+			<div class="col-md-3 nav-community total-box" id="${result.id}">
+				<div class="row" id="title-box">
+					<div class="col-md-7 col-xs-7" style="padding: 5px;">
+						<p><strong>${result.title}</strong></p>
+						<div >${result.nick_name}</div>
 					</div>
-				</c:forEach>
+					<div class="col-md-5 col-xs-5"  style="padding-right: 0px;"" align="right">
+						<img class="content-img" src="${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
+					</div>
+				</div>
+				<div class="row" id="tag-box">
+					<p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
+				</div>
 			</div>
-		</div>
-   	</div>
+		</c:forEach>
+	</div>
+
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

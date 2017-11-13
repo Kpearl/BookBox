@@ -29,7 +29,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_search.jpg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
@@ -43,13 +43,15 @@ header{
 	font-size: 14px;
 }
 footer{
-	margin-top: 70px;
+	margin-top: 60px;
+}
+.search-hr {
+    border: 2px solid #6e6571;
 }
 </style>
 
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
-	setToolbarOpac(false);
 
 	$(function() {
 		$(".nav-tag").on("click" , function() {
@@ -57,25 +59,34 @@ footer{
 			$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
 		});	
 		$(".nav-creation").on("click" , function() {
-			$(self.location).attr("href","../unifiedsearch/unifiedsearch_posting");
+			$(self.location).attr("href","../unifiedsearch/unifiedsearch_search.jpg");
 		}); 
 	});
 </script>
 </head>
 
 <body>
-	<jsp:include page="../layout/toolbar.jsp" >
+<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 	<header class="parallax"></header>
-	<div class="container">   	
-		<div class="row post-title">
-			<br>
-			<font size="10"><strong>검색 결과 총 ${total} 건</strong></font>
-			<br>
-		</div>
 
-		<c:forEach items="${result}" var="result">
+	<div class="container">
+		<div class="row" style="margin-top:50px">
+			<font size="5"><strong>통합검색   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+		</div>  
+		 
+		<div class="row">	
+			<hr class="search-hr">
+		</div>
+				
+		<c:if test="${total == 0}">
+			<div class="row" style="padding-left:50px;">
+				<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
+			</div>
+		</c:if>
+					
+	<c:forEach items="${result}" var="result">
 			<c:choose>
 				<c:when test="${result.category == 'creation'}">
    					<div class="box" onclick="location.href='../creation/getWritingList?creationNo=${result.id}'">
@@ -83,7 +94,7 @@ footer{
             		    	<div class="col-md-8">
             		        	<font size="8"><strong>${result.title}</strong></font>
             		        	${result.nick_name} <p style="color:#955940; font-weight: bold;">
-           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach>
            	 					</p>
            						<p id="content">${result.content}</p>
            					</div>
@@ -100,7 +111,7 @@ footer{
             		    	<div class="col-md-8">
             	    	    	<font size="8"><strong>${result.title}</strong></font>
             	        		${result.nick_name} <p style="color:#955940; font-weight: bold;">
-           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach>
            	 					</p>
            						<p id="content">${result.content}</p>
            					</div>
@@ -117,7 +128,7 @@ footer{
             		    	<div class="col-md-8">
             		        	<font size="8"><strong>${result.title}</strong></font>
             		        	${result.nick_name} <p style="color:#955940; font-weight: bold;">
-           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status">${tag} <c:if test="${!status.last}"> | </c:if> </c:forEach>
+           	 					<c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach>
            	 					</p>
            						<p id="content">${result.content}</p>
            					</div>

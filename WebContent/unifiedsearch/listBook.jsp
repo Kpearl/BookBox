@@ -11,6 +11,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	
 	<link rel="stylesheet" href="../resources/css/star.css">
 	
 
@@ -19,7 +21,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/unifiedsearch_posting.jpeg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_bookList.jpeg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
@@ -30,7 +32,9 @@ footer{
 }
 </style>
 
-<script>
+<script type="text/javascript">
+ToolbarOpacHeight(500);
+
 function getBook(isbn) {
 	$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
 }
@@ -57,9 +61,7 @@ function getBook(isbn) {
 	        		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">  					
   							</c:when>
   							<c:otherwise>
-	    						<td rowspan="3">
-    	  							<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='${book.thumbnail}'">
-    							</td>
+    	  						<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='${book.thumbnail}'">
   							</c:otherwise>
 						</c:choose>
 	                <div id="starWrap" class="star${book.grade.average}">
@@ -69,12 +71,12 @@ function getBook(isbn) {
 								<li class="s3"></li>
 								<li class="s4"></li>
 								<li class="s5"></li>
+								<span>(${book.grade.average})</span>
 							</ul>
 					</div>
 	            </div>
-	            
 	            <div class="col-lg-7 col-lg-offset-0 col-lg-push-1 col-lg-pull-0 col-md-7 col-md-offset-0 col-md-push-0 post-body" onclick="getBook(${book.isbn});" id="${book.isbn}">
-	                <h2>${book.title}</h2>
+	                <h4><strong>${book.title}</strong></h4>
 	                <p class="author"><strong><c:forEach items="${book.authors}" var="str" varStatus="status">
 		   			   	 	${str} <c:if test="${!status.last}"> | </c:if>
    						</c:forEach></strong> </p>

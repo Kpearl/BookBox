@@ -139,13 +139,20 @@ public class UnifiedsearchController {
 
 		if (user == null)
 			user = new User();
-
+		
+		if(bookService.getBook(user, book) == null) {
+			model.addAttribute("bookEmpty", true);
+			return "forward:../unifiedsearch/getBook.jsp";
+		}
+		
 		Map<String, Map<String, Integer>> map = bookService.getBookStatistics(book);
+			
 		resultBook = bookService.getBook(user, book);
 		resultBook.setLike(bookService.getBookLike(book, user));
 		resultBook.setGrade(bookService.getBookGrade(book, user));
 		resultBook.setReplyList(bookService.getBookReplyList(user, book));
 
+		model.addAttribute("bookEmpty", false);
 		model.addAttribute("book", resultBook);
 		model.addAttribute("user", user);
 		model.addAttribute("men", map.get("men"));

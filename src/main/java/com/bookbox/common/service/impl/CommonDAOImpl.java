@@ -112,6 +112,11 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public String getUserLikeBook(String email) {
-		return (String)(sqlSession.selectList("CommonMapper.getUserBook", email) != null?sqlSession.selectList("CommonMapper.getUserBook", email).get(0):"");
+		if(sqlSession.selectList("CommonMapper.getUserBook", email).isEmpty()) {
+			return null;
+		}
+		
+		else
+			return (String)(sqlSession.selectList("CommonMapper.getUserBook", email) != null?sqlSession.selectList("CommonMapper.getUserBook", email).get(0):"");
 	}
 }

@@ -41,11 +41,11 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	@Qualifier("commonDAOImpl")
 	private CommonDAO commonDAO;
-	
+
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
-	
+
 	private Map<String, Object> map;
 
 	public BookServiceImpl() {
@@ -63,7 +63,10 @@ public class BookServiceImpl implements BookService {
 		Book returnBook = bookSearchDAO.getBook(book.getIsbn());
 		List<Tag> tagList = new ArrayList<Tag>();
 		
-		if(!returnBook.getTag().getTagName().trim().equals("")) {
+		if(returnBook == null)
+			return null;		
+
+		if (!returnBook.getTag().getTagName().trim().equals("")) {
 			tagList.add(returnBook.getTag());
 			tagService.updateTagGroup(Const.Category.BOOK, returnBook.getIsbn(), tagList);
 		}
@@ -83,7 +86,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void deleteBookLike(User user, Book book) {
-		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);		
+		map = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
 		commonDAO.deleteLike(map);
 	}
 
@@ -132,63 +135,132 @@ public class BookServiceImpl implements BookService {
 		map = new HashMap<String, Object>();
 		map.put("targetNo", book.getIsbn());
 		map.put("gender", "남");
-		
+
 		resultMap.put("men", commonDAO.getBookStatics(map).get(0));
-		
+
 		map.put("gender", "여");
-		
+
 		resultMap.put("women", commonDAO.getBookStatics(map).get(0));
-		
-		return resultMap; 
+
+		return resultMap;
 	}
 
 	@Override
 	public List<Book> getUserLikeBook(String email) throws Exception {
 		Search search = new Search();
-		
-		search.setKeyword("다");
-		search.setCondition(categoryNum(commonDAO.getUserLikeBook(email)));
-		search.setOrder("4");
+
+		if (commonDAO.getUserLikeBook(email)!=null) {
+			search.setKeyword("다");
+			search.setCondition(categoryNum(commonDAO.getUserLikeBook(email)));
+			search.setOrder("4");
+		}
+		else
+			return null;
+
 		return bookSearchDAO.getBookList(search);
 	}
-	
+
 	public String categoryNum(String str) {
 		int num = 0;
-		
-		switch(str) {
-		case "소설" : num = 1; break;
-		case "시/에세이" : num = 3; break;
-		case "인문" : num = 5; break;
-		case "가정/생활" : num = 7; break;
-		case "요리" : num = 8; break;
-		case "건강" : num = 9; break;
-		case "취미/스포츠" : num = 11; break;
-		case "경제/경영" : num = 13; break;
-		case "자기계발" : num = 15; break;
-		case "정치/사회" : num = 17; break;
-		case "정부간행물" : num = 18; break;
-		case "역사/문화" : num = 19; break;
-		case "종교" : num = 21; break;
-		case "예술/대중문화" : num = 23; break;
-		case "중/고등학습" : num = 25; break;
-		case "기술/공학" : num = 26; break;
-		case "외국어" : num = 27; break;
-		case "과학" : num = 29; break;
-		case "취업/수험서" : num = 31; break;
-		case "여행/기행" : num = 32; break;
-		case "컴퓨터/IT" : num = 33; break;
-		case "잡지" : num = 35; break;
-		case "사전" : num = 37; break;
-		case "청소년" : num = 38; break;
-		case "초등참고서" : num = 39; break;
-		case "유아" : num = 41; break;
-		case "아동" : num = 42; break;
-		case "어린이영어" : num = 45; break;
-		case "만화" : num = 47; break;
-		case "대학교재" : num = 50; break;
-		case "어린이전집" : num = 51; break;
-		case "한국소개도서" : num = 53; break;
-		}	
-		return num+"";
+
+		switch (str) {
+		case "소설":
+			num = 1;
+			break;
+		case "시/에세이":
+			num = 3;
+			break;
+		case "인문":
+			num = 5;
+			break;
+		case "가정/생활":
+			num = 7;
+			break;
+		case "요리":
+			num = 8;
+			break;
+		case "건강":
+			num = 9;
+			break;
+		case "취미/스포츠":
+			num = 11;
+			break;
+		case "경제/경영":
+			num = 13;
+			break;
+		case "자기계발":
+			num = 15;
+			break;
+		case "정치/사회":
+			num = 17;
+			break;
+		case "정부간행물":
+			num = 18;
+			break;
+		case "역사/문화":
+			num = 19;
+			break;
+		case "종교":
+			num = 21;
+			break;
+		case "예술/대중문화":
+			num = 23;
+			break;
+		case "중/고등학습":
+			num = 25;
+			break;
+		case "기술/공학":
+			num = 26;
+			break;
+		case "외국어":
+			num = 27;
+			break;
+		case "과학":
+			num = 29;
+			break;
+		case "취업/수험서":
+			num = 31;
+			break;
+		case "여행/기행":
+			num = 32;
+			break;
+		case "컴퓨터/IT":
+			num = 33;
+			break;
+		case "잡지":
+			num = 35;
+			break;
+		case "사전":
+			num = 37;
+			break;
+		case "청소년":
+			num = 38;
+			break;
+		case "초등참고서":
+			num = 39;
+			break;
+		case "유아":
+			num = 41;
+			break;
+		case "아동":
+			num = 42;
+			break;
+		case "어린이영어":
+			num = 45;
+			break;
+		case "만화":
+			num = 47;
+			break;
+		case "대학교재":
+			num = 50;
+			break;
+		case "어린이전집":
+			num = 51;
+			break;
+		case "한국소개도서":
+			num = 53;
+			break;
+		}
+		return num + "";
 	}
 }

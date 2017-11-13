@@ -26,7 +26,7 @@ strong {
 	color:rgba(82, 76, 76, 0.92);
 }
 header{
-	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_posting.jpeg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
@@ -44,7 +44,7 @@ header{
 	line-height: 1.2em;
 }
 .posting-hr {
-    border: 3px dashed #c59e7d;
+    border: 2px solid #92746b;
 }
 #content{
 	border-left: 4px dashed #c59e7d;
@@ -54,7 +54,7 @@ header{
 }
 .content-img{
     background: center center;
-    height: 120px;
+    height: 145px;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
 }
 #shadow-box{
@@ -63,12 +63,11 @@ header{
 	margin: 20px 50px 30px 50px;
 }
 footer{
-	margin-top: 70px;
+	margin-top: 60px;
 }
 </style>
 <script type="text/javascript">
 	ToolbarOpacHeight(500);
-	setToolbarOpac(false);
 	
 	$(function() {
 		$(".nav-tag").on("click" , function() {
@@ -90,52 +89,21 @@ footer{
 	<header class="parallax"></header>
 
 	<div class="container">
-		<div class="row" style="margin-top:50px">
-			<font size="8" style=""><strong>Posting Search</strong></font>
-		</div>
-		<div class="row">
-			<div class="col-md-7">
-				<p><font size="4">KEYWORD  "${keyword}"</font></p>
-			</div>
-			<div class="col-md-5">
-				<p><font size="4">TOTAL  ${total}</font></p>
-			</div>
-		</div>   
+	<div class="row" style="margin-top:50px">
+			<font size="5"><strong>북로그   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+		</div>  
+		 
 		<div class="row">	
 			<hr class="posting-hr">
 		</div>
-		
-		<div class="row" style="margin-bottom:90px">
-			<div class="col-md-2" style="padding-left:20px;">
-				<div class="row">
-					<font size="5"><strong>RELATION TAG</strong></font>
-				</div>
 				
-				<c:if test="${fn:length(tagList) == 0}">
-					<div class="row">
-						<p>관련 태그가 없습니다.</p>
-					</div>
-				</c:if>
-				
- 				<c:forEach items="${tagList}" var="result">
-					<div class="row nav-tag">
-						#${result} 					
-					</div>
-				</c:forEach>
+		<c:if test="${total == 0}">
+			<div class="row" style="padding-left:50px;">
+				<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
 			</div>
-			
-			<div class="col-md-10" id="content">
-				<div class="row" style="padding-left:50px;">
-					<font size="5"><strong>RESULT</strong></font>
-				</div>
-				
-				<c:if test="${total == 0}">
-					<div class="row" style="padding-left:50px;">
-						<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
-					</div>
-				</c:if>
-				
-				<c:forEach items="${result}" var="result">
+		</c:if>
+					
+					<c:forEach items="${result}" var="result">
 					<div class="row nav-posting" id="${result.id}">
 						<div class="row" id="shadow-box">
 							<div class="col-md-3">
@@ -146,7 +114,7 @@ footer{
 									<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
 								</div>
 								<div class="row">
-									<p><c:forEach items="${result.tag}" var="tag" varStatus="status">#${tag}  </c:forEach></p>
+									<p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
 								</div>
 								<div>
 									<p class="content-line">${result.content}</p>
@@ -156,8 +124,6 @@ footer{
 					</div>
 				</c:forEach>
 			</div>
-		</div>
-   	</div>
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

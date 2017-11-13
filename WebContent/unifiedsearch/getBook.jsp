@@ -11,6 +11,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link rel="stylesheet" href="../resources/css/star.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
@@ -21,7 +23,7 @@ body{
 	padding-top:0px;
 }
 header{
-	background:url(../resources/images/unifiedsearch_posting.jpg) no-repeat center;
+	background:url(../resources/images/unifiedsearch_book.jpeg) no-repeat center;
 }
 .parallax { 
     background-attachment: fixed;
@@ -34,11 +36,33 @@ canvas {
 	-ms-user-select: none;
 }
 footer{
-	margin-top: 80px;
+	margin-top: 100px;
+}
+.btn-form{
+	     	border: 2px groove; 
+		    padding: 5px;
+		    border-radius: 7px; 
+		    display:inline-block;
+	        padding-left: 15px;
+   			padding-right: 15px;
+   			cursor:pointer;
+		}
+.btn-send {
+     	border: 2px groove; 
+	    padding: 5px;
+	    border-radius: 7px; 
+	    display:inline-block;
+        padding-left: 15px;
+   		padding-right: 15px;
+		cursor:pointer;
+		background: gray;
+		color: white;
+		
 }
 </style>
 
 <script type="text/javascript">
+ToolbarOpacHeight(500);
 //차트
     var age = ["0", "10", "20", "30", "40", "50", "60", "70"];
 
@@ -127,42 +151,44 @@ function addReply(isbn) {
 		});
 	}		
 }
-
 //좋아요 추가
 function addLike(isbn) {
-	var total = document.getElementById('likeSum').innerHTML;
-	
+	var total = (Number($("#likeSum").text() + 1));
+
 	$.ajax ({
 		url : "../unifiedsearch/rest/addLike",
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$("#addLike").replaceWith("<span class='btn-primary success btn-lg' disabled='disabled' id='deleteLike' onclick='deleteLike(${book.isbn});'>Like Cancel</span>");
-			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
+			$(".addLike").replaceWith("<img src='https://icongr.am/entypo/heart.svg?size=25&color=ff0000' class='deleteLike btn-form' onclick='deleteLike("+isbn+")'>");
+			$("#likeSum").replaceWith("<span id='likeSum'>" + total + "</span>");
+			alert("좋아요를 등록하셨습니다.");
 		 } 
 	});
-	
-	alert("좋아요를 등록하셨습니다.");
 }
-
-//좋아요 취소
+//좋아요 삭제
 function deleteLike(isbn) {
-	var total = document.getElementById('likeSum').innerHTML;
-	
+	var total = $("#likeSum").text();
+
 	$.ajax ({
-		url : "../unifiedsearch/rest/deleteLike",
+		url : "../unifiedsearch/rest/deleteLike",	
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$("#deleteLike").replaceWith("<span class='btn-primary success btn-lg' disabled='disabled' id='addLike' onclick='addLike(${book.isbn});'>Like</span>");
-		 	$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
+			$(".deleteLike").replaceWith("<img src='https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000' class='addLike btn-form' onclick='addLike("+isbn+")'>");
+			
+			if(total == 0) 
+				$("#likeSum").replaceWith("<span id='likeSum'>" + 0 + "</span>");
+			else
+				$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total-1)) + "</span>");
+			
+			alert("좋아요를 취소하셨습니다.");
  		} 
 	});
-	alert("좋아요를 취소하셨습니다.");
 }
 
-//별점 이벤트
 $(function() {
+	//별점 이벤트
 	$(document).ready(function() {
 		if ('${book.grade.doGrade}' == 'true' || '${user.email}' == '') {
 			$('#starWrap ul li').off();
@@ -207,9 +233,14 @@ $(function() {
 	<header class="parallax"></header>
 	
 	<div class="container">
-		<div class="row" id="{book.isbn}">
-            <div class="col-lg-10 col-md-offset-1 post-title">
-                <h1>${book.title}</h1>
+	
+		<c:if test="${bookEmpty}">
+			<h3>해당도서에 대한 결과가 없습니다.</h3>
+		</c:if>
+	
+		<c:if test="${bookEmpty eq false}">
+	        <div class="col-lg-10 col-md-offset-1 post-title">
+                <h3>${book.title}</h3>
                 <p class="author"><strong>
                 	<c:forEach items="${book.authors}" var="str" varStatus="status">
 		   				${str} | </c:forEach>
@@ -222,12 +253,14 @@ $(function() {
             <div class="col-lg-2 col-lg-offset-1 col-md-3 col-md-offset-1col-xs-12">
            		<c:choose>
 					<c:when test="${book.thumbnail == ''}">
-     		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">  					
+					<div>
+     		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">
+     		   		</div>  					
 					</c:when>
 					<c:otherwise>
- 						<td rowspan="3">
+					<div>
 	  						<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='${book.thumbnail}'">
-						</td>
+					</div>
 					</c:otherwise>
 				</c:choose>
            	 	<div id="starWrap" class="star${book.grade.average}">
@@ -237,32 +270,39 @@ $(function() {
 						<li class="s3"></li>
 						<li class="s4"></li>
 						<li class="s5"></li>
+						<span id="avgGrade">(${book.grade.average})</span>
 					</ul>
 				</div>
                 <p class="lead author"><strong> </strong> </p>
             </div>
             
             <div class="col-lg-7 col-lg-offset-0 col-lg-push-1 col-lg-pull-0 col-md-7 col-md-offset-0 col-md-push-0 post-body">
-                <p>사이트내 좋아요 수 : <span id="likeSum">${book.like.totalLike}</span></p>
-                <p>사이트내 평균 평점 : <span id="avgGrade">${book.grade.average}</span></p>
                 <p>도서 소개 : ${book.contents}</p>
                 <p><a href="${book.url}">판매 페이지로 이동</a></p>
                 
                 <c:choose>
 					<c:when test="${user.email == null}">
 					</c:when>
+					
 					<c:when test="${book.like.doLike == false}">
-						<span class="btn-primary success btn-lg" disabled="disabled" id="addLike" onclick="addLike(${book.isbn});">Like</span>
+						<div class="addLike btn-form">
+							<img src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"  onclick="addLike(${book.isbn})">
+							<span id="likeSum">${book.like.totalLike}</span>
+						</div>
 					</c:when>
+					
 					<c:when test="${book.like.doLike == true}">
-						<span class="btn-primary success btn-lg" disabled="disabled" id="deleteLike" onclick="deleteLike(${book.isbn});">Like Cancel</span>
+						<div class="deleteLike btn-form">
+							<img src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000" onclick="deleteLike(${book.isbn})">
+							<span id="likeSum">${book.like.totalLike}</span>
+						</div>
 					</c:when>
 				</c:choose>
             </div>
                   
             <div>
                 <div class="row">
-                    <div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">            
+                    <div class="col-md-10">            
                         <div style="width:75%;">
                         <canvas id="canvas"></canvas>
  						</div>
@@ -270,42 +310,45 @@ $(function() {
                 </div>
             </div>
 				
-            <div>
-				<div class="row">
-					<div class="col-xs-10 col-xs-offset-1 col-xs-pull-0">
-                    	<h3>댓글 리스트</h3>                    
-	                    <c:if test="${user.email ne null}">	
-	                    	<div class="col-xs-1 col-xs-offset-1">
-    	                   		<p><strong>댓글</strong> </p>
-        	            	</div>
-                    		<div class="col-xs-7">
-    	                   		<input type="text" id="content" placeholder="댓글 입력">
-								<span  class="btn-primary success btn-sm" disabled="disabled" onclick="addReply(${book.isbn});">Send</span><br>
-            	       		</div>
-						</c:if>
+			<div class="row">
+              	<h3>댓글 리스트</h3>
+            </div>
+			<c:if test="${user.email ne null}">	
+	        	<div class="row">
+	            	<div class="col-md-1">
+    	            	<strong>댓글</strong>
+        	        </div>
+                    <div class="col-md-8">
+    	            	<input type="text" size="80" id="content" placeholder="댓글 입력">
+    	            </div>
+    	            <div class="col-md-2">
+						<span class="btn-send" onclick="addReply(${book.isbn});">Send</span>
 					</div>
 				</div>
-                 
-            	<div id="restReply" class="row"></div>
-            	
-            	<c:forEach items="${book.replyList}" var="reply">
-            		<div class="row">
-            			<div class="col-xs-10 col-xs-offset-0 col-xs-pull-0">
-            	   	 		<div class="col-xs-2 col-xs-offset-1">
-								<p><strong>${reply.user.nickname}</strong> </p>
-							</div>
-            	   	 		<div class ="col-xs-6">
-					 			: ${reply.content}
-							</div>
-            	    		<div class="col-xs-2 col-xs-offset-0">
-            	    			<span class="text-muted">${reply.regDate} </span>
-            	    		</div>
-						</div>	
-           	 		</div>
+			</c:if>
+			
+			<c:if test="${user.email eq null}">
+				<div class="row">
+					<p>비로그인 상태</p>
+				</div>
+			</c:if>
+               
+        	<div id="restReply" class="row">   	
+          		<c:forEach items="${book.replyList}" var="reply">
+            		<div class="col-md-2">
+						<strong>${reply.user.nickname}</strong>
+					</div>
+            	   	<div class ="col-md-8">
+						${reply.content}
+					</div>
+            	    <div class="col-md-2">
+            	    	<span class="text-muted">${reply.regDate} </span>
+            	    </div>
             	</c:forEach>
         	</div>
-        </div>
+        </c:if>
 	</div>
+	
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

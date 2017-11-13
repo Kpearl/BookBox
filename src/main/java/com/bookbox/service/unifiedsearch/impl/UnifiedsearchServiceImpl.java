@@ -52,14 +52,14 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			JSONObject lastJo = (JSONObject)jo.get("_source");
 			unifiedsearch = new Unifiedsearch();
 			
-			unifiedsearch.setContent(lastJo.get("content").equals(null) ? "" : lastJo.get("content").toString());
-			unifiedsearch.setTitle(lastJo.get("title").equals(null) ? "" : lastJo.get("title").toString());
-			unifiedsearch.setNick_name(lastJo.get("nick_name").equals(null) ? "" : lastJo.get("nick_name").toString());
-			unifiedsearch.setId(jo.get("_id").equals(null) ? "" : jo.get("_id").toString());
+			unifiedsearch.setContent(lastJo.get("content")==null ? "" : lastJo.get("content").toString());
+			unifiedsearch.setTitle(lastJo.get("title")==null ? "" : lastJo.get("title").toString());
+			unifiedsearch.setNick_name(lastJo.get("nick_name")==null ? "" : lastJo.get("nick_name").toString());
+			unifiedsearch.setId(jo.get("_id")==null ? "" : jo.get("_id").toString());
 			unifiedsearch.setCategory(jo.get("_type").toString());
 			//unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" : lastJo.get("reg_date").toString());
 			unifiedsearch.setTag((List<String>)lastJo.get("tag"));
-			unifiedsearch.setImage(lastJo.containsKey("image") && !lastJo.equals(null)?lastJo.get("image").toString():null);
+			unifiedsearch.setImage(lastJo.get("image")==null?"" : lastJo.get("image").toString());
 			
 			list.add(unifiedsearch);
 		}
