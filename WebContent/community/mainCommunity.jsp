@@ -27,9 +27,9 @@
    		.room_item{
    			height: 355px;
    			width: 250px;
-   			border: solid 2px #62BFAD;
+   		/*	border: solid 2px #62BFAD; */
    			display: inline-block;
-   			box-shadow: 3px 3px 3px #62BFAD;
+   		/*	box-shadow: 3px 3px 3px #62BFAD; */
    			margin: 10px;
    		}
    		
@@ -48,6 +48,14 @@
    			object-fit: cover;
    			background-color: #F9F7E8;
    			
+   			transform:scale(1.0); 
+   			transition: transform .35s; 
+   			
+   		}
+   		
+   		.room_item .room-image img:hover{
+   			transform:scale(1.3); 
+   			transition: transform .35s; 	
    		}
    		
    		.room_item .content{
@@ -123,7 +131,83 @@
    			*/
    			background-color: #F9F7E8;
    		}
-   	
+   		
+   		/*게시판 v2 */
+   		.board-item-v2{
+   			height: 160px;
+   			width:100%;
+
+   			margin-top: 20px;
+   			border-left: solid 10px #62BFAD;
+   		}
+   		.board-img-v2{
+   			/*width: 220px;*/
+   			height: 160px;
+   			
+   			margin: 0;
+   			padding: 0 !important;
+			overflow: hidden;   			
+   		}
+   		.board-img-v2 img{
+   			height:100%;
+   			width:100%;   	
+   			transform:scale(1.0); 
+   			transition: transform .35s; 	
+   			object-fit:cover;
+   		}
+   		.board-img-v2 img:hover{
+   			transform:scale(1.2); 
+   			transition: transform .35s; 	
+   			object-fit:cover;
+   		}
+   		
+   		
+   		.board-content-v2{
+   			height: 160px;
+   		
+   			padding: 0 !important;
+   			
+   		}
+   		.board-content-v2 .board-head-v2{
+   			height: 30px;
+   			background-color: #62BFAD;
+   			/*background-color:floralwhite;*/
+   			margin-left:0 !important;
+   			color: floralwhite;
+   			font-weight: bold;
+   			font-size: 20px;
+   			
+   		}
+	   		.board-content-v2 .board-head-v2 .title{
+	   			margin-left:20px; 
+	   		}
+	   		.board-content-v2 .board-head-v2 .writer{
+	   			margin-right:10px; 
+	   		}
+   		.board-content-v2 .board-body-v2{
+   			height: 130px;
+   		/*	background: linear-gradient( to bottom,floralwhite ,#ffffff00 );*/
+   			/*background-color: floralwhite;*/
+   			width: 
+   		}
+   				
+		   		.board-content-v2 .board-body-v2 .date,.nickname{
+		   			height: 25px;
+		   		}
+		   		
+		   		.board-content-v2 .board-body-v2 .content{
+		   			height: 60px;
+		   			overflow: hidden;
+		   			line-height: 20px;
+		   			padding-left: 20px;
+		   			padding-right: 20px;
+		   		}
+		   		.board-content-v2 .board-body-v2 .tag{
+		   			height: 20px;
+		   			background-color: floralwhite;
+		   		}
+   		
+   		
     </style>
     
     <script type="text/javascript">
@@ -157,6 +241,7 @@
     </script>
 </head>
 <body>
+
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
@@ -271,7 +356,49 @@
 		<h1>BOARD</h1>
 		<h5 class="btn" id="moreBoard">더 보기</h5>
 		<hr/>
+		
+			<!--  게시글 v2 -->
+			
+				<c:forEach items="${ boardList }" var="board">
+			
+					<div class="board-item-v2 row">
+						<div class="board-img-v2 col-xs-3">
+							<c:if test="${empty board.thumbnailUrl}">
+								<img src="../resources/images/community/noimage.png">
+							</c:if>
+							<c:if test="${!empty board.thumbnailUrl}">
+								<img src="${board.thumbnailUrl}" onerror="this.src='../resources/images/community/noimage.png'">
+							</c:if>
+						</div>
+						<div class="board-content-v2 col-xs-9">
+							<div class="board-head-v2">
+								<div class="title">${board.boardTitle}</div>
+							</div>
+							<div class="board-body-v2">
+								<div class="date text-right">
+									<strong>${board.boardRegDate}</strong>
+								</div>
+								<div class="nickname text-right">
+									<strong>${board.writer.nickname}</strong>
+								</div>
+								<div class="content">
+									${board.contentText}
+								</div>
+								<div class="tag">
+									<c:forEach items="${board.tagList}" var="tag" >
+										#${tag.tagName}
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				</c:forEach>
+		
+		
+		
 			<div>
+
 				<c:forEach items="${ boardList }" var="board">
 				<div class="board_item row">
 					<div class="board-title col-xs-12 text-left">${board.boardTitle }</div>
@@ -304,6 +431,9 @@
 					</div>
 				</div>
 				</c:forEach>
+		
+				
+				
 			</div>		
 	
 	</div>

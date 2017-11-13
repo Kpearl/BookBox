@@ -84,7 +84,8 @@
 		UPDATE board 
 		SET board_title=#{boardTitle},
 			board_content=#{boardContent},
-			recommend_count=#{recommend}
+			recommend_count=#{recommend},
+			thumbnail_url=#{thumbnailUrl}
 		WHERE board_no=#{boardNo};
 	</update>
 

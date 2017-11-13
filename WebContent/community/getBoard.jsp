@@ -58,6 +58,11 @@
 		//게시글의 답변 버튼 이벤트
 		commentEventInit($(".board"));
 		
+		/////수정버튼//////////////
+		$("#updateBoard").on("click",function(){
+			self.location="updateBoard?boardNo="+${board.boardNo};
+		});
+		
 	});
 	
 	
@@ -85,6 +90,7 @@
 			}
 		});
 	}
+
 	
 ////////////////////댓글 로딩////////////////////////////
 	$(function(){
@@ -258,6 +264,9 @@
 			<div class="row text-right">
 				<!-- 추천 신고 -->
 				<spen>${board.boardRegDate}</spen>
+				<c:if test="${enableUpdate==true}">
+				<a class="btn recommend" id="updateBoard">수정</a>
+				</c:if>
 				<a class="btn recommend" id="recommend">추천</a> <span id="recommedCount">${board.recommend}</span>
 				<a class="btn recommend" id="unRecommend">비추천</a>
 				<a class="btn report" id="report">신고</a>

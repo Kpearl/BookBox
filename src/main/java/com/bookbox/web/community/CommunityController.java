@@ -178,6 +178,7 @@ public class CommunityController {
 		return "redirect:getBoard?boardNo="+board.getBoardNo();
 	}
 	
+	
 	@RequestMapping(value="/getBoard")
 	public String getBoard(@RequestParam("boardNo")int boardNo,Model model,HttpSession session) throws Exception {
 		
@@ -188,9 +189,18 @@ public class CommunityController {
 		}
 		
 		Board board=new Board();
+
 		board.setBoardNo(boardNo);
 		board=communityServiceImpl.getBoard(user,board);
+		
+		boolean enableUpdate=false;
+
+		if(user.getEmail()!=null&&user.getEmail().equals(board.getWriter().getEmail())) {
+			enableUpdate=true;
+		}
+		
 		model.addAttribute("board",board);
+		model.addAttribute("enableUpdate",enableUpdate);
 		
 		return "forward:getBoard.jsp";
 	}
@@ -236,6 +246,63 @@ public class CommunityController {
 	}
 	
 	/**
+	 * @brief 
+	 * @detail 게시글 업데이트 뷰 네비게이션 
+	 * @param 
+	 * @return forward:listBoard.jsp
+	 */
+	@RequestMapping(value="updateBoard",method=RequestMethod.GET)
+	public String updateBoard(@RequestParam("boardNo")int boardNo, HttpSession session,Model model) {
+		
+		User user=(User)session.getAttribute("user");
+		//임시 유저
+		if(user==null) {
+			user=new User();
+			user.setEmail("gustn@naver.com");
+			user.setNickname("훔바훔바");
+		}
+		Board board=new Board();
+		board.setBoardNo(boardNo);
+		
+		board=communityServiceImpl.getBoard(user, board);
+		model.addAttribute("board",board);
+		
+		return "forward:updateBoardView.jsp";
+	}
+	
+	/**
+	 * @brief updateBoard
+	 * @detail 게시글 수정 
+	 * @param Board board 게시글 도메인
+	 * @return redirect:getBoard?boardNo="+board.getBoardNo()
+	 */
+	
+	@RequestMapping(value="/updateBoard",method=RequestMethod.POST)
+	public String updateBoard(@ModelAttribute("Board")Board board, HttpServletRequest request,HttpSession session) throws Exception {
+		
+		//태그추가
+		String tagNames[]= request.getParameterValues("tagNames");
+		if(tagNames!=null) {
+			List<Tag> tagList=new ArrayList<Tag>();
+			for(int i=0; i<tagNames.length;i++) {
+				Tag tag=new Tag();
+				tag.setTagName(tagNames[i]);
+				tagList.add(tag);
+			}
+			board.setTagList(tagList);
+		}
+		
+		System.out.println(board);
+		User user=new User();
+		user=communityServiceImpl.getBoard(user, board).getWriter();
+		board.setWriter(user);
+		
+		communityServiceImpl.updateBoard(board);
+		
+		return "redirect:getBoard?boardNo="+board.getBoardNo();
+	}
+	
+	/**
 	 * @brief uploadCKEditor
 	 * @detail CKEditor 이미지 업로드 
 	 * @param MultipartFile file 이미지 파일
@@ -246,12 +313,17 @@ public class CommunityController {
 									@RequestParam("upload")MultipartFile file,
 									Model model) throws Exception{
 		
+		String originName=file.getOriginalFilename();
+		int beginIndex=originName.lastIndexOf(".");
+		int endIndex=originName.length();
+		
+		
 		String CKEditor=request.getParameter("CKEditor");
 		int CKEditorFuncNum=Integer.parseInt(request.getParameter("CKEditorFuncNum"));
 		
 		String url=request.getRealPath("resources/upload_files/images/");
 		
-		String fileName=UUID.randomUUID().toString();
+		String fileName=UUID.randomUUID().toString()+originName.substring(beginIndex, endIndex);
 		String originFileName=file.getOriginalFilename();
 		
 		File toFile=new File(url+"/"+fileName);

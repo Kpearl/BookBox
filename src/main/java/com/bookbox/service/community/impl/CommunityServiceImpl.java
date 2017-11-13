@@ -77,8 +77,18 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int updateBoard(Board board) throws Exception {
 		
+		int result = communityDAOImple.updateBoard(board);
+
+		tagDAOImpl.deleteTagGroup(6, board.getBoardNo());
+		if (board.getTagList() != null) {
+			for (Tag tag : board.getTagList()) {
+				tagDAOImpl.addTag(tag);
+			}
+			tagDAOImpl.addTagGroup(6, board.getBoardNo(), board.getTagList());
+		}
+		
 		unifiedsearchDAO.elasticUpdate(board);
-		return 0;
+		return result;
 	}
 
 	@Override
