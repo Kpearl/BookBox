@@ -101,7 +101,7 @@
 			</if>
 			AND u.active=1
 		</where>
-		<if test="condition == 'main'">
+		<if test="search.condition == 'main'">
 			ORDER BY vc.count DESC
 		</if>
 		LIMIT
@@ -191,6 +191,37 @@
 				0, 20) vt
 		ORDER BY 
 			vt.count DESC
+	</select>
+	
+	<select id="getCounts" parameterType="string" resultType="map">
+		SELECT
+			creation_count cc, posting_count pc, bookmark_count bc, writing_count wc, 'counts' counts
+		FROM
+			(SELECT
+				COUNT(*) creation_count
+			FROM
+				creation
+			WHERE
+				author = #{value} AND active = 1) c,
+			(SELECT
+				COUNT(*) posting_count
+			FROM
+				posting
+			WHERE
+				email = #{value} AND active = 1) p,
+			(SELECT
+				COUNT(*) bookmark_count
+			FROM
+				bookmark
+			WHERE
+				target_email = #{value}) b,
+			(SELECT
+				COUNT(*) writing_count
+			FROM
+				writing w, creation c
+			WHERE
+				w.creation_no = c.creation_no AND c.author = #{value} 
+			) w
 	</select>
 	
 

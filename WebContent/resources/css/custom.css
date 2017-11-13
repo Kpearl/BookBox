@@ -280,6 +280,9 @@ div.container.post{
 	color: #112D42;
 }
 
+div.div-booklog{
+	cursor: pointer;
+}
 div.div-posting, div.posting-img{
 	height: 200px;
 	overflow: hidden;
@@ -314,6 +317,57 @@ div.hidden-md img{
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+}
+	    
+.row.booklog-profile{
+   	margin: 20px -10px;
+}
+.row.booklog-profile > div{
+   	overflow: hidden;
+   	-webkit-box-shadow: 6px 3px 2px 0px;
+   	   -moz-box-shadow: 6px 3px 2px 0px;
+	    	box-shadow: 6px 3px 2px 0px;
+}
+.row.booklog-profile .row{
+   	padding: 8px;
+}
+.booklog-img{
+   	height: 250px;
+   	max-height: 300px;
+   	background-color: #F9F7F7;
+}
+.booklog-img img{
+	border: 2px solid #DBE2EF;
+}
+.row.booklog-img > div{
+	overflow: hidden;
+}
+.row.booklog-name{
+	border-bottom: 3px solid #DBE2EF;
+	background-color: #F9F7F7;
+}
+.row.booklog-intro{
+	background-color: #DBE2EF;
+}
+.row.booklog-content-num{
+	background-color: #112D42;
+}
+.row.booklog-content-num > div{
+	color: #F9F7F7;
+}
+span.content-icon{
+	font-size: 20px;
+}
+.vertical-line{
+	position: relative;
+	float: left;
+	width: 0;
+	height: 40px;
+	border: 1px solid #F9F7F7;
+	margin: -1px;
+}
+.bookmarked{
+	color: #0c7cd5;
 }
 /******* Booklog CSS End *******/
 .btn-form{

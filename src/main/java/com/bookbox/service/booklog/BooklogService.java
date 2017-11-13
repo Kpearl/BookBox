@@ -19,5 +19,7 @@ public interface BooklogService {
 	public boolean deleteBooklogBookmark(User user, Booklog booklog);
 	
 	public boolean getBookmark(User user, Booklog booklog);
+	
+	public Map<String, String> getCounts(String email);
 
 }

@@ -41,14 +41,6 @@
 	        background-size: cover;
 	    }
 	    
-	    .booklog-img{
-	    	height: 250px;
-		}
-		.row.booklog-img{
-			border-bottom: 3px solid #DBE2EF;
-			overflow: hidden;
-		}
-	    
 	    div.div-posting img{
 	    	opacity: 0.3;
 	    }
@@ -162,17 +154,19 @@
 		$('a.var-btn:contains("표지편집")').on('click', function(){
 			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
 		});
-		$('a.var-btn:contains("책갈피 등록")').on('click', function(){
+		$('i.nobookmarked').on('click', function(){
 			fncAddBookmark($(this));
 		});
-		$('a.var-btn:contains("책갈피 삭제")').on('click', function(){
+		$('i.bookmarked').on('click', function(){
 			fncDeleteBookmark($(this));
 		});
+		
+		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 		
 		fncAddLogCSS();
 		
 		$('.log-more-background').on('click', function(){
-			$('.loading-img').show();
+			$('.log-more-background .loading-img').show();
 			$.ajax({
 				url: 'rest/getLogList/'+booklogUser+'/'+logPage,
 				method: 'get',
@@ -197,10 +191,25 @@
 					}
 				},
 				complete: function(){
-					$('.loading-img').hide();
+					$('.log-more-background .loading-img').hide();
 				}
 			});
 		});
+		
+		$.ajax({
+			url: 'rest/getCounts/'+booklogUser.split('@')[0]+'/'+booklogUser.split('.')[0].split('@')[1]+'/'+booklogUser.split('.')[1]+'/1',
+			method: 'get',
+			dataType: 'json',
+			success: function(data){
+				$($('.content-count')[0]).html(data.counts.cc>999? '999+':data.counts.wc).find('.loading-img').hide();
+				$($('.content-count')[1]).html(data.counts.pc>999? '999+':data.counts.pc).find('.loading-img').hide();
+				$($('.content-count')[2]).html(data.counts.bc>999? '999+':data.counts.bc).find('.loading-img').hide();
+			}
+		});
+	});
+	
+	$(window).resize(function(){
+		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 	});
 
 	$(function(){
@@ -434,7 +443,8 @@
 			success : function(data){
 				if(data){
 					alert("'"+booklogName+"' 북로그를 책갈피에 등록하였습니다.");
-					$(elmA).html('책갈피 삭제').off('click').on('click', function(){
+					$($('.content-count')[2]).html($($('.content-count')[2]).html()==0? 1 : $($('.content-count')[2]).html()+1);
+					$(elmA).removeClass('nobookmarked').addClass('bookmarked').off('click').on('click', function(){
 						fncDeleteBookmark(elmA);
 					});
 				}else{
@@ -452,7 +462,8 @@
 			success : function(data){
 				if(data){
 					alert("'"+booklogName+"' 북로그를 책갈피에서 삭제하였습니다.");
-					$(elmA).html('책갈피 등록').off('click').on('click', function(){
+					$($('.content-count')[2]).html($($('.content-count')[2]).html()-1);
+					$(elmA).removeClass('bookmarked').addClass('nobookmarked').off('click').on('click', function(){
 						fncAddBookmark(elmA);
 					});
 				}else{
@@ -460,10 +471,6 @@
 				}
 			}
 		});
-	}
-	
-	function radians(degree){
-		return degree * Math.PI / 180;
 	}
 	
 	function fncAddLogCSS(){
@@ -505,9 +512,9 @@
 
 			<div class="col-md-3 col-md-push-8">
 			
-				<div class="row">
+				<div class="row booklog-profile">
 				
-					<div class="col-md-12 booklog-border-thick booklog-border-radius">
+					<div class="col-sm-12">
 						<div class="row text-center booklog-img">
 							<div class="col-xs-offset-1 col-xs-10 booklog-img">
 								<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
@@ -515,11 +522,12 @@
 						</div>
 				
 						<!-- 북로그이미지, 소개글, 이름 -->
-						<div class="row text-center">
+						<div class="row text-center booklog-name">
 							<p><em>${booklog.booklogName}</em></p>
-							<p><mark>${booklog.booklogIntro}</mark></p>
-							<div class="col-md-12">
-								<c:if test="${sessionScope.user.email != null}">
+						</div>
+						<div class="row text-center booklog-intro booklog-background">
+							<p>${booklog.booklogIntro}</p>
+<%-- 								<c:if test="${sessionScope.user.email != null}">
 									<a class="btn var-btn" href="javascript:void(0);">
 										<c:if test="${sessionScope.user.email == booklog.user.email}">
 											표지편집
@@ -528,7 +536,22 @@
 											${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
 										</c:if>
 									</a>
-								</c:if>
+								</c:if> --%>
+						</div>
+						<div class="row text-center booklog-content-num">
+							<div class="col-xs-4 text-center">
+								<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i></span><br/>
+								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+							</div>
+							<div class="vertical-line"></div>
+							<div class="col-xs-4 text-center">
+								<span class="content-icon"><i class="glyphicon glyphicon-grain"></i></span><br/>
+								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+							</div>
+							<div class="vertical-line"></div>
+							<div class="col-xs-4 text-center">
+								<span class="content-icon"><i class="glyphicon glyphicon-bookmark ${bookmark? 'bookmarked' : 'nobookmarked'}"></i></span><br/>
+								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
 							</div>
 						</div>
 					</div>
@@ -598,6 +621,11 @@
 						<div class="row">
 							<ul class="nav nav-tabs" role="tablist" id="chartTab">
 								<li role="presentation" class="active">
+									<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
+										태그통계
+									</a>
+								</li>
+								<li role="presentation">
 									<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
 										일간통계
 									</a>
@@ -614,7 +642,10 @@
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane fade in active" id="daily">
+								<div role="tabpanel" class="tab-pane fade in active" id="tag">
+									<canvas id="tagChart"></canvas>
+								</div>
+								<div role="tabpanel" class="tab-pane fade" id="daily">
 									<canvas id="dailyChart"></canvas>
 								</div>
 								<div role="tabpanel" class="tab-pane fade" id="weekly">
@@ -626,9 +657,9 @@
 							</div>
 						</div>
 						
-						<div class="row">
+<%-- 						<div class="row">
 							<canvas id="tagChart"></canvas>
-						</div>
+						</div> --%>
 
 					</div>
 				</div>

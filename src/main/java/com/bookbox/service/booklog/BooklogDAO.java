@@ -20,4 +20,5 @@ public interface BooklogDAO {
 	
 	public boolean getBookmark(User user, Booklog booklog);
 
+	public Map<String, String> getCounts(String email);
 }

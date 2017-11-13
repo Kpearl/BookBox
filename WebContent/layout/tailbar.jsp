@@ -5,10 +5,18 @@
 <script>
  	$(function(){
 		if($(window).height() == $(document).height()){
-			$('footer').css('position', 'absolute')
-					.css('top', $(document).height()-85);
+			fncFooterPositioning();
 		}
 	});
+ 	
+ 	$(window).resize(function(){
+		fncFooterPositioning();
+ 	});
+ 	
+ 	function fncFooterPositioning(){
+		$('footer').css('position', 'absolute')
+		.css('top', $(document).height()-85);
+ 	}
 	
 </script>
-	<h5>BOOKBOX COMMUNITY © 2017</h5>
+	<h5>BOOKBOX <span class="hidden-xs">COMMUNITY </span>© 2017</h5>

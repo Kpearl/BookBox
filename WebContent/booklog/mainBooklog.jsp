@@ -26,7 +26,7 @@
     <style>
 	    .swiper-container {
 	        width: 100%;
-	        height: 400px;
+	        height: 500px;
 	        padding-top: 50px;
 	        padding-bottom: 50px;
 	    }
@@ -34,7 +34,7 @@
 	        background-position: center;
 	        background-size: cover;
 	        width: 300px;
-	        height: 300px;
+	        height: 350px;
 	    }
 
 
@@ -60,7 +60,7 @@
 			});
 			
 			$('div.div-booklog').on('click', function(){
-				var booklogNo = $(this).find('input[type="hidden"]').val();
+				var booklogNo = $(this).find('input[name="booklogNo"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
 			$('div.div-posting').on('click', function(){
@@ -74,25 +74,42 @@
 				$(this).attr('src', '../resources/images/posting_noimage.jpeg');
 			});
 			
+			$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
+			
+			for(var i=0; i<$('.div-booklog').length; i++){
+				var booklogUser = $($('.div-booklog')[i]).find('input[name="booklogUser"]').val();
+				$.ajax({
+					url: 'rest/getCounts/'+booklogUser.split('@')[0]+'/'+booklogUser.split('.')[0].split('@')[1]+'/'+booklogUser.split('.')[1]+'/'+i,
+					method: 'get',
+					dataType: 'json',
+					success: function(data){
+						$($($('.div-booklog')[data.index]).find('.content-count')[0]).html(data.counts.cc>999? '999+':data.counts.wc).find('.loading-img').hide();
+						$($($('.div-booklog')[data.index]).find('.content-count')[1]).html(data.counts.pc>999? '999+':data.counts.pc).find('.loading-img').hide();
+						$($($('.div-booklog')[data.index]).find('.content-count')[2]).html(data.counts.bc>999? '999+':data.counts.bc).find('.loading-img').hide();
+						$($('.div-booklog')[data.index]).find('i.glyphicon-bookmark').addClass(data.bookmark == 'true'? 'bookmarked':'nobookmarked');
+					}
+				});
+			}
 		});
 
 		
 		$(function(){
 	        var swiper = new Swiper('.swiper-container', {
-	            spaceBetween: 30,
+	            spaceBetween: 5,
 	            centeredSlides: true,
 	            pagination: {
 	            	el: '.swiper-pagination',
 	            	clickable: true
 	            },
-	            loop: false
+	            loop: false,
+	            slidesPerView: 'auto',
 	        });
 	    })
 	    
 
 	</script>
 </head>
-<body class="booklog-background">
+<body>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
@@ -102,17 +119,50 @@
 	<div class="container">
 		<input type="hidden" name="condition" value="${search.condition}">
 		인기북로그 <a class="btn booklog" href="#">더보기</a>
+
 	    <div class="swiper-container">
 	        <div class="swiper-wrapper">
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklogList}" var="booklog">
 	        		<c:set var="i" value="i+1"/>
-					<div class="swiper-slide div-booklog" style="background-image:url('../resources/upload_files/images/${booklog.booklogImage}')">
-						<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
-						북로그명 : ${booklog.booklogName}<br/>
-						북로그소개 : ${booklog.booklogIntro}<br/>
-						주인장 : ${booklog.user.nickname}
-		            </div>
+	        		<div class="swiper-slide">
+						<div class="row booklog-profile div-booklog" style="width: 250px;">
+							<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
+							<input type="hidden" name="booklogUser" value="${booklog.user.email}">
+							<div class="col-sm-12">
+								<div class="row text-center booklog-img">
+									<div class="col-xs-offset-1 col-xs-10 booklog-img">
+										<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+									</div>
+								</div>
+						
+								<!-- 북로그이미지, 소개글, 이름 -->
+								<div class="row text-center booklog-name">
+									<p><em>${booklog.booklogName}</em></p>
+								</div>
+								<div class="row text-center booklog-intro booklog-background">
+									<p>${booklog.booklogIntro}</p>
+								</div>
+								<div class="row text-center booklog-content-num">
+									<div class="col-xs-4 text-center">
+										<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i></span><br/>
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+									</div>
+									<div class="vertical-line"></div>
+									<div class="col-xs-4 text-center">
+										<span class="content-icon"><i class="glyphicon glyphicon-grain"></i></span><br/>
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+									</div>
+									<div class="vertical-line"></div>
+									<div class="col-xs-4 text-center">
+										<span class="content-icon"><i class="glyphicon glyphicon-bookmark"></i></span><br/>
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+									</div>
+								</div>
+							</div>
+		
+						</div>
+					</div>
 	        	</c:forEach>
 	        </div>
 	        <!-- Add Pagination -->

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,9 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Log;
+import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.User;
@@ -177,6 +182,34 @@ public class BooklogRestController {
 		booklogUser.setActive(active * 10);
 		
 		return logService.getLogList(booklogUser);
+	}
+	
+	@RequestMapping( value="getCounts/{id}/{domain}/{dot}/{index}", method=RequestMethod.GET )
+	public Map<String, String> getCounts(@PathVariable("id") String id, @PathVariable("domain") String domain,
+											@PathVariable("dot") String dot, @PathVariable("index") int index,
+											HttpSession session){
+		String email = id+"@"+domain+"."+dot;
+		Map<String, String> map = booklogService.getCounts(email);
+		map.put("index", index+"");
+		Booklog booklog= new Booklog();
+		User booklogUser = new User();
+		booklogUser.setEmail(email);
+		booklog.setUser(booklogUser);
+		User user = (User)session.getAttribute("user");
+		map.put("bookmark", booklogService.getBookmark(user, booklog) + "");
+		return map;
+	}
+	
+	@RequestMapping( value="getBooklogList/{currentPage}" )
+	public Map<String, Object> getBooklogList(@RequestBody Search search, @PathVariable int currentPage) {
+
+		Page page = new Page();
+		page.setCurrentPage(currentPage);
+		page.setPageSize(pageSize);
+		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
+		map.put("booklogList", booklogService.getBooklogList(map));
+		
+		return map;
 	}
 	
 }

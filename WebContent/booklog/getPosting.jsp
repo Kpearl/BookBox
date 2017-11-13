@@ -53,7 +53,7 @@
 		<p>${posting.postingRegDate}</p>
 	</div>
 	
-	<div class="container" style="overflow: auto;">
+	<div class="container" style="overflow-x: scroll;">
 		${posting.postingContent} <br/><br/>
 		<c:forEach items="${posting.postingTagList}" var="tag" >
 			<span class="tag"># ${tag.tagName}</span> 

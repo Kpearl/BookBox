@@ -67,5 +67,11 @@ public class BooklogServiceImpl implements BooklogService {
 		return booklogDAO.getBookmark(user, booklog);
 	}
 
+	@Override
+	public Map<String, String> getCounts(String email) {
+		// TODO Auto-generated method stub
+		return booklogDAO.getCounts(email);
+	}
+
 
 }

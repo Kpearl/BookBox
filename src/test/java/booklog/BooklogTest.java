@@ -40,7 +40,7 @@ public class BooklogTest {
 //		System.out.println(booklogService.getBooklogList(search));
 	}
 	
-	@Test
+//	@Test
 	public void getBooklogTest() {
 		Booklog booklog = new Booklog();
 		booklog.setBooklogNo(8);
@@ -63,5 +63,9 @@ public class BooklogTest {
 		booklogService.updateBooklog(user, booklog);
 	}
 	
+	@Test
+	public void getGetCountsTest() {
+		System.out.println(booklogService.getCounts("wndhks@naver.com"));
+	}
 
 }

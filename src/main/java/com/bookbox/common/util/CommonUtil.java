@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 
 public class CommonUtil {
@@ -57,6 +59,13 @@ public class CommonUtil {
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(category, target);
 		map.put("user", user);
 		
+		return map;
+	}
+	
+	public static Map<String, Object> getSearchPageMap(Search search, Page page){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("page", page);
 		return map;
 	}
 }

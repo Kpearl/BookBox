@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -31,6 +30,7 @@ import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Booklog;
@@ -81,7 +81,7 @@ public class BooklogController {
 		Page page = new Page();
 		page.setPageSize(pageSize);
 		page.setCurrentPage(1);
-		Map<String, Object> map = this.getSearchPageMap(search, page);
+		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
 		model.addAttribute("booklogList", booklogService.getBooklogList(map));
 		model.addAttribute("postingList", postingService.getPostingList(map));
 		model.addAttribute("search", search);
@@ -95,7 +95,7 @@ public class BooklogController {
 		Page page = new Page();
 		page.setPageSize(pageSize);
 		page.setCurrentPage(1);
-		Map<String, Object> map = this.getSearchPageMap(search, page);
+		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
 		model.addAttribute("booklogList", booklogService.getBooklogList(map));
 		model.addAttribute("search", search);
 		
@@ -207,7 +207,7 @@ public class BooklogController {
 		Page page = new Page();
 		page.setPageSize(pageSize);
 		page.setCurrentPage(1);
-		Map<String, Object> map = this.getSearchPageMap(search, page);
+		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
 		model.addAttribute("postingList", postingService.getPostingList(map));
 		model.addAttribute("search", search);
 		
@@ -322,12 +322,5 @@ public class BooklogController {
 			user = (User)session.getAttribute("user");
 		}
 		return user;
-	}
-	
-	public Map<String, Object> getSearchPageMap(Search search, Page page){
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map.put("page", page);
-		return map;
 	}
 }
