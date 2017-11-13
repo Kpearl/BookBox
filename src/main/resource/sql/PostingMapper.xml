@@ -53,19 +53,6 @@
 	
 	
 	<select id="getPosting" parameterType="posting" resultMap="postingSelectMap">
-		<!-- SELECT 
-			p.posting_no, p.email, p.posting_title, 
-			p.posting_content, p.reg_date, p.update_date, 
-			u.nickname,
-			tw.tag_name, tw.tag_no, vc.count
-		FROM 
-			posting p
-			LEFT OUTER JOIN user u ON p.email = u.email
-			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
-			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
-		WHERE 
-			p.posting_no = #{postingNo} 
-			AND p.active = 1 -->
 		SELECT 
 			p.posting_no, p.email, p.posting_title, 
 			p.posting_content, p.reg_date, p.update_date, 
@@ -79,28 +66,7 @@
 			AND p.active = 1
 	</select>
 	
-	<select id="getPostingList" parameterType="search" resultMap="postingListMap">
-		<!-- SELECT 
-			p.posting_no, p.email, u.nickname, 
-			p.posting_title, p.posting_content, 
-			p.reg_date, p.update_date,
-			tw.tag_name, tw.tag_no, vc.count
-		FROM
-			posting p
-			LEFT JOIN user u ON p.email = u.email
-			LEFT OUTER JOIN (<include refid="tagWiring"/>) tw ON p.posting_no = tw.target_no
-			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
-		<where>
-			p.active = 1
-			<if test="condition == 'booklog'">
-				AND p.email = #{keyword}
-			</if>
-		</where>
-		ORDER BY
-			<if test="condition == 'main'">
-				vc.count DESC,
-			</if>
-			 p.posting_no DESC -->
+	<select id="getPostingList" parameterType="map" resultMap="postingListMap">
 		SELECT 
 			p.posting_no, p.email, u.nickname, 
 			p.posting_title, p.posting_content, 
@@ -112,16 +78,16 @@
 			LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON p.posting_no = vc.target_no
 		<where>
 			p.active = 1
-			<if test="condition == 'booklog'">
-				AND p.email = #{keyword}
+			<if test="search.condition == 'booklog'">
+				AND p.email = #{search.keyword}
 			</if>
 		</where>
 		ORDER BY
-			<if test="condition == 'main'">
+			<if test="search.condition == 'main'">
 				vc.count DESC,
 			</if>
 			p.posting_no DESC
-		LIMIT 0, 10
+		LIMIT #{page.startRow}, #{page.pageSize}
 	</select>
 	
 	<select id="getMainFile" parameterType="map" resultMap="CommonMapper.uploadFileSelectMap">
@@ -148,16 +114,7 @@
 			posting_no = #{postingNo}
 	</update>
 	
-	
-<!-- 	<select id="selectPostingFileList" parameterType="map" resultMap="uploadFile">
-		SELECT
-			upload_no, category_no, target_no, file_name, origin_name, main_file
-		FROM
-			upload_file
-		WHERE
-			category_no = #{categoryNo} AND target_no = #{targetNo}
-	</select> -->
-	
+		
 	
 	<sql id="tagWiring">
 		SELECT

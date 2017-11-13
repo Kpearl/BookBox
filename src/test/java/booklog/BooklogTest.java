@@ -37,7 +37,7 @@ public class BooklogTest {
 		search.setCondition("main");
 		search.setKeyword("스");
 		
-		System.out.println(booklogService.getBooklogList(search));
+//		System.out.println(booklogService.getBooklogList(search));
 	}
 	
 	@Test

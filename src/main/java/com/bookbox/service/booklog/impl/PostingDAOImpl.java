@@ -1,6 +1,5 @@
 package com.bookbox.service.booklog.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.bookbox.common.domain.Location;
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.domain.Posting;
 
@@ -39,9 +36,9 @@ public class PostingDAOImpl implements PostingDAO {
 	}
 
 	@Override
-	public List<Posting> getPostingList(Search search) {
+	public List<Posting> getPostingList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("PostingMapper.getPostingList", search);
+		return sqlSession.selectList("PostingMapper.getPostingList", map);
 	}
 
 	@Override
@@ -53,16 +50,4 @@ public class PostingDAOImpl implements PostingDAO {
 		return true;
 	}
 	
-	public void addPostingLocation(Posting posting) {
-		if(posting.getPostingLocationList() != null && posting.getPostingLocationList().size() != 0) {
-			for(Location location : posting.getPostingLocationList()) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("postingNo", posting.getPostingNo());
-				map.put("locationName", location.getLocationName());
-				map.put("locationLatitude", location.getLocationLatitude());
-				map.put("locationLongitude", location.getLocationLongitude());
-				sqlSession.insert("PostingMapper.addPostingLocation", map);
-			}
-		}
-	}
 }

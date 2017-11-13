@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.common.statistics.Statistics;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.domain.Booklog;
@@ -27,9 +26,9 @@ public class BooklogDAOImpl implements BooklogDAO {
 	}
 
 	@Override
-	public List<Booklog> getBooklogList(Search search) {
+	public List<Booklog> getBooklogList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("BooklogMapper.getBooklogList", search);
+		return sqlSession.selectList("BooklogMapper.getBooklogList", map);
 	}
 
 	@Override

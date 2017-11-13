@@ -4,7 +4,9 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
@@ -60,6 +64,11 @@ public class BooklogController {
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
 	
+	//한페이지에 보여줄 갯수
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
+	
+	
 	/* Constructor */
 	public BooklogController() {
 		System.out.println("Constructor :: "+getClass().getName());
@@ -69,8 +78,12 @@ public class BooklogController {
 	@RequestMapping( value="getBooklogMain", method=RequestMethod.GET )
 	public String getBooklogMain(@ModelAttribute("search")Search search, Model model) {
 		
-		model.addAttribute("booklogList", booklogService.getBooklogList(search));
-		model.addAttribute("postingList", postingService.getPostingList(search));
+		Page page = new Page();
+		page.setPageSize(pageSize);
+		page.setCurrentPage(1);
+		Map<String, Object> map = this.getSearchPageMap(search, page);
+		model.addAttribute("booklogList", booklogService.getBooklogList(map));
+		model.addAttribute("postingList", postingService.getPostingList(map));
 		model.addAttribute("search", search);
 		
 		return "forward:../booklog/mainBooklog.jsp";
@@ -79,7 +92,11 @@ public class BooklogController {
 	@RequestMapping( value="getBooklogList" )
 	public String getBooklogList(@ModelAttribute("search")Search search, Model model) {
 
-		model.addAttribute("booklogList", booklogService.getBooklogList(search));
+		Page page = new Page();
+		page.setPageSize(pageSize);
+		page.setCurrentPage(1);
+		Map<String, Object> map = this.getSearchPageMap(search, page);
+		model.addAttribute("booklogList", booklogService.getBooklogList(map));
 		model.addAttribute("search", search);
 		
 		return "forward:../booklog/listBooklog.jsp";
@@ -186,7 +203,12 @@ public class BooklogController {
 			booklog.setUser(booklogUser);
 			model.addAttribute("booklog", booklogService.getBooklog(new User(), booklog));
 		}
-		model.addAttribute("postingList", postingService.getPostingList(search));
+		
+		Page page = new Page();
+		page.setPageSize(pageSize);
+		page.setCurrentPage(1);
+		Map<String, Object> map = this.getSearchPageMap(search, page);
+		model.addAttribute("postingList", postingService.getPostingList(map));
 		model.addAttribute("search", search);
 		
 		return "forward:../booklog/listPosting.jsp";
@@ -302,4 +324,10 @@ public class BooklogController {
 		return user;
 	}
 	
+	public Map<String, Object> getSearchPageMap(Search search, Page page){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("page", page);
+		return map;
+	}
 }

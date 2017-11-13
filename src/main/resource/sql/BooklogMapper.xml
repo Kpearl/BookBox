@@ -16,7 +16,7 @@
 			<result property="email" column="email" jdbcType="VARCHAR"/>
 			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
 		</association>
-		<collection property="postingList" ofType="posting" column="posting_no">
+		<collection property="postingList" ofType="posting" column="email">
 			<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
 			<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
 			<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
@@ -81,33 +81,31 @@
 			p.posting_no DESC
 	</select>
 	
-	<select id="getBooklogList" parameterType="search" resultMap="booklogSelectMap">
+	<select id="getBooklogList" parameterType="map" resultMap="booklogSelectMap">
 		SELECT
-			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no, @rnum:=@rnum+1, '5' posting_no
+			u.email, u.nickname, u.booklog_name, u.booklog_image, u.booklog_intro, u.booklog_no, '5' posting_no
 		FROM
 			user u
-			<if test="condition == 'main'">
+			<if test="search.condition == 'main'">
 				LEFT OUTER JOIN (<include refid="viewCount"/>) vc ON u.booklog_no = vc.target_no
 			</if>
-			<if test="condition == 'bookmark'">
+			<if test="search.condition == 'bookmark'">
 				LEFT OUTER JOIN bookmark b ON u.email = b.target_email
 			</if>
-			, (SELECT @rnum:=0) TMP
 		<where>
-			<if test="condition == 'main'">
-				@rnum <![CDATA[<]]> 10
+			<if test="search.condition == 'nickname'">
+				AND u.nickname LIKE '%${search.keyword}%'
 			</if>
-			<if test="condition == 'nickname'">
-				AND u.nickname LIKE '%${keyword}%'
-			</if>
-			<if test="condition == 'bookmark'">
-				AND b.email = #{keyword}
+			<if test="search.condition == 'bookmark'">
+				AND b.email = #{search.keyword}
 			</if>
 			AND u.active=1
 		</where>
 		<if test="condition == 'main'">
 			ORDER BY vc.count DESC
 		</if>
+		LIMIT
+			#{page.startRow}, #{page.pageSize}
 	</select>
 	
 	<insert id="addBookmark" parameterType="map">
@@ -148,7 +146,7 @@
 		GROUP BY
 			date
 		ORDER BY 
-			date DESC
+			date
 	</select>
 		
 	<select id="getVisitors" parameterType="map" resultType="map">
@@ -168,7 +166,7 @@
 		GROUP BY
 			${interval}
 		ORDER BY 
-			${interval} DESC
+			${interval}
 	</select>
 	
 	<select id="getTagStatistics" parameterType="map" resultType="map">

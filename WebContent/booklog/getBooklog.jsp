@@ -42,8 +42,12 @@
 	    }
 	    
 	    .booklog-img{
-	    	height: 300px;
-	    }
+	    	height: 250px;
+		}
+		.row.booklog-img{
+			border-bottom: 3px solid #DBE2EF;
+			overflow: hidden;
+		}
 	    
 	    div.div-posting img{
 	    	opacity: 0.3;
@@ -141,6 +145,7 @@
 	var booklogUser;
 	var booklogNo;
 	var booklogName;
+	var logPage = 1;
 
 	$(function(){
 		booklogUser = $('input[name="user.email"]').val();
@@ -163,21 +168,38 @@
 		$('a.var-btn:contains("책갈피 삭제")').on('click', function(){
 			fncDeleteBookmark($(this));
 		});
-		$('.timeline-body').on('click', function(){
-			$(self.location).attr('href', $(this).find('input[name="link"]').val());
-		});
 		
-		$('.log-category').addClass(function(){
-			var category = $(this).find('input').val();
-			if(category == 1 || category == 2 || category == 3){
-				return 'glyphicon-pencil log-creation-background';
-			}else if(category == 4 || category == 5){
-				return 'glyphicon-grain log-booklog-background';
-			}else if(category == 6 || category == 7 || category == 8){
-				return 'glyphicon-phone log-community-background';
-			}else if(category == 9){
-				return 'glyphicon-book log-book-background';
-			}
+		fncAddLogCSS();
+		
+		$('.log-more-background').on('click', function(){
+			$('.loading-img').show();
+			$.ajax({
+				url: 'rest/getLogList/'+booklogUser+'/'+logPage,
+				method: 'get',
+				dataType: 'json',
+				success: function(data){
+					var lastLi = $('.timeline > li:last');
+					if(data.length > 0){
+						for(x in data){
+							var logHtml = '<li><i class="log-category"><input type="hidden" name="category" value="'+data[x].categoryNo+'"></i>';
+							logHtml += '<div class="timeline-item booklog-background"><span class="time"><i class="glyphicon glyphicon-time"></i>'+data[x].logTimeAgo+'</span>';
+							logHtml += '<div class="timeline-body"><input type="hidden" name="link" value="'+data[x].link+'">';
+							logHtml += '<span><small>'+data[x].logString+'</small></span></div></div></li>';
+							$(lastLi).before(logHtml);
+						}
+						logPage += 1;
+						fncAddLogCSS();
+					}else{
+						$('.log-more-background').css('cursor', 'not-allowed')
+												.off('click')
+												.removeClass('glyphicon-option-vertical')
+												.addClass('glyphicon-flag');
+					}
+				},
+				complete: function(){
+					$('.loading-img').hide();
+				}
+			});
 		});
 	});
 
@@ -210,14 +232,12 @@
 		        			fncGetDate(1),
 		        			fncGetDate(0)],
 		        datasets: [{
-		            label: '# of DailyVisitors',
-		            data: [${booklog.visitorsStatistics.daily[6].daycount},
-				            ${booklog.visitorsStatistics.daily[5].daycount},
-				            ${booklog.visitorsStatistics.daily[4].daycount},
-				            ${booklog.visitorsStatistics.daily[3].daycount},
-				            ${booklog.visitorsStatistics.daily[2].daycount},
-				            ${booklog.visitorsStatistics.daily[1].daycount},
-				            ${booklog.visitorsStatistics.daily[0].daycount}],
+					label: '# of DailyVisitors',
+		            data: [
+		            	<c:forEach items="${booklog.visitorsStatistics.daily}" var="daily">
+		            		${daily.daycount},
+		            	</c:forEach>
+				            ],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -264,13 +284,11 @@
 		        			'이번주'],
 		        datasets: [{
 		            label: '# of WeeklyVisitors',
-		            data: [${booklog.visitorsStatistics.weekly[6].weekcount},
-				            ${booklog.visitorsStatistics.weekly[5].weekcount},
-				            ${booklog.visitorsStatistics.weekly[4].weekcount},
-				            ${booklog.visitorsStatistics.weekly[3].weekcount},
-				            ${booklog.visitorsStatistics.weekly[2].weekcount},
-				            ${booklog.visitorsStatistics.weekly[1].weekcount},
-				            ${booklog.visitorsStatistics.weekly[0].weekcount}],
+		            data: [
+		            	<c:forEach items="${booklog.visitorsStatistics.weekly}" var="weekly">
+		            		${weekly.weekcount},
+		            	</c:forEach>
+							],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -315,11 +333,11 @@
 		        			'이번달'],
 		        datasets: [{
 		            label: '# of MonthlyVisitors',
-		            data: [${booklog.visitorsStatistics.monthly[4].monthcount},
-				    		${booklog.visitorsStatistics.monthly[3].monthcount},
-				            ${booklog.visitorsStatistics.monthly[2].monthcount},
-				            ${booklog.visitorsStatistics.monthly[1].monthcount},
-				            ${booklog.visitorsStatistics.monthly[0].monthcount}],
+		            data: [
+		            	<c:forEach items="${booklog.visitorsStatistics.monthly}" var="monthly" begin="2" end="6">
+		            		${monthly.monthcount},
+		            	</c:forEach>
+							],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -447,6 +465,27 @@
 	function radians(degree){
 		return degree * Math.PI / 180;
 	}
+	
+	function fncAddLogCSS(){
+		$('.timeline-body').off('click').on('click', function(){
+			$(self.location).attr('href', $(this).find('input[name="link"]').val());
+		});
+		
+		$('.log-category').removeClass(function(){
+			return $(this).attr('class');
+		}).addClass(function(){
+			var category = $(this).find('input').val();
+			if(category == 1 || category == 2 || category == 3){
+				return 'log-category glyphicon glyphicon-pencil log-creation-background';
+			}else if(category == 4 || category == 5){
+				return 'log-category glyphicon glyphicon-grain log-booklog-background';
+			}else if(category == 6 || category == 7 || category == 8){
+				return 'log-category glyphicon glyphicon-phone log-community-background';
+			}else if(category == 9){
+				return 'log-category glyphicon glyphicon-book log-book-background';
+			}
+		});
+	}
     
 </script>
 
@@ -464,13 +503,15 @@
 
 		<div class="row">
 
-			<div class="col-md-3 col-md-push-9">
+			<div class="col-md-3 col-md-push-8">
 			
-				<div class="row booklog-border-thick booklog-border-radius">
+				<div class="row">
 				
-					<div class="col-md-12">
+					<div class="col-md-12 booklog-border-thick booklog-border-radius">
 						<div class="row text-center booklog-img">
-							<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+							<div class="col-xs-offset-1 col-xs-10 booklog-img">
+								<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+							</div>
 						</div>
 				
 						<!-- 북로그이미지, 소개글, 이름 -->
@@ -500,18 +541,21 @@
 						<ul class="timeline">
 						<c:forEach items="${logList}" var="log">
 							<li>
-								<i class="log-category glyphicon"><input type="hidden" name="category" value="${log.categoryNo}"></i>
+								<i class="log-category"><input type="hidden" name="category" value="${log.categoryNo}"></i>
 								<div class="timeline-item booklog-background">
 									<span class="time"><i class="glyphicon glyphicon-time"></i> ${log.logTimeAgo}</span>
 									<div class="timeline-body">
 										<input type="hidden" name="link" value="${log.link}">
-										<span><small>${log.toString()}</small></span>
+										<span><small>${log.logString}</small></span>
 									</div>
 								</div>
 							</li>
 						</c:forEach>
 							<li>
-								<i class="glyphicon glyphicon-option-vertical log-more-background"></i>
+								<i class="glyphicon glyphicon-option-vertical log-more-background" style="cursor: pointer;"></i>
+								<div class="text-center">
+									<img class="loading-img" src="../resources/images/loading.gif" style="height: 30px; display:none;">
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -526,30 +570,30 @@
 					
 						<c:if test="${booklog.postingList.size() != 0}">
 							<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
+						    <div class="swiper-container">
+						        <div class="swiper-wrapper">
+					        	<c:set var="i" value="0"/>
+					        	<c:forEach items="${booklog.postingList}" var="posting">
+					        		<c:set var="i" value="${i+1}"/>
+					        		<div class="swiper-slide div-posting">
+										<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+					        			<div class="posting-preview">
+						        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
+					        			</div>
+										<p>포스팅명 : ${posting.postingTitle}</p>
+					        		</div>
+					        	</c:forEach>
+						        </div>
+						        <!-- Add Pagination -->
+						        <div class="swiper-pagination swiper-pagination-black"></div>
+						        <!-- Add Arrows -->
+						        <div class="swiper-button-next swiper-button-black"></div>
+						        <div class="swiper-button-prev swiper-button-black"></div>
+						    </div>
 						</c:if>
-					    <div class="swiper-container">
-					        <div class="swiper-wrapper">
-				        	<c:set var="i" value="0"/>
-				        	<c:forEach items="${booklog.postingList}" var="posting">
-				        		<c:set var="i" value="${i+1}"/>
-				        		<div class="swiper-slide div-posting">
-									<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-				        			<div class="posting-preview">
-					        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
-				        			</div>
-									<p>포스팅명 : ${posting.postingTitle}</p>
-				        		</div>
-				        	</c:forEach>
-				        	<c:if test="${i == 0}">
-				        		<h3>아직 등록된 포스팅이 없습니다!</h3>
-				        	</c:if>
-					        </div>
-					        <!-- Add Pagination -->
-					        <div class="swiper-pagination swiper-pagination-black"></div>
-					        <!-- Add Arrows -->
-					        <div class="swiper-button-next swiper-button-black"></div>
-					        <div class="swiper-button-prev swiper-button-black"></div>
-					    </div>
+			        	<c:if test="${booklog.postingList.size() == 0}">
+			        		<h3>아직 등록된 포스팅이 없습니다!</h3>
+			        	</c:if>
 				
 						<div class="row">
 							<ul class="nav nav-tabs" role="tablist" id="chartTab">

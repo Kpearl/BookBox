@@ -14,6 +14,8 @@
 	<!-- 기본설정 끝 -->
 	
 	<script type="text/javascript">
+		var isListLoading = false;
+		
 		$(function(){
 			$('a.posting-add:contains("포스팅 등록")').on('click',function(){
 				$(self.location).attr('href','../booklog/addPosting');
@@ -32,6 +34,17 @@
 			});
 			
 		});
+		
+		$(window).scroll(function(){
+			console.log($(window).scrollTop());
+			if($(document).height() - $(window).height() == 0){
+				
+			}
+		});
+		
+		function fncGetListAjax(){
+			
+		};
 	</script>
 
 </head>
@@ -52,7 +65,7 @@
 		<div class="row div-posting booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img booklog-border-thin" style="padding-right: 0;">
+				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
 					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">

@@ -73,7 +73,7 @@ public class PostingTest {
 		search.setKeyword("wndhks@naver.com");
 		
 		
-		System.out.println(postingService.getPostingList(search));
+//		System.out.println(postingService.getPostingList(search));
 	}
 	
 //	@Test

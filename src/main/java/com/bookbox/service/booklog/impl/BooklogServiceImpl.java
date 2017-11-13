@@ -1,12 +1,12 @@
 package com.bookbox.service.booklog.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
@@ -24,9 +24,9 @@ public class BooklogServiceImpl implements BooklogService {
 	}
 	
 	@Override
-	public List<Booklog> getBooklogList(Search search) {
+	public List<Booklog> getBooklogList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return booklogDAO.getBooklogList(search);
+		return booklogDAO.getBooklogList(map);
 	}
 
 	@Override

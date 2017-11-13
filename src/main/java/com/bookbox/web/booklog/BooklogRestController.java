@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bookbox.common.domain.Log;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
@@ -44,6 +47,14 @@ public class BooklogRestController {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
+	
+	@Autowired
+	@Qualifier("logServiceImpl")
+	private LogService logService;
+
+	//한페이지에 보여줄 갯수
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 	
 	public BooklogRestController() {
 		System.out.println("Constructor :: "+this.getClass().getName());
@@ -159,5 +170,13 @@ public class BooklogRestController {
 		return booklogService.deleteBooklogBookmark(user, booklog);
 	}
 	
+	@RequestMapping( value="getLogList/{email}/{active}", method=RequestMethod.GET )
+	public List<Log> getLogList(@PathVariable("email") String email, @PathVariable("active") int active){
+		User booklogUser = new User();
+		booklogUser.setEmail(email);
+		booklogUser.setActive(active * 10);
+		
+		return logService.getLogList(booklogUser);
+	}
 	
 }

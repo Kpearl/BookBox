@@ -227,16 +227,20 @@ input.search-form, select.search-form{
 }
 
 footer{
-	padding:20px;
 	text-align:center;
 	background-color:#333;
 	color:#fff;
-	position: absolute;
+	height: 85px;
+	bottom: 0;
 	width: 100%;
+	-webkit-transition: 0.3s;
+	   -moz-transition: 0.3s;
+			transition: 0.3s;
 }
 
 footer h5{
 	color:inherit;
+	margin: 31px;
 }
 
 div.container.post{
@@ -281,7 +285,7 @@ div.div-posting, div.posting-img{
 	overflow: hidden;
 }
 div.div-posting{
-	margin: 6px;
+	margin: 20px 10px;
 	cursor: pointer;
 }
 span.posting-content{

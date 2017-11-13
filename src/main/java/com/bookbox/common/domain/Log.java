@@ -66,9 +66,12 @@ public class Log {
 		if(diff / (1000 * 60 * 60 * 24 * 365) > 0) {
 			timeAgo.append(diff / (1000 * 60 * 60 * 24 * 365))
 					.append("년 ");
-		}else if(diff / (1000 * 60 * 60 * 24) > 0) {
+		}else if(diff / (1000 * 60 * 60 * 24 * 30) > 0) {
 			timeAgo.append(diff / (1000 * 60 * 60 * 24))
 					.append("달 ");
+		}else if(diff / (1000 * 60 * 60 * 24) > 0) {
+			timeAgo.append(diff / (1000 * 60 * 60 * 24))
+					.append("일 ");
 		}else if(diff / (1000 * 60 * 60) > 0) {
 			timeAgo.append(diff / (1000 * 60 * 60))
 					.append("시간 ");
@@ -153,6 +156,25 @@ public class Log {
 		}
 		link.append(this.targetNo);
 		return link.toString();
+	}
+
+	public String getLogString() {
+		try {
+			StringBuffer log = new StringBuffer();
+			log.append(CommonUtil.getConstProp().getProperty("C"+categoryNo)+" ")
+				.append("'")
+				.append(targetName+"'을(를) ");
+			if(addBehavior != 0) {
+				log.append(CommonUtil.getConstProp().getProperty("AB"+addBehavior)+"을(를) ");
+			}
+			log.append(CommonUtil.getConstProp().getProperty("B"+behavior)+"하였습니다.");
+	
+			return log.toString();
+		}catch(Exception e) {
+			return "Log [user=" + user + ", logRegDate=" + logRegDate + ", targetName=" + targetName + ", categoryNo="
+					+ categoryNo + ", targetNo=" + targetNo + ", behavior=" + behavior + ", addBehavior=" + addBehavior
+					+ "]";
+		}
 	}
 
 

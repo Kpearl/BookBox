@@ -127,7 +127,7 @@
 		<div class="row div-posting booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img booklog-border-thin" style="padding-right: 0;">
+				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
 					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">

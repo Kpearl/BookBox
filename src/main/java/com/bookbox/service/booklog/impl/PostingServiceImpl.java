@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
-import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.service.TagService;
@@ -65,9 +64,9 @@ public class PostingServiceImpl implements PostingService {
 	}
 
 	@Override
-	public List<Posting> getPostingList(Search search) {
+	public List<Posting> getPostingList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		List<Posting> postingList = postingDAO.getPostingList(search); 
+		List<Posting> postingList = postingDAO.getPostingList(map); 
 		for(Posting posting : postingList) {
 			StringBuffer content = new StringBuffer();
 			for(String seq : posting.getPostingContent().split("<")) {

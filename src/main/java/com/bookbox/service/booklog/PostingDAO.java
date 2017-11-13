@@ -1,8 +1,8 @@
 package com.bookbox.service.booklog;
 
 import java.util.List;
+import java.util.Map;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Posting;
 
 public interface PostingDAO {
@@ -11,7 +11,7 @@ public interface PostingDAO {
 	
 	public Posting getPosting(Posting posting);
 	
-	public List<Posting> getPostingList(Search search);
+	public List<Posting> getPostingList(Map<String, Object> map);
 	
 	public boolean updatePosting(Posting posting);
 	

@@ -73,7 +73,6 @@
 		}
 		.book-img{
 			z-index: 0;
-			width: 100%;
 			height: 100%;
 			object-fit: cover;
 			opacity: 0.75;
@@ -185,10 +184,6 @@
 				},
 			});
 			
-			var categorySwiper = new Swiper('.category-swiper-container', {
-				speed: 600,
-				parallax: true
-			});
 			
 			//추천도서 rest
 			$.ajax({
@@ -507,7 +502,7 @@
 	
 	
 	
-	<div class="category">
+<!-- 	<div class="category">
 		<div class="list list-first">
 			<div class="category-creation">
 				<div class="display-middle">
@@ -538,42 +533,8 @@
 				얍얍3
 			</div>
 		</div>
-	</div>
-
-<!-- 	<div class="category category-swiper-container swiper-container">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide">
-				<div class="category-creation" data-swiper-parallax-y="-100" >
-					<div class="display-middle">
-						<span class="font-large theme-white padding-large wide">CREATION</span>
-					</div>
-				</div>
-				<div class="container">
-					얍얍1
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="category-community">
-					<div class="display-middle">
-						<span class="font-large theme-white padding-large wide">COMMUNITY</span>
-					</div>
-				</div>
-				<div class="container">
-					얍얍2
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="category-booklog">
-					<div class="display-middle">
-						<span class="font-large theme-white padding-large wide">BOOKLOG</span>
-					</div>
-				</div>
-				<div class="container">
-					얍얍3
-				</div>
-			</div>
-		</div>
 	</div> -->
+
 
 
 	<footer class="container-fluid">
