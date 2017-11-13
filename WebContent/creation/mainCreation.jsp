@@ -65,7 +65,7 @@
     }
     
     .creation-part{
-    	margin-top :100px;
+    	margin-top :0px;
     	
     }
     
@@ -94,37 +94,7 @@
 			padding: 4px;
 			font-weight: bold;
 		}
-		
-	.creation-toolbar{
-		clear: both;
-	    height: 38px;
-	    _height: 40px;
-	    padding: 0 0 2px;
-	    background: #3d3d3d
-	}
-	
-	ul.menu li {
-       float: left;
-   	 	position: relative;
-}
-	ul{
-    	display: block;
-	      -webkit-margin-before: 1em;
-	    -webkit-margin-after: 1em;
-	    -webkit-margin-start: 0px;
-	    -webkit-margin-end: 0px;
-	    -webkit-padding-start: 40px;
-	}
-	
-	li{
-		    list-style: none;
-	        margin: 0;
-    		padding: 0;
-    		text-align: -webkit-match-parent;
-	}
 
-    
-    }
     	
     	
     </style>
@@ -196,7 +166,7 @@ $(function() {
    
    //============= 창작글쓰기 Navigation Event  처리 =============	
    $(function() {
-	  $("a.addWriting").on("click" , function() {
+	  $(".addWriting").on("click" , function() {
 		  $(self.location).attr("href","../creation/addWriting");
    	
    	}); 
@@ -204,7 +174,7 @@ $(function() {
    
    //============= 펀딩등록하기 Navigation Event  처리 =============	
    $(function() {
-	  $("a.addfunding").on("click" , function() {
+	  $(".addfunding").on("click" , function() {
 		  $(self.location).attr("href","../creation/addFunding");
    	
    	}); 
@@ -283,57 +253,9 @@ $(function() {
 	
 <div class="container">	
 	
-	<div class="row creation-toolbar" >
-		<div class ="creation-toolbar-main" style="display:inline-block;">
-			<!-- <div class="home-btn" style="display:inline-block;">창작홈</div>
-			<div class="creation-btn" style="display:inline-block;">창작작품</div>
-			<div class="funding-btn" style="display:inline-block;">펀딩</div> -->
-			<ul class="creation-menu" style="display:inline-block;">
-				<li class="home" style="display:inline-block;">창작홈</li>
-				<li class="creation-home" style="display:inline-block;">창작작품</li>
-				<li  class="funding-home" style="display:inline-block;">펀딩</li>
-			</ul>
-		</div>
-		<div class="creation-toolbar-sub" style="display:inline-block;">
-		</div>
-	</div>
+	<jsp:include page="creationToolbar.jsp"/>
 
-
-
-	<div class="row" style="vertical-align: middle;">
-			<!-- 글쓰기, 펀딩등록 버튼 -->
-			<div class="col-md-6 text-left" style="vertical-align: middle;">
-			<c:if test="${!empty sessionScope.user }">
-				<a class="btn btn-default addWriting">창작글 쓰기</a>
-				<a class="btn btn-default addfunding">펀딩등록하기</a>
-			</c:if>
-			</div>
-			<!-- 생성버튼 끝 -->
-
-		 	<form class="form-inline text-right col-md-6" >
-			  <div class="form-group" style="vertical-align: middle;">
-			    <div class="input-group" style="vertical-align: middle;">
-			      <div class="input-group-addon" style="vertical-align: middle;">
-			      	<select class="form-control" name="condition">
-			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
-			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
-			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
-			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
-			      	</select>
-			      </div>
-			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어" >
-			  	 	<div class="input-group-addon">
-			  			<a class="btn creationSearch">검색</a> 
-			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
-					</div>
-			    </div>
-			  </div>
-			</form>
-			
-		</div>
-	
-
-  <div class="row creation-part" >
+  <div class="row creation-part" style="margin-top :50px;">
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
          <span>FUNDING</span>

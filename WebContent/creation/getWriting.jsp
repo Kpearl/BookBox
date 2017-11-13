@@ -10,10 +10,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
+    <link rel="stylesheet" href="../resources/css/star.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+<style type="text/css">
+	.gradeAvg{
+		display: inline-block; 
+		float:left;
+		padding-top: 0.2%;
+		padding-left: 0.5%;
+	}
+	.add-grade{
+		display: inline-block; float:left;margin-left: 2%;border-left: 2px groove;padding-left: 0.5%;
+	}
 
+
+</style>
 <script type="text/javascript">
 
 //================펀딩보러가기 Navigation=================
@@ -102,23 +115,23 @@ function deleteLike(targetNo) {
 }
 
 //=====================별점 이벤트=================
-/* $(function() {
+ $(function() {
 	$(document).ready(function() {
 		if ('${grade.doGrade}' == 'true' || '${user.email}' == '') {
-			$('#starWrap ul li').off();
+			$('.gradeAvg-present ul li').off();
 		}
 	});
 
-	$('#starWrap ul li').mouseenter(function() {
+	$('.gradeAvg-present ul li').mouseenter(function() {
   	var idx = $(this).index() + 1;
-		$('#starWrap').removeClass();
-		$('#starWrap').addClass('star' + idx);
+		$('.gradeAvg-present').removeClass('star'+$(this).index());
+		$('.gradeAvg-present').addClass('star' + idx);
 	});
 
-	$("#starWrap ul li").click(function() {
+	$(".gradeAvg-present ul li").click(function() {
 		$(this).mouseenter();
 		var idx = $(this).index() + 1;
-		$('#starWrap ul li').off();
+		$('.gradeAvg-present ul li').off();
 		
 		if ("${grade.doGrade}" == "true") {
 			alert("이미 평점을 등록하셨습니다.");
@@ -131,13 +144,13 @@ function deleteLike(targetNo) {
 				data: {"targetNo": '${targetNo}', "userCount": idx},
 				success: function() {
 					alert("평점이 등록되었습니다.");
-					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + ${grade.average})/2 + "</span>");
+					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + '${writing.grade.average}')/2 + "</span>");
 				}
 			});
 		}
 	});
 });
- */
+
 
 
 </script>
@@ -145,80 +158,7 @@ function deleteLike(targetNo) {
 <!-- 별점 주는 css -->
 <style type="text/css">
 
-/* 마우스오버 */
-#starWrap ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
 
-#starWrap ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrap.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star2 .s1, #starWrap.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star3 .s1, #starWrap.star3 .s2, #starWrap.star3 .s3 {
-	background-position: 0 -15px;
-}
-
-#starWrap.star4 .s1, #starWrap.star4 .s2, #starWrap.star4 .s3, #starWrap.star4 .s4
-	{
-	background-position: 0 -15px;
-}
-
-#starWrap.star5 .s1, #starWrap.star5 .s2, #starWrap.star5 .s3, #starWrap.star5 .s4,
-	#starWrap.star5 .s5 {
-	background-position: 0 -15px;
-}
-
-/* 마우스클릭 */
-#starWrapClick ul:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-#starWrapClick ul li {
-	width: 16px;
-	height: 15px;
-	float: left;
-	background: url('../resources/images/bgStarSolo.png') no-repeat;
-	cursor: pointer;
-}
-
-#starWrapClick.star1 .s1 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star2 .s1, #starWrapClick.star2 .s2 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star3 .s1, #starWrapClick.star3 .s2, #starWrapClick.star3 .s3
-	{
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star4 .s1, #starWrapClick.star4 .s2, #starWrapClick.star4 .s3,
-	#starWrapClick.star4 .s4 {
-	background-position: 0 -15px;
-}
-
-#starWrapClick.star5 .s1, #starWrapClick.star5 .s2, #starWrapClick.star5 .s3,
-	#starWrapClick.star5 .s4, #starWrapClick.star5 .s5 {
-	background-position: 0 -15px;
-}
 </style>
 
 </head>
@@ -228,101 +168,133 @@ function deleteLike(targetNo) {
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
 
-	<div class="row">
-			<div>
-				펀딩진행중 여부
-			</div>
-			<div class="col-md-4">
+<div class="container">
+			<jsp:include page="creationToolbar.jsp"/>
+
+   
+        <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-	    		<img src="../resources/upload_files/images/${creation.creationFileName }" width="320px" height="200px">
-	  		</div>
-			<div class="col-md-6">
-				  <h4>작품명 : ${creation.creationTitle }</h4> 
-				  <p>작성자 : ${creation.creationAuthor.nickname }</p> 
-				  <p>태그리스트 : 
-				  <c:forEach var="tag" items="${creation.tagList}">	  
-				  	<span>#${tag.tagName }</span>	
-				  </c:forEach>
-				  </p>
-				  <p>작품 소개글 : ${creation.creationIntro }</p>
-  			</div>
-	</div>
-		
-		<div>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></div><br>
-		<div>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></div><br>
-
-		<!-- 별점 -->
-		<div id="starWrap" class="star${grade.average}">
-			<ul>
-				<li class="s1"></li>
-				<li class="s2"></li>
-				<li class="s3"></li>
-				<li class="s4"></li>
-				<li class="s5"></li>
-			</ul>
-		</div>
-		<br>
-		<br>
+            <div class="col-md-5">
+            	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
+            	<c:if test="${creation.doFunding}">
+            		펀딩 진행 중!
+            	</c:if>
+            </div>
+            <div class="col-md-7" style="height: 100%;">
+            	<div class="row">
+	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
+	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	          </div>
+   			 <div class="row">
+                	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
+	                	${creation.creationIntro}
+	                </div>
+                </div>
+                
+		        <div class="row">
+		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
+			           	<c:forEach items="${creation.tagList}" var="tag">
+			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
+			           		<strong>#${tag.tagName}</strong></span>
+			           	</c:forEach>
+		            </div>
+		        </div>
+            </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-6" >
+        		<div class="row">
+				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+                	<div class="btn-form control-btn updateCreation" style="display:inline-block;">수정</div>
+                	<div class="btn-form control-btn deleteCreation" style="display:inline-block;">삭제</div>
+	             </c:if>
+	             </div>
+			</div>
+        
+            <div class="col-md-6">
+            	<div class="row" role="group" style="float:right">
+                	
+            <c:if test="${creation.doFunding}">
+                <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
+            </c:if>
+                
+	                <c:if test="${creation.doSubscription}">
+	                	<div class="subscription deleteSubscription btn-form" style="background-color:rgba(255, 20, 44, 0.21);"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
+	                    
+	                </c:if>
+	                <c:if test="${!creation.doSubscription}">
+	                	<div class="subscription doSubscription btn-form"><strong>구독하기</strong></div>
+	                </c:if>
+	                <c:if test="${creation.like.doLike}">
+	                    <div class="like deleteCreationLike btn-form">	
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	                   
+	                </c:if>
+	                <c:if test="${!creation.like.doLike}">
+	                    <div class="like addCreationLike btn-form" >
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	               </c:if>
+                </div>
+            </div>
+        </div><!--창작부분 버튼 끝  -->
+   </div><!--창작 container 끝  -->
 	
-		<div>
-			<a class="btn go-funding">펀딩보러가기</a>
-			<c:choose>
-				<c:when test="${!empty user.email}">
-			<button>구독</button>
-				</c:when>
-		
-				<c:when test="${like.doLike == false}">
-					<a class="btn" id="addLike" onclick="addLike(${targetNo});">좋아요</a>
-				</c:when>
-
-				<c:when test="${like.doLike == true}">
-					<a class="btn" id="deleteLike" onclick="deleteLike(${targetNo});">좋아요 취소</a>
-				</c:when>
-			</c:choose>
-		</div>
-	
-	<section class="contatiner">
-		<div>
-			<button>이전글</button>
-			<button>다음글</button>
-			<button>목록</button>
-		</div>
-		
-		<br>
-		<form name="writingForm">
-			<div class = "row">
-					<input type ="hidden" name="writingNo" value="${writing.writingNo }">
-					<h5>창작글 제목 : ${writing.writingTitle }</h5>
-				<div class="col-md-12 text-right">
-					<p>창작글 등록일 :${writing.regDate }</p>
-					<p>창작글 수정일 :${writing.updateDate }</p>
+	<!--writing 시작  -->
+	<div class="container">
+		<input type ="hidden" name="writingNo" value="${writing.writingNo }">
+				
+		<div class="row writing-form" id="writing-form" >
+			<div style="padding: 0px 50px 50px 50px;margin-top: 40px;border-top: 2px groove;background-color: rgba(221, 221, 221, 0.12);">
+				<div class = "row writing-head" style="margin-top:15px;">
+					<div class="writing-title" style="font-size: xx-large;">${writing.writingTitle }</div>
+					<div class="row grade-part" style="padding-left: 1.5%;">
+						<div  style="display: inline-block; float:left;">회차별점</div>	
+						<div id="starWrap" class="gradeAvg-result star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+								<ul style="padding-left:0;">
+									<li class="s1" style="cursor:auto;"></li>
+									<li class="s2" style="cursor:auto;"></li>
+									<li class="s3" style="cursor:auto;"></li>
+									<li class="s4" style="cursor:auto;"></li>
+									<li class="s5" style="cursor:auto;"></li>
+								</ul>
+						</div>
+						<div class="get-gradeAvg" style="display: inline-block; float:left;">(${writing.grade.average})</div>
+						<div class="add-grade">별점주기</div>
+						<div id="starWrap" class="gradeAvg-present star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+								<ul style="padding-left:0">
+									<li class="s1"></li>
+									<li class="s2"></li>
+									<li class="s3"></li>
+									<li class="s4"></li>
+									<li class="s5"></li>
+								</ul>
+						</div>
+						<div class="updatedate text-right" style="float:right">
+							<p style="margin: auto;">${writing.updateDate }</p>
+						</div>
+						</div>
+					<hr style="margin-top:0;">
+				
+				</div>
+				<div class="row writing-content">
+					${writing.writingContent }	
 				</div>
 			</div>
-			<div class="panel panel-defalt">
-				<div>
-				${writing.writingContent }	
-				</div>
-			</div>
-		</form>
-		
-		
-		<br>
-		<br>
-		
-
-		<a class="btn go-funding">펀딩보러가기</a>
-		<br><br>
+		</div>
+	
 		<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
-			<div class="row col-md-12 text-right">
+			<div class="row col-md-12 text-right" style="margin-top:1%">
 				<a class="btn delete-writing" id="delete-writing">삭제</a>
 				<a class= "btn update-writing" id="update-writing" >수정</a>
 			</div>
 		</c:if>
-		<a class= "btn menu" id="update-writing" >메뉴</a>
-		<br><br>
+
 		
 		<!-- 댓글 -->
-		댓글 수 / 조회 수<br><br>
+		<div>댓글 수 / 조회 수</div>
+		
 		<c:if test="${user.email != null}">	
 			댓글  <input type="text" id="content" placeholder="댓글 입력">
 			<a class="btn" onclick="addReply(${book.isbn});">댓글입력</a><br>
@@ -339,8 +311,9 @@ function deleteLike(targetNo) {
 		</c:forEach>
 		
 		<br>
-		<button>창작글쓰기</button>
-	</section>
+		
 	</div>
+	
+	
 </body>
 </html>

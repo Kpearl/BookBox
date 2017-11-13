@@ -322,13 +322,9 @@
 	<header class="parallax"></header>
 	<!-- 여기부터 코딩 -->
     <div class="container">
+    		<jsp:include page="creationToolbar.jsp"/>
     	
-    	<div class="row" style="background-color: rgb(255, 248, 220);">
-         	<a class="btn btn-defalt menu" style="background-color:#ffffff;float:right;">menu</a>
-			<!-- <span class="text-left" style="padding-left:10px;font-style: italic;font-size:-webkit-xxx-large;font-weight: 400;">Funding</span> -->
-         </div>
-         <!-- <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:30px"></div> -->
-    	
+       	
   <div class="row creation-part" >
       <!-- 펀딩정보 시작 -->
         <div class="row col-sm-12 col-md-12 get-funding" style="margin-top: 25px;">

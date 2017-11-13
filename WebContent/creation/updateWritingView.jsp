@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
+    <link rel="stylesheet" href="../resources/css/star.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
@@ -21,17 +22,15 @@
 
 <script type="text/javascript">
 
-//=====================창작글 수정하기 EVENT=================
-
 		var tagHtml;
 		var num;
 		var editor;
-	
-		$(function(){
+//=====================창작글 수정하기 EVENT=================
+	$(function(){
 			editor = CKEDITOR.replace('writingContent', { customConfig : 'config_writing.js'});
 			num = 0;
 		
-			$('a.update-writing').on('click',function(){
+			$('.update-writing').on('click',function(){
 				var data = CKEDITOR.instances.writingContent.getData();
 				$('form[name="updateForm"] textarea').val(data);
 				alert($('form[name="updateForm"] textarea').val());
@@ -59,6 +58,13 @@
 			});
 		});
 		
+	//=========================이전화면 Navigation=================================
+    $(function(){
+		$(".before").on("click" , function() {
+	   		history.back();
+	   	});
+    });
+		
 
 </script>
 
@@ -70,65 +76,108 @@
 	</jsp:include>
 
 	<!-- 말머리 -->
-	<div class="container">
-		<form id="updateForm" name="updateForm">
-		<div class="panel">
-			<h2>${creation.creationHead }</h2>
-			<br>
-			
-			<div class="row">
-					<div>
-						펀딩진행중 여부
-					</div>
-					<div class="col-md-4">
-						<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-			    		<img src="../resources/upload_files/images/${creation.creationFileName }" width="320px" height="200px">
-			  		</div>
-					<div class="col-md-6">
-						  <h4>작품명 : ${creation.creationTitle }</h4> 
-						  <p>작성자 : ${creation.creationAuthor.nickname }</p> 
-						  <p>태그리스트 : 
-						  <c:forEach var="tag" items="${creation.tagList}">	  
-						  	<span>#${tag.tagName }</span>	
-						  </c:forEach>
-						  </p>
-						  <p>작품 소개글 : ${creation.creationIntro }</p>
-		  			</div>
-			</div>
-		
-		<br>
-	
-			<div>사이트내 좋아요 개수 : <span  id="likeSum">${like.totalLike}</span></div><br>
-			<div>사이트내 평균 평점 : <span id="gradeAvg">${grade.average}</span></div><br>
-		</div>
+<div class="container">
+			<jsp:include page="creationToolbar.jsp"/>
 
-		<!-- 별점 -->
-	<%-- 	<div id="starWrap" class="star${grade.average}">
-			<ul>
-				<li class="s1"></li>
-				<li class="s2"></li>
-				<li class="s3"></li>
-				<li class="s4"></li>
-				<li class="s5"></li>
-			</ul>
-		</div> --%>
-		
+   
+        <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
+				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
+            <div class="col-md-5">
+            	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
+            	<c:if test="${creation.doFunding}">
+            		펀딩 진행 중!
+            	</c:if>
+            </div>
+            <div class="col-md-7" style="height: 100%;">
+            	<div class="row">
+	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
+	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	          </div>
+	          <div>
+           			<div id="starWrap" class="gradeAvg star${creation.grade.average}" >
+						<ul style="padding-left:0">
+							<li class="s1"></li>
+							<li class="s2"></li>
+							<li class="s3"></li>
+							<li class="s4"></li>
+							<li class="s5"></li>
+						</ul>
+				</div>
+	          </div>
+   			 <div class="row">
+                	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
+	                	${creation.creationIntro}
+	                </div>
+                </div>
+                
+		        <div class="row">
+		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
+			           	<c:forEach items="${creation.tagList}" var="tag">
+			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
+			           		<strong>#${tag.tagName}</strong></span>
+			           	</c:forEach>
+		            </div>
+		        </div>
+            </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-6" >
+        		<div class="row">
+				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
+                	<div class="btn-form control-btn updateCreation" style="display:inline-block;">수정</div>
+                	<div class="btn-form control-btn deleteCreation" style="display:inline-block;">삭제</div>
+	             </c:if>
+	             </div>
+			</div>
+        
+            <div class="col-md-6">
+            	<div class="row" role="group" style="float:right">
+                	
+            <c:if test="${creation.doFunding}">
+                <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
+            </c:if>
+                
+	                <c:if test="${creation.doSubscription}">
+	                	<div class="subscription deleteSubscription btn-form" style="background-color:rgba(255, 20, 44, 0.21);"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
+	                    
+	                </c:if>
+	                <c:if test="${!creation.doSubscription}">
+	                	<div class="subscription doSubscription btn-form"><strong>구독하기</strong></div>
+	                </c:if>
+	                <c:if test="${creation.like.doLike}">
+	                    <div class="like deleteCreationLike btn-form">	
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	                   
+	                </c:if>
+	                <c:if test="${!creation.like.doLike}">
+	                    <div class="like addCreationLike btn-form" >
+	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
+	                    </div>
+	               </c:if>
+                </div>
+            </div>
+        </div><!--창작부분 버튼 끝  -->
+   </div><!--창작 container 끝  -->
+	
+	<div class="container">
 		<div class="inWriting" id="inWriting">
-		<!--창작글 등록란  -->
-			<div class="panel panel-default">
-		  		 <div class="panel-body">
-					<div class="form-group">
-						글제목 <input type="text" name="writingTitle" value="${writing.writingTitle }">
-						<input type = "hidden" name="writingNo" value="${writing.writingNo }">
-						<input type = "hidden" name="active" value="${writing.active }">
-					</div>
-					<div class="form-group">
-						<textarea name="writingContent" id="writingContent" rows="20" cols="80">
+			
+			<form id="updateForm" name="updateForm">
+		<hr>
+		<div class="form-group">
+					<strong style="font-size: large;">글제목</strong> <input type="text" class="form-control" name="writingTitle" value="${writing.writingTitle }">
+					<input type = "hidden" name="creationNo" value="${creation.creationNo }">
+					<input type = "hidden" name="writingNo" value="${writing.writingNo }">
+					<input type = "hidden" name="active" value="${writing.active }">
+				</div>
+				<div class="form-group" >
+					<textarea name="writingContent" id="writingContent" rows="20" cols="80">
 						${writing.writingContent }</textarea>
-					</div>
-					
-					<div class="panel imgList">
-					이미지리스트
+				</div>
+				
+				<div class="panel imgList">
+				이미지리스트
 					<c:forEach var ="uploadFile" items="${writing.writingFileList }">
 					<div id="${uploadFile.fileName}">
 						<input type="hidden" name="writingFileName"   value="${uploadFile.fileName}" readonly>
@@ -137,23 +186,27 @@
 						<a class='btn removeImg' id="${uploadFile.fileName}">x</a>
 					</div>		
 					</c:forEach>
-					
-					</div>
 				</div>
-			
-			</div>
-	</div>
-		</form>
 		
-		<div class="row ">
-			<div class="col-md-12 text-right">
-				<a class="btn delete-writing" id="delete-writing">삭제</a>
-				<a class= "btn update-writing" id="update-writing" >수정</a>
-			</div>
-			<a class="btn add-writing" >창작글쓰기</a>
-			<a class="btn">목록</a>
+				 <div class="form-group" style="margin-bottom:80px;">
+			           <div style="float:right;">
+			               <a class="btn delete-writing" id="delete-writing">삭제</a>
+							<a class= "btn btn-primary update-writing" id="update-writing" >수정</a>
+			           </div>
+			           <div>
+							<a class="btn before">이전</a>
+			           </div>
+			   </div>	
+			   
+			  
+	</form>
+		
+		
 		</div>
-		<br><br>
+	</div>
+
+		
+		
 
 		
 	

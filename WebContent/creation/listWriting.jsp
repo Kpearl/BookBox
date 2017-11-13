@@ -13,6 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+    <link rel="stylesheet" href="../resources/css/star.css">
 	<script src="../resources/javascript/toolbar_opac.js"></script>
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
@@ -34,7 +35,8 @@
 			font-weight: bold;
 		}
 		div.row.writing-border{
-			border-top: 1px solid #eeeeee;
+			border-bottom: 1px solid #eeeeee;
+			/* margin-top: 1%; */
 		}
 		  
 		 
@@ -58,10 +60,23 @@
 		.like{
 			padding: 4px 15px; 
 		}
-		
+	.creation-toolbar{
+		clear: both;
+	    height: 40px;
+	    _height: 40px;
+	    padding: 0 0 2px;
+	    background: #3d3d3d
+	}
+	.writing-list-menu{
+		font-weight: bold;
+		background-color: rgba(165, 163, 159, 0.19);
+		margin-top: 3%;
+		border-bottom: 1px groove;
+	    padding-top: 1%;
+   	}	
 
-
-   
+	
+  
     </style>
 
 	
@@ -144,24 +159,36 @@
 	   	   		} 
 	   	   	});
 		} 
+	   
+	$(function(){
+		num = 0;
+		
+			$('a.tag-add:contains("추가하기")').on('click',function(){
+				num = num + 1;
+				tagHtml = '<span id="tag'+num+'">, # <input class="inputValue" type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
+				$('.tag-list').append(tagHtml);
+			});
+		});
+	
 
 	   
    $(function() {
-	 //=====================메뉴 Navigation=================
-		   	$('.menu').on('click',function() {
-		   		history.back();
-		   	})
-	   //============= 창작글쓰기 Navigation Event  처리 =============	
-		  $("a.addWriting").on("click" , function() {
-			  $(self.location).attr("href","../creation/addWriting");
-	   	}); 
+		      
        //============= 창작글 조회 Navigation Event  처리 =============	
 	   $("a.writingTitle").on("click" , function() {
 	   		$(self.location).attr("href","../creation/getWriting?writingNo="+$(this).attr("id"));
    		}); 
 	   //============= 창작작품 수정 Navigation Event  처리 =============	
+ 	   $("#update-creation-action").on("click" , function() {
+ 		  $('#creationForm').attr('enctype','multipart/form-data').attr('method','post').attr("action","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val()).submit();
+   		});  
+	 //============= 창작작품 수정 Navigation Event  처리 =============	
 	   $(".updateCreation").on("click" , function() {
-		   $(self.location).attr("href","../creation/updateCreation?creationNo="+$("input[name='creationNo']").val());
+		   $('#update-creation').modal('show')
+   		}); 
+		 //============= 창작작품 수정창 취소버튼 Navigation Event  처리 =============	
+	   $(".cancle").on("click" , function() {
+		   $('#update-creation').modal('hide')
    		}); 
 	   //============= 창작작품 삭제 Navigation Event  처리 =============	
 	   $(".deleteCreation").on("click" , function() {
@@ -223,42 +250,10 @@
 	<header class="parallax"></header>
 	
     <div class="container">
-		<div class="row">
-			<!-- 글쓰기, 펀딩등록 버튼 -->
-			<c:if test="${!empty sessionScope.user }">
-				<div class="col-md-6 text-left">
-					<a type="button" class="btn btn-default addWriting">창작글쓰기</a>
-					<a type="button" class="btn btn-default addFunding">펀딩등록하기</a>
-				</div>
-			</c:if>
-				<!-- 생성버튼 끝 -->
-			 	
-		 	<form class="form-inline text-right " >
-			  <div class="form-group">
-			    <div class="input-group">
-			      <div class="input-group-addon">
-			      	<select class="form-control" name="condition">
-			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
-			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
-			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
-			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
-			      	</select>
-			      </div>
-			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어">
-			  	 	<div class="input-group-addon">
-			  			<a class="btn creationSearch">검색</a> 
-			  			
-					</div>
-			    </div>
-			  </div>
-			</form>
-				
-		</div>
+			<jsp:include page="creationToolbar.jsp"/>
 
-
-       
-          
-        <div class="row" style="height:325px">
+   
+        <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
             <div class="col-md-5">
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
@@ -266,14 +261,23 @@
             		펀딩 진행 중!
             	</c:if>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7" style="height: 100%;">
             	<div class="row">
-	            	<strong style="font-size: xx-large;">${creation.creationTitle}  </strong>
-	           		<span style="    font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
+	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
-	          <div>
-           			<span id="gradeAvg">평균 평점 :${creation.grade.average}</span>
-	          </div>
+	          
+           			<!-- <span id="gradeAvg">평균 평점 </span> -->
+           			<div id="starWrap" class="gradeAvg star${creation.grade.average}" >
+								<ul style="padding-left:0">
+									<li class="s1"></li>
+									<li class="s2"></li>
+									<li class="s3"></li>
+									<li class="s4"></li>
+									<li class="s5"></li>
+								</ul>
+							</div>
+	          
    			 <div class="row">
                 	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
 	                	${creation.creationIntro}
@@ -281,7 +285,7 @@
                 </div>
                 
 		        <div class="row">
-		            <div class="col-xs-12 " style="padding-left: 10%;    padding-top: 4%;">
+		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
 			           	<c:forEach items="${creation.tagList}" var="tag">
 			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
 			           		<strong>#${tag.tagName}</strong></span>
@@ -318,7 +322,7 @@
 	                    <div class="like deleteCreationLike btn-form">	
 	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
 	                    </div>
-	                    <!-- </a> -->
+	                   
 	                </c:if>
 	                <c:if test="${!creation.like.doLike}">
 	                    <div class="like addCreationLike btn-form" >
@@ -327,74 +331,181 @@
 	               </c:if>
                 </div>
             </div>
-        </div>
-            
-            
-           <!--  <a class= "btn menu" id="update-writing" >메뉴</a> -->
+        </div><!--창작부분 버튼 끝  -->
+   </div><!--창작 container 끝  -->
     
-    </div>
-    
-    <hr>
+    <!-- <hr> -->
     
     <div class="container">
-        <div class="row hidden-xs hidden-sm">
-            <div class="col-md-2 text-center">
+        <div class="row hidden-xs hidden-sm" >
+            <div class="col-md-2 text-center writing-list-menu">
                 <p>이미지</p>
             </div>
-            <div class="col-md-7 text-center">
+            <div class="col-md-6 text-center writing-list-menu">
                 <p>제목</p>
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 text-center writing-list-menu">
                 <p>평점</p>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-2 text-center writing-list-menu">
                 <p>등록일</p>
             </div>
         </div>
         
     <c:forEach items="${creation.writingList}" var="writing">
         <div class="row writing-border">
-        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
-            <div class="col-md-2 col-xs-3">
-            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
-            </div>
-            <div class="col-md-7 col-xs-9">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
-                    </div>
-                </div>
-                <div class="row hidden-md hidden-lg">
-                    <div class="col-xs-7">
-						<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
-							<ul>
-								<li class="s1"></li>
-								<li class="s2"></li>
-								<li class="s3"></li>
-								<li class="s4"></li>
-								<li class="s5"></li>
-							</ul>
+        	<div class="row writing-each" style="margin:1%;">
+	        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
+	            <div class="col-md-2 col-xs-3">
+	            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
+	            </div>
+	            <div class="col-md-6 col-xs-9">
+	                <div class="row">
+	                    <div class="col-md-12">
+	                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
+	                    </div>
+	                </div>
+	                <div class="row hidden-md hidden-lg">
+	                    <div class="col-xs-7">
+							<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
+								<ul>
+									<li class="s1"></li>
+									<li class="s2"></li>
+									<li class="s3"></li>
+									<li class="s4"></li>
+									<li class="s5"></li>
+								</ul>
+							</div>
 						</div>
+	                    <div class="col-xs-5" style="text-align:center"><span >${writing.regDate}</span></div>
+	                </div>
+	            </div>
+	            <div class="col-md-2 hidden-xs hidden-sm">
+					<div id="starWrap" class="star${writing.grade.average}">
+						<ul>
+							<li class="s1"></li>
+							<li class="s2"></li>
+							<li class="s3"></li>
+							<li class="s4"></li>
+							<li class="s5"></li>
+						</ul>
+					${writing.grade.average} 점
 					</div>
-                    <div class="col-xs-5"><span>${writing.regDate}</span></div>
-                </div>
-            </div>
-            <div class="col-md-2 hidden-xs hidden-sm">
-				<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
-					<ul>
-						<li class="s1"></li>
-						<li class="s2"></li>
-						<li class="s3"></li>
-						<li class="s4"></li>
-						<li class="s5"></li>
-					</ul>
 				</div>
-			</div>
-            <div class="col-md-1 hidden-xs hidden-sm"><span>${writing.regDate}</span></div>
+	            <div class="col-md-2 hidden-xs hidden-sm" style="text-align:center"><span>${writing.regDate}</span></div>
+	        
+        	</div>
         </div>
 	</c:forEach>
        
     </div>
+    
+    <div class="modal fade update-creation" id="update-creation" tabindex="-1" role="dialog" style="z-index:1090;">
+    	<div class="modal-dialog modal-lg" role="document">
+    		<div class="modal-content">
+		      <div class="modal-header" style="border-bottom: 3px groove;margin-left: 20px;margin-bottom: 30px;">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="insert-payInfo" style="font-weight: bold;">작품정보 수정</h4>
+		      </div>
+		      
+		      <form  class="form-horizontal creation-update" id="creationForm" name="creationForm">
+		      	<div class="modal-body">
+		      		<!-- creation Form -->
+		      		
+		
+						<div class="row">
+							<div class="col-sm-12 col-md-12">
+								<div class="row">
+									<div class="col-md-5">
+										<div id="imgPreview" style="padding-left:20px;">
+											<c:if test="${!empty creation }">
+												<img class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
+											</c:if>
+											<c:if test="${empty creation }">
+												<img class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
+											</c:if>
+										</div>
+			                    		<input style="padding-left:20px;" type="file"  class="inputValue" id="file" name="file" value="${creation.creationOriginName }">
+									</div><!--이미지처장 div END  -->
+								
+									<div class="col-md-7">
+										
+										<div class="form-group">
+							                <div class="col-sm-2 col-sm-offset-1 ">
+							                    <label class="control-label" for="creationHead">말머리</label>
+							                </div>
+							                <div class="col-sm-9">
+							                    <input class="inputValue" type="radio" name ="creationHead"  value ="픽션" ${creation.creationHead =='픽션' ? 'checked' : '' } >픽션
+												<input class="inputValue" type="radio" name ="creationHead"  value ="논픽션" ${creation.creationHead =='논픽션' ? 'checked' : '' } >논픽션
+							                </div>
+			             				</div>
+			            
+							            <div class="form-group">
+							                <div class="col-sm-2 col-sm-offset-1">
+							                    <label class="control-label " for="creationTitle">작품명</label>
+							                </div>
+							                <div class="col-sm-8">
+							                    <input class="inputValue form-control" type="text" name="creationTitle" id ="creationTitle" value="${creation.creationTitle }">
+											
+												<c:if test="${!empty creationList}">
+													<select class="form-control" name="creationNo" >
+														<option value="0">새작품</option>
+														<c:forEach var="creation" items="${creationList }">
+												      		<option value="${creation.creationNo }" >${creation.creationTitle }</option>
+														</c:forEach>
+												     </select>
+											     </c:if>
+											  </div>
+							                <div class="col-sm-1"></div>
+							            </div>
+			            
+							            <div class="form-group">
+							                <div class="col-sm-2 col-sm-offset-1">
+							                    <label class="control-label" for="creationIntro">작품소개</label>
+							                </div>
+							                <div class="col-sm-8">
+							                    <textarea class="inputValue" name="creationIntro" rows="5" cols="100" style="width: -webkit-fill-available;resize:none;background-color: rgba(0,0,0,0.075)">${creation.creationIntro }</textarea>
+							                </div>
+							               <div class="col-sm-1"></div>
+							            </div>
+														
+										<div class="form-group">
+							                <div class="col-sm-2 col-sm-offset-1">
+							                    <label class="control-label" for="fundingIntro">태그</label>
+							                </div>
+							                <div class="col-sm-8 tag-list">
+							                    <input type="hidden" class="headTag" name="tag" id="tag">
+													<a class="btn tag-add ">추가하기</a>
+													<span class="hidden"># <input type="text" name="tag" id="tag" value="${creation.tagList[0].tagName}"></span>
+													<c:set var="num" value="0"/>
+													<c:forEach items="${creation.tagList}" var="tag" begin="1">
+														<c:set var="num" value="${num+1}"/>
+															<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
+													</c:forEach>
+							                </div>
+							               <div class="col-sm-1"></div>
+							            </div>				
+										
+									</div>
+								</div>
+							</div>
+						</div>
+			
+						 <div class="form-group" style="margin-bottom:80px;margin-top:50px;">
+			                <div class="col-sm-8 col-sm-offset-4 text-right">
+			                    <a class="btn btn-primary update-creation-action" id="update-creation-action" >수정</a>
+			                    <a class="btn btn-defalt cancle" >취소</a>
+			                </div>
+			            </div>	
+		
+				</div><!--creation div END  -->
+			</form>	
+		      	
+		      </div>
+    		</div>
+    	</div>
+  
+    
 	
 	
 		<footer class="container-fluid">

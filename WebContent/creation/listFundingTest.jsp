@@ -27,6 +27,7 @@
     	header{
     		background:url(../resources/images/creationTest7.jpg) no-repeat center;
     	}
+
 	
 	</style>
 
@@ -77,37 +78,7 @@
 	<!-- 여기부터 코딩 -->
 
     <div class="container">
-        <div class="row">
-       <!-- 글쓰기, 펀딩등록 버튼 -->
-			<div class="col-md-6 text-left" style="vertical-align: middle;">
-			<c:if test="${!empty sessionScope.user }">
-				<a class="btn btn-default addWriting">창작글 쓰기</a>
-				<a class="btn btn-default addfunding">펀딩등록하기</a>
-			</c:if>
-			</div>
-			<!-- 생성버튼 끝 -->
-
-		 	<form class="form-inline text-right col-md-6" >
-			  <div class="form-group" style="vertical-align: middle;">
-			    <div class="input-group" style="vertical-align: middle;">
-			      <div class="input-group-addon" style="vertical-align: middle;">
-			      	<select class="form-control" name="condition">
-			      		<option value="3" ${ ! empty search.condition && search.condition==3 ? "selected" : "" }></option>
-			      		<option value="0" ${ ! empty search.condition && search.condition==0 ? "selected" : "" }>제목</option>
-			      		<option value="1" ${ ! empty search.condition && search.condition==1 ? "selected" : "" }>작가</option>
-			      		<option value="2" ${ ! empty search.condition && search.condition==2 ? "selected" : "" }>태그</option>
-			      	</select>
-			      </div>
-			      <input type="text" class="form-control" name="keyword" id="keyword" placeholder="검색어" >
-			  	 	<div class="input-group-addon">
-			  			<a class="btn creationSearch">검색</a> 
-			  			<!-- <button type="submit" class="btn" name="creationSearch">검색</button> -->
-					</div>
-			    </div>
-			  </div>
-			</form>
-			
-		</div> 
+			<jsp:include page="creationToolbar.jsp"/>
         
 
         <!-- 실제 데이터 들어갈 곳 -->
