@@ -65,7 +65,9 @@ public class Board {
 	}
 
 	public String getBoardRegDate() {
-		return boardRegDate;
+		
+		return this.boardRegDate.split("\\.")[0];
+		//return boardRegDate;
 	}
 
 	public void setBoardRegDate(String boardRegDate) {

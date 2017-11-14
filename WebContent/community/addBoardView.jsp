@@ -15,16 +15,40 @@
 	
 	<link rel="stylesheet" href="../resources/css/custom.css">
 
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 	<script src="../resources/ckeditor/ckeditor.js"></script>
 <title>Insert title here</title>
 <!-- 나중에 뽑아갈것들 -->
 <style type="text/css">
+
+	body{
+    		padding-top:0px;
+    	}
+    header{
+    		background:url(../resources/images/community.jpeg) no-repeat center;
+    	}
+
 	input[type="text"]{
 		margin: 0 0 0 0;
 		padding: 0 0 0 0;
 	}
+	
+	.removeBtn{
+	 padding-left:2px; 
+	}
+	#submit{
+		border: solid 1px;
+		border-radius: 5px;
+	}
+	#submit img{
+		width: 15px;
+	 	vertical-align: center;
+	}
 </style>
 <script type="text/javascript">
+	var condition;
+	ToolbarOpacHeight(500);
+	
 	$(function(){
 		
 		//태그 자동완성
@@ -45,20 +69,17 @@
 		);
 		//태그 자동완성 끝
 		//태그 추가 
-		$("#addTagBtn").on("click",function(){
-		//	alert(	$("#tagInput").val());
-			var tag = $("#tagInput").val();
-			
-			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly><a class='btn removeBtn'>x</a></span>");
-			tagName.find("a.removeBtn").on("click",function(){
-				//alert("test");
-				tagName.remove();
-			});
-			
-			
-			//alert(tagName.val());
-			$("#tagNames").append(tagName);
+		$("#tagInput").on("keyup",function(e){
+			if(e.keyCode!=13){
+				return;
+			}
+			addTag();
 		});
+		$("#addTagBtn").on("click",function(){
+			addTag();
+		
+		});
+			
 		//
 		
 		var editor=CKEDITOR.replace( 'boardContent',{ customConfig :'config_board.js'} );
@@ -87,6 +108,23 @@
 		});
 	});
 	
+	//태그 추가 함수
+	
+	function addTag(){
+		var tag = $("#tagInput").val();
+		
+		var tagName=$("<span><span class='tag'>"+tag+
+						"<input type='hidden' name='tagNames' value='"+tag+"' readonly>"+
+						"</span><a class='btn removeBtn'>x</a></span>");
+		
+		tagName.find("a.removeBtn").on("click",function(){
+			//alert("test");
+			tagName.remove();
+		});
+		
+		$("#tagNames").append(tagName);
+		$("#tagInput").val("");
+	}
 	
 </script>
 <!-- 뽑아갈거 끝 -->
@@ -95,20 +133,43 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>	
-	
+	<header class="parallax"></header>
 
 <div class="container">
+	<h2 ></h2>
+
+
 	<form name="tx_editor_form" id="tx_editor_form" action="addBoard" method="post" accept-charset="utf-8">
 		<!-- 에디터 컨테이너 시작 -->
 		
 		<!--  !!!!!!!제목 추가!!!!!!!!!!!! -->
-		제목<input type="text" name="boardTitle" class="input-title"> 
+		<div class="form-group">
+			<div class="input-group">
+				<!--  <label for="boardTitle">제목</label> -->
+				<span class="input-group-addon" id="title-addon">제목</span>
+				<input type="text" name="boardTitle" class="input-title form-control">
+			</div> 
+		</div>	
 			<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
-		태그<input type="text" id="tagInput"><a class="btn" id="addTagBtn">추가</a>
-		<div id="tagNames"></div>
-		<textarea rows="10" cols="80" name="boardContent"></textarea>
 		
-		<a id="submit" class="btn">등록</a>
+		<textarea rows="10" cols="80" name="boardContent"></textarea>
+		<br/>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="input-group">
+						 <span class="input-group-addon" id="tag-addon">태그</span>
+						 <input type="text" id="tagInput" class="form-control" aria-describedby="tag-addon">
+						 <span class="input-group-addon" id="addTagBtn"><a>추가</a></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 
+		<a class="btn" id="addTagBtn">추가</a>
+		 -->
+		<div id="tagNames"></div>
+		<a id="submit" class="btn">등록 <img src="../resources/images/community/btn_submit.png"></a>
 			
 		<div class="imgList">
 			이미지 목록

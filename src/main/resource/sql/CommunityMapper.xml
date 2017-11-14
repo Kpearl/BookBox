@@ -18,6 +18,7 @@
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
 			<result property="role" column="role"/>
+			<result property="booklogImage" column="booklog_image"/>
 		</association>
 		<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" column="{categoryNo=category_no,targetNo=board_no}" select="TagMapper.getTagGroupList"/>
 	</resultMap>
@@ -50,6 +51,7 @@
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
 			<result property="role" column="role"/>
+			<result property="booklogImage" column="booklog_image"/>
 		</association>
 		<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" resultMap="TagMapper.tagSelectMap"/>
 	</resultMap>
@@ -69,7 +71,7 @@
 	
 	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
-		u.nickname, u.role
+		u.nickname, u.role ,u.booklog_image
 		FROM board b, user u
 		WHERE
 		b.email = u.email AND 
@@ -91,7 +93,7 @@
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, b.thumbnail_url ,'6' as category_no,
-		u.nickname, u.role
+		u.nickname, u.role, u.booklog_image
 		FROM board b, user u
 		WHERE
 		b.email = u.email
@@ -107,8 +109,8 @@
 	
 	<select id="getBoard2" parameterType="_int" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
-				u.nickname, u.role,
-				tg.target_no ,tg.tag_no, tg.category_no, t.tag_name
+				u.nickname, u.role, u.booklog_image,
+				tg.target_no ,tg.tag_no, tg.category_no, t.tag_name 
 		FROM 
         	board AS b JOIN user AS u ON b.email=u.email LEFT JOIN tag_group AS tg ON b.board_no = tg.target_no
         	LEFT JOIN tag AS t ON tg.tag_no = t.tag_no

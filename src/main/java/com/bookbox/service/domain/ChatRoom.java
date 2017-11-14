@@ -56,7 +56,8 @@ public class ChatRoom {
 	}
 
 	public String getRegDate() {
-		return regDate;
+		return this.regDate.split("\\.")[0];
+		//return regDate;
 	}
 
 	public void setRegDate(String regDate) {

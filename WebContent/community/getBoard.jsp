@@ -31,6 +31,14 @@
 	padding: 5px;
 	margin-bottom: 10px; 
 }
+.board .title{
+	background-color: #62BFAD;
+	height: 45px; 
+	font-size: 30px;
+	font-weight: bold;
+	color: floralwhite;
+	
+}
 .blind{
 	color: 	#FF1493;
 	
@@ -259,11 +267,11 @@
 			
 				
 			<div class="title">
-				제목:	${board.boardTitle}
+				<span>${board.boardTitle}</span>
 			</div>
 			<div class="row text-right">
 				<!-- 추천 신고 -->
-				<spen>${board.boardRegDate}</spen>
+				<span>${board.boardRegDate}</span>
 				<c:if test="${enableUpdate==true}">
 				<a class="btn recommend" id="updateBoard">수정</a>
 				</c:if>

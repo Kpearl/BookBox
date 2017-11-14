@@ -25,28 +25,45 @@
     	}
 	
    		.room_item{
-   			height: 355px;
-   			width: 250px;
+   			height: 460px;
+ 			/*border: 1px solid red;*/
+ 			margin: 10px 0 0 0;
+   		/*	width: 250px; */
    		/*	border: solid 2px #62BFAD; */
-   			display: inline-block;
+   		/*	display: inline-block;       */
    		/*	box-shadow: 3px 3px 3px #62BFAD; */
-   			margin: 10px;
+   			/*margin: 10px;*/
    		}
-   		
+   		.room_item .room-user{
+   			/*
+   			height: 45%;
+   			*/
+   			padding-bottom: 3px;
+   			padding-left: 5px;
+   			border-bottom: solid 10px #62BFAD;
+   			overflow: hidden;
+   			height: 40px;
+   			font-size: 17px;
+   		}
+		   		.room_item .room-user img{
+		   			height: 70%;
+		   		}
    		.room_item .room-image{
    			/*
    			height: 45%;
    			*/
+   			/*border-top: solid 10px #62BFAD;*/
    			overflow: hidden;
-   			height: 150px;
+   			height: 200px;
    		}
    		.room_item .room-image img{
    			/*
    			*/
-   			height: 150px;
-   			width:250px;
+   			height: 100%;
+   			/*width:250px;*/
+   			width:100%;
    			object-fit: cover;
-   			background-color: #F9F7E8;
+   			/*background-color: #F9F7E8;*/
    			
    			transform:scale(1.0); 
    			transition: transform .35s; 
@@ -59,11 +76,11 @@
    		}
    		
    		.room_item .content{
-   			background-color: #F9F7E8;
+   			/*background-color: #F9F7E8;*/
 			/*
    			height: 55%;
    			*/
-   			height: 200px;
+   			height: 220px;
    			overflow: hidden;
    			text-overflow:ellipsis;
    			width: 100%;
@@ -75,66 +92,44 @@
    			
    		}
    		.room_item .content .content-titlee{
-   			height: 25px;		
+   			height: 35px;		
    			background-color: 	#62BFAD;
+   			color:floralwhite;
    			font-weight: bold;
    			overflow: hidden;
+   			font-size: 25px;
    			
    		}
+   		.room_item .content .content-nickname{
+   			height: 40px;
+   			padding-right: 10px;
+   			padding-top: 5px;
+   		}
+   		.room_item .content .content-nickname img{
+   			height: 35px;
+   			object-fit: cover;
+   			border-radius: 50%;
+   		}
    		.room_item .content .content-content{
-   			height: 90px;
+   			padding : 5px 10px 5px 10px;
+   			height: 110px;
    			overflow: hidden;
    			
    		}
    		.room_item .content .content-user{
    			height: 25px;
+   			padding-left: 10px;
    		}
    		.room_item .content .content-tag{
    			height: 25px;
+   			padding-left: 10px;
    		}
    		
    	/*============ 게시판 CSS==================*/
-   		.board_item{
-   			height: 145px;
-   			border: solid 2px #62BFAD;
-   			margin-top: 10px;
-   			/*
-   			border-radius: 10px;
-   			*/
-   			box-shadow: 3px 3px 3px #62BFAD;
-   		}
-		.board_item .board-title{
-			/*
-			border-radius: 9px 9px 0px 0px;
-			*/
-			background-color: #62BFAD;
-		}   		
-   		.board_item img{
-   			
-   			width: 100%;
-   			height: 115px;
-   			/*
-   			max-height: 100%;
-   			*/
-   			object-fit: cover;
-   		}
-   		.board_item p{
-   			text-overflow:ellipsis;
-   			width: 100%;
-   			margin: 0;
-   		}
-   		
-   		.board_item .content{
-   			height:116px;
-   			/*
-   			border-radius: 0px 0px 10px 0px;
-   			*/
-   			background-color: #F9F7E8;
-   		}
    		
    		/*게시판 v2 */
    		.board-item-v2{
-   			height: 160px;
+   			height: 175px;
    			width:100%;
 
    			margin-top: 20px;
@@ -142,7 +137,7 @@
    		}
    		.board-img-v2{
    			/*width: 220px;*/
-   			height: 160px;
+   			height: 175px;
    			
    			margin: 0;
    			padding: 0 !important;
@@ -163,7 +158,7 @@
    		
    		
    		.board-content-v2{
-   			height: 160px;
+   			height: 165px;
    		
    			padding: 0 !important;
    			
@@ -185,29 +180,55 @@
 	   			margin-right:10px; 
 	   		}
    		.board-content-v2 .board-body-v2{
-   			height: 130px;
+   			height: 135px;
    		/*	background: linear-gradient( to bottom,floralwhite ,#ffffff00 );*/
    			/*background-color: floralwhite;*/
-   			width: 
    		}
    				
 		   		.board-content-v2 .board-body-v2 .date,.nickname{
+		   			padding-top: 5px;
 		   			height: 25px;
 		   		}
 		   		
+		   		.board-content-v2 .board-body-v2 .nickname{
+		   			padding-top: 5px;
+		   			padding-left: 30px;
+		   		}
+		   		.board-content-v2 .board-body-v2 .nickname img{
+		   			height: 16px;
+		   			object-fit: cover;
+		   			border-radius: 50%;
+		   		}
+		   		
 		   		.board-content-v2 .board-body-v2 .content{
-		   			height: 60px;
+		   			height: 80px;
 		   			overflow: hidden;
-		   			line-height: 20px;
+		   			line-height: 25px;
+		   			padding-top: 5px;
 		   			padding-left: 20px;
 		   			padding-right: 20px;
 		   		}
-		   		.board-content-v2 .board-body-v2 .tag{
-		   			height: 20px;
-		   			background-color: floralwhite;
+		   		.board-content-v2 .board-body-v2 .tag-list{
+		   			padding-top: 10px;
+		   			padding-left:20px; 
+		   			height: 35px;
+		   			/*background-color: floralwhite;*/
+		   			overflow: hidden;
 		   		}
    		
-   		
+   		.vcenter-bottom {
+	    display: inline-block;
+	    vertical-align: middle;
+	    float: none;
+		}
+		
+		.btn-create{
+			font-size: 25px;
+		}
+		.btn-create img{
+			height: 25px;
+			margin-right: 5px;
+		}
     </style>
     
     <script type="text/javascript">
@@ -223,7 +244,7 @@
     
     $(function(){
     	//게시판 상세보기 이벤트	
-    	$(".board_item").on("click",function(){
+    	$(".board-item-v2").on("click",function(){
     		//alert($(this).html());
     		var boardNo=$(this).find(".boardNo").val();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     		self.location="getBoard?boardNo="+boardNo;
@@ -253,14 +274,21 @@
 			<!-- 생성버튼 -->
 			<div class="col-md-6 text-left">
 			<div>
-			<a class="btn btn-default" href="addChatRoom">채팅방 생성</a><a class="btn btn-default" href="addBoard">게시글 작성</a>
+			<a class="btn-create btn addChatRoomModal" data-toggle="modal" data-target="#addChatRoom"><img src="../resources/images/community/btn_cast.png">채팅방 생성</a>
+			<!--  <a class="btn btn-default" href="addChatRoom">채팅방 생성</a> -->
+			<a class="btn-create btn" href="addBoard"><img src="../resources/images/community/btn_board.png">게시글 작성</a>
+			<!-- <a class="btn addBoardModal" data-toggle="modal" data-target="#addBoard">게시판 생성</a>-->
 			</div>
 			<br>
-			<a class="btn addChatRoomModal" data-toggle="modal" data-target="#addChatRoom">채팅방 생성</a>
-			<a class="btn addBoardModal" data-toggle="modal" data-target="#addBoard">게시판 생성</a>
+			
+			
+			
 			
 			</div>
 			<!-- 생성버튼 끝 -->
+			
+			<!-- 검색부분 제거 -->
+			<!-- 
 		 	<form class="form-inline text-right col-md-6" action="getCommunityMain" method="get">
 			  <div class="form-group">
 			    <div class="input-group">
@@ -276,21 +304,30 @@
 			    </div>
 			  </div>
 			</form>
-			
+			 -->
+
 		</div>
 		<!--   ==================방송=========================     -->
-		<h1>CAST</h1>
+		<div class="row" style="height: 70px;">
+			<div class="col-xs-6">
+				<h1>Cast</h1> 
+			</div>
+			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
+				<a class="moreCast" style="display: table-cell; vertical-align: bottom; ">more...</a>
+			</div>
+		</div>
 		<hr/>
-		<div class="row text-center">
+		<div class="row">
 			<c:forEach items="${castList}" var="room">
-					<!--  
+			<!--  
 			<div class="col-md-3 col-sm-4 col-xs-6">
 			-->
-				<div class="room_item">
+				<div class="room_item room_item col-lg-3 col-md-4 col-sm-6">
 					<input type="hidden" value="getCast?roomId=${room.roomId}">
+					<div class="room-user"><img src="../resources/images/community/person2.png">${ room.currentUser }/${ room.maxUser }</div>
 					<div class="room-image text-center">
 						<c:if test="${empty room.image }">
-							<img src="../resources/images/noimage.png">
+							<img src="../resources/images/community/noimage.png">
 						</c:if>
 						<c:if test="${!empty room.image }">
 							<img src="${room.image}">
@@ -298,12 +335,14 @@
 					</div>
 					<div class="content">
 						<div class="content-titlee text-center">${room.title}</div>
-						<div class="content-nickname">${room.host.nickname}</div>
+						<div class="content-nickname text-right">
+							<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+							<strong>${room.host.nickname}</strong>
+						</div>
 						<div class="content-content">${room.content}</div>
-						<div class="content-user">인원:${ room.currentUser }/${ room.maxUser }</div>
 						<div class="content-tag">
 						<c:forEach items="${room.tagList}" var="tag">
-							<span>#${tag.tagName}</span>
+							<span class="tag">#${tag.tagName}</span>
 						</c:forEach>
 						</div>
 					</div>
@@ -311,23 +350,31 @@
 			<!-- 
 			</div>
 			 -->	
-			</c:forEach>
+		</c:forEach>
 		</div>
 					
 		<br/>
 			<!--   ==================채팅방=========================     -->
-		<h1>CAMCHAT</h1>
+		<div class="row" style="height: 70px;">
+			<div class="col-xs-6">
+				<h1>CAMCHAT</h1> 
+			</div>
+			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
+				<a class="moreChatChat" style="display: table-cell; vertical-align: bottom; ">more...</a>
+			</div>
+		</div>
 		<hr/>
-		<div class="row text-center">
+		<div class="row">
 		<c:forEach items="${camChatList}" var="room">
 			<!--  
 			<div class="col-md-3 col-sm-4 col-xs-6">
 			-->
-				<div class="room_item">
+				<div class="room_item room_item col-lg-3 col-md-4 col-sm-6">
 					<input type="hidden" value="getCamChat?roomId=${room.roomId}">
+					<div class="room-user"><img src="../resources/images/community/person2.png">${ room.currentUser }/${ room.maxUser }</div>
 					<div class="room-image text-center">
 						<c:if test="${empty room.image }">
-							<img src="../resources/images/noimage.png">
+							<img src="../resources/images/community/noimage.png">
 						</c:if>
 						<c:if test="${!empty room.image }">
 							<img src="${room.image}">
@@ -335,12 +382,14 @@
 					</div>
 					<div class="content">
 						<div class="content-titlee text-center">${room.title}</div>
-						<div class="content-nickname">${room.host.nickname}</div>
+						<div class="content-nickname text-right">
+							<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+							<strong>${room.host.nickname}</strong>
+						</div>
 						<div class="content-content">${room.content}</div>
-						<div class="content-user">인원:${ room.currentUser }/${ room.maxUser }</div>
 						<div class="content-tag">
 						<c:forEach items="${room.tagList}" var="tag">
-							<span>#${tag.tagName}</span>
+							<span class="tag">#${tag.tagName}</span>
 						</c:forEach>
 						</div>
 					</div>
@@ -353,8 +402,14 @@
 		
 		
 		<br/>
-		<h1>BOARD</h1>
-		<h5 class="btn" id="moreBoard">더 보기</h5>
+		<div class="row" style="height: 70px;">
+			<div class="col-xs-6">
+				<h1>Board</h1> 
+			</div>
+			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
+				<a class="moreBoard" style="display: table-cell; vertical-align: bottom; ">more...</a>
+			</div>
+		</div>
 		<hr/>
 		
 			<!--  게시글 v2 -->
@@ -362,6 +417,7 @@
 				<c:forEach items="${ boardList }" var="board">
 			
 					<div class="board-item-v2 row">
+						<input type="hidden" value="${board.boardNo }" class="boardNo">
 						<div class="board-img-v2 col-xs-3">
 							<c:if test="${empty board.thumbnailUrl}">
 								<img src="../resources/images/community/noimage.png">
@@ -375,18 +431,27 @@
 								<div class="title">${board.boardTitle}</div>
 							</div>
 							<div class="board-body-v2">
-								<div class="date text-right">
-									<strong>${board.boardRegDate}</strong>
+								<div class="date text-right row">
+									<div class="nickname col-xs-6 text-left">
+										<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+										<strong>${board.writer.nickname}</strong>
+									</div>
+									<div class="col-xs-6">
+										<strong>${board.boardRegDate}</strong>
+									</div>
 								</div>
+								<!-- 
 								<div class="nickname text-right">
+									<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
 									<strong>${board.writer.nickname}</strong>
 								</div>
+								 -->
 								<div class="content">
 									${board.contentText}
 								</div>
-								<div class="tag">
+								<div class="tag-list">
 									<c:forEach items="${board.tagList}" var="tag" >
-										#${tag.tagName}
+										<span class="tag"># ${tag.tagName}</span>
 									</c:forEach>
 								</div>
 							</div>
@@ -398,39 +463,6 @@
 		
 		
 			<div>
-
-				<c:forEach items="${ boardList }" var="board">
-				<div class="board_item row">
-					<div class="board-title col-xs-12 text-left">${board.boardTitle }</div>
-					<div class="col-md-2 col-sm-3 col-xs-4 text-center">
-						<c:if test="${empty board.thumbnailUrl}">
-							<img src="../resources/images/noimage.png">
-						</c:if>
-						<c:if test="${!empty board.thumbnailUrl}">
-							<img src="${board.thumbnailUrl}" onerror="this.src='../resources/images/noimage.png'">
-						</c:if>
-					</div>
-					<div class="content col-md-10 col-sm-9 col-xs-8">
-						<input type="hidden" value="${board.boardNo}" class="boardNo">
-					
-						<!-- 제목이었는데 제거
-						<p>${board.boardTitle }</p>
-						 -->
-						<div class="text-right"><small>${board.boardRegDate}</small></div>
-						<p>${board.writer.nickname }</p>
-						<!-- 
-						<p>${board.boardContent }</p>
-						 -->
-						<p>댓글수 0 신고수 ${board.report }</p>
-						
-						<p>
-						<c:forEach items="${board.tagList}" var="tag" >
-							#${tag.tagName}
-						</c:forEach>
-						</p>
-					</div>
-				</div>
-				</c:forEach>
 		
 				
 				
