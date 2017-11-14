@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.FundingService;
+import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Funding;
 import com.bookbox.service.domain.PayInfo;
@@ -54,6 +57,10 @@ public class CreationRestController {
 	@Autowired
 	@Qualifier("tagServiceImpl")
 	private TagService tagService;
+	
+	@Autowired
+	@Qualifier("writingServiceImpl")
+	private WritingService writingService;
 	
 	@Autowired
 	@Qualifier("fundingServiceImpl")
@@ -306,7 +313,7 @@ public class CreationRestController {
 	@RequestMapping(value="addPayInfo", method=RequestMethod.POST)
 	public boolean addPayInfo(@RequestBody PayInfo payInfo,
 													HttpSession session) throws Exception{
-		// TODO addCreation
+		// TODO addPayInfo
 		System.out.println("CreationRestController :: /creation/rest/addPayInfo : POST ===> START");
 		
 		User user = (User)session.getAttribute("user");
@@ -365,7 +372,31 @@ public class CreationRestController {
 		return funding;
 	}
 	
-	
+	/**
+	 * @brief addPayInfo/ 펀딩결제정보 등록
+	 * @details POST
+	 * @param PayInfo, HttpSession
+	 * @throws Exception
+	 * @return boolean
+	 */
+	@RequestMapping(value="addGrade/{targetNo}/{grade}", method=RequestMethod.GET)
+	public boolean addGrade(@PathVariable("targetNo") int targetNo,
+														@PathVariable("grade") int grade,	HttpSession session) throws Exception{
+		// TODO addGrade
+		System.out.println("CreationRestController :: /creation/rest/addGrade : GET ===> START");
+		
+		Grade g =new Grade();
+		g.setUserCount(grade);
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, targetNo, (User)session.getAttribute("user"));
+		
+		map.put("grade", g);
+		
+		writingService.addGrade(map);
+		
+		System.out.println("CreationRestController :: /creation/rest/addGrade : GET ==> END");
+		
+		return true;
+	}
 	
 	
 	

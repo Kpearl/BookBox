@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Search;
@@ -104,17 +105,21 @@ public class WritingServiceImpl implements WritingService {
 	 */		
 	public Writing getWriting(User user, Writing writing) throws Exception{
 		
-		System.out.println("writingService :: writing :: "+writing);
-		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo(),user);
 		System.out.println("writingService :: getWriting :: map :: "+map);
 		
-		writing.setGrade(commonDAO.getGrade(map));
+		Grade grade = commonDAO.getGrade(map);
 		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(map));
+		
+/*		if (grade != null) {
+			grade.setDoGrade(true);
+		}*/
+		writing = writingDAO.getWriting(writing);
+		writing.setGrade(grade);
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
-		return writingDAO.getWriting(writing);
+		return writing;
 	}
 	
 	/**
@@ -132,6 +137,11 @@ public class WritingServiceImpl implements WritingService {
 		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("cration")));
 		}
 		List<Writing> writingList = writingDAO.getWritingList(map);
+		map.put("categoryNo", Const.Category.WRITING);
+		for(Writing writing : writingList) {
+			map.put("targetNo", writing.getWritingNo());
+			writing.setGrade(commonDAO.getGrade(map));
+		}
 		
 		
 		return writingList;
@@ -147,6 +157,16 @@ public class WritingServiceImpl implements WritingService {
 		
 		writing.setActive(0);
 		writingDAO.updateWriting(writing);
+	}
+	
+	/**
+	 * @brief  평점등록 
+	 * @param Map<String,Object>
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void addGrade(Map<String, Object> map) throws Exception{
+		commonDAO.addGrade(map);
 	}
 	
 }

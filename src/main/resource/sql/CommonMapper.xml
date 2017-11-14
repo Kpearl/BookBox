@@ -17,7 +17,7 @@
 	
 	<resultMap id="gradeSelectMap" type="grade">
 		<result property="average" column="average" jdbcType="DECIMAL" />
-		<result property="userCount" column="grade" jdbcType="NUMERIC" />
+		<result property="userCount" column="user_count" jdbcType="NUMERIC" />
 		<result property="doGrade" column="do_grade" jdbcType="BOOLEAN" />
 	</resultMap>
 
@@ -84,14 +84,14 @@
 
 	<select id="getGrade" parameterType="map" resultMap="gradeSelectMap">
 		SELECT
-		ifnull(avg(grade),0) average, ifnull(grade, 0) grade, sum(if( email=#{user.email}, true, 0)) AS do_grade
+		ifnull(avg(grade),0) average, count(ifnull(grade, 0)) 'user_count', sum(if( email=#{user.email}, true, 0)) AS do_grade
 		FROM grade
 		WHERE category_no =	#{categoryNo} AND
 			  target_no = #{targetNo}
 	</select>
 	
 	<select id="getAvgGrade" parameterType="map" resultMap="gradeSelectMap">
-		SELECT avg(g.grade)
+		SELECT ifnull(avg(g.grade),0) AS average
 		FROM grade g
 			right outer join writing w on w.writing_no = g.target_no
 					right outer join creation c on c.creation_no = w.creation_no

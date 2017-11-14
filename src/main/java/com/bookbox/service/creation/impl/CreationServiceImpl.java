@@ -108,9 +108,6 @@ public class CreationServiceImpl implements CreationService {
 			creation.setDoSubscription(true);
 		}
 		
-		if (fundingDAO.getDoFunding(map) !=0) {
-			creation.setDoFunding(true);
-		}
 		return creation;
 	}
 

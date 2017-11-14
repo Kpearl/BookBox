@@ -55,4 +55,12 @@ public interface WritingService {
 	 * @return void
 	 */		
 	public void deleteWriting(Writing writing) throws Exception;
+	
+	/**
+	 * @brief  평점등록 
+	 * @param Map<String,Object>
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void addGrade(Map<String, Object> map) throws Exception;
 }
