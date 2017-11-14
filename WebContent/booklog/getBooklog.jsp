@@ -15,11 +15,11 @@
 	<!-- 기본설정 끝 -->
 
 	<!-- Swiper 설정 -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/css/swiper.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/css/swiper.min.css">
 	 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/js/swiper.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/js/swiper.min.js"></script>
 	<!-- Swiper 설정 끝 -->
 
 	<!-- Chart.js 설정 -->
@@ -30,29 +30,70 @@
 	<script src="../resources/javascript/custom.js"></script>
 	
     <style>
+    	.swiper-posting-box{
+    		position: relative;
+    		width: 100%;
+    		height: 500px;
+    		background: rgba(114, 114, 114, 0.6);
+    		margin: 0;
+    		padding: 0;
+    	}
 	    .swiper-container {
 	        width: 100%;
 	        height: 400px;
-	        padding-top: 50px;
-	        padding-bottom: 50px;
+	        margin-left: auto;
+	        margin-right: auto;
 	    }
 	    .swiper-slide {
 	        background-position: center;
 	        background-size: cover;
 	    }
+	    .gallery-top{
+	    	height: 80%;
+	    	width: 100%;
+	    }
+	    .gallery-thumbs{
+	    	height: 20%;
+	    	box-sizing: border-box;
+	    	padding: 10px 0;
+	    }
+	    .gallery-thumbs .swiper-slide{
+	    	width: 25%;
+	    	height: 100%;
+	    	opacity: 0.4;
+	    }
+	    .gallery-thumbs .swiper-slide-active{
+	    	opacity: 1;
+	    }
 	    
 	    div.div-posting img{
-	    	opacity: 0.3;
+	    	opacity: 0.8;
 	    }
 	    
 	    div.div-posting{
 	    	margin: 0;
-	    	height: 100%;
+	    	height: 10%;
 	    }
 	    .posting-preview{
 	    	position: absolute;
 	    	width: 100%;
 	    	height: 100%;
+	    }
+	    .posting-preview-content{
+	    	height: 10%;
+	    	width: 100%;
+	    	position: absolute;
+	    	bottom: 0;
+	    	background-color: rgba(219, 226, 239, 0.6);
+	    	-webkit-transition: 0.5s;
+	    	   -moz-transition: 0.5s;
+	    			transition: 0.5s;
+	    }
+	    .posting-preview-content:hover{
+	    	height: 100%;
+	    	-webkit-transition: 0.5s;
+	    	   -moz-transition: 0.5s;
+	    			transition: 0.5s;
 	    }
 	    
 	    ul.timeline{
@@ -137,12 +178,14 @@
 	var booklogUser;
 	var booklogNo;
 	var booklogName;
+	var user;
 	var logPage = 1;
 
 	$(function(){
 		booklogUser = $('input[name="user.email"]').val();
 		booklogNo = $('input[name="booklogNo"]').val();
 		booklogName = $('input[name="booklogName"]').val();
+		user = $('input[name="user"]').val();
 		
 		$('a.posting-list').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
@@ -154,12 +197,17 @@
 		$('a.var-btn:contains("표지편집")').on('click', function(){
 			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
 		});
-		$('i.nobookmarked').on('click', function(){
-			fncAddBookmark($(this));
-		});
-		$('i.bookmarked').on('click', function(){
-			fncDeleteBookmark($(this));
-		});
+		if(user != '' && user != null){
+			$('i.nobookmarked').on('click', function(){
+				fncAddBookmark($(this));
+			});
+			$('i.bookmarked').on('click', function(){
+				fncDeleteBookmark($(this));
+			});
+		}else{
+			$('i.nobookmarked').css('cursor', 'auto');
+			$('i.bookmarked').css('cursor', 'auto');
+		}
 		
 		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 		
@@ -214,19 +262,22 @@
 
 	$(function(){
 		/* swiper 설정 */
-        var swiper = new Swiper('.swiper-container', {
-            spaceBetween: 30,
-            centeredSlides: true,
-            pagination: {
-            	el: '.swiper-pagination',
-            	clickable: true
-            },
+        var galleryTop = new Swiper('.gallery-top', {
+            spaceBetween: 10,
             navigation: {
             	nextEl: '.swiper-button-next',
-              	prevEl: '.swiper-button-prev'
+              	prevEl: '.swiper-button-prev',
             },
-            loop: false
         });
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 10,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            touchRatio: 0.2,
+            slideToClickedSlide: true,
+        });
+        galleryTop.controller.control = galleryThumbs;
+        galleryThumbs.controller.control = galleryTop;
         
         /* chart 설정 */
 		var ctxDaily = $("#dailyChart");
@@ -442,8 +493,9 @@
 			dataType : 'json',
 			success : function(data){
 				if(data){
+					var count = $($('.content-count')[2]).html();
 					alert("'"+booklogName+"' 북로그를 책갈피에 등록하였습니다.");
-					$($('.content-count')[2]).html($($('.content-count')[2]).html()==0? 1 : $($('.content-count')[2]).html()+1);
+					$($('.content-count')[2]).html(Number(count)+1);
 					$(elmA).removeClass('nobookmarked').addClass('bookmarked').off('click').on('click', function(){
 						fncDeleteBookmark(elmA);
 					});
@@ -461,8 +513,9 @@
 			dataType : 'json',
 			success : function(data){
 				if(data){
+					var count = $($('.content-count')[2]).html();
 					alert("'"+booklogName+"' 북로그를 책갈피에서 삭제하였습니다.");
-					$($('.content-count')[2]).html($($('.content-count')[2]).html()-1);
+					$($('.content-count')[2]).html(Number(count)-1);
 					$(elmA).removeClass('bookmarked').addClass('nobookmarked').off('click').on('click', function(){
 						fncAddBookmark(elmA);
 					});
@@ -506,6 +559,7 @@
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
+	<input type="hidden" name="user" value="${sessionScope.user.email}">
 	<div class="container">
 
 		<div class="row">
@@ -550,7 +604,7 @@
 							</div>
 							<div class="vertical-line"></div>
 							<div class="col-xs-4 text-center">
-								<span class="content-icon"><i class="glyphicon glyphicon-bookmark ${bookmark? 'bookmarked' : 'nobookmarked'}"></i></span><br/>
+								<span class="content-icon"><i class="glyphicon glyphicon-bookmark ${bookmark? 'bookmarked' : 'nobookmarked'}" style="cursor: pointer;"></i></span><br/>
 								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
 							</div>
 						</div>
@@ -593,26 +647,38 @@
 					
 						<c:if test="${booklog.postingList.size() != 0}">
 							<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
-						    <div class="swiper-container">
-						        <div class="swiper-wrapper">
-					        	<c:set var="i" value="0"/>
-					        	<c:forEach items="${booklog.postingList}" var="posting">
-					        		<c:set var="i" value="${i+1}"/>
-					        		<div class="swiper-slide div-posting">
-										<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-					        			<div class="posting-preview">
-						        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
-					        			</div>
-										<p>포스팅명 : ${posting.postingTitle}</p>
-					        		</div>
-					        	</c:forEach>
-						        </div>
-						        <!-- Add Pagination -->
-						        <div class="swiper-pagination swiper-pagination-black"></div>
-						        <!-- Add Arrows -->
-						        <div class="swiper-button-next swiper-button-black"></div>
-						        <div class="swiper-button-prev swiper-button-black"></div>
-						    </div>
+							<div class="swiper-posting-box">
+							    <div class="swiper-container gallery-top">
+							        <div class="swiper-wrapper">
+						        	<c:set var="i" value="0"/>
+						        	<c:forEach items="${booklog.postingList}" var="posting">
+						        		<c:set var="i" value="${i+1}"/>
+						        		<div class="swiper-slide">
+						        			<div class="posting-preview">
+							        			<img class="img-object-fit" src="../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'}"/>
+						        			</div>
+						        			<div class="div-posting posting-preview-content booklog-font-color">
+												<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+												<p>포스팅명 : ${posting.postingTitle}</p>
+						        			</div>
+						        		</div>
+						        	</c:forEach>
+							        </div>
+							        <!-- Add Arrows -->
+							        <div class="swiper-button-next swiper-button-black"></div>
+							        <div class="swiper-button-prev swiper-button-black"></div>
+							    </div>
+	
+							    <div class="swiper-container gallery-thumbs">
+							        <div class="swiper-wrapper">
+						        	<c:set var="i" value="0"/>
+						        	<c:forEach items="${booklog.postingList}" var="posting">
+						        		<c:set var="i" value="${i+1}"/>
+						        		<div class="swiper-slide" style="background-image: url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'})"></div>
+						        	</c:forEach>
+							        </div>
+							    </div>
+							</div>
 						</c:if>
 			        	<c:if test="${booklog.postingList.size() == 0}">
 			        		<h3>아직 등록된 포스팅이 없습니다!</h3>

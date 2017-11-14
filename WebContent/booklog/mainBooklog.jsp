@@ -103,6 +103,7 @@
 	            },
 	            loop: false,
 	            slidesPerView: 'auto',
+	            freeMode: true,
 	        });
 	    })
 	    

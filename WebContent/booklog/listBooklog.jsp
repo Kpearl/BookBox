@@ -55,11 +55,11 @@
 				$('.div-block:nth-child(4n-3)').css('transform', 'translate(0, 0)');
 				$('.div-block:nth-child(4n-2)').css('transform', 'translate(0, 20px)');
 				$('.div-block:nth-child(4n-1)').css('transform', 'translate(0, 40px)');
-				$('.div-block:nth-child(4n)').css('transform', 'translate(0, 60px)');
+				$('.div-block:nth-child(4n)').css('transform', 'translate(0, 20px)');
 			} else if($(window).width() > 992){
 				$('.div-block:nth-child(3n-2)').css('transform', 'translate(0, 0)');
-				$('.div-block:nth-child(3n-1)').css('transform', 'translate(0, 20px)');
-				$('.div-block:nth-child(3n)').css('transform', 'translate(0, 40px)');
+				$('.div-block:nth-child(3n-1)').css('transform', 'translate(0, 40px)');
+				$('.div-block:nth-child(3n)').css('transform', 'translate(0, 20px)');
 			} else if($(window).width() > 768){
 				$('.div-block:nth-child(2n-1)').css('transform', 'translate(0, 0)');
 				$('.div-block:nth-child(2n)').css('transform', 'translate(0, 20px)');
