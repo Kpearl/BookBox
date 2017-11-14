@@ -32,6 +32,7 @@
     	header{
     		background:url(../resources/images/creationTest7.jpg) no-repeat center;
     	}
+
     	
 	</style>
 	
@@ -269,6 +270,10 @@
 	<header class="parallax"></header>
 	
 	<div class="container">
+		
+		<jsp:include page="creationToolbar.jsp"/>
+	
+	
 	       <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">작품 등록</div>
 	       <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
 		

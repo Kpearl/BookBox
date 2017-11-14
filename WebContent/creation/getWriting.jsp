@@ -124,8 +124,8 @@ function deleteLike(targetNo) {
 
 	$('.gradeAvg-present ul li').mouseenter(function() {
   	var idx = $(this).index() + 1;
-		$('.gradeAvg-present').removeClass('star'+$(this).index());
-		$('.gradeAvg-present').addClass('star' + idx);
+  	console.log(idx);
+		$('.gradeAvg-present').removeClass().addClass('gradeAvg-present star' + idx);
 	});
 
 	$(".gradeAvg-present ul li").click(function() {
@@ -139,9 +139,8 @@ function deleteLike(targetNo) {
 			alert(idx + "점을 등록하시겠습니까?");
 			
 			$.ajax({
-				url: "../creation/rest/addGrade",
-				method: "POST",
-				data: {"targetNo": '${targetNo}', "userCount": idx},
+				url: "../creation/rest/addGrade/"+$('input[name="writingNo"]').val()+"/"+idx,
+				method: "GET",
 				success: function() {
 					alert("평점이 등록되었습니다.");
 					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + '${writing.grade.average}')/2 + "</span>");

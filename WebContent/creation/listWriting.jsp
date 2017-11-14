@@ -91,7 +91,7 @@
 	    		dataType : "json",
 	    		success: function(JSONData, status){
 	    		//	alert(JSONData);
-	    			$(".doSubscription").css('background-color','rgba(255, 20, 44, 0.21)').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i><strong>구독중</strong>").off('click');
+	    			$(".doSubscription").css('background-color','#bbbbbb').css('color','darkslategray').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i><strong>구독중</strong>").off('click');
 	    		//	$("a.doSubscription").replaceWith("<a style='background-color:rgba(106, 98, 230, 0.46);' class='btn btn-default deleteSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
 	    			 $(".deleteSubscription").on("click" , function() {
 			   	    		alert("구독취소");
@@ -108,7 +108,7 @@
 	    		dataType : "json",
 	    		success: function(JSONData, status){
 	    			alert(JSONData);
-	    			$(".deleteSubscription").css('background-color','#ffffff').removeClass('deleteSubscription').addClass('doSubscription').html("<strong>구독하기</strong>").off('click');
+	    			$(".deleteSubscription").css('background-color','#ffffff').css('color','inherit').removeClass('deleteSubscription').addClass('doSubscription').html("<strong>구독하기</strong>").off('click');
 	    		//	$("a.deleteSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독</a>");
 	    			 $(".doSubscription").on("click" , function() {
 			   	    		alert("구독");
@@ -268,15 +268,16 @@
 	          </div>
 	          
            			<!-- <span id="gradeAvg">평균 평점 </span> -->
-           			<div id="starWrap" class="gradeAvg star${creation.grade.average}" >
-								<ul style="padding-left:0">
-									<li class="s1"></li>
-									<li class="s2"></li>
-									<li class="s3"></li>
-									<li class="s4"></li>
-									<li class="s5"></li>
-								</ul>
-							</div>
+           			<div id="starWrap" class="gradeAvg star${creation.grade.average}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
+						<ul style="padding-left:0">
+							<li class="s1"></li>
+							<li class="s2"></li>
+							<li class="s3"></li>
+							<li class="s4"></li>
+							<li class="s5"></li>
+						</ul>
+					</div>
+					<div  style="display: inline-block; float:left;"><strong>(${creation.grade.average })</strong></div>
 	          
    			 <div class="row">
                 	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
@@ -312,8 +313,7 @@
             <%-- </c:if> --%>
                 
 	                <c:if test="${creation.doSubscription}">
-	                	<div class="subscription deleteSubscription btn-form" style="background-color:rgba(255, 20, 44, 0.21);"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
-	                    <!-- <a style="background-color:rgba(106, 98, 230, 0.46);" class="btn btn-default deleteSubscription" type="button"><i class="glyphicon glyphicon-tags"></i>구독중</a> -->
+	                	<div class="subscription deleteSubscription btn-form" style="background-color: #bbbbbb;color: darkslategray;"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
 	                </c:if>
 	                <c:if test="${!creation.doSubscription}">
 	                	<div class="subscription doSubscription btn-form"><strong>구독하기</strong></div>
@@ -367,7 +367,7 @@
 	                </div>
 	                <div class="row hidden-md hidden-lg">
 	                    <div class="col-xs-7">
-							<div id="starWrap" class="star4<%-- ${book.grade.average} --%>">
+							<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block; float:left;    padding-top: 0.6%;">
 								<ul>
 									<li class="s1"></li>
 									<li class="s2"></li>
@@ -381,15 +381,15 @@
 	                </div>
 	            </div>
 	            <div class="col-md-2 hidden-xs hidden-sm">
-					<div id="starWrap" class="star${writing.grade.average}">
-						<ul>
+					<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block;">
+						<ul style="float: left;padding-top: 2%;">
 							<li class="s1"></li>
 							<li class="s2"></li>
 							<li class="s3"></li>
 							<li class="s4"></li>
 							<li class="s5"></li>
 						</ul>
-					${writing.grade.average} 점
+					<div style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
 					</div>
 				</div>
 	            <div class="col-md-2 hidden-xs hidden-sm" style="text-align:center"><span>${writing.regDate}</span></div>

@@ -29,7 +29,15 @@
     	header{
     		background:url(../resources/images/creationTest7.jpg) no-repeat center;
     	}
-		
+		    .creation-toolbar{
+		clear: both;
+	    height: 40px;
+	    _height: 40px;
+	    padding: 0 0 2px;
+	    background: #3d3d3d
+	}
+	
+
 	</style>
 	
 	<script type="text/javascript">
@@ -104,6 +112,8 @@
 	<!-- 여기부터 코딩 -->
 	
     <div class="container">
+		    	<jsp:include page="creationToolbar.jsp"/>
+    
         <form class="form-horizontal funding-add">
             
             
