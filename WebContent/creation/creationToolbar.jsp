@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <style>
@@ -45,6 +45,9 @@
 	    font-weight: bold;
 	    font-size: small;
     }
+    .button-form{
+    	cursor:pointer;
+    }
 
     	
     	
@@ -55,7 +58,7 @@
     $(function() {
 	//============= 창작글쓰기 Navigation Event  처리 =============	
 		$(".addWriting").on("click" , function() {
-		  $(self.location).attr("href","../creation/addWriting");
+			$(self.location).attr("href","../creation/addWriting");
    	}); 
 	//============= 펀딩등록하기 Navigation Event  처리 =============	
 	 	$(".addfunding").on("click" , function() {
@@ -85,25 +88,27 @@
 		<div class="col-md-10 creation-toolbar">
 			<div class ="creation-toolbar-main" style="display:inline-block; height:100%;">
 				<ul class="creation-menu" style="display:inline-block; height:100%;">
-					<li class="li-form creation-home" style="display:inline-block;"><div class="creation-menu-each " >창작홈</div></li>
-					<li class="li-form creation-writing-home" style="display:inline-block;"><div class="creation-menu-each">창작작품</div></li>
-					<li  class="li-form funding-home" style="display:inline-block;"><div class="creation-menu-each">펀딩</div></li>
+					<li class="li-form creation-home" style="display:inline-block;"><div class="creation-menu-each button-form" >창작홈</div></li>
+					<li class="li-form creation-writing-home" style="display:inline-block;"><div class="creation-menu-each button-form">창작작품</div></li>
+					<li  class="li-form funding-home" style="display:inline-block;"><div class="creation-menu-each button-form">펀딩</div></li>
 				</ul>
 			</div>
 		</div>
 		<div class="col-md-2" style="padding:0px;background-color: rgba(187, 187, 187, 0.62);border: 2px groove;height: 40px;border-left-width: medium;color: #3d3d3d;">
+			<c:if test="${!empty sessionScope.user and !empty sessionScope.user.email}">
 			<div class="creation-toolbar-sub" style="display:inline-block; height:100%;">
 				<div class="add-btn addfunding text-center" style="display:inline-block;border-right-width: thin;border-right-color: rgba(0,0,0,0.4);border-right-style: double;">
-					<div class="addfnding-inner">
+					<div class="addfnding-inner button-form">
 						펀딩등록하기
 					</div>
 				</div>
 				<div class="add-btn addWriting text-center" style="display:inline-block;">
-					<div class="addWriting-inner">
+					<div class="addWriting-inner button-form">
 					글쓰기
 					</div>
 				</div>
 			</div>
+		</c:if>
 		</div>
 	</div>
 

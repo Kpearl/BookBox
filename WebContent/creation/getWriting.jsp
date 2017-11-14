@@ -29,19 +29,18 @@
 </style>
 <script type="text/javascript">
 
-//================펀딩보러가기 Navigation=================
+	var targetNo;
+
 $(function() {
+//================펀딩보러가기 Navigation=================
 	$('.go-funding').on('click',function() {
 		$(self.location).attr("href","../creation/getFundingList?creationNo="+$('input[name="creationNo"]').val());
 	})
-})
-
 //=====================메뉴 Navigation=================
-$(function() {
 	$('.menu').on('click',function() {
 		history.back();
 	})
-})
+});
 
 //=====================창작글 수정하기 EVENT=================
 $(function() {
@@ -61,58 +60,51 @@ $(function() {
 })
 
 //=======================댓글 추가========================
-function addReply(targetNo) {
-	var content = document.getElementById("content").value;
-	var curDate = new Date();
-	var date = curDate.getFullYear() + "-" + (curDate.getMonth() + 1) + "-" + curDate.getDate();
-	
-	if(content == '') {
-		alert('댓글을 입력하세요.');
-	} else {		
-		$.ajax ({
-			url : "../creation/rest/addReply",
-			method : "POST",
-			data : {"content" : content, "targetNo" : targetNo},
-			success:function(){
-				$("p").prepend("${user.nickname} : " + content + " / " + date + "<br><hr>");
-              document.getElementById("content").value = "";
-			} 
+	$(function(){
+		$('div.add-reply').on('click',function(){
+			fncAddReply();
 		});
-	}		
-}
+		
+	})
+	
+	
+	function fncAddReply() {
+		targetNo = $('input[name="writingNo"]').val();
+		var content = $('input.reply-content').val();
+		var curDate = new Date();
+		var date = curDate.getFullYear() + "-" + (curDate.getMonth() + 1) + "-" + curDate.getDate();
+		var hourTime = curDate.getHours()+":"+curDate.getMinutes()+":"+curDate.getSeconds();
+		var regDate=date+" "+hourTime;
+		
+		if(content == '') {
+			alert('댓글을 입력하세요.');
+		} else {		
+			$.ajax ({
+				url : "../creation/rest/addReply/"+targetNo,
+				method : "POST",
+				data : JSON.stringify({
+					content : content
+					}),
+				headers : {
+					'Accept' : 'application/json',
+					'Content-Type' : 'application/json'
+				},
+				success:function(JSONData, status){
+					
+					var prependReply='';
+					prependReply+='<div class="row" style="margin:auto;">';
+					prependReply+='<div class="reply-user" style="display:inline-block;float:left;font-weight: bold">${sessionScope.user.nickname}</div>';	
+					prependReply+='<div class="reply-regdate"style="display:inline-block;float:right;">'+regDate+'</div></div>'
+					prependReply+='<div class="reply-content">'+content+'</div><hr>'
+					 
+					$(".reply-list").prepend(prependReply);
+	              	content = "";
+				} 
+			});
+		}		
+	}
 
-//=====================좋아요 추가=====================
-function addLike(targetNo) {
-	var total = document.getElementById('likeSum').innerHTML;
-	
-	$.ajax ({
-		url : "../creation/rest/addLike",
-		method : "POST",
-		data : {"targetNo" : targetNo},
-		success:function(){
-			$("#addLike").replaceWith("<button id='deleteLike' onclick='deleteLike(${targetNo});'>좋아요취소</button>");
-			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
-		 } 
-	});
-	
-	alert("좋아요를 등록하셨습니다.");
-}
 
-//====================좋아요 취소=====================
-function deleteLike(targetNo) {
-	var total = document.getElementById('likeSum').innerHTML;
-	
-	$.ajax ({
-		url : "../creation/rest/deleteLike",
-		method : "POST",
-		data : {"targetNo" : targetNo},
-		success:function(){
-			$("#deleteLike").replaceWith("<button id='addLike' onclick='addLike(${targetNo});'>좋아요</button>");
-		 	$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
-		} 
-	});
-	alert("좋아요를 취소하셨습니다.");
-}
 
 //=====================별점 이벤트=================
  $(function() {
@@ -124,7 +116,8 @@ function deleteLike(targetNo) {
 
 	$('.gradeAvg-present ul li').mouseenter(function() {
   	var idx = $(this).index() + 1;
-  	console.log(idx);
+  	var idx
+  	
 		$('.gradeAvg-present').removeClass().addClass('gradeAvg-present star' + idx);
 	});
 
@@ -143,12 +136,14 @@ function deleteLike(targetNo) {
 				method: "GET",
 				success: function() {
 					alert("평점이 등록되었습니다.");
-					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + '${writing.grade.average}')/2 + "</span>");
+					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + '${writing.grade.average}')/ + "</span>");
 				}
 			});
 		}
 	});
 });
+
+
 
 
 
@@ -245,7 +240,7 @@ function deleteLike(targetNo) {
 		<input type ="hidden" name="writingNo" value="${writing.writingNo }">
 				
 		<div class="row writing-form" id="writing-form" >
-			<div style="padding: 0px 50px 50px 50px;margin-top: 40px;border-top: 2px groove;background-color: rgba(221, 221, 221, 0.12);">
+			<div style="border-bottom: 2px inset;padding: 0px 50px 50px 50px;margin-top: 40px;border-top: 2px groove;background-color: rgba(221, 221, 221, 0.12);">
 				<div class = "row writing-head" style="margin-top:15px;">
 					<div class="writing-title" style="font-size: xx-large;">${writing.writingTitle }</div>
 					<div class="row grade-part" style="padding-left: 1.5%;">
@@ -259,7 +254,7 @@ function deleteLike(targetNo) {
 									<li class="s5" style="cursor:auto;"></li>
 								</ul>
 						</div>
-						<div class="get-gradeAvg" style="display: inline-block; float:left;">(${writing.grade.average})</div>
+						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
 						<div class="add-grade">별점주기</div>
 						<div id="starWrap" class="gradeAvg-present star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
 								<ul style="padding-left:0">
@@ -284,32 +279,65 @@ function deleteLike(targetNo) {
 		</div>
 	
 		<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
-			<div class="row col-md-12 text-right" style="margin-top:1%">
-				<a class="btn delete-writing" id="delete-writing">삭제</a>
-				<a class= "btn update-writing" id="update-writing" >수정</a>
+			<div class="row"> 
+				<div class="col-md-12 text-right" style="margin-top:1%">
+					<div class="btn delete-writing" id="delete-writing" style="border: none;font-weight: bold;">삭제</div>
+					<div class= "btn update-writing" id="update-writing" style="border: none;font-weight: bold;">수정</div>
+				</div>
 			</div>
 		</c:if>
 
 		
 		<!-- 댓글 -->
-		<div>댓글 수 / 조회 수</div>
-		
-		<c:if test="${user.email != null}">	
-			댓글  <input type="text" id="content" placeholder="댓글 입력">
-			<a class="btn" onclick="addReply(${book.isbn});">댓글입력</a><br>
-		</c:if>	
-		
-		<br>
+		<div class="row reply-form" style="margin: 2% 5%;">
+				<div class="row reply-head" style="margin: auto;font-size: x-large;">의견쓰기 ${writing.replyList.size() }</div>
+				<div class="reply-border" style="padding: 2%;border: 1px groove; height:150px;">
+					<strong>${user.nickname }</strong> 
+				<c:if test="${empty sessionScope.user and empty sessionScope.user.email}">
+					<input class="form-control reply-content" type="text" id="reply-content" placeholder="댓글 입력" readonly>
+					<div class="btn btn-form " style="margin-top: 1%;float:right;border: none;" disabled>등록</div>
+				</c:if>
+				<c:if test="${!empty sessionScope.user and !empty sessionScope.user.email}"> 
+					<input class="form-control reply-content" type="text" id="reply-content" placeholder="댓글 입력">
+					<div class="btn btn-form add-reply" style="margin-top: 1%;float:right;border: none;">등록</div>
+				</c:if>
+			</div>
+			
 		<hr>
-		<h3>댓글리스트</h3>
-		<hr>
-		<p></p>
-		<c:forEach items="${replyList}" var="reply">
-			${reply.user.nickname} : ${reply.content} / ${reply.regDate}<br>
-			<hr>
-		</c:forEach>
-		
-		<br>
+			<!-- <div class="row" style="margin: auto;">댓글리스트</div>
+		<hr> -->
+			<div class="row" id="restReply">
+					<div class="row reply-list" style="margin:auto;height:150px;padding: 0% 2%;">
+			
+			<c:forEach items="${writing.replyList}" var="reply">
+						<div class="row" style="margin:auto;">
+							<div class="reply-user" style="display:inline-block;float:left;font-weight: bold">${reply.user.nickname}</div>
+							<div class="reply-regdate"style="display:inline-block;float:right;">${reply.regDate }</div> 
+						</div>	
+						<div class="reply-content">${reply.content }</div>
+						<hr>
+			</c:forEach>
+					
+					</div>
+				
+						
+			<!-- <div class="row reply-list" style="margin:auto;height:150px;padding: 0% 2%;">
+						<div class="row" style="margin:auto;">
+							<div class="reply-user" style="display:inline-block;float:left;"><strong>히정계정</strong></div>
+							<div class="reply-regdate"style="display:inline-block;float:right;">2017-11-14 15:34</div> 
+						</div>	
+						<div class="reply-content">댓글내용내용</div>
+						<hr>
+						
+						<div class="row" style="margin:auto;">
+							<div class="reply-user" style="display:inline-block;float:left;"><strong>히정계정</strong></div>
+							<div class="reply-regdate"style="display:inline-block;float:right;">2017-11-14 15:34</div> 
+						</div>	
+						<div class="reply-content">댓글내용내용댓글내용내용댓글내용내용댓글내용내용</div>
+						<hr>
+			</div> -->
+		</div>
+	
 		
 	</div>
 	

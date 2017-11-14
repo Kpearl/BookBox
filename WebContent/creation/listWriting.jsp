@@ -255,7 +255,7 @@
    
         <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            <div class="col-md-5">
+            <div class="col-md-5" style="overflow:hidden;"">
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
             	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
@@ -267,7 +267,6 @@
 	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
 	          
-           			<!-- <span id="gradeAvg">평균 평점 </span> -->
            			<div id="starWrap" class="gradeAvg star${creation.grade.average}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
 						<ul style="padding-left:0">
 							<li class="s1"></li>
@@ -288,14 +287,14 @@
 		        <div class="row">
 		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
 			           	<c:forEach items="${creation.tagList}" var="tag">
-			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
+			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;cursor:pointer;" class="tag">
 			           		<strong>#${tag.tagName}</strong></span>
 			           	</c:forEach>
 		            </div>
 		        </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 20px;">
         	<div class="col-md-6" >
         		<div class="row">
 				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
@@ -351,53 +350,58 @@
                 <p>등록일</p>
             </div>
         </div>
-        
-    <c:forEach items="${creation.writingList}" var="writing">
-        <div class="row writing-border">
-        	<div class="row writing-each" style="margin:1%;">
-	        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
-	            <div class="col-md-2 col-xs-3">
-	            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
-	            </div>
-	            <div class="col-md-6 col-xs-9">
-	                <div class="row">
-	                    <div class="col-md-12">
-	                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
-	                    </div>
-	                </div>
-	                <div class="row hidden-md hidden-lg">
-	                    <div class="col-xs-7">
-							<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block; float:left;    padding-top: 0.6%;">
-								<ul>
-									<li class="s1"></li>
-									<li class="s2"></li>
-									<li class="s3"></li>
-									<li class="s4"></li>
-									<li class="s5"></li>
-								</ul>
+        <div>
+        	<c:if test="${empty creation.writingList}">
+				<div class="text-center" style="padding: 10%;border-bottom: 1px groove;margin-bottom: 10%;">        		
+        		등록된 게시글이 존재하지 않습니다.
+        		</div>
+        	</c:if>
+			    <c:forEach items="${creation.writingList}" var="writing">
+			        <div class="row writing-border">
+			        	<div class="row writing-each" style="margin:1%;">
+				        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
+				            <div class="col-md-2 col-xs-3" style="overflow:hidden">
+				            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
+				            </div>
+				            <div class="col-md-6 col-xs-9">
+				                <div class="row">
+				                    <div class="col-md-12">
+				                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
+				                    </div>
+				                </div>
+				                <div class="row hidden-md hidden-lg">
+				                    <div class="col-xs-7">
+										<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block; float:left;    padding-top: 0.6%;">
+											<ul>
+												<li class="s1"></li>
+												<li class="s2"></li>
+												<li class="s3"></li>
+												<li class="s4"></li>
+												<li class="s5"></li>
+											</ul>
+										</div>
+									</div>
+				                    <div class="col-xs-5" style="text-align:center"><span >${writing.regDate}</span></div>
+				                </div>
+				            </div>
+				            <div class="col-md-2 hidden-xs hidden-sm">
+								<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block;">
+									<ul style="float: left;padding-top: 2%;">
+										<li class="s1"></li>
+										<li class="s2"></li>
+										<li class="s3"></li>
+										<li class="s4"></li>
+										<li class="s5"></li>
+									</ul>
+								<div style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
+								</div>
 							</div>
-						</div>
-	                    <div class="col-xs-5" style="text-align:center"><span >${writing.regDate}</span></div>
-	                </div>
-	            </div>
-	            <div class="col-md-2 hidden-xs hidden-sm">
-					<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block;">
-						<ul style="float: left;padding-top: 2%;">
-							<li class="s1"></li>
-							<li class="s2"></li>
-							<li class="s3"></li>
-							<li class="s4"></li>
-							<li class="s5"></li>
-						</ul>
-					<div style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
-					</div>
-				</div>
-	            <div class="col-md-2 hidden-xs hidden-sm" style="text-align:center"><span>${writing.regDate}</span></div>
-	        
-        	</div>
-        </div>
-	</c:forEach>
-       
+				            <div class="col-md-2 hidden-xs hidden-sm" style="text-align:center"><span>${writing.regDate}</span></div>
+				        
+			        	</div>
+			        </div>
+				</c:forEach>
+      </div> 
     </div>
     
     <div class="modal fade update-creation" id="update-creation" tabindex="-1" role="dialog" style="z-index:1090;">

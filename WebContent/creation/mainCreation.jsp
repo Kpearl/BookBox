@@ -94,6 +94,12 @@
 			padding: 4px;
 			font-weight: bold;
 		}
+		#more{
+			cursor:pointer;
+		}
+		.button-form{
+			cursor:pointer;
+		}
 
     	
     	
@@ -184,24 +190,17 @@ $(function() {
    $(function() {
 	  $(".creation-title").on("click" , function() {
 		  $(self.location).attr("href","../creation/getWritingList?creationNo="+$(this).attr('id'));
-   	
-   	}); 
+   		}); 
  });  
    
    //============= 작가북로그 Navigation Event  처리 =============	
    $(function() {
 	  $(".creation-author").on("click" , function() {
-		  $(self.location).attr("href","../booklog/getBooklog?email="+$(this).attr('id'));
-   	
+		  $(self.location).attr("href","../booklog/getBooklog?user.email="+$(this).attr('id'));
    	}); 
  });  
    
 
-   //============= 검색 Event  처리 =============	
-	  $("a.creationSearch").on("click" , function() {
-		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
-	
-	}); 
    
 	//============= 펀딩 남은기간 계산 =============
    $(function(){
@@ -232,14 +231,7 @@ $(function() {
 		
 	});
 		
-		
-   
-/*    //============= 창작공간 Navigation Event  처리 =============	
-   $(function() {
-   	$("img[name='creationFile']).on("click" , function() {
-   		$(self.location).attr("href","${param.uri}creation/getWritingList");
-   	}); 
- });   */
+
     
     </script>
 		
@@ -264,7 +256,7 @@ $(function() {
    </div>
 	
 		   <div class="row text-right col-sm-offset-11 col-sm-1" style="margin-top:50px">
-		   		<a  class="fundingMore" name="fundingMore">전체보기></a>
+		   		<a  class="fundingMore" id="more">전체보기></a>
 		   </div>
 	
     <!-- Swiper -->
@@ -274,14 +266,13 @@ $(function() {
 			        
             <div class="swiper-slide" style="border:1px solid;border-color: antiquewhite;border-radius: 10px;overflow:hidden">
 				<div class="item" style="width:100%;position:relative;">
-					<div id="${funding.fundingNo}" class="funding-image" style="height:220px; background-color:rgba(114, 114, 114, 0.48);position:relative;overflow:hidden;">
+					<div id="${funding.fundingNo}" class="funding-image button-form" style="height:220px; background-color:rgba(114, 114, 114, 0.48);position:relative;overflow:hidden;">
 						<img style="width:100%;position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
 					</div>
 					<div class="funding-content" style="height:150px">
-						<div class="funding-title" style="    margin-left: 10px;">
-						<h5 id="${funding.fundingNo}" class="btn-link funding-get text-left funding-title">
-						<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
-						${funding.fundingTitle}</h5>
+						<div class="funding-title button-form" style="    margin-left: 10px;">
+							<h5 id="${funding.fundingNo}" class="btn-link funding-get text-left funding-title">
+							<input type="hidden" name="fundingNo" value="${funding.fundingNo}">${funding.fundingTitle}</h5>
 						</div>
 						<!--<p>Funding content</p> -->
 						<div class="progress" style="height: 20px;margin-left: 8px;margin-right: 8px;">
@@ -319,13 +310,13 @@ $(function() {
 		<c:forEach var="fiction" items="${fictionList }" >
 		  		 <div class="row creation-list" >
 					<div class="col-sm-4 col-md-4" style="height:100%;background-color:rgba(114, 114, 114, 0.48);">
-						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
+						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
 					</div>
 					<div class="col-sm-8 col-md-8">
 						<div class="row">
 							<div class="col-sm-12" style="padding-top: 10px;">
-								<strong class="creation-title" id="${fiction.creationNo }" style="font-size:x-large">${fiction.creationTitle }   </strong> 
-								<span class="creation-author" id=${fiction.creationAuthor.email } style="font-size:15px;">   by.${fiction.creationAuthor.nickname }</span>
+								<strong class="creation-title button-form" id="${fiction.creationNo }" style="font-size:x-large;cursor:pointer;">${fiction.creationTitle }   </strong> 
+								<span class="creation-author button-form" id=${fiction.creationAuthor.email } style="font-size:15px;cursor:pointer;">   by.${fiction.creationAuthor.nickname }</span>
 							</div>
 						</div>
 						<div class="row">	
@@ -336,7 +327,7 @@ $(function() {
 						<div class="row">
 							<div class="tag-space">
 								<c:forEach var="tag" items="${fiction.tagList }">
-										<span class="tag">#${tag.tagName }</span>
+										<span class="tag button-form">#${tag.tagName }</span>
 								</c:forEach>
 							</div>	
 						</div>
@@ -348,7 +339,7 @@ $(function() {
    </div>
    
    <div class="row text-right col-sm-offset-11 col-sm-1">
-		<a  class="fictionMore" name="fundingMore">전체보기></a>
+		<a  class="fictionMore button-form" id="more">전체보기></a>
 	</div>
    
   <div class="row creation-part" >
@@ -366,8 +357,8 @@ $(function() {
 					<div class="col-sm-8 col-md-8" >
 						<div class="row">
 							<div class="col-sm-12" style="padding-top: 10px;">
-								<strong class="creation-title" id="${nonfiction.creationNo }" style="font-size:x-large">${nonfiction.creationTitle }   </strong> 
-								<span class="creation-author" id=${nonfiction.creationAuthor.email } style="font-size:15px;">   by.${nonfiction.creationAuthor.nickname }</span>
+								<strong class="creation-title button-form" id="${nonfiction.creationNo }" style="font-size:x-large">${nonfiction.creationTitle }   </strong> 
+								<span class="creation-author button-form" id=${nonfiction.creationAuthor.email } style="font-size:15px;">   by.${nonfiction.creationAuthor.nickname }</span>
 							</div>
 						</div>	
 						<div class="row">
@@ -378,13 +369,13 @@ $(function() {
 						<div class="row">
 							<div class="tag-space">
 								<c:forEach var="tag" items="${nonfiction.tagList }">
-										<span class="tag">#${tag.tagName }</span>
+										<span class="tag button-form">#${tag.tagName }</span>
 								</c:forEach>
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-4 col-md-4" style="height:100%; background-color:rgba(114, 114, 114, 0.48);">
-						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive" alt="Image" src="../resources/upload_files/images/${nonfiction.creationFileName }" name="creationFile">
+						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${nonfiction.creationFileName }" name="creationFile">
 					</div>
 		   		</div>
 		   		<hr>
@@ -392,7 +383,7 @@ $(function() {
 	   </div>
    </div>
     <div class="row text-right col-sm-offset-11 col-sm-1" style="    margin-bottom: 80px;">
-		<a  class="nonfictionMore" name="fundingMore">전체보기></a>
+		<a  class="nonfictionMore button-form" id="more" >전체보기></a>
 	</div>
 
 

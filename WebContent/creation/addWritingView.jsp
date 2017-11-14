@@ -133,7 +133,7 @@
 							fncAddTag();
 							
 							$('.addThing').remove();
-							$('img').attr('src','../resources/upload_files/images/noImg_2.jpg');
+							$('#creationNoFile').attr('src','../resources/upload_files/images/noImg_2.jpg');
 							$('.glyphicon-remove').on('click',function(){
 								fncRemoveTag(num);
 							});
@@ -156,7 +156,7 @@
 							$('input[name="creationNo"]').val(JSONData.creationNo);
 							$("input[name='creationTitle']").val(JSONData.creationTitle);
 							$("textarea[name='creationIntro']").val(JSONData.creationIntro);
-							$("img").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
+							$("#creationFileName").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
 							$("input[name='creationHead']").val(JSONData.creationHead);
 							if($("input[name='creationHead']").val()==JSONData.creationHead){
 								$("input[name='creationHead']").attr('checked','checked');
@@ -283,12 +283,12 @@
 				<div class="col-sm-12 col-md-12">
 					<div class="row">
 						<div class="col-md-5">
-							<div id="imgPreview" style="padding-left:20px;">
+							<div id="imgPreview" style="padding-left:20px;overflow:hidden;">
 								<c:if test="${!empty creation }">
-									<img class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
+									<img id="creatioinFileName" class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
 								</c:if>
 								<c:if test="${empty creation }">
-									<img class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
+									<img id="creatioinNoFile" class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
 								</c:if>
 							</div>
                     		<input style="padding-left:20px;" type="file"  class="inputValue" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
@@ -356,7 +356,7 @@
 			 <div class="form-group" style="margin-bottom:80px;margin-top:50px;">
                 <div class="col-sm-8 col-sm-offset-4 text-right">
                     <a class="btn btn-primary" id="add-creation" >등록</a>
-                    <a class="btn btn-defalt menu" >menu</a>
+                    <a class="btn btn-defalt menu" >이전</a>
                 </div>
               </div>	
 		
