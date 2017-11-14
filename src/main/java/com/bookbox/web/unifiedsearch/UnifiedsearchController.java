@@ -1,7 +1,5 @@
 package com.bookbox.web.unifiedsearch;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Search;
-import com.bookbox.service.booklog.PostingService;
-import com.bookbox.service.community.CommunityService;
-import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.domain.Book;
-import com.bookbox.service.domain.Unifiedsearch;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.unifiedsearch.BookService;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
@@ -48,18 +42,6 @@ public class UnifiedsearchController {
 	@Qualifier("bookServiceImpl")
 	private BookService bookService;
 
-	@Autowired
-	@Qualifier("creationServiceImpl")
-	private CreationService creationService;
-
-	@Autowired
-	@Qualifier("postingServiceImpl")
-	private PostingService postingService;
-
-	@Autowired
-	@Qualifier("communityServiceImpl")
-	private CommunityService communityService;
-
 	private Search search;
 
 	// Constructor
@@ -67,28 +49,19 @@ public class UnifiedsearchController {
 		System.out.println("Constructor :: " + getClass().getName());
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getUnifiedsearchList", method = RequestMethod.GET)
 	public String getUnifiedsearchList(Model model, @RequestParam("keyword") String keyword, @RequestParam("category") int category) throws Exception {
 		System.out.println("/unifiedsearch/getUnifiedsearchList : GET");
-		
-		Search search = new Search();
-		search.setKeyword(keyword);
+		//List<String> tagList = new ArrayList<String>();
+		//model.addAttribute("tagList", new ArrayList<String>(new HashSet<String>(tagList)));
+		search = new Search();
 		search.setCategory(category);
-		
-		List<String> tagList = new ArrayList<String>();
+		search.setKeyword(keyword);
 		Map<String, Object> map = unifiedsearchService.elasticSearch(search);
 		
-		for(Unifiedsearch unified: ((List<Unifiedsearch>)map.get("result"))) {
-			for(String tag : unified.getTag()) {
-				tagList.add(tag);
-			}
-		}
-		
-		model.addAttribute("result", map.get("result"));
 		model.addAttribute("total", map.get("total"));
 		model.addAttribute("keyword", search.getKeyword());		
-		model.addAttribute("tagList", new ArrayList<String>(new HashSet<String>(tagList)));
+		model.addAttribute("result", map.get("result"));
 		
 		switch (category) {
 		case 1:
@@ -97,8 +70,13 @@ public class UnifiedsearchController {
 			return  "forward:../unifiedsearch/listPosting.jsp";
 		case 6:
 			return  "forward:../unifiedsearch/listCommunity.jsp";
+		default:
+			model.addAttribute("creationList", map.get("creationList"));
+			model.addAttribute("boardList", map.get("boardList"));
+			model.addAttribute("postingList", map.get("postingList"));
+			model.addAttribute("bookList", bookService.getBookList(search));
+			return "forward:../unifiedsearch/listUnifiedsearch.jsp";
 		}
-		return "forward:../unifiedsearch/listUnifiedsearch.jsp";
 	}
 	
 	

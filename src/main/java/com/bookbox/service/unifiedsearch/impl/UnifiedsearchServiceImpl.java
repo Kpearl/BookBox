@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Unifiedsearch;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
@@ -36,7 +37,24 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	}
 
 	@Override
-	public Map<String, Object> elasticSearch(Search search) throws Exception {
+	public Map<String, Object> elasticSearch(Search search) throws Exception {		
+		if (search.getCategory() == 10) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			Search temp = search;
+
+			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			
+			temp.setCategory(Category.CREATION);
+			map.put("creationList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			
+			temp.setCategory(Category.BOARD);
+			map.put("boardList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			
+			temp.setCategory(Category.POSTING);
+			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			
+			return map;
+		}
 		return convertToMap(unifiedsearchDAO.elasticSearch(search));
 	}
 

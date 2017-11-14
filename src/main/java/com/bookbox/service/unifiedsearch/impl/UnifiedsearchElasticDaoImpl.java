@@ -69,18 +69,14 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 		String query = url + "/_search";
 		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\"" + search.getKeyword() + "\"}}}";
 		
-		if(!(search.getCategory() == 10)) {
 			if(search.getCategory() == 1)
 				query = url + "creation/_search";
-			if(search.getCategory() == 5)
+			else if(search.getCategory() == 5)
 				query = url + "posting/_search";
-			if(search.getCategory() == 6)
+			else if(search.getCategory() == 6)
 				query = url + "board/_search";
-			if(search.getCategory() == 7)
-				query = url + "chatroom/_search";
-			if(search.getCategory() == 11)
+			else if(search.getCategory() == 11)
 				json ="{\"query\":{\"multi_match\":{ \"fields\":[\"tag\"], \"query\":\"" + search.getKeyword() + "\"}}}";
-		}
 					
 		System.out.println("Elastic search :: " + sendToElastic(query, json, "POST").toString());
 		
@@ -100,7 +96,6 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("content", creation.getCreationIntro());
 			obj.put("tag", tagParse(creation.getTagList()));
 			obj.put("nick_name", creation.getCreationAuthor().getNickname());
-			obj.put("reg_date", creation.getRegDate());
 			obj.put("image", creation.getCreationFileName());
 
 			map.put("category", "creation");
@@ -114,7 +109,6 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("content", removeTag(posting.getPostingContent()));
 			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
-			obj.put("reg_date", posting.getPostingRegDate());
 			obj.put("image", posting.getPostingFileList().size() == 0?"" : posting.getPostingFileList().get(0).getFileName());
 
 			map.put("category", "posting");
@@ -128,7 +122,6 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("content", removeTag(board.getBoardContent()));
 			obj.put("tag", tagParse(board.getTagList()));
 			obj.put("nick_name", board.getWriter().getNickname());
-			obj.put("reg_date", board.getBoardRegDate());
 			obj.put("image", board.getThumbnailUrl());
 
 			map.put("category", "board");

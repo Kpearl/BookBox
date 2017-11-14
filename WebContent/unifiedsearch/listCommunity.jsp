@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -86,7 +85,7 @@ footer{
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="5"><strong>소모임   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>게시판   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>  
 		 
 		<div class="row">	
@@ -106,7 +105,7 @@ footer{
 						<p><strong>${result.title}</strong></p>
 						<div >${result.nick_name}</div>
 					</div>
-					<div class="col-md-5 col-xs-5"  style="padding-right: 0px;"" align="right">
+					<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
 						<img class="content-img" src="${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
 					</div>
 				</div>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,7 +89,7 @@ footer{
 
 	<div class="container">
 	<div class="row" style="margin-top:50px">
-			<font size="5"><strong>북로그   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>포스팅   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>  
 		 
 		<div class="row">	
@@ -102,28 +101,27 @@ footer{
 				<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
 			</div>
 		</c:if>
-					
-					<c:forEach items="${result}" var="result">
-					<div class="row nav-posting" id="${result.id}">
-						<div class="row" id="shadow-box">
-							<div class="col-md-3">
-								<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.png'">							
-							</div>
-							<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
-								<div class="row">
-									<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
-								</div>
-								<div class="row">
-									<p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
-								</div>
-								<div>
-									<p class="content-line">${result.content}</p>
-								</div>
-							</div>
+		<c:forEach items="${result}" var="result">
+			<div class="row nav-posting" id="${result.id}">
+				<div class="row" id="shadow-box">
+					<div class="col-md-3">
+						<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.png'">							
+					</div>
+					<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
+						<div class="row">
+							<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
+						</div>
+						<div class="row">
+							<p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
+						</div>
+						<div>
+							<p class="content-line">${result.content}</p>
 						</div>
 					</div>
-				</c:forEach>
+				</div>
 			</div>
+		</c:forEach>
+	</div>
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

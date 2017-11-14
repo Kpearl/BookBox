@@ -69,15 +69,19 @@ public class SearchTest {
 		creation.setTagList(tagList);
 
 		search.setCategory(Category.UNIFIEDSEARCH);
-		search.setKeyword("포스팅");
+		search.setKeyword("사람");
 
 		// unifiedsearchDAO.elasticDelete(creation);
 		map = unifiedsearchService.elasticSearch(search);
+		Map<String, Object> temp = (Map<String, Object>) map.get("creationList");
 
-		System.out.println(map.get("total"));
+		System.out.println(temp.get("total").toString());
+		List<Unifiedsearch> search  = (List<Unifiedsearch>)temp.get("result");
+		System.out.println(search.get(0).getTitle());
+		//Unifiedsearch unifiedsearch = (Map)map.get("creation");
 		
-		for(int i = 0; i < Integer.parseInt((map.get("total").toString())); i++) {
-			Unifiedsearch unifiedsearch = (Unifiedsearch)map.get(i+"");
+		//unifiedsearch.toString();
+/*		for(int i = 0; i < Integer.parseInt((map.get("total").toString())); i++) {
 			
 			System.out.println(i + "=============================");
 			System.out.println("category : " + unifiedsearch.getCategory());
@@ -87,5 +91,5 @@ public class SearchTest {
 			System.out.println("id : " + unifiedsearch.getId());
 			System.out.println("tag : " + unifiedsearch.getTag().toString());
 		}
-	}
+*/	}
 }

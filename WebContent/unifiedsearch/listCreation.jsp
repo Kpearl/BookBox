@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +86,7 @@ document.onreadystatechange = function () {
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="5"><strong>창작공간   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>작품   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>   
 		
 		<div class="row">	
