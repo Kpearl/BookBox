@@ -132,17 +132,22 @@ public class CreationServiceImpl implements CreationService {
 		if (page == null) {
 		
 			for(Creation creation : creationList) {
-				map.put("targetNo", creation.getCreationNo());
 				int count = fundingDAO.getDoFunding(map);
+
+				map.put("targetNo", creation.getCreationNo());
+				creation.setGrade(commonDAO.getAvgGrade(map));
+				
 				if (count == 0) {
-					System.out.println("=============="+count+"\n");
 					addFundingCreationList.add(creation);	
 				}
 			}
 		}
-		System.out.println("================page :: "+page+"+\n");
-		
+	
 		if (page != null) {
+			for(Creation creation : creationList) {
+				map.put("targetNo", creation.getCreationNo());
+				creation.setGrade(commonDAO.getAvgGrade(map));
+			}
 			return creationList;
 		}else {
 		return addFundingCreationList;

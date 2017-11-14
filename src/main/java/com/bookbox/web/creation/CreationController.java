@@ -376,7 +376,7 @@ public class CreationController {
 		Creation creation = new Creation();
 	
 		writing = writingService.getWriting((User)session.getAttribute("user"), writing);
-		System.out.println("CreationController :: getWriting :: "+writing+"\n");
+//		System.out.println("CreationController :: getWriting :: "+writing+"\n");
 		
 		creation.setCreationNo(writing.getCreationNo());
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));

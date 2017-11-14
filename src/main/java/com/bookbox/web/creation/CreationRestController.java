@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
@@ -394,6 +395,30 @@ public class CreationRestController {
 		writingService.addGrade(map);
 		
 		System.out.println("CreationRestController :: /creation/rest/addGrade : GET ==> END");
+		
+		return true;
+	}
+	
+	/**
+	 * @brief addReply/ 댓글등록
+	 * @details POST
+	 * @param PayInfo, HttpSession
+	 * @throws Exception
+	 * @return boolean
+	 */
+	@RequestMapping(value="addReply/{writingNo}", method=RequestMethod.POST)
+	public boolean addReply(@RequestBody Reply reply,	
+														@PathVariable("writingNo") int writingNo, HttpSession session) throws Exception{
+		// TODO addGrade
+		System.out.println("CreationRestController :: /creation/rest/addReply : GET ===> START");
+		
+		
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writingNo, (User)session.getAttribute("user"));
+		map.put("reply", reply);
+		
+		writingService.addReply(map);
+		
+		System.out.println("CreationRestController :: /creation/rest/addReply : GET ==> END");
 		
 		return true;
 	}

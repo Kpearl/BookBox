@@ -16,7 +16,7 @@ public class Reply {
 
 	//Field
 	private User user;
-	private Date regDate;
+	private String regDate;
 	private String content;
 	
 	public Reply() {
@@ -31,12 +31,12 @@ public class Reply {
 		this.user = user;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate.substring(0,regDate.lastIndexOf("."));
 	}
 
 	public String getContent() {

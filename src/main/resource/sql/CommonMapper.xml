@@ -66,6 +66,11 @@
         ON reply.email = user.email
 		WHERE category_no = #{categoryNo} AND
 			  target_no = #{targetNo}
+		ORDER BY reg_date DESC 
+		<if test="page != null">
+		LIMIT #{page.startRow}, #{page.pageSize}
+		</if>	  
+			 
 	</select>
 
 	<select id="viewCount" parameterType="map" resultType="int">

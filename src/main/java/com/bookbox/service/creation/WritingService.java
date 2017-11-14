@@ -3,7 +3,6 @@ package com.bookbox.service.creation;
 import java.util.List;
 import java.util.Map;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 
@@ -63,4 +62,12 @@ public interface WritingService {
 	 * @return void
 	 */		
 	public void addGrade(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * @brief  댓글등록 
+	 * @param Map<String,Object>
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void addReply(Map<String, Object> map) throws Exception;
 }

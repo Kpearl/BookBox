@@ -1,6 +1,5 @@
 package com.bookbox.service.creation.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
-import com.bookbox.common.domain.Like;
 import com.bookbox.common.domain.Page;
-import com.bookbox.common.domain.Search;
+import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.util.CommonUtil;
@@ -62,6 +60,7 @@ public class WritingServiceImpl implements WritingService {
 	 * @throws Exception
 	 * @return void
 	 */	
+	@Override
 	public void addWriting(User user, Writing writing) throws Exception{
 		
 		writingDAO.addWriting(writing);
@@ -83,6 +82,7 @@ public class WritingServiceImpl implements WritingService {
 	 * @throws Exception
 	 * @return void
 	 */		
+	@Override
 	public void updateWriting(User user, Writing writing) throws Exception{
 		
 		List<UploadFile> uploadFileList = writing.getWritingFileList();
@@ -103,20 +103,16 @@ public class WritingServiceImpl implements WritingService {
 	 * @throws Exception
 	 * @return void
 	 */		
+	@Override
 	public Writing getWriting(User user, Writing writing) throws Exception{
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.WRITING, writing.getWritingNo(),user);
 		System.out.println("writingService :: getWriting :: map :: "+map);
 		
-		Grade grade = commonDAO.getGrade(map);
-		System.out.println("getWriting :: Grade :: "+commonDAO.getGrade(map));
-		
-/*		if (grade != null) {
-			grade.setDoGrade(true);
-		}*/
 		writing = writingDAO.getWriting(writing);
-		writing.setGrade(grade);
+		writing.setGrade(commonDAO.getGrade(map));
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
+		writing.setReplyList(commonDAO.getReplyList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
 		
 		return writing;
@@ -128,6 +124,7 @@ public class WritingServiceImpl implements WritingService {
 	 * @throws Exception
 	 * @return void
 	 */	
+	@Override
 	public List<Writing> getWritingList(Map<String, Object> map) throws Exception{
 		
 		 commonDAO.getLike(map);
@@ -152,7 +149,8 @@ public class WritingServiceImpl implements WritingService {
 	 * @param Writing
 	 * @throws Exception
 	 * @return void
-	 */		
+	 */	
+	@Override
 	public void deleteWriting(Writing writing) throws Exception{
 		
 		writing.setActive(0);
@@ -164,9 +162,25 @@ public class WritingServiceImpl implements WritingService {
 	 * @param Map<String,Object>
 	 * @throws Exception
 	 * @return void
-	 */		
+	 */
+	@Override
 	public void addGrade(Map<String, Object> map) throws Exception{
 		commonDAO.addGrade(map);
 	}
+
+	/**
+	 * @brief  평점등록 
+	 * @param Map<String,Object>
+	 * @throws Exception
+	 * @return void
+	 */	
+	@Override
+	public void addReply(Map<String, Object> map) throws Exception {
+		// TODO addReply
+		commonDAO.addReply(map);
+		
+	}
+	
+	
 	
 }
