@@ -68,7 +68,7 @@
 		<div class="posting-title text-center">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}">
 			<h2 class="booklog-font-color" style="font-weight: bold;"><em>${posting.postingTitle}</em></h2>
-			<p><mark>by ${posting.user.nickname}</mark>, 조회수 : ${posting.viewCount}, 작성일 : ${posting.postingRegDate}</p>
+			<p><strong>by ${posting.user.nickname}</strong></p>
 		</div>
 	</header>
 	
@@ -77,9 +77,10 @@
 	<div class="container booklog-background" style="padding: 30px; overflow-x: scroll;">
 		<div class="row">
 			<div class="col-sm-offset-1 col-sm-10">
+				<p>조회수 : ${posting.viewCount}, 작성일 : ${posting.postingRegDate}</p>
 				${posting.postingContent} <br/><br/>
 				<c:forEach items="${posting.postingTagList}" var="tag" >
-					<span class="tag"># ${tag.tagName}</span> 
+					<span class="tag">#${tag.tagName}</span> 
 				</c:forEach>
 			</div>
 		</div>

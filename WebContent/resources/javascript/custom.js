@@ -22,7 +22,7 @@ function fncGetDate(day){
 $(function(){
 	$('span.tag').on('click', function(){
 		var keyword = $(this).html();
-		keyword = keyword.substring(2);
+		keyword = keyword.substring(1);
 		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
 	});
 });

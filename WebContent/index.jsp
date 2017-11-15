@@ -60,7 +60,7 @@
 		}
 		.max-height{
 			height: 100%;
-			background-color: rgba(187, 187, 187, 0.13);
+			/* background-color: rgba(187, 187, 187, 0.13); */
 		}
 		.half-height{
 			height: 92%;
@@ -93,6 +93,9 @@
 			-webkit-transition: 0.1s;
 			   -moz-transition: 0.1s;
 					transition: 0.1s;
+		}
+		.img-padding{
+			padding: 30px;
 		}
 		.font-large{
 			font-size: 24px!important;
@@ -357,7 +360,7 @@
 								<div class="col-xs-3 max-height first-level">
 									<div class="row max-height first-level book-content">
 										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center">
+										<div class="col-sm-12 max-height first-level text-center img-padding">
 											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 										</div>
 										<div class="col-sm-12 second-level">
@@ -377,7 +380,7 @@
 								<div class="col-xs-3 max-height first-level">
 									<div class="row max-height first-level book-content">
 										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center">
+										<div class="col-sm-12 max-height first-level text-center img-padding">
 											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 										</div>
 										<div class="col-sm-12 second-level">
@@ -397,7 +400,7 @@
 								<div class="col-xs-3 max-height first-level">
 									<div class="row max-height first-level book-content">
 										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center">
+										<div class="col-sm-12 max-height first-level text-center img-padding">
 											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 										</div>
 										<div class="col-sm-12 second-level">

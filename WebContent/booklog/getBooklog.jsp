@@ -628,7 +628,7 @@
 				</div>
 				</c:if>
 				
-				<div class="row">
+				<%-- <div class="row">
 					<div class="col-md-12 hidden-xs hidden-sm">
 						<ul class="timeline">
 						<c:forEach items="${logList}" var="log">
@@ -651,7 +651,7 @@
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 
 
@@ -753,7 +753,7 @@
 				
 			</div>
 			
-			<div class="col-sm-12 hidden-md hidden-lg">
+			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="timeline">

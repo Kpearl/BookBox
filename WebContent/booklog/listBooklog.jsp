@@ -51,6 +51,7 @@
 		});
 		
 		function fncTransformDiv(){
+			$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 			if($(window).width() > 1200){
 				$('.div-block:nth-child(4n-3)').css('transform', 'translate(0, 0)');
 				$('.div-block:nth-child(4n-2)').css('transform', 'translate(0, 20px)');
