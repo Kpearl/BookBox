@@ -30,6 +30,107 @@
 <script type="text/javascript">
 
 	var targetNo;
+	
+	   function fncDoSubscription(){
+		   $.ajax ({
+			   url : "rest/doCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
+	    		method : "get",
+	    		dataType : "json",
+	    		success: function(JSONData, status){
+	    		//	alert(JSONData);
+	    			$(".doSubscription").css('background-color','#bbbbbb').css('color','darkslategray').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i><strong>구독중</strong>").off('click');
+	    		//	$("a.doSubscription").replaceWith("<a style='background-color:rgba(106, 98, 230, 0.46);' class='btn btn-default deleteSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
+	    			 $(".deleteSubscription").on("click" , function() {
+			   	    		alert("구독취소");
+			   	    		fncDeleteSubscription();
+			   	    	}); 
+	    		}  
+		   });
+	   }
+	   
+	   function fncDeleteSubscription(){
+		   $.ajax ({
+			   url : "rest/deleteCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
+	    		method : "get",
+	    		dataType : "json",
+	    		success: function(JSONData, status){
+	    			alert(JSONData);
+	    			$(".deleteSubscription").css('background-color','#ffffff').css('color','inherit').removeClass('deleteSubscription').addClass('doSubscription').html("<strong>구독하기</strong>").off('click');
+	    		//	$("a.deleteSubscription").replaceWith("<a class='btn btn-default doSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독</a>");
+	    			 $(".doSubscription").on("click" , function() {
+			   	    		alert("구독");
+			   	    		fncDoSubscription();
+			   	    	});  
+	    		
+	    		}  
+		   });
+	   }
+	   
+	   function fncAddCreationLike(){   
+		   var total = document.getElementById('likeSum').innerHTML;  	
+		   	$.ajax ({
+		   		url : "rest/addCreationLike?creationNo="+$("input[name='creationNo']").val(),
+		   		method : "GET",
+		   		success:function(JSONData, status){
+		   		//	alert(status);
+		   			alert(JSONData);
+		   			
+		   			$(".addCreationLike").removeClass('addCreationLike').addClass('deleteCreationLike').off('click');
+		   			$('img.creationLike-link').attr('src','https://icongr.am/entypo/heart.svg?size=25&color=ff0000');
+		   		
+		   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)+1) + "</span>");
+		   	   		 $(".deleteCreationLike").on("click" , function() {
+		   	    		alert("좋아요취소");
+		   	    		fncDeleteCreationLike();
+		   	    	});
+		   		 } 
+		   	});
+		}  
+	   
+	   function fncDeleteCreationLike(){   
+		   var total = document.getElementById('likeSum').innerHTML;	   	   	
+	   	   	$.ajax ({
+	   	   		url : "rest/deleteCreationLike?creationNo="+$("input[name='creationNo']").val(),
+	   	   		method : "GET",
+	   	   		success:function(JSONData, status){
+	   	   			
+	   	   		$(".deleteCreationLike").removeClass('deleteCreationLike').addClass('addCreationLike').off('click');
+	   	   		$('img.creationLike-link').attr('src','https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000');
+	   	   		//	$("#addLike").replaceWith('<a id="addLike" class="btn btn-default addLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>');
+	   	   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
+		   	   		 $(".addCreationLike").on("click" , function() {
+		   	    		alert("좋아요");
+		   	    		fncAddCreationLike();
+		   		    	
+		   	    	});
+	   	   		} 
+	   	   	});
+		} 
+
+  $(function() {
+	   //========================구독신청 =======================
+	  	   $(".doSubscription").on("click" , function() {
+	  		   alert("구독");
+	  		   fncDoSubscription();	
+	  	   });
+	     //========================구독신청 취소=======================
+	  	   $(".deleteSubscription").on("click" , function() {
+	  		   alert("구독취소");		   
+	  		   fncDeleteSubscription();
+	  		});
+	
+	      //========================좋아요 추가=======================
+	       	 $(".addCreationLike").on("click" , function() {
+	      		alert("좋아요");
+	      		fncAddCreationLike();
+	  	    	
+	      	});
+	      //=========================좋아요 취소=================================
+	        	 $(".deleteCreationLike").on("click" , function() {
+	      		alert("좋아요취소");
+	      		fncDeleteCreationLike();
+	      	});
+      });
 
 $(function() {
 //================펀딩보러가기 Navigation=================
@@ -42,22 +143,18 @@ $(function() {
 	})
 });
 
-//=====================창작글 수정하기 EVENT=================
 $(function() {
-	
+//=====================창작글 수정하기 EVENT=================
 	var writingNo = $('input[name="writingNo"]').val();
 	
 	$('#update-writing').on('click',function() {
 		$(self.location).attr("href","../creation/updateWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
 	})	
-
 //=====================창작글 삭제하기 EVENT=================
-
 	$('#delete-writing').on('click',function() {
 		$(self.location).attr("href","../creation/deleteWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
-	
 	})
-})
+});
 
 //=======================댓글 추가========================
 	$(function(){
@@ -104,8 +201,6 @@ $(function() {
 		}		
 	}
 
-
-
 //=====================별점 이벤트=================
  $(function() {
 	$(document).ready(function() {
@@ -136,7 +231,7 @@ $(function() {
 				method: "GET",
 				success: function() {
 					alert("평점이 등록되었습니다.");
-					$("#gradeAvg").replaceWith("<span id='gradeAvg'>" + (Number(idx) + '${writing.grade.average}')/ + "</span>");
+					$("#get-gradeAvg").html( (idx + ${writing.grade.average*writing.grade.userCount})/(${writing.grade.userCount}+1) );
 				}
 			});
 		}
@@ -213,7 +308,7 @@ $(function() {
             </c:if>
                 
 	                <c:if test="${creation.doSubscription}">
-	                	<div class="subscription deleteSubscription btn-form" style="background-color:rgba(255, 20, 44, 0.21);"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
+	                	<div class="subscription deleteSubscription btn-form" style="background-color: #bbbbbb;color: darkslategray;"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
 	                    
 	                </c:if>
 	                <c:if test="${!creation.doSubscription}">
@@ -254,7 +349,7 @@ $(function() {
 									<li class="s5" style="cursor:auto;"></li>
 								</ul>
 						</div>
-						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
+						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong id="get-gradeAvg">(${writing.grade.average})</strong></div>
 						<div class="add-grade">별점주기</div>
 						<div id="starWrap" class="gradeAvg-present star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
 								<ul style="padding-left:0">
@@ -341,6 +436,9 @@ $(function() {
 		
 	</div>
 	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 	
 </body>
 </html>

@@ -26,6 +26,7 @@ import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
+import com.bookbox.service.user.UserService;
 
 /**
  * @file com.bookbox.service.creation.impl.CreationServieceImpl.java
@@ -41,12 +42,16 @@ public class CreationServiceImpl implements CreationService {
 	 * @brief Field
 	 */
 	@Autowired
-	@Qualifier("creationDAOImpl")
-	private CreationDAO creationDAO;
-	
-	@Autowired
 	@Qualifier("writingServiceImpl")
 	private WritingService writingService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private	UserService userService;
+	
+	@Autowired
+	@Qualifier("creationDAOImpl")
+	private CreationDAO creationDAO;
 
 	@Autowired
 	@Qualifier("fundingDAOImpl")
@@ -101,11 +106,18 @@ public class CreationServiceImpl implements CreationService {
 	public Creation getCreation(Map<String, Object> map) throws Exception {
 		// TODO getCreation
 		Creation creation = creationDAO.getCreation(map);
+		
+		creation.setCreationAuthor(userService.getUser(creation.getCreationAuthor()));
+		System.out.println("==============================creationAuthor:: "+creation.getCreationAuthor());
 		creation.setGrade(commonDAO.getAvgGrade(map));
 		creation.setLike(commonDAO.getLike(map));
+		creation.setWritingList(writingService.getWritingList(map));
 		
 		if (creationDAO.getCreationSubscribe(map) !=0) {
 			creation.setDoSubscription(true);
+		}
+		if (fundingDAO.getDoFunding(map) !=0) {
+			creation.setDoFunding(true);
 		}
 		
 		return creation;

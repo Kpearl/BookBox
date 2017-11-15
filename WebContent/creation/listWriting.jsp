@@ -194,20 +194,14 @@
 	   $(".deleteCreation").on("click" , function() {
 		   alert("정말로 삭제하시겠습니까?");
 		   $(self.location).attr("href","../creation/deleteCreation?creationNo="+$("input[name='creationNo']").val());
-   		});	   
- 	   //============= 검색 Event  처리 ====================	
-	  $("a.creationSearch").on("click" , function() {
-		$(self.location).attr("href","../creation/getCreationList?condition="+$("select[name='condition']").val()+"&keyword="+$("input[name='keyword']").val());
-		}); 
-	  
-		//============= 펀딩등록 ====================	
-	  $("a.addFunding").on("click" , function() {
-		$(self.location).attr("href","../creation/addFunding");
-	  });	
-		
+   		});
 	//============= 펀딩보러가기 ====================	
-	  $("a.getFunding").on("click" , function() {
+	  $(".go-funding").on("click" , function() {
 		$(self.location).attr("href","../creation/getFundingList?creationNo="+$("input[name='creationNo']").val());
+	  });
+	//============= 작가 북로그 보러가기 ====================	
+	  $(".creation-author").on("click" , function() {
+		  $(self.location).attr("href","../booklog/getBooklog?user.email="+$(this).attr('id'));
 	  });
 		
    }); 
@@ -264,7 +258,7 @@
             <div class="col-md-7" style="height: 100%;">
             	<div class="row">
 	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
-	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	           		<span class="creation-author" id="${creation.creationAuthor.email }"style="font-size: small;cursor:pointer;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
 	          
            			<div id="starWrap" class="gradeAvg star${creation.grade.average}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
@@ -307,10 +301,11 @@
             <div class="col-md-6">
             	<div class="row" role="group" style="float:right">
                 	
-                	<%-- <c:if test="${creation.doFunding}"> --%>
+           	<c:if test="${creation.doFunding}">
                 <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
-            <%-- </c:if> --%>
+            </c:if>
                 
+                <c:if test="${!empty sessionScope.user and !empty sessionScope.user.email}">
 	                <c:if test="${creation.doSubscription}">
 	                	<div class="subscription deleteSubscription btn-form" style="background-color: #bbbbbb;color: darkslategray;"><i class="glyphicon glyphicon-tags"></i><strong>  구독중</strong></div>
 	                </c:if>
@@ -328,6 +323,7 @@
 	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
 	                    </div>
 	               </c:if>
+               </c:if>
                 </div>
             </div>
         </div><!--창작부분 버튼 끝  -->
@@ -360,8 +356,8 @@
 			        <div class="row writing-border">
 			        	<div class="row writing-each" style="margin:1%;">
 				        	<input type ="hidden" class="writingNo" name="writingNo" value="${writing.writingNo }" readonly>
-				            <div class="col-md-2 col-xs-3" style="overflow:hidden">
-				            	<img class="img-responsive" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
+				            <div class="col-md-2 col-xs-3" style="overflow:hidden;height: 130px;">
+				            	<img class="img-responsive img-object-fit" src="../resources/upload_files/images/${writing.writingFileList[0].fileName }">
 				            </div>
 				            <div class="col-md-6 col-xs-9">
 				                <div class="row">
@@ -407,7 +403,7 @@
     <div class="modal fade update-creation" id="update-creation" tabindex="-1" role="dialog" style="z-index:1090;">
     	<div class="modal-dialog modal-lg" role="document">
     		<div class="modal-content">
-		      <div class="modal-header" style="border-bottom: 3px groove;margin-left: 20px;margin-bottom: 30px;">
+		      <div class="modal-header" style="border-bottom: 3px groove;margin-left: 20px;margin-bottom: 30px;padding-bottom: 0;">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		        <h4 class="modal-title" id="insert-payInfo" style="font-weight: bold;">작품정보 수정</h4>
 		      </div>

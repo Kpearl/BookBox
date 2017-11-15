@@ -52,6 +52,36 @@
     		margin-top:10px;
     		cursor:pointer;
     	}
+    	.control-label{
+    		position: absolute;
+    		bottom: 0;
+    		right: 0;
+    		font-size: initial;
+    	}
+    	.label-height{
+    		height: 37px
+    	}
+    	.creation-title{
+   		    top: 50%;
+		    left: 50%;
+		    position: absolute;
+		    transform: translate(-50%, -50%);
+		    font-size: xx-large;
+		    font-style: italic;
+		    color: black;
+		    padding: 0% 7%;
+		    background-color: rgba(33, 33, 33, 0.71);
+    	}
+    	.creation-author-image{
+   		    border-radius: 50%;
+		    height: 90px;
+		    width: 90px;
+		    position: absolute;
+		    top: 30%;
+		    left: 80%;
+		    z-index: 2;
+		    background: url(../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }) no-repeat center;
+    	}
 	
 	</style>
 
@@ -397,34 +427,52 @@
  	                   </c:if>
 	              </c:if>
 	        </div> --%>
-	        <hr style="margin-bottom:0;    margin-top: 50px;">
-	<div class="container-fluid" style="background-color:rgba(0,0,0,0.075);">
+	        <!-- <hr style="margin-bottom:0;    margin-top: 50px;"> -->
+	
 		<div class="container">
-	        <div class="row funding-content-detail" style="text-align:center;">
-	            <div class="text-center" style="height:100%;background-color:#ffffff;">
-		            <div class="row content-detail" style="margin-bottom: 50px;padding-top:30px;">
-		                ${funding.fundingIntro}
-		            </div>
-	            	<div class="enter-block funding-creation" style="cursor:pointer;">
-	            	작품보러 가기
-	            	</div>
-	                
-	                <c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}">
-		               <!--  <button class="btn btn-link funding-update" type="button">수정</button> -->
-		            </c:if>
-	            </div>
+	        <div class="row funding-content-detail">
+	            <div class="row funding-form" id="funding-form" >
+					<div style="border-bottom: 2px inset;padding: 0px 50px 50px 50px;margin-top: 40px;border-top: 2px groove;background-color: rgba(221, 221, 221, 0.12);">
+						<div class = "row funding-regdate" style="margin-top:15px;text-align: right;">${funding.fundingRegDate }</div>
+						<div class="writing-content" style="margin-top: inherit;padding: 0px 25px 0px 25px;">
+							<div class="funding-intro-title" style="font-weight: bold;font-size: large;">Funding intro.</div>
+							<div class="funding-intro" style="margin-top: 2%;">${funding.fundingIntro }</div>
+							<div class="funding-creation-info">
+							
+								<div class="row creation-from">
+									<div class="col-md-6 col-md-offset-3" style="height: 700px;border: 1px groove;margin-top: 7%;">
+										<div class="creation-author-image"></div>										
+										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove; background: url(../resources/upload_files/images/${funding.creation.creationFileName}) no-repeat center;opacity: 0.6;">	
+											<div class="creation-title">${funding.creation.creationTitle }</div>
+										</div>
+										<div class="row creation-writing-list" style="height: 65%;">
+											<div class="writing-list-title"></div>
+											<div class="writing-title">
+												<c:forEach var="writing" items="${funding.creation.writingList }">
+													<div>${writing.writingTitle }</div>
+												</c:forEach>
+											</div>
+										</div>
+									</div>
+								</div>
+							
+							</div>	
+						</div>
+					</div>
+				</div>
 	        </div>
 	    </div>
-    </div>
+    
  
     
     <!--===================== addPayInfo Modal================================ -->
+		   	
 		<div class="modal fade add-payInfo"  id="add-payInfo" tabindex="-1" role="dialog" style="z-index:1090;">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="border-bottom: 3px groove;margin-left: 20px;margin-bottom: 30px;padding-bottom: 0;">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="insert-payInfo">펀딩 참여정보 입력</h4>
+		        <h4 class="modal-title" id="insert-payInfo" style="font-weight: bold;">펀딩 참여정보 입력</h4>
 		      </div>
 		      
 		      <form class="payInfoForm">
@@ -432,8 +480,8 @@
 		     
 		      	<div class="form-group">
 		      		<div class="row">
-		                <div class="col-sm-3 ">
-		                    <label class="control-label" for="title-fundingInfo">펀딩명</label>
+		                <div class="col-sm-3 label-height" >
+		                    <label class="control-label" for="title-fundingInfo" >펀딩명</label>
 		                    <input class="fundingNo" type="hidden" id="fundingNo-fundingInfo" name="fundingNo" value="${funding.fundingNo }">
 		                	<input class="payInfoNo" type="hidden" id="payInfoNo" name="payInfoNo"  value="${payInfo.payInfoNo }">
 		                	<input class="creationNo"  type="hidden" name="creationNo" value="${funding.creation.creationNo}">
@@ -444,7 +492,7 @@
 	              	 </div>
 		      		
 		      		<div class="row">
-		                <div class="col-sm-3 ">
+		                <div class="col-sm-3 label-height">
 		                    <label class="control-label" for="perFunding-fundingInfo">결제금액</label>
 		                </div>
 		                <div class="col-sm-9">
@@ -453,7 +501,7 @@
 	              	 </div>
 	              	 
 		      		<div class="row">
-		                <div class="col-sm-3 ">
+		                <div class="col-sm-3 label-height">
 		                    <label class="control-label" for="name-fundingInfo">이&nbsp;&nbsp;&nbsp;&nbsp;름</label>
 		                </div>
 		                <div class="col-sm-9">
@@ -462,7 +510,7 @@
 	              	 </div>
 	              	<div class="postcodify"></div>
 		                <div class="row" >
-			                <div class="col-sm-3 ">
+			                <div class="col-sm-3 label-height">
 			                <label class="control-label" for="addr-fundingInfo">우편번호</label>
 			                </div>
 			                <div class="row col-sm-9 ">
@@ -474,7 +522,7 @@
 		                </div>
 		                
 		                <div class="row">
-			                <div class="col-sm-3 ">
+			                <div class="col-sm-3 label-height">
 			                <label class="control-label" for="addr-fundingInfo">도로명주소</label>
 			                </div>
 			                <div class="col-sm-9">
@@ -482,7 +530,7 @@
 			                </div>
 		                </div>
 		                <div class="row">
-			                <div class="col-sm-3">
+			                <div class="col-sm-3 label-height">
 			                <label class="control-label" for="addr-fundingInfo">상세주소</label>
 			                </div>
 			                <div class="col-sm-9">
@@ -492,7 +540,7 @@
 		              
 		              
 		              <div class="row">
-		                <div class="col-sm-3">
+		                <div class="col-sm-3 label-height">
 		                    <label class="control-label" for="phone-fundingInfo">연락처</label>
 		                </div>
 		                <div class="col-sm-9">
@@ -512,9 +560,9 @@
 		  </div>
 		</div>
     
-	<footer class="container-fluid">
+<%-- 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
-	</footer>
+	</footer> --%>
 	
 </body>
 </html>
