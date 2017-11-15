@@ -56,6 +56,13 @@ public class CommunityDAOImpl implements CommunityDAO {
 		//1로수정
 	}
 
+	
+	
+	@Override
+	public int getBoardTotal(Map map) {
+		return sqlSession.selectOne("CommunityMapper.getBoardTotal",map);
+	}
+
 	@Override
 	public List getBoardListUserTagMapper(Map map) {
 		return sqlSession.selectList("CommunityMapper.getBoardList",map);

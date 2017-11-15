@@ -55,7 +55,8 @@ public class Comment {
 	}
 
 	public String getRegDate() {
-		return regDate;
+		//return regDate;
+		return this.regDate.split("\\.")[0];
 	}
 
 	public void setRegDate(String regDate) {

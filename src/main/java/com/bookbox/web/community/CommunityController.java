@@ -81,12 +81,21 @@ public class CommunityController {
 		if(search.getCondition()==null) {
 			search.setCondition("0");
 		}
-		
-		Map map=new HashMap<String,Object>();
+		if(search.getOrder()==null) {
+			search.setOrder("0");
+		}
 		
 		Page page=new Page();
 		page.setCurrentPage(1);
 		page.setPageSize(10);
+		
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+		
+		Map map=new HashMap<String,Object>();
+		
+		
 		
 		map.put("search",search);
 		map.put("page", page);
@@ -222,11 +231,18 @@ public class CommunityController {
 		if(search.getCondition()==null) {
 			search.setCondition("0");
 		}
+		if(search.getOrder()==null) {
+			search.setOrder("0");
+		}
+		
 		if(page.getCurrentPage()==0) {
 			page.setCurrentPage(1);
 		}
 		if(page.getPageSize()==0) {
-			page.setPageSize(10);
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
 		}
 	//	System.out.println(page);
 		
@@ -237,11 +253,12 @@ public class CommunityController {
 		
 		List boardList;
 		//boardList=communityServiceImpl.getBoardList(map);
-		boardList=communityServiceImpl.getBoardListUserTagMapper(map);
+		boardList=communityServiceImpl.getBoardList(map);
 		System.out.println(boardList.size());
 		
-		model.addAttribute(boardList);
-		
+		model.addAttribute("boardList",boardList);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
 		return "forward:listBoard.jsp";
 	}
 	

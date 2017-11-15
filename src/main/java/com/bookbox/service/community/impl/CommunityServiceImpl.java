@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagDAO;
 import com.bookbox.service.community.CommunityDAO;
@@ -94,6 +95,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public List<Board> getBoardList(Map map) {
 		// System.out.println("[communityServiceImpl.getBoardList() start...]");
+		((Page)map.get("page")).setTotalCount(communityDAOImple.getBoardTotal(map));
 		return communityDAOImple.getBoardList(map);
 
 	}

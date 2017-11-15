@@ -36,20 +36,18 @@
 		    }
 		);
 		//태그 자동완성 끝
+		
+		$( "#chatroom-tagInput" ).on("keyup",function(e){
+				if(e.keyCode!=13 || $(this).val()==''){
+					return;
+				}
+				addTag();
+		});
+		
 		//태그 추가 
 		$("#chatroom-addTagBtn").on("click",function(){
 		//	alert(	$("#tagInput").val());
-			var tag = $("#chatroom-tagInput").val();
-			
-			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly><a class='btn removeBtn'>x</a></span>");
-			tagName.find("a.removeBtn").on("click",function(){
-				//alert("test");
-				tagName.remove();
-			});
-			
-			 $("#chatroom-tagInput").val("");
-			//alert(tagName.val());
-			$("#chatroom-tagInput").before(tagName);
+			addTag();
 		});
 		
 		//submit 버튼 이벤트 등록
@@ -61,7 +59,23 @@
 		
 	}); //온로드 끝
 	//
-	
+	function addTag(){
+		
+		var tag = $("#chatroom-tagInput").val();
+		
+		var tagName=$("<span><span class='tag'>"+tag+
+						"<input type='hidden' name='tagNames' value='"+tag+"' readonly>"+
+						"</span><a class='btn removeBtn'>x</a></span>");
+		tagName.find("a.removeBtn").on("click",function(){
+			//alert("test");
+			tagName.remove();
+		});
+		
+		 $("#chatroom-tagInput").val("");
+		//alert(tagName.val());
+		$("#chatroom-tagInput").after(tagName);
+		
+	}
 	
 </script>
 <style type="text/css">

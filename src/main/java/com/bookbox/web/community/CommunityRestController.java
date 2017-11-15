@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
+import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.service.TagService;
 import com.bookbox.service.community.CommunityService;
@@ -52,6 +55,61 @@ public class CommunityRestController {
 	public CommunityRestController() {
 		System.out.println("Constructor :: "+getClass().getName());
 	}
+	
+	
+	
+	//게시판
+	/**
+	 * @brief getBoardList
+	 * @detail 게시글 목록 조회 
+	 * @param Search search
+	 * @return forward:listBoard.jsp
+	 */
+	@RequestMapping(value="/getBoardList")
+	public Map getBoardList(@ModelAttribute("Search")Search search,
+								@ModelAttribute("Page")Page page) throws Exception{
+		
+		if(search.getKeyword()==null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition()==null) {
+			search.setCondition("0");
+		}
+		if(search.getOrder()==null) {
+			search.setOrder("0");
+		}
+		
+		if(page.getCurrentPage()==0) {
+			page.setCurrentPage(1);
+		}
+		if(page.getPageSize()==0) {
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+	//	System.out.println(page);
+		
+		Map map=new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("page", page);
+		
+		
+		List boardList;
+		//boardList=communityServiceImpl.getBoardList(map);
+		boardList=communityServiceImpl.getBoardList(map);
+		//System.out.println(boardList.size());
+		System.out.println(page);
+		
+		
+		Map returnMap=new HashMap<String, Object>();
+		returnMap.put("boardList", boardList);
+		returnMap.put("page", page);
+		
+		return returnMap;
+	}
+	
+	
 	
 	@RequestMapping(value="/addRecommend")
 	public void addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend,HttpSession session ) {

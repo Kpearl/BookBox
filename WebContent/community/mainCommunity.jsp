@@ -216,11 +216,7 @@
 		   			overflow: hidden;
 		   		}
    		
-   		.vcenter-bottom {
-	    display: inline-block;
-	    vertical-align: middle;
-	    float: none;
-		}
+ 
 		
 		.btn-create{
 			font-size: 25px;
@@ -336,7 +332,7 @@
 					<div class="content">
 						<div class="content-titlee text-center">${room.title}</div>
 						<div class="content-nickname text-right">
-							<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+							<img src="../resources/upload_files/images/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
 							<strong>${room.host.nickname}</strong>
 						</div>
 						<div class="content-content">${room.content}</div>
@@ -383,7 +379,7 @@
 					<div class="content">
 						<div class="content-titlee text-center">${room.title}</div>
 						<div class="content-nickname text-right">
-							<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+							<img src="../resources/upload_files/images/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
 							<strong>${room.host.nickname}</strong>
 						</div>
 						<div class="content-content">${room.content}</div>
@@ -406,8 +402,8 @@
 			<div class="col-xs-6">
 				<h1>Board</h1> 
 			</div>
-			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
-				<a class="moreBoard" style="display: table-cell; vertical-align: bottom; ">more...</a>
+			<div class="col-xs-6 text-right" style="height: 100%; display: table;">
+				<a class="moreBoard" href="getBoardList" style="display: table-cell; vertical-align: bottom; ">more...</a>
 			</div>
 		</div>
 		<hr/>
@@ -433,7 +429,7 @@
 							<div class="board-body-v2">
 								<div class="date text-right row">
 									<div class="nickname col-xs-6 text-left">
-										<img src="../resources/upload_files/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+										<img src="../resources/upload_files/images/${board.writer.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
 										<strong>${board.writer.nickname}</strong>
 									</div>
 									<div class="col-xs-6">
@@ -451,7 +447,7 @@
 								</div>
 								<div class="tag-list">
 									<c:forEach items="${board.tagList}" var="tag" >
-										<span class="tag"># ${tag.tagName}</span>
+										<span class="tag">#${tag.tagName}</span>
 									</c:forEach>
 								</div>
 							</div>

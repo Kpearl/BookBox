@@ -28,6 +28,7 @@ public class Board {
 	private List<Comment> comment;
 	private boolean blind;
 	private String thumbnailUrl;
+	private int commentCount;
 	public Board() {
 		// TODO Auto-generated constructor stub
 	}
@@ -121,6 +122,16 @@ public class Board {
 	public void setThumbnailUrl(String thumbnailUrl) {
 		this.thumbnailUrl = thumbnailUrl;
 	}
+	
+	
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
 	public String getContentText() {
 		return this.boardContent.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
 	}

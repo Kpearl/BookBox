@@ -14,6 +14,7 @@
 		<result property="recommend" column="recommend_count" jdbcType="NUMERIC"/>
 		<result property="report" column="report_count" jdbcType="NUMERIC"/>
 		<result property="thumbnailUrl" column="thumbnail_url" jdbcType="VARCHAR"/>
+		<result property="commentCount" column="comment_count" jdbcType="NUMERIC"/>
 		<association property="writer" javaType="user">
 			<result property="email" column="email"/>
 			<result property="nickname" column="nickname"/>
@@ -35,11 +36,12 @@
 		<association property="writer" javaType="user">
 			<result property="email" column="email" jdbcType="VARCHAR"/>
 			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+			<result property="role" column="role"/>
+			<result property="booklogImage" column="booklog_image"/>
 		</association>
 	</resultMap>
 
 <!-- 
-   -->
 	<resultMap id="selectBoard2" type="board">
 		<id property="boardNo" column="board_no" jdbcType="NUMERIC"/>
 		<result property="boardTitle" column="board_title" jdbcType="VARCHAR"/>
@@ -55,6 +57,7 @@
 		</association>
 		<collection property="tagList" javaType="java.util.ArrayList" ofType="tag" resultMap="TagMapper.tagSelectMap"/>
 	</resultMap>
+   -->
 
 
 
@@ -71,11 +74,11 @@
 	
 	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
-		u.nickname, u.role ,u.booklog_image
-		FROM board b, user u
+		u.nickname, u.role ,u.booklog_image, count(c.board_no) as comment_count
+		FROM board AS b join user AS u ON b.email = u.email left join `comment` AS c ON b.board_no = c.board_no
 		WHERE
-		b.email = u.email AND 
 		b.board_no = #{value}
+		group by b.board_no
 	</select>
 	
 	<delete id="deleteBoard" parameterType="_int">
@@ -93,20 +96,42 @@
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, b.thumbnail_url ,'6' as category_no,
-		u.nickname, u.role, u.booklog_image
-		FROM board b, user u
+		u.nickname, u.role, u.booklog_image, count(c.board_no) as comment_count
+		FROM board AS b join user AS u ON b.email = u.email left join `comment` AS c ON b.board_no = c.board_no
 		WHERE
-		b.email = u.email
 		<if test="search.condition==0">
-		AND b.board_title LIKE '%${search.keyword}%'
+			b.board_title LIKE '%${search.keyword}%'
 		</if> 
 		<if test="search.condition==1">
-		AND u.nickname LIKE '%${search.keyword}%'
+			u.nickname LIKE '%${search.keyword}%'
+		</if>
+		group by b.board_no
+		Order By 
+		<if test="search.order==0"> <!-- 등록날짜순 -->
+			b.reg_date desc
+		</if>
+		<if test="search.order==1"> <!-- 추천수 -->
+			b.recommend_count desc
+		</if>
+		<if test="search.order==2"> <!-- 댓글수 -->
+			count(c.board_no) desc
 		</if>
 		LIMIT #{page.startRow}, #{page.pageSize}
 	</select>
 	
-	
+	<select id="getBoardTotal" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM board AS b join user AS u ON b.email = u.email
+		WHERE
+		<if test="search.condition==0">
+			b.board_title LIKE '%${search.keyword}%'
+		</if> 
+		<if test="search.condition==1">
+			u.nickname LIKE '%${search.keyword}%'
+		</if>
+
+	</select>
+	<!-- 
 	<select id="getBoard2" parameterType="_int" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
 				u.nickname, u.role, u.booklog_image,
@@ -117,7 +142,9 @@
 		WHERE (tg.category_no=6 OR tg.category_no IS NULL)
 				AND b.board_no=#{value}
 	</select>
+	 -->
 	<!-- 태그 포함 받아오는 버젼 페이징 문제로 폐기 -->
+	<!-- 
 	<select id="getBoardList2" parameterType="map" resultMap="selectBoard2">
 		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count ,
 				u.nickname, u.role,
@@ -135,6 +162,7 @@
 		</if>
 		LIMIT #{page.startRow}, #{page.pageSize}
 	</select>
+	 -->
 	<!-- ====================  comment sql ===================== -->
 	
 	<insert id="addComment" parameterType="comment">
@@ -154,7 +182,8 @@
 	</insert>
 	
 	<select id="getComment" parameterType="_int" resultMap="selectComment">
-		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, u.nickname
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, 
+				u.nickname, u.role, u.booklog_image
 		FROM	comment c, user u
 		WHERE 
 				c.email = u.email AND
@@ -176,7 +205,8 @@
 	</update>
 	
 	<select id="getCommentList" parameterType="_int" resultMap="selectComment">
-		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, u.nickname
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, 
+				u.nickname, u.role, u.booklog_image
 		FROM	comment c, user u
 		WHERE 
 				c.email = u.email AND

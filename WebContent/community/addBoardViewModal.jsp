@@ -51,7 +51,8 @@
 		//	alert(	$("#tagInput").val());
 			var tag = $("#tagInput").val();
 			
-			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly><a class='btn removeBtn'>x</a></span>");
+			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly>"+
+							"<a class='btn removeBtn'>x</a></span>");
 			tagName.find("a.removeBtn").on("click",function(){
 				//alert("test");
 				tagName.remove();

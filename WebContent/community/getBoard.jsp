@@ -10,6 +10,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 
@@ -17,37 +19,106 @@
  -->
     <link rel="stylesheet" href="../resources/css/custom.css">
 	
-<title>Insert title here</title>
+<title>BookBox Community</title>
 
 <style type="text/css">
-.container img{
-	max-width: none;
-}
-.media .media-left{
-	border-left: solid 1px; 
-}
-.board{
-	border: solid 1px;
-	padding: 5px;
-	margin-bottom: 10px; 
-}
-.board .title{
-	background-color: #62BFAD;
-	height: 45px; 
-	font-size: 30px;
-	font-weight: bold;
-	color: floralwhite;
-	
-}
-.blind{
-	color: 	#FF1493;
-	
-}
 
+	body{
+    	padding-top:0px;
+    }
+    
+    header{
+    	background:url(../resources/images/community.jpeg) no-repeat center;
+    }
+
+	.container img{
+		max-width: none;
+	}
+	
+	.board{ 
+	}
+	
+	.board-main{
+		/*border: solid 1px;*/
+	}
+	.board-main .title{
+		background-color: #62BFAD;
+		height: 45px; 
+		font-size: 30px;
+		font-weight: bold;
+		color: floralwhite;
+	}
+	.board-main	.board-info{
+		height: 60px;
+		margin-top: 10px;
+		padding: 0 20px 0 20px;
+	}
+	.board-main .board-info .writer{
+		height: 100%;
+	}
+	.board-main .board-info .writer img{
+		height: 100%;
+		border-radius: 50%;	
+		object-fit:cover;
+	}
+	
+	.board-main .content{
+		padding: 20px;
+	}
+	.board-main .content img{
+		max-width: 100%;
+		object-fit: contain;
+	}
+	
+	.board-main .tag-list{
+		margin-bottom: 20px;
+		padding: 0 20px 0 20px;
+	}
+	
+	.blind{
+		color: 	#FF1493;	
+	}
+
+	/*댓글*/
+	.media{
+		border: solid 1px;
+		padding: 10px;
+	}
+	
+	.media .media-left{
+		/*border-left: solid 1px;*/ 
+	}
+	
+	.media .media-left img{
+		height: 40px;
+		width: 40px;
+		border-radius:50%;
+		object-fit:cover;
+	}
+	
+	.media-heading strong{
+		font-size: 13px;
+	}
+	
+	.comment-textarea{
+		width: 50%;
+		height: 100px;
+	}
+	
+	.btn{
+		padding: 6px 6px 6px 6px;
+	}
+	.btn img{
+		height: 15px;
+		width: 15px;
+		margin: 0 3px 0 0;
+		
+	}
 </style>
 
 <script type="text/javascript">
-
+var condition;
+ToolbarOpacHeight(500);
 //게시글 추천,신고 버튼 이벤트 초기화
 	$(function(){
 		
@@ -117,10 +188,10 @@
 			success:function(data){
 		
 			var commentListDiv=$(".commentList");
-			$(".commentList").html("");
-			appendComment(commentListDiv,data);
-				
 			
+			$(".commentList").html("");
+			
+			appendComment(commentListDiv,data);
 			}
 	 	});//ajax 끝 
 	}
@@ -145,13 +216,22 @@
 									"<input name='commentNo' type='hidden' value='"+comment.commentNo+"'>"+ //히든처리할거
 									"<input name='level' type='hidden' value='"+comment.level+"'>"+ //히든처리할거
 									"<div class='media-left'>"+
-										"<img src='../resources/images/comment.png' class='media-object' style='width:20px'>"+
+										"<img src='../resources/upload_files/images/"+comment.writer.booklogImage+"'"+ 
+											"onerror=\"this.src='../resources/images/no_booklog_image.png'\">"+
+									//"<img src='../resources/images/comment.png' class='media-object' style='width:20px'>"+
 									"</div>"+
 									"<div class='media-body'>"+
-										"<h4 class='media-heading'>"+ comment.writer.nickname +"<small><i>"+comment.regDate+"</i></small></h4>"+
+										"<h4 class='media-heading row'>"+
+											"<div class='col-xs-6'>"+ 
+												comment.writer.nickname +
+											"</div>"+
+											"<div class='col-xs-6'>"+
+											"<strong>"+comment.regDate+"</strong>"+
+											"</div>"+
+										"</h4>"+
 										"<p class='comment-content'>"+comment.content+"</p>"+
-										"<a class='btn' id='addCommentArea'>답변</a>"+
-										"<a class='btn report'>신고</a>"+
+										"<a class='btn' id='addCommentArea'><img src='../resources/images/community/btn_comment2.png'>답변</a>"+
+										"<a class='btn report'><img src='../resources/images/community/btn_report.png'>신고</a>"+
 										"<div class='inputarea'>"+
 										"</div>"+
 									"</div>"+
@@ -186,10 +266,14 @@
 		commentObj.find("#addCommentArea").on("click",function(){
 			
 			if(commentObj.find(".inputarea").html()!=''){
+				commentObj.find(".inputarea").html('');
 				return;
 			}
 			
-			var inputObj=$("<div><textarea></textarea><a class='btn'>등록</div>");
+			var inputObj=$("<div>"+
+								"<textarea class='comment-textarea'></textarea>"+
+								"<br/>"+
+								"<a class='btn'>등록</div>");
 			
 			inputObj.find("a").on("click",function(){
 				
@@ -220,7 +304,7 @@
 						"seniorCommentNo":commentNo
 					}),
 					success:function(){
-						//alert("addComment success")	;
+						//alert("addComment success");
 						
 					 	loadComment();
 					}
@@ -260,70 +344,63 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 	<div class="container">
 		
 		<div class="board">
 			<input type="hidden" value="${board.boardNo}" name="boardNo" readonly="readonly"/>
 			
-				
-			<div class="title">
-				<span>${board.boardTitle}</span>
+			<div class="board-main">
+				<div class="title">
+					<span>${board.boardTitle}</span>
+				</div>
+				<div class="board-info row text-right">
+					<!-- 추천 신고 -->
+					<div class="writer col-xs-6 text-left">
+						<img src="../resources/upload_files/${room.host.booklogImage}" 
+								onerror="this.src='../resources/images/no_booklog_image.png'">
+						<strong>${board.writer.nickname}</strong>
+					</div>
+					<div class="col-xs-6">
+						<div><strong>${board.boardRegDate}</strong></div>
+						<c:if test="${enableUpdate==true}">
+						<a class="btn recommend" id="updateBoard">수정</a>
+						</c:if>
+						<a class="btn recommend" id="recommend"><img src='../resources/images/community/btn_recommend.png'>추천</a> 
+						<span id="recommedCount">${board.recommend}</span>
+						<a class="btn recommend" id="unRecommend"><img src='../resources/images/community/btn_unrecommend.png'>비추천</a>
+						<a class="btn report" id="report"><img src='../resources/images/community/btn_report.png'>신고</a>
+					</div>
+				</div>
+				<div class="content">
+					<br/>
+					${board.boardContent}
+				</div>
+				<div class="tag-list">
+					<c:forEach items="${board.tagList}" var="tag" >
+							<span class="tag">#${tag.tagName}</span>
+					</c:forEach>
+				</div>
 			</div>
-			<div class="row text-right">
-				<!-- 추천 신고 -->
-				<span>${board.boardRegDate}</span>
-				<c:if test="${enableUpdate==true}">
-				<a class="btn recommend" id="updateBoard">수정</a>
-				</c:if>
-				<a class="btn recommend" id="recommend">추천</a> <span id="recommedCount">${board.recommend}</span>
-				<a class="btn recommend" id="unRecommend">비추천</a>
-				<a class="btn report" id="report">신고</a>
-			</div>
-			<div class="content">
-				내용:
-				<br/>
-				${board.boardContent}
-			</div>
-			<div class="tagList">
-				<c:forEach items="${board.tagList}" var="tag" >
-						<span>#${tag.tagName}</span>
-				</c:forEach>
-			</div>
-			<a class="btn" id=addCommentArea>답변달기</a>
-			<div class="inputarea"></div><!-- 여기 무조건 붙어있어야함 -->
 			
+			<div class="board-comment">
+			
+				<a class="btn" id=addCommentArea>답변</a>
+				<div class="inputarea"></div><!-- 여기 무조건 붙어있어야함 -->
+				<div class="commentList">
+				</div><!-- 댓글부분 끝 -->
+				
+			</div>	
 		</div>
 
-	<!-- 댓글 부분 -->
-		<div class="commentList">
-				댓글부분
 		
-		
-		</div><!-- 댓글부분 끝 -->
 	
+	<br/><br/><br/><br/>			
 				
-				
-	</div>
+	</div><!-- 컨테이너 끝 -->
 	
 	
 	
 	
 	
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</html>
