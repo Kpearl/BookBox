@@ -65,11 +65,11 @@
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
 			$('div.div-posting .posting-img, div.div-posting h3').on('click', function(){
-				var postingNo = $(this).find('input[type="hidden"]').val();
+				var postingNo = $(this).find('input[name="postingNo"]').val();
 				$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition="+condition);
 			});
 			$('a.posting-user').on('click', function(){
-				var user = $(this).find('input[type="hidden"]').val();
+				var user = $(this).find('input[name="user.email"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?user.email="+user);
 			});
 
@@ -180,13 +180,13 @@
 		인기포스팅 <a class="btn posting" href="javascript:void(0);">더보기</a>
 		<c:forEach items="${postingList}" var="posting">
 		<div class="row div-posting booklog-background">
-			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 			<div class="row hidden-xs">
 				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
+					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
 				</div>
 				<div class="col-sm-8">
-					<h3><strong>${posting.postingTitle}</strong></h3>
+					<h3><input type="hidden" name="postingNo" value="${posting.postingNo}"/><strong>${posting.postingTitle}</strong></h3>
 					<a class="posting-user" href="javascript:void(0);">
 						<input type="hidden" name="user.email" value="${posting.user.email}">
 						by.${posting.user.nickname}
@@ -210,6 +210,7 @@
 							<span class="tag"># ${tag.tagName}</span>
 						</c:forEach>
 					</div>
+					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
 					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
 				</div>
 			</div>
