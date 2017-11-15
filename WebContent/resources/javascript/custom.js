@@ -16,7 +16,14 @@ function fncGetDate(day){
 		day = '0' + day;
 	}
 	
-	return year + '-' + month + '-' + day;
+	return month + '-' + day;
 };
 
+$(function(){
+	$('span.tag').on('click', function(){
+		var keyword = $(this).html();
+		keyword = keyword.substring(2);
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
+	});
+});
 

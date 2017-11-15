@@ -1,3 +1,27 @@
+@font-face{
+	font-family: NanumGothic;
+	src: url(NanumFont_TTF_ALL/NanumGothic.ttf) format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face{
+	font-family: NanumGothic;
+	src: url(NanumFont_TTF_ALL/NanumGothicBold.ttf) format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face{
+	font-family: NanumBrush;
+	src: url(NanumFont_TTF_ALL/NanumBrush.ttf) format('truetype');
+}
+@font-face{
+	font-family: NanumPen;
+	src: url(NanumFont_TTF_ALL/NanumPen.ttf) format('truetype');
+}
+@font-face{
+	font-family: NanumMyeongjo;
+	src: url(NanumFont_TTF_ALL/NanumMyeongjo.ttf) format('truetype');
+}
 body, html{
 	min-height: 100%;
 	height: 100%;
@@ -37,6 +61,7 @@ span.tag{
 	border-radius: 15px;
 	padding: 4px;
 	font-weight: bold;
+	cursor: pointer;
 }
 /******* Toolbar CSS Start *******/
 .bookbox-navigation{
@@ -105,6 +130,15 @@ span.tag{
 	-webkit-transform: translate(-50%, 0);
 	   -moz-transform: translate(-50%, 0);
 			transform: translate(-50%, 0);
+}
+.content-title img{
+	height: 39px;
+	width: 39px;
+}
+.content-title > *{
+	-webkit-transform: translate(0, 3px);
+	   -moz-transform: translate(0, 3px);
+			transform: translate(0, 3px);
 }
 .bookbox-search{
 	width: fit-content;
@@ -289,7 +323,12 @@ div.div-posting, div.posting-img{
 }
 div.div-posting{
 	margin: 20px 10px;
+}
+div.div-posting .posting-img, div.div-posting h3{
 	cursor: pointer;
+}
+div.div-posting h3, div.div-posting h4{
+	 font-family: NanumPen, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 span.posting-content{
 	text-overflow: ellipsis;
@@ -324,9 +363,9 @@ div.hidden-md img{
 }
 .row.booklog-profile > div{
    	overflow: hidden;
-   	-webkit-box-shadow: 6px 3px 2px 0px;
-   	   -moz-box-shadow: 6px 3px 2px 0px;
-	    	box-shadow: 6px 3px 2px 0px;
+   	-webkit-box-shadow: 3px 1px 2px 0px;
+   	   -moz-box-shadow: 3px 1px 2px 0px;
+	    	box-shadow: 3px 1px 2px 0px;
 }
 .row.booklog-profile .row{
    	padding: 8px;

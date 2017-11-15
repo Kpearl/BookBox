@@ -49,14 +49,24 @@ public class LogToDAO {
 			
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
 			
-		}else if( !this.checkUserLogin(joinPoint) ){
+		}else if( !this.checkUserLogin(joinPoint) && behavior != Const.Behavior.GET){
 			
 			System.out.println("Log :: 비회원 로그는 남기지 않음");
 			
 		}else {
 
+			User user = null;
 			if(behavior == Const.Behavior.GET) {
-				if(this.checkAuthorUser(categoryNo, obj, joinPoint)) {
+				if(!this.checkUserLogin(joinPoint)) {
+					if(joinPoint.getArgs()[0] instanceof User || joinPoint.getArgs()[0] == null) {
+						user = new User();
+						user.setEmail("anonymous");
+						System.out.println("Log :: 비회원 게시물 조회");
+					}else {
+						System.out.println("Log :: 비회원 로그는 남기지 않음");
+						return obj;
+					}
+				}else if(this.checkAuthorUser(categoryNo, obj, joinPoint)) {
 					
 					System.out.println("Log :: 자신이 작성한 게시물 조회는 로그를 남기지 않음");
 					return obj;
@@ -68,7 +78,11 @@ public class LogToDAO {
 			Object targetNo = getTargetNo(joinPoint.getArgs()[1], obj);
 			
 			Log log = new Log();
-			log.setUser((User)joinPoint.getArgs()[0]);
+			if(user != null) {
+				log.setUser(user);
+			}else {
+				log.setUser((User)joinPoint.getArgs()[0]);
+			}
 			log.setCategoryNo(categoryNo);
 			log.setBehavior(behavior);
 			log.setAddBehavior(addBehavior);

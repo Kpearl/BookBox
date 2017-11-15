@@ -11,8 +11,8 @@
 		<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
 		<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
 		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
-		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
-		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<result property="postingRegDate" column="reg_date" jdbcType="VARCHAR"/>
+		<result property="postingUpdateDate" column="update_date" jdbcType="VARCHAR"/>
 		<result property="viewCount" column="count" jdbcType="INTEGER"/>
 		<association property="user" javaType="user">
 			<result property="email" column="email"/>
@@ -27,8 +27,8 @@
 		<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
 		<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
 		<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
-		<result property="postingRegDate" column="reg_date" jdbcType="DATE"/>
-		<result property="postingUpdateDate" column="update_date" jdbcType="DATE"/>
+		<result property="postingRegDate" column="reg_date" jdbcType="VARCHAR"/>
+		<result property="postingUpdateDate" column="update_date" jdbcType="VARCHAR"/>
 		<result property="viewCount" column="count" jdbcType="INTEGER"/>
 		<association property="user" javaType="user">
 			<result property="email" column="email"/>

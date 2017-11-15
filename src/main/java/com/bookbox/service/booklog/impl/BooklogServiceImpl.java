@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Booklog;
+import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
 
 @Service("booklogServiceImpl")
@@ -32,7 +33,19 @@ public class BooklogServiceImpl implements BooklogService {
 	@Override
 	public Booklog getBooklog(User user, Booklog booklog) {
 		// TODO Auto-generated method stub
-		return booklogDAO.getBooklog(booklog);
+		booklog = booklogDAO.getBooklog(booklog);
+		for(Posting posting : booklog.getPostingList()) {
+			StringBuffer content = new StringBuffer();
+			for(String seq : posting.getPostingContent().split("<")) {
+				if(seq.indexOf(">") != -1) {
+					content.append(seq.substring(seq.indexOf(">")+1));
+				}else {
+					content.append(seq);
+				}
+			}
+			posting.setPostingContent(content.toString());
+		}
+		return booklog;
 	}
 
 	@Override

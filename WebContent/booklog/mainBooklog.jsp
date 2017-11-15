@@ -14,6 +14,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 
 	<!-- Swiper 설정 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
@@ -63,9 +64,13 @@
 				var booklogNo = $(this).find('input[name="booklogNo"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
-			$('div.div-posting').on('click', function(){
+			$('div.div-posting .posting-img, div.div-posting h3').on('click', function(){
 				var postingNo = $(this).find('input[type="hidden"]').val();
 				$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition="+condition);
+			});
+			$('a.posting-user').on('click', function(){
+				var user = $(this).find('input[type="hidden"]').val();
+				$(self.location).attr("href","../booklog/getBooklog?user.email="+user);
 			});
 
 		
@@ -96,7 +101,6 @@
 		$(function(){
 	        var swiper = new Swiper('.swiper-container', {
 	            spaceBetween: 5,
-	            centeredSlides: true,
 	            pagination: {
 	            	el: '.swiper-pagination',
 	            	clickable: true
@@ -119,7 +123,7 @@
 	
 	<div class="container">
 		<input type="hidden" name="condition" value="${search.condition}">
-		인기북로그 <a class="btn booklog" href="#">더보기</a>
+		인기북로그 <a class="btn booklog" href="javascript:void(0);">더보기</a>
 
 	    <div class="swiper-container">
 	        <div class="swiper-wrapper">
@@ -173,7 +177,7 @@
 	    
 		
 
-		인기포스팅 <a class="btn posting" href="#">더보기</a>
+		인기포스팅 <a class="btn posting" href="javascript:void(0);">더보기</a>
 		<c:forEach items="${postingList}" var="posting">
 		<div class="row div-posting booklog-background">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
@@ -183,7 +187,10 @@
 				</div>
 				<div class="col-sm-8">
 					<h3><strong>${posting.postingTitle}</strong></h3>
-					<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
+					<a class="posting-user" href="javascript:void(0);">
+						<input type="hidden" name="user.email" value="${posting.user.email}">
+						by.${posting.user.nickname}
+					</a>
 					<span class="posting-content">${posting.postingContent}</span>
 					<c:forEach items="${posting.postingTagList}" var="tag">
 						<span class="tag"># ${tag.tagName}</span>
@@ -194,7 +201,10 @@
 				<div class="col-xs-12 posting-img">
 					<div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0;">
 						<h4><strong>${posting.postingTitle}</strong></h4>
-						<a class="posting-user" href="#"> by.${posting.user.nickname}</a>
+						<a class="posting-user" href="javascript:void(0);">
+							<input type="hidden" name="user.email" value="${posting.user.email}">
+							by.${posting.user.nickname}
+						</a>
 						<span class="posting-content">${posting.postingContent}</span>
 						<c:forEach items="${posting.postingTagList}" var="tag">
 							<span class="tag"># ${tag.tagName}</span>

@@ -15,7 +15,7 @@
  	
  	function fncFooterPositioning(){
 		$('footer').css('position', 'absolute')
-		.css('top', $(document).height()-85);
+		.css('top', document.body.scrollHeight-85);
  	}
 	
 </script>

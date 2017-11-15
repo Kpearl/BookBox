@@ -30,6 +30,9 @@
 			background-image: url('./resources/images/main_img.jpg');
 			min-height: 100%;
 		}
+		.container{
+			height: 100%;
+		}
 		#main-search{
 			height: 150px;
 			padding: 40px;
@@ -57,10 +60,10 @@
 		}
 		.max-height{
 			height: 100%;
-			background-color: rgba(248, 255, 115, 0.25);
+			background-color: rgba(187, 187, 187, 0.13);
 		}
 		.half-height{
-			height: 45%;
+			height: 92%;
 			margin: 0 15px;
 		}
 		.first-level, .second-level{
@@ -69,7 +72,18 @@
 			overflow: hidden;
 		}
 		.second-level{
-			/* background-color: rgba(248, 255, 115, 0.5); */
+			position: absolute;
+			bottom: 0;
+			height: 0;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.4);
+			color: #ffffff;
+			-webkit-transition: 0.3s;
+			   -moz-transition: 0.3s;
+					transition: 0.3s;
+		}
+		.second-level > *{
+			margin: 10px;
 		}
 		.book-img{
 			z-index: 0;
@@ -79,33 +93,6 @@
 			-webkit-transition: 0.1s;
 			   -moz-transition: 0.1s;
 					transition: 0.1s;
-		}
-		.book-content:hover{
-			opacity: 0.3;
-			-webkit-transition: 0.5s;
-			   -moz-transition: 0.5s;
-					transition: 0.5s;
-/* 			-webkit-transform: translate(-50%, -50%) scale(1.07);
-			   -moz-transform: translate(-50%, -50%) scale(1.07);
-					transform: translate(-50%, -50%) scale(1.07); */
-		}
-		.category{
-			min-height: 100%;
-		}
-		.category .list{
-			position: relative;
-		}
-		.category-creation{
-			background-image: url('./resources/images/creation.jpg');
-			height: 400px;
-		}
-		.category-community{
-			background-image: url('./resources/images/community.jpeg');
-			height: 400px;
-		}
-		.category-booklog{
-			background-image: url('./resources/images/posting.jpeg');
-			height: 400px;
 		}
 		.font-large{
 			font-size: 24px!important;
@@ -129,6 +116,18 @@
 		.narrow{
 			letter-spacing: 5px;
 		}
+		
+		.category-swiper-container{
+			height: 500px;
+			width: 100%;
+		}
+		.category-slide, .category, .category-image{
+			height: 100%;
+			width: 300px;
+		}
+		.category{
+			border: 1px solid #000;
+		}
 	</style>
 	
 	<script>
@@ -137,7 +136,7 @@
 		//Window Resize시 Toolbar 투명도, BookContainer 높이, Parallax background-position 재설정
 		$(window).resize(function(){
 			ToolbarOpacHeight($(window).height());
-			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 2 / 3);
+			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
 		});
 		
 		
@@ -166,8 +165,17 @@
 					fncSearch();
 				}
 			});
+			//추천도서 hover 이벤트
+			$('.book-content').hover(function(){
+				$(this).find('.first-level').css('opacity', 0.2);
+				$(this).find('.second-level').css('height', '100%');
+			}, function(){
+				$(this).find('.first-level').css('opacity', 1);
+				$(this).find('.second-level').css('height', 0);
+			})
 			
-			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 2 / 3);
+			$('.container').css('height', $(window).innerHeight());
+			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
 
 			//스와이퍼 초기화
  			var bookSwiper = new Swiper('.book-swiper-container', {
@@ -182,6 +190,19 @@
 					type: 'bullets',
 					clickable: true,
 				},
+			});
+			
+			var categorySwiper = new Swiper('.category-swiper-container', {
+				speed: 500,
+				spaceBetween: 0,
+				effect: 'slide',
+				freeMode: true,
+				pagenation: {
+					el: '.swiper-pagination',
+					type: 'progressbar',
+				},
+				slidesPerView: 'auto',
+				slidesPerGroup: 5,
 			});
 			
 			
@@ -320,221 +341,169 @@
 				</div>
 			</div>
 		</div>
+	
+		<div class="row">
+		
+			<div class="col-md-offset-1 col-md-10">
+	
+		
+				<div id="main-recommend-book" class="swiper-container book-swiper-container">
+					<div class="swiper-wrapper">
+					
+						<div id="userRecommend" class="swiper-slide">
+							<h4><em>For U..</em></h4>
+							<div class="row half-height">
+							<c:forEach var="i" begin="0" end="3">
+								<div class="col-xs-3 max-height first-level">
+									<div class="row max-height first-level book-content">
+										<input type="hidden" name="isbn" value="0">
+										<div class="col-sm-12 max-height first-level text-center">
+											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+										</div>
+										<div class="col-sm-12 second-level">
+											<p class="book-title">제목 가져오는 중..</p>
+											<p class="book-author">작가 가져오는 중..</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							</div>
+						</div>
+						
+						<div id="bestSeller" class="swiper-slide">
+							<h4><em>Best Seller..</em></h4>
+							<div class="row half-height">
+							<c:forEach var="i" begin="0" end="3">
+								<div class="col-xs-3 max-height first-level">
+									<div class="row max-height first-level book-content">
+										<input type="hidden" name="isbn" value="0">
+										<div class="col-sm-12 max-height first-level text-center">
+											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+										</div>
+										<div class="col-sm-12 second-level">
+											<p class="book-title">제목 가져오는 중..</p>
+											<p class="book-author">작가 가져오는 중..</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							</div>
+						</div>
+						
+						<div id="newBook" class="swiper-slide">
+							<h4><em>Bloger's Select..</em></h4>
+							<div class="row half-height">
+							<c:forEach var="i" begin="0" end="3">
+								<div class="col-xs-3 max-height first-level">
+									<div class="row max-height first-level book-content">
+										<input type="hidden" name="isbn" value="0">
+										<div class="col-sm-12 max-height first-level text-center">
+											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+										</div>
+										<div class="col-sm-12 second-level">
+											<p class="book-title">제목 가져오는 중..</p>
+											<p class="book-author">작가 가져오는 중..</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							</div>
+						</div>
+						
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+		
+			</div>
+		</div>
 	</div>
 	
 	<div class="container">
-		<div class="col-md-offset-1 col-md-10">
-
-			<div id="main-recommend-book" class="swiper-container book-swiper-container">
-				<div class="swiper-wrapper">
-					<div id="userRecommend" class="swiper-slide">
-						<h4><em>For U..</em></h4>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
+		<div class="row">
+			<div class="col-xs-12">
+			
+			
+				<div id="main-category" class="swiper-container category-swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide category-slide">
+							<div class="category category-image category-funding">
+								<img class="img-object-fit" src="./resources/images/creation.jpg">
 							</div>
 						</div>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
 							</div>
 						</div>
-					</div>
-					<div id="bestSeller" class="swiper-slide">
-						<h4><em>Best Seller..</em></h4>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
 							</div>
 						</div>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
+						<div class="swiper-slide category-slide">
+							<div class="category category-image category-posting">
+								<img class="img-object-fit" src="./resources/images/posting.jpeg">
 							</div>
 						</div>
-					</div>
-					<div id="newBook" class="swiper-slide">
-						<h4><em>Bloger's Select..</em></h4>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-								</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
 							</div>
 						</div>
-						<div class="row half-height">
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 max-height first-level">
-								<div class="row max-height first-level book-content">
-									<input type="hidden" name="isbn" value="0">
-									<div class="col-sm-6 max-height second-level">
-										<p class="book-title">제목 가져오는 중..</p>
-										<p class="book-author">작가 가져오는 중..</p>
-									</div>
-									<div class="col-sm-6 max-height first-level">
-										<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-									</div>
-								</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
 							</div>
 						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category category-image category-creation">
+								<img class="img-object-fit" src="./resources/images/creation.jpg">
+							</div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
+							</div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category"></div>
+						</div>
+						<div class="swiper-slide category-slide">
+							<div class="category">
+								<div class="category-inner"></div>
+								<div class="category-inner"></div>
+							</div>
+						</div>
+						<div class="swiper-pagination"></div>
 					</div>
 				</div>
-				<div class="swiper-pagination"></div>
+			
+				
 			</div>
-		
 		</div>
 	</div>
 	
 	
-	
-	
-<!-- 	<div class="category">
-		<div class="list list-first">
-			<div class="category-creation">
-				<div class="display-middle">
-					<span class="font-large theme-white padding-large wide">CREATION</span>
-				</div>
-			</div>
-			<div class="container">
-				얍얍1
-			</div>
-		</div>
-		<div class="list list-second">
-			<div class="category-community">
-				<div class="display-middle">
-					<span class="font-large theme-white padding-large wide">COMMUNITY</span>
-				</div>
-			</div>
-			<div class="container">
-				얍얍2
-			</div>
-		</div>
-		<div class="list list-third">
-			<div class="category-booklog">
-				<div class="display-middle">
-					<span class="font-large theme-white padding-large wide">BOOKLOG</span>
-				</div>
-			</div>
-			<div class="container">
-				얍얍3
-			</div>
-		</div>
-	</div> -->
-
 
 
 	<footer class="container-fluid">

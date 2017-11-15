@@ -1,6 +1,5 @@
 package com.bookbox.service.domain;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.bookbox.common.domain.Location;
@@ -23,8 +22,8 @@ public class Posting {
 	private String postingTitle;
 	private String postingContent;
 	private List<UploadFile> postingFileList;
-	private Date postingRegDate;
-	private Date postingUpdateDate;
+	private String postingRegDate;
+	private String postingUpdateDate;
 	private List<Location> postingLocationList;
 	private List<Tag> postingTagList;
 	private int viewCount;
@@ -73,20 +72,20 @@ public class Posting {
 		this.postingFileList = postingFileList;
 	}
 
-	public Date getPostingRegDate() {
+	public String getPostingRegDate() {
 		return postingRegDate;
 	}
 
-	public void setPostingRegDate(Date postingRegDate) {
-		this.postingRegDate = postingRegDate;
+	public void setPostingRegDate(String postingRegDate) {
+		this.postingRegDate = postingRegDate.substring(0,postingRegDate.lastIndexOf("."));
 	}
 
-	public Date getPostingUpdateDate() {
+	public String getPostingUpdateDate() {
 		return postingUpdateDate;
 	}
 
-	public void setPostingUpdateDate(Date postingUpdateDate) {
-		this.postingUpdateDate = postingUpdateDate;
+	public void setPostingUpdateDate(String postingUpdateDate) {
+		this.postingUpdateDate = postingUpdateDate.substring(0,postingUpdateDate.lastIndexOf("."));
 	}
 
 	public List<Location> getPostingLocationList() {

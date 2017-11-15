@@ -22,6 +22,22 @@
 	<!-- <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script> -->
 	<!-- CKEditor -->
 	
+	<style>
+		body{
+			height: 1600px;
+			padding-top: 0;
+		}
+		.form-group{
+			margin: 16px 0;
+		}
+		.form-group > *{
+			display: inline-block;
+		}
+		.form-group input[type="text"]{
+			background: inherit;
+		}
+	</style>
+	
 	
 	<script type="text/javascript">
 		var tagHtml;

@@ -20,8 +20,8 @@
 			<result property="postingNo" column="posting_no" jdbcType="INTEGER"/>
 			<result property="postingTitle" column="posting_title" jdbcType="VARCHAR"/>
 			<result property="postingContent" column="posting_content" jdbcType="VARCHAR"/>
-			<result property="postingRegDate" column="posting_reg_date" jdbcType="DATE"/>
-			<result property="postingUpdateDate" column="posting_update_date" jdbcType="DATE"/>
+			<result property="postingRegDate" column="posting_reg_date" jdbcType="VARCHAR"/>
+			<result property="postingUpdateDate" column="posting_update_date" jdbcType="VARCHAR"/>
 			<association property="user" javaType="user">
 				<result property="email" column="posting_email"/>
 				<result property="nickname" column="posting_nickname"/>

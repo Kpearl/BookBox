@@ -30,11 +30,18 @@
 	<script src="../resources/javascript/custom.js"></script>
 	
     <style>
+    	.booklog-btn{
+    		cursor: pointer;
+			padding: 8px;
+			background: #3D3D3D;
+			color: #F9F7F7;
+			font-weight: bold;
+    	}
     	.swiper-posting-box{
     		position: relative;
     		width: 100%;
     		height: 500px;
-    		background: rgba(114, 114, 114, 0.6);
+    		background: rgba(114, 114, 114, 0.3);
     		margin: 0;
     		padding: 0;
     	}
@@ -72,7 +79,8 @@
 	    
 	    div.div-posting{
 	    	margin: 0;
-	    	height: 10%;
+	    	height: 15%;
+	    	padding: 0 40px;
 	    }
 	    .posting-preview{
 	    	position: absolute;
@@ -80,20 +88,20 @@
 	    	height: 100%;
 	    }
 	    .posting-preview-content{
-	    	height: 10%;
+	    	height: 15%;
 	    	width: 100%;
 	    	position: absolute;
 	    	bottom: 0;
 	    	background-color: rgba(219, 226, 239, 0.6);
-	    	-webkit-transition: 0.5s;
-	    	   -moz-transition: 0.5s;
-	    			transition: 0.5s;
+	    	-webkit-transition: 0.3s;
+	    	   -moz-transition: 0.3s;
+	    			transition: 0.3s;
 	    }
 	    .posting-preview-content:hover{
-	    	height: 100%;
-	    	-webkit-transition: 0.5s;
-	    	   -moz-transition: 0.5s;
-	    			transition: 0.5s;
+	    	height: 40%;
+	    	-webkit-transition: 0.3s;
+	    	   -moz-transition: 0.3s;
+	    			transition: 0.3s;
 	    }
 	    
 	    ul.timeline{
@@ -187,17 +195,20 @@
 		booklogName = $('input[name="booklogName"]').val();
 		user = $('input[name="user"]').val();
 		
-		$('a.posting-list').on('click',function(){
+		$('div.btn-form.posting-list').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
 		});
 		$('div.div-posting').on('click', function(){
 			var postingNo = $(this).find('input[type="hidden"]').val();
 			$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition=booklog&keyword="+booklogUser);
 		});
-		$('a.var-btn:contains("표지편집")').on('click', function(){
+		$('div.booklog-btn:contains("표지편집")').on('click', function(){
 			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
 		});
-		if(user != '' && user != null){
+		$('div.booklog-btn:contains("포스팅등록")').on('click', function(){
+			$(self.location).attr('href','../booklog/addPosting');
+		});
+		if(user != '' && user != null && user != booklogUser){
 			$('i.nobookmarked').on('click', function(){
 				fncAddBookmark($(this));
 			});
@@ -262,12 +273,14 @@
 
 	$(function(){
 		/* swiper 설정 */
+	<c:if test="${booklog.postingList.size() != 0}">
         var galleryTop = new Swiper('.gallery-top', {
             spaceBetween: 10,
             navigation: {
             	nextEl: '.swiper-button-next',
               	prevEl: '.swiper-button-prev',
             },
+            grabCursor: true,
         });
         var galleryThumbs = new Swiper('.gallery-thumbs', {
             spaceBetween: 10,
@@ -278,7 +291,7 @@
         });
         galleryTop.controller.control = galleryThumbs;
         galleryThumbs.controller.control = galleryTop;
-        
+	</c:if>
         /* chart 설정 */
 		var ctxDaily = $("#dailyChart");
 		var dailyChart = new Chart(ctxDaily, {
@@ -483,6 +496,7 @@
 
 		
 		/* tab 설정 */
+		$('#tagTab').tab('show');
 		$('#chartTab').tab('show');
     });
 	
@@ -564,11 +578,12 @@
 
 		<div class="row">
 
-			<div class="col-md-3 col-md-push-8">
+			<div class="col-md-3 col-md-push-9">
 			
 				<div class="row booklog-profile">
 				
-					<div class="col-sm-12">
+					<div class="col-xs-1 col-sm-2 hidden-md hidden-lg"></div>
+					<div class="col-xs-10 col-sm-8 col-md-12">
 						<div class="row text-center booklog-img">
 							<div class="col-xs-offset-1 col-xs-10 booklog-img">
 								<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
@@ -577,20 +592,10 @@
 				
 						<!-- 북로그이미지, 소개글, 이름 -->
 						<div class="row text-center booklog-name">
-							<p><em>${booklog.booklogName}</em></p>
+							<h4><em>${booklog.booklogName}</em></h4>
 						</div>
 						<div class="row text-center booklog-intro booklog-background">
 							<p>${booklog.booklogIntro}</p>
-<%-- 								<c:if test="${sessionScope.user.email != null}">
-									<a class="btn var-btn" href="javascript:void(0);">
-										<c:if test="${sessionScope.user.email == booklog.user.email}">
-											표지편집
-										</c:if>
-										<c:if test="${sessionScope.user.email != booklog.user.email}">
-											${bookmark == true? '책갈피 삭제' : '책갈피 등록'}
-										</c:if>
-									</a>
-								</c:if> --%>
 						</div>
 						<div class="row text-center booklog-content-num">
 							<div class="col-xs-4 text-center">
@@ -611,10 +616,20 @@
 					</div>
 
 				</div>
-				
+				<c:if test="${sessionScope.user.email == booklog.user.email}">
+				<div class="row" style="margin: -10px; margin-bottom: 10px; margin-top: -20px; box-shadow: 3px 1px 2px 0px;">
+					<div class="col-xs-6 text-center booklog-btn">
+						표지편집
+					</div>
+					<div class="vertical-line" style="margin-top: 10px; height: 20px;"></div>
+					<div class="col-xs-6 text-center booklog-btn">
+						포스팅등록
+					</div>
+				</div>
+				</c:if>
 				
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 hidden-xs hidden-sm">
 						<ul class="timeline">
 						<c:forEach items="${logList}" var="log">
 							<li>
@@ -646,7 +661,7 @@
 					<div class="col-md-12">
 					
 						<c:if test="${booklog.postingList.size() != 0}">
-							<a class="btn btn-defalut posting-list" href="#">포스팅 더 보기</a>
+							<div class="btn-form posting-list">포스팅 더 보기</div>
 							<div class="swiper-posting-box">
 							    <div class="swiper-container gallery-top">
 							        <div class="swiper-wrapper">
@@ -659,7 +674,8 @@
 						        			</div>
 						        			<div class="div-posting posting-preview-content booklog-font-color">
 												<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-												<p>포스팅명 : ${posting.postingTitle}</p>
+												<h3>${posting.postingTitle}</h3>
+												<span class="posting-content">${posting.postingContent}</span>
 						        			</div>
 						        		</div>
 						        	</c:forEach>
@@ -674,7 +690,7 @@
 						        	<c:set var="i" value="0"/>
 						        	<c:forEach items="${booklog.postingList}" var="posting">
 						        		<c:set var="i" value="${i+1}"/>
-						        		<div class="swiper-slide" style="background-image: url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'})"></div>
+						        		<div class="swiper-slide" style="cursor: pointer; background-image: url(../resources/upload_files/images/${!empty posting.postingFileList? posting.postingFileList[0].fileName : '../../images/posting_noimage.jpeg'})"></div>
 						        	</c:forEach>
 							        </div>
 							    </div>
@@ -685,51 +701,83 @@
 			        	</c:if>
 				
 						<div class="row">
-							<ul class="nav nav-tabs" role="tablist" id="chartTab">
-								<li role="presentation" class="active">
-									<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
-										태그통계
-									</a>
-								</li>
-								<li role="presentation">
-									<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
-										일간통계
-									</a>
-								</li>
-								<li role="presentation">
-									<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
-										주간통계
-									</a>
-								</li>
-								<li role="presentation">
-									<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
-										월간통계
-									</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane fade in active" id="tag">
-									<canvas id="tagChart"></canvas>
+							<div class="col-sm-6">
+								<ul class="nav nav-tabs" role="tablist" id="tagTab">
+									<li role="presentation" class="active">
+										<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
+											태그통계
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane fade in active" id="tag">
+										<canvas id="tagChart"></canvas>
+									</div>
 								</div>
-								<div role="tabpanel" class="tab-pane fade" id="daily">
-									<canvas id="dailyChart"></canvas>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="weekly">
-									<canvas id="weeklyChart"></canvas>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="monthly">
-									<canvas id="monthlyChart"></canvas>
+							</div>
+							<div class="col-sm-6">
+								<ul class="nav nav-tabs" role="tablist" id="chartTab">
+									<li role="presentation" class="active">
+										<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
+											일간통계
+										</a>
+									</li>
+									<li role="presentation">
+										<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
+											주간통계
+										</a>
+									</li>
+									<li role="presentation">
+										<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
+											월간통계
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane fade in active" id="daily">
+										<canvas id="dailyChart"></canvas>
+									</div>
+									<div role="tabpanel" class="tab-pane fade" id="weekly">
+										<canvas id="weeklyChart"></canvas>
+									</div>
+									<div role="tabpanel" class="tab-pane fade" id="monthly">
+										<canvas id="monthlyChart"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
 						
-<%-- 						<div class="row">
-							<canvas id="tagChart"></canvas>
-						</div> --%>
 
 					</div>
 				</div>
 				
+			</div>
+			
+			<div class="col-sm-12 hidden-md hidden-lg">
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="timeline">
+						<c:forEach items="${logList}" var="log">
+							<li>
+								<i class="log-category"><input type="hidden" name="category" value="${log.categoryNo}"></i>
+								<div class="timeline-item booklog-background">
+									<span class="time"><i class="glyphicon glyphicon-time"></i> ${log.logTimeAgo}</span>
+									<div class="timeline-body">
+										<input type="hidden" name="link" value="${log.link}">
+										<span><small>${log.logString}</small></span>
+									</div>
+								</div>
+							</li>
+						</c:forEach>
+							<li>
+								<i class="glyphicon glyphicon-option-vertical log-more-background" style="cursor: pointer;"></i>
+								<div class="text-center">
+									<img class="loading-img" src="../resources/images/loading.gif" style="height: 30px; display:none;">
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			
 			
