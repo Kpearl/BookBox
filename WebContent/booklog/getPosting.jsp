@@ -21,7 +21,7 @@
     	}
     	header{
     		position: relative;
-    		background:url(../resources/upload_files/images/${empty mainFile? '../../images/posting_noimage.jpeg':mainFile.fileName}) no-repeat center;
+    		background: url(../resources/upload_files/images/${empty mainFile? '../../images/posting_noimage.jpeg':mainFile.fileName}) no-repeat center;
     	}
     	.posting-title{
     		position: absolute;
