@@ -80,7 +80,7 @@
 		    top: 30%;
 		    left: 80%;
 		    z-index: 2;
-		    background: url(../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }) no-repeat center;
+		    overflow: hidden;
     	}
 	
 	</style>
@@ -440,18 +440,23 @@
 							<div class="funding-creation-info">
 							
 								<div class="row creation-from">
-									<div class="col-md-6 col-md-offset-3" style="height: 700px;border: 1px groove;margin-top: 7%;">
-										<div class="creation-author-image"></div>										
-										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove; background: url(../resources/upload_files/images/${funding.creation.creationFileName}) no-repeat center;opacity: 0.6;">	
+									<div class="col-md-7 col-md-offset-2" style="height: 700px;border: 1px groove;margin-top: 7%;">
+										<div class="creation-author-image"><img class="img-object-fit" src="../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }"></div>										
+										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove; background: url(../resources/upload_files/images/${funding.creation.creationFileName}) no-repeat center;opacity: 0.5;">	
 											<div class="creation-title">${funding.creation.creationTitle }</div>
 										</div>
 										<div class="row creation-writing-list" style="height: 65%;">
-											<div class="writing-list-title"></div>
-											<div class="writing-title">
-												<c:forEach var="writing" items="${funding.creation.writingList }">
-													<div>${writing.writingTitle }</div>
-												</c:forEach>
-											</div>
+											<div class="creation-writing-form" style="margin: 5% 10%;">
+													<div class="writing-author-label">Author</div>
+													<div class="writing-author">${funding.creation.creationAuthor.nickname }</div>
+														<div class="writing-list-title">Content</div>
+														<div class="writing-form">
+															<div class="writing-title-label"></div>
+																<c:forEach var="writing" items="${funding.creation.writingList }">
+																	<div class="writing-title">${writing.writingTitle }</div>
+																</c:forEach>
+														</div>
+												</div>
 										</div>
 									</div>
 								</div>

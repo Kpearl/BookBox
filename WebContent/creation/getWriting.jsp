@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -340,7 +341,7 @@ $(function() {
 					<div class="writing-title" style="font-size: xx-large;">${writing.writingTitle }</div>
 					<div class="row grade-part" style="padding-left: 1.5%;">
 						<div  style="display: inline-block; float:left;">회차별점</div>	
-						<div id="starWrap" class="gradeAvg-result star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+						<div id="starWrap" class="gradeAvg-result star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
 								<ul style="padding-left:0;">
 									<li class="s1" style="cursor:auto;"></li>
 									<li class="s2" style="cursor:auto;"></li>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -108,7 +109,7 @@
 										<span class="creation-author button-form" id=${creation.creationAuthor.email } style="font-size:15px;">   by.${creation.creationAuthor.nickname }</span>
 									</div>
 									<div class="grade-avg" style="padding-left: 2.3%;">
-										<div id="starWrap" class="gradeAvg star${creation.grade.average}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
+										<div id="starWrap" class="gradeAvg star${fn:substring(creation.grade.average, 0, 1)}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
 											<ul style="padding-left:0">
 												<li class="s1"></li>
 												<li class="s2"></li>

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <html>
 <head>
@@ -261,7 +262,7 @@
 	           		<span class="creation-author" id="${creation.creationAuthor.email }"style="font-size: small;cursor:pointer;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
 	          
-           			<div id="starWrap" class="gradeAvg star${creation.grade.average}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
+           			<div id="starWrap" class="gradeAvg star${fn:substring(creation.grade.average, 0, 1)}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
 						<ul style="padding-left:0">
 							<li class="s1"></li>
 							<li class="s2"></li>
@@ -367,7 +368,7 @@
 				                </div>
 				                <div class="row hidden-md hidden-lg">
 				                    <div class="col-xs-7">
-										<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block; float:left;    padding-top: 0.6%;">
+										<div id="starWrap" class="star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block;float:left;padding-top: 0.6%;">
 											<ul>
 												<li class="s1"></li>
 												<li class="s2"></li>
@@ -381,7 +382,7 @@
 				                </div>
 				            </div>
 				            <div class="col-md-2 hidden-xs hidden-sm">
-								<div id="starWrap" class="star${writing.grade.average}" style="display: inline-block;">
+								<div id="starWrap" class="star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block;">
 									<ul style="float: left;padding-top: 2%;">
 										<li class="s1"></li>
 										<li class="s2"></li>
