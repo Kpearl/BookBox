@@ -84,6 +84,12 @@ public class BooklogDAOImpl implements BooklogDAO {
 		return sqlSession.selectMap("BooklogMapper.getCounts", email, "counts");
 	}
 
+	@Override
+	public List<String> getBookLikeList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("BooklogMapper.getBookLikeList", map);
+	}
+
 	public Map<String, Object> mappingUserBooklog(User user, Booklog booklog){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", user);

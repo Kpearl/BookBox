@@ -37,13 +37,66 @@
 			color: #F9F7F7;
 			font-weight: bold;
     	}
+    	.book-like-box{
+    		position: relative;
+    	}
+    	.book-like-detail{
+    		height: 220px;
+    		overflow: hidden;
+    	}
+    	.book-like-detail > *{
+    		text-align: center;
+    		position: absolute;
+    		padding: 10%;
+    		height: 100%;
+    		width: 100%;
+    		top: 50%;
+    		left: 50%;
+    		-webkit-transform: translate(-50%, -50%);
+    		   -moz-transform: translate(-50%, -50%);
+    				transform: translate(-50%, -50%);
+    	}
+    	.book-thumbnail .img-object-fit{
+    		width: auto;
+    	}
+    	.book-thumbnail img{
+    		-webkit-transition: 0.5s;
+    		   -moz-transition: 0.5s;
+    				transition: 0.5s;
+    	}
+    	.book-detail{
+    		height: 220px;
+    		position: absolute;
+    		top: 0;
+    		left: 10%;
+    		width: 80%;
+    		padding: 10%;
+    		cursor: pointer;
+    	}
+    	.book-detail > div{
+    		height: 0;
+    		overflow-y: hidden;
+    		width: 100%;
+    		background: rgba(114, 114, 114, 0.6);
+    		color: #ffffff;
+    		-webkit-transition: 0.3s;
+    		   -moz-transition: 0.3s;
+    				transition: 0.3s;
+    	}
     	.swiper-posting-box{
     		position: relative;
     		width: 100%;
     		height: 500px;
     		background: rgba(114, 114, 114, 0.3);
-    		margin: 0;
+    		margin: 5% 0;
     		padding: 0;
+    	}
+    	.posting-list, .book-like-list{
+    		position: absolute;
+    		bottom: -5%;
+    		right: 0;
+    		z-index: 5;
+    		cursor: pointer;
     	}
 	    .swiper-container {
 	        width: 100%;
@@ -88,6 +141,7 @@
 	    	height: 100%;
 	    }
 	    .posting-preview-content{
+	    	cursor: pointer;
 	    	height: 15%;
 	    	width: 100%;
 	    	position: absolute;
@@ -195,7 +249,7 @@
 		booklogName = $('input[name="booklogName"]').val();
 		user = $('input[name="user"]').val();
 		
-		$('div.btn-form.posting-list').on('click',function(){
+		$('a.posting-list').on('click',function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
 		});
 		$('div.div-posting').on('click', function(){
@@ -219,6 +273,19 @@
 			$('i.nobookmarked').css('cursor', 'auto');
 			$('i.bookmarked').css('cursor', 'auto');
 		}
+		
+		$('.book-thumbnail').hover(function(){
+			$(this).find('.book-detail > div').css('height', '100%');
+			$(this).find('img').css('transform', 'scale(1.1)');
+		}, function(){
+			$(this).find('.book-detail > div').css('height', 0);
+			$(this).find('img').css('transform', 'initial');
+		});
+		
+		$('.book-detail').on('click', function(){
+			var isbn = $(this).find('input[name="isbn"]').val();
+			$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
+		});
 		
 		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 		
@@ -449,21 +516,23 @@
 		var tagChart = new Chart(ctxTag, {
 			type: 'bubble',
 			data: {
-				datasets: [{
-					label: 'Tag Dataset',
-					data: [
+				datasets: [
 						<c:forEach items="${booklog.visitorsStatistics.tag}" var="tag">
-							{x: (Math.random()-0.5), y: (Math.random()-0.5), r: ${tag.per}},
+							{
+								label: '${tag.tagName}',
+								data: [
+										{x: (Math.random()-0.5), y: (Math.random()-0.5), r: ${tag.per}},
+								],
+								backgroundColor: 'rgba('+ Math.floor(Math.random()*256) +', '+ Math.floor(Math.random()*256) +', '+ Math.floor(Math.random()*256) +', 0.8)'
+							},
 						</c:forEach>
-					],
-					backgroundColor: 'rgb(255, 99, 132)'
-				}]
+				]
 			},
 		    options: {
 		        tooltips: {
 		        	callbacks: {
  		        		label: function(tooltipItem, data){
-		        			return labels[tooltipItem.index]+', '+Math.round(data.datasets[0].data[tooltipItem.index].r)+'%';
+		        			return data.datasets[tooltipItem.datasetIndex].label+', '+Math.round(data.datasets[tooltipItem.datasetIndex].data[0].r)+'%';
 		        		} 
 		        	}
 		        },
@@ -490,7 +559,10 @@
 		        			display: false
 		        		}
 		        	}]
-		        }
+		        },
+		        legend: {
+		        	display: false,
+		        },
 		    }
 		});
 
@@ -578,7 +650,7 @@
 
 		<div class="row">
 
-			<div class="col-md-3 col-md-push-9">
+			<div class="col-md-offset-1 col-md-3 col-md-push-8">
 			
 				<div class="row booklog-profile">
 				
@@ -627,41 +699,89 @@
 					</div>
 				</div>
 				</c:if>
-				
-				<%-- <div class="row">
-					<div class="col-md-12 hidden-xs hidden-sm">
-						<ul class="timeline">
-						<c:forEach items="${logList}" var="log">
-							<li>
-								<i class="log-category"><input type="hidden" name="category" value="${log.categoryNo}"></i>
-								<div class="timeline-item booklog-background">
-									<span class="time"><i class="glyphicon glyphicon-time"></i> ${log.logTimeAgo}</span>
-									<div class="timeline-body">
-										<input type="hidden" name="link" value="${log.link}">
-										<span><small>${log.logString}</small></span>
-									</div>
-								</div>
-							</li>
-						</c:forEach>
-							<li>
-								<i class="glyphicon glyphicon-option-vertical log-more-background" style="cursor: pointer;"></i>
-								<div class="text-center">
-									<img class="loading-img" src="../resources/images/loading.gif" style="height: 30px; display:none;">
-								</div>
+	
+	
+	
+				<div class="row">
+					<div class="col-sm-12">
+						<ul class="nav nav-tabs" role="tablist" id="tagTab">
+							<li role="presentation" class="active">
+								<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
+									<strong>태그통계</strong>
+								</a>
 							</li>
 						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade in active" id="tag">
+								<canvas id="tagChart" height="300"></canvas>
+							</div>
+						</div>
 					</div>
-				</div> --%>
+					<div class="col-sm-12">
+						<ul class="nav nav-tabs" role="tablist" id="chartTab">
+							<li role="presentation" class="active">
+								<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
+									일간통계
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
+									주간통계
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
+									월간통계
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade in active" id="daily">
+								<canvas id="dailyChart" height="400"></canvas>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="weekly">
+								<canvas id="weeklyChart" height="400"></canvas>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="monthly">
+								<canvas id="monthlyChart" height="400"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			
 			</div>
 
 
-			<div class="col-md-8 col-md-pull-3">
+			<div class="col-md-8 col-md-pull-4">
 				<div class="row">
 				
 					<div class="col-md-12">
 					
+						<c:if test="${bookLikeList.size() != 0}">
+							<div class="book-like-box">
+								<div class="row">
+								<c:forEach items="${bookLikeList}" var="book">
+									<div class="col-xs-6 col-sm-3 book-like-detail">
+										<div class="book-thumbnail">
+											<img class="img-object-fit" src="http://t1.daumcdn.net/book/KOR${book.isbn}" onerror="this.src='${book.thumbnail}'">
+											<div class="book-detail">
+												<input type="hidden" name="isbn" value="${book.isbn}">
+												<div>
+													<p>${book.title}</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+								</div>
+								<a class="book-like-list">더 보기 &gt</a>
+							</div>
+						</c:if>
+			        	<c:if test="${bookLikeList.size() == 0}">
+			        		<h3>아직 좋아하는 책이 없습니다!</h3>
+			        	</c:if>
+					
 						<c:if test="${booklog.postingList.size() != 0}">
-							<div class="btn-form posting-list">포스팅 더 보기</div>
 							<div class="swiper-posting-box">
 							    <div class="swiper-container gallery-top">
 							        <div class="swiper-wrapper">
@@ -694,58 +814,13 @@
 						        	</c:forEach>
 							        </div>
 							    </div>
+								<a class="posting-list">더 보기 &gt</a>
 							</div>
 						</c:if>
 			        	<c:if test="${booklog.postingList.size() == 0}">
 			        		<h3>아직 등록된 포스팅이 없습니다!</h3>
 			        	</c:if>
 				
-						<div class="row">
-							<div class="col-sm-6">
-								<ul class="nav nav-tabs" role="tablist" id="tagTab">
-									<li role="presentation" class="active">
-										<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
-											태그통계
-										</a>
-									</li>
-								</ul>
-								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane fade in active" id="tag">
-										<canvas id="tagChart"></canvas>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<ul class="nav nav-tabs" role="tablist" id="chartTab">
-									<li role="presentation" class="active">
-										<a href="#daily" aria-controls="daily" role="tab" data-toggle="tab">
-											일간통계
-										</a>
-									</li>
-									<li role="presentation">
-										<a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab">
-											주간통계
-										</a>
-									</li>
-									<li role="presentation">
-										<a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab">
-											월간통계
-										</a>
-									</li>
-								</ul>
-								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane fade in active" id="daily">
-										<canvas id="dailyChart"></canvas>
-									</div>
-									<div role="tabpanel" class="tab-pane fade" id="weekly">
-										<canvas id="weeklyChart"></canvas>
-									</div>
-									<div role="tabpanel" class="tab-pane fade" id="monthly">
-										<canvas id="monthlyChart"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
 						
 
 					</div>
@@ -753,7 +828,7 @@
 				
 			</div>
 			
-			<div class="col-md-8">
+			<div class="col-md-8 col-md-pull-4">
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="timeline">

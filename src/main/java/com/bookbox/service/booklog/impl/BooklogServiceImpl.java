@@ -1,5 +1,6 @@
 package com.bookbox.service.booklog.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.BookSearchDAO;
 
 @Service("booklogServiceImpl")
 public class BooklogServiceImpl implements BooklogService {
@@ -19,6 +22,10 @@ public class BooklogServiceImpl implements BooklogService {
 	@Autowired
 	@Qualifier("booklogDAOImpl")
 	private BooklogDAO booklogDAO;
+	
+	@Autowired
+	@Qualifier("bookSearchKakaoAladinDAOImpl")
+	private BookSearchDAO bookSearchDAO;
 	
 	public BooklogServiceImpl() {
 		System.out.println("Constructor :: "+getClass().getName());
@@ -84,6 +91,22 @@ public class BooklogServiceImpl implements BooklogService {
 	public Map<String, String> getCounts(String email) {
 		// TODO Auto-generated method stub
 		return booklogDAO.getCounts(email);
+	}
+
+	@Override
+	public List<Book> getBookLikeList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<String> isbnList = booklogDAO.getBookLikeList(map);
+		List<Book> bookList = new ArrayList<Book>();
+		for(String isbn : isbnList) {
+			try {
+				bookList.add(bookSearchDAO.getBook(isbn));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bookList;
 	}
 
 

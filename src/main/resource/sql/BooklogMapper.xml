@@ -224,6 +224,19 @@
 			) w
 	</select>
 	
+	<select id="getBookLikeList" parameterType="map" resultType="String">
+		SELECT
+			target_no isbn
+		FROM
+			`like` l
+			LEFT JOIN user u ON l.email = u.email
+		WHERE
+			l.email = #{email} AND category_no = 9
+		ORDER BY
+			like_no DESC
+		LIMIT
+			#{page.startRow}, #{page.pageSize}
+	</select>
 
 	<sql id="tagWiring">
 		SELECT

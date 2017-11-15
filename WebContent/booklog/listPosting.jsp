@@ -29,7 +29,7 @@
 
 			if( $(window).height() >= $(document).height() ){
 				if(!isListLoading){
-//					fncGetBooklogList();
+					fncGetPostingList();
 				}
 			}
 			
@@ -38,7 +38,7 @@
 		$(window).scroll(function(){
 			if($(document).height() - $(window).height() >= $(document).height() - $(window).height() - 40){
 				if(!isListLoading){
-//					fncGetPostingList();
+					fncGetPostingList();
 				}
 			}
 		});
@@ -77,21 +77,13 @@
 						divHtml += '</div></div></div>';
 						divHtml += '<div class="row hidden-sm hidden-md hidden-lg"><div class="col-xs-12 posting-img"><div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0; height: 200px;">';
 						divHtml += '<h4><strong>' + data.postingList[i].postingTitle + '</strong></h4><a class="posting-user" href="javascript:void(0);">';
-					<input type="hidden" name="user.email" value="${posting.user.email}">
-					by.${posting.user.nickname}
-				</a>
-				<span class="posting-content">${posting.postingContent}</span>
-				<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
-					<c:forEach items="${posting.postingTagList}" var="tag">
-						<span class="tag">#${tag.tagName}</span>
-					</c:forEach>
-				</div>
-			</div>
-			<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-			<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
-		</div>
-	</div>
-</div>
+						divHtml += '<input type="hidden" name="user.email" value="' + data.postingList[i].user.email + '">by.' + data.postingList[i].user.nickname + '</a>';
+						divHtml += '<span class="posting-content">' + data.postingList[i].postingContent + '</span><div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">';
+						for(x in data.postingList[i].postingTagList){
+							divHtml += '<span class="tag">#' + data.postingList[i].postingTagList[x].tagName + '</span>';
+						}
+						divHtml += '</div></div><input type="hidden" name="postingNo" value="' + data.postingList[i].postingNo + '"/>';
+						divHtml += '<img class="img-object-fit posting-img" src="../resources/upload_files/images/' + data.postingList[i].postingFileList[0].fileName + '" alt="Image Not Found"></div></div></div>';
 						$('.posting-list').append(divHtml);
 					}
 					fncFooterPositioning();

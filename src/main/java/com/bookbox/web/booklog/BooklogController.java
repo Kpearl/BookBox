@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -109,11 +110,18 @@ public class BooklogController {
 		booklog = booklogService.getBooklog(user, booklog);
 		User booklogUser = booklog.getUser();
 		booklogUser.setActive(0);
+		Page page = new Page();
+		page.setCurrentPage(1);
+		page.setPageSize(pageSize);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("email", booklogUser.getEmail());
 		
 		model.addAttribute("booklog", booklog);
 		model.addAttribute("search", search);
 		model.addAttribute("logList", logService.getLogList(booklogUser));
 		model.addAttribute("bookmark", booklogService.getBookmark(user, booklog));
+		model.addAttribute("bookLikeList", booklogService.getBookLikeList(map));
 		return "forward:../booklog/getBooklog.jsp";
 	}
 	

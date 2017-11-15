@@ -34,6 +34,7 @@ import com.bookbox.common.service.LogService;
 import com.bookbox.common.service.TagService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogService;
+import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.User;
 
@@ -44,6 +45,10 @@ public class BooklogRestController {
 	@Autowired
 	@Qualifier("booklogServiceImpl")
 	private BooklogService booklogService;
+	
+	@Autowired
+	@Qualifier("postingServiceImpl")
+	private PostingService postingService;
 	
 	@Autowired
 	@Qualifier("uploadDirResource")
@@ -208,6 +213,18 @@ public class BooklogRestController {
 		page.setPageSize(pageSize);
 		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
 		map.put("booklogList", booklogService.getBooklogList(map));
+		
+		return map;
+	}
+	
+	@RequestMapping( value="getPostingList/{currentPage}" )
+	public Map<String, Object> getPostingList(@RequestBody Search search, @PathVariable int currentPage) {
+
+		Page page = new Page();
+		page.setCurrentPage(currentPage);
+		page.setPageSize(pageSize);
+		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
+		map.put("postingList", postingService.getPostingList(map));
 		
 		return map;
 	}

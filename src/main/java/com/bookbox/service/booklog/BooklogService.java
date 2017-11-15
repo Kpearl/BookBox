@@ -3,6 +3,7 @@ package com.bookbox.service.booklog;
 import java.util.List;
 import java.util.Map;
 
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.User;
 
@@ -22,4 +23,6 @@ public interface BooklogService {
 	
 	public Map<String, String> getCounts(String email);
 
+	public List<Book> getBookLikeList(Map<String, Object> map);
+	
 }

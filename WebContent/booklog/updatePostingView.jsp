@@ -36,6 +36,9 @@
 		.form-group input[type="text"]{
 			background: inherit;
 		}
+		header{
+			background: url(../resources/upload_files/images/${mainFile.fileName}) no-repeat center;
+		}
 	</style>
 	
 	
@@ -47,22 +50,26 @@
 			num = $('input[name=tag]').length-1;
 			fncTagAutocomplete();
 
-			$('a.posting-update:contains("수정하기")').on('click',function(){
+			$('div.posting-update:contains("수정")').on('click',function(){
 				var data = CKEDITOR.instances.postingContent.getData();
 				$('textarea').val(data);
 				$('form').attr('method','post').attr('action','../booklog/updatePosting').attr('enctype','multipart/form-data').submit();
 			});
 			
-			$('a.tag-add:contains("추가하기")').on('click',function(){
-				num = num + 1;
-				tagHtml = '<span id="tag'+num+'">, # <input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
-				$('.tag-list').append(tagHtml);
-				fncTagAutocomplete();
+			$('div.tag-add:contains("추가")').on('click',function(){
+				fncTagAddForm();
+			});
+			$('#tag').on('keydown', function(event){
+				if(event.which == 13){
+					event.preventDefault();
+					fncTagAddForm();
+				}
 			});
 		});
 	
 		$(function(){
 			editor = CKEDITOR.replace('postingContent', { customConfig : 'config_posting.js'});
+			fncFooterPositioning();
 		});
 
 		function fncTagAutocomplete(){
@@ -85,6 +92,18 @@
 			$('#tag'+num).remove();
 		}
 
+		function fncTagAddForm(){
+			num = num + 1;
+			tagHtml = '<span id="tag'+num+'">, # <input type="text" name="tag"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
+			$('.tag-list').append(tagHtml);
+			fncTagAutocomplete();
+			$('#tag'+num).on('keydown', function(event){
+				if(event.which == 13){
+					event.preventDefault();
+					fncTagAddForm();
+				}
+			}).find('input').focus();
+		}
 		
 		// 커버이미지 미리보기 설정
 		var upload;
@@ -122,26 +141,41 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	
-	<div class="container">
+	<header class="preview parallax booklog-background"></header>
+	
+	<div class="container booklog-background" style="padding: 30px;">
+	
+		<div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">포스팅 수정</div>
+		<div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
+	
 		<form class="posting">
 			<input type="hidden" name="postingNo" value="${posting.postingNo}">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
-						<label>포스팅 제목</label>
-						<input type="text" name="postingTitle" value="${posting.postingTitle}">
+						<div class="col-xs-3">
+							<label>제목</label>
+						</div>
+						<div class="col-xs-9">
+							<input type="text" name="postingTitle" value="${posting.postingTitle}" style="width: 100%;">
+						</div>
 					</div>
+				</div>
+				<div class="col-md-6">
 					<div class="form-group">
-						<label>커버 이미지 (기존 파일 : ${mainFile.originName})</label>
-						<input type="file" id="mainFile" name="mainFile">
-						<input type="hidden" name="originFileName" value="${mainFile.originName}">
-						<input type="hidden" name="fileName" value="${mainFile.fileName}">
+						<div class="col-xs-3">
+							<label>커버사진</label>
+						</div>
+						<div class="col-xs-9">
+							 (기존 파일 : ${mainFile.originName})
+							<input type="file" id="mainFile" name="mainFile" style="display: inline-block;">
+							<input type="hidden" name="originFileName" value="${mainFile.originName}">
+							<input type="hidden" name="fileName" value="${mainFile.fileName}">
+						</div>
 					</div>
 				</div>
 			</div>
 	
-			<div class="row preview" style="height:200px; margin-bottom:5px; background:url(../resources/upload_files/images/${mainFile.fileName}) no-repeat center; background-size:cover;"></div>
-			
 			
 			<div class="form-group">
 				<textarea name="postingContent" id="postingContent" rows="10" cols="80">${posting.postingContent}</textarea>
@@ -149,7 +183,7 @@
 			
 			<div class="form-group tag-list">
 				<label>태그</label>
-				<a href="javascript:void(0);" class="btn tag-add">추가하기</a>
+				<div class="btn-form tag-add">추가</div>
 				<span># <input type="text" name="tag" id="tag" value="${posting.postingTagList[0].tagName}"></span>
 				<c:set var="num" value="0"/>
 				<c:forEach items="${posting.postingTagList}" var="tag" begin="1">
@@ -157,9 +191,15 @@
 					<span id="tag${num}">, # <input type="text" name="tag" value="${tag.tagName}"><span class="glyphicon glyphicon-remove" aria-hidden="true" onClick="javascript:fncRemoveTag('${num}')"></span></span>
 				</c:forEach>
 			</div>
-			<a href="javascript:void(0);" class="btn posting-update">수정하기</a>
+			<div class="form-group" style="float: right">
+				<div class="btn-form posting-update">수정</div>
+			</div>
 		</form>
 	</div>
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 	
 </body>
 </html>

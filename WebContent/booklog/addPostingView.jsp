@@ -12,7 +12,6 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
-	<script src="../resources/javascript/toolbar_opac.js"></script>
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -37,6 +36,9 @@
 		.form-group input[type="text"]{
 			background: inherit;
 		}
+		header{
+			background: url(../resources/images/posting.jpeg) no-repeat center;
+		}
 	</style>
 	
 	
@@ -44,13 +46,10 @@
 		var tagHtml;
 		var num;
 		var editor;
-
-		ToolbarOpacHeight(500);
 		
 		$(function(){
 			num = 0;
 			fncTagAutocomplete();
-			$(window).scrollTop(450);
 
 			$('div.posting-add:contains("등록")').on('click',function(){
 				if(upload.files[0] == null){
@@ -151,7 +150,7 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	
-	<header class="preview booklog-background"></header>
+	<header class="preview parallax booklog-background"></header>
 	
 	<div class="container booklog-background" style="padding: 30px;">
 	
@@ -181,7 +180,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="row preview" style="height:200px; margin-bottom:5px; background: url('../resources/images/noImg_2.jpg') no-repeat center;"></div> -->
 
 			<div class="form-group">
 				<textarea name="postingContent" id="postingContent" rows="10" cols="80"></textarea>
@@ -192,7 +190,9 @@
 				<div class="btn-form tag-add">추가</div>
 				<span># <input type="text" name="tag" id="tag"></span>
 			</div>
-			<div class="btn-form posting-add">등록</div>
+			<div class="form-group" style="float: right">
+				<div class="btn-form posting-add">등록</div>
+			</div>
 		</form>
 	</div>
 	

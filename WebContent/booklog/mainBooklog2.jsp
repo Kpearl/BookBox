@@ -34,6 +34,8 @@
 	    .swiper-slide {
 	        background-position: center;
 	        background-size: cover;
+	        width: 300px;
+	        height: 350px;
 	    }
 
 
@@ -43,81 +45,7 @@
     	header{
     		background: url(../resources/images/posting.jpeg) no-repeat center;
     	}
-    	
-    	.swiper-posting1, .swiper-posting2, .swiper-posting3,
-    	.swiper-posting4, .swiper-posting5, .swiper-posting6,
-    	.swiper-posting7, .swiper-posting8, .swiper-posting9,
-    	.swiper-posting10{
-    		position: absolute;
-    		margin: 0;
-    		padding: 0;
-    	}
-    	.swiper-posting1 > *, .swiper-posting2 > *, .swiper-posting3 > *,
-    	.swiper-posting4 > *, .swiper-posting5 > *, .swiper-posting6 > *,
-    	.swiper-posting7 > *, .swiper-posting8 > *, .swiper-posting9 > *,
-    	.swiper-posting10 > *{
-    		position: absolute;
-    		margin: 0;
-    		padding: 0;
-    		top: 0;
-    		left: 0;
-    	}
-    	.swiper-posting1, .swiper-posting5, .swiper-posting6, .swiper-posting9{
-			top: 0;
-			left: 0;
-    	}
-    	.swiper-posting1{
-    		height: 100%;
-    		width: 40%;
-    	}
-    	.swiper-posting2{
-    		height: 60%;
-    		width: 60%;
-    		top: 0;
-    		left: 40%;
-    	}
-    	.swiper-posting3, .swiper-posting4{
-    		height: 40%;
-    		width: 30%;
-    		top: 60%;
-    	}
-    	.swiper-posting3{
-    		left: 40%;
-    	}
-    	.swiper-posting4{
-    		left: 70%;
-    	}
-    	.swiper-posting5, .posting-img-box, .posting-content{
-    		height: 100%;
-    		width: 100%;
-    	}
-    	.swiper-posting6{
-    		height: 100%;
-    		width: 50%;
-    	}
-    	.swiper-posting7, .swiper-posting8{
-    		height: 50%;
-    		width: 50%;
-    		left: 50%;
-    	}
-    	.swiper-posting7{
-    		top: 0;
-    	}
-    	.swiper-posting8{
-    		top:50%;
-    	}
-    	.swiper-posting9, .swiper-posting10{
-    		height: 100%;
-    		width: 50%;
-    	}
-    	.swiper-posting10{
-    		top: 0;
-    		left: 50%;
-    	}
-    	.posting-img-box{
-    		overflow: hidden;
-    	}
-    	
+
     </style>
 	
 	<script type="text/javascript">
@@ -125,7 +53,6 @@
 		ToolbarOpacHeight(500);
 		$(function(){
 			condition = $('input[name="condition"]').val();
-			
 			$('a.booklog:contains("더보기")').on('click', function(){
 				$(self.location).attr("href","../booklog/getBooklogList?condition="+condition);
 			});
@@ -151,22 +78,6 @@
 			$('img.posting-img').on('error', function(){
 				$(this).attr('src', '../resources/images/posting_noimage.jpeg');
 			});
-
-			var p1 = $('.swiper-posting1').clone(true);
-			var p2 = $('.swiper-posting2').clone(true);
-			var p3 = $('.swiper-posting3').clone(true);
-			var p4 = $('.swiper-posting4').clone(true);
-			var p5 = $('.swiper-posting5').clone(true);
-			var p6 = $('.swiper-posting6').clone(true);
-			var p7 = $('.swiper-posting7').clone(true);
-			var p8 = $('.swiper-posting8').clone(true);
-			var p9 = $('.swiper-posting9').clone(true);
-			var p10 = $('.swiper-posting10').clone(true);
-			$('.posting-slide1').append(p1.show()).append(p2.show()).append(p3.show()).append(p4.show());
-			$('.posting-slide2').append(p5.show());
-			$('.posting-slide3').append(p6.show()).append(p7.show()).append(p8.show());
-			$('.posting-slide4').append(p9.show()).append(p10.show());
-
 			
 			$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 			
@@ -198,15 +109,6 @@
 	            slidesPerView: 'auto',
 	            freeMode: true,
 	        });
-	        
-	        var postingSwiper = new Swiper('.posting-swiper-container', {
-	        	spaceBetween: 0,
-	        	pagination:{
-	        		el: '.swiper-pagination',
-	        		clickable: true,
-	        	},
-	        	slidesPerView: 1,
-	        });
 	    })
 	    
 
@@ -221,78 +123,6 @@
 	
 	<div class="container">
 		<input type="hidden" name="condition" value="${search.condition}">
-
-		<c:set var="i" value="0"/>
-		<c:forEach items="${postingList}" var="posting">
-			<c:set var="i" value="${i+1}"/>
-			<div class="swiper-posting${i}" style="display: none;">
-				<div class="posting-content">
-					<div class="div-posting">
-						<h3>${posting.postingTitle}</h3>
-					</div>
-				</div>
-				<div class="posting-img-box">
-					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}">
-				</div>
-			</div>
-		</c:forEach>
-
-		<div class="posting-swiper-container swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide posting-slide1"></div>
-				<div class="swiper-slide posting-slide2"></div>
-				<div class="swiper-slide posting-slide3"></div>
-				<div class="swiper-slide posting-slide4"></div>
-			</div>
-	        <div class="swiper-pagination swiper-pagination-black"></div>
-		</div>
-
-		인기포스팅 <a class="btn posting" href="javascript:void(0);">더보기</a>
-		<c:forEach items="${postingList}" var="posting">
-		<div class="row div-posting booklog-background">
-			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
-					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
-				</div>
-				<div class="col-sm-8" style="height: 200px; padding: 0 50px 10px 20px;">
-					<h3><input type="hidden" name="postingNo" value="${posting.postingNo}"/><strong>${posting.postingTitle}</strong></h3>
-					<a class="posting-user" href="javascript:void(0);">
-						<input type="hidden" name="user.email" value="${posting.user.email}">
-						by.${posting.user.nickname}
-					</a>
-					<span class="posting-content">${posting.postingContent}</span>
-					<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
-						<c:forEach items="${posting.postingTagList}" var="tag">
-							<span class="tag">#${tag.tagName}</span>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-			<div class="row hidden-sm hidden-md hidden-lg">
-				<div class="col-xs-12 posting-img">
-					<div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0; height: 200px;">
-						<h4><strong>${posting.postingTitle}</strong></h4>
-						<a class="posting-user" href="javascript:void(0);">
-							<input type="hidden" name="user.email" value="${posting.user.email}">
-							by.${posting.user.nickname}
-						</a>
-						<span class="posting-content">${posting.postingContent}</span>
-						<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
-							<c:forEach items="${posting.postingTagList}" var="tag">
-								<span class="tag">#${tag.tagName}</span>
-							</c:forEach>
-						</div>
-					</div>
-					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
-				</div>
-			</div>
-		</div>
-		</c:forEach>
-
-
-
 		인기북로그 <a class="btn booklog" href="javascript:void(0);">더보기</a>
 
 	    <div class="swiper-container">
@@ -347,6 +177,49 @@
 	    
 		
 
+		인기포스팅 <a class="btn posting" href="javascript:void(0);">더보기</a>
+		<c:forEach items="${postingList}" var="posting">
+		<div class="row div-posting booklog-background">
+			<div class="row hidden-xs">
+				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
+					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
+				</div>
+				<div class="col-sm-8" style="height: 200px; padding: 0 50px 10px 20px;">
+					<h3><input type="hidden" name="postingNo" value="${posting.postingNo}"/><strong>${posting.postingTitle}</strong></h3>
+					<a class="posting-user" href="javascript:void(0);">
+						<input type="hidden" name="user.email" value="${posting.user.email}">
+						by.${posting.user.nickname}
+					</a>
+					<span class="posting-content">${posting.postingContent}</span>
+					<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
+						<c:forEach items="${posting.postingTagList}" var="tag">
+							<span class="tag">#${tag.tagName}</span>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			<div class="row hidden-sm hidden-md hidden-lg">
+				<div class="col-xs-12 posting-img">
+					<div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0; height: 200px;">
+						<h4><strong>${posting.postingTitle}</strong></h4>
+						<a class="posting-user" href="javascript:void(0);">
+							<input type="hidden" name="user.email" value="${posting.user.email}">
+							by.${posting.user.nickname}
+						</a>
+						<span class="posting-content">${posting.postingContent}</span>
+						<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
+							<c:forEach items="${posting.postingTagList}" var="tag">
+								<span class="tag">#${tag.tagName}</span>
+							</c:forEach>
+						</div>
+					</div>
+					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
+				</div>
+			</div>
+		</div>
+		</c:forEach>
 	    
 	</div>
 	
