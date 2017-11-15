@@ -55,6 +55,7 @@ header{
     background: center center;
     height: 145px;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
+    max-width: 250px;
 }
 #shadow-box{
 	box-shadow: 0.5px 0.5px 0.5px 1px rgba(128, 128, 128, 0.53);
@@ -122,6 +123,13 @@ footer{
 			</div>
 		</c:forEach>
 	</div>
+	
+	<div>
+  		<c:forEach items="${tagList}" var="tag">
+  			<p>${tag}</p>
+  		</c:forEach>
+  	</div>
+  	
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

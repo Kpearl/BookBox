@@ -62,6 +62,7 @@ public class UnifiedsearchController {
 		model.addAttribute("total", map.get("total"));
 		model.addAttribute("keyword", search.getKeyword());		
 		model.addAttribute("result", map.get("result"));
+		model.addAttribute("tagList", unifiedsearchService.elasticTagSearch(search));
 		
 		switch (category) {
 		case 1:

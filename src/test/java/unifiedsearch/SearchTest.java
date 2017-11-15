@@ -68,16 +68,24 @@ public class SearchTest {
 		creation.setCreationAuthor(user);
 		creation.setTagList(tagList);
 
-		search.setCategory(Category.UNIFIEDSEARCH);
-		search.setKeyword("사람");
+		search.setCategory(11);
+		search.setKeyword("사회");
 
+		
+		System.out.println(unifiedsearchDAO.elasticSearch(search));
+		
 		// unifiedsearchDAO.elasticDelete(creation);
-		map = unifiedsearchService.elasticSearch(search);
-		Map<String, Object> temp = (Map<String, Object>) map.get("creationList");
+		//System.out.println(unifiedsearchService.elasticTagSearch(search).toString());
+		
+		
+		
+		//Map<String, Object> temp = (Map<String, Object>) map.get("creationList");
 
-		System.out.println(temp.get("total").toString());
-		List<Unifiedsearch> search  = (List<Unifiedsearch>)temp.get("result");
-		System.out.println(search.get(0).getTitle());
+		
+		
+		//System.out.println(temp.get("total").toString());
+		//List<Unifiedsearch> search  = (List<Unifiedsearch>)temp.get("result");
+		//System.out.println(search.get(0).getTitle());
 		//Unifiedsearch unifiedsearch = (Map)map.get("creation");
 		
 		//unifiedsearch.toString();

@@ -1,5 +1,6 @@
 package com.bookbox.service.unifiedsearch;
 
+import java.util.List;
 import java.util.Map;
 
 import com.bookbox.common.domain.Search;
@@ -15,4 +16,14 @@ public interface UnifiedsearchService {
 	 * @date 2017.11.01
 	 */
 	public Map<String, Object> elasticSearch(Search search) throws Exception;
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.elasticTagSearch.java
+	 * @brief elasticTagSearch
+	 * @detail Elastic Server 관련 태그 정보 검색
+	 * @author JJ
+	 * @throws Exception 
+	 * @date 2017.11.14
+	 */
+	public List<String> elasticTagSearch(Search search) throws Exception;
 }

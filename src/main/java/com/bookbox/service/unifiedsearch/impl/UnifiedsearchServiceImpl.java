@@ -1,7 +1,10 @@
 package com.bookbox.service.unifiedsearch.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,22 +40,22 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	}
 
 	@Override
-	public Map<String, Object> elasticSearch(Search search) throws Exception {		
-		if (search.getCategory() == 10) {
+	public Map<String, Object> elasticSearch(Search search) throws Exception {
+		if (search.getCategory() == 10 || search.getCategory() == 11) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			Search temp = search;
 
 			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(search)));
-			
+
 			temp.setCategory(Category.CREATION);
 			map.put("creationList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
-			
+
 			temp.setCategory(Category.BOARD);
 			map.put("boardList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
-			
+
 			temp.setCategory(Category.POSTING);
 			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
-			
+
 			return map;
 		}
 		return convertToMap(unifiedsearchDAO.elasticSearch(search));
@@ -61,29 +64,93 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	public Map<String, Object> convertToMap(JSONObject jsonObject) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Unifiedsearch unifiedsearch = null;
-		JSONObject object = (JSONObject)jsonObject.get("hits");		
-		JSONArray jsonArray = (JSONArray)object.get("hits");
+		JSONObject object = (JSONObject) jsonObject.get("hits");
+		JSONArray jsonArray = (JSONArray) object.get("hits");
 		List<Unifiedsearch> list = new ArrayList<Unifiedsearch>();
-		
-		for(int i = 0; i < jsonArray.size(); i++) {
-			JSONObject jo = (JSONObject)jsonArray.get(i);
-			JSONObject lastJo = (JSONObject)jo.get("_source");
+
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JSONObject jo = (JSONObject) jsonArray.get(i);
+			JSONObject lastJo = (JSONObject) jo.get("_source");
 			unifiedsearch = new Unifiedsearch();
-			
-			unifiedsearch.setContent(lastJo.get("content")==null ? "" : lastJo.get("content").toString());
-			unifiedsearch.setTitle(lastJo.get("title")==null ? "" : lastJo.get("title").toString());
-			unifiedsearch.setNick_name(lastJo.get("nick_name")==null ? "" : lastJo.get("nick_name").toString());
-			unifiedsearch.setId(jo.get("_id")==null ? "" : jo.get("_id").toString());
+
+			unifiedsearch.setContent(lastJo.get("content") == null ? "" : lastJo.get("content").toString());
+			unifiedsearch.setTitle(lastJo.get("title") == null ? "" : lastJo.get("title").toString());
+			unifiedsearch.setNick_name(lastJo.get("nick_name") == null ? "" : lastJo.get("nick_name").toString());
+			unifiedsearch.setId(jo.get("_id") == null ? "" : jo.get("_id").toString());
 			unifiedsearch.setCategory(jo.get("_type").toString());
-			//unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" : lastJo.get("reg_date").toString());
-			unifiedsearch.setTag((List<String>)lastJo.get("tag"));
-			unifiedsearch.setImage(lastJo.get("image")==null?"" : lastJo.get("image").toString());
-			
+			// unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" :
+			// lastJo.get("reg_date").toString());
+			unifiedsearch.setTag((List<String>) lastJo.get("tag"));
+			unifiedsearch.setImage(lastJo.get("image") == null ? "" : lastJo.get("image").toString());
+
 			list.add(unifiedsearch);
 		}
 		map.put("total", object.get("total"));
 		map.put("result", list);
-		
+
 		return map;
 	}
+
+	@Override
+	public List<String> elasticTagSearch(Search search) throws Exception {
+		JSONObject object = (JSONObject) (unifiedsearchDAO.elasticTagSearch(search)).get("hits");
+		JSONArray jsonArray = (JSONArray) object.get("hits");
+		JSONArray temp = null;
+		List<String> list = new ArrayList<String>();
+
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JSONObject jo = (JSONObject) jsonArray.get(i);
+			JSONObject lastJo = (JSONObject) jo.get("_source");
+			temp = (JSONArray) lastJo.get("tag");
+
+			for (int j = 0; j < temp.size(); j++) {
+				list.add(temp.get(j).toString());
+			}
+		}
+		return counting(list);
+	}
+	
+	public List<String> counting(List<String> list) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(String str : list) {
+			if(map.containsKey(str)) 
+				map.put(str, map.get(str)+1);
+			
+			else
+				map.put(str, 1);
+		}
+		
+		List<String> tagList = sortByValue(map);
+		List<String> tag = new ArrayList<String>();
+		
+		for(int i = 0; i < tagList.size(); i++) {
+			
+			if(!tagList.get(i).equals("픽션") && !tagList.get(i).equals("논픽션")) 
+				tag.add(tagList.get(i));
+			
+			if(tag.size() > 4) 
+				break;
+		}
+
+		return tag;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> sortByValue(Map<String, Integer> map){
+        List<String> list = new ArrayList<String>();
+        list.addAll(map.keySet());
+         
+        Collections.sort(list,new Comparator(){
+            public int compare(Object o1,Object o2){
+                Object v1 = map.get(o1);
+                Object v2 = map.get(o2);
+                 
+                return ((Comparable) v1).compareTo(v2);
+            }
+             
+        });
+        Collections.reverse(list); // 주석시 오름차순
+        return list;
+    }
 }

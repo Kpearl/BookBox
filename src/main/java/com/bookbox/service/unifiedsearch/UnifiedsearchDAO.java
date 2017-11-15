@@ -1,5 +1,7 @@
 package com.bookbox.service.unifiedsearch;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
 import com.bookbox.common.domain.Search;
@@ -44,4 +46,14 @@ public interface UnifiedsearchDAO {
 	 * @date 2017.11.01
 	 */
 	public JSONObject elasticSearch(Search search) throws Exception;
+	
+	/**
+	 * @file com.bookbox.service.unifiedsearch.elasticTagSearch.java
+	 * @brief elasticTagSearch
+	 * @detail Elastic Server 에서 관련 태그 추출
+	 * @author JJ
+	 * @throws Exception 
+	 * @date 2017.11.14
+	 */
+	public JSONObject elasticTagSearch(Search search) throws Exception;
 }

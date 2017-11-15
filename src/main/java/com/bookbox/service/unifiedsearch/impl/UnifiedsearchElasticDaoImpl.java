@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.service.domain.Board;
@@ -128,19 +129,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			map.put("id", board.getBoardNo());
 			map.put("json", obj);
 			break;
-		case "ChatRoom":
-			ChatRoom chatroom = (ChatRoom) object;
-
-			obj.put("title", chatroom.getTitle());
-			obj.put("content", chatroom.getContent());
-			obj.put("nick_name", chatroom.getHost().getNickname());
-			obj.put("reg_date", chatroom.getRegDate());
-
-			map.put("category", "chatroom");
-			//map.put("id", chatroom.get());
-			map.put("json", obj);
-			break;
-		}
+			}
 		return map;
 	}
 
@@ -169,6 +158,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 		os.close();
 
 		InputStream in = new BufferedInputStream(conn.getInputStream());
+		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject)jsonParser.parse(IOUtils.toString(in, "UTF-8"));
 
@@ -189,5 +179,22 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			}
 		}
 		return content;
+	}
+
+	@Override
+	public JSONObject elasticTagSearch(Search search) throws Exception {
+		String query = "";
+		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\"" + search.getKeyword() + "\"}}, \"_source\":[\"tag\"]}";
+
+		if(search.getCategory() == Category.CREATION)
+			query = url + "creation/_search";
+		else if(search.getCategory() == Category.POSTING)
+			query = url + "posting/_search";
+		else if(search.getCategory() == Category.BOARD)
+			query = url + "board/_search";
+		else
+			query = url + "_search";
+		
+		return sendToElastic(query, json, "GET");
 	}
 }

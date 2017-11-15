@@ -115,6 +115,12 @@ footer{
 			</div>
 		</c:forEach>
 	</div>
+	
+	<div>
+  		<c:forEach items="${tagList}" var="tag">
+  			<p>${tag}</p>
+  		</c:forEach>
+  	</div>
 
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>

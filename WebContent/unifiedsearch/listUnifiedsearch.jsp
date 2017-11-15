@@ -66,23 +66,23 @@ footer{
 	padding: 15px 0px 0px 45px;
 }
 #board-title-box{
-	padding: 10px 5px 10px 10px; 
-	height: 100px;
+	padding: 10px 10px 10px 15px; 
+	height: 110px;
 	background: #74B49B;
 }
 #board-tag-box{
 	padding: 10px 15px 10px 15px;
-	height: 100px;
+	height: 110px;
 	background: #D3F6D1;
 }
 .board-total-box{
-	padding: 10px 35px 30px 35px;
-	height: 240px; 
+	padding: 10px 25px 30px 15px;
+	height: 260px;
 }
 .board-content-img{
     background: center center;
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     object-fit:cover;
     border-radius: 50%;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
@@ -96,6 +96,7 @@ footer{
 .posting-content-img{
     background: center center;
     height: 145px;
+    max-width: 250px;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
 }
 #posting-shadow-box{
@@ -118,12 +119,12 @@ footer{
 
 <script type="text/javascript">
 ToolbarOpacHeight(500);
+	
+function getBook(isbn) {
+	$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
+}
 
 $(function() {
-	$(".nav-tag").on("click" , function() {
-		var keyword = this.innerText.replace("#", "");
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
-	});
 	$(".nav-creation").on("click" , function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
@@ -136,11 +137,25 @@ $(function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../community/getBoard?boardNo=" + targetNo);
 	});
+
+	//nav-more
+	$(".nav-creation-more").on("click" , function() {
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=1&keyword=${keyword}");
+	});
+	$(".nav-board-more").on("click" , function() {
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=6&keyword=${keyword}");
+	});
+	$(".nav-posting-more").on("click" , function() {
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=5&keyword=${keyword}");
+	});
+	$(".nav-book-more").on("click" , function() {
+		$(self.location).attr("href","../unifiedsearch/getBookList?keyword=${keyword}");
+	});
+	$(".nav-tag").on("click" , function() {
+		var keyword = this.innerText.replace("#", "");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword=${keyword}");
+	});
 });
-	
-function getBook(isbn) {
-	$(self.location).attr("href","../unifiedsearch/getBook?isbn="+isbn);
-}
 </script>
 
 <script type="text/ecmascript">
@@ -169,23 +184,25 @@ document.onreadystatechange = function () {
 		 		
 		<c:if test="${result.total + fn:length(bookList) eq 0}">
 			<div class="row" style="padding-left:50px;">
-				<p>"${keyword}"에 대한 검색 결과가 없습니다.</p>
+				<font size="5"><strong>"${keyword}"에 대한 검색 결과가 없습니다.</strong></font>
 			</div>
 		</c:if> 
 			
 		<c:if test="${fn:length(bookList) eq 0}">
-			<h3>관련 도서가 없습니다.</h3>
+			<div class="row">
+				<font size="5"><strong>관련 도서가 없습니다.</strong></font>
+			</div>
 		</c:if>
 		
 		<c:if test="${fn:length(bookList) ne 0}">
 			<div class="row">
-				<p>total ${fn:length(bookList)} 더보기</p>
+				<div>도서 검색 ${fn:length(bookList)} 건</div>			
 			</div>
 		</c:if>	
 			
 	    <div class="row">
 			<c:forEach items="${bookList}" var="book" end="4">
-				 <div class="col-md-2 book">
+				 <div class="col-md-2 book" onclick="getBook(${book.isbn});">
 		       		<c:choose>
   						<c:when test="${book.thumbnail == ''}">
 	       		   			<img class="img-thumbnail" src="http://t1.daumcdn.net/book/KOR${book.isbn}" height="240px" width="170px" onerror="this.src='../resources/images/noimage.jpg'">  					
@@ -198,18 +215,26 @@ document.onreadystatechange = function () {
 				</div>
 			</c:forEach>
 	    </div>
+	    
+	    <c:if test="${fn:length(bookList) ne 0}">
+	    	<div class="row">
+				<div align="right" class="nav-book-more">더보기</div>
+			</div>
+		</c:if>	
 		
 		<div class="row">	
 			<hr class="search-hr">
 		</div>
 
 		<c:if test="${creationList.total eq 0}">
-			<h3>관련 작품이 없습니다.</h3>
+			<div class="row">
+				<font size="5"><strong>관련 작품이 없습니다.</strong></font>
+			</div>
 		</c:if> 
 		
 		<c:if test="${creationList.total ne 0}">
 			<div class="row">
-				<p>total ${creationList.total} 더보기</p>
+				<div>작품 검색 ${creationList.total} 건</div>
 			</div>
 		</c:if>
 		
@@ -238,17 +263,25 @@ document.onreadystatechange = function () {
 			</div>
 		</div>
 		
+		<c:if test="${creationList.total ne 0}">
+			 <div class="row">
+				<div align="right" class="nav-creation-more">더보기</div>
+			</div>
+		</c:if>	
+		
 		<div class="row">	
 			<hr class="search-hr">
 		</div>
 
 		<c:if test="${boardList.total eq 0}">
-			<h3>관련 게시판이 없습니다.</h3>
+			<div class="row">
+				<font size="5"><strong>관련 게시판이 없습니다.</strong></font>
+			</div>
 		</c:if> 
 		
 		<c:if test="${boardList.total ne 0}">
 			<div class="row">
-				<p>total ${boardList.total} 더보기</p>	
+				<div>게시판 검색 ${boardList.total} 건</div>
 			</div>
 		</c:if>
 		
@@ -279,19 +312,25 @@ document.onreadystatechange = function () {
 	</c:forEach>
 	</div>
 	
+	<c:if test="${boardList.total ne 0}">
+		<div class="row">
+			<div align="right" class="nav-board-more">더보기</div>
+		</div>
+	</c:if>	
+	
 	<div class="row">	
 		<hr class="search-hr">
 	</div>
 
 	<c:if test="${postingList.total eq 0}">
 		<div class="row">
-			<h3>관련 포스팅이 없습니다.</h3>
+			<font size="5"><strong>관련 포스팅이 없습니다.</strong></font>
 		</div>
 	</c:if> 
 	
 	<c:if test="${postingList.total ne 0}">
 		<div class="row">
-			<p>total ${postingList.total} 더보기</p>	
+			<div>포스팅 검색 ${postingList.total} 건</div>
 		</div>
 	</c:if>
 	
@@ -324,7 +363,18 @@ document.onreadystatechange = function () {
 		</c:if> 
 	</c:forEach>
 	
+	<c:if test="${postingList.total ne 0}">
+		<div class="row">
+			<div align="right" class="nav-posting-more">더보기</div>
+		</div>
+	</c:if>
   	</div> 
+  	
+  	<div>
+  		<c:forEach items="${tagList}" var="tag">
+  			<p>${tag}</p>
+  		</c:forEach>
+  	</div>
    	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

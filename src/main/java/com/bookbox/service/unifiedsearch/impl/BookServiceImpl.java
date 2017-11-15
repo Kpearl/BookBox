@@ -150,8 +150,8 @@ public class BookServiceImpl implements BookService {
 		Search search = new Search();
 
 		if (commonDAO.getUserLikeBook(email)!=null) {
-			search.setKeyword("다");
-			search.setCondition(categoryNum(commonDAO.getUserLikeBook(email)));
+			search.setKeyword(commonDAO.getUserLikeBook(email));
+			search.setCondition(categoryNum(search.getKeyword()));
 			search.setOrder("4");
 		}
 		else

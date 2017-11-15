@@ -35,16 +35,14 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 
 	@Override
 	public List<Book> getBookList(Search search) throws Exception {
-		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");
-		System.out.println(search.getKeyword());
-		
+		String text = URLEncoder.encode(search.getKeyword(), "UTF-8");		
 		String daumOpenAPIURL = "https://dapi.kakao.com/v2/search/book?query=" + text;
-
 		Map<String, String> map = new HashMap<String, String>();
+		
 		map.put("Authorization", "KakaoAK d4677d98128ed114d1c0f5f0cb5ad784");
-		/*map.put("sort", "recency");
+		map.put("sort", "recency");
 		map.put("category", search.getCondition());
-		map.put("size", search.getOrder());*/
+		map.put("size", search.getOrder());
 		
 		return jsonParser(HttpUtil.requestMethodGet(daumOpenAPIURL, map));
 	}
@@ -87,8 +85,6 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		List<String> list;
 		Book book;
 
-		System.out.println(str);
-		
 		// JSON데이터를 넣어 JSON Object 로 만들어 준다.
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
 
