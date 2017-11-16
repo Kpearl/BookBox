@@ -22,6 +22,7 @@ import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.Unifiedsearch;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.domain.Writing;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
 
@@ -60,19 +61,38 @@ public class SearchTest {
 		tagList.add(tag2);
 
 		user.setNickname("창작 유저 압데이트");
-
+		
 		creation.setCreationIntro("이것은 창작이다 창작이다");
-		creation.setCreationNo(2);
+		creation.setCreationNo(999);
 		creation.setCreationTitle("창작 제목");
 		creation.setRegDate(new Date(20170101));
 		creation.setCreationAuthor(user);
 		creation.setTagList(tagList);
-
-		search.setCategory(11);
-		search.setKeyword("사회");
-
 		
-		System.out.println(unifiedsearchDAO.elasticSearch(search));
+		Writing writing = new Writing();
+		List<Writing> list = new ArrayList<Writing>();
+		
+		writing.setWritingTitle("이것은 게시글 제목이다");
+		writing.setWritingContent("이것은 게시글 내용이다");
+		writing.setWritingNo(1);
+
+		list.add(writing);/*
+		Writing tempWriting = new Writing();
+		
+		tempWriting.setWritingTitle("ddd");
+		tempWriting.setWritingContent("ddd");
+		tempWriting.setWritingNo(2);
+		
+		list.add(tempWriting);*/
+		
+		creation.setWritingList(list);
+		
+		unifiedsearchDAO.elasticDelete(creation);
+		
+		//search.setCategory(Category.WRITING);
+		
+
+		//System.err.println(unifiedsearchDAO.elasticIdSearch(9));
 		
 		// unifiedsearchDAO.elasticDelete(creation);
 		//System.out.println(unifiedsearchService.elasticTagSearch(search).toString());

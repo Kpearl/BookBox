@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,7 +91,7 @@ footer{
 
 	<div class="container">
 	<div class="row" style="margin-top:50px">
-			<font size="5"><strong>포스팅   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>포스팅   "${search.keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>  
 		 
 		<div class="row">	

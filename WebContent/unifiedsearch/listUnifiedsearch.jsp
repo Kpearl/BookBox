@@ -45,7 +45,7 @@ header{
 	margin: 30px 10px 20px 20px;
 }
 footer{
-	margin-top: 60px;
+	margin-top: 80px;
 }
 .search-hr {
     border: 2px solid #6e6571;
@@ -115,6 +115,16 @@ footer{
 	word-wrap: break-word; 
 	line-height: 1.2em;
 }
+#floatMenu {
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	right: 10%;
+	top: 30%;
+	padding : 10px 20px 10px 20px;
+	background-color: #ddccba;
+	color: #212121;
+}
 </style>
 
 <script type="text/javascript">
@@ -125,6 +135,18 @@ function getBook(isbn) {
 }
 
 $(function() {
+	var floatPosition = parseInt($("#floatMenu").css('top'));
+
+	$(window).scroll(function() {
+		var scrollTop = $(window).scrollTop();
+		var newPosition = scrollTop + floatPosition + "px";
+
+		$("#floatMenu").stop().animate({
+			"top" : newPosition
+		}, 100);
+
+	}).scroll();
+	
 	$(".nav-creation").on("click" , function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
@@ -140,20 +162,20 @@ $(function() {
 
 	//nav-more
 	$(".nav-creation-more").on("click" , function() {
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=1&keyword=${keyword}");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=1&keyword=${search.keyword}");
 	});
 	$(".nav-board-more").on("click" , function() {
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=6&keyword=${keyword}");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=6&keyword=${search.keyword}");
 	});
 	$(".nav-posting-more").on("click" , function() {
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=5&keyword=${keyword}");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=5&keyword=${search.keyword}");
 	});
 	$(".nav-book-more").on("click" , function() {
-		$(self.location).attr("href","../unifiedsearch/getBookList?keyword=${keyword}");
+		$(self.location).attr("href","../unifiedsearch/getBookList?keyword=${search.keyword}");
 	});
 	$(".nav-tag").on("click" , function() {
 		var keyword = this.innerText.replace("#", "");
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword=${keyword}");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword=${search.keyword}");
 	});
 });
 </script>
@@ -175,18 +197,17 @@ document.onreadystatechange = function () {
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="5"><strong>통합검색   "${keyword}" 에 대한 검색 결과 총  ${result.total + fn:length(bookList)}건 입니다. </strong></font>
+			<c:if test="${search.category eq 10}">
+				<font size="5"><strong>통합검색   "${search.keyword}" 에 대한 검색 결과 총  ${result.total + fn:length(bookList)}건 입니다. </strong></font>
+			</c:if>
+			<c:if test="${search.category eq 11}">
+				<font size="5"><strong>태그  "#${search.keyword}" 에 대한 검색 결과 총  ${result.total + fn:length(bookList)}건 입니다. </strong></font>
+			</c:if>
 		</div>  
 		 
 		<div class="row">	
 			<hr class="search-hr">
 		</div>
-		 		
-		<c:if test="${result.total + fn:length(bookList) eq 0}">
-			<div class="row" style="padding-left:50px;">
-				<font size="5"><strong>"${keyword}"에 대한 검색 결과가 없습니다.</strong></font>
-			</div>
-		</c:if> 
 			
 		<c:if test="${fn:length(bookList) eq 0}">
 			<div class="row">
@@ -370,7 +391,17 @@ document.onreadystatechange = function () {
 	</c:if>
   	</div> 
   	
-  	<div>
+  	
+  	
+  	<div id="floatMenu">
+  		<div class="row">
+  			관련 태그
+  		</div>
+  	<c:if test="${fn:length(tagList) eq 0}">
+  		<div class="row">
+  			관련 태그가 없습니다.
+  		</div>
+  	</c:if>
   		<c:forEach items="${tagList}" var="tag">
   			<p>${tag}</p>
   		</c:forEach>

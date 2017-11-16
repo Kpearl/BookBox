@@ -85,7 +85,7 @@ footer{
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="5"><strong>게시판   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>게시판   "${search.keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>  
 		 
 		<div class="row">	

@@ -60,10 +60,11 @@ public class UnifiedsearchController {
 		Map<String, Object> map = unifiedsearchService.elasticSearch(search);
 		
 		model.addAttribute("total", map.get("total"));
-		model.addAttribute("keyword", search.getKeyword());		
+		model.addAttribute("search", search);		
 		model.addAttribute("result", map.get("result"));
-		model.addAttribute("tagList", unifiedsearchService.elasticTagSearch(search));
+		model.addAttribute("tagList", unifiedsearchService.elasticRelationTagSearch(search));
 		
+
 		switch (category) {
 		case 1:
 			 return "forward:../unifiedsearch/listCreation.jsp";
@@ -102,6 +103,8 @@ public class UnifiedsearchController {
 		}
 
 		model.addAttribute("bookList", bookList);
+		model.addAttribute("total", bookList.size());
+		model.addAttribute("keyword", keyword);
 
 		return "forward:../unifiedsearch/listBook.jsp";
 	}

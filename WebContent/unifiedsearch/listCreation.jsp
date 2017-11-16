@@ -86,7 +86,7 @@ document.onreadystatechange = function () {
 
 	<div class="container">
 		<div class="row" style="margin-top:50px">
-			<font size="5"><strong>작품   "${keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
+			<font size="5"><strong>작품   "${search.keyword}" 에 대한 검색 결과 총  ${total}건 입니다. </strong></font>
 		</div>   
 		
 		<div class="row">	

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,6 +60,9 @@ footer{
 		background: gray;
 		color: white;
 		
+}
+hr {
+	border: 1px solid #a78c86;
 }
 </style>
 
@@ -151,37 +156,32 @@ function addReply(isbn) {
 		});
 	}		
 }
+
 //좋아요 추가
 function addLike(isbn) {
-	var total = (Number($("#likeSum").text() + 1));
-
+	var total=parseInt($("#likeSum").text())+1;
+	
 	$.ajax ({
 		url : "../unifiedsearch/rest/addLike",
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$(".addLike").replaceWith("<img src='https://icongr.am/entypo/heart.svg?size=25&color=ff0000' class='deleteLike btn-form' onclick='deleteLike("+isbn+")'>");
-			$("#likeSum").replaceWith("<span id='likeSum'>" + total + "</span>");
+			$(".addLike").replaceWith("<div class='deleteLike btn-form' onclick='deleteLike(${book.isbn})'><img src='https://icongr.am/entypo/heart.svg?size=25&color=ff0000'><span id='likeSum'> "+total+" </span></div>");
+
 			alert("좋아요를 등록하셨습니다.");
 		 } 
 	});
 }
 //좋아요 삭제
 function deleteLike(isbn) {
-	var total = $("#likeSum").text();
-
+	var total=parseInt($("#likeSum").text())-1;
+	
 	$.ajax ({
 		url : "../unifiedsearch/rest/deleteLike",	
 		method : "POST",
 		data : {"isbn" : isbn},
 		success:function(){
-			$(".deleteLike").replaceWith("<img src='https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000' class='addLike btn-form' onclick='addLike("+isbn+")'>");
-			
-			if(total == 0) 
-				$("#likeSum").replaceWith("<span id='likeSum'>" + 0 + "</span>");
-			else
-				$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total-1)) + "</span>");
-			
+			$(".deleteLike").replaceWith("<div class='addLike btn-form' onclick='addLike(${book.isbn})'><img src='https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000'><span id='likeSum'> "+total+" </span></div>");
 			alert("좋아요를 취소하셨습니다.");
  		} 
 	});
@@ -239,15 +239,17 @@ $(function() {
 		</c:if>
 	
 		<c:if test="${bookEmpty eq false}">
-	        <div class="col-lg-10 col-md-offset-1 post-title">
+		<div class="row">
+	        <div class="col-lg-10 col-md-offset-1 post-title" style="margin-top:30px;">
                 <h3>${book.title}</h3>
                 <p class="author"><strong>
                 	<c:forEach items="${book.authors}" var="str" varStatus="status">
-		   				${str} | </c:forEach>
+		   				${str}<c:if test="${!status.last}"> | </c:if></c:forEach>
    					<c:forEach items="${book.translators}" var="str" varStatus="status">
-               	 		${str} |
-   					</c:forEach> ${book.publisher} | ${book.price}원</strong> 
-                	<span class="text-muted">${book.datetime}</span>
+               	 		${str}<c:if test="${!status.last}"> | </c:if></c:forEach>
+               	 		<br>출판사 : ${book.publisher}
+               	 		<br>정가 : ${book.price}원</strong> 
+                		<br>발행일 : <span class="text-muted">${book.datetime}</span>
                 </p>
             </div>
             <div class="col-lg-2 col-lg-offset-1 col-md-3 col-md-offset-1col-xs-12">
@@ -263,56 +265,67 @@ $(function() {
 					</div>
 					</c:otherwise>
 				</c:choose>
-           	 	<div id="starWrap" class="star${book.grade.average}">
-					<ul>
-						<li class="s1"></li>
-						<li class="s2"></li>
-						<li class="s3"></li>
-						<li class="s4"></li>
-						<li class="s5"></li>
-						<span id="avgGrade">(${book.grade.average})</span>
-					</ul>
+				<div class="grade-avg">
+           	 		<div id="starWrap" class="gradeAvg star${fn:substring(book.grade.average, 0, 1)}"  style="display: inline-block; float:left; padding-top: 0.6%;" >
+						<ul>
+							<li class="s1"></li>
+							<li class="s2"></li>
+							<li class="s3"></li>
+							<li class="s4"></li>
+							<li class="s5"></li>
+						</ul>
+					</div>
 				</div>
-                <p class="lead author"><strong> </strong> </p>
+				<div style="display: inline-block; float:left;" id="gradeAvg"><strong>(<fmt:formatNumber value="${book.grade.average}" pattern="0.00"/>)</strong></div>
             </div>
             
             <div class="col-lg-7 col-lg-offset-0 col-lg-push-1 col-lg-pull-0 col-md-7 col-md-offset-0 col-md-push-0 post-body">
-                <p>도서 소개 : ${book.contents}</p>
-                <p><a href="${book.url}">판매 페이지로 이동</a></p>
+                <p>줄거리 : ${book.contents}</p>
+                <p><a target="_blank" href="${book.url}">판매 페이지로 이동</a></p>
                 
                 <c:choose>
 					<c:when test="${user.email == null}">
 					</c:when>
 					
 					<c:when test="${book.like.doLike == false}">
-						<div class="addLike btn-form">
-							<img src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"  onclick="addLike(${book.isbn})">
+						<div class="addLike btn-form" onclick="addLike(${book.isbn})">
+							<img src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000">
 							<span id="likeSum">${book.like.totalLike}</span>
 						</div>
 					</c:when>
 					
 					<c:when test="${book.like.doLike == true}">
-						<div class="deleteLike btn-form">
-							<img src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000" onclick="deleteLike(${book.isbn})">
+						<div class="deleteLike btn-form" onclick="deleteLike(${book.isbn})">
+							<img src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000">
 							<span id="likeSum">${book.like.totalLike}</span>
 						</div>
 					</c:when>
 				</c:choose>
             </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-md-10" style="margin:8% 10% 8% 15%;">            
+                 	<div style="width:75%;">
+                    	<canvas id="canvas"></canvas>
+ 					</div>
+				</div>
+           	</div>
                   
-            <div>
-                <div class="row">
-                    <div class="col-md-10">            
-                        <div style="width:75%;">
-                        <canvas id="canvas"></canvas>
- 						</div>
-					</div>
-                </div>
+            <div class="row">
+            	<hr>
             </div>
-				
-			<div class="row">
-              	<h3>댓글 리스트</h3>
+            	
+			<div class="row" style="margin-left:5%; margin-top:2%;">
+              	<h4>댓글 리스트</h4>
             </div>
+			
+			<c:if test="${user.email eq null}">
+				<div class="row">
+					<p>비로그인 상태</p>
+				</div>
+			</c:if>
+
 			<c:if test="${user.email ne null}">	
 	        	<div class="row">
 	            	<div class="col-md-1">
@@ -326,25 +339,17 @@ $(function() {
 					</div>
 				</div>
 			</c:if>
-			
-			<c:if test="${user.email eq null}">
-				<div class="row">
-					<p>비로그인 상태</p>
-				</div>
-			</c:if>
                
-        	<div id="restReply" class="row">   	
-          		<c:forEach items="${book.replyList}" var="reply">
-            		<div class="col-md-2">
-						<strong>${reply.user.nickname}</strong>
-					</div>
-            	   	<div class ="col-md-8">
-						${reply.content}
-					</div>
-            	    <div class="col-md-2">
-            	    	<span class="text-muted">${reply.regDate} </span>
-            	    </div>
-            	</c:forEach>
+        	<div id="restReply" class="row">  
+        		<div class="row reply-list" style="margin:auto;height:150px;padding: 0% 2%;">
+          			<c:forEach items="${book.replyList}" var="reply">
+            			<div class="row" style="margin:auto;">
+							<div class="reply-user" style="display:inline-block;float:left;font-weight: bold">${reply.user.nickname}</div>
+							<div class="reply-regdate"style="display:inline-block;float:right;">${reply.regDate}</div> 
+						</div>	
+            		   	<div class="reply-content">${reply.content}</div>
+            		</c:forEach>
+            	</div>
         	</div>
         </c:if>
 	</div>

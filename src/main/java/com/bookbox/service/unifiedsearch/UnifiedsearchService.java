@@ -18,12 +18,23 @@ public interface UnifiedsearchService {
 	public Map<String, Object> elasticSearch(Search search) throws Exception;
 	
 	/**
-	 * @file com.bookbox.service.unifiedsearch.elasticTagSearch.java
-	 * @brief elasticTagSearch
-	 * @detail Elastic Server 관련 태그 정보 검색
+	 * @file com.bookbox.service.unifiedsearch.elasticRelationTagSearch.java
+	 * @brief elasticRelationTagSearch
+	 * @detail Elastic Server 관련 태그 리스트 추출
 	 * @author JJ
 	 * @throws Exception 
 	 * @date 2017.11.14
 	 */
-	public List<String> elasticTagSearch(Search search) throws Exception;
+	public List<String> elasticRelationTagSearch(Search search) throws Exception;
+	
+
+	/**
+	 * @file com.bookbox.service.unifiedsearch.elasticRelationTagSearch.java
+	 * @brief elasticRelationTagSearch
+	 * @detail Elastic Server 관련 태그 리스트 추출
+	 * @author JJ
+	 * @throws Exception 
+	 * @date 2017.11.14
+	public List<String> elasticRelationTagSearch(Search search) throws Exception;
+	 */
 }

@@ -41,23 +41,43 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 
 	@Override
 	public Map<String, Object> elasticSearch(Search search) throws Exception {
-		if (search.getCategory() == 10 || search.getCategory() == 11) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			Search temp = search;
+		Map<String, Object> map = new HashMap<String, Object>();
+		Search temp = new Search();
+		temp.setKeyword(search.getKeyword());
 
-			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+		if (search.getCategory() == Category.UNIFIEDSEARCH) {
+			temp.setCategory(Category.UNIFIEDSEARCH);
+			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
 			temp.setCategory(Category.CREATION);
-			map.put("creationList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			map.put("creationList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
 			temp.setCategory(Category.BOARD);
-			map.put("boardList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			map.put("boardList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
 			temp.setCategory(Category.POSTING);
-			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(search)));
+			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
 			return map;
+			
+		} else if(search.getCategory() == Category.TAG) {
+			temp.setCategory(Category.TAG);
+			
+			temp.setCondition("_search");
+			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
+
+			temp.setCondition("creation/_search");
+			map.put("creationList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
+
+			temp.setCondition("board/_search");
+			map.put("boardList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
+
+			temp.setCondition("posting/_search");
+			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
+
+			return map;			
 		}
+		
 		return convertToMap(unifiedsearchDAO.elasticSearch(search));
 	}
 
@@ -92,8 +112,8 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 	}
 
 	@Override
-	public List<String> elasticTagSearch(Search search) throws Exception {
-		JSONObject object = (JSONObject) (unifiedsearchDAO.elasticTagSearch(search)).get("hits");
+	public List<String> elasticRelationTagSearch(Search search) throws Exception {
+		JSONObject object = (JSONObject) (unifiedsearchDAO.elasticRelationTagSearch(search)).get("hits");
 		JSONArray jsonArray = (JSONArray) object.get("hits");
 		JSONArray temp = null;
 		List<String> list = new ArrayList<String>();
@@ -107,6 +127,7 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 				list.add(temp.get(j).toString());
 			}
 		}
+		
 		return counting(list);
 	}
 	

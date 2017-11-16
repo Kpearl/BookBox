@@ -97,7 +97,7 @@ public class UnifiedsearchRestController {
 
 		bookService.addBookGrade(user, book, grade);
 
-		return bookService.getBookGrade(book, user).getAverage();
+		return (int) bookService.getBookGrade(book, user).getAverage();
 	}
 
 	@RequestMapping(value = "recommendBook")
