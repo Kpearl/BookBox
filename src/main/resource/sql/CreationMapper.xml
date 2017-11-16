@@ -80,7 +80,7 @@
 			<if test ="creationOriginName != null">
 				creation_origin_name 	= #{creationOriginName},
 			</if>
-			<if test ="active == 0">
+			<if test ="active == -1">
 				active 	= #{active}
 			</if>
 	   	</set>
@@ -131,7 +131,7 @@
 		FROM 
 			creation c
 			LEFT JOIN user u ON c.author = u.email
-			<if test="search.condition == 2">
+			<if test="search !=null and search.condition == 2">
 				LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
 				LEFT JOIN tag  t ON tg.tag_no =t.tag_no AND t.tag_name IN ('픽션', '논픽션')
 			</if>

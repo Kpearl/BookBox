@@ -99,7 +99,7 @@ public class CreationServiceImpl implements CreationService {
 		
 		creationDAO.updateCreation(creation);
 		tagService.updateTagGroup(Const.Category.CREATION, creation.getCreationNo(), creation.getTagList());
-		unifiedsearchElasticDAO.elasticInsert(creation);
+		unifiedsearchElasticDAO.elasticUpdate(creation);
 	}
 	
 	@Override
@@ -131,7 +131,7 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		Page page=(Page)map.get("page");
-		
+		System.out.println("========================MAP=========="+map);
 		if (page != null) {
 			
 		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
@@ -139,6 +139,7 @@ public class CreationServiceImpl implements CreationService {
 		}
 		
 		List<Creation> creationList = creationDAO.getCreationList(map);
+		System.out.println("======================getCreationList :: "+creationList);
 		List<Creation> addFundingCreationList = new ArrayList<>();
 		
 		if (page == null) {
@@ -159,9 +160,11 @@ public class CreationServiceImpl implements CreationService {
 			for(Creation creation : creationList) {
 				map.put("targetNo", creation.getCreationNo());
 				creation.setGrade(commonDAO.getAvgGrade(map));
+				System.out.println("=================22222 "+creationList);
 			}
 			return creationList;
 		}else {
+			System.out.println("=================33333333 "+creationList);
 		return addFundingCreationList;
 		}
 	}
@@ -226,7 +229,7 @@ public class CreationServiceImpl implements CreationService {
 		}
 		
 		creationDAO.updateCreation(creation);
-		unifiedsearchElasticDAO.elasticInsert(creation);		
+		unifiedsearchElasticDAO.elasticDelete(creation);		
 		
 		return 1;
 	}

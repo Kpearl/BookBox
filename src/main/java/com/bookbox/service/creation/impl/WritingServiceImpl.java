@@ -1,5 +1,6 @@
 package com.bookbox.service.creation.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Page;
-import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.util.CommonUtil;
@@ -20,6 +20,7 @@ import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
+import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 
 /**
  * @file com.bookbox.service.creation.impl.WritingServiceImpl.java
@@ -45,6 +46,10 @@ public class WritingServiceImpl implements WritingService {
 	@Autowired
 	@Qualifier("commonDAOImpl")
 	private CommonDAO commonDAO;	
+	
+	@Autowired
+	@Qualifier("unifiedsearchElasticDAOImpl")
+	private UnifiedsearchDAO unifiedsearchElasticDAO;
 	
 	/**
 	 *@brief Constructor
@@ -74,6 +79,10 @@ public class WritingServiceImpl implements WritingService {
 		
 		System.out.println("addWriting :: "+uploadFileList+"\n");
 		commonDAO.addUploadFile(uploadFileList);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("targetNo", writing.getCreationNo());
+		unifiedsearchElasticDAO.elasticInsert(creationDAO.getCreation(map));
 	}
 
 	/**
@@ -95,6 +104,13 @@ public class WritingServiceImpl implements WritingService {
 		System.out.println("updateWriting :: "+uploadFileList+"\n");
 		commonDAO.updateUploadFile(uploadFileList);
 		writingDAO.updateWriting(writing);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("targetNo", writing.getCreationNo());
+		Creation creation = creationDAO.getCreation(map);
+		map.put("creation", creation);
+		creationDAO.updateCreation(creation);
+		unifiedsearchElasticDAO.elasticUpdate(creation);
 	}
 
 	/**
@@ -163,6 +179,14 @@ public class WritingServiceImpl implements WritingService {
 		
 		writing.setActive(0);
 		writingDAO.updateWriting(writing);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("targetNo", writing.getCreationNo());
+		Creation creation = creationDAO.getCreation(map);
+		creation.setActive(-1);
+		map.put("creation", creation);
+		creationDAO.updateCreation(creation);
+		unifiedsearchElasticDAO.elasticDelete(creation);
 	}
 	
 	/**

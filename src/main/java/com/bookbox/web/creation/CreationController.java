@@ -154,7 +154,7 @@ public class CreationController {
 		System.out.println("addWriting :: "+user.getEmail());
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("user", session.getAttribute("user"));
+		map.put("user", (User)session.getAttribute("user"));
 		List<Creation> creationList =creationService.getCreationList(map);
 		
 		model.addAttribute("creationList", creationList);
