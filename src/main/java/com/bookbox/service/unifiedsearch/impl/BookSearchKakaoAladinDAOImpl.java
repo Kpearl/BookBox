@@ -68,6 +68,7 @@ public class BookSearchKakaoAladinDAOImpl implements BookSearchDAO {
 		hm.put("QueryType", type);
 		hm.put("ttbkey", "ttb1015wlswn1921003");
 		hm.put("MaxResults", "4");
+		hm.put("Cover", "Big");
 
 		StringBuffer sb = new StringBuffer();
 		Iterator<String> iter = hm.keySet().iterator();
