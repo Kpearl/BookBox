@@ -31,7 +31,7 @@
     .swiper-slide {
         text-align: center;
         font-size: 18px;
-        background: #eeeeee;
+        background-color: rgb(245, 238, 238);
         /* margin-bottom:30px; */
          margin: 10px 0px 10px 0px; 
          overflow: none;
@@ -121,9 +121,35 @@
 		
 		.item{
 		    margin: 5%;
-	        box-shadow: 1px 1px 1px 1px;
+	            border-bottom: 1px groove;
    			background-color: #fff;
     	}
+    	.swiper-pagination-bullet-active {
+    		background:#ff2500;
+    	}
+    	.swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+    		background: url(//t1.daumcdn.net/brunch/static/img/help/pc/top/ico_brunch_v8.png) no-repeat;
+    		width: 100px;
+    		height: 100px;
+   		    float: left;
+   			background-position: -269px -175px;
+   			 text-indent: -9999px;
+			display: inline-block;
+			line-height: 0;
+			vertical-align: top;
+    	}
+    	.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
+   			background: url(//t1.daumcdn.net/brunch/static/img/help/pc/top/ico_brunch_v8.png) no-repeat;
+			width: 100px;
+   			height: 100px;
+    		float: right;
+   		 	background-position: -167px -175px;
+   			text-indent: -9999px;
+   			overflow: hidden;
+   			display: inline-block;
+   			line-height: 0;
+   			vertical-align: top;
+   		}
     	
     	
     </style>
@@ -271,7 +297,7 @@ $(function() {
 	
 	<jsp:include page="creationToolbar.jsp"/>
 
-  <div class="row creation-part" style="margin-top :50px;">
+  <div class="row creation-part">
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
          <span>FUNDING</span>
@@ -284,8 +310,8 @@ $(function() {
 		   </div>
 	
     <!-- Swiper -->
-    	<div class="swiper-container" id= list style="margin-bottom: 50px;">
-        	<div class="swiper-wrapper" style="background-color: #eeeeee;">
+    	<div class="swiper-container" id= list style="margin-bottom: 50px;background-color: rgb(245, 238, 238);">
+        	<div class="swiper-wrapper" >
             <c:forEach items="${fundingList}" var="funding">	
 			        
             <div class="swiper-slide" style="overflow:hidden">
@@ -374,7 +400,7 @@ $(function() {
   <div class="row creation-part" >
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
       <div class="text-center" style="width: 15%; display: inline-block; font-size: 27px;font-weight: 400; font-style: italic;">
-         <span>NONFICTION</span>
+         <span>MAGAGINES</span>
       </div>
       <div style="width: 42%;border: #bbbbbb 1px solid;display: inline-block;"></div>
    </div>

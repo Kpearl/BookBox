@@ -81,7 +81,7 @@
 		    font-style: italic;
 		    color: black;
 		    padding: 0% 7%;
-		    background-color: rgba(33, 33, 33, 0.71);
+		    background-color: rgba(88, 86, 86, 0.71);
     	}
     	.creation-author-image{
    		    border-radius: 50%;
@@ -438,8 +438,9 @@
 							
 								<div class="row creation-from">
 									<div class="col-md-7 col-md-offset-2" style="height: 700px;margin-top: 7%;">
-										<div class="creation-author-image"><img class="img-object-fit" src="../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }"></div>										
-										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove; background: url(../resources/upload_files/images/${funding.creation.creationFileName}) no-repeat center;opacity: 0.5;">	
+										<div class="creation-author-image"><img class="img-object-fit" src="../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }" style="background-color:#f5f5f5;"></div>										
+										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove;">
+											<img  class="img-object-fit"  src="../resources/upload_files/images/${funding.creation.creationFileName}" style="opacity: 0.5;">	
 											<div class="creation-title">${funding.creation.creationTitle }</div>
 										</div>
 										<div class="row creation-writing-list" style="height: 65%;background-color: #ffffff;box-shadow: 0.5px 0.5px 0px 1px;">

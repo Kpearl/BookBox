@@ -61,6 +61,7 @@
 		//============== 펀딩등록 Event===========
 		$(function(){
 			$('a.funding-add').on('click', function(){
+				alert($('form').val());
 				$('form.funding-add').attr('method', 'post').attr('enctype' ,'multipart/form-data').attr('action', '../creation/addFunding').submit();
 				});
 		})
@@ -117,7 +118,7 @@
         <form class="form-horizontal funding-add">
             
             
-            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;margin-top:50px;">펀딩 등록</div>
+            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">펀딩 등록</div>
             <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
             
             <div class="form-group">
@@ -136,7 +137,7 @@
                 <div class="col-sm-7">
                     <select class="form-control" name="creation.creationNo">
                     	<c:forEach items="${creationList}" var="creation">
-	                        <option value="${creation.creationNo}">${creation.creationTitle}</option>
+	                        <option value="${creation.creationNo}" >${creation.creationTitle}</option>
 	                   	</c:forEach>
                     </select>
                 </div>

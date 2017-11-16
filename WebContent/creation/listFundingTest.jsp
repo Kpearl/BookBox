@@ -95,15 +95,15 @@
 
 					var days = Math.floor(diff/(1000*60*60*24));
 					if(days > 0){
-						return '<img src="https://icongr.am/octicons/calendar.svg?size=20px"><span class="enddate-style">앞으로 <strong>'+days + '<strong>일</span>';
+						return '<img src="https://icongr.am/octicons/calendar.svg?size=20px" style="padding-bottom: 4px;"><span class="enddate-style">앞으로 <strong>'+days + '<strong>일</span>';
 					}
 					var hours = Math.floor( diff/(1000*60*60) );
 					if(hours > 0){
-						return hours + '시간 남음';
+						return '<img src="https://icongr.am/octicons/calendar.svg?size=20px" style="padding-bottom: 4px;"><span class="enddate-style">앞으로 <strong>'+hours + '<strong>시간</span>';
 					}
 					var minutes = Math.floor( diff/(1000*60) );
 					if(minutes > 0){
-						return minutes + '분 남음';
+						return '<img src="https://icongr.am/octicons/calendar.svg?size=20px" style="padding-bottom: 4px;"><span class="enddate-style">앞으로 <strong>'+minutes + '<strong>분</span>';
 					}else{
 						return '마감 임박!!';
 					}
@@ -123,13 +123,12 @@
 		<header class="parallax"></header>
 	<!-- 여기부터 코딩 -->
 
-    <div class="container" id="list" style="margin-bottom:80px;background-color: rgba(221, 221, 221, 0.22);">
+    <div class="container" id="list" style="margin-bottom:80px;background-color: rgb(245, 238, 238);">
 			<jsp:include page="creationToolbar.jsp"/>
 			
-			<div class="row" style="margin-top: 40px;">
+			<div class="row" style="">
 				<div class="col-md-6 text-left">
-					<p class="paging">전체 ${fundingList.size() } 건수, 현재
-					${page.currentPage} 페이지</p>
+					<p class="paging">전체 <strong>${fundingList.size() }</strong> 건수, 현재 <strong>${page.currentPage}</strong> 페이지</p>
 				</div>
 				<div class="col-md-6 col-xs-hidden" style="text-align: right;">
 					<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 최신순</span>
@@ -141,21 +140,21 @@
 					<c:forEach var="funding" items="${fundingList }">
 						
 						<div class= "col-md-3 col-sm-6"> 
-					<div class="row each-funding" style="width:100%;margin-left: 5px;">
+					<div class="row each-funding" style="width:100%;margin-left:0px;margin-right:0px;margin-bottom:25px">
 					
 						<div id="${funding.fundingNo}" class="funding-image button-form" style="height:200px; position:relative;overflow:hidden;">
 							<img  class="funding-get img-object-fit" src="../resources/upload_files/images/${funding.fundingFileName}">
 						</div>
 					
-						<div class="funding-content" style="height:150px;background-color:#ffffff;;padding-bottom: 10px; ">
+						<div class="funding-content" style="height:170px;background-color:#ffffff;;padding-bottom: 1px;border-bottom: 1px groove;">
 						
-							<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 75%;">
+							<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 65%;">
 								<div id="${funding.fundingNo}" class="funding-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
 								<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left funding-nickname" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
 							</div>
 
 		                    <div class="progress-form" >      
-								<div class="progress progress-xs" style="height: 5px;margin-left: 8px;margin-right: 8px;">
+								<div class="progress progress-xs" style="height: 5px;margin-left: 8px;margin-right: 8px;margin-bottom: 0;">
 			                          <div class="progress-bar progress-bar-warning progress-bar-striped active" 
 			                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
 			                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
@@ -163,8 +162,8 @@
 			                     </div>
 		                     </div>
 						 
-						 <div class="funding-bottom" style="position:relative;margin-right: 10px;">
-	                          <div class="funding-endDate" style="padding-left: 10px;bottom: 5px;float: left;">${funding.fundingEndDate }</div>
+						 <div class="row funding-bottom" style="position:relative;margin-right: 15px;padding-top:15px;margin-left:10px;">
+	                          <div class="funding-endDate" style="bottom: 5px;float: left;">${funding.fundingEndDate }</div>
 							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%</div>
 						</div>
 					</div>

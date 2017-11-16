@@ -34,9 +34,9 @@
     	.creation-list{
 	    	margin : 4px 8px;
 	    	vertical-align: middle;
-		    overflow-y: hidden;
 		    height: 220px;
 	    	background-color: none;/* rgba(255, 236, 218, 0.63); */
+	    	position: relative;
    		}
    		.tag-space{
 	    	font-size: 12px;
@@ -46,6 +46,11 @@
     }
     .button-form{
     	cursor:pointer;
+    }
+    .funding-badge{
+    	position: absolute;
+    	z-index: 3;
+   	    transform: translate(-50%,-50%);
     }
  
     </style>
@@ -95,7 +100,7 @@
 		<div class="container" >
 				<jsp:include page="creationToolbar.jsp"/>
       	  
-		<div class="row" style="margin-top: 40px;">
+		<div class="row" >
 					<div class="col-md-6 text-left">
 						<p class="paging">전체 ${creationList.size() } 건수, 현재
 						${page.currentPage} 페이지</p>
@@ -110,9 +115,12 @@
 	
 	   <div class="row" style="margin-top:30px">
 	   <div class="col-sm-12 col-md-12">
-	   		<div class="row">
+	   	   		<div class="row">
 				<c:forEach var="creation" items="${creationList }" >
 				  		 <div class="row creation-list" >
+				  		 <%-- <c:if test="${creation.doFunding }"> --%>
+							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+						 <%-- </c:if> --%>	
 							<div class="col-sm-4 col-md-4" style="padding: 0;height:100%;background-color:rgba(114, 114, 114, 0.48);overflow:hidden;">
 								<img  class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${creation.creationFileName}" name="creationFile">
 							</div>

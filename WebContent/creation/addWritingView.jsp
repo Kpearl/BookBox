@@ -90,7 +90,7 @@
 					success : function(JSONData, status) {
 
 						//Debug...
-						//alert(status);
+						alert(status);
 						
 						var offset = $(".inWriting").offset();
 				        $('html, body').animate({scrollTop : offset.top}, 400);
@@ -100,6 +100,8 @@
 						$('span.glyphicon-remove').remove();
 						$('a.tag-add:contains("추가하기")').off('click');
 						$('input[name="creationNo"]').val(JSONData.creation.creationNo);
+						
+						 alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
 					}
 				})
 			})
@@ -177,7 +179,7 @@
 					        $('html, body').animate({scrollTop : offset.top-80}, 400);
 					       
 					        
-					   //     alert("창작글 creationNo : "+$('input[name="creationNo"]').val());
+					        alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
 						}
 					})
 				})
@@ -509,7 +511,7 @@
 		<hr>
 		<div class="form-group">
 					<strong style="font-size: large;">글제목</strong> <input type="text" class="form-control" name="writingTitle">
-					<input type = "hidden" name="creationNo" value="${creation.creationNo }">
+					<input type = "hidden" class="writing-creationNo" name="creationNo" value="${creation.creationNo }">
 				</div>
 				<div class="form-group" >
 					<textarea name="writingContent" id="writingContent" rows="20" cols="80"></textarea>

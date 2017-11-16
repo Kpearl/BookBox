@@ -270,9 +270,9 @@ $(function() {
 			<jsp:include page="creationToolbar.jsp"/>
 
    
-        <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
+        <div class="row" style="height:325px;overflow:hidden;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            <div class="col-md-5">
+            <div class="col-md-5" style="height:100%">
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
             	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
@@ -298,7 +298,7 @@ $(function() {
 		        </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="    margin-top: 20px;">
         	<div class="col-md-6" >
         		<div class="row">
 				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
@@ -398,7 +398,7 @@ $(function() {
 </div><!--writing container 끝  -->
 		
 		<!-- 댓글 -->
-		<div class="row reply-form" style="margin: 2% 13%;">
+		<div class="container reply-form" >
 				<div class="row reply-head" style="margin: auto;font-size: x-large;">의견쓰기 ${writing.replyList.size() }</div>
 				<div class="reply-border" style="padding: 2%;border: 1px groove; height:150px;">
 					<strong>${user.nickname }</strong> 
