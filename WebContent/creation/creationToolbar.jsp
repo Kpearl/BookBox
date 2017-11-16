@@ -9,7 +9,8 @@
 	    height: 40px;
 	    _height: 40px;
 	    padding: 0 0 2px;
-	    background: #3d3d3d
+	    background: #3d3d3d;
+        margin-bottom: 50px;
 	}
 	
 	ul.menu li {
@@ -112,7 +113,7 @@
 		<div class="col-md-10 creation-toolbar">
 			<div class ="creation-toolbar-main" style="display:inline-block; height:100%;">
 				<ul class="creation-menu" style="display:inline-block; height:100%;">
-					<li class="li-form creation-home" style="display:inline-block;"><div class="creation-menu-each button-form" >창작홈</div></li>
+					<li class="li-form creation-home" style="display:inline-block;"><div class="creation-menu-each button-form" ><!-- <img src="https://icongr.am/clarity/home.svg?size=20px&color=ffffff"> -->창작공간</div></li>
 					<li class="li-form creation-writing-home" style="display:inline-block;"><div class="creation-menu-each button-form">창작작품</div></li>
 					<li  class="li-form funding-home" style="display:inline-block;"><div class="creation-menu-each button-form">펀딩</div></li>
 				</ul>

@@ -2,6 +2,7 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -89,6 +90,7 @@
 		   		 } 
 		   	});
 		}  
+
 	   
 	   function fncDeleteCreationLike(){   
 		   var total = document.getElementById('likeSum').innerHTML;	   	   	
@@ -356,7 +358,7 @@ $(function() {
 									<li class="s5" style="cursor:auto;"></li>
 								</ul>
 						</div>
-						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong id="get-gradeAvg">(${writing.grade.average})</strong></div>
+						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong id="get-gradeAvg">(<fmt:formatNumber value="${writing.grade.average}" pattern="0.00"/>)</strong></div>
 						<div class="add-grade">별점주기</div>
 						<div class="add-grade-form">
 							<c:if test="${!writing.grade.doGrade }">

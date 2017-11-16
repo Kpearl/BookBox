@@ -3,6 +3,7 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 <head>
@@ -151,7 +152,7 @@
 	   	   			
 	   	   		$(".deleteCreationLike").removeClass('deleteCreationLike').addClass('addCreationLike').off('click');
 	   	   		$('img.creationLike-link').attr('src','https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000');
-	   	   		//	$("#addLike").replaceWith('<a id="addLike" class="btn btn-default addLike" type="button"><i class="glyphicon glyphicon-heart-empty "></i> 좋아요</a>');
+	   	   		
 	   	   			$("#likeSum").replaceWith("<span id='likeSum'>" + (Number(total)-1) + "</span>");
 		   	   		 $(".addCreationLike").on("click" , function() {
 		   	    		alert("좋아요");
@@ -272,7 +273,7 @@
 							<li class="s5"></li>
 						</ul>
 					</div>
-					<div  style="display: inline-block; float:left;"><strong>(${creation.grade.average })</strong></div>
+					<div  style="display: inline-block; float:left;"><strong>(<fmt:formatNumber value="${creation.grade.average}" pattern="0.00"/>)</strong></div>
 	          
    			 <div class="row">
                 	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">
@@ -392,7 +393,7 @@
 										<li class="s4"></li>
 										<li class="s5"></li>
 									</ul>
-								<div style="display: inline-block; float:left;"><strong>(${writing.grade.average})</strong></div>
+								<div style="display: inline-block; float:left;"><strong>(<fmt:formatNumber value="${writing.grade.average}" pattern="0.00"/>)</strong></div>
 								</div>
 							</div>
 				            <div class="col-md-2 hidden-xs hidden-sm" style="text-align:center"><span>${writing.regDate}</span></div>

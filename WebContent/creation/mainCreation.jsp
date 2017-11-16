@@ -199,8 +199,7 @@ $(function() {
    $(function() {
 	  $(".addWriting").on("click" , function() {
 		  $(self.location).attr("href","../creation/addWriting");
-   	
-   	}); 
+		}); 
  });   
    
    //============= 펀딩등록하기 Navigation Event  처리 =============	

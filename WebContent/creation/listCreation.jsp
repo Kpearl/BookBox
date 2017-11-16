@@ -2,6 +2,8 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -111,7 +113,7 @@
 	   		<div class="row">
 				<c:forEach var="creation" items="${creationList }" >
 				  		 <div class="row creation-list" >
-							<div class="col-sm-4 col-md-4" style="height:100%;background-color:rgba(114, 114, 114, 0.48);overflow:hidden;">
+							<div class="col-sm-4 col-md-4" style="padding: 0;height:100%;background-color:rgba(114, 114, 114, 0.48);overflow:hidden;">
 								<img  class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${creation.creationFileName}" name="creationFile">
 							</div>
 							<div class="col-sm-8 col-md-8" style="height:100%">
@@ -131,7 +133,7 @@
 											</ul>
 										</div>
 									</div>
-										<div  style="display: inline-block; float:left;"><strong>(${creation.grade.average })</strong></div>
+										<div  style="display: inline-block; float:left;"><strong>(<fmt:formatNumber value="${creation.grade.average}" pattern="0.00"/>)</strong></div>
 									
 								</div>
 								<div class="row">	

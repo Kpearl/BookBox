@@ -99,7 +99,7 @@
 						$('.inputValue').attr('disabled','true');
 						$('span.glyphicon-remove').remove();
 						$('a.tag-add:contains("추가하기")').off('click');
-						$('input[name="creationNo"]').val();
+						$('input[name="creationNo"]').val(JSONData.creation.creationNo);
 					}
 				})
 			})
@@ -156,7 +156,7 @@
 							$('input[name="creationNo"]').val(JSONData.creationNo);
 							$("input[name='creationTitle']").val(JSONData.creationTitle);
 							$("textarea[name='creationIntro']").val(JSONData.creationIntro);
-							$("#creationFileName").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
+							$("#creationNoFile").attr("src","../resources/upload_files/images/"+JSONData.creationFileName);
 							$("input[name='creationHead']").val(JSONData.creationHead);
 							if($("input[name='creationHead']").val()==JSONData.creationHead){
 								$("input[name='creationHead']").attr('checked','checked');
@@ -285,10 +285,10 @@
 						<div class="col-md-5">
 							<div id="imgPreview" style="padding-left:20px;overflow:hidden;">
 								<c:if test="${!empty creation }">
-									<img id="creatioinFileName" class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
+									<img id="creationFileName" class="img img-responsive img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }"/>
 								</c:if>
 								<c:if test="${empty creation }">
-									<img id="creatioinNoFile" class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
+									<img id="creationNoFile" class="img img-responsive img-object-fit" src="../resources/images/noImg_2.jpg"/>
 								</c:if>
 							</div>
                     		<input style="padding-left:20px;" type="file"  class="inputValue" id="creationOriginName" name="creationOriginName" value="${creation.creationOriginName }">
