@@ -51,28 +51,16 @@
 	
 	ToolbarOpacHeight(500);
 	
-	  //============= 창작글쓰기 Navigation Event  처리 =============	
-	   $(function() {
-		  $("a.addWriting").on("click" , function() {
-			  $(self.location).attr("href","../creation/addWriting");
-	   	
-	   	}); 
-	 });   
-	   
-	   //============= 펀딩등록하기 Navigation Event  처리 =============	
-	   $(function() {
-		  $("a.addfunding").on("click" , function() {
-			  $(self.location).attr("href","../creation/addFunding");
-	   	
-	   	}); 
-	 });  
-	
 	
 		$(function(){
-			$('.funding-get').on('click', function(){
-				$(self.location).attr('href', '../creation/getFunding?fundingNo='+$(this).parent().parent().find('input[name="fundingNo"]').val());
-
+			$('.funding-image').on('click', function(){
+				$(self.location).attr('href', '../creation/getFunding?fundingNo='+$(this).attr('id'));
 			});
+			$('.funding-title-get').on('click', function(){
+				alert($(this).attr('id'));
+				$(self.location).attr('href', '../creation/getFunding?fundingNo='+$(this).attr('id'));
+			});
+			
 			
 			$('img.funding-get').hover(function(){
 				$(this).css('cursor', 'pointer');
@@ -149,7 +137,7 @@
 						<div class="funding-content" style="height:170px;background-color:#ffffff;;padding-bottom: 1px;border-bottom: 1px groove;">
 						
 							<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 65%;">
-								<div id="${funding.fundingNo}" class="funding-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
+								<div id="${funding.fundingNo}" class="funding-title-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
 								<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left funding-nickname" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
 							</div>
 

@@ -106,18 +106,20 @@ public class CreationServiceImpl implements CreationService {
 	public Creation getCreation(Map<String, Object> map) throws Exception {
 		// TODO getCreation
 		Creation creation = creationDAO.getCreation(map);
+
+		int count = fundingDAO.getDoFunding(map);
+		if (count != 0) {
+			creation.setDoFunding(true);	
+		}
 		
 		creation.setCreationAuthor(userService.getUser(creation.getCreationAuthor()));
-		System.out.println("==============================creationAuthor:: "+creation.getCreationAuthor());
+
 		creation.setGrade(commonDAO.getAvgGrade(map));
 		creation.setLike(commonDAO.getLike(map));
 		creation.setWritingList(writingService.getWritingList(map));
-		
+
 		if (creationDAO.getCreationSubscribe(map) !=0) {
 			creation.setDoSubscription(true);
-		}
-		if (fundingDAO.getDoFunding(map) !=0) {
-			creation.setDoFunding(true);
 		}
 		
 		return creation;
@@ -131,7 +133,7 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		Page page=(Page)map.get("page");
-		System.out.println("========================MAP=========="+map);
+//		System.out.println("========================MAP=========="+map);
 		if (page != null) {
 			
 		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
@@ -139,15 +141,15 @@ public class CreationServiceImpl implements CreationService {
 		}
 		
 		List<Creation> creationList = creationDAO.getCreationList(map);
-		System.out.println("======================getCreationList :: "+creationList);
+//		System.out.println("======================getCreationList :: "+creationList);
 		List<Creation> addFundingCreationList = new ArrayList<>();
 		
 		if (page == null) {
 		
 			for(Creation creation : creationList) {
+				map.put("targetNo", creation.getCreationNo());
 				int count = fundingDAO.getDoFunding(map);
 
-				map.put("targetNo", creation.getCreationNo());
 				creation.setGrade(commonDAO.getAvgGrade(map));
 				
 				if (count == 0) {
@@ -160,11 +162,16 @@ public class CreationServiceImpl implements CreationService {
 			for(Creation creation : creationList) {
 				map.put("targetNo", creation.getCreationNo());
 				creation.setGrade(commonDAO.getAvgGrade(map));
-				System.out.println("=================22222 "+creationList);
+				
+				int count = fundingDAO.getDoFunding(map);
+				if (count != 0) {
+					creation.setDoFunding(true);	
+				}
+				
 			}
 			return creationList;
 		}else {
-			System.out.println("=================33333333 "+creationList);
+			
 		return addFundingCreationList;
 		}
 	}
@@ -188,7 +195,7 @@ public class CreationServiceImpl implements CreationService {
 	 * @throws Exception
 	 * @return 
 	 */	
-	public boolean doCreationSubscribe(User user, Creation creation) throws Exception{
+	public boolean addCreationSubscribe(User user, Creation creation) throws Exception{
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
 		
@@ -271,6 +278,7 @@ public class CreationServiceImpl implements CreationService {
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
 		
 		commonDAO.addLike(map);
+		creation = this.getCreation(map);
 			
 		return true;
 	}

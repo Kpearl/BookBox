@@ -94,11 +94,11 @@ public class CreationRestController {
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creationNo,(User)session.getAttribute("user"));
 
 		Creation creation = creationService.getCreation(map);
-		creationService.doCreationSubscribe((User)session.getAttribute("user"), creation);
+		creationService.addCreationSubscribe((User)session.getAttribute("user"), creation);
 
 		System.out.println("CreationRestController :: /creation/rest/doCreationSubscribe : GET ===> END\n\n");
 		
-		return creationService.doCreationSubscribe((User)session.getAttribute("user"), creation);
+		return creationService.addCreationSubscribe((User)session.getAttribute("user"), creation);
 	}
 	
 	/**

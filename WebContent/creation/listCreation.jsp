@@ -118,9 +118,9 @@
 	   	   		<div class="row">
 				<c:forEach var="creation" items="${creationList }" >
 				  		 <div class="row creation-list" >
-				  		 <%-- <c:if test="${creation.doFunding }"> --%>
+				  		 <c:if test="${creation.doFunding }">
 							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
-						 <%-- </c:if> --%>	
+						 </c:if>	
 							<div class="col-sm-4 col-md-4" style="padding: 0;height:100%;background-color:rgba(114, 114, 114, 0.48);overflow:hidden;">
 								<img  class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${creation.creationFileName}" name="creationFile">
 							</div>
