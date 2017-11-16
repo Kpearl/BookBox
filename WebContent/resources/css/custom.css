@@ -120,7 +120,7 @@ span.tag{
 	width: fit-content;
 }
 .homebtn{
-	cursor: url('https://icongr.am/fontawesome/hand-o-up.svg?size=25'), auto;
+	/* cursor: url('https://icongr.am/fontawesome/hand-o-up.svg?size=25'), auto; */
 }
 .homebtn span{
 	top: 50%;
@@ -370,7 +370,7 @@ div.hidden-md img{
 	width: 100%;
 	object-fit: cover;
 }
-.posting-list, .book-like-list{
+.posting-list, .book-like-list, .booklog-list{
 	position: absolute;
 	bottom: -5%;
 	right: 0;

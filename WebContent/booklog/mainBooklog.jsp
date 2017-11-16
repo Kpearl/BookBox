@@ -139,6 +139,61 @@
 				    transform: translate(-50%, -50%);
     	}
     	
+    	.booklog-list-box{
+    		position: relative;
+    	}
+    	.booklog-card{
+    		position: relative;
+    		height: 200px;
+    		width: 100%;
+    		padding: 5% 3%;
+    	}
+    	.booklog-card-board{
+    		position: relative;
+    		height: 100%;
+    		width: 100%;
+    		padding: 2% 3%;
+    		border: 1px solid;
+    	}
+    	
+    	.booklog-img-box, .booklog-content-box{
+    		position: absolute;
+    		top: 2%;
+    		height: 96%;
+    	}
+    	.booklog-content-count{
+    		position: absolute;
+    		top: 0;
+    		right: 0;
+    		height: 100%;
+    	}
+    	@media (min-width: 992px){
+	    	.booklog-img-box{
+	    		left: 3%;
+	    		width: 30%;
+	    	}
+	    	.booklog-content-box{
+	    		left: 33%;
+	    		width: 50%;
+	    	}
+	    	.booklog-content-count{
+	    		width: 17%;
+	    	}
+    	}
+    	@media (min-width: 768px){
+	   		.booklog-content-count{
+	   			display: none;
+	   		}
+    	}
+    	.booklog-img-box{
+    		left: 3%;
+    		width: 40%;
+    	}
+    	.booklog-content-box{
+    		left: 43%;
+    		width: 54%;
+    	}
+    	
     </style>
 	
 	<script type="text/javascript">
@@ -147,7 +202,7 @@
 		$(function(){
 			condition = $('input[name="condition"]').val();
 			
-			$('a.booklog:contains("더보기")').on('click', function(){
+			$('a.booklog-list').on('click', function(){
 				$(self.location).attr("href","../booklog/getBooklogList?condition="+condition);
 			});
 			$('a.posting-list').on('click',function(){
@@ -219,18 +274,7 @@
 		});
 
 		
-		$(function(){
-	        var swiper = new Swiper('.booklog-swiper-container', {
-	            spaceBetween: 5,
-	            pagination: {
-	            	el: '.swiper-pagination',
-	            	clickable: true
-	            },
-	            loop: false,
-	            slidesPerView: 'auto',
-	            freeMode: true,
-	        });
-	        
+		$(function(){	        
 	        var postingSwiper = new Swiper('.posting-swiper-container', {
 	        	spaceBetween: 0,
 	        	pagination:{
@@ -287,62 +331,33 @@
 		</div>
 
 
-		인기북로그 <a class="btn booklog" href="javascript:void(0);">더보기</a>
 
 		<div class="row text-center category-space">
 			<h2>- 인기 북로그 -</h2>
 		</div>
 
-	    <div class="swiper-container booklog-swiper-container">
-	        <div class="swiper-wrapper">
-	        	<c:set var="i" value="0"/>
-	        	<c:forEach items="${booklogList}" var="booklog">
-	        		<c:set var="i" value="i+1"/>
-	        		<div class="swiper-slide">
-						<div class="row booklog-profile div-booklog" style="width: 250px;">
-							<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
-							<input type="hidden" name="booklogUser" value="${booklog.user.email}">
-							<div class="col-sm-12">
-								<div class="row text-center booklog-img">
-									<div class="col-xs-offset-1 col-xs-10 booklog-img">
-										<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
-									</div>
-								</div>
-						
-								<!-- 북로그이미지, 소개글, 이름 -->
-								<div class="row text-center booklog-name">
-									<p><em>${booklog.booklogName}</em></p>
-								</div>
-								<div class="row text-center booklog-intro booklog-background">
-									<p>${booklog.booklogIntro}</p>
-								</div>
-								<div class="row text-center booklog-content-num">
-									<div class="col-xs-4 text-center">
-										<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i></span><br/>
-										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
-									</div>
-									<div class="vertical-line"></div>
-									<div class="col-xs-4 text-center">
-										<span class="content-icon"><i class="glyphicon glyphicon-grain"></i></span><br/>
-										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
-									</div>
-									<div class="vertical-line"></div>
-									<div class="col-xs-4 text-center">
-										<span class="content-icon"><i class="glyphicon glyphicon-bookmark"></i></span><br/>
-										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
-									</div>
-								</div>
-							</div>
-		
-						</div>
-					</div>
-	        	</c:forEach>
-	        </div>
-	        <!-- Add Pagination -->
-	        <div class="swiper-pagination swiper-pagination-black"></div>
+	    
+	    <div class="row booklog-list-box">
+	    	<c:forEach items="${booklogList}" var="booklog">
+	    		<div class="col-sm-6">
+	    			<div class="booklog-card">
+	    				<div class="booklog-card-board booklog-background">
+	    					<div class="booklog-img-box">
+	    						<img class="img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+	    					</div>
+	    					<div class="booklog-content-box">
+			    				<p>${booklog.booklogName}</p>
+	    					</div>
+	    					<div class="booklog-content-count">
+	    						
+	    					</div>
+	    				</div>
+	    			</div>
+	    		</div>
+	    	</c:forEach>
+	    
+			<a class="booklog-list">더보기 &gt</a>
 	    </div>
-	    
-	    
 		
 
 	    

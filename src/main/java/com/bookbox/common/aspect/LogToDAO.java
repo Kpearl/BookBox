@@ -3,6 +3,7 @@ package com.bookbox.common.aspect;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Log;
@@ -28,6 +29,9 @@ public class LogToDAO {
 	@Autowired
 	@Qualifier("logServiceImpl")
 	private LogService logService;
+	
+	@Value("#{commonProperties['fundingPossibleLike']}")
+	int fundingPossibleLike;
 	
 	public LogToDAO() {
 		System.out.println("Constructor :: "+getClass().getName());
@@ -89,6 +93,18 @@ public class LogToDAO {
 			log.setTargetNo(targetNo);
 			
 			logService.addLog(log);
+			if(categoryNo == Const.Category.CREATION && behavior == Const.Behavior.ADD && addBehavior == Const.AddBehavior.LIKE) {
+				Creation creation = (Creation)joinPoint.getArgs()[1];
+				if(creation.getLike().getTotalLike() == fundingPossibleLike -1) {
+					Log anotherLog = new Log();
+					anotherLog.setUser(creation.getCreationAuthor());
+					anotherLog.setCategoryNo(categoryNo);
+					anotherLog.setBehavior(Const.Behavior.ABLE);
+					anotherLog.setTargetNo(targetNo);
+					
+					logService.addLog(anotherLog);
+				}
+			}
 
 		}
 		

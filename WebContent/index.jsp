@@ -27,8 +27,13 @@
 			padding-top: 0;
 		}
 		header{
-			background-image: url('./resources/images/main_img.jpg');
+			background-image: url('./resources/images/main_title.jpg');
 			min-height: 100%;
+		}
+		.backg{
+			height: 100%;
+			width: 100%;
+			background: rgba(255, 255, 255, 0.2);
 		}
 		.container{
 			height: 100%;
@@ -43,18 +48,18 @@
 		    transform: translate(-50%, -50%);
    		}
    		#main-search input{
-   		    background: rgba(0, 0, 0, 0.1) !important;
+   		    background: rgba(0, 0, 0, 0.3) !important;
 		    width: 100% !important;
 		    height: 100% !important;
-		    box-shadow: inset 0px 0px 2px 0px rgba(255, 152, 0, 0.8) !important;
+		    box-shadow: inset 0px 0px 2px 0px rgba(255, 152, 0, 0.1) !important;
+		    border: 4px solid rgba(255, 255, 255, 0.8);
 		    padding: 0 40px 0 10px !important;
-		    color: #ffffff !important;
-		    font-weight: bold !important;
+		    color: #cccccc !important;
 		    font-size: 20px !important;
    		}
    		#main-search input:focus{
 		    outline: none !important;
-		    background: rgba(0, 0, 0, 0.3) !important;
+		    background: rgba(0, 0, 0, 0.6) !important;
    		}
    		#main-search button{
    			position: absolute;
@@ -439,6 +444,7 @@
 
 	<jsp:include page="./layout/toolbar.jsp"/>
 	<header class="parallax">
+		<div class="backg"></div>
 		<div id="main-bookbox" class="display-middle" style="cursor: pointer; white-space: nowrap; display:block;">
 			<span class="font-large theme-black padding-large wide"><strong>BOOKBOX</strong><small class="hidden-xs hidden-sm narrow"> Book Community</small></span><br/>
 			<p class="font-large theme-black narrow text-center"><small class="hidden-xs hidden-sm"><em class="text-muted font-small">- 책으로 소통하는 공간</em></small></p>

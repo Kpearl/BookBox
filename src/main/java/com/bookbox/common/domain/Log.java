@@ -169,10 +169,14 @@ public class Log {
 			log.append(CommonUtil.getConstProp().getProperty("C"+categoryNo)+" ")
 				.append("'")
 				.append(targetName+"'을(를) ");
-			if(addBehavior != 0) {
-				log.append(CommonUtil.getConstProp().getProperty("AB"+addBehavior)+"을(를) ");
+			if(behavior == Const.Behavior.ABLE) {
+				log.append("좋아요 수가 충족되어 펀딩등록이 가능합니다!");
+			}else {
+				if(addBehavior != 0) {
+					log.append(CommonUtil.getConstProp().getProperty("AB"+addBehavior)+"을(를) ");
+				}
+				log.append(CommonUtil.getConstProp().getProperty("B"+behavior)+"하였습니다.");
 			}
-			log.append(CommonUtil.getConstProp().getProperty("B"+behavior)+"하였습니다.");
 	
 			return log.toString();
 		}catch(Exception e) {
