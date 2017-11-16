@@ -33,6 +33,8 @@ import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.user.UserService;
+import com.bookbox.service.user.impl.UserServiceImpl;
 
 import sun.util.resources.CalendarData;
 
@@ -52,6 +54,10 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("communityServiceImpl")
 	CommunityService communityServiceImpl;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	UserService userServiceImpl;
 	
 	public CommunityController() {
 		System.out.println("Constructor :: "+this.getClass().getName());
@@ -176,8 +182,8 @@ public class CommunityController {
 		//테스트용 유저정보//
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
-			user.setNickname("테스트");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
 		
 		board.setWriter(user);
@@ -391,9 +397,10 @@ public class CommunityController {
 		///////////////테스트 유저///////////////////////////////////
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
-			user.setNickname("테스트");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
+		///////////////////////////////////////////////////
 		//태그 추가
 		String []tagNames=request.getParameterValues("tagNames");
 		if(tagNames!=null) {
@@ -457,8 +464,8 @@ public class CommunityController {
 		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
-			user.setNickname("테스트");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
 		//////////////////////////////////////////////////////////////////
 		
@@ -488,8 +495,8 @@ public class CommunityController {
 		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
-			user.setNickname("테스트");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
 		//////////////////////////////////////////////////////////////////
 		

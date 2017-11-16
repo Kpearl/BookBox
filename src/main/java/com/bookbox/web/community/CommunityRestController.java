@@ -30,6 +30,7 @@ import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.user.UserService;
 
 /**
  * @file com.bookbox.web.community.CommunityRestCrontroller.java
@@ -51,6 +52,9 @@ public class CommunityRestController {
 	@Qualifier("tagServiceImpl")
 	TagService tagServiceImpl;
 	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	UserService userServiceImpl;
 	
 	public CommunityRestController() {
 		System.out.println("Constructor :: "+getClass().getName());
@@ -112,7 +116,7 @@ public class CommunityRestController {
 	
 	
 	@RequestMapping(value="/addRecommend")
-	public void addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend,HttpSession session ) {
+	public int addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend,HttpSession session ) throws Exception{
 		
 		//파라미터 확인용
 	//	System.out.print("targetNo : "+request.getParameter("targetNo")+" ");
@@ -125,13 +129,14 @@ public class CommunityRestController {
 		//테스트용 유저정보////////////////////////////
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
 		
 		recommend.setEmail(user.getEmail());
 			
 		
-		communityServiceImpl.addRecommend(recommend);
+		return communityServiceImpl.addRecommend(recommend);
 		
 	}
 	
@@ -141,16 +146,18 @@ public class CommunityRestController {
 	 * @return 
 	 */
 	@RequestMapping(value="/addReport")
-	public void addReport(@ModelAttribute("Report")Report report,HttpSession session) {
+	public void addReport(@ModelAttribute("Report")Report report,HttpSession session) throws Exception{
 		
 		System.out.println("addReport() Reprot= "+report);
 		
 		User user=(User)session.getAttribute("user");
-		//////////////테스트용 유저정보/////////////////////
-		if(user==null) {
-			user=new User();
-			user.setEmail("test@test.com");
-		}
+		
+		//테스트용 유저정보////////////////////////////
+				if(user==null) {
+					user=new User();
+					user.setEmail("gustn@naver.com");
+					user=userServiceImpl.getUser(user);
+				}
 		
 		report.setEmail(user.getEmail());
 		
@@ -164,21 +171,23 @@ public class CommunityRestController {
 	 * @return 
 	 */
 	@RequestMapping(value="/addComment")
-	public void addComment(@RequestBody Comment comment,HttpSession session) {
+	public int addComment(@RequestBody Comment comment,HttpSession session) throws Exception{
 		
 	
 		User user=(User)session.getAttribute("user");
 		//테스트용 유저정보//
+		//테스트용 유저정보////////////////////////////
 		if(user==null) {
 			user=new User();
-			user.setEmail("test@test.com");
+			user.setEmail("gustn@naver.com");
+			user=userServiceImpl.getUser(user);
 		}
 		
 		
 		comment.setWriter(user);
 		System.out.println(comment);
 		
-		communityServiceImpl.addComment(comment);
+		return communityServiceImpl.addComment(comment);
 		
 	}
 	

@@ -37,6 +37,10 @@
     <link rel="stylesheet" href="../resources/css/custom.css">
     
     <style type="text/css">
+    	.cast-container{
+    		margin: 20px 0 0 0;
+    	}
+    	
     	video{
     		width: 100%;
     		/*
@@ -53,18 +57,54 @@
    			height: 85%;
    			overflow: auto;
    		}
+   		
+   		.chat-output-item{
+   			margin: 10px 0 0 0;
+   		}
+   		.chat-output-item div{
+   			display: inline-block;
+   		}
+   		.chat-output-item img{
+   			height: 30px;
+   			width: 30px;
+   			border-radius: 50%;
+   			object-fit:cover;
+   		}
+   		.chat-output-message{
+   			margin-left: 10px;
+   			font-size: 15px;
+   		}
+   		
    		.chat-input{
    			height: 10%;
+   			padding-top: 20px !important;
    		}
     	.room-info{
     		margin-top: 20px;
     	}
     	.room-info .title{
     		font-weight: bold;
+    		font-size: 25px;
+    	}
+    	.room-info .host-img,.host-nickname,.regdate{
+    		display: inline-block;
+    	}
+    	.room-info .host-img img{
+    		height: 60px;
+    		width: 60px;
+    		border-radius: 50%;
+    		object-fit:cover;
+    	}
+    	.room-info .host-nickname{
+    		margin: 10px;
+    		font-size: 25px;
+    	}
+    	.room-info .regdate{
+    		float: right;
     	}
     	.room-info .content{
-    		word-spacing: normal;
-    		word-break:break-all;
+    		/*word-spacing: normal;*/
+    		/*word-break:break-all;*/
     	}
     	
     	.chat-option{
@@ -73,6 +113,7 @@
     
     
     	hr{
+    		margin: 10px 0 10px 0;
     		color: #62BFAD;
     		background-color: #62BFAD;
     		border-color:  #62BFAD;
@@ -122,6 +163,7 @@
  	<div class="container">
 	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
 	 <input type="hidden" id="nickname" value="${user.nickname }">
+ 	 <input type="hidden" id="userImg" value="${user.booklogImage }">
 	 <c:if test="${ user.email == chatRoom.host.email }">
 		 <input type="hidden" id="role" value="host">
 	 </c:if>
@@ -130,7 +172,7 @@
 	 </c:if>
 	 
 	 
-	 <!--  방정보 출력 -->
+	 <!--  방정보 출력
 	 <div class="roomInfo" style="display: none;">
 	 		<div class="input-group">
 	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
@@ -152,28 +194,39 @@
 			</div>
 			<div class="make-center" id="broadcast-viewers-counter"></div>
 	</div>
+	  -->
 	 <!--  방정보 끝 -->
 
-	<div class="row">
+	<div class="cast-container row">
 		<div class="col-sm-7 video-container">
 	      <video id="video-preview" controls loop></video>
 		</div>
 		<div class="col-sm-5 chat-container">
 			<div class="chat-output">
 			</div>
-			
-				<input type="text" class="chat-input"><button class="btn btn-default btn-sm">전송</button>
-		
+			<div class="input-group">
+				<input type="text" class="chat-input form-control">
+				<span class="input-group-addon addon-custom" id="addTagBtn">
+					<button class="btn btn-default btn-sm">전송</button>
+				</span>
+			</div>
 		</div>
 		<div class="col-sm-7 room-info">
-			<p class="title">${chatRoom.title}</p>
-			<span>시청자</span><span id="currentUser"></span>
+			<div class="title">${chatRoom.title}</div>
+			
 			<hr/>
-			<div>개설자  ${chatRoom.host.nickname}</div>
-			<div>게시일 ${chatRoom.regDate}</div>
+			<div class="host-img"><img src="../resources/upload_files/images/${chatRoom.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'"></div>
+			<div class="host-nickname">${chatRoom.host.nickname}</div>
+			<div class="regdate">${chatRoom.regDate}</div>
+			<div><span>시청자</span><span id="currentUser">0</span></div>
 			<div class="content"><br/><br/>${chatRoom.content}</div>
+			<div calss="tag-list">
+				<c:forEach items="${chatRoom.tagList}" var="tag">
+					<span class="tag">#${tag.tagName}</span>
+				</c:forEach>
+			</div>
 		</div>
-		<div class="col-sm-5 chat-option">
+		<div class="col-sm-5 chat-option text-right">
 			<c:if test="${ user.email == chatRoom.host.email }">
 				<button class="btn btn-default btn-sm" id="chatMute">채팅금지</button>
 				<br>
@@ -214,9 +267,8 @@ connection.socketURL = 'https://192.168.0.21:433/';
 
 connection.socketMessageEvent = 'scalable-media-broadcast-demo';
 
-// document.getElementById('broadcast-id').value = connection.userid;
 
-// user need to connect server, so that others can reach him.
+
 connection.connectSocket(function(socket) {
     socket.on('logs', function(log) {
         document.querySelector('h1').innerHTML = log.replace(/</g, '----').replace(/>/g, '___').replace(/----/g, '(<span style="color:red;">').replace(/___/g, '</span>)');
@@ -555,30 +607,31 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 	chatSocket.on("success-connect",function(data){
 		console.log(data)
 		chatSocket.emit("initUserInfo",{nickname:$("#nickname").val(),
-											roomId:$("#roomId").val()});
+											roomId:$("#roomId").val(),
+											userImg:$("#userImg").val()});
 		chatSocket.emit("infoTest");
 	});
 	//채팅내용 리시브
 	chatSocket.on("receiveChatMessage",function(data){
 		//alert(data.nickname+":"+data.message);
-		writeChatOutput(data.nickname+":"+data.message,data.fontColor);	
+		writeChatOutput(data.nickname+":"+data.message,data.fontColor,data.userImg);	
 	});
 	
 	chatSocket.on("joinUser",function(data){
 		//alert(data.nickname+":"+data.message);
-		writeChatOutput(data.nickname +" 님이 입장하였습니다.");	
+		writeChatOutput(data.nickname +" 님이 입장하였습니다.",null);	
 	});
 	
 	//채팅금지처리
 	chatSocket.on("chatMute",function(data){
 		if(data==false){
 			//alert("chatMute ON!");
-			writeChatOutput("채팅사용이 금지 되었습니다.","#ff5555");
+			writeChatOutput("채팅사용이 금지 되었습니다.","#ff5555",null);
 			$(".chat-input").attr("disabled","");
 		}
 		else{
 			//alert("chatMute OFF");
-			writeChatOutput("채팅사용이 허가 되었습니다.","#ff5555");
+			writeChatOutput("채팅사용이 허가 되었습니다.","#ff5555",null);
 			$(".chat-input").removeAttr("disabled","");
 		}
 		
@@ -594,7 +647,7 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 			return;
 		}
 		chatSocket.emit("sendChatMessage",message);
-		writeChatOutput("자신:"+message,"#b8b8b8");
+		writeChatOutput("자신:"+message,"#b8b8b8",$("#userImg").val());
 		$(this).val("");
 	});
 	
@@ -613,13 +666,22 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 	});
 	
 	//채팅 출력쪽에 채팅 내용 삽입
-	function writeChatOutput(message,fontColor){
+	function writeChatOutput(message,fontColor,userImg){
 		//채팅금지일때 채팅출력 거부
 		if(!enableReceiveFlag){
 			return;
 		}
-		var outObj=$("<p>"+message+"</p>").css("color",fontColor);
-		$(".chat-output").append(outObj);
+		if(userImg==null){
+			var outObj=$("<p>"+message+"</p>").css("color",fontColor);
+			$(".chat-output").append(outObj);			
+		}
+		else{
+			var outObj=$("<div class='chat-output-item'><div class='chat-output-img'>"+
+							"<img src=\"../resources/upload_files/images/"+userImg+"\" onerror=\"this.src='../resources/images/no_booklog_image.png'\">"+
+							"</div>"+
+							"<div class='chat-output-message'>"+message+"</div></div>").css("color",fontColor);
+			$(".chat-output").append(outObj);	
+		}
 	}
 	
 	

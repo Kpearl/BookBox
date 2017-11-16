@@ -33,6 +33,13 @@
 		padding: 0 0 0 0;
 	}
 	
+	input-group-custom{
+		/*background-color: 0;*/
+	}
+	.addon-custom{
+		background-color: #ffffff00;
+	}
+	
 	.removeBtn{
 	 padding-left:2px; 
 	}
@@ -44,6 +51,8 @@
 		width: 15px;
 	 	vertical-align: center;
 	}
+	
+	
 </style>
 <script type="text/javascript">
 	var condition;
@@ -136,44 +145,44 @@
 	<header class="parallax"></header>
 
 <div class="container">
-	<h2 ></h2>
-
+	<h2 >게시판 생성</h2>
+	<hr/>
 
 	<form name="tx_editor_form" id="tx_editor_form" action="addBoard" method="post" accept-charset="utf-8">
-		<!-- 에디터 컨테이너 시작 -->
-		
-		<!--  !!!!!!!제목 추가!!!!!!!!!!!! -->
+	
 		<div class="form-group">
-			<div class="input-group">
+			<div class="input-group input-group-custom">
 				<!--  <label for="boardTitle">제목</label> -->
-				<span class="input-group-addon" id="title-addon">제목</span>
+				<span class="input-group-addon addon-custom" id="title-addon">제목</span>
 				<input type="text" name="boardTitle" class="input-title form-control">
 			</div> 
 		</div>	
-			<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
+		<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
 		
 		<textarea rows="10" cols="80" name="boardContent"></textarea>
 		<br/>
 		<div class="form-group ">
 			<div class="row">
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<div class="input-group">
-						 <span class="input-group-addon" id="tag-addon">태그</span>
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="input-group input-group-custom">
+						 <span class="input-group-addon addon-custom" id="tag-addon">태그</span>
 						 <input type="text" id="tagInput" class="form-control" aria-describedby="tag-addon">
-						 <span class="input-group-addon" id="addTagBtn"><a>추가</a></span>
+						 <span class="input-group-addon addon-custom" id="addTagBtn"><a>추가</a></span>
 					</div>
 				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6 text-right">
+					<a id="submit" class="btn">등록 <img src="../resources/images/community/btn_submit.png"></a>
+				</div>
 			</div>
+			
 		</div>
-		<!-- 
-		<a class="btn" id="addTagBtn">추가</a>
-		 -->
 		<div id="tagNames"></div>
-		<a id="submit" class="btn">등록 <img src="../resources/images/community/btn_submit.png"></a>
 			
 		<div class="imgList">
 			이미지 목록
 		</div>
+		
+		<br/>
 	</form>
 	
 </div>

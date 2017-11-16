@@ -109,20 +109,26 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int addRecommend(Recommend recommed) {
 		// 게시글 추천일때
+		int returnInt;
 		if (recommed.getCategory().equals("board")) {
 			recommed.setCategoryNo(Const.Category.BOARD);
-
+			Board board;
 			if (recommed.getPref().equals("up")) {
 
-				Board board = communityDAOImple.getBoard(recommed.getTargetNo());
+				board = communityDAOImple.getBoard(recommed.getTargetNo());
 				board.setRecommend(board.getRecommend() + 1);
 				communityDAOImple.updateBoard(board);
 			}
 
 			else {
-
+				board = communityDAOImple.getBoard(recommed.getTargetNo());
+				board.setRecommend(board.getRecommend() - 1);
+				communityDAOImple.updateBoard(board);
 			}
-			return communityDAOImple.getBoard(recommed.getTargetNo()).getRecommend();
+			returnInt=board.getRecommend();
+			communityDAOImple.getBoard(recommed.getTargetNo()).getRecommend();
+			communityDAOImple.addRecommend(recommed);
+			return returnInt;
 		}
 		// 댓글 추천일때
 		else if (recommed.getCategory().equals("comment")) {
@@ -141,6 +147,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int addReport(Report report) {
 
+		
 		if (report.getCategory().equals("board")) {
 			report.setCategoryNo(Const.Category.BOARD);
 

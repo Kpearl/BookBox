@@ -94,6 +94,7 @@
 		   		}
 		   		.board-content-v2 .board-body-v2 .nickname img{
 		   			height: 16px;
+		   			width: 16px;
 		   			object-fit: cover;
 		   			border-radius: 50%;
 		   		}
@@ -242,7 +243,7 @@
 	</jsp:include>
 	<header class="parallax"></header>
 	
-	
+	<!--  검색창 사라질 가능성 
 	<div class="container">
 		<form class="form-inline text-right">
 		  <div class="form-group">
@@ -261,16 +262,17 @@
 		    </div>
 		  </div>
 		</form>
+	 -->
 		
 		<a class="btn btn-default" href="#">인기</a>
 		<a class="btn btn-default" href="#">최신</a>
 		<a class="btn btn-default" href="#">댓글순</a>
 				
-		키워드<input id="keyword" value="${search.keyword}">
-		컨디션<input id="condition" value="${search.condition}">
-		오더<input id="order" value="${search.order}">
-		페이지<input id="currentPage" value="${page.currentPage}">
-		맥스페이지<input id="maxPage" value="${page.maxPage}">
+		키워드<input  type="hidden" id="keyword" value="${search.keyword}">
+		컨디션<input type="hidden" id="condition" value="${search.condition}">
+		오더<input type="hidden" id="order" value="${search.order}">
+		페이지<input type="hidden" id="currentPage" value="${page.currentPage}">
+		맥스페이지<input type="hidden" wid="maxPage" value="${page.maxPage}">
 	
 		<br/>
 		<h1>BOARD</h1>

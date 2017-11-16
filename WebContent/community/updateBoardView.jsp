@@ -16,16 +16,46 @@
 	
 	<link rel="stylesheet" href="../resources/css/custom.css">
 
+	<script src="../resources/javascript/toolbar_opac.js"></script>
 	<script src="../resources/ckeditor/ckeditor.js"></script>
 <title>Insert title here</title>
 <!-- 나중에 뽑아갈것들 -->
 <style type="text/css">
+	body{
+    		padding-top:0px;
+    	}
+    header{
+    		background:url(../resources/images/community.jpeg) no-repeat center;
+    	}
+
 	input[type="text"]{
 		margin: 0 0 0 0;
 		padding: 0 0 0 0;
 	}
+	
+	input-group-custom{
+		/*background-color: 0;*/
+	}
+	.addon-custom{
+		background-color: #ffffff00;
+	}
+	
+	.removeBtn{
+	 padding-left:2px; 
+	}
+	#submit{
+		border: solid 1px;
+		border-radius: 5px;
+	}
+	#submit img{
+		width: 15px;
+	 	vertical-align: center;
+	}
 </style>
 <script type="text/javascript">
+var condition;
+ToolbarOpacHeight(500);
+
 	$(function(){
 		var editor=CKEDITOR.replace( 'boardContent',{ customConfig :'config_board.js'} );
 		//업데이트 textarea-> editor
@@ -54,7 +84,10 @@
 		//	alert(	$("#tagInput").val());
 			var tag = $("#tagInput").val();
 			
-			var tagName=$("<span><input type='text' name='tagNames' value='"+tag+"' readonly><a class='btn removeBtn'>x</a></span>");
+			var tagName=$("<span><span class='tag'>"+tag+
+					"<input type='hidden' name='tagNames' value='"+tag+"' readonly>"+
+					"</span><a class='btn removeBtn'>x</a></span>");
+			
 			tagName.find("a.removeBtn").on("click",function(){
 				//alert("test");
 				tagName.remove();
@@ -86,7 +119,7 @@
 			var url=tempObj.find("img:first").attr("src");
 			//alert(url);
 			$("input[name='thumbnailUrl']").val(url);
-			alert($("input[name='thumbnailUrl']").val());		
+			//alert($("input[name='thumbnailUrl']").val());		
 			//
 			$("form").submit();
 		});
@@ -100,31 +133,71 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>	
-	
+	<header class="parallax"></header>
 
 <div class="container">
+<!-- 
 	<form name="tx_editor_form" id="tx_editor_form" action="updateBoard" method="post" accept-charset="utf-8">
-		<!-- 에디터 컨테이너 시작 -->
 		
-		<!--  !!!!!!!제목 추가!!!!!!!!!!!! -->
-			<input type="hidden" name="boardNo" value="${board.boardNo }">
+		
+		
+		<input type="hidden" name="boardNo" value="${board.boardNo }">
 		제목<input type="text" name="boardTitle" class="input-title" value="${board.boardTitle}"> 
-			<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
+			<input type="hidden" name="thumbnailUrl">
 		태그<input type="text" id="tagInput"><a class="btn" id="addTagBtn">추가</a>
+		
+		<textarea rows="10" cols="80" name="boardContent">${board.boardContent}</textarea>
+		
+		<a id="submit" class="btn">수정</a>
 		<div id="tagNames">
 			<c:forEach items="${board.tagList }" var="tag">
 				<span><input type='text' name='tagNames' value='${tag.tagName}' readonly><a class='btn removeBtn'>x</a></span>
 			</c:forEach>
-		</div>
-		<textarea rows="10" cols="80" name="boardContent">${board.boardContent}</textarea>
-		
-		<a id="submit" class="btn">수정</a>
-			
+		</div>	
 		<div class="imgList">
 			이미지 목록
 		</div>
 	</form>
+ -->
 	
+	<form name="tx_editor_form" id="tx_editor_form" action="updateBoard" method="post" accept-charset="utf-8">
+		<input type="hidden" name="boardNo" value="${board.boardNo }">
+		<div class="form-group">
+			<div class="input-group input-group-custom">
+				<!--  <label for="boardTitle">제목</label> -->
+				<span class="input-group-addon addon-custom" id="title-addon">제목</span>
+				<input type="text" name="boardTitle" class="input-title form-control" value="${board.boardTitle}">
+			</div> 
+		</div>	
+		<input type="hidden" name="thumbnailUrl"><!-- 썸네일주소 -->
+		
+		<textarea rows="10" cols="80" name="boardContent">${board.boardContent}</textarea>
+		<br/>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="input-group input-group-custom">
+						 <span class="input-group-addon addon-custom" id="tag-addon">태그</span>
+						 <input type="text" id="tagInput" class="form-control" aria-describedby="tag-addon">
+						 <span class="input-group-addon addon-custom" id="addTagBtn"><a>추가</a></span>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6 text-right">
+					<a id="submit" class="btn">수정 <img src="../resources/images/community/btn_submit.png"></a>
+				</div>
+			</div>
+			
+		</div>
+		<div id="tagNames"></div>
+			<c:forEach items="${board.tagList }" var="tag">
+				<span><span class="tag">#${tag.tagName}</span><input type='hidden' name='tagNames' value='${tag.tagName}' readonly><a class='btn removeBtn'>x</a></span>
+			</c:forEach>
+		<div class="imgList">
+			이미지 목록
+		</div>
+		
+		<br/>
+	</form>
 </div>
 
 

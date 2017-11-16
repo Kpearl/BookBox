@@ -25,6 +25,14 @@
 	<script src="../resources/javascript/community/FileBufferReader.js"></script>
 	
 	<style type="text/css">
+	
+	hr{
+		margin-top: 8px;
+	}
+	
+	.media-box{
+		border: 0 !important;
+	}
 	.chat-container{
 		margin-top: 20px;
 	}
@@ -32,6 +40,9 @@
 		border: solid 2px #62BFAD;
 		height: 250px;
 		overflow: auto;
+		margin: 0 30px 0 30px;
+		padding: 0 40px 0 40px;
+		background-color: #eee;
 	}
 	
 	.media-container{
@@ -43,7 +54,73 @@
 		object-fit: contain;
 	}
 	
+	.room-info{
+		margin: 20px 10px 10px 10px;
+		padding-bottom: 5px;
+	}
+	.room-info .room-head{
+		height: 60px;
+	}
+	.room-info .room-title{
+		font-size: 30px;
+	}
+	.room-info .room-content{
+		height: 40px;
+		font-size:  15px;
+	}
+	.user-info{
+		height: 55px;
+		padding: 6px;
+	}
+	
+	.user-info .img{
+			vertical-align: top;
+			display: inline-block;
+	}
+	.user-info img{
+		height: 40px;
+		width: 40px;
+		border-radius: 50%;
+		object-fit: cover;
+	
+	}
+	.user-info .nickname{
+		height:40px;
+		font-size: 25px;	
+		display: inline-block;	
+		vertical-align: middle;
+	}
+	
+	.user-info .empty{
+		height: 100%;
+	}
+	
+	.chat-input-area{
+		margin: 20px 0 0 0;
+	
+	}
+	
+	.btn-custom{
+		cursor: pointer;
+		border: 1px #888 solid;
+		border-radius:5px;
+		color: #888;
+		padding: 5px;
+	}
+	.btn-custom:hover{
+		text-decoration: none;
+	}
+	
 	</style>
+	<script type="text/javascript">
+		$(function(){
+			$("#exit").on("click",function(){
+			
+				self.location="getCommunityMain";
+			});
+			
+		});
+	</script>
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
@@ -53,8 +130,9 @@
 	 <!--  비출력 정보 -->
 	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
 	 <input type="hidden" id="nickname" value="${user.nickname }">
+	 <input type="hidden" id="userImg" value="${user.booklogImage}">
 	 
-	 <!--  방정보 출력  여기 삭제예정-->
+	 <!--  방정보 출력  여기 삭제예정
 	 <div class="roomInfo" style="display: none">
 	 		<div class="input-group">
 	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
@@ -75,6 +153,7 @@
 				</c:forEach>
 			</div>
 	</div>
+	 -->
 	 <!--  방정보 끝 -->
 	 
 	  <h1 style="display: none;">
@@ -82,24 +161,35 @@
 	  </h1>
 	
 	<!-- 방정보 새로작성 -->
-	<div class="roomInfo">
-		<h5>${chatRoom.title}</h5>
-		<p>${chatRoom.content }</p>
+	<div class="room-info">
+		<div class="row room-head">
+			<div class="col-xs-9">
+				<div class="room-title">${chatRoom.title}</div>
+			</div>
+			<div class="text-right col-xs-3">
+				<a class="btn-custom" id="exit">나가기</a>
+			</div>
+		</div>
+		
+		<div class="room-content">${chatRoom.content }</div>
 		<div>
 			<c:forEach items="${chatRoom.tagList}" var="tag">
-				<span>${tag.tagName }</span>
+				<span class='tag'>${tag.tagName }</span>
 			</c:forEach>
 		</div>
 	</div>
+	<hr/>
 	<!-- 방정보 새로작성 끝-->
 		
 	    <div id="videos-container" class="row text-center"></div>
 
 		<div class="chat-container text-center">
         	<div class="chat-output text-left"></div>
-        	<input type="text" id="input-text-chat" placeholder="" >
-	   		<button id="input-text-btn btn">전송</button>
-	   		<button id="share-file">파일공유</button>
+        	<div class="chat-input-area">
+	        	<input type="text" id="input-text-chat">
+		   		<a id="input-text-btn" class="btn-custom">전송</a>
+		   		<a id="share-file" class="btn-custom">파일공유</a>
+        	</div>
    		</div>
    		
 	   
@@ -202,8 +292,6 @@ function writeChat(event){
     chatContainer.append(div);
 
     chatContainer.scrollTop(chatContainer[0].scrollHeight);
-    //div.tabIndex = 0;
-    //div.focus();
     document.getElementById('input-text-chat').focus();
 }
 
@@ -213,8 +301,6 @@ function writeChatSelf(message){
     chatContainer.append(div);
 
     chatContainer.scrollTop(chatContainer[0].scrollHeight);
-    //div.tabIndex = 0;
-    //div.focus();
     document.getElementById('input-text-chat').focus();
 }
 
@@ -223,9 +309,9 @@ var connection = new RTCMultiConnection();
 
 
 //학원 테스트
-connection.socketURL = 'https://192.168.0.21:433/';
+//connection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
-//connection.socketURL = 'https://192.168.219.167:433/';
+connection.socketURL = 'https://192.168.219.167:433/';
 
 
 connection.socketMessageEvent = 'video-conference-demo';
@@ -238,10 +324,13 @@ connection.enableFileSharing = true;
 //추가정보 입력
 var nickname=$("#nickname").val();
 var fontColor=getRandomColor();
+var userImg=$("#userImg").val();
 
 
-
-connection.extra={nickname:nickname,fontColor:fontColor};
+connection.extra={nickname:nickname,
+					fontColor:fontColor,
+					userImg: userImg};
+					
 connection.session = {
     audio: true,
     video: true,
@@ -279,7 +368,15 @@ connection.onstream = function(event) {
     });
     //유저 닉네임 추가
 	var mediaContainer=$(mediaElement);
-	mediaContainer.append("<h6>"+event.extra.nickname+"</h6>");
+
+	mediaContainer.append(	"<div class='user-info row'>"+
+								"<div class='img'>"+
+								"<img src=\"../resources/upload_files/images/"+event.extra.userImg+"\" onerror=\"this.src='../resources/images/no_booklog_image.png'\">"+
+								"</div>"+
+								"<div class='nickname'>"+
+									"<div>"+event.extra.nickname+"</div>"+
+								"</div>"+
+							"</div>");
 	//mediaContainer.addClass("col-xs-3");
 	mediaContainer.css("width","");
 	//console.log(test.html());
@@ -320,8 +417,8 @@ connection.onmessage = appendDIV;
 connection.filesContainer = document.getElementById('file-container');
 
 connection.onopen = function(e) {
-	
-	writeChat(e.extra.nickname+"님이 입장하였습니다.");
+	e.data="입장하였습니다";
+	writeChat(e);
     document.getElementById('share-file').disabled = false;
     document.getElementById('input-text-chat').disabled = false;
     //document.getElementById('btn-leave-room').disabled = false;

@@ -7,6 +7,7 @@ import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
+import com.bookbox.service.domain.User;
 
 public interface CommunityDAO {
 	
@@ -26,5 +27,6 @@ public interface CommunityDAO {
 	public int getCommentMaxLevel(int boardNo);
 	
 	public int addRecommend(Recommend recommed);
+	public int getRecommend(Recommend recommend);
 	public int addReport(Report report);
 }

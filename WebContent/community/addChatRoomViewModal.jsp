@@ -15,9 +15,59 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
     <link rel="stylesheet" href="../resources/css/custom.css">
 
+<style type="text/css">
+	.tag{
+		margin-left: 10px;
+		margin-top: 10px;
+	}
+
+	.addon-custom{
+		background-color: #ffffffff !important; 
+		border: 0px !important;
+	}
+	.label-custom{
+		font-size: 18px;
+		font-weight: lighter;
+		color: groove;
+		cursor: pointer;
+		border: 2px groove;
+		border-radius: 7px;
+	}
+	
+	.input-hidden{
+		display: none !important;
+	}
+	
+	.input-group-custom{
+		margin-bottom: 10px;	
+	}
+	
+	.btn-custom{
+	    padding: 5px;
+		border: 2px solid;
+	    border-radius: 7px;
+	    padding-left: 15px;
+	    padding-right: 15px;
+	    cursor: pointer;
+	    color: #777;
+	}
+</style>
 
 <script type="text/javascript">
 	$(function(){
+		//fileinput 이벤트
+		$("#inputFile").on("change",function(){
+			var filename;
+			if(window.FileReader){ // modern browser 
+				filename = $(this)[0].files[0].name; } 
+			else { // old IE var 
+				filename = $(this).val().split('/').pop().split('\\').pop(); 
+			}
+			
+			$("#fileText").val(filename);
+			
+		});
+
 		
 		//태그 자동완성
 		$( "#chatroom-tagInput" ).autocomplete({
@@ -65,7 +115,7 @@
 		
 		var tagName=$("<span><span class='tag'>"+tag+
 						"<input type='hidden' name='tagNames' value='"+tag+"' readonly>"+
-						"</span><a class='btn removeBtn'>x</a></span>");
+						"</span><a class='removeBtn'>x</a></span>");
 		tagName.find("a.removeBtn").on("click",function(){
 			//alert("test");
 			tagName.remove();
@@ -73,7 +123,7 @@
 		
 		 $("#chatroom-tagInput").val("");
 		//alert(tagName.val());
-		$("#chatroom-tagInput").after(tagName);
+		$("#tagNames").append(tagName);
 		
 	}
 	
@@ -90,31 +140,38 @@
 	
 		<form class="chatRoom-form" action="addChatRoom" method="post" enctype="multipart/form-data">
 			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
-			 <input type="text" name="title" class="form-control" placeholder="Title" aria-describedby="title-addon"/>
+	 		 <span class="input-group-addon addon-custom" id="title-addon">방 제목</span>
+			 <input type="text" name="title" class="form-control"  aria-describedby="title-addon"/>
 			</div>
 			
-			<div class="input-group">
-	 			<span class="input-group-addon" id="content-addon">방 내용</span>
-				<textarea  name="content" class="form-control" placeholder="content" aria-describedby="content-addon"></textarea>
+			<div class="input-group input-group-custom">
+	 			<span class="input-group-addon addon-custom" id="content-addon">방 내용</span>
+				<textarea  name="content" class="form-control" aria-describedby="content-addon"></textarea>
 			</div>
-			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">최대인원</span>
-			 <input type="text" name="maxUser" class="form-control" placeholder="maxUser" aria-describedby="title-addon"/>
+			<div class="input-group input-group-custom">
+	 		 <span class="input-group-addon addon-custom" id="title-addon">최대인원</span>
+			 <input type="text" name="maxUser" class="form-control"  aria-describedby="title-addon"/>
 			</div>
-			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">이미지</span>
-			 <input type="file" name="file" class="form-control" placeholder="이미지" aria-describedby="title-addon"/>
+			<div class="input-group input-group-custom">
+	 		 <span class="input-group-addon addon-custom" id="title-addon">이미지</span>
+			 <input type="file" id="inputFile" name="file" class="form-control input-hidden"  aria-describedby="title-addon"/><!-- 숨김 -->
+			 <input type="text" id="fileText" class="form-control"  readonly/>
+			 <span class="input-group-addon addon-custom" id="title-addon">
+			 	<label for="inputFile" class="label-custom">이미지 선택</label>
+			 </span>
 			</div>
-			<div class="input-group">
-	 		 <span class="input-group-addon" id="type">방종류</span>
+			<div class="input-group input-group-custom">
+	 		 <span class="input-group-addon addon-custom" id="type">방종류</span>
 			 <select name="type"  class="form-control">
 			 	<option value="0">그룹채팅</option>
 			 	<option value="1">방송</option>
 			 </select>
 			</div>
 			<div id="tagNames">
-				<input type="text"id="chatroom-tagInput"><a class="btn" id="chatroom-addTagBtn">추가</a>
+				<div class="input-group input-group-custom">
+				<span class="input-group-addon addon-custom" id="type">태그</span>
+				<input type="text"id="chatroom-tagInput"><a class="btn-custom" id="chatroom-addTagBtn">추가</a><br/>
+				</div>
 			</div>
 			
 		</form>

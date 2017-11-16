@@ -81,12 +81,16 @@
 
 	/*댓글*/
 	.media{
-		border: solid 1px;
-		padding: 10px;
+		/*border: solid 1px;*/
+		padding: 10px 0 10px 10px;
+
 	}
 	
 	.media .media-left{
-		/*border-left: solid 1px;*/ 
+		/*border-left: dashed 1px;*/ 
+		height: 100%;
+		padding-bottom: 0px;
+		overflow: hidden;
 	}
 	
 	.media .media-left img{
@@ -95,9 +99,32 @@
 		border-radius:50%;
 		object-fit:cover;
 	}
+	.media .empty{
+		width: 20px;
+		border-right: dotted 1px;
+		margin-top: 10px;
+
+	}
 	
+	.media-heading{
+		height: 30px;
+		padding-top: 8px;
+		background-color: florawhite;
+	}
+	.media-heading .regdatea{
+		height: 100%;
+		padding-top: 10px;
+	}
 	.media-heading strong{
-		font-size: 13px;
+		font-size: 12px;
+	}
+	
+	.test{
+		background-color: #eee
+	}
+	
+	.media .append-area{
+		
 	}
 	
 	.comment-textarea{
@@ -152,7 +179,7 @@ ToolbarOpacHeight(500);
 			method: "POST",
 			data: param,
 			success:function(data,status){
-				alert("success")	
+				alert(data);	
 			}
 		});
 		
@@ -192,6 +219,17 @@ ToolbarOpacHeight(500);
 			$(".commentList").html("");
 			
 			appendComment(commentListDiv,data);
+			
+			//추가부분
+			$(".empty").each(function(index,elem){
+				var parentHeight=$(elem).parent().css("height");
+					parentHeight.replace("px","");
+					parentHeight=parseInt(parentHeight);
+					parentHeight-=50;
+				$(elem).css("height",parentHeight+"px");
+				
+			});
+			//
 			}
 	 	});//ajax 끝 
 	}
@@ -200,7 +238,7 @@ ToolbarOpacHeight(500);
 	//대댓글 재귀함수
 	function appendComment(parentObj,commentList){
 		
-		var appendPoint=parentObj.find(".media-body");
+		var appendPoint=parentObj.find(".media-body .append-area");
 		
 		//레벨 0댓글일 경우 comment 부분에 추가
 		if(!appendPoint.length){
@@ -216,24 +254,29 @@ ToolbarOpacHeight(500);
 									"<input name='commentNo' type='hidden' value='"+comment.commentNo+"'>"+ //히든처리할거
 									"<input name='level' type='hidden' value='"+comment.level+"'>"+ //히든처리할거
 									"<div class='media-left'>"+
+										"<div>"+
 										"<img src='../resources/upload_files/images/"+comment.writer.booklogImage+"'"+ 
 											"onerror=\"this.src='../resources/images/no_booklog_image.png'\">"+
-									//"<img src='../resources/images/comment.png' class='media-object' style='width:20px'>"+
+										"</div>"+
+										"<div class='empty'></div>"+
 									"</div>"+
 									"<div class='media-body'>"+
 										"<h4 class='media-heading row'>"+
 											"<div class='col-xs-6'>"+ 
 												comment.writer.nickname +
 											"</div>"+
-											"<div class='col-xs-6'>"+
+											"<div class='col-xs-6 text-right regdate'>"+
 											"<strong>"+comment.regDate+"</strong>"+
 											"</div>"+
 										"</h4>"+
-										"<p class='comment-content'>"+comment.content+"</p>"+
-										"<a class='btn' id='addCommentArea'><img src='../resources/images/community/btn_comment2.png'>답변</a>"+
-										"<a class='btn report'><img src='../resources/images/community/btn_report.png'>신고</a>"+
+										"<div class='test'>"+
+											"<p class='comment-content'>"+comment.content+"</p>"+
+											"<a class='btn' id='addCommentArea'><img src='../resources/images/community/btn_comment2.png'>답변</a>"+
+											"<a class='btn report'><img src='../resources/images/community/btn_report.png'>신고</a>"+
+										"</div>"+
 										"<div class='inputarea'>"+
 										"</div>"+
+										"<div class='append-area'></div>"+
 									"</div>"+
 								"</div>"	);
 				

@@ -18,7 +18,7 @@
 	
 	<style>
 		body{
-    		padding-top:0px;
+    		padding-top:0px !important;
     	}
     	header{
     		background:url(../resources/images/community.jpeg) no-repeat center;
@@ -196,6 +196,7 @@
 		   		}
 		   		.board-content-v2 .board-body-v2 .nickname img{
 		   			height: 16px;
+		   			width: 16px;
 		   			object-fit: cover;
 		   			border-radius: 50%;
 		   		}
@@ -205,8 +206,8 @@
 		   			overflow: hidden;
 		   			line-height: 25px;
 		   			padding-top: 5px;
-		   			padding-left: 20px;
-		   			padding-right: 20px;
+		   			padding-left: 30px;
+		   			padding-right: 30px;
 		   		}
 		   		.board-content-v2 .board-body-v2 .tag-list{
 		   			padding-top: 10px;
@@ -219,10 +220,14 @@
  
 		
 		.btn-create{
-			font-size: 25px;
+			border: 1px solid;
+	   		border-radius: 7px;
+	   		padding: 8px;
+			font-size: 20px;
+			color: #777;
 		}
 		.btn-create img{
-			height: 25px;
+			height: 20px;
 			margin-right: 5px;
 		}
     </style>
@@ -267,12 +272,13 @@
 		
 	<div class="container">
 		<div class="row">
+			<br/><br/>
 			<!-- 생성버튼 -->
 			<div class="col-md-6 text-left">
 			<div>
-			<a class="btn-create btn addChatRoomModal" data-toggle="modal" data-target="#addChatRoom"><img src="../resources/images/community/btn_cast.png">채팅방 생성</a>
+			<a class="btn-create addChatRoomModal" data-toggle="modal" data-target="#addChatRoom"><img src="../resources/images/community/btn_cast.png">채팅방 생성</a>
 			<!--  <a class="btn btn-default" href="addChatRoom">채팅방 생성</a> -->
-			<a class="btn-create btn" href="addBoard"><img src="../resources/images/community/btn_board.png">게시글 작성</a>
+			<a class="btn-create" href="addBoard"><img src="../resources/images/community/btn_board.png">게시글 작성</a>
 			<!-- <a class="btn addBoardModal" data-toggle="modal" data-target="#addBoard">게시판 생성</a>-->
 			</div>
 			<br>
@@ -470,7 +476,7 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h4 class="modal-title" id="exampleModalLabel">채팅방 생성</h4>
+	        <h3 class="modal-title" id="exampleModalLabel">채팅방 생성</h3>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>

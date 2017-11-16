@@ -232,6 +232,13 @@
 				
 	</insert>
 	
+	<select id="getRecommend" parameterType="recommend">
+		SELECT COUNT(*)
+		FROM recommend
+		WHERE email=#{email} AND category_no= #{categoryNo} AND target_no=#{targetNo} AND pref=#{pref}
+		
+	</select>
+	
 	<insert id="addReport" parameterType="report">
 		
 		INSERT INTO report (`email`, `target_no`, `category_no`) 

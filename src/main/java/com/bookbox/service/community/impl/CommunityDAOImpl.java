@@ -14,6 +14,7 @@ import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
+import com.bookbox.service.domain.User;
 
 @Repository("communityDAOImpl")
 public class CommunityDAOImpl implements CommunityDAO {
@@ -103,6 +104,12 @@ public class CommunityDAOImpl implements CommunityDAO {
 		
 		return sqlSession.insert("CommunityMapper.addRecommend",recommed);
 	
+	}
+	
+	@Override
+	public int getRecommend(Recommend recommend) {
+	
+		return sqlSession.selectOne("CommunityMapper.addRecommend",recommend);
 	}
 
 	@Override
