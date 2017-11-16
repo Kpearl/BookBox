@@ -83,6 +83,7 @@ public class FundingServiceImpl implements FundingService {
 		List<Funding> fundingList =fundingDAO.getFundingList(map);
 		
 		for(Funding funding : fundingList) {
+			map.put("targetNo", funding.getCreation().getCreationNo());
 			funding.setCreation(creationDAO.getCreation(map));
 			map.put("fundingNo", funding.getFundingNo());
 			funding.setPayInfoList(fundingDAO.getFundingUserList(map));

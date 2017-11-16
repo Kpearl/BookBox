@@ -81,6 +81,12 @@ public class CommonDAOImpl implements CommonDAO {
 	public Grade getAvgGrade(Map<String, Object> map) {
 		return sqlSession.selectOne("CommonMapper.getAvgGrade", map);
 	}
+	
+	@Override
+	public int getDoGrade(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("CommonMapper.getDoGrade",map);
+	}
 
 	@Override
 	public void addUploadFile(List<UploadFile> list) {

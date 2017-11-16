@@ -90,7 +90,15 @@
 			w.active = 1
 			
 		</where>
-		ORDER BY w.reg_date DESC 
+		GROUP BY
+			w.writing_no, w.writing_title , w.creation_no,
+			w.writing_content, w.reg_date , 
+			w.update_date, w.active,
+			writing_category_no,
+			u.nickname	
+		
+		ORDER BY w.reg_date DESC 	
+		
 		<if test="page !=null">
 		LIMIT #{page.startRow}, #{page.pageSize}
 		</if>

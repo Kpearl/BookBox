@@ -131,8 +131,10 @@
 		FROM 
 			creation c
 			LEFT JOIN user u ON c.author = u.email
-			LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
-			LEFT JOIN tag  t ON tg.tag_no =t.tag_no
+			<if test="search.condition == 2">
+				LEFT JOIN tag_group tg ON c.creation_no = tg.target_no 
+				LEFT JOIN tag  t ON tg.tag_no =t.tag_no AND t.tag_name IN ('픽션', '논픽션')
+			</if>
 
 		<where>
 			<if test="user !=  null and search == null">
@@ -149,11 +151,11 @@
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				t.tag_name IN (#{search.keyword}) 
 					</if>
-					<if test="search.condition == 3 and search.keyword !=''">
+		<!-- 			<if test="search.condition == 3 and search.keyword !=''">
 		 				t.tag_name LIKE '%${search.keyword}%' OR 
 		 				u.nickname LIKE '%${search.keyword}%' OR 
 		 				t.tag_name LIKE '%${search.keyword}%' 
-					</if>
+					</if> -->
 			</if>
 			
 				AND c.active 	= 1

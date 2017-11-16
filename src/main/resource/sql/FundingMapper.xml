@@ -140,8 +140,8 @@
 	<select  id="getFundingList"  parameterType="map"	resultMap="fundingSelectMap">
 		
 		SELECT
-			f.funding_no, f.funding_title, f.creation_no, 
-			f.funding_intro, f.reg_date, per_funding,
+			f.funding_no, f.funding_title, f.creation_no AS  'creation.creationNo', 
+			f.funding_intro, f.reg_date, f.per_funding,
 			f.end_date, f.funding_target, 
 			f.funding_file_name, f.funding_origin_name, 
 			f.active

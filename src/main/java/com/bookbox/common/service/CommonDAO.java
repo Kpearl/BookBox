@@ -79,6 +79,14 @@ public interface CommonDAO {
 	public Grade getAvgGrade(Map<String, Object> map);
 	
 	/**
+	 * @brief getDoGrade
+	 * @detail 평점매김여부 조회
+	 * @author HJ
+	 * @date 2017.11.16
+	 */	
+	public int getDoGrade(Map<String, Object> map);
+	
+	/**
 	 * @brief getLike
 	 * @detail 좋아요 조회
 	 * @author JJ

@@ -110,7 +110,11 @@ public class WritingServiceImpl implements WritingService {
 		System.out.println("writingService :: getWriting :: map :: "+map);
 		
 		writing = writingDAO.getWriting(writing);
-		writing.setGrade(commonDAO.getGrade(map));
+		Grade grade =commonDAO.getGrade(map);
+		if(commonDAO.getDoGrade(map) != 0) {
+			grade.setDoGrade(true);
+		}
+		writing.setGrade(grade);
 		writing.setWritingFileList(commonDAO.getUploadFileList(map));
 		writing.setReplyList(commonDAO.getReplyList(map));
 		System.out.println("getWriting :: WritingFileList :: "+commonDAO.getUploadFileList(map));
@@ -131,15 +135,19 @@ public class WritingServiceImpl implements WritingService {
 		
 		if(map.get("page") != null) {
 		Page page = (Page)map.get("page");
-		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("cration")));
+		page.setTotalCount(writingDAO.getTotalWritingCount((Creation)map.get("creation")));
 		}
+
 		List<Writing> writingList = writingDAO.getWritingList(map);
 		map.put("categoryNo", Const.Category.WRITING);
 		for(Writing writing : writingList) {
 			map.put("targetNo", writing.getWritingNo());
-			writing.setGrade(commonDAO.getGrade(map));
+			Grade grade = commonDAO.getGrade(map);
+			if(commonDAO.getDoGrade(map) != 0) {
+				grade.setDoGrade(true);
+			}
+			writing.setGrade(grade);
 		}
-		
 		
 		return writingList;
 	}

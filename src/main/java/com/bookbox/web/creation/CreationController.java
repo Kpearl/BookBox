@@ -465,9 +465,9 @@ public class CreationController {
 			page.setPageUnit(pageUnit);
 		}
 		
-		System.out.println("getCreationList :: getSearch :: "+search+"\n");
-		System.out.println("getCreationList :: getPage :: "+page+"\n");
-		System.out.println("getCreationList :: getCreation :: "+creation+"\n");
+		System.out.println("getWritingList :: getSearch :: "+search+"\n");
+		System.out.println("getWritingList :: getPage :: "+page+"\n");
+		System.out.println("getWritingList :: getCreation :: "+creation+"\n");
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(),(User)session.getAttribute("user"));
 		map.put("search", search);
@@ -476,11 +476,7 @@ public class CreationController {
 		
 		creation = creationService.getCreation(map);
 		System.out.println("creation :: "+creation);
-				
-		List<Writing> writingList = writingService.getWritingList(map);
-//		System.out.println("getWritingList"+writingList+"\n");
-		creation.setWritingList(writingList);
-	
+			
 		// Model 과 View 연결
 		model.addAttribute("creation", creation);
 		

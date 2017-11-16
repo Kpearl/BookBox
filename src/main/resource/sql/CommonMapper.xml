@@ -95,6 +95,16 @@
 			  target_no = #{targetNo}
 	</select>
 	
+	
+	 <select id="getDoGrade" parameterType="map" resultType="int">
+	SELECT COUNT(*)
+	FROM	grade
+    WHERE
+	    category_no =	#{categoryNo} AND
+	    target_no = #{targetNo} AND
+		email = #{user.email} 
+	</select>
+	
 	<select id="getAvgGrade" parameterType="map" resultMap="gradeSelectMap">
 		SELECT ifnull(avg(g.grade),0) AS average
 		FROM grade g
