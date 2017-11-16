@@ -15,6 +15,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/custom.js"></script>
+	
 <style type="text/css">
 	.gradeAvg{
 		display: inline-block; 
@@ -40,7 +42,7 @@
 	    		success: function(JSONData, status){
 	    		//	alert(JSONData);
 	    			$(".doSubscription").css('background-color','#bbbbbb').css('color','darkslategray').removeClass('doSubscription').addClass('deleteSubscription').html("<i class='glyphicon glyphicon-tags'></i><strong>구독중</strong>").off('click');
-	    		//	$("a.doSubscription").replaceWith("<a style='background-color:rgba(106, 98, 230, 0.46);' class='btn btn-default deleteSubscription' type='button'><i class='glyphicon glyphicon-tags'></i>구독중</a>");
+	    		
 	    			 $(".deleteSubscription").on("click" , function() {
 			   	    		alert("구독취소");
 			   	    		fncDeleteSubscription();
@@ -196,7 +198,7 @@ $(function() {
 					prependReply+='<div class="reply-content">'+content+'</div><hr>'
 					 
 					$(".reply-list").prepend(prependReply);
-	              	content = "";
+					$('input.reply-content').val("");
 				} 
 			});
 		}		
@@ -222,7 +224,7 @@ $(function() {
 		var idx = $(this).index() + 1;
 		$('.gradeAvg-present ul li').off();
 		
-		if ("${grade.doGrade}" == "true") {
+		if ("${writing.grade.doGrade}" == "true") {
 			alert("이미 평점을 등록하셨습니다.");
 		} else {
 			alert(idx + "점을 등록하시겠습니까?");
@@ -232,8 +234,12 @@ $(function() {
 				method: "GET",
 				success: function() {
 					alert("평점이 등록되었습니다.");
-					$("#get-gradeAvg").html( (idx + ${writing.grade.average*writing.grade.userCount})/(${writing.grade.userCount}+1) );
-				}
+					var avg = ${writing.grade.average};
+					var userCount = ${writing.grade.userCount};
+					$("#get-gradeAvg").html("("+ (idx + (avg * userCount))/(userCount+1) +")");
+					$('.gradeAvg-result').removeClass().addClass('star'+Math.floor((idx + (avg * userCount))/(userCount+1)));
+					$('.add-grade-form').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 참여하였습니다.');
+				} 
 			});
 		}
 	});
@@ -284,8 +290,7 @@ $(function() {
 		        <div class="row">
 		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
 			           	<c:forEach items="${creation.tagList}" var="tag">
-			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;" class="tag">
-			           		<strong>#${tag.tagName}</strong></span>
+			           		<span class="tag">#${tag.tagName}</span>
 			           	</c:forEach>
 		            </div>
 		        </div>
@@ -303,7 +308,7 @@ $(function() {
         
             <div class="col-md-6">
             	<div class="row" role="group" style="float:right">
-                	
+             <c:if test="${!empty sessionScope.user }">   	
             <c:if test="${creation.doFunding}">
                 <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
             </c:if>
@@ -326,13 +331,14 @@ $(function() {
 	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
 	                    </div>
 	               </c:if>
+	               </c:if>
                 </div>
             </div>
         </div><!--창작부분 버튼 끝  -->
    </div><!--창작 container 끝  -->
 	
 	<!--writing 시작  -->
-	<div class="container">
+	<div class="container" style="margin-bottom:80px;overflow-x:scroll;">
 		<input type ="hidden" name="writingNo" value="${writing.writingNo }">
 				
 		<div class="row writing-form" id="writing-form" >
@@ -352,14 +358,19 @@ $(function() {
 						</div>
 						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong id="get-gradeAvg">(${writing.grade.average})</strong></div>
 						<div class="add-grade">별점주기</div>
-						<div id="starWrap" class="gradeAvg-present star${writing.grade.average}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
-								<ul style="padding-left:0">
-									<li class="s1"></li>
-									<li class="s2"></li>
-									<li class="s3"></li>
-									<li class="s4"></li>
-									<li class="s5"></li>
-								</ul>
+						<div class="add-grade-form">
+							<c:if test="${!writing.grade.doGrade }">
+								<div id="starWrap" class="gradeAvg-present star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+										<ul style="padding-left:0">
+											<li class="s1"></li>
+											<li class="s2"></li>
+											<li class="s3"></li>
+											<li class="s4"></li>
+											<li class="s5"></li>
+										</ul>
+								</div>
+							</c:if>
+							<c:if test="${writing.grade.doGrade }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 참여하였습니다.	</c:if>
 						</div>
 						<div class="updatedate text-right" style="float:right">
 							<p style="margin: auto;">${writing.updateDate }</p>
@@ -382,10 +393,10 @@ $(function() {
 				</div>
 			</div>
 		</c:if>
-
+</div><!--writing container 끝  -->
 		
 		<!-- 댓글 -->
-		<div class="row reply-form" style="margin: 2% 5%;">
+		<div class="row reply-form" style="margin: 2% 13%;">
 				<div class="row reply-head" style="margin: auto;font-size: x-large;">의견쓰기 ${writing.replyList.size() }</div>
 				<div class="reply-border" style="padding: 2%;border: 1px groove; height:150px;">
 					<strong>${user.nickname }</strong> 
@@ -433,10 +444,7 @@ $(function() {
 						<hr>
 			</div> -->
 		</div>
-	
-		
 	</div>
-	
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

@@ -15,6 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 
 	<!-- 평점 별 css -->
 	<link rel="stylesheet" href="../resources/css/star.css">
@@ -92,9 +93,20 @@
 		<div class="container" >
 				<jsp:include page="creationToolbar.jsp"/>
       	  
-	<div class="row"></div>
+		<div class="row" style="margin-top: 40px;">
+					<div class="col-md-6 text-left">
+						<p class="paging">전체 ${creationList.size() } 건수, 현재
+						${page.currentPage} 페이지</p>
+					</div>
+					<div class="col-md-6 col-xs-hidden" style="text-align: right;">
+						<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 최신순</span>
+						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">별점순</span>
+						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">픽션</span>
+						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">논픽션</span>
+					</div>
+		</div>
 	
-	   <div class="row" style="margin-top:50px">
+	   <div class="row" style="margin-top:30px">
 	   <div class="col-sm-12 col-md-12">
 	   		<div class="row">
 				<c:forEach var="creation" items="${creationList }" >

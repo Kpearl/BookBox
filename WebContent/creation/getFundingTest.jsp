@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -15,6 +17,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 	
 	<!--Kakao Pay  -->
 	<script src="https://service.iamport.kr/js/iamport.payment-1.1.4.js" type="text/javascript"></script>
@@ -26,7 +29,6 @@
 	.funding-content-detail{
 	    margin-bottom: 50px;
 	    height: 500px;
-	    
 	}
 	
 	div.funding-creation{
@@ -48,6 +50,15 @@
     		background:url(../resources/images/newCreationTest6.jpg) no-repeat center;
     	}
     	
+    	.form-style{
+    		border-bottom: 2px inset;
+    		padding: 0px 50px 50px 50px;
+    		margin-top: 40px;
+    		border-top: 2px groove;
+    		background-color: rgba(221, 221, 221, 0.12);
+    		margin-bottom: 80px;
+    	}
+    	
     	.funding-button{
     		margin-top:10px;
     		cursor:pointer;
@@ -66,7 +77,7 @@
 		    left: 50%;
 		    position: absolute;
 		    transform: translate(-50%, -50%);
-		    font-size: xx-large;
+		    font-size: 25px;
 		    font-style: italic;
 		    color: black;
 		    padding: 0% 7%;
@@ -81,6 +92,18 @@
 		    left: 80%;
 		    z-index: 2;
 		    overflow: hidden;
+    	}
+    	.go-writing{
+   		    position: absolute;
+   			 bottom: 5%;
+    		right: 7%;
+    		border-radius: 30px;
+   		    background-color: #ddd;
+   		    font-weight:bold;
+    	}
+    	.writing-label{
+		    font-weight: bold;
+   			font-size: large;	
     	}
 	
 	</style>
@@ -180,17 +203,6 @@
 
 
 	//===============주소입력===================
-/*  	 $(function() { 
-
-				  $(".addrSearch").postcodify({
-				        insertPostcode5 : "#postcode",
-				        insertAddress : "#address",
-				        insertDetails : "#details",
-				        insertExtraInfo : "#extra_info",
-				        hideOldAddresses : false
-				    }); 
-						  
-	 }); */   
 			
 		 function fncPostcodify(){   
 			    	
@@ -212,12 +224,7 @@
 			
 		});//참여정보조회 이벤트 끝
 		
-/* 		if(${isFunding==true} ){
-			if($('#add-payInfo').on('hidden.bs.modal')){
-					
-			}
-		} */
-		
+
 		function fncFundingPayInfo() {
 			/////////ajax 적용/////////
 			$.ajax({
@@ -271,6 +278,9 @@
 			});
 			$('.funding-userlist').on('click', function(){
 				$(self.location).attr('href', '../creation/getFundingUserList?fundingNo='+$('input[name="fundingNo"]').val());
+			});
+			$('.go-writing').on('click', function(){
+				$(self.location).attr('href', '../creation/getWritingList?creationNo='+${funding.creation.creationNo});
 			});
 			
 		});
@@ -374,9 +384,9 @@
                     	${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%
                     </div>
                 </div><!--progress bar END  -->
-                <div class="row funding-target text-right" style="font-size:large;"> 목표금액 : <strong style="font-size:x-large;">${funding.fundingTarget }</strong>원</div>
+                <div class="row funding-target text-right" style="font-size:large;"> 목표금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.fundingTarget }" pattern="#,###"/></strong>원</div>
                	<div class="row perFunding text-right" style="padding-left: 0;margin-left: 0;font-size:initial;font-family: unset;font-weight: 500;margin-top: 0;">
-               	참여금액 : <strong style="font-size:x-large;">${funding.perFunding}</strong> 원
+               	참여금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.perFunding}" pattern="#,###"/></strong> 원
                	</div>
                 <div class="row funding-endDate text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">${funding.fundingEndDate}</div>
                 <div class="row funding-percent" style="margin-left: 0;font-size:18px;font-family: unset;">
@@ -414,54 +424,47 @@
          </div><!-- 펀딩정보 끝 -->
         </div><!-- creation-part 끝 -->
  	</div><!-- div container 끝 -->
-        	<%-- <div class="row col-sm-12 col-md-12 button-position text-right" style="margin-top: 30px;">
-                    <c:if test="${!empty sessionScope.user}">
-                    	<c:if test="${sessionScope.user.email == funding.creation.creationAuthor.email}"> 
-                        	<a class="btn btn-default funding-userlist" type="button">참여자목록조회</a>
-                    	</c:if>
-	                     <c:if test="${!isFunding}">
-	                        <a class="btn btn-default funding-join" type="button" data-toggle="modal" data-target="#add-payInfo">펀딩하기</a>
-	                    </c:if>
-	                    <c:if test="${isFunding}">
-	                    	<a class="btn btn-default funding-pay-info" type="button">펀딩정보조회</a>
- 	                   </c:if>
-	              </c:if>
-	        </div> --%>
-	        <!-- <hr style="margin-bottom:0;    margin-top: 50px;"> -->
-	
+        
+        	
 		<div class="container">
 	        <div class="row funding-content-detail">
 	            <div class="row funding-form" id="funding-form" >
-					<div style="border-bottom: 2px inset;padding: 0px 50px 50px 50px;margin-top: 40px;border-top: 2px groove;background-color: rgba(221, 221, 221, 0.12);">
+					<div class="form-style" >
 						<div class = "row funding-regdate" style="margin-top:15px;text-align: right;">${funding.fundingRegDate }</div>
 						<div class="writing-content" style="margin-top: inherit;padding: 0px 25px 0px 25px;">
 							<div class="funding-intro-title" style="font-weight: bold;font-size: large;">Funding intro.</div>
 							<div class="funding-intro" style="margin-top: 2%;">${funding.fundingIntro }</div>
-							<div class="funding-creation-info">
+							<!-- <div class="funding-creation-info"> -->
 							
 								<div class="row creation-from">
-									<div class="col-md-7 col-md-offset-2" style="height: 700px;border: 1px groove;margin-top: 7%;">
+									<div class="col-md-7 col-md-offset-2" style="height: 700px;margin-top: 7%;">
 										<div class="creation-author-image"><img class="img-object-fit" src="../resources/upload_files/images/${funding.creation.creationAuthor.booklogImage }"></div>										
 										<div class="row creation-image" style="position:relative;height: 35%;border-bottom: 1px groove; background: url(../resources/upload_files/images/${funding.creation.creationFileName}) no-repeat center;opacity: 0.5;">	
 											<div class="creation-title">${funding.creation.creationTitle }</div>
 										</div>
-										<div class="row creation-writing-list" style="height: 65%;">
+										<div class="row creation-writing-list" style="height: 65%;background-color: #ffffff;box-shadow: 0.5px 0.5px 0px 1px;">
 											<div class="creation-writing-form" style="margin: 5% 10%;">
-													<div class="writing-author-label">Author</div>
-													<div class="writing-author">${funding.creation.creationAuthor.nickname }</div>
-														<div class="writing-list-title">Content</div>
+													<div class="writing-label writing-author-label" >Author</div>
+													<div class="writing-author" style="font-size: large;">${funding.creation.creationAuthor.nickname }</div>
+														<div class="writing-label writing-list-title" style="margin-top: inherit;">Content</div>
 														<div class="writing-form">
-															<div class="writing-title-label"></div>
-																<c:forEach var="writing" items="${funding.creation.writingList }">
+															<c:forEach var="writing" items="${funding.creation.writingList }">
 																	<div class="writing-title">${writing.writingTitle }</div>
 																</c:forEach>
 														</div>
+													<div class="writing-label creatopm-tag-label" style="margin-top: inherit;">Tag</div>	
+													<div class="creation-tag-list">
+														<c:forEach var="tag" items="${funding.creation.tagList }">
+															<span class="tag">#${tag.tagName }</span>
+														</c:forEach>
+													</div>
 												</div>
+										<div class="go-writing btn-form">작품 보러가기</div>
 										</div>
 									</div>
 								</div>
 							
-							</div>	
+							<!-- </div>	 -->
 						</div>
 					</div>
 				</div>

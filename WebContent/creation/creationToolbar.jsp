@@ -25,7 +25,8 @@
 	}
 	
 	.creation-menu-each{
-		margin-right : 30px;
+	    padding-left: 15px;
+    	padding-right: 15px;
 	    font-size: initial;
 	}
 
@@ -79,6 +80,29 @@
    
  });  
    
+    //============각 메뉴 hover EVENT================= 
+    $(function(){
+    	$( ".li-form" ).hover(
+    			  function() {
+    			    $( this ).css("opacity","0.7").css("background-color","rgba(187, 187, 187, 0.48)");
+    			   },
+    			 function(){
+    				   $( this ).css("opacity","").css("background-color","");   
+    			   }
+    			  
+    	);
+    })  
+    
+    //============각 메뉴 onchange EVENT================= 
+    $(function(){
+    	$( ".creation-menu-each" ).on('change', function(){
+    		$(".creation-menu-each").css(color,"#fccf4d")
+    	    /* color: #fccf4d;
+    	    background-color: black;
+    	    padding-top: 2px; */
+    		
+    	})
+     })
   
     </script>
 		

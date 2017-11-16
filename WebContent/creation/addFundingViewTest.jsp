@@ -55,7 +55,7 @@
 		    });
 		    
 		    var date = new Date();
-		    $('#fundingRegDate').val(fncGetDate(0));
+		    $('#fundingRegDate').val(date.getFullYear()+"-"+fncGetDate(0));
 		} );	
 	
 		//============== 펀딩등록 Event===========
@@ -65,7 +65,7 @@
 				});
 		})
 		
-				//============== 펀딩등록 Event===========
+				//============== 이전화면 Event===========
 		$(function(){
 			$('.menu').on('click', function(){
 				history.back();
@@ -117,7 +117,7 @@
         <form class="form-horizontal funding-add">
             
             
-            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;">펀딩 등록</div>
+            <div class="text-left" style="font-size:-webkit-xxx-large;font-weight: 600;margin-top:50px;">펀딩 등록</div>
             <div style="width: 100%;border: #bbbbbb 2px solid;display: inline-block;margin-bottom:50px"></div>
             
             <div class="form-group">

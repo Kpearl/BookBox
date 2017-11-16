@@ -15,6 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
 	 
@@ -30,8 +31,10 @@
     .swiper-slide {
         text-align: center;
         font-size: 18px;
-        background: #fff;
-        margin-bottom:30px;
+        background: #eeeeee;
+        /* margin-bottom:30px; */
+         margin: 10px 0px 10px 0px; 
+         overflow: none;
                 
         /* Center slide text vertically */
         display: -webkit-box;
@@ -47,6 +50,9 @@
         -webkit-align-items: center;
         align-items: center;
     }
+    .swiper-slide.swiper-slide-active{
+     	margin-right:0px;
+     }
     
     body{
     		padding-top:0px;
@@ -61,7 +67,7 @@
     	vertical-align: middle;
 	    overflow-y: hidden;
 	    height: 200px;
-    	background-color: none;/* rgba(255, 236, 218, 0.63); */
+    	background-color: none;
     }
     
     .creation-part{
@@ -100,7 +106,24 @@
 		.button-form{
 			cursor:pointer;
 		}
-
+		.progress-bar-warning:last-child.progress-bar:before {
+		    background-color: rgb(221, 221, 221);
+		}
+		.progress-bar-warning {
+		    background-color: rgba(14, 197, 147, 0.87);
+		}
+		span.enddate-style{
+			    font-size: initial;
+		}
+		a{
+			color:#666666;
+		}
+		
+		.item{
+		    margin: 5%;
+	        box-shadow: 1px 1px 1px 1px;
+   			background-color: #fff;
+    	}
     	
     	
     </style>
@@ -113,11 +136,12 @@
     
     $(function(){
    
+    //================swiper===============	
     	var swiper = new Swiper('.swiper-container', {
         	pagination: '.swiper-pagination',
         	slidesPerView: 4,
         	paginationClickable: true,
-        	spaceBetween: 20,
+        	spaceBetween: 5,
         /* 	autoplay : {
         		delay : 5000
         	}, */
@@ -127,6 +151,7 @@
     		}
 	    });
     })
+
     
     //============= 펀딩글보기 Navigation Event  처리 =============	
 $(function() {
@@ -214,7 +239,7 @@ $(function() {
 
 			var days = Math.floor(diff/(1000*60*60*24));
 			if(days > 0){
-				return days + '일 남음';
+				return '<img src="https://icongr.am/octicons/calendar.svg?size=20px"><span class="enddate-style">앞으로 <strong>'+days + '<strong>일</span>';
 			}
 			var hours = Math.floor( diff/(1000*60*60) );
 			if(hours > 0){
@@ -256,33 +281,38 @@ $(function() {
    </div>
 	
 		   <div class="row text-right col-sm-offset-11 col-sm-1" style="margin-top:50px">
-		   		<a  class="fundingMore" id="more">전체보기></a>
+		   		<a  class="fundingMore" id="more">더보기 <img src="https://icongr.am/entypo/chevron-right.svg?size=20px"></a>
 		   </div>
 	
     <!-- Swiper -->
-    	<div class="swiper-container" id= list>
-        	<div class="swiper-wrapper">
+    	<div class="swiper-container" id= list style="margin-bottom: 50px;">
+        	<div class="swiper-wrapper" style="background-color: #eeeeee;">
             <c:forEach items="${fundingList}" var="funding">	
 			        
-            <div class="swiper-slide" style="border:1px solid;border-color: antiquewhite;border-radius: 10px;overflow:hidden">
-				<div class="item" style="width:100%;position:relative;">
-					<div id="${funding.fundingNo}" class="funding-image button-form" style="height:220px; background-color:rgba(114, 114, 114, 0.48);position:relative;overflow:hidden;">
-						<img style="width:100%;position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
+            <div class="swiper-slide" style="overflow:hidden">
+				<div class="item" style="width:100%;">
+					<div id="${funding.fundingNo}" class="funding-image button-form" style="height:200px; background-color:rgba(114, 114, 114, 0.48);position:relative;overflow:hidden;">
+						<img style="width:100%;position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive funding-get img-object-fit" src="../resources/upload_files/images/${funding.fundingFileName}">
 					</div>
-					<div class="funding-content" style="height:150px">
-						<div class="funding-title button-form" style="    margin-left: 10px;">
-							<h5 id="${funding.fundingNo}" class="btn-link funding-get text-left funding-title">
-							<input type="hidden" name="fundingNo" value="${funding.fundingNo}">${funding.fundingTitle}</h5>
+					<div class="funding-content" style="height:150px;/* background-color:aliceblue; */padding-bottom: 10px; ">
+						
+						<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 75%;">
+							<div id="${funding.fundingNo}" class="funding-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
+							<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left funding-nickname" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
 						</div>
-						<!--<p>Funding content</p> -->
-						<div class="progress" style="height: 20px;margin-left: 8px;margin-right: 8px;">
-	                          <div class="progress-bar progress-bar-success progress-bar-striped active" 
-	                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
-	                          		style="min-width: 2em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
-	                          	${(funding.perFunding * fn:length(funding.payInfoList)) / funding.fundingTarget * 100}%
-	                          </div>
+
+	                    <div class="progress-form" >      
+							<div class="progress progress-xs" style="height: 5px;margin-left: 8px;margin-right: 8px;">
+		                          <div class="progress-bar progress-bar-warning progress-bar-striped active" 
+		                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
+		                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
+		                          </div>
+		                     </div>
 	                     </div>
-	                          <div class="row funding-endDate text-right" style="margin-right: 5px;">${funding.fundingEndDate }</div>
+						 <div class="funding-bottom" style="position:relative;margin-right: 10px;">
+	                          <div class="funding-endDate" style="padding-left: 10px;bottom: 5px;float: left;">${funding.fundingEndDate }</div>
+							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%</div>
+						</div>
 					</div>
 					<c:if test="${funding.active ==0 }">
 					<div class="endfunding-img"><strong style="font-size: -webkit-xxx-large; color: burlywood;position: absolute;">펀딩종료</strong></div>
@@ -339,7 +369,7 @@ $(function() {
    </div>
    
    <div class="row text-right col-sm-offset-11 col-sm-1">
-		<a  class="fictionMore button-form" id="more">전체보기></a>
+		<a  class="fictionMore button-form" id="more">더보기 <img src="https://icongr.am/entypo/chevron-right.svg?size=20px"></a>
 	</div>
    
   <div class="row creation-part" >
@@ -383,7 +413,7 @@ $(function() {
 	   </div>
    </div>
     <div class="row text-right col-sm-offset-11 col-sm-1" style="    margin-bottom: 80px;">
-		<a  class="nonfictionMore button-form" id="more" >전체보기></a>
+		<a  class="nonfictionMore button-form" id="more" >더보기 <img src="https://icongr.am/entypo/chevron-right.svg?size=20px"></a>
 	</div>
 
 

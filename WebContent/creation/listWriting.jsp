@@ -16,6 +16,7 @@
 	<!-- 기본설정 끝 -->
     <link rel="stylesheet" href="../resources/css/star.css">
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
 	 
@@ -250,7 +251,7 @@
    
         <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            <div class="col-md-5" style="overflow:hidden;"">
+            <div class="col-md-5" style="overflow:hidden;height: 100%">
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
             	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
@@ -301,7 +302,7 @@
         
             <div class="col-md-6">
             	<div class="row" role="group" style="float:right">
-                	
+            <c:if test="${!empty sessionScope.user }">    	
            	<c:if test="${creation.doFunding}">
                 <div class="go-funding btn-form" style="margin-right: 20px;"><strong>펀딩보러가기</strong></div>
             </c:if>
@@ -324,6 +325,7 @@
 	                    	<img class="creationLike-link" src="https://icongr.am/entypo/heart-outlined.svg?size=25&color=ff0000"> <span  id="likeSum">${creation.like.totalLike}</span>
 	                    </div>
 	               </c:if>
+               </c:if>
                </c:if>
                 </div>
             </div>
