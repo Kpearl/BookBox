@@ -114,6 +114,21 @@
 			posting_no = #{postingNo}
 	</update>
 	
+	<select id="getPostingCount" parameterType="search" resultType="int">
+		SELECT
+			COUNT(posting_no)
+		FROM
+			posting
+		<where>
+			<if test="keyword != null">
+				<if test="keyword != ''">
+					email = #{keyword}
+				</if>
+			</if>
+			AND active = 1
+		</where>
+	</select>
+	
 		
 	
 	<sql id="tagWiring">

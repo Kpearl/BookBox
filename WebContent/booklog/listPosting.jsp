@@ -36,7 +36,7 @@
 		});
 		
 		$(window).scroll(function(){
-			if($(document).height() - $(window).height() >= $(document).height() - $(window).height() - 40){
+			if($(window).scrollTop() >= $(document).height() - $(window).height() - 40){
 				if(!isListLoading){
 					fncGetPostingList();
 				}
@@ -127,6 +127,9 @@
 		<c:if test="${!empty sessionScope.user}">
 			<div class="btn-form posting-add">포스팅 등록</div><br/>
 		</c:if>
+		<div class="row">
+			<p>전체 ${totalCount}건수</p>
+		</div>
 
 		<c:forEach items="${postingList}" var="posting">
 		<div class="row div-posting booklog-background">

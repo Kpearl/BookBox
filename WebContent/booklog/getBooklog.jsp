@@ -88,7 +88,7 @@
     		width: 100%;
     		height: 500px;
     		background: rgba(114, 114, 114, 0.3);
-    		margin: 5% 0;
+    		margin: 2% 0;
     		padding: 0;
     	}
 	    .swiper-container {
@@ -150,7 +150,6 @@
 	    	   -moz-transition: 0.3s;
 	    			transition: 0.3s;
 	    }
-	    
 	    ul.timeline{
 	    	position: relative;
 	    	margin: 0 0 30px 0;
@@ -639,7 +638,7 @@
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
 	<input type="hidden" name="user" value="${sessionScope.user.email}">
-	<div class="container">
+	<div class="container" style="padding: 20px 0;">
 
 		<div class="row">
 
@@ -750,6 +749,10 @@
 				
 					<div class="col-md-12">
 					
+						<div class="row text-center category-space">
+							<h2>- 좋아하는 책 -</h2>
+						</div>
+					
 						<c:if test="${bookLikeList.size() != 0}">
 							<div class="book-like-box">
 								<div class="row">
@@ -767,13 +770,16 @@
 									</div>
 								</c:forEach>
 								</div>
-								<a class="book-like-list">더 보기 &gt</a>
+								<a class="book-like-list">더보기 &gt</a>
 							</div>
 						</c:if>
 			        	<c:if test="${bookLikeList.size() == 0}">
 			        		<h3>아직 좋아하는 책이 없습니다!</h3>
 			        	</c:if>
 					
+						<div class="row text-center category-space">
+							<h2>- 포스팅 -</h2>
+						</div>
 						<c:if test="${booklog.postingList.size() != 0}">
 							<div class="swiper-posting-box">
 							    <div class="swiper-container gallery-top">
@@ -807,7 +813,7 @@
 						        	</c:forEach>
 							        </div>
 							    </div>
-								<a class="posting-list">더 보기 &gt</a>
+								<a class="posting-list">더보기 &gt</a>
 							</div>
 						</c:if>
 			        	<c:if test="${booklog.postingList.size() == 0}">
@@ -824,6 +830,10 @@
 			<div class="col-md-8 col-md-pull-4">
 				<div class="row">
 					<div class="col-md-12">
+						<div class="row text-center category-space">
+							<h2>- 활동 내역 -</h2>
+						</div>
+					
 						<ul class="timeline">
 						<c:forEach items="${logList}" var="log">
 							<li>

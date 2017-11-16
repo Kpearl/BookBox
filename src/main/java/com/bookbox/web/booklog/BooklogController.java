@@ -83,8 +83,9 @@ public class BooklogController {
 		page.setPageSize(pageSize);
 		page.setCurrentPage(1);
 		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
+		Map<String, Object> postingListMap = postingService.getPostingList(map); 
 		model.addAttribute("booklogList", booklogService.getBooklogList(map));
-		model.addAttribute("postingList", postingService.getPostingList(map));
+		model.addAttribute("postingList", postingListMap.get("postingList"));
 		model.addAttribute("search", search);
 		
 		return "forward:../booklog/mainBooklog.jsp";
@@ -112,7 +113,7 @@ public class BooklogController {
 		booklogUser.setActive(0);
 		Page page = new Page();
 		page.setCurrentPage(1);
-		page.setPageSize(pageSize);
+		page.setPageSize(4);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
 		map.put("email", booklogUser.getEmail());
@@ -178,7 +179,7 @@ public class BooklogController {
 		posting.setPostingFileList(postingFileList);
 		postingService.addPosting(user, posting);
 		
-		return "redirect:../booklog/getPostingList?condition="+user.getEmail();
+		return "redirect:../booklog/getPostingList?condition=booklog&keyword="+user.getEmail();
 		
 	}
 	
@@ -216,7 +217,9 @@ public class BooklogController {
 		page.setPageSize(pageSize);
 		page.setCurrentPage(1);
 		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
-		model.addAttribute("postingList", postingService.getPostingList(map));
+		Map<String, Object> postingListMap = postingService.getPostingList(map); 
+		model.addAttribute("postingList", postingListMap.get("postingList"));
+		model.addAttribute("totalCount", (Integer)postingListMap.get("totalCount"));
 		model.addAttribute("search", search);
 		
 		return "forward:../booklog/listPosting.jsp";

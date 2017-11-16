@@ -22,6 +22,18 @@
 	font-family: NanumMyeongjo;
 	src: url(NanumFont_TTF_ALL/NanumMyeongjo.ttf) format('truetype');
 }
+@font-face{
+	font-family: JejuGothic;
+	src: url(JejuFont_TTF_ALL/JejuGothic.ttf) format('truetype');
+}
+@font-face{
+	font-family: JejuHallasan;
+	src: url(JejuFont_TTF_ALL/JejuHallasan.ttf) format('truetype');
+}
+@font-face{
+	font-family: JejuMyeongjo;
+	src: url(JejuFont_TTF_ALL/JejuMyeongjo.ttf) format('truetype');
+}
 body, html{
 	min-height: 100%;
 	height: 100%;
@@ -415,6 +427,12 @@ span.content-icon{
 }
 .bookmarked{
 	color: #0c7cd5;
+}
+.category-space{
+	margin-top: 4%;
+}
+.category-space h2{
+	font-family: NanumBrush, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 /******* Booklog CSS End *******/
 .btn-form{

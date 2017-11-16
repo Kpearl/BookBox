@@ -138,6 +138,10 @@ public class Log {
 				link.append("creation/getWriting?writingNo=");
 				break;
 			
+			case Const.Category.FUNDING:
+				link.append("creation/getFunding?fundingNo=");
+				break;
+
 			case Const.Category.BOOKLOG:
 				link.append("booklog/getBooklog?booklogNo=");
 				break;
@@ -153,6 +157,7 @@ public class Log {
 			case Const.Category.BOOK:
 				link.append("unifiedsearch/getBook?isbn=");
 				break;
+				
 		}
 		link.append(this.targetNo);
 		return link.toString();

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.booklog.PostingDAO;
 import com.bookbox.service.domain.Posting;
 
@@ -48,6 +49,12 @@ public class PostingDAOImpl implements PostingDAO {
 //		sqlSession.delete("PostingMapper.deletePostingLocation", posting);
 //		addPostingLocation(posting);
 		return true;
+	}
+
+	@Override
+	public int getPostingCount(Search search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("PostingMapper.getPostingCount", search);
 	}
 	
 }

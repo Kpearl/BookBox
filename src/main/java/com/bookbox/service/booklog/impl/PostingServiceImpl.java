@@ -1,5 +1,6 @@
 package com.bookbox.service.booklog.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.service.TagService;
@@ -64,8 +66,9 @@ public class PostingServiceImpl implements PostingService {
 	}
 
 	@Override
-	public List<Posting> getPostingList(Map<String, Object> map) {
+	public Map<String, Object> getPostingList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		Map<String, Object> postingListMap = new HashMap<String, Object>();
 		List<Posting> postingList = postingDAO.getPostingList(map); 
 		for(Posting posting : postingList) {
 			StringBuffer content = new StringBuffer();
@@ -78,7 +81,10 @@ public class PostingServiceImpl implements PostingService {
 			}
 			posting.setPostingContent(content.toString());
 		}
-		return postingList;
+		
+		postingListMap.put("postingList", postingList);
+		postingListMap.put("totalCount", postingDAO.getPostingCount((Search)map.get("search")));
+		return postingListMap;
 	}
 
 	@Override

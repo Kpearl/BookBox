@@ -224,7 +224,8 @@ public class BooklogRestController {
 		page.setCurrentPage(currentPage);
 		page.setPageSize(pageSize);
 		Map<String, Object> map = CommonUtil.getSearchPageMap(search, page);
-		map.put("postingList", postingService.getPostingList(map));
+		Map<String, Object> postingListMap = postingService.getPostingList(map); 
+		map.put("postingList", postingListMap.get("postingList"));
 		
 		return map;
 	}

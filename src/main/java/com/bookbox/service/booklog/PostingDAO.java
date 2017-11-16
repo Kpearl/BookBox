@@ -3,6 +3,7 @@ package com.bookbox.service.booklog;
 import java.util.List;
 import java.util.Map;
 
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Posting;
 
 public interface PostingDAO {
@@ -15,4 +16,5 @@ public interface PostingDAO {
 	
 	public boolean updatePosting(Posting posting);
 	
+	public int getPostingCount(Search search);
 }

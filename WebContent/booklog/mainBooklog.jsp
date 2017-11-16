@@ -252,7 +252,7 @@
 	<header class="parallax"></header>
 	<!-- 여기부터 코딩 -->
 	
-	<div class="container">
+	<div class="container" style="padding: 20px 0;">
 		<input type="hidden" name="condition" value="${search.condition}">
 
 		<c:set var="i" value="0"/>
@@ -272,6 +272,9 @@
 			</div>
 		</c:forEach>
 
+		<div class="row text-center category-space">
+			<h2>- 인기 포스팅 -</h2>
+		</div>
 		<div class="posting-swiper-container swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide posting-slide1 col-md-9"></div>
@@ -280,11 +283,15 @@
 				<div class="swiper-slide posting-slide4 col-md-9"></div>
 			</div>
 	        <div class="swiper-pagination swiper-pagination-black"></div>
-			<a class="posting-list">더 보기 &gt</a>
+			<a class="posting-list">더보기 &gt</a>
 		</div>
 
 
 		인기북로그 <a class="btn booklog" href="javascript:void(0);">더보기</a>
+
+		<div class="row text-center category-space">
+			<h2>- 인기 북로그 -</h2>
+		</div>
 
 	    <div class="swiper-container booklog-swiper-container">
 	        <div class="swiper-wrapper">

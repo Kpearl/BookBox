@@ -34,25 +34,66 @@
 			height: 100%;
 		}
 		#main-search{
-			height: 150px;
-			padding: 40px;
-		}
-		#main-search .input-group *{
-			margin: 0;
-		}
-		#main-search input{
-			border: 1px solid #ccc;
-			padding: 0 7px;
-			background-color: rgba(255, 255, 255, 0.8);
-		}
-		#main-search input:focus{
-			border: 1px solid #66afe9;
-			box-shadow: 0 0.5px 0.5px 0.1px #66afe9;
-		}
-		#main-search > .bookbox-relative > div{
-			background-color: rgba(224, 151, 88, 0.89);
-			padding: 30px 5px;
-		}
+		    height: 80px;
+		    width: 500px;
+		    padding: 20px;
+		    position: absolute;
+		    top: 60%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+   		}
+   		#main-search input{
+   		    background: rgba(0, 0, 0, 0.1) !important;
+		    width: 100% !important;
+		    height: 100% !important;
+		    box-shadow: inset 0px 0px 2px 0px rgba(255, 152, 0, 0.8) !important;
+		    padding: 0 40px 0 10px !important;
+		    color: #ffffff !important;
+		    font-weight: bold !important;
+		    font-size: 20px !important;
+   		}
+   		#main-search input:focus{
+		    outline: none !important;
+		    background: rgba(0, 0, 0, 0.3) !important;
+   		}
+   		#main-search button{
+   			position: absolute;
+   		    height: 100%;
+		    width: 100%;
+		    font-size: 23px !important;
+		    background: rgba(255, 255, 255, 0) !important;
+		    border: none !important;
+		    color: rgb(240, 255, 255) !important;
+		    padding: 0 !important;
+   		}
+   		.search-menu{
+   		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    transform: translate(-20px, 20px);
+		    height: 40px;
+		    width: 40px;
+   		}
+   		.search-menu ul{
+   			background: none !important;
+   			min-width: 0 !important;
+   			-webkit-transform: translate(-5px, 0) !important;
+   			   -moz-transform: translate(-5px, 0) !important;
+		   			transform: translate(-5px, 0) !important;
+   		}
+   		.search-menu li{
+   			font-size: 19px !important;
+   			width: 50px !important;
+   			-webkit-transition: 0.5s;
+   			   -moz-transition: 0.5s;
+		   			transition: 0.5s;
+   		}
+   		.search-menu li a{
+   			padding: 3px !important;
+   			width: 100% !important;
+   			text-align: center !important;
+   		}
+   		
 		#main-recommend-book{
 			position: relative;
 			margin-top: 10px;
@@ -120,17 +161,64 @@
 			letter-spacing: 5px;
 		}
 		
-		.category-swiper-container{
-			height: 500px;
+		.intro-box{
+			position: relative;
+			overflow: hidden;
+			height: 600px;
 			width: 100%;
 		}
-		.category-slide, .category, .category-image{
+		.category-intro{
+			position: absolute;
 			height: 100%;
-			width: 300px;
+			width: 100%;
+			top: 0;
+			cursor: pointer;
+			-webkit-transition: 0.3s;
+			   -moz-transition: 0.3s;
+					transition: 0.3s;
 		}
-		.category{
-			border: 1px solid #000;
+		#creation-intro{
+			z-index: 5;
+			left: 0;
+			background: rgb(240, 128, 128);
 		}
+		#community-intro{
+			z-index: 6;
+			left: 10%;
+			background: rgb(144, 238, 144);
+		}
+		#booklog-intro{
+			z-index: 7;
+			left: 20%;
+			background: rgb(173, 216, 230);
+		}
+		#recommend-book{
+			z-index: 8;
+			left: 30%;
+			background: rgb(250, 250, 210);
+		}
+		.active-category{
+			cursor: auto;
+		}
+		.intro-icon{
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: #e1e1e1;
+			height: 100%;
+			width: 10%;
+			text-align: center;
+			line-height: 11;
+			font-size: 4em;
+		}
+		.intro-content{
+			position: absolute;
+			top: 0;
+			left: 10%;
+			height: 100%;
+			width: 60%;
+		}
+		
 	</style>
 	
 	<script>
@@ -139,6 +227,7 @@
 		//Window Resize시 Toolbar 투명도, BookContainer 높이, Parallax background-position 재설정
 		$(window).resize(function(){
 			ToolbarOpacHeight($(window).height());
+			$('#main-search').css('width', $('#main-bookbox').width());
 			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
 		});
 		
@@ -148,18 +237,15 @@
 			$('.bookbox-navigation .search-group').hide();
 			//메인배너 클릭시 스크롤이동 이벤트
 			$('#main-bookbox').on('click', function(){
-				var offset = $('#main-search').offset();
-				$('html, body').animate({scrollTop : offset.top - 52}, 1300);
+				var offset = $('#main-box').offset();
+				$('html, body').animate({scrollTop : offset.top - 52}, 1000);
 			});
+			$('#main-search').css('width', $('#main-bookbox').width());
 			
 			//검색창 드롭다운버튼 이벤트
 			$('#main-search li a').on('click', function(){
 				$('button.selected-menu').attr('aria-expanded', $(this).attr('class'))
 										.html($(this).html());
-			});
-			//검색버튼 이벤트
-			$('button.main-search-btn').on('click', function(){
-				fncSearch();
 			});
 			//검색입력창 EnterKey 이벤트
 			$('#main-search input').on('keydown', function(event){
@@ -175,7 +261,36 @@
 			}, function(){
 				$(this).find('.first-level').css('opacity', 1);
 				$(this).find('.second-level').css('height', 0);
-			})
+			});
+			
+			$('#creation-intro').on('click', function(){
+				fncRecommendMoveRight();
+				fncBooklogMoveRight();
+				fncCommunityMoveRight();
+				fncRemoveActiveClass();
+				$(this).addClass('active-category');
+			});
+			$('#community-intro').on('click', function(){
+				fncCommunityMoveLeft();
+				fncRecommendMoveRight();
+				fncBooklogMoveRight();
+				fncRemoveActiveClass();
+				$(this).addClass('active-category');
+			});
+			$('#booklog-intro').on('click', function(){
+				fncCommunityMoveLeft();
+				fncBooklogMoveLeft();
+				fncRecommendMoveRight();
+				fncRemoveActiveClass();
+				$(this).addClass('active-category');
+			});
+			$('#recommend-book').on('click', function(){
+				fncCommunityMoveLeft();
+				fncBooklogMoveLeft();
+				fncRecommendMoveLeft();
+				fncRemoveActiveClass();
+				$(this).addClass('active-category');
+			});
 			
 			$('.container').css('height', $(window).innerHeight());
 			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
@@ -193,19 +308,6 @@
 					type: 'bullets',
 					clickable: true,
 				},
-			});
-			
-			var categorySwiper = new Swiper('.category-swiper-container', {
-				speed: 500,
-				spaceBetween: 0,
-				effect: 'slide',
-				freeMode: true,
-				pagenation: {
-					el: '.swiper-pagination',
-					type: 'progressbar',
-				},
-				slidesPerView: 'auto',
-				slidesPerGroup: 5,
 			});
 			
 			
@@ -305,6 +407,32 @@
 				}
 			}
 		}
+		
+		function fncCommunityMoveLeft(){
+			$('#community-intro').css('left', '10%').removeClass('active-category');
+		}
+		function fncCommunityMoveRight(){
+			$('#community-intro').css('left', '70%').removeClass('active-category');
+		}
+		function fncBooklogMoveLeft(){
+			$('#booklog-intro').css('left', '20%').removeClass('active-category');
+		}
+		function fncBooklogMoveRight(){
+			$('#booklog-intro').css('left', '80%').removeClass('active-category');
+		}
+		function fncRecommendMoveLeft(){
+			$('#recommend-book').css('left', '30%').removeClass('active-category');
+		}
+		function fncRecommendMoveRight(){
+			$('#recommend-book').css('left', '90%').removeClass('active-category');
+		}
+		function fncRemoveActiveClass(){
+			$('#creation-intro').removeClass('active-category');
+			$('#community-intro').removeClass('active-category');
+			$('#booklog-intro').removeClass('active-category');
+			$('#recommend-book').removeClass('active-category');
+		}
+		
 	</script>
 </head>
 <body>
@@ -315,198 +443,142 @@
 			<span class="font-large theme-black padding-large wide"><strong>BOOKBOX</strong><small class="hidden-xs hidden-sm narrow"> Book Community</small></span><br/>
 			<p class="font-large theme-black narrow text-center"><small class="hidden-xs hidden-sm"><em class="text-muted font-small">- 책으로 소통하는 공간</em></small></p>
 		</div>
-	</header>
-	
-	<div id="main-search" class="container bookbox-relative">
-		<div class="row bookbox-relative">
-			<div class="col-sm-offset-1 col-sm-10">
-				<div class="row">
-					<div class="col-sm-offset-2 col-sm-8">
-						<div class="input-group">
-							<div class="input-group-btn hidden-xs">
-								<button type="button" class="btn btn-default selected-menu" aria-expanded="unifiedsearch" style="width: 80px;">통합검색</button>
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-								<ul class="dropdown-menu" role="menu" style="min-width: 121px;">
-									<li><a href="javascript:void(0);" class="unifiedsearch">통합검색</a>
-									<li><a href="javascript:void(0);" class="book">도서</a>
-									<li><a href="javascript:void(0);" class="creation">창작공간</a>
-									<li><a href="javascript:void(0);" class="community">소모임</a>
-									<li><a href="javascript:void(0);" class="posting">포스팅</a>
-									<li><a href="javascript:void(0);" class="tag">태그</a>
-								</ul>
-							</div>
-							<input type="text" class="form-control">
-							<span class="input-group-btn">
-								<button class="btn btn-default main-search-btn" type="button">검색!</button>
-							</span>
-						</div>
-					</div>
-				</div>
+		<div id="main-search">
+			<input type="text" name="keyword">
+			<div class="search-menu">
+				<button type="button" class="selected-menu" aria-expanded="unifiedsearch"><i class="glyphicon glyphicon-search"></i></button>
+				<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="unifiedsearch"></button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="javascript:void(0);" class="unifiedsearch" style="background: rgb(173, 216, 230);"><i class="glyphicon glyphicon-search"></i></a>
+					<li><a href="javascript:void(0);" class="book" style="background: rgb(250, 250, 210);"><i class="glyphicon glyphicon-book"></i></a>
+					<li><a href="javascript:void(0);" class="creation" style="background: rgb(240, 128, 128);"><i class="glyphicon glyphicon-pencil"></i></a>
+					<li><a href="javascript:void(0);" class="community" style="background: rgb(144, 238, 144);"><i class="glyphicon glyphicon-phone"></i></a>
+					<li><a href="javascript:void(0);" class="posting" style="background: rgb(135, 206, 250);"><i class="glyphicon glyphicon-grain"></i></a>
+					<li><a href="javascript:void(0);" class="tag" style="background: rgb(119, 136, 153);"><i class="glyphicon glyphicon-tags"></i></a>
+				</ul>
 			</div>
 		</div>
+	</header>
+	
+	<div id="main-box" class="container">
 	
 		<div class="row">
 		
 			<div class="col-md-offset-1 col-md-10">
 	
 		
-				<div id="main-recommend-book" class="swiper-container book-swiper-container">
-					<div class="swiper-wrapper">
-					
-						<div id="userRecommend" class="swiper-slide">
-							<h4><em>For U..</em></h4>
-							<div class="row half-height">
-							<c:forEach var="i" begin="0" end="3">
-								<div class="col-xs-3 max-height first-level">
-									<div class="row max-height first-level book-content">
-										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center img-padding">
-											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-										</div>
-										<div class="col-sm-12 second-level">
-											<p class="book-title">제목 가져오는 중..</p>
-											<p class="book-author">작가 가져오는 중..</p>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							</div>
-						</div>
-						
-						<div id="bestSeller" class="swiper-slide">
-							<h4><em>Best Seller..</em></h4>
-							<div class="row half-height">
-							<c:forEach var="i" begin="0" end="3">
-								<div class="col-xs-3 max-height first-level">
-									<div class="row max-height first-level book-content">
-										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center img-padding">
-											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-										</div>
-										<div class="col-sm-12 second-level">
-											<p class="book-title">제목 가져오는 중..</p>
-											<p class="book-author">작가 가져오는 중..</p>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							</div>
-						</div>
-						
-						<div id="newBook" class="swiper-slide">
-							<h4><em>Bloger's Select..</em></h4>
-							<div class="row half-height">
-							<c:forEach var="i" begin="0" end="3">
-								<div class="col-xs-3 max-height first-level">
-									<div class="row max-height first-level book-content">
-										<input type="hidden" name="isbn" value="0">
-										<div class="col-sm-12 max-height first-level text-center img-padding">
-											<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-										</div>
-										<div class="col-sm-12 second-level">
-											<p class="book-title">제목 가져오는 중..</p>
-											<p class="book-author">작가 가져오는 중..</p>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							</div>
-						</div>
-						
-					</div>
-					<div class="swiper-pagination"></div>
-				</div>
 		
 			</div>
 		</div>
-	</div>
-	
-	<div class="container">
+		
 		<div class="row">
-			<div class="col-xs-12">
-			
-			
-				<div id="main-category" class="swiper-container category-swiper-container">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide category-slide">
-							<div class="category category-image category-funding">
-								<img class="img-object-fit" src="./resources/images/creation.jpg">
+			<div class="xs-col-12">
+				<div class="intro-box">
+					<div id="creation-intro" class="category-intro">
+						<div class="intro-icon">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</div>
+						<div class="intro-content">
+						</div>
+					</div>
+					<div id="community-intro" class="category-intro">
+						<div class="intro-icon">
+							<i class="glyphicon glyphicon-phone"></i>
+						</div>
+						<div class="intro-content">
+						</div>
+					</div>
+					<div id="booklog-intro" class="category-intro">
+						<div class="intro-icon">
+							<i class="glyphicon glyphicon-grain"></i>
+						</div>
+						<div class="intro-content">
+						</div>
+					</div>
+					<div id="recommend-book" class="category-intro active-category">
+						<div class="intro-icon">
+							<i class="glyphicon glyphicon-book"></i>
+						</div>
+						<div class="intro-content">
+
+
+							<div id="main-recommend-book" class="swiper-container book-swiper-container">
+								<div class="swiper-wrapper">
+								
+									<div id="userRecommend" class="swiper-slide">
+										<h4><em>For U..</em></h4>
+										<div class="row half-height">
+										<c:forEach var="i" begin="0" end="3">
+											<div class="col-xs-3 max-height first-level">
+												<div class="row max-height first-level book-content">
+													<input type="hidden" name="isbn" value="0">
+													<div class="col-sm-12 max-height first-level text-center img-padding">
+														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+													</div>
+													<div class="col-sm-12 second-level">
+														<p class="book-title">제목 가져오는 중..</p>
+														<p class="book-author">작가 가져오는 중..</p>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+										</div>
+									</div>
+									
+									<div id="bestSeller" class="swiper-slide">
+										<h4><em>Best Seller..</em></h4>
+										<div class="row half-height">
+										<c:forEach var="i" begin="0" end="3">
+											<div class="col-xs-3 max-height first-level">
+												<div class="row max-height first-level book-content">
+													<input type="hidden" name="isbn" value="0">
+													<div class="col-sm-12 max-height first-level text-center img-padding">
+														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+													</div>
+													<div class="col-sm-12 second-level">
+														<p class="book-title">제목 가져오는 중..</p>
+														<p class="book-author">작가 가져오는 중..</p>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+										</div>
+									</div>
+									
+									<div id="newBook" class="swiper-slide">
+										<h4><em>Bloger's Select..</em></h4>
+										<div class="row half-height">
+										<c:forEach var="i" begin="0" end="3">
+											<div class="col-xs-3 max-height first-level">
+												<div class="row max-height first-level book-content">
+													<input type="hidden" name="isbn" value="0">
+													<div class="col-sm-12 max-height first-level text-center img-padding">
+														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+													</div>
+													<div class="col-sm-12 second-level">
+														<p class="book-title">제목 가져오는 중..</p>
+														<p class="book-author">작가 가져오는 중..</p>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+										</div>
+									</div>
+									
+								</div>
+								<div class="swiper-pagination"></div>
 							</div>
+
+
 						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category category-image category-posting">
-								<img class="img-object-fit" src="./resources/images/posting.jpeg">
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category category-image category-creation">
-								<img class="img-object-fit" src="./resources/images/creation.jpg">
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category"></div>
-						</div>
-						<div class="swiper-slide category-slide">
-							<div class="category">
-								<div class="category-inner"></div>
-								<div class="category-inner"></div>
-							</div>
-						</div>
-						<div class="swiper-pagination"></div>
 					</div>
 				</div>
-			
-				
 			</div>
 		</div>
+		
 	</div>
 	
-	
+
 
 
 	<footer class="container-fluid">

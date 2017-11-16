@@ -39,7 +39,10 @@
     		font-family: NanumPen, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     	}
     	.posting-title p{
-    		font-family: NanumMyeongjo, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    		font-family: NanumGothic, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    	}
+    	.posting-list{
+    		position: relative !important
     	}
 	</style>
 
