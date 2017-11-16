@@ -84,7 +84,7 @@
 						}
 						divHtml += '</div></div><input type="hidden" name="postingNo" value="' + data.postingList[i].postingNo + '"/>';
 						divHtml += '<img class="img-object-fit posting-img" src="../resources/upload_files/images/' + data.postingList[i].postingFileList[0].fileName + '" alt="Image Not Found"></div></div></div>';
-						$('.posting-list').append(divHtml);
+						$('.posting-list-box').append(divHtml);
 					}
 					fncFooterPositioning();
 					fncPostingEventOn();
@@ -120,7 +120,7 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 
-	<div class="container posting-list">
+	<div class="container posting-list-box">
 		<input type="hidden" name="condition" value="${search.condition}">
 		<input type="hidden" name="keyword" value="${search.keyword}">
 		<br/>

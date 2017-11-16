@@ -91,13 +91,6 @@
     		margin: 5% 0;
     		padding: 0;
     	}
-    	.posting-list, .book-like-list{
-    		position: absolute;
-    		bottom: -5%;
-    		right: 0;
-    		z-index: 5;
-    		cursor: pointer;
-    	}
 	    .swiper-container {
 	        width: 100%;
 	        height: 400px;

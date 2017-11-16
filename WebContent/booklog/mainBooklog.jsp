@@ -27,13 +27,14 @@
     <style>
 	    .swiper-container {
 	        width: 100%;
-	        height: 500px;
+	        height: 550px;
 	        padding-top: 50px;
 	        padding-bottom: 50px;
 	    }
 	    .swiper-slide {
 	        background-position: center;
 	        background-size: cover;
+	        width: 90%;
 	    }
 
 
@@ -68,24 +69,24 @@
     	}
     	.swiper-posting1{
     		height: 100%;
-    		width: 40%;
+    		width: 38%;
     	}
     	.swiper-posting2{
-    		height: 60%;
-    		width: 60%;
+    		height: 55%;
+    		width: 62%;
     		top: 0;
-    		left: 40%;
+    		left: 38%;
     	}
     	.swiper-posting3, .swiper-posting4{
-    		height: 40%;
-    		width: 30%;
-    		top: 60%;
+    		height: 45%;
+    		width: 31%;
+    		top: 55%;
     	}
     	.swiper-posting3{
-    		left: 40%;
+    		left: 38%;
     	}
     	.swiper-posting4{
-    		left: 70%;
+    		left: 69%;
     	}
     	.swiper-posting5, .posting-img-box, .posting-content{
     		height: 100%;
@@ -117,6 +118,26 @@
     	.posting-img-box{
     		overflow: hidden;
     	}
+    	.posting-list{
+    		bottom: -1%;
+    	}
+    	.posting-content h3, .posting-content p{
+    		color: #ffffff;
+    	}
+    	.posting-content{
+    		background: rgba(0, 0, 0, 0.2);
+    		cursor: pointer;
+    	}
+    	.div-posting{
+		    width: 80%;
+			position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    text-align: center;    	
+		    -webkit-transform: translate(-50%, -50%);
+		       -moz-transform: translate(-50%, -50%);
+				    transform: translate(-50%, -50%);
+    	}
     	
     </style>
 	
@@ -129,24 +150,35 @@
 			$('a.booklog:contains("더보기")').on('click', function(){
 				$(self.location).attr("href","../booklog/getBooklogList?condition="+condition);
 			});
-			$('a.posting:contains("더보기")').on('click', function(){
-				$(self.location).attr("href","../booklog/getPostingList?condition="+condition);
+			$('a.posting-list').on('click',function(){
+				$(self.location).attr('href','../booklog/getPostingList?condition='+condition);
 			});
 			
 			$('div.div-booklog').on('click', function(){
 				var booklogNo = $(this).find('input[name="booklogNo"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
-			$('div.div-posting .posting-img, div.div-posting h3').on('click', function(){
-				var postingNo = $(this).find('input[name="postingNo"]').val();
-				$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition="+condition);
-			});
 			$('a.posting-user').on('click', function(){
 				var user = $(this).find('input[name="user.email"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?user.email="+user);
 			});
-
-		
+	
+			$('.posting-content').on('click', function(){
+				var postingNo = $(this).find('input[name="postingNo"]').val();
+				$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition="+condition);
+			});
+			$('.posting-content').hover(function(){
+				$(this).parent().find('img.posting-img').css('-webkit-transform', 'scale(1.1)')
+						.css('-moz-transform', 'scale(1.1)')
+						.css('transform', 'scale(1.1)');
+				$(this).css('background', 'rgba(0, 0, 0, 0.6)');
+			}, function(){
+				$(this).parent().find('img.posting-img').css('-webkit-transform', 'initial')
+						.css('-moz-transform', 'initial')
+						.css('transform', 'initial');
+				$(this).css('background', 'rgba(0, 0, 0, 0.2)');
+			});
+			
 			//이미지 불러오기 실패시 기본 이미지 출력
 			$('img.posting-img').on('error', function(){
 				$(this).attr('src', '../resources/images/posting_noimage.jpeg');
@@ -188,7 +220,7 @@
 
 		
 		$(function(){
-	        var swiper = new Swiper('.swiper-container', {
+	        var swiper = new Swiper('.booklog-swiper-container', {
 	            spaceBetween: 5,
 	            pagination: {
 	            	el: '.swiper-pagination',
@@ -205,7 +237,8 @@
 	        		el: '.swiper-pagination',
 	        		clickable: true,
 	        	},
-	        	slidesPerView: 1,
+	        	slidesPerView: 'auto',
+	        	centeredSlides: true,
 	        });
 	    })
 	    
@@ -226,76 +259,34 @@
 		<c:forEach items="${postingList}" var="posting">
 			<c:set var="i" value="${i+1}"/>
 			<div class="swiper-posting${i}" style="display: none;">
-				<div class="posting-content">
-					<div class="div-posting">
-						<h3>${posting.postingTitle}</h3>
-					</div>
-				</div>
 				<div class="posting-img-box">
 					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}">
+				</div>
+				<div class="posting-content">
+					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
+					<div class="div-posting" style="height: auto;">
+						<h3>${posting.postingTitle}</h3>
+						<p>by. ${posting.user.nickname}</p>
+					</div>
 				</div>
 			</div>
 		</c:forEach>
 
 		<div class="posting-swiper-container swiper-container">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide posting-slide1"></div>
-				<div class="swiper-slide posting-slide2"></div>
-				<div class="swiper-slide posting-slide3"></div>
-				<div class="swiper-slide posting-slide4"></div>
+				<div class="swiper-slide posting-slide1 col-md-9"></div>
+				<div class="swiper-slide posting-slide2 col-md-9"></div>
+				<div class="swiper-slide posting-slide3 col-md-9"></div>
+				<div class="swiper-slide posting-slide4 col-md-9"></div>
 			</div>
 	        <div class="swiper-pagination swiper-pagination-black"></div>
+			<a class="posting-list">더 보기 &gt</a>
 		</div>
-
-		인기포스팅 <a class="btn posting" href="javascript:void(0);">더보기</a>
-		<c:forEach items="${postingList}" var="posting">
-		<div class="row div-posting booklog-background">
-			<div class="row hidden-xs">
-				<div class="col-sm-4 text-center posting-img" style="padding-right: 0;">
-					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found" height="200px">
-				</div>
-				<div class="col-sm-8" style="height: 200px; padding: 0 50px 10px 20px;">
-					<h3><input type="hidden" name="postingNo" value="${posting.postingNo}"/><strong>${posting.postingTitle}</strong></h3>
-					<a class="posting-user" href="javascript:void(0);">
-						<input type="hidden" name="user.email" value="${posting.user.email}">
-						by.${posting.user.nickname}
-					</a>
-					<span class="posting-content">${posting.postingContent}</span>
-					<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
-						<c:forEach items="${posting.postingTagList}" var="tag">
-							<span class="tag">#${tag.tagName}</span>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-			<div class="row hidden-sm hidden-md hidden-lg">
-				<div class="col-xs-12 posting-img">
-					<div class="col-xs-10 col-xs-offset-1" style="position: absolute; top: 0; left: 0; height: 200px;">
-						<h4><strong>${posting.postingTitle}</strong></h4>
-						<a class="posting-user" href="javascript:void(0);">
-							<input type="hidden" name="user.email" value="${posting.user.email}">
-							by.${posting.user.nickname}
-						</a>
-						<span class="posting-content">${posting.postingContent}</span>
-						<div class="row" style="position: absolute; bottom: 0; margin: 10px 0;">
-							<c:forEach items="${posting.postingTagList}" var="tag">
-								<span class="tag">#${tag.tagName}</span>
-							</c:forEach>
-						</div>
-					</div>
-					<input type="hidden" name="postingNo" value="${posting.postingNo}"/>
-					<img class="img-object-fit posting-img" src="../resources/upload_files/images/${posting.postingFileList[0].fileName}" alt="Image Not Found">
-				</div>
-			</div>
-		</div>
-		</c:forEach>
-
 
 
 		인기북로그 <a class="btn booklog" href="javascript:void(0);">더보기</a>
 
-	    <div class="swiper-container">
+	    <div class="swiper-container booklog-swiper-container">
 	        <div class="swiper-wrapper">
 	        	<c:set var="i" value="0"/>
 	        	<c:forEach items="${booklogList}" var="booklog">
