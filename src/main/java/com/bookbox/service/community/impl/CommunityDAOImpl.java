@@ -100,16 +100,16 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
-	public int addRecommend(Recommend recommed) {
+	public int addRecommend(Recommend recommend) {
 		
-		return sqlSession.insert("CommunityMapper.addRecommend",recommed);
+		return sqlSession.insert("CommunityMapper.addRecommend",recommend);
 	
 	}
 	
 	@Override
 	public int getRecommend(Recommend recommend) {
-	
-		return sqlSession.selectOne("CommunityMapper.addRecommend",recommend);
+		
+		return sqlSession.selectOne("CommunityMapper.getRecommend",recommend);
 	}
 
 	@Override
@@ -117,6 +117,11 @@ public class CommunityDAOImpl implements CommunityDAO {
 		
 		return sqlSession.insert("CommunityMapper.addReport",report);
 	}
- 
+
+	@Override
+	public int getReport(Report report) {
+		return sqlSession.insert("CommunityMapper.getReport",report);
+	}
+	
 		
 }

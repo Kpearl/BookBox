@@ -39,6 +39,8 @@
     <style type="text/css">
     	.cast-container{
     		margin: 20px 0 0 0;
+    		overflow: hidden;
+    		
     	}
     	
     	video{
@@ -51,6 +53,8 @@
     	
    		.chat-container{
    			border: solid 2px #62BFAD; 
+   			overflow: hidden;
+   			transition: height 1s;
    		}
    		
    		.chat-output{
@@ -118,38 +122,77 @@
     		background-color: #62BFAD;
     		border-color:  #62BFAD;
     	}
+    	.btn-custom{
+		cursor: pointer;
+		border: 1px #888 solid;
+		border-radius:5px;
+		color: #888;
+		padding: 5px;
+	}
     </style>
     
     <script type="text/javascript">
     var enableReceiveFlag=true;
     
+	//페이지 나갈지 여부 확인
+	$(window).on("beforeunload", function(){
+        return "페이지를 나가겠습니까";
+    });
+
+    
     $(function(){
-   		
+    	//방장이 나갔을때 삭제
+    	var room_id='${chatRoom.roomId}';
+    	//alert(room_id);
+    	/*
+    	$(window).on("beforeunload", function (){
+   
+    			$.ajax({
+    				url:"rest/deleteChatRoom",
+    				method:"POST",
+    				data:{type:"camchat",roomId:room_id},
+    				success:function(){
+    				}
+    			});
+    	});
+    	*/
     	function resizeWindow(){
     		var height=$("#video-preview").height();
   			//alert(width);
+  			if(!enableReceiveFlag){
+  				return
+  			}
   			$(".chat-container").height(height);	
     	}
+    	
     	resizeWindow();
+    	
     	$(window).resize(resizeWindow);
+    	
     	$("#video-preview").resize(resizeWindow);
     	
     	$('.chat-output').bind('DOMNodeInserted DOMNodeRemoved', function() {
 			$(this).scrollTop($(this)[0].scrollHeight);
     	});
     	
+    	
     	$("#enableReceiveChat").on("change",function(){
+    		
     		var isEnableReceiveChat=$(this).is(":checked");
     		if(isEnableReceiveChat){
     			enableReceiveFlag=false;
-    			$('.chat-output').css("background-color","#bbbbbb");
+    			$(".chat-container").height(0);
+    		//	$('.chat-output').css("background-color","#bbbbbb");
     		}
     		else{
     			enableReceiveFlag=true;
-    			$('.chat-output').css("background-color","");
+    			resizeWindow();
+    		//	$('.chat-output').css("background-color","");
     		}
     		
     	});
+    	
+    
     
     });
     </script>
@@ -196,7 +239,9 @@
 	</div>
 	  -->
 	 <!--  방정보 끝 -->
-
+	<div class="text-right">
+		<a class="btn-custom" id="exit">나가기</a>
+	</div>	
 	<div class="cast-container row">
 		<div class="col-sm-7 video-container">
 	      <video id="video-preview" controls loop></video>
@@ -207,7 +252,7 @@
 			<div class="input-group">
 				<input type="text" class="chat-input form-control">
 				<span class="input-group-addon addon-custom" id="addTagBtn">
-					<button class="btn btn-default btn-sm">전송</button>
+					<a class="btn-custom">전송</a>
 				</span>
 			</div>
 		</div>
@@ -335,7 +380,7 @@ connection.connectSocket(function(socket) {
 
 window.onbeforeunload = function() {
     // Firefox is ugly.
-    document.getElementById('open-or-join').disabled = false;
+    //document.getElementById('open-or-join').disabled = false;
 };
 
 var videoPreview = document.getElementById('video-preview');
@@ -514,33 +559,11 @@ function disableInputButtons() {
 }
 
 
-/*
-if (broadcastId && broadcastId.length) {
-    document.getElementById('broadcast-id').value = broadcastId;
-    localStorage.setItem(connection.socketMessageEvent, broadcastId);
-
-    // auto-join-room
-    (function reCheckRoomPresence() {
-        connection.checkPresence(broadcastId, function(isRoomExists) {
-            if (isRoomExists) {
-                document.getElementById('open-or-join').onclick();
-                return;
-            }
-
-            setTimeout(reCheckRoomPresence, 5000);
-        });
-    })();
-
-    disableInputButtons();
-}
-*/
 // below section detects how many users are viewing your broadcast
 //시청자수 변경시 이벤트 방장만 발생
 connection.onNumberOfBroadcastViewersUpdated = function(event) {
     if (!connection.isInitiator) return;
 
-    document.getElementById('broadcast-viewers-counter').innerHTML = '시청자: <b>' + event.numberOfBroadcastViewers + '</b>';
-    
     $.ajax({
     	url:"rest/updateChatRoomCurrentUser",
     	method: "POST",
@@ -664,6 +687,9 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 			chatMuteFlag=false;
 		}
 	});
+	
+	//시청자수 변경
+	
 	
 	//채팅 출력쪽에 채팅 내용 삽입
 	function writeChatOutput(message,fontColor,userImg){

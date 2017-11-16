@@ -26,7 +26,8 @@ public interface CommunityDAO {
 	public List<Comment> getCommentList(int boardNo);
 	public int getCommentMaxLevel(int boardNo);
 	
-	public int addRecommend(Recommend recommed);
+	public int addRecommend(Recommend recommend);
 	public int getRecommend(Recommend recommend);
 	public int addReport(Report report);
+	public int getReport(Report report);
 }

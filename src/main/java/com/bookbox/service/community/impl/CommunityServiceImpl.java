@@ -107,41 +107,50 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public int addRecommend(Recommend recommed) {
+	public int addRecommend(User user,Recommend recommend) {
+	
+		
 		// 게시글 추천일때
 		int returnInt;
-		if (recommed.getCategory().equals("board")) {
-			recommed.setCategoryNo(Const.Category.BOARD);
+		if (recommend.getCategory().equals("board")) {
+			recommend.setCategoryNo(Const.Category.BOARD);
+			//중복 추천 확인
+			int checkRecommend=	communityDAOImple.getRecommend(recommend);
+			
+			if(checkRecommend!=0) {
+				return 99999;
+			}
+			//
 			Board board;
-			if (recommed.getPref().equals("up")) {
+			if (recommend.getPref().equals("up")) {
 
-				board = communityDAOImple.getBoard(recommed.getTargetNo());
+				board = communityDAOImple.getBoard(recommend.getTargetNo());
 				board.setRecommend(board.getRecommend() + 1);
 				communityDAOImple.updateBoard(board);
 			}
 
 			else {
-				board = communityDAOImple.getBoard(recommed.getTargetNo());
+				board = communityDAOImple.getBoard(recommend.getTargetNo());
 				board.setRecommend(board.getRecommend() - 1);
 				communityDAOImple.updateBoard(board);
 			}
 			returnInt=board.getRecommend();
-			communityDAOImple.getBoard(recommed.getTargetNo()).getRecommend();
-			communityDAOImple.addRecommend(recommed);
+			communityDAOImple.getBoard(recommend.getTargetNo()).getRecommend();
+			communityDAOImple.addRecommend(recommend);
 			return returnInt;
 		}
 		// 댓글 추천일때
-		else if (recommed.getCategory().equals("comment")) {
+		else if (recommend.getCategory().equals("comment")) {
 			// recommed.setCategoryNo(Const.Category.);
 
-			if (recommed.getPref().equals("up")) {
+			if (recommend.getPref().equals("up")) {
 
 			} else {
 
 			}
 		}
 
-		return communityDAOImple.addRecommend(recommed);
+		return communityDAOImple.addRecommend(recommend);
 	}
 
 	@Override
@@ -150,7 +159,12 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		if (report.getCategory().equals("board")) {
 			report.setCategoryNo(Const.Category.BOARD);
-
+			//중복신고 확인
+			int checkReport=communityDAOImple.getReport(report);
+			if(checkReport!=0) {
+				return 99999;
+			}
+			//
 			Board board = communityDAOImple.getBoard(report.getTargetNo());
 			board.setReport(board.getReport() + 1);
 			communityDAOImple.updateBoard(board);
@@ -158,6 +172,8 @@ public class CommunityServiceImpl implements CommunityService {
 		} else if (report.getCategory().equals("comment")) {
 			report.setCategoryNo(Const.AddBehavior.COMMENT);
 
+			
+			
 			Comment comment = communityDAOImple.getComment(report.getTargetNo());
 			comment.setReportCount(comment.getReportCount() + 1);
 			communityDAOImple.updateCommnet(comment);

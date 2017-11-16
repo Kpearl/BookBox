@@ -232,7 +232,7 @@
 				
 	</insert>
 	
-	<select id="getRecommend" parameterType="recommend">
+	<select id="getRecommend" parameterType="recommend" resultType="int">
 		SELECT COUNT(*)
 		FROM recommend
 		WHERE email=#{email} AND category_no= #{categoryNo} AND target_no=#{targetNo} AND pref=#{pref}
@@ -249,5 +249,11 @@
 				)
 		
 	</insert>
+	
+	<select id="getReport" parameterType="report" resultType="int" >
+		SELECT COUNT(*)
+		FROM recommend
+		WHERE email=#{email} AND category_no= #{categoryNo} AND target_no=#{targetNo}
+	</select>
 
 </mapper>

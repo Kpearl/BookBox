@@ -18,7 +18,7 @@ public interface CommunityService {
 	public List<Board> getBoardList(Map map);
 	public List<Board> getBoardListUserTagMapper(Map map);
 	
-	public int addRecommend(Recommend recommed);
+	public int addRecommend(User user,Recommend recommend);
 	public List getCommentList(int boardNo);
 	public int addReport(Report report);
 	public int addComment(Comment comment);

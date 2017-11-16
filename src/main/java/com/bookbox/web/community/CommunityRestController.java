@@ -136,7 +136,7 @@ public class CommunityRestController {
 		recommend.setEmail(user.getEmail());
 			
 		
-		return communityServiceImpl.addRecommend(recommend);
+		return communityServiceImpl.addRecommend(user,recommend);
 		
 	}
 	
@@ -146,7 +146,7 @@ public class CommunityRestController {
 	 * @return 
 	 */
 	@RequestMapping(value="/addReport")
-	public void addReport(@ModelAttribute("Report")Report report,HttpSession session) throws Exception{
+	public int addReport(@ModelAttribute("Report")Report report,HttpSession session) throws Exception{
 		
 		System.out.println("addReport() Reprot= "+report);
 		
@@ -161,7 +161,7 @@ public class CommunityRestController {
 		
 		report.setEmail(user.getEmail());
 		
-		communityServiceImpl.addReport(report);
+		return communityServiceImpl.addReport(report);
 	}
 	
 	
@@ -251,6 +251,40 @@ public class CommunityRestController {
 		chatRoom.setCurrentUser(currentUser);
 		
 		return chatRoom.getCurrentUser();
+	}
+	
+	@RequestMapping(value="/deleteChatRoom")
+	public void deleteChatRoom(@RequestParam("type")String type,
+								@RequestParam("roomId")String roomId,HttpSession session) {
+		
+		ChatRoom chatRoom=null;
+		if(type.equals("camchat")) {
+			chatRoom=ChatRoom.camChatMap.get(roomId);
+		}
+		else if(type.equals("cast")) {
+			chatRoom=ChatRoom.castMap.get(roomId);
+		}
+		else {
+			System.out.println("잘못 된 타입입니다.");
+		}
+
+		
+		User user=(User)session.getAttribute("user");
+		if((user!=null) && (chatRoom!=null)) {
+			//System.out.println("user:"+user);
+			if(user.getEmail().equals(chatRoom.getHost().getEmail())) {
+				System.out.println("방장 확인 방삭제");
+				if(type.equals("camchat")) {
+					ChatRoom.camChatMap.remove(roomId);
+				}
+				else if(type.equals("cast")) {
+					ChatRoom.castMap.remove(roomId);
+				}
+			}
+		}
+		
+		
+		//System.out.println("deleteChatRoom Test");
 	}
 	
 }

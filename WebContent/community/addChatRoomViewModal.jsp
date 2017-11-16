@@ -26,11 +26,11 @@
 		border: 0px !important;
 	}
 	.label-custom{
-		font-size: 18px;
+		font-size: 15px;
 		font-weight: lighter;
-		color: groove;
+		padding: 5px;
 		cursor: pointer;
-		border: 2px groove;
+		border: 1px solid;
 		border-radius: 7px;
 	}
 	
@@ -44,12 +44,16 @@
 	
 	.btn-custom{
 	    padding: 5px;
-		border: 2px solid;
+		border: 1px solid;
 	    border-radius: 7px;
 	    padding-left: 15px;
 	    padding-right: 15px;
 	    cursor: pointer;
 	    color: #777;
+	}
+	
+	.readonly-custom{
+		background-color: #ffffff00 !important;
 	}
 </style>
 
@@ -155,7 +159,7 @@
 			<div class="input-group input-group-custom">
 	 		 <span class="input-group-addon addon-custom" id="title-addon">이미지</span>
 			 <input type="file" id="inputFile" name="file" class="form-control input-hidden"  aria-describedby="title-addon"/><!-- 숨김 -->
-			 <input type="text" id="fileText" class="form-control"  readonly/>
+			 <input type="text" id="fileText" class="form-control readonly-custom"  readonly/>
 			 <span class="input-group-addon addon-custom" id="title-addon">
 			 	<label for="inputFile" class="label-custom">이미지 선택</label>
 			 </span>

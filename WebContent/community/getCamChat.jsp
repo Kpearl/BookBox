@@ -32,6 +32,7 @@
 	
 	.media-box{
 		border: 0 !important;
+		maring: 0 !important;
 	}
 	.chat-container{
 		margin-top: 20px;
@@ -97,9 +98,10 @@
 	
 	.chat-input-area{
 		margin: 20px 0 0 0;
-	
 	}
-	
+	.chat-input-form{
+		width: 50%;
+	}
 	.btn-custom{
 		cursor: pointer;
 		border: 1px #888 solid;
@@ -113,13 +115,28 @@
 	
 	</style>
 	<script type="text/javascript">
-		$(function(){
+	var room_id='${chatRoom.roomId}';
+	//alert(room_id);
+	/*
+	$(window).on("beforeunload", function (){
+	
+			$.ajax({
+				url:"rest/deleteChatRoom",
+				method:"POST",
+				data:{type:"camchat",roomId:room_id},
+				success:function(){
+				}
+			});
+	});
+	*/
+		
+	$(function(){
 			$("#exit").on("click",function(){
 			
 				self.location="getCommunityMain";
 			});
 			
-		});
+	});
 	</script>
 </head>
 <body>
@@ -131,7 +148,12 @@
 	 <input type="hidden" id="roomId" value="${chatRoom.roomId}">
 	 <input type="hidden" id="nickname" value="${user.nickname }">
 	 <input type="hidden" id="userImg" value="${user.booklogImage}">
-	 
+	 <c:if test="${ user.email == chatRoom.host.email }">
+		 <input type="hidden" id="role" value="host">
+	 </c:if>
+	 <c:if test="${ user.email != chatRoom.host.email }">
+	 	<input type="hidden" id="role" value="guest">
+	 </c:if>
 	 <!--  방정보 출력  여기 삭제예정
 	 <div class="roomInfo" style="display: none">
 	 		<div class="input-group">
@@ -186,7 +208,7 @@
 		<div class="chat-container text-center">
         	<div class="chat-output text-left"></div>
         	<div class="chat-input-area">
-	        	<input type="text" id="input-text-chat">
+	        	<input type="text" id="input-text-chat" class="chat-input-form">
 		   		<a id="input-text-btn" class="btn-custom">전송</a>
 		   		<a id="share-file" class="btn-custom">파일공유</a>
         	</div>

@@ -43,7 +43,7 @@
 	}
 	.board-main .title{
 		background-color: #62BFAD;
-		height: 45px; 
+		height: 50px; 
 		font-size: 30px;
 		font-weight: bold;
 		color: floralwhite;
@@ -128,10 +128,17 @@
 	}
 	
 	.comment-textarea{
-		width: 50%;
+		margin: 10px; 0 0 0;
+		width: 100%;
 		height: 100px;
 	}
-	
+	.btn-custom{
+		cursor: pointer;
+		border: 1px #888 solid;
+		border-radius:5px;
+		color: #888;
+		padding: 5px;
+	}
 	.btn{
 		padding: 6px 6px 6px 6px;
 	}
@@ -139,7 +146,7 @@
 		height: 15px;
 		width: 15px;
 		margin: 0 3px 0 0;
-		
+		object-fit:contain;
 	}
 </style>
 
@@ -152,6 +159,11 @@ ToolbarOpacHeight(500);
 		$("#recommend").on("click",function(){
 			var boardNo=$("input[name=boardNo]").val();
 			var param="targetNo="+boardNo+"&category=board&pref=up";
+			sendRecommend(param);
+		});
+		$("#unRecommend").on("click",function(){
+			var boardNo=$("input[name=boardNo]").val();
+			var param="targetNo="+boardNo+"&category=board&pref=down";
 			sendRecommend(param);
 		});
 		
@@ -179,22 +191,36 @@ ToolbarOpacHeight(500);
 			method: "POST",
 			data: param,
 			success:function(data,status){
-				alert(data);	
+				if(data==99999){
+					alert("이미 추천 또는 비추천을 누루셨습니다.")
+				}
+				else{
+					$("#recommedCount").text(data);
+					
+				}
+				
 			}
 		});
 		
 	}
 //////////////////////	신고 추가 부분 //////////////////
 	function sendReport(param){
-	alert(param);
+		//alert(param);
+			
 		$.ajax({
 			url: "rest/addReport",
 			method: "POST",
 			data: param,
 			success:function(data,status){
-				alert("success")	
+				if(data==99999){
+					alert("이미 신고를 하셨습니다.")
+				}else{
+					alert("신고 완료")	;
+				}
+					
 			}
 		});
+	 
 	}
 
 	
@@ -361,12 +387,15 @@ ToolbarOpacHeight(500);
 		});//댓글 입력창 , 댓글달기 이벤트 추가 부분
 		
 		//신고 이벤트 등록 시작 
-		commentObj.find(".btn.report").on("click",function(){
-			alert("reportbtn test");
-			var commentNo=commentObj.find("input[name='commentNo']").val();
-			var param="targetNo="+commentNo+"&category=comment";
-			sendReport(param);
-		});
+		//alert(commentObj.hasClass("board"));
+		if(!commentObj.hasClass("board")){
+			commentObj.find(".btn.report").on("click",function(){
+				//alert($(this).html());
+				var commentNo=commentObj.find("input[name='commentNo']").val();
+				var param="targetNo="+commentNo+"&category=comment";
+				sendReport(param);
+			});
+		}
 		//신고 이벤트 등록 끝
 		
 		//블라인드 보기 
@@ -407,7 +436,7 @@ ToolbarOpacHeight(500);
 					<div class="col-xs-6">
 						<div><strong>${board.boardRegDate}</strong></div>
 						<c:if test="${enableUpdate==true}">
-						<a class="btn recommend" id="updateBoard">수정</a>
+						<a class="btn recommend" id="updateBoard"><img src='../resources/images/community/btn_edit.png'>수정</a>
 						</c:if>
 						<a class="btn recommend" id="recommend"><img src='../resources/images/community/btn_recommend.png'>추천</a> 
 						<span id="recommedCount">${board.recommend}</span>
@@ -425,10 +454,11 @@ ToolbarOpacHeight(500);
 					</c:forEach>
 				</div>
 			</div>
-			
+			<hr/>
+			<div class="text-right"><a class="btn" id="goList"><img src='../resources/images/community/btn_list.png'>목록</a></div>
 			<div class="board-comment">
 			
-				<a class="btn" id=addCommentArea>답변</a>
+				<a class="btn-custom" id=addCommentArea>답변</a>
 				<div class="inputarea"></div><!-- 여기 무조건 붙어있어야함 -->
 				<div class="commentList">
 				</div><!-- 댓글부분 끝 -->
