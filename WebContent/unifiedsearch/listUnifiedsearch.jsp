@@ -13,6 +13,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> 
 	<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
@@ -118,12 +119,15 @@ footer{
 #floatMenu {
 	position: absolute;
 	width: 200px;
-	height: 200px;
-	right: 10%;
-	top: 30%;
+	right: 8%;
+	top: 600px;
 	padding : 10px 20px 10px 20px;
-	background-color: #ddccba;
-	color: #212121;
+	background-color: #a09aa2;
+	color: rgb(246, 245, 247);
+	transition: 0.5s;
+}
+strong {
+	color:rgba(82, 76, 76, 0.92);
 }
 </style>
 
@@ -135,17 +139,17 @@ function getBook(isbn) {
 }
 
 $(function() {
-	var floatPosition = parseInt($("#floatMenu").css('top'));
 
 	$(window).scroll(function() {
 		var scrollTop = $(window).scrollTop();
-		var newPosition = scrollTop + floatPosition + "px";
-
-		$("#floatMenu").stop().animate({
-			"top" : newPosition
-		}, 100);
-
-	}).scroll();
+		console.log(scrollTop);
+		if(scrollTop > 500){
+			
+			var newPosition = scrollTop + 200;
+	
+			$("#floatMenu").css("top" , newPosition);
+		}
+	})
 	
 	$(".nav-creation").on("click" , function() {
 		var targetNo = this.getAttribute('id');
@@ -391,11 +395,9 @@ document.onreadystatechange = function () {
 	</c:if>
   	</div> 
   	
-  	
-  	
   	<div id="floatMenu">
-  		<div class="row">
-  			관련 태그
+  		<div class="row" style="margin:10%;">
+  			<strong>관련 태그</strong>
   		</div>
   	<c:if test="${fn:length(tagList) eq 0}">
   		<div class="row">
@@ -403,7 +405,9 @@ document.onreadystatechange = function () {
   		</div>
   	</c:if>
   		<c:forEach items="${tagList}" var="tag">
-  			<p>${tag}</p>
+  			<div class="row" style="margin:10%;">
+  				<span class="tag">#${tag}</span>
+  			</div>
   		</c:forEach>
   	</div>
    	<footer class="container-fluid">

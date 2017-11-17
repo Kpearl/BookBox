@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> 
 	<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
@@ -52,6 +54,16 @@ strong {
 footer{
 	margin-top: 60px;
 }
+#floatMenu {
+	position: absolute;
+	width: 200px;
+	right: 8%;
+	top: 600px;
+	padding : 10px 20px 10px 20px;
+	background-color: #a09aa2;
+	color: rgb(246, 245, 247);
+	transition: 0.5s;
+}
 </style>
 <script type="text/ecmascript">
 document.onreadystatechange = function () {
@@ -62,18 +74,29 @@ document.onreadystatechange = function () {
 } 
 </script> 
 <script type="text/javascript">
-	ToolbarOpacHeight(500);
+	ToolbarOpacHeight(500);var floatPosition = parseInt($("#floatMenu").css('top'));
 	
-	$(function() {
-			$(".nav-tag").on("click" , function() {
-				var keyword = this.innerText.replace("#", "");
-				$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
-			});
-			$(".nav-creation").on("click" , function() {
-				var targetNo = this.getAttribute('id');
-				$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
-			}); 
+$(function() {
+	$(window).scroll(function() {
+		var scrollTop = $(window).scrollTop();
+		console.log(scrollTop);
+		if(scrollTop > 500){
+			
+			var newPosition = scrollTop + 200;
+	
+			$("#floatMenu").css("top" , newPosition);
+		}
+	})
+		
+	$(".nav-tag").on("click" , function() {
+		var keyword = this.innerText.replace("#", "");
+		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
 	});
+	$(".nav-creation").on("click" , function() {
+		var targetNo = this.getAttribute('id');
+		$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
+	}); 
+});
 </script>
 
 </head>
@@ -117,11 +140,22 @@ document.onreadystatechange = function () {
 		</div>
   	</div>
   	
-  	<div>
+  	<div id="floatMenu">
+  		<div class="row" style="margin:10%;">
+  			<strong>관련 태그</strong>
+  		</div>
+  	<c:if test="${fn:length(tagList) eq 0}">
+  		<div class="row">
+  			관련 태그가 없습니다.
+  		</div>
+  	</c:if>
   		<c:forEach items="${tagList}" var="tag">
-  			<p>${tag}</p>
+  			<div class="row" style="margin:10%;">
+  				<span class="tag">#${tag}</span>
+  			</div>
   		</c:forEach>
   	</div>
+  	
    	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

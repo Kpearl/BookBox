@@ -222,9 +222,8 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 
 	@Override
 	public JSONObject elasticRelationTagSearch(Search search) throws Exception {
-
 		String query = url + "_search";
-		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\""
+		String json = "{\"query\":{\"multi_match\":{\"fields\":[\"title\", \"content\", \"writing\"], \"query\":\""
 				+ search.getKeyword() + "\"}}, \"_source\":[\"tag\"]}";
 
 		if (search.getCategory() == Category.CREATION)
@@ -233,6 +232,8 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			query = url + "posting/_search";
 		else if (search.getCategory() == Category.BOARD)
 			query = url + "board/_search";
+		else if(search.getCategory() == Category.TAG)
+			json = "{\"query\":{\"multi_match\":{\"fields\":[\"tag\"], \"query\":\"" + search.getKeyword() + "\"}}, \"_source\":[\"tag\"]}";
 
 		return sendToElastic(query, json, "GET");
 	}

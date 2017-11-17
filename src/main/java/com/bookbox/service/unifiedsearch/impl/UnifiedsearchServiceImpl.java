@@ -153,7 +153,6 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			if(tag.size() > 4) 
 				break;
 		}
-
 		return tag;
 	}
 	
