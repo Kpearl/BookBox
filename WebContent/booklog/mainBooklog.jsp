@@ -166,6 +166,7 @@
     		top: 0;
     		right: 0;
     		height: 100%;
+    		background-color: #112D42;
     	}
     	@media (min-width: 992px){
 	    	.booklog-img-box{
@@ -209,7 +210,7 @@
 				$(self.location).attr('href','../booklog/getPostingList?condition='+condition);
 			});
 			
-			$('div.div-booklog').on('click', function(){
+			$('.booklog-content-box').on('click', function(){
 				var booklogNo = $(this).find('input[name="booklogNo"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
@@ -346,7 +347,9 @@
 	    						<img class="img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
 	    					</div>
 	    					<div class="booklog-content-box">
+	    						<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 			    				<p>${booklog.booklogName}</p>
+			    				<p>${booklog.booklogIntro}</p>
 	    					</div>
 	    					<div class="booklog-content-count">
 	    						

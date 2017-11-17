@@ -34,9 +34,11 @@ import com.bookbox.common.service.TagService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.booklog.PostingService;
+import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
+import com.bookbox.service.unifiedsearch.BookService;
 
 /**
  * @file com.bookbox.service.web.booklog.BooklogController.java
@@ -57,6 +59,10 @@ public class BooklogController {
 	@Qualifier("postingServiceImpl")
 	private PostingService	postingService;
 	
+	@Autowired
+	@Qualifier("bookServiceImpl")
+	private BookService bookService;
+
 	@Autowired
 	@Qualifier("logServiceImpl")
 	private LogService logService;
@@ -317,6 +323,25 @@ public class BooklogController {
 		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
 		
 		return "redirect:../booklog/getBooklog?booklogNo="+booklog.getBooklogNo();
+	}
+	
+	@RequestMapping( value="getBookLikeList", method=RequestMethod.GET )
+	public String getBookLikeList(@RequestParam("email") String email, @RequestParam("nickname") String nickname, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		List<Book> bookList = booklogService.getBookLikeList(map);
+		User user = new User();
+		user.setEmail(email);
+		user.setNickname(nickname);
+		for (Book book : bookList) {
+			book.setLike(bookService.getBookLike(book, user));
+			book.setGrade(bookService.getBookGrade(book, user));
+		}
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("total", bookList.size());
+		model.addAttribute("keyword", nickname + "님이 좋아하는 책");
+		
+		return "forward:../unifiedsearch/listBook.jsp";
 	}
 	
 	

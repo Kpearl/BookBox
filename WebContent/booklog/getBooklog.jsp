@@ -32,10 +32,9 @@
     <style>
     	.booklog-btn{
     		cursor: pointer;
-			padding: 8px;
+			padding: 12px;
 			background: #3D3D3D;
 			color: #F9F7F7;
-			font-weight: bold;
     	}
     	.book-like-box{
     		position: relative;
@@ -237,11 +236,15 @@
 
 	$(function(){
 		booklogUser = $('input[name="user.email"]').val();
+		booklogUserNickname = $('input[name="user.nickname"]').val();
 		booklogNo = $('input[name="booklogNo"]').val();
 		booklogName = $('input[name="booklogName"]').val();
 		user = $('input[name="user"]').val();
 		
-		$('a.posting-list').on('click',function(){
+		$('a.book-like-list').on('click', function(){
+			$(self.location).attr('href', '../booklog/getBookLikeList?email='+booklogUser+'&nickname='+booklogUserNickname);
+		});
+		$('a.posting-list').on('click', function(){
 			$(self.location).attr('href','../booklog/getPostingList?condition=booklog&keyword='+booklogUser);
 		});
 		$('div.div-posting').on('click', function(){
@@ -635,6 +638,7 @@
 	</jsp:include>
 	<!-- 여기부터 코딩 -->
 	<input type="hidden" name="user.email" value="${booklog.user.email}">
+	<input type="hidden" name="user.nickname" value="${booklog.user.nickname}">
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
 	<input type="hidden" name="user" value="${sessionScope.user.email}">
@@ -685,7 +689,7 @@
 					<div class="col-xs-6 text-center booklog-btn">
 						표지편집
 					</div>
-					<div class="vertical-line" style="margin-top: 10px; height: 20px;"></div>
+					<div class="vertical-line" style="margin-top: 14px; height: 20px;"></div>
 					<div class="col-xs-6 text-center booklog-btn">
 						포스팅등록
 					</div>

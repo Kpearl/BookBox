@@ -38,12 +38,27 @@
 		.container{
 			height: 100%;
 		}
+		.display-middle{
+			top: 45%;
+		}
+		#main-box{
+			position: relative;
+		}
+		#main-box > .row{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 100%;
+			-webkit-transform: translate(-50%, -50%);
+			   -moz-transform: translate(-50%, -50%);
+					transform: translate(-50%, -50%);
+		}
 		#main-search{
 		    height: 80px;
 		    width: 500px;
 		    padding: 20px;
 		    position: absolute;
-		    top: 60%;
+		    top: 55%;
 		    left: 50%;
 		    transform: translate(-50%, -50%);
    		}
@@ -185,22 +200,31 @@
 		#creation-intro{
 			z-index: 5;
 			left: 0;
-			background: rgb(240, 128, 128);
+			/* background: rgb(240, 128, 128); */
+			background: url(./resources/images/main_creation_cover.jpeg) no-repeat center;
+			background-size: cover;
 		}
 		#community-intro{
 			z-index: 6;
 			left: 10%;
-			background: rgb(144, 238, 144);
+			/* background: rgb(144, 238, 144); */
+			background: url(./resources/images/main_community_cover.jpeg) no-repeat center;
+			background-size: cover;
+		    background-position-x: -100px;
 		}
 		#booklog-intro{
 			z-index: 7;
 			left: 20%;
-			background: rgb(173, 216, 230);
-		}
+			/* background: rgb(173, 216, 230); */
+			background: url(./resources/images/main_booklog_cover.jpeg) no-repeat center;
+			background-size: cover;
+   		}
 		#recommend-book{
 			z-index: 8;
 			left: 30%;
-			background: rgb(250, 250, 210);
+			/* background: rgb(250, 250, 210); */
+			background: url(./resources/images/main_book_cover.jpeg) no-repeat center;
+			background-size: cover;
 		}
 		.active-category{
 			cursor: auto;
@@ -209,12 +233,16 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			color: #e1e1e1;
+			color: #ffffff;
 			height: 100%;
 			width: 10%;
 			text-align: center;
-			line-height: 11;
-			font-size: 4em;
+			line-height: 22;
+			font-size: 2em;
+		}
+		.intro-icon i{
+			background: rgba(0, 0, 0, 0.5);
+		    border-radius: 100%;
 		}
 		.intro-content{
 			position: absolute;
@@ -222,6 +250,47 @@
 			left: 10%;
 			height: 100%;
 			width: 60%;
+			padding: 5%;
+		}
+		.intro-content h1{
+			font-size: 33px;
+		}
+		.intro-content *{
+			color: #ffffff !important;
+		}
+		.intro-cover{
+			position: absolute;
+			top: 0;
+			left: 10%;
+			background: rgba(0, 0, 0, 0.3);
+			height: 100%;
+			width: 90%;
+		}
+		
+		@media (min-width: 768px){
+			.intro-icon{
+				font-size: 3em;
+				line-height: 15;
+			}
+			.intro-content h1{
+				font-size: 56px;
+			}
+		}
+		
+		@media (min-width: 992px){
+			#community-intro{
+			    background-position-y: -40px;
+			}
+			.intro-icon{
+				font-size: 4em;
+				line-height: 11;
+			}
+		}
+		
+		@media (min-width: 1200px){
+			#community-intro{
+			    background-position-y: -180px;
+			}
 		}
 		
 	</style>
@@ -467,45 +536,48 @@
 	</header>
 	
 	<div id="main-box" class="container">
-	
-		<div class="row">
-		
-			<div class="col-md-offset-1 col-md-10">
-	
-		
-		
-			</div>
-		</div>
-		
+			
 		<div class="row">
 			<div class="xs-col-12">
 				<div class="intro-box">
 					<div id="creation-intro" class="category-intro">
+						<div class="intro-cover"></div>
 						<div class="intro-icon">
 							<i class="glyphicon glyphicon-pencil"></i>
 						</div>
 						<div class="intro-content">
+							<h1>CREATION<small class="hidden-xs"> <small> 창작공간</small></small></h1>
+							<h1 class="hidden-sm hidden-md hidden-lg"><small> 창작공간</small></h1>
 						</div>
 					</div>
 					<div id="community-intro" class="category-intro">
+						<div class="intro-cover"></div>
 						<div class="intro-icon">
 							<i class="glyphicon glyphicon-phone"></i>
 						</div>
 						<div class="intro-content">
+							<h1>COMMUNITY<small class="hidden-xs"> <small> 소모임</small></small></h1>
+							<h1 class="hidden-sm hidden-md hidden-lg"><small> 소모임</small></h1>
 						</div>
 					</div>
 					<div id="booklog-intro" class="category-intro">
+						<div class="intro-cover"></div>
 						<div class="intro-icon">
 							<i class="glyphicon glyphicon-grain"></i>
 						</div>
 						<div class="intro-content">
+							<h1>BOOKLOG<small class="hidden-xs"> <small> 북로그</small></small></h1>
+							<h1 class="hidden-sm hidden-md hidden-lg"><small> 북로그</small></h1>
 						</div>
 					</div>
 					<div id="recommend-book" class="category-intro active-category">
+						<div class="intro-cover"></div>
 						<div class="intro-icon">
 							<i class="glyphicon glyphicon-book"></i>
 						</div>
 						<div class="intro-content">
+							<h1>BOOK<small class="hidden-xs"> <small> 추천도서</small></small></h1>
+							<h1 class="hidden-sm hidden-md hidden-lg"><small> 추천도서</small></h1>
 
 
 							<div id="main-recommend-book" class="swiper-container book-swiper-container">
@@ -532,7 +604,7 @@
 									</div>
 									
 									<div id="bestSeller" class="swiper-slide">
-										<h4><em>Best Seller..</em></h4>
+										<h4><em>베스트셀러</em></h4>
 										<div class="row half-height">
 										<c:forEach var="i" begin="0" end="3">
 											<div class="col-xs-3 max-height first-level">
@@ -552,7 +624,7 @@
 									</div>
 									
 									<div id="newBook" class="swiper-slide">
-										<h4><em>Bloger's Select..</em></h4>
+										<h4><em>이달의 추천도서</em></h4>
 										<div class="row half-height">
 										<c:forEach var="i" begin="0" end="3">
 											<div class="col-xs-3 max-height first-level">
