@@ -73,7 +73,7 @@
 	</insert>
 	
 	<select id="getBoard" parameterType="_int" resultMap="selectBoard">
-		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, '6' as category_no,
+		SELECT b.board_no, b.email, b.board_title, b.board_content, b.reg_date, b.report_count, b.recommend_count, b.thumbnail_url , '6' as category_no,
 		u.nickname, u.role ,u.booklog_image, count(c.board_no) as comment_count
 		FROM board AS b join user AS u ON b.email = u.email left join `comment` AS c ON b.board_no = c.board_no
 		WHERE

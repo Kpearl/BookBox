@@ -545,14 +545,13 @@ public class CommunityController {
 		
 		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
 		
-		//
 		for(Map.Entry<String, ChatRoom> elem: ChatRoom.castMap.entrySet()) {
 			castList.add(elem.getValue());
 		}
 		
 		model.addAttribute("castList",castList);
 		
-		return "forward:listCamChat.jsp";
+		return "forward:listCast.jsp";
 	}
 	
 	

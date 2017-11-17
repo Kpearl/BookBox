@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,86 +7,182 @@
 <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <script src="../resources/javascript/toolbar_opac.js"></script>
+    
+    
     <link rel="stylesheet" href="../resources/css/custom.css">
     
     
 	<style>
+   			body{
+    		padding-top:0px !important;
+    	}
+    	header{
+    		background:url(../resources/images/community.jpeg) no-repeat center;
+    	}
+	
    		.room_item{
-   			height: 350px;
-   			border: solid 1px;
+   			height: 460px;
+ 			/*border: 1px solid red;*/
+ 			margin: 10px 0 0 0;
+   		/*	width: 250px; */
+   		/*	border: solid 2px #62BFAD; */
+   		/*	display: inline-block;       */
+   		/*	box-shadow: 3px 3px 3px #62BFAD; */
+   			/*margin: 10px;*/
    		}
-   		.room_item .content{
-   			background-color: #444;
+   		.room_item .room-user{
+   			/*
+   			height: 45%;
+   			*/
+   			padding-bottom: 3px;
+   			padding-left: 5px;
+   			border-bottom: solid 10px #62BFAD;
+   			overflow: hidden;
+   			height: 40px;
+   			font-size: 17px;
    		}
-   		.room_item img{
-   			height: 150px;
+		   		.room_item .room-user img{
+		   			height: 70%;
+		   		}
+   		.room_item .room-image{
+   			/*
+   			height: 45%;
+   			*/
+   			/*border-top: solid 10px #62BFAD;*/
+   			overflow: hidden;
+   			height: 200px;
    		}
-   		.room_item p{
-   			text-overflow:ellipsis;
-   			width: 100%;
-   			margin: 0;
+   		.room_item .room-image img{
+   			/*
+   			*/
+   			height: 100%;
+   			/*width:250px;*/
+   			width:100%;
+   			object-fit: cover;
+   			/*background-color: #F9F7E8;*/
+   			
+   			transform:scale(1.0); 
+   			transition: transform .35s; 
+   			
    		}
    		
-   		.board_item img{
-   			height: 150px;
-   			float: left;
+   		.room_item .room-image img:hover{
+   			transform:scale(1.3); 
+   			transition: transform .35s; 	
    		}
-   		.board_item p{
+   		
+   		.room_item .content{
+   			/*background-color: #F9F7E8;*/
+			/*
+   			height: 55%;
+   			*/
+   			height: 220px;
+   			overflow: hidden;
+   			text-overflow:ellipsis;
+   			width: 100%;
+   		}
+   		.room_item .content div {
    			text-overflow:ellipsis;
    			width: 100%;
    			margin: 0;
+   			
    		}
-   		.board_item .content{
-   			background-color: #444;
+   		.room_item .content .content-titlee{
+   			height: 35px;		
+   			background-color: 	#62BFAD;
+   			color:floralwhite;
+   			font-weight: bold;
+   			overflow: hidden;
+   			font-size: 25px;
+   			
+   		}
+   		.room_item .content .content-nickname{
+   			height: 40px;
+   			padding-right: 10px;
+   			padding-top: 5px;
+   		}
+   		.room_item .content .content-nickname img{
+   			height: 35px;
+   			object-fit: cover;
+   			border-radius: 50%;
+   		}
+   		.room_item .content .content-content{
+   			padding : 5px 10px 5px 10px;
+   			height: 110px;
+   			overflow: hidden;
+   			
+   		}
+   		.room_item .content .content-user{
+   			height: 25px;
+   			padding-left: 10px;
+   		}
+   		.room_item .content .content-tag{
+   			height: 25px;
+   			padding-left: 10px;
    		}
     </style>
+    <script type="text/javascript">
+	    var condition;
+		ToolbarOpacHeight(500);
+    </script>
 </head>
 <body>
-	<jsp:include page="../layout/toolbar.jsp" />
-	
-	<div class="container">
-		<form class="form-inline text-right">
-		  <div class="form-group">
-		    <div class="input-group">
-		      <div class="input-group-addon">
-		      	<select class="form-control">
-		      		<option>옵션</option>
-		      	</select>
-		      </div>
-		      <input type="text" class="form-control" id="keyword" placeholder="검색어">
-		  	 	<div class="input-group-addon">
-		  			<button type="submit" class="btn">검색</button>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
+	<header class="parallax"></header>
+	<div class="container">	
+		<div class="row" style="height: 70px;">
+				<div class="col-xs-6">
+					<h1>CamChat</h1> 
 				</div>
-		    </div>
-		  </div>
-		</form>
-		<a class="btn btn-default" href="#">인기</a>
-		<a class="btn btn-default" href="#">최신</a>
-		<br/><br/>
-		<h1>CAMCHAT</h1>
-		<hr/>
-		<div class="row">
-			<div class="col-md-3">
-				<div class="room_item">
-					<img src="http://cfile9.uf.tistory.com/image/2261AA46582D467B3C3609">
-					<div class="content">
-						<p>주제:보노보노</p>
-						<p>닉네임:보노보노</p>
-						<p>소개글:보노보노보노보보노보노보노보노보보노노보노보노보노보노보노보노보노</p>
-						<p>인원:0/100</p>
-						<p>#보노보노</p>
-					</div>
+				<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
 				</div>
 			</div>
-		</div>
-		
-		<br/>
-	
-	
-	
+			<hr/>
+			<div class="row">
+				<c:forEach items="${camChatList}" var="room">
+				<!--  
+				<div class="col-md-3 col-sm-4 col-xs-6">
+				-->
+					<div class="room_item room_item col-lg-3 col-md-4 col-sm-6">
+						<input type="hidden" value="getCast?roomId=${room.roomId}">
+						<div class="room-user"><img src="../resources/images/community/person2.png">${ room.currentUser }/${ room.maxUser }</div>
+						<div class="room-image text-center">
+							<c:if test="${empty room.image }">
+								<img src="../resources/images/community/noimage.png">
+							</c:if>
+							<c:if test="${!empty room.image }">
+								<img src="${room.image}">
+							</c:if>
+						</div>
+						<div class="content">
+							<div class="content-titlee text-center">${room.title}</div>
+							<div class="content-nickname text-right">
+								<img src="../resources/upload_files/images/${room.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
+								<strong>${room.host.nickname}</strong>
+							</div>
+							<div class="content-content">${room.content}</div>
+							<div class="content-tag">
+							<c:forEach items="${room.tagList}" var="tag">
+								<span class="tag">#${tag.tagName}</span>
+							</c:forEach>
+							</div>
+						</div>
+					 </div>			
+				<!-- 
+				</div>
+				 -->	
+			</c:forEach>
+			</div>
 	</div>
-	
 </body>
 </html>

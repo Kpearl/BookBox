@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
   	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
+   
+   	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
     <!-- RTC -->
     <script src="../resources/javascript/community/RTCMultiConnection.min.js"></script>
 	<script src="../resources/javascript/community/socket.io.js"></script>
@@ -331,9 +334,9 @@ var connection = new RTCMultiConnection();
 
 
 //학원 테스트
-//connection.socketURL = 'https://192.168.0.21:433/';
+connection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
-connection.socketURL = 'https://192.168.219.167:433/';
+//connection.socketURL = 'https://192.168.219.167:433/';
 
 
 connection.socketMessageEvent = 'video-conference-demo';
@@ -447,7 +450,7 @@ connection.onopen = function(e) {
 	currentUser =connection.getAllParticipants().length;
 	console.log("currentUSer: "+currentUser);
 	//참여인원 업데이트
-	updateCurrentUser(currentUser);
+	updateCurrentUser(currentUser+1);
 	
 	//사이즈 조절
 	
@@ -456,7 +459,7 @@ connection.onopen = function(e) {
 };
 
 connection.onclose = function() {
-    currentUser =connection.getAllParticipants().length;
+    currentUser =connection.getAllParticipants().length +1;
 	console.log("currentUSer: "+currentUser);
 	//참여인원 업데이트
 	updateCurrentUser(currentUser);

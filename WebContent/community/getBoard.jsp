@@ -11,6 +11,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
@@ -120,6 +121,7 @@
 	}
 	
 	.test{
+		padding: 10px 10px 5px 10px;
 		background-color: #eee
 	}
 	
@@ -128,9 +130,12 @@
 	}
 	
 	.comment-textarea{
-		margin: 10px; 0 0 0;
+		margin: 10px 0 10px 0;
 		width: 100%;
 		height: 100px;
+	}
+	.comment-input-container{
+		margin: 10px 0 0 0;
 	}
 	.btn-custom{
 		cursor: pointer;
@@ -179,6 +184,10 @@ ToolbarOpacHeight(500);
 		/////수정버튼//////////////
 		$("#updateBoard").on("click",function(){
 			self.location="updateBoard?boardNo="+${board.boardNo};
+		});
+		//목록가기 버튼
+		$("#goList").on("click",function(){
+			self.location="getBoardList";	
 		});
 		
 	});
@@ -335,14 +344,14 @@ ToolbarOpacHeight(500);
 		commentObj.find("#addCommentArea").on("click",function(){
 			
 			if(commentObj.find(".inputarea").html()!=''){
-				commentObj.find(".inputarea").html('');
+				commentObj.find(".inputarea:first").html('');
 				return;
 			}
 			
-			var inputObj=$("<div>"+
+			var inputObj=$("<div class='comment-input-container'>"+
 								"<textarea class='comment-textarea'></textarea>"+
 								"<br/>"+
-								"<a class='btn'>등록</div>");
+								"<a class='btn btn-custom'>등록</div>");
 			
 			inputObj.find("a").on("click",function(){
 				

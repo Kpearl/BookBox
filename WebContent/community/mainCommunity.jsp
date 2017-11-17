@@ -9,6 +9,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+	
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
@@ -173,9 +175,16 @@
    			font-size: 20px;
    			
    		}
+   		.board-content-v2 .board-head-v2 div{
+   			display: inline-block;
+   		}
 	   		.board-content-v2 .board-head-v2 .title{
 	   			margin-left:20px; 
 	   		}
+	   		.board-content-v2 .board-head-v2 .comment-count{
+	   			font-size: 13px;
+	   		}
+	   		
 	   		.board-content-v2 .board-head-v2 .writer{
 	   			margin-right:10px; 
 	   		}
@@ -237,22 +246,52 @@
 	ToolbarOpacHeight(500);
     //채팅방 상세보기 이벤트
     $(function(){
+   /* 
     	$(".room_item").on("click",function(){
     		//alert($("input",this).val())
     		self.location=$("input",this).val();
     	});
+    */ 	
+    	
+    	$(".room_item .room-image").on("click",function(){
+    		//alert($("input",this).val())
+    		self.location=$(this).parent().find("input").val();
+    	});
+    
+    	
     });
     
     $(function(){
     	//게시판 상세보기 이벤트	
+    	 /* 
     	$(".board-item-v2").on("click",function(){
     		//alert($(this).html());
     		var boardNo=$(this).find(".boardNo").val();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     		self.location="getBoard?boardNo="+boardNo;
     	})
-    	
+    	 */
+   	 	$(".board-item-v2 .board-head-v2").on("click",function(){
+       		//alert($(this).html());
+       		var boardNo=$(this).parent().parent().parent().parent().find(".boardNo").val();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+       		self.location="getBoard?boardNo="+boardNo;
+       	});
+    	 
+    	$(".board-item-v2 .board-img-v2").on("click",function(){
+        		//alert($(this).html());
+        		var boardNo=$(this).parent().find(".boardNo").val();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        		self.location="getBoard?boardNo="+boardNo;
+        });
+    	 ////////////////
     	$("#moreBoard").on("click",function(){
     		self.location="getBoardList";
+    	})
+    	
+    	$("#moreCast").on("click",function(){
+    		self.location="getCastList";
+    	})
+    	
+    	$("#moreCamChat").on("click",function(){
+    		self.location="getCamChatList";
     	})
     	
     
@@ -315,7 +354,7 @@
 				<h1>Cast</h1> 
 			</div>
 			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
-				<a class="moreCast" style="display: table-cell; vertical-align: bottom; ">more...</a>
+				<a class="moreCast" id="moreCast" style="display: table-cell; vertical-align: bottom; ">more...</a>
 			</div>
 		</div>
 		<hr/>
@@ -362,7 +401,7 @@
 				<h1>CAMCHAT</h1> 
 			</div>
 			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
-				<a class="moreChatChat" style="display: table-cell; vertical-align: bottom; ">more...</a>
+				<a class="moreChatChat" id="moreCamChat" style="display: table-cell; vertical-align: bottom; ">more...</a>
 			</div>
 		</div>
 		<hr/>
@@ -430,7 +469,7 @@
 						</div>
 						<div class="board-content-v2 col-xs-9">
 							<div class="board-head-v2">
-								<div class="title">${board.boardTitle}</div>
+								<div class="title">${board.boardTitle}</div><div class="comment-count">[${board.commentCount}]</div>
 							</div>
 							<div class="board-body-v2">
 								<div class="date text-right row">

@@ -27,6 +27,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
  	
+ 	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
  	<!-- RTC -->
  	<script src="../resources/javascript/community/RTCMultiConnection.min.js"></script>
 	<script src="../resources/javascript/community/socket.io.js"></script>
@@ -50,7 +52,10 @@
     		height: 300px;
     		*/
     	}
-    	
+    	.container{
+    		height: 100%;
+    		background-color: #62bfad38;
+    	}
    		.chat-container{
    			border: solid 2px #62BFAD; 
    			overflow: hidden;
@@ -106,6 +111,10 @@
     	.room-info .regdate{
     		float: right;
     	}
+    	.room-info .current-user{
+    		margin: 10px 0 0 0; 
+    	}
+    	
     	.room-info .content{
     		/*word-spacing: normal;*/
     		/*word-break:break-all;*/
@@ -192,9 +201,11 @@
     		
     	});
     	
-    
-    
-    });
+    	$("#exit").on("click",function(){
+    		self.location="getCommunityMain";
+    	});
+    	
+    }); //onload End
     </script>
 </head>
 
@@ -239,6 +250,7 @@
 	</div>
 	  -->
 	 <!--  방정보 끝 -->
+	 <br>
 	<div class="text-right">
 		<a class="btn-custom" id="exit">나가기</a>
 	</div>	
@@ -263,7 +275,7 @@
 			<div class="host-img"><img src="../resources/upload_files/images/${chatRoom.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'"></div>
 			<div class="host-nickname">${chatRoom.host.nickname}</div>
 			<div class="regdate">${chatRoom.regDate}</div>
-			<div><span>시청자</span><span id="currentUser">0</span></div>
+			<div class="current-user"><span>시청자</span><span id="currentUser">0</span></div>
 			<div class="content"><br/><br/>${chatRoom.content}</div>
 			<div calss="tag-list">
 				<c:forEach items="${chatRoom.tagList}" var="tag">
@@ -273,7 +285,7 @@
 		</div>
 		<div class="col-sm-5 chat-option text-right">
 			<c:if test="${ user.email == chatRoom.host.email }">
-				<button class="btn btn-default btn-sm" id="chatMute">채팅금지</button>
+				<a class="btn-custom " id="chatMute">채팅금지</a>
 				<br>
 				<label><input type="checkbox" id="enableReceiveChat">채팅숨기기</label>
 			</c:if>
@@ -558,8 +570,6 @@ function disableInputButtons() {
     document.getElementById('broadcast-id').disabled = true;
 }
 
-
-// below section detects how many users are viewing your broadcast
 //시청자수 변경시 이벤트 방장만 발생
 connection.onNumberOfBroadcastViewersUpdated = function(event) {
     if (!connection.isInitiator) return;
@@ -577,6 +587,7 @@ connection.onNumberOfBroadcastViewersUpdated = function(event) {
     	}
     });
     
+    sendCurrentUser(event.numberOfBroadcastViewers);
     //ui 쪽 변경
     $("#currentUser").html(event.numberOfBroadcastViewers);
     
@@ -659,6 +670,19 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 		}
 		
 	});
+	
+	//시청자수 변경 보내기
+	function sendCurrentUser(currentUser){
+		chatSocket.emit("changCurrentUser",currentUser);
+		console.log("현재 시청자: "+currentUser);
+	};
+	
+	//시청자수 받기
+	chatSocket.on("changCurrentUser",function(data){
+		console.log("현재 시청자: "+data);
+		$("#currentUser").html(data);
+		
+	});
 
 	//채팅입력이벤트
 	$(".chat-input").on("keyup",function(event){
@@ -688,8 +712,7 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 		}
 	});
 	
-	//시청자수 변경
-	
+
 	
 	//채팅 출력쪽에 채팅 내용 삽입
 	function writeChatOutput(message,fontColor,userImg){

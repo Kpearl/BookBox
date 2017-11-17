@@ -11,6 +11,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
    
   	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+   
+  	<script src="../resources/javascript/toolbar_opac.js"></script>
    
    <link rel="stylesheet" href="../resources/css/custom.css">
 	
@@ -71,8 +74,16 @@
    			font-size: 20px;
    			
    		}
+   		
+   		
+	   		.board-content-v2 .board-head-v2 div{
+   			display: inline-block;
+   			}
 	   		.board-content-v2 .board-head-v2 .title{
 	   			margin-left:20px; 
+	   		}
+	   		.board-content-v2 .board-head-v2 .comment-count{
+	   			font-size: 13px;
 	   		}
 	   		.board-content-v2 .board-head-v2 .writer{
 	   			margin-right:10px; 
@@ -127,7 +138,14 @@
 		$(".board-item-v2").on("click",function(){
 			self.location="getBoard?boardNo="+$(this).find(".boardNo").val();
 		});
+		
+		//정렬순서 클릭이벤트
+		$("span.check").on("click",function(){
+			self.location="getBoardList?order="+$("input",this).val();
+		});
+		
 	});
+	
 	
 	
 	var maxHeight=0;
@@ -156,6 +174,7 @@
 					
 				
 					var maxPage=$("#maxPage").val();
+					
 					if(currentPage>=maxPage){  //현재페이지가 끝페이지일때 요청보내지않음
 						return;
 					}
@@ -187,13 +206,13 @@
 							dataObj=data.boardList[i];
 							var appendHtml=		
 										"<div class=\"board-item-v2 row\">"+
-											"<input type=\"hidden\" value=\""+dataObj.boardNo+ "}\" class=\"boardNo\">"+
+											"<input type=\"hidden\" value=\""+dataObj.boardNo+ "\" class=\"boardNo\">"+
 											"<div class=\"board-img-v2 col-xs-3\">"+
 												"<img src=\""+dataObj.thumbnailUrl+"\" onerror=\"this.src='../resources/images/community/noimage.png'\">"+
 											"</div>"+
 											"<div class=\"board-content-v2 col-xs-9\">"+
 												"<div class=\"board-head-v2\">"+
-													"<div class=\"title\">"+dataObj.boardTitle+"</div>"+
+													"<div class=\"title\">"+dataObj.boardTitle+"</div>"+"<div class=\"comment-count\">["+dataObj.commentCount+"]</div>"+
 												"</div>"+
 												"<div class=\"board-body-v2\">"+
 													"<div class=\"date text-right row\">"+
@@ -220,6 +239,11 @@
 										"</div>";
 							
 								var appendObj=$(appendHtml);
+								
+								//클릭이벤트
+								appendObj.on("click",function(){
+									self.location="getBoard?boardNo="+$(this).find(".boardNo").val();
+								});
 								//alert(appendObj);
 								$(".board-list").append(appendObj);
 							}
@@ -243,8 +267,8 @@
 	</jsp:include>
 	<header class="parallax"></header>
 	
-	<!--  검색창 사라질 가능성 
 	<div class="container">
+	<!--  검색창 사라질 가능성 
 		<form class="form-inline text-right">
 		  <div class="form-group">
 		    <div class="input-group">
@@ -263,16 +287,57 @@
 		  </div>
 		</form>
 	 -->
-		
+	 	<br/>
+		 <div class="row">
+			 <div class="col-md-6 text-left">
+			 				<!-- 
+							<p class="paging">전체 ${page.totalCount } 건수, 현재
+							${page.currentPage} 페이지</p>
+			 				 -->
+			 				 <p class="paging">전체 ${page.totalCount } 건수</p>
+			</div>
+			<div class="col-md-6 col-xs-hidden" style="text-align: right;">
+	
+				<span class="check recent-list" >
+					<input type="hidden" value="0">
+					<c:if test="${search.order==0 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px">
+					</c:if>
+					<c:if test="${search.order!=0 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">
+					</c:if>
+				최신</span>
+				<span class="check enddate-list">
+					<input type="hidden" value="1">
+					<c:if test="${search.order==1 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px">
+					</c:if>
+					<c:if test="${search.order!=1 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">
+					</c:if>
+					인기</span>
+				<span class="check enddate-list">
+					<input type="hidden" value="2">
+					<c:if test="${search.order==2 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px">
+					</c:if>
+					<c:if test="${search.order!=2 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">
+					</c:if>
+					댓글</span>
+			</div>
+		 </div>
+		<!-- 
 		<a class="btn btn-default" href="#">인기</a>
 		<a class="btn btn-default" href="#">최신</a>
 		<a class="btn btn-default" href="#">댓글순</a>
+		 -->
 				
-		키워드<input  type="hidden" id="keyword" value="${search.keyword}">
-		컨디션<input type="hidden" id="condition" value="${search.condition}">
-		오더<input type="hidden" id="order" value="${search.order}">
-		페이지<input type="hidden" id="currentPage" value="${page.currentPage}">
-		맥스페이지<input type="hidden" wid="maxPage" value="${page.maxPage}">
+		<input  type="hidden" id="keyword" value="${search.keyword}">
+		<input type="hidden" id="condition" value="${search.condition}">
+		<input type="hidden" id="order" value="${search.order}">
+		<input type="hidden" id="currentPage" value="${page.currentPage}">
+		<input type="hidden" id="maxPage" value="${page.maxPage}">
 	
 		<br/>
 		<h1>BOARD</h1>
@@ -291,7 +356,7 @@
 						</div>
 						<div class="board-content-v2 col-xs-9">
 							<div class="board-head-v2">
-								<div class="title">${board.boardTitle}</div>
+								<div class="title">${board.boardTitle}</div><div class="comment-count">[${board.commentCount}]</div>
 							</div>
 							<div class="board-body-v2">
 								<div class="date text-right row">

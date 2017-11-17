@@ -34,9 +34,9 @@
 					window.parent.CKEDITOR.instances.boardContent.setData(contentObj.html());
 					imgObj.remove();
 			});
-			alert(imgObj.html());
-			alert(imgObj.find(".removeImg").html());
-		
+			//alert(imgObj.html());
+			//alert(imgObj.find(".removeImg").html());
+			
 		//	var content=window.parent.CKEDITOR.instances.boardContent.getData();
 		//alert(content);
 		//$("textarea[name='boardContent']",parent.document).val(content);
