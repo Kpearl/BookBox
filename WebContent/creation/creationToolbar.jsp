@@ -73,7 +73,7 @@
 	   	   		//	alert(JSON.stringify(JSONData));
 	   	   			var creationList = JSONData;
 	   	   		//	alert(creationList);
-	   	   			if (creationList == null) {
+	   	   			if (creationList.length == 0) {
 						alert("등록가능한 작품이 없습니다.");
 					}else{
 						$(self.location).attr("href","../creation/addFunding");

@@ -28,6 +28,11 @@
 	.add-grade{
 		display: inline-block; float:left;margin-left: 2%;border-left: 2px groove;padding-left: 0.5%;
 	}
+	.funding-badge{
+    	position: absolute;
+    	z-index: 3;
+   	    transform: translate(-50%,-40%);
+    }
 
 
 </style>
@@ -159,6 +164,10 @@ $(function() {
 	$('#delete-writing').on('click',function() {
 		$(self.location).attr("href","../creation/deleteWriting?writingNo="+writingNo+"&creationNo="+$('input[name="creationNo"]').val());
 	})
+	//============= 작가 북로그 보러가기 ====================	
+	  $(".creation-author").on("click" , function() {
+		  $(self.location).attr("href","../booklog/getBooklog?user.email="+$(this).attr('id'));
+	  });
 });
 
 //=======================댓글 추가========================
@@ -270,18 +279,19 @@ $(function() {
 			<jsp:include page="creationToolbar.jsp"/>
 
    
-        <div class="row" style="height:325px;overflow:hidden;">
+        <div class="row" style="height:325px;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
             <div class="col-md-5" style="height:100%">
+            	<c:if test="${creation.doFunding }">
+					<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=70px&color=ff9a3c"></div>	
+				</c:if>
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
-            	<c:if test="${creation.doFunding}">
-            		펀딩 진행 중!
-            	</c:if>
+            	
             </div>
             <div class="col-md-7" style="height: 100%;">
             	<div class="row">
 	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
-	           		<span style="font-size: small;">  ${creation.creationAuthor.nickname}</span>
+	           		<span class="creation-author" id="${creation.creationAuthor.email }" style="font-size: small;cursor:pointer;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
    			 <div class="row">
                 	<div class="col-sm-12" style="padding-left: 10%;padding-right: 3%;">

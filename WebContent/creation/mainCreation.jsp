@@ -65,7 +65,6 @@
     .creation-list{
     	margin : 4px 8px;
     	vertical-align: middle;
-	    overflow-y: hidden;
 	    height: 200px;
     	background-color: none;
     }
@@ -150,6 +149,11 @@
    			line-height: 0;
    			vertical-align: top;
    		}
+   		.funding-badge{
+    	position: absolute;
+    	z-index: 3;
+   	    transform: translate(-80%,-30%); 
+    }
     	
     	
     </style>
@@ -316,7 +320,7 @@ $(function() {
 						
 						<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 75%;">
 							<div id="${funding.fundingNo}" class="funding-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
-							<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left funding-nickname" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
+							<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left creation-author" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
 						</div>
 
 	                    <div class="progress-form" >      
@@ -358,6 +362,9 @@ $(function() {
 		<c:forEach var="fiction" items="${fictionList }" >
 		  		 <div class="row creation-list" >
 					<div class="col-sm-4 col-md-4" style="height:100%;background-color:rgba(114, 114, 114, 0.48);">
+					<c:if test="${fiction.doFunding }">
+							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+					</c:if>	
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
 					</div>
 					<div class="col-sm-8 col-md-8">
@@ -423,6 +430,9 @@ $(function() {
 						</div>
 					</div>
 					<div class="col-sm-4 col-md-4" style="height:100%; background-color:rgba(114, 114, 114, 0.48);">
+						<c:if test="${nonfiction.doFunding }">
+							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+						</c:if>
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${nonfiction.creationFileName }" name="creationFile">
 					</div>
 		   		</div>

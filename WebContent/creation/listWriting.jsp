@@ -77,7 +77,11 @@
 		border-bottom: 1px groove;
 	    padding-top: 1%;
    	}	
-
+	.funding-badge{
+    	position: absolute;
+    	z-index: 3;
+   	    transform: translate(-50%,-40%);
+    }
 	
   
     </style>
@@ -250,18 +254,18 @@
 			<jsp:include page="creationToolbar.jsp"/>
 
    
-        <div class="row" style="height:325px;margin-top: 30px;overflow:hidden;">
+        <div class="row" style="height:325px;margin-top: 30px;">
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
-            <div class="col-md-5" style="overflow:hidden;height: 100%">
+            <div class="col-md-5" style="height: 100%">
+            	<c:if test="${creation.doFunding }">
+					<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=70px&color=ff9a3c"></div>	
+				</c:if>
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
-            <%-- 	<c:if test="${creation.doFunding}">
-            		펀딩 진행 중!
-            	</c:if> --%>
             </div>
             <div class="col-md-7" style="height: 100%;">
             	<div class="row">
 	            	<strong style="font-size: xx-large;padding-left:15px">${creation.creationTitle}  </strong>
-	           		<span class="creation-author" id="${creation.creationAuthor.email }"style="font-size: small;cursor:pointer;">  ${creation.creationAuthor.nickname}</span>
+	           		<span class="creation-author" id="${creation.creationAuthor.email }" style="font-size: small;cursor:pointer;">  ${creation.creationAuthor.nickname}</span>
 	          </div>
 	          
            			<div id="starWrap" class="gradeAvg star${fn:substring(creation.grade.average, 0, 1)}"  style="display: inline-block; float:left;    padding-top: 0.6%;" >
