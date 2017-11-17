@@ -105,6 +105,12 @@
 		    font-weight: bold;
    			font-size: large;	
     	}
+    	.progress-bar-warning:last-child.progress-bar:before {
+		    background-color: rgb(221, 221, 221);
+		}
+		.progress-bar-warning {
+		    background-color: rgba(14, 197, 147, 0.87);
+		}
 	
 	</style>
 
@@ -377,13 +383,23 @@
 				<div class="fundingTitle" style="font-weight: 600;font-size: 25px;">${funding.fundingTitle}</div>
                 <input type="hidden" class="fundingTitle" value="${funding.fundingTitle}">
               <%--  <div class="creationTitle">글제목 : ${funding.creation.creationTitle}</div> --%>
-               <div class="row progress" style="height:25px;margin-bottom: 0;margin-top: 30px;">
+               <div class="progress-form" >      
+							<div class="progress progress-xs" style="height: 5px;margin-top:20px;">
+		                          <div class="progress-bar progress-bar-warning progress-bar-striped active" 
+		                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
+		                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
+		                          </div>
+		                     </div>
+	                     </div> 
+               
+               
+              <%--  <div class="row progress" style="height:25px;margin-bottom: 0;margin-top: 30px;">
                     <div class="progress-bar progress-bar-success progress-bar-striped" 
                     		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
                     		style="width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
                     	${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%
                     </div>
-                </div><!--progress bar END  -->
+                </div><!--progress bar END  --> --%>
                 <div class="row funding-target text-right" style="font-size:large;"> 목표금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.fundingTarget }" pattern="#,###"/></strong>원</div>
                	<div class="row perFunding text-right" style="padding-left: 0;margin-left: 0;font-size:initial;font-family: unset;font-weight: 500;margin-top: 0;">
                	참여금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.perFunding}" pattern="#,###"/></strong> 원
