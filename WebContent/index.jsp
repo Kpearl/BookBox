@@ -118,33 +118,30 @@
 			position: relative;
 			margin-top: 10px;
 			margin-bottom: 60px;
+			height: 400px !important;
 		}
-		.max-height{
-			height: 100%;
-			/* background-color: rgba(187, 187, 187, 0.13); */
-		}
-		.half-height{
-			height: 92%;
-			margin: 0 15px;
-		}
-		.first-level, .second-level{
-			margin: 0;
-			padding: 2px;
-			overflow: hidden;
-		}
-		.second-level{
-			position: absolute;
-			bottom: 0;
-			height: 0;
+		.book-content-box{
+			height: 50%;
 			width: 100%;
-			background-color: rgba(0, 0, 0, 0.4);
-			color: #ffffff;
+			position: relative;
+		}
+		.book-pos-abs{
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			padding: 5%;
+			text-align: center;
+		}
+		.book-preview{
+			height: 0;
+			padding: 0 10%;
+			background: rgba(0, 0, 0, 0.4);
+			overflow-y: hidden;
 			-webkit-transition: 0.3s;
 			   -moz-transition: 0.3s;
 					transition: 0.3s;
-		}
-		.second-level > *{
-			margin: 10px;
 		}
 		.book-img{
 			z-index: 0;
@@ -155,9 +152,8 @@
 			   -moz-transition: 0.1s;
 					transition: 0.1s;
 		}
-		.img-padding{
-			padding: 30px;
-		}
+
+
 		.font-large{
 			font-size: 24px!important;
 		}
@@ -302,7 +298,7 @@
 		$(window).resize(function(){
 			ToolbarOpacHeight($(window).height());
 			$('#main-search').css('width', $('#main-bookbox').width());
-			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
+			/* $('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26); */
 		});
 		
 		
@@ -329,12 +325,12 @@
 				}
 			});
 			//추천도서 hover 이벤트
-			$('.book-content').hover(function(){
-				$(this).find('.first-level').css('opacity', 0.2);
-				$(this).find('.second-level').css('height', '100%');
+			$('.book-content-box').hover(function(){
+				$(this).find('.book-img').css('opacity', 0.2);
+				$(this).find('.book-preview').css('height', '100%');
 			}, function(){
-				$(this).find('.first-level').css('opacity', 1);
-				$(this).find('.second-level').css('height', 0);
+				$(this).find('.book-img').css('opacity', 1);
+				$(this).find('.book-preview').css('height', 0);
 			});
 			
 			$('#creation-intro').on('click', function(){
@@ -367,10 +363,10 @@
 			});
 			
 			$('.container').css('height', $(window).innerHeight());
-			$('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26);
+			/* $('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26); */
 
 			//스와이퍼 초기화
- 			var bookSwiper = new Swiper('.book-swiper-container', {
+/*  			var bookSwiper = new Swiper('.book-swiper-container', {
 				speed: 600,
 				spaceBetween: 50,
 				effect: 'slide',
@@ -382,6 +378,20 @@
 					type: 'bullets',
 					clickable: true,
 				},
+			}); */
+ 			var bookSwiper = new Swiper('.book-swiper-container', {
+				speed: 600,
+				autoplay: {
+					delay: 5000,
+				},
+				pagination:{
+					el: '.swiper-pagination',
+					type: 'bullets',
+					clickable: true,
+				},
+				slidesPerView: 2,
+				slidesPerColumn: 2,
+				slidesPerGroup: 2,
 			});
 			
 			
@@ -389,14 +399,10 @@
 			$.ajax({
 				url: "./unifiedsearch/rest/recommendBook",
 				success: function(data){
-					if(data.userRecommendList == null){
-						$('#userRecommend').remove();
-						bookSwiper.update();
-					};
 					for(var i=0; i<4; i++){
-						var bestSellerContainer = $('#bestSeller .book-content')[i];
+						var bestSellerContainer = $('.book-content-box')[i+4];
 						var bestSellerThumbnail = data.bestsellerList[i].thumbnail;
-						var newBookContainer = $('#newBook .book-content')[i];
+						var newBookContainer = $('.book-content-box')[i+8];
 						var newBookThumbnail = data.newBookList[i].thumbnail;
 						
 						$(bestSellerContainer).find('input[name="isbn"]').val(data.bestsellerList[i].isbn);
@@ -426,7 +432,7 @@
 																	});
 						
 						if(data.userRecommendList != null){
-							var userRecommendContainer = $('#userRecommend .book-content')[i];
+							var userRecommendContainer = $('.book-content-box')[i];
 							var userRecommendThumbnail = data.userRecommendList[i].thumbnail;
 							$(userRecommendContainer).find('input[name="isbn"]').val(data.userRecommendList[i].isbn);
 							$(userRecommendContainer).find('.book-img').attr('src', 'http://t1.daumcdn.net/book/KOR' + data.userRecommendList[i].isbn)
@@ -442,8 +448,15 @@
 																		});
 						}
 					}
+					if(data.userRecommendList == null || data.userRecommendList.length == 0){
+						$($('.book-content-box')[0]).remove();
+						$($('.book-content-box')[0]).remove();
+						$($('.book-content-box')[0]).remove();
+						$($('.book-content-box')[0]).remove();
+						bookSwiper.update();
+					};
 					
-					$('.book-content').on('click', function(){
+					$('.book-content-box').on('click', function(){
 						var isbn = $(this).find('input[name="isbn"]').val();
 						if(isbn != 0){
 							$(self.location).attr("href","./unifiedsearch/getBook?isbn="+isbn);
@@ -578,8 +591,40 @@
 						<div class="intro-content">
 							<h1>BOOK<small class="hidden-xs"> <small> 추천도서</small></small></h1>
 							<h1 class="hidden-sm hidden-md hidden-lg"><small> 추천도서</small></h1>
+	
+							<div id="main-recommend-book" class="swiper-container book-swiper-container">
+								<div class="swiper-wrapper">
+
+									<c:forEach var="i" begin="0" end="11">
+										<div class="swiper-slide book-content-box">
+											<input type="hidden" name="isbn" value="0">
+											<div class="book-pos-abs">
+												<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
+											</div>
+											<div class="book-pos-abs book-preview">
+												<p class="book-title">제목 가져오는 중..</p>
+												<p class="book-author">작가 가져오는 중..</p>
+											</div>
+										</div>
+									</c:forEach>
+
+								</div>
+								<div class="swiper-pagination"></div>
+							</div>
 
 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+<%-- 	<div class="container">
+	
+	임시공간<br/>
 							<div id="main-recommend-book" class="swiper-container book-swiper-container">
 								<div class="swiper-wrapper">
 								
@@ -647,15 +692,7 @@
 								<div class="swiper-pagination"></div>
 							</div>
 
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	
+	</div> --%>
 
 
 

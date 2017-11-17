@@ -139,6 +139,21 @@
 				    transform: translate(-50%, -50%);
     	}
     	
+    	@media (min-width: 992px){
+	    	.booklog-img-box{
+	    		left: 3% !important;
+	    		width: 30% !important;
+	    	}
+	    	.booklog-content-box{
+	    		left: 33% !important;
+	    		width: 50% !important;
+	    	}
+	    	.booklog-content-count{
+	    		width: 17% !important;
+	    	}
+    	}
+    	@media (min-width: 768px){
+    	}
     	.booklog-list-box{
     		position: relative;
     	}
@@ -161,38 +176,21 @@
     		top: 2%;
     		height: 96%;
     	}
+    	.booklog-img-box{
+    		left: 3%;
+    		width: 40%;
+    	}
+    	.booklog-content-box{
+    		cursor: pointer;
+    		left: 43%;
+    		width: 54%;
+    	}
     	.booklog-content-count{
     		position: absolute;
     		top: 0;
     		right: 0;
     		height: 100%;
     		background-color: #112D42;
-    	}
-    	@media (min-width: 992px){
-	    	.booklog-img-box{
-	    		left: 3%;
-	    		width: 30%;
-	    	}
-	    	.booklog-content-box{
-	    		left: 33%;
-	    		width: 50%;
-	    	}
-	    	.booklog-content-count{
-	    		width: 17%;
-	    	}
-    	}
-    	@media (min-width: 768px){
-	   		.booklog-content-count{
-	   			display: none;
-	   		}
-    	}
-    	.booklog-img-box{
-    		left: 3%;
-    		width: 40%;
-    	}
-    	.booklog-content-box{
-    		left: 43%;
-    		width: 54%;
     	}
     	
     </style>
@@ -351,7 +349,7 @@
 			    				<p>${booklog.booklogName}</p>
 			    				<p>${booklog.booklogIntro}</p>
 	    					</div>
-	    					<div class="booklog-content-count">
+	    					<div class="booklog-content-count hidden-xs hidden-sm">
 	    						
 	    					</div>
 	    				</div>

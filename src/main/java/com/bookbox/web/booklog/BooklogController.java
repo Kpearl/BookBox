@@ -330,13 +330,8 @@ public class BooklogController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email);
 		List<Book> bookList = booklogService.getBookLikeList(map);
-		User user = new User();
-		user.setEmail(email);
-		user.setNickname(nickname);
-		for (Book book : bookList) {
-			book.setLike(bookService.getBookLike(book, user));
-			book.setGrade(bookService.getBookGrade(book, user));
-		}
+		
+		
 		model.addAttribute("bookList", bookList);
 		model.addAttribute("total", bookList.size());
 		model.addAttribute("keyword", nickname + "님이 좋아하는 책");

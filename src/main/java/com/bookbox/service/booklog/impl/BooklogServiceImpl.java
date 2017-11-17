@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.bookbox.common.domain.Const;
+import com.bookbox.common.service.CommonDAO;
+import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogDAO;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.domain.Book;
@@ -26,6 +29,10 @@ public class BooklogServiceImpl implements BooklogService {
 	@Autowired
 	@Qualifier("bookSearchKakaoAladinDAOImpl")
 	private BookSearchDAO bookSearchDAO;
+	
+	@Autowired
+	@Qualifier("commonDAOImpl")
+	private CommonDAO commonDAO;
 	
 	public BooklogServiceImpl() {
 		System.out.println("Constructor :: "+getClass().getName());
@@ -100,7 +107,13 @@ public class BooklogServiceImpl implements BooklogService {
 		List<Book> bookList = new ArrayList<Book>();
 		for(String isbn : isbnList) {
 			try {
-				bookList.add(bookSearchDAO.getBook(isbn));
+				Book book = bookSearchDAO.getBook(isbn);
+				User user = new User();
+				user.setEmail((String)map.get("email"));
+				Map<String, Object> mappingCategoryTarget = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
+				book.setLike(commonDAO.getLike(mappingCategoryTarget));
+				book.setGrade(commonDAO.getGrade(mappingCategoryTarget));
+				bookList.add(book);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
