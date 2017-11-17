@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -305,6 +306,33 @@ public class CreationRestController {
 	}
 	
 	/**
+	 * @brief addFunding/ 펀딩가능여부 확인
+	 * @details GET
+	 * @param 
+	 * @throws Exception
+	 * @return List<Creation>
+	 */
+	@RequestMapping(value="addFunding", method=RequestMethod.GET)
+	public List<Creation> checkFunding(HttpSession session) throws Exception{
+		// TODO addFunding
+		System.out.println("CreationRESTController :: /creation/rest/addFunding : GET ===> START");
+		
+		//Business Logic
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("RestController :: addWriting :: "+user.getEmail());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", user);
+		map.put("categoryNo", Const.Category.CREATION);
+		List<Creation> creationList =creationService.getCreationList(map);
+			
+		System.out.println("CreationREST Controller :: /creation/rest/addFunding : GET ===> END");
+	
+		return creationList;
+	}
+	
+	/**
 	 * @brief addPayInfo/ 펀딩결제정보 등록
 	 * @details POST
 	 * @param PayInfo, HttpSession
@@ -336,7 +364,7 @@ public class CreationRestController {
 	@RequestMapping(value="getPayInfo", method=RequestMethod.GET)
 	public PayInfo getPayInfo(@RequestParam("fundingNo") int fundingNo,
 													HttpSession session) throws Exception{
-		// TODO addCreation
+		// TODO getPayInfo
 		System.out.println("CreationRestController :: /creation/rest/getPayInfo : GET ===> START");
 		
 		User user = (User)session.getAttribute("user");

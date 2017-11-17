@@ -254,9 +254,9 @@
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
             <div class="col-md-5" style="overflow:hidden;height: 100%">
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
-            	<c:if test="${creation.doFunding}">
+            <%-- 	<c:if test="${creation.doFunding}">
             		펀딩 진행 중!
-            	</c:if>
+            	</c:if> --%>
             </div>
             <div class="col-md-7" style="height: 100%;">
             	<div class="row">
@@ -284,8 +284,7 @@
 		        <div class="row">
 		            <div class="col-xs-12 " style="padding-left: 10%;padding-top: 4px;bottom: 6%;position: absolute;">
 			           	<c:forEach items="${creation.tagList}" var="tag">
-			           		<span style="border: 1px solid;border-color: #bbbbbb;border-radius: 15px;padding: 4px;cursor:pointer;" class="tag">
-			           		<strong>#${tag.tagName}</strong></span>
+			           		<span  class="tag">#${tag.tagName}</span>
 			           	</c:forEach>
 		            </div>
 		        </div>

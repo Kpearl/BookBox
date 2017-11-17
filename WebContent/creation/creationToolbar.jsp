@@ -64,7 +64,23 @@
    	}); 
 	//============= 펀딩등록하기 Navigation Event  처리 =============	
 	 	$(".addfunding").on("click" , function() {
-		  $(self.location).attr("href","../creation/addFunding");
+	 		
+	 		$.ajax ({
+	   	   		url : "rest/addFunding",
+	   	   		method : "GET",
+		   	   	success:function(JSONData, status){
+	   	   		//	alert(status); 
+	   	   		//	alert(JSON.stringify(JSONData));
+	   	   			var creationList = JSONData;
+	   	   		//	alert(creationList);
+	   	   			if (creationList == null) {
+						alert("등록가능한 작품이 없습니다.");
+					}else{
+						$(self.location).attr("href","../creation/addFunding");
+					}
+	   	   		} 
+	 		});
+		  
    	}); 
    //============= 창작홈 Navigation Event  처리 =============	
 		$(".creation-home").on("click" , function() {
@@ -74,7 +90,7 @@
 		$(".creation-writing-home").on("click" , function() {
 			$(self.location).attr("href","../creation/getCreationList");
    	}); 
-   //============= 창작리스트 Navigation Event  처리 =============	
+   //============= 펀딩리스트 Navigation Event  처리 =============	
 		$(".funding-home").on("click" , function() {
 			$(self.location).attr("href","../creation/getFundingList");
    	});  

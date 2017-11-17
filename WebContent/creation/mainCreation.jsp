@@ -228,13 +228,6 @@ $(function() {
 		}); 
  });   
    
-   //============= 펀딩등록하기 Navigation Event  처리 =============	
-   $(function() {
-	  $(".addfunding").on("click" , function() {
-		  $(self.location).attr("href","../creation/addFunding");
-   	
-   	}); 
- });  
    
    //============= 창작작품보러가기 Navigation Event  처리 =============	
    $(function() {

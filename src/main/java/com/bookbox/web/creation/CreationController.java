@@ -109,7 +109,7 @@ public class CreationController {
 			search.setCondition("0");
 		}
 		if(page.getPageSize() ==0) {
-			page.setPageSize(pageSize);
+			page.setPageSize(6);
 		}
 		if(page.getPageUnit()==0) {
 			page.setPageUnit(pageUnit);
@@ -541,7 +541,7 @@ public class CreationController {
 	 * @return "forward:addFundingView.jsp"
 	 */
 	@RequestMapping(value="addFunding", method=RequestMethod.GET)
-	public String addFunding(@ModelAttribute Creation creation,
+	public String addFunding(/*@ModelAttribute Creation creation,*/
 														HttpSession session, Model model) throws Exception{
 		// TODO addFunding
 		System.out.println("Creation Controller :: /creation/addFunding : GET ===> START");
@@ -552,7 +552,8 @@ public class CreationController {
 		System.out.println("addWriting :: "+user.getEmail());
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("user", session.getAttribute("user"));
+		map.put("user", user);
+		map.put("categoryNo", Const.Category.CREATION);
 		List<Creation> creationList =creationService.getCreationList(map);
 		
 		model.addAttribute("creationList", creationList);

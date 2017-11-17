@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,6 +69,9 @@ public class CreationServiceImpl implements CreationService {
 	@Autowired
 	@Qualifier("unifiedsearchElasticDAOImpl")
 	private UnifiedsearchDAO unifiedsearchElasticDAO;
+	
+	@Value("#{commonProperties['fundingPossibleLike']}")
+	int fundingPossibleLike;
 	
 	/**
 	 * @brief Constructor
@@ -148,12 +152,18 @@ public class CreationServiceImpl implements CreationService {
 		
 			for(Creation creation : creationList) {
 				map.put("targetNo", creation.getCreationNo());
+				map.put("categoryNo", Const.Category.CREATION);
 				int count = fundingDAO.getDoFunding(map);
 
 				creation.setGrade(commonDAO.getAvgGrade(map));
 				
 				if (count == 0) {
-					addFundingCreationList.add(creation);	
+					creation = this.getCreation(map);
+					if(creation.getLike().getTotalLike()>=fundingPossibleLike) {
+						addFundingCreationList.add(creation);	
+						
+					}
+					
 				}
 			}
 		}
@@ -169,9 +179,10 @@ public class CreationServiceImpl implements CreationService {
 				}
 				
 			}
+			System.out.println("getCretionList :::::::::::: return creationList");
 			return creationList;
 		}else {
-			
+			System.out.println("getCretionList :::::::::::: return addFundingCreationList");
 		return addFundingCreationList;
 		}
 	}
