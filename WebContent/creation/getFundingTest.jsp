@@ -234,7 +234,7 @@
 		function fncFundingPayInfo() {
 			/////////ajax 적용/////////
 			$.ajax({
-				url : "rest/getPayInfo?fundingNo="+$('#fundingNo-fundingInfo').val(),
+				url : "rest/getPayInfo?fundingNo="+$('#fundingNo-fundingInfo').val()+"&condition=0",
 				method : "get",
 				dataType : "json",
 				success : function(JSONData, status) {
@@ -390,16 +390,7 @@
 		                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
 		                          </div>
 		                     </div>
-	                     </div> 
-               
-               
-              <%--  <div class="row progress" style="height:25px;margin-bottom: 0;margin-top: 30px;">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" 
-                    		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
-                    		style="width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
-                    	${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%
-                    </div>
-                </div><!--progress bar END  --> --%>
+	                     </div> <!--progress bar END  --> --%>
                 <div class="row funding-target text-right" style="font-size:large;"> 목표금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.fundingTarget }" pattern="#,###"/></strong>원</div>
                	<div class="row perFunding text-right" style="padding-left: 0;margin-left: 0;font-size:initial;font-family: unset;font-weight: 500;margin-top: 0;">
                	참여금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.perFunding}" pattern="#,###"/></strong> 원
@@ -426,11 +417,11 @@
 	                    	<div class="row funding-userlist text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 	              			<strong>참여자목록조회</strong></div>   
                         </c:if>
-	                     <c:if test="${!isFunding}">
+	                     <c:if test="${!funding.doFunding}">
 				              <div data-toggle="modal" data-target="#add-payInfo" class="row funding-join text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 				              <strong>펀딩하기</strong></div>    
 	                    </c:if>
-	                    <c:if test="${isFunding}">
+	                    <c:if test="${funding.doFunding}">
 	                    	<div class="row funding-pay-info text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 	              			<strong>펀딩정보조회</strong></div>
 	                    </c:if>

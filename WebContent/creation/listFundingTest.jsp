@@ -119,8 +119,14 @@
 					<p class="paging">전체 <strong>${fundingList.size() }</strong> 건수, 현재 <strong>${page.currentPage}</strong> 페이지</p>
 				</div>
 				<div class="col-md-6 col-xs-hidden" style="text-align: right;">
+				<c:if test="${search.condition =='0' } or ${search.condition =='1' }">
 					<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 최신순</span>
 					<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb"> 마감순</span>
+				</c:if>
+				<c:if test="${search.condition ==  '2'}">
+					<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 진행중</span>
+					<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb"> 마감펀딩</span>
+				</c:if>
 				</div>
 			</div>
 			

@@ -70,11 +70,12 @@
 		
 		$(function(){
 			upload = document.getElementById('creationOriginName');
-			holder = document.getElementById('imgPreview'),
+			holder = document.getElementById('imgPreview');
 			
 			upload.onchange = function(e){
+				console.log('???');
 				e.preventDefault();
-				
+				console.log('???');
 				var file = upload.files[0],
 					reader = new FileReader();
 				reader.onload = function(event){
@@ -123,12 +124,12 @@
 				<textarea class="inputValue" name="creationIntro" rows="5" cols="100">${creation.creationIntro }</textarea>
 			</div>
 			<p>대표이미지</p>
-			<div id="imgPreview">
 				<input type="hidden" name="creationFileName" value="${creation.creationFileName }">
 				<input type="hidden" name="creationOriginName" value="${creation.creationOriginName }">
+			<div id="imgPreview">
 				<img src="../resources/upload_files/images/${creation.creationFileName }"/>
 			</div>
-			<input class="inputValue" type="file"   id="creationOriginName" name="file" value="${creation.creationOriginName }">
+			<input class="inputValue" type="file"   id="creationOriginName" name="file">
 		
 			<div class="form-group tag-list">
 				<label>태그</label>
