@@ -30,6 +30,15 @@
 	<script src="../resources/javascript/custom.js"></script>
 	
     <style>
+    	.my-info{
+    		position: absolute;
+    		top: -20px;
+    		right: 0;
+    	}
+    	.my-info:hover{
+    		text-decoration: initial;
+    		transform: scale(1.1);
+    	}
     	.booklog-btn{
     		cursor: pointer;
 			padding: 12px;
@@ -250,6 +259,9 @@
 		booklogName = $('input[name="booklogName"]').val();
 		user = $('input[name="user"]').val();
 		
+		$('a.my-info').on('click', function(){
+			$(self.location).attr("href","../user/getUser?email="+booklogUser);
+		});
 		$('a.book-like-list').on('click', function(){
 			$(self.location).attr('href', '../booklog/getBookLikeList?email='+booklogUser+'&nickname='+booklogUserNickname);
 		});
@@ -382,7 +394,7 @@
 		        			fncGetDate(1),
 		        			fncGetDate(0)],
 		        datasets: [{
-					label: '# of DailyVisitors',
+					label: '일일 방문자 수',
 		            data: [
 		            	<c:forEach items="${booklog.visitorsStatistics.daily}" var="daily">
 		            		${daily.daycount},
@@ -434,7 +446,7 @@
 		        			'1주 전',
 		        			'이번주'],
 		        datasets: [{
-		            label: '# of WeeklyVisitors',
+		            label: '주간 방문자 수',
 		            data: [
 		            	<c:forEach items="${booklog.visitorsStatistics.weekly}" var="weekly">
 		            		${weekly.weekcount},
@@ -484,7 +496,7 @@
 		        			'1달 전',
 		        			'이번달'],
 		        datasets: [{
-		            label: '# of MonthlyVisitors',
+		            label: '월간 방문자 수',
 		            data: [
 		            	<c:forEach items="${booklog.visitorsStatistics.monthly}" var="monthly" begin="2" end="6">
 		            		${monthly.monthcount},
@@ -686,6 +698,7 @@
 				$('#booklogIntro').html($('.booklog-update-form[name="booklogIntro"]').val());
 				$('img.present-booklog-info').attr('src', $('img.booklog-update-form').attr('src'));
 				$('.content-title img').attr('src', $('img.booklog-update-form').attr('src'));
+				$('.side-nav-menu img').attr('src', $('img.booklog-update-form').attr('src'));
 				var upload = document.getElementById('mainFile');
 				if(upload.files[0] != null){
 					$('.booklog-update-form span').html(upload.files[0].name);
@@ -763,7 +776,7 @@
 				
 					<div class="col-xs-1 col-sm-2 hidden-md hidden-lg"></div>
 					<div class="col-xs-10 col-sm-8 col-md-12 profile-box" style="margin-top: 30px;">
-						<div class="my-info"></div>
+						<a class="my-info" ${sessionScope.user.email != booklog.user.email? 'style="display: none;"' : ''}>내 정보 보기</a>
 						<div class="row text-center booklog-img">
 							<div class="col-xs-offset-1 col-xs-10 booklog-img">
 								<img id="booklogImage" class="present-booklog-info img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">

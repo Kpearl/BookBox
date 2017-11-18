@@ -79,10 +79,10 @@ $(function() {
 //============= 네비게이션 open/close =============
 
 	$('.openbtn').on('mouseup', function(){
-		$('.side-nav').css('width', '230px')
-						.css('-webkit-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px')
-						.css('-moz-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px')
-						.css('box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 9999px');
+		$('.side-nav').css('width', '240px')
+						.css('-webkit-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 '+$(window).innerWidth()+'px')
+						.css('-moz-box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 '+$(window).innerWidth()+'px')
+						.css('box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 0 '+$(window).innerWidth()+'px');
 		$(document).on('mousedown', function(event){
 			var target = event.target.className;
 			if(target.indexOf('bookbox-nav-menu') == -1 || target.indexOf('openbtn') > -1){
@@ -219,7 +219,7 @@ function searchCheck(){
 <div class="bookbox-nav-menu side-nav">
 	<div class="bookbox-nav-menu side-nav-menu">
 	<c:if test="${!empty sessionScope.user}">
-		<li class="dropdown nav-default bookbox-nav-menu"><a class="dropdown-toggle bookbox-nav-menu" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret bookbox-nav-menu"></span></a>
+<%-- 		<li class="dropdown nav-default bookbox-nav-menu"><a class="dropdown-toggle bookbox-nav-menu" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret bookbox-nav-menu"></span></a>
 			<ul class="dropdown-menu bookbox-nav-menu" role="menu">
 				<li role="presentation"><a class="nav-booklog-my bookbox-nav-menu" href="javascript:void(0)">내 북로그보기</a></li>
 				<li role="presentation"><a class="nav-subscribe bookbox-nav-menu" href="javascript:void(0)">구독한글보기</a></li>
@@ -230,32 +230,44 @@ function searchCheck(){
 			</c:if>
 				<li role="presentation"><a class="nav-userinfo bookbox-nav-menu" href="javascript:void(0)">내 정보조회</a></li>
 			</ul>
-		</li>
+		</li> --%>
+		<img class="img-object-fit" src="${param.uri}resources/upload_files/images/${sessionScope.user.booklogImage}" style="width: 240px; height: 148px; border-radius: 100%; padding: 20px 65px;">
+		<a class="bookbox-nav-menu nav-booklog-my" href="javascript:void(0)" style="padding: 0; text-align: center;">
+			${sessionScope.user.nickname}
+		</a>
 	</c:if>
 	<c:choose>
 		<c:when test="${empty sessionScope.user}">
-			<a class="nav-login bookbox-nav-menu" href="javascript:void(0)">로그인 </a>
-			<a class="nav-signin bookbox-nav-menu" href="javascript:void(0)">회원가입 </a>
+			<a class="nav-login bookbox-nav-menu" href="javascript:void(0)">
+				<i class="glyphicon glyphicon-log-in"></i>&nbsp; 로그인 
+			</a>
+			<a class="nav-signin bookbox-nav-menu" href="javascript:void(0)">
+				<i class="glyphicon glyphicon-check"></i>&nbsp; 회원가입 
+			</a>
 		</c:when>
 		<c:otherwise>
-			<a class="nav-logout bookbox-nav-menu" href="javascript:void(0)">로그아웃</a>
+			<a class="nav-logout bookbox-nav-menu" href="javascript:void(0)" style="position: absolute; bottom: 0; margin-bottom: 25%;">
+				<i class="glyphicon glyphicon-log-out"></i>&nbsp; 로그아웃
+			</a>
 		</c:otherwise>
 	</c:choose>
 	
 		<hr/>
 	
 		<a class="nav-creation bookbox-nav-menu" href="javascript:void(0)">
-			<i class="glyphicon glyphicon-pencil"></i> 창작공간
+			<i class="glyphicon glyphicon-pencil"></i>&nbsp; 창작공간
 		</a>
 		<a class="nav-community bookbox-nav-menu" href="javascript:void(0)">
-			<i class="glyphicon glyphicon-phone"></i> 소모임
+			<i class="glyphicon glyphicon-phone"></i>&nbsp; 소모임
 		</a>
 		<a class="nav-booklog bookbox-nav-menu" href="javascript:void(0)">
-			<i class="glyphicon glyphicon-grain"></i> 북로그
+			<i class="glyphicon glyphicon-grain"></i>&nbsp; 북로그
 		</a>
 		
 		<hr/>
 		
-		<a class="nav-notice bookbox-nav-menu" href="javascript:void(0)">공지사항</a>
+		<a class="nav-notice bookbox-nav-menu" href="javascript:void(0)">
+			<i class="glyphicon glyphicon-edit"></i>&nbsp; 공지사항
+		</a>
 	</div>
 </div>

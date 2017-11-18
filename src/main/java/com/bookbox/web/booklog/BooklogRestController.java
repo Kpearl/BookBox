@@ -239,6 +239,9 @@ public class BooklogRestController {
 		if(file != null && !file.isEmpty()) {
 			file.transferTo(new File(request.getServletContext().getRealPath("/resources/upload_files/images/"),file.getOriginalFilename()));
 			booklog.setBooklogImage(file.getOriginalFilename());
+			User user = (User)session.getAttribute("user");
+			user.setBooklogImage(file.getOriginalFilename());
+			session.setAttribute("user", user);
 		}
 		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
 		

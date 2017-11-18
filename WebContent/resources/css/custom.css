@@ -153,6 +153,9 @@ span.tag{
 	   -moz-transform: translate(0, 3px);
 			transform: translate(0, 3px);
 }
+.content-title > span{
+	font-size: 17px;
+}
 .bookbox-search{
 	width: fit-content;
 }
@@ -208,7 +211,7 @@ input.search-form, select.search-form{
 .side-nav a{
 	padding: 8px 8px 8px 32px;
 	text-decoration: none;
-	font-size: 16px;
+	font-size: 20px;
 	color: #727272;
 	display: block;
 	-webkit-transition: 0.3s;
@@ -383,7 +386,6 @@ div.hidden-md img{
    	margin: 20px -10px;
 }
 .profile-box{
-   	overflow: hidden;
    	-webkit-box-shadow: 3px 1px 2px 0px;
    	   -moz-box-shadow: 3px 1px 2px 0px;
 	    	box-shadow: 3px 1px 2px 0px;
