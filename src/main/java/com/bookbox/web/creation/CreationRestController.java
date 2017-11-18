@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
 import com.bookbox.common.domain.Reply;
+import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.TagService;
@@ -313,17 +314,19 @@ public class CreationRestController {
 	 * @return List<Creation>
 	 */
 	@RequestMapping(value="addFunding", method=RequestMethod.GET)
-	public List<Creation> checkFunding(HttpSession session) throws Exception{
+	public List<Creation> checkFunding(@RequestParam("condition") String condition ,HttpSession session) throws Exception{
 		// TODO addFunding
 		System.out.println("CreationRESTController :: /creation/rest/addFunding : GET ===> START");
 		
 		//Business Logic
 		User user = (User)session.getAttribute("user");
-		
+		Search search = new Search();
+		search.setCondition(condition);
 		System.out.println("RestController :: addWriting :: "+user.getEmail());
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user);
+		map.put("search", search);
 		map.put("categoryNo", Const.Category.CREATION);
 		List<Creation> creationList =creationService.getCreationList(map);
 			

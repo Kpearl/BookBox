@@ -137,54 +137,62 @@ public class CreationServiceImpl implements CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		Page page=(Page)map.get("page");
-//		System.out.println("========================MAP=========="+map);
+		Search search=(Search)map.get("search");
+		User user =(User)map.get("user");
+		int condition = Integer.parseInt(search.getCondition());
+		
 		if (page != null) {
-			
-		page.setTotalCount(creationDAO.getTotalCreationCount((Search)map.get("search")));
+			if (search.getCondition().equals("5")) {
+				search.setKeyword(user.getEmail());
+			}
+		page.setTotalCount(creationDAO.getTotalCreationCount(search));
 		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
 		}
 		
 		List<Creation> creationList = creationDAO.getCreationList(map);
-//		System.out.println("======================getCreationList :: "+creationList);
-		List<Creation> addFundingCreationList = new ArrayList<>();
+		List<Creation> sendCreationList = new ArrayList<>();
 		
-		if (page == null) {
-		
-			for(Creation creation : creationList) {
-				map.put("targetNo", creation.getCreationNo());
-				map.put("categoryNo", Const.Category.CREATION);
-				int count = fundingDAO.getDoFunding(map);
-
-				creation.setGrade(commonDAO.getAvgGrade(map));
-				
-				if (count == 0) {
-					creation = this.getCreation(map);
-					if(creation.getLike().getTotalLike()>=fundingPossibleLike) {
-						addFundingCreationList.add(creation);	
-						
-					}
+		switch(condition) {
+			case 3:
+				for(Creation creation : creationList) {
+					map.put("targetNo", creation.getCreationNo());
+					map.put("categoryNo", Const.Category.CREATION);
+					int count = fundingDAO.getDoFunding(map);
 					
+					creation.setGrade(commonDAO.getAvgGrade(map));
+					
+					if (count == 0) {
+						creation = this.getCreation(map);
+						if(creation.getLike().getTotalLike()>=fundingPossibleLike) {
+							sendCreationList.add(creation);	}
+					}
 				}
-			}
+				break;
+			
+			case 6:
+				for(Creation creation : creationList) {
+					map.put("targetNo", creation.getCreationNo());
+					creation = this.getCreation(map);
+					
+					if (creation.isDoSubscription()) {
+						sendCreationList.add(creation);
+					}
+				}
+				break;
+			default: 
+				for(Creation creation : creationList) {
+					map.put("targetNo", creation.getCreationNo());
+					creation.setGrade(commonDAO.getAvgGrade(map));
+					
+					int count = fundingDAO.getDoFunding(map);
+					if (count != 0) {creation.setDoFunding(true);	}
+				}
+				sendCreationList = creationList;
+				
 		}
+		
+		return sendCreationList;
 	
-		if (page != null) {
-			for(Creation creation : creationList) {
-				map.put("targetNo", creation.getCreationNo());
-				creation.setGrade(commonDAO.getAvgGrade(map));
-				
-				int count = fundingDAO.getDoFunding(map);
-				if (count != 0) {
-					creation.setDoFunding(true);	
-				}
-				
-			}
-			System.out.println("getCretionList :::::::::::: return creationList");
-			return creationList;
-		}else {
-			System.out.println("getCretionList :::::::::::: return addFundingCreationList");
-		return addFundingCreationList;
-		}
 	}
 	
 	/**

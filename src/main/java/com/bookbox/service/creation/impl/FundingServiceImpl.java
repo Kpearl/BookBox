@@ -1,5 +1,6 @@
 package com.bookbox.service.creation.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Page;
+import com.bookbox.common.domain.Search;
 import com.bookbox.service.creation.CreationDAO;
 import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.creation.FundingService;
@@ -62,46 +64,68 @@ public class FundingServiceImpl implements FundingService {
 	@Override
 	public Funding getFunding(User user, Funding funding) throws Exception {
 		// TODO Auto-generated method stub
+		PayInfo payInfo = new PayInfo();
+		payInfo.setFundingNo(funding.getFundingNo()); 
+		
 		funding = fundingDAO.getFunding(funding);
 		
-		return fundingDAO.getFunding(funding);
+		if(fundingDAO.getPayInfo(payInfo) != null) {
+			 funding.setDoFunding(true);
+		}
+		
+		return funding;
 	}
 
 	@Override
 	public List<Funding> getFundingList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-
 		
+		Search search =(Search)map.get("search");
+		int condition = Integer.parseInt(search.getCondition());
 		
-		if (map.get("page") != null) {
+		Page page=(Page)map.get("page");
+		page.setTotalCount(fundingDAO.getTotalFundingCount(map));
+		System.out.println("getFundingList :: getTotalFundingCount ::"+page.getTotalCount());
 			
-			Page page=(Page)map.get("page");
-			page.setTotalCount(fundingDAO.getTotalFundingCount(map));
-			System.out.println("getFundingList :: getTotalFundingCount ::"+page.getTotalCount());
-			}
-
+		List<Funding> sendFundingList =new ArrayList<>();
 		List<Funding> fundingList =fundingDAO.getFundingList(map);
 		
-		for(Funding funding : fundingList) {
-			map.put("targetNo", funding.getCreation().getCreationNo());
-			funding.setCreation(creationDAO.getCreation(map));
-			map.put("fundingNo", funding.getFundingNo());
-			funding.setPayInfoList(fundingDAO.getFundingUserList(map));
+		switch(condition) {
+			case 3 : 
+					for(Funding funding : fundingList) {
+						map.put("targetNo", funding.getCreation().getCreationNo());
+						funding.setCreation(creationDAO.getCreation(map));
+						map.put("fundingNo", funding.getFundingNo());
+						funding = fundingDAO.getFunding(funding);
+						if (funding.isDoFunding()) {
+							sendFundingList.add(funding);
+						}
+					}
+				break;
+			
+			default :
+				for(Funding funding : fundingList) {
+					map.put("targetNo", funding.getCreation().getCreationNo());
+					funding.setCreation(creationDAO.getCreation(map));
+					map.put("fundingNo", funding.getFundingNo());
+					funding.setPayInfoList(fundingDAO.getFundingUserList(map));
+				}
+				sendFundingList =fundingList;
+				break;
 		}
-		
-		return fundingList;
+		return sendFundingList;
 	}
 
 	@Override
 	public List<PayInfo> getFundingUserList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		if (map.get("page") != null) {
-			
-			Page page=(Page)map.get("page");
+		Page page=(Page)map.get("page");
+		if (page != null) {
 			page.setTotalCount(fundingDAO.getTotalFundingUserCount(map));
 			System.out.println("getFundingUserList :: getTotalFundingUserCount ::"+page.getTotalCount());
-			}
-							
+		}
+			
+										
 		List<PayInfo> fundingUserList =fundingDAO.getFundingUserList(map);
 		
 		return fundingUserList;

@@ -26,6 +26,7 @@ public class Funding {
 	private String fundingOriginName;
 	private int active;
 	private List<PayInfo> payInfoList;
+	private boolean doFunding;
 	
 	public Funding() {
 		// TODO Auto-generated constructor stub
@@ -102,8 +103,7 @@ public class Funding {
 	public void setPerFunding(int perFunding) {
 		this.perFunding = perFunding;
 	}
-
-	public String getfundingFileName() {
+	public String getFundingFileName() {
 		return fundingFileName;
 	}
 
@@ -118,13 +118,18 @@ public class Funding {
 	public void setFundingOriginName(String fundingOriginName) {
 		this.fundingOriginName = fundingOriginName;
 	}
-
 	public int getActive() {
 		return active;
 	}
 
 	public void setActive(int active) {
 		this.active = active;
+	}
+	public boolean isDoFunding() {
+		return doFunding;
+	}
+	public void setDoFunding(boolean doFunding) {
+		this.doFunding = doFunding;
 	}
 
 	@Override
@@ -133,8 +138,7 @@ public class Funding {
 				+ ", fundingIntro=" + fundingIntro + ", fundingRegDate=" + fundingRegDate + ", fundingEndDate="
 				+ fundingEndDate + ", fundingTarget=" + fundingTarget + ", perFunding=" + perFunding
 				+ ", fundingFileName=" + fundingFileName + ", fundingOriginName=" + fundingOriginName + ", active="
-				+ active + ", payInfoList=" + payInfoList + "]";
+				+ active + ", payInfoList=" + payInfoList + ", doFunding=" + doFunding + "]";
 	}
-
 
 }

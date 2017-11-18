@@ -145,20 +145,22 @@ public class CreationController {
 	 * @return "forward:addWritingView.jsp"
 	 */
 	@RequestMapping(value="addWriting", method=RequestMethod.GET)
-	public String addWriting(HttpSession session, Model model) throws Exception{
+	public String addWriting(@ModelAttribute("search") Search search,
+													HttpSession session, Model model) throws Exception{
 		
 		System.out.println("Creation Controller :: /creation/addWriting : GET");
 		
 		User user = (User)session.getAttribute("user");
 		
+		
 		System.out.println("addWriting :: "+user.getEmail());
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", (User)session.getAttribute("user"));
+		map.put("search", search);
 		List<Creation> creationList =creationService.getCreationList(map);
 		
 		model.addAttribute("creationList", creationList);
-		
 		
 		return "forward:addWritingView.jsp";
 	}
@@ -401,7 +403,8 @@ public class CreationController {
 	@RequestMapping( value="getCreationList", method=RequestMethod.GET )
 	public String getCreationList(@ModelAttribute("tag") Tag tag, 
 															@ModelAttribute("search") Search search, 
-															@ModelAttribute("page") Page page, Model model) throws Exception {
+															@ModelAttribute("page") Page page,
+															HttpSession session,Model model) throws Exception {
 		// TODO getCreationList
 		System.out.println("CreationController :: /creation/getCreationList : GET");
 
@@ -424,12 +427,14 @@ public class CreationController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
+		map.put("user", (User)session.getAttribute("user"));
 		
 		List<Creation> creationList = creationService.getCreationList(map);
 		System.out.println("getCreationList :: "+creationList+"/n");
 
 		// Model 과 View 연결
 		model.addAttribute("creationList", creationList);
+		model.addAttribute("search",search);
 		
 		System.out.println("CreationController :: /creation/getCreationList : GET ===> END");
 		return "forward:listCreation.jsp";
@@ -541,7 +546,7 @@ public class CreationController {
 	 * @return "forward:addFundingView.jsp"
 	 */
 	@RequestMapping(value="addFunding", method=RequestMethod.GET)
-	public String addFunding(/*@ModelAttribute Creation creation,*/
+	public String addFunding(@ModelAttribute("search")Search search,
 														HttpSession session, Model model) throws Exception{
 		// TODO addFunding
 		System.out.println("Creation Controller :: /creation/addFunding : GET ===> START");
@@ -550,9 +555,10 @@ public class CreationController {
 		User user = (User)session.getAttribute("user");
 		
 		System.out.println("addWriting :: "+user.getEmail());
-		
+		System.out.println("===========search ::"+search);
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user);
+		map.put("search", search);
 		map.put("categoryNo", Const.Category.CREATION);
 		List<Creation> creationList =creationService.getCreationList(map);
 		
@@ -578,7 +584,6 @@ public class CreationController {
 		System.out.println("Creation Controller :: /creation/addWriting : POST");
 			
 		User user = (User)session.getAttribute("user");
-//		System.out.println("addCreation :: "+user.getEmail());
 	
 		String path = request.getServletContext().getRealPath("/resources/upload_files/images/");
 		
@@ -606,7 +611,7 @@ public class CreationController {
 		System.out.println("CreationController :: /creation/getFunding : GET ===> START\n");
 
 		//Business Logic
-		boolean isFunding=false;
+//		boolean isFunding=false;
 		funding = fundingService.getFunding((User)session.getAttribute("user"), funding);
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, funding.getCreation().getCreationNo(),(User)session.getAttribute("user"));
@@ -614,18 +619,18 @@ public class CreationController {
 		funding.setCreation(creationService.getCreation(map));
 		funding.setPayInfoList(fundingService.getFundingUserList(map));
 		
-		PayInfo payInfo = new PayInfo();
-		payInfo.setFundingNo(funding.getFundingNo());
-		payInfo.setUser((User)session.getAttribute("user"));
+//		PayInfo payInfo = new PayInfo();
+//		payInfo.setFundingNo(funding.getFundingNo());
+//		payInfo.setUser((User)session.getAttribute("user"));
 		
-		if(fundingService.getPayInfo((User)session.getAttribute("user"), payInfo) != null) {
-			 isFunding = true;
-		}
+//		if(fundingService.getPayInfo((User)session.getAttribute("user"), payInfo) != null) {
+//			 isFunding = true;
+//		}
 		
 				
 		// Model 과 View 연결
 		model.addAttribute("funding", funding);
-		model.addAttribute("isFunding", isFunding);
+//		model.addAttribute("isFunding", isFunding);
 		model.addAttribute("importAPIKey", importAPIKey);
 		model.addAttribute("importAPIsecret", importAPIsecret);
 		model.addAttribute("importIDcode", importIDcode);
@@ -645,7 +650,8 @@ public class CreationController {
 	@RequestMapping( value="getFundingList", method=RequestMethod.GET )
 	public String getFundingList(@ModelAttribute("creation") Creation creation,
 															@ModelAttribute("search") Search search,
-															@ModelAttribute("page") Page page, Model model) throws Exception {
+															@ModelAttribute("page") Page page, 
+															HttpSession session, Model model) throws Exception {
 		// TODO getFundingList
 		System.out.println("CreationController :: /creation/getFundingList : GET\n");
 
@@ -668,6 +674,7 @@ public class CreationController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("search", search);
 		map.put("page", page);
+		map.put("user",(User)session.getAttribute("user"));
 
 		if(creation.getCreationNo() != 0) {
 			map.put("targetNo", creation.getCreationNo());
@@ -677,6 +684,7 @@ public class CreationController {
 
 		// Model 과 View 연결
 		model.addAttribute("fundingList", fundingList);
+		model.addAttribute("search", search);
 		
 		System.out.println("CreationController :: /creation/getFundingList : GET ===> END\n\n");
 		return "forward:listFundingTest.jsp";

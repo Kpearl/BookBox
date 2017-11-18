@@ -145,14 +145,21 @@
 			f.end_date, f.funding_target, 
 			f.funding_file_name, f.funding_origin_name, 
 			f.active
+			
 
 		FROM 
 			funding f
-			
+			LEFT JOIN creation c ON f.creation_no = c.creation_no
+						
 		<where>
-			<if test="targetNo != null">
+		<if test ="search != null">
+			<if test="search.condition==1">
 				f.creation_no = #{targetNo}	
 			</if>
+			<if test="search.condition==2">
+				c.author = #{user.email}	
+			</if>
+		</if>
 		</where>
 		ORDER BY f.reg_date DESC 
 		
@@ -167,8 +174,8 @@
 	  	SELECT COUNT(*)
 	  	FROM funding 
 		WHERE	
-			creation_no = #{targetNo}	
-								
+			creation_no = #{targetNo}
+			
 	 </select>
 	 
 	 <!-- SQL : SELECT getPayInfoLIST -->
@@ -181,19 +188,21 @@
 			pay_info 
 			
 		<where>
-				funding_no = #{fundingNo}	
-			
+					funding_no = #{fundingNo}	
 			<if test="search != null and search.condition != null">
+			
 					<if test="search.condition == 0 and search.keyword !=''">
-		 				email LIKE '%${search.keyword}%'
+							email LIKE '%${search.keyword}%'
 					</if>
 					<if test="search.condition == 1 and search.keyword !=''">
-		 				user_name LIKE '%${search.keyword}%'
+							user_name LIKE '%${search.keyword}%'
 					</if>
 					<if test="search.condition == 2 and search.keyword !=''">
-		 				addr LIKE '%${search.keyword}%'
+							addr LIKE '%${search.keyword}%'
 					</if>
+
 			</if>
+			
 		</where>
 		ORDER BY reg_date ASC 
 		
@@ -209,22 +218,24 @@
 	  	FROM (SELECT
 							pay_no, email AS 'payInfo.user.email', funding_no, user_name, post_code, addr, addr_detail, phone, reg_date
 						FROM  pay_info 
-						<where>
-								funding_no = #{fundingNo}	
-							
+					<where>
+							funding_no = #{fundingNo}	
 							<if test="search != null and search.condition != null">
+							
 									<if test="search.condition == 0 and search.keyword !=''">
-						 				email LIKE '%${search.keyword}%'
+											email LIKE '%${search.keyword}%'
 									</if>
 									<if test="search.condition == 1 and search.keyword !=''">
-						 				user_name LIKE '%${search.keyword}%'
+											user_name LIKE '%${search.keyword}%'
 									</if>
 									<if test="search.condition == 2 and search.keyword !=''">
-						 				addr LIKE '%${search.keyword}%'
+											addr LIKE '%${search.keyword}%'
 									</if>
+				
 							</if>
-						</where>
-		) vt				
+				</where>
+		) vt		
+	
 	 </select>
 
 </mapper>

@@ -137,9 +137,9 @@
 			</if>
 
 		<where>
-			<if test="user !=  null and search == null">
+			<!-- <if test="user !=  null and search == null">
 		 			c.author = #{user.email} 
-			</if>
+			</if> -->
 				
 			<if test="search != null and search.condition != null">
 					<if test="search.condition == 0 and search.keyword !=''">
@@ -151,11 +151,11 @@
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				t.tag_name IN (#{search.keyword}) 
 					</if>
-		<!-- 			<if test="search.condition == 3 and search.keyword !=''">
-		 				t.tag_name LIKE '%${search.keyword}%' OR 
-		 				u.nickname LIKE '%${search.keyword}%' OR 
-		 				t.tag_name LIKE '%${search.keyword}%' 
-					</if> -->
+					<!-- 3:펀딩등록 Nav  4:글쓰기 Nav  5:작성글리스트조회(paging)  6:구독글조회-->
+					<if test="search.condition == 3 or search.condition == 4 or search.condition==5">
+		 				c.author = #{user.email} 
+					</if>
+					<if test="search.condition==6"></if>
 			</if>
 			
 				AND c.active 	= 1
@@ -172,7 +172,11 @@
 			u.nickname
 		
 		<if test="page != null">
-		LIMIT #{page.startRow}, #{page.pageSize}
+			<if test="search != null">
+				<if test ="search.condition !=3 or search.condition !=4">
+					LIMIT #{page.startRow}, #{page.pageSize}
+				</if>
+			</if>
 		</if>
 		
 <!-- 				SELECT vt.*
@@ -253,11 +257,10 @@
 									<if test="condition == 2 and keyword !=''">
 						 				t.tag_name LIKE '%${keyword}%'
 									</if>
-									<if test="condition == 3 and keyword !=''">
-						 				t.tag_name LIKE '%${keyword}%' OR 
-						 				u.nickname LIKE '%${keyword}%' OR 
-						 				t.tag_name LIKE '%${keyword}%' 
+									<if test="condition == 5">
+						 				c.author = #{keyword} 
 									</if>
+									<if test="condition==6"></if>
 							</if>
 						</where>
 						GROUP BY
