@@ -139,59 +139,6 @@
 				    transform: translate(-50%, -50%);
     	}
     	
-    	@media (min-width: 992px){
-	    	.booklog-img-box{
-	    		left: 3% !important;
-	    		width: 30% !important;
-	    	}
-	    	.booklog-content-box{
-	    		left: 33% !important;
-	    		width: 50% !important;
-	    	}
-	    	.booklog-content-count{
-	    		width: 17% !important;
-	    	}
-    	}
-    	@media (min-width: 768px){
-    	}
-    	.booklog-list-box{
-    		position: relative;
-    	}
-    	.booklog-card{
-    		position: relative;
-    		height: 200px;
-    		width: 100%;
-    		padding: 5% 3%;
-    	}
-    	.booklog-card-board{
-    		position: relative;
-    		height: 100%;
-    		width: 100%;
-    		padding: 2% 3%;
-    		border: 1px solid;
-    	}
-    	
-    	.booklog-img-box, .booklog-content-box{
-    		position: absolute;
-    		top: 2%;
-    		height: 96%;
-    	}
-    	.booklog-img-box{
-    		left: 3%;
-    		width: 40%;
-    	}
-    	.booklog-content-box{
-    		cursor: pointer;
-    		left: 43%;
-    		width: 54%;
-    	}
-    	.booklog-content-count{
-    		position: absolute;
-    		top: 0;
-    		right: 0;
-    		height: 100%;
-    		background-color: #112D42;
-    	}
     	
     </style>
 	
@@ -254,19 +201,18 @@
 			$('.posting-slide4').append(p9.show()).append(p10.show());
 
 			
-			$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
 			
-			for(var i=0; i<$('.div-booklog').length; i++){
-				var booklogUser = $($('.div-booklog')[i]).find('input[name="booklogUser"]').val();
+			for(var i=0; i<$('.booklog-content-count').length; i++){
+				var booklogUser = $($('.booklog-content-box')[i]).find('input[name="booklogUser"]').val();
 				$.ajax({
 					url: 'rest/getCounts/'+booklogUser.split('@')[0]+'/'+booklogUser.split('.')[0].split('@')[1]+'/'+booklogUser.split('.')[1]+'/'+i,
 					method: 'get',
 					dataType: 'json',
 					success: function(data){
-						$($($('.div-booklog')[data.index]).find('.content-count')[0]).html(data.counts.cc>999? '999+':data.counts.wc).find('.loading-img').hide();
-						$($($('.div-booklog')[data.index]).find('.content-count')[1]).html(data.counts.pc>999? '999+':data.counts.pc).find('.loading-img').hide();
-						$($($('.div-booklog')[data.index]).find('.content-count')[2]).html(data.counts.bc>999? '999+':data.counts.bc).find('.loading-img').hide();
-						$($('.div-booklog')[data.index]).find('i.glyphicon-bookmark').addClass(data.bookmark == 'true'? 'bookmarked':'nobookmarked');
+						$($($('.booklog-content-count')[data.index]).find('.content-count')[0]).html(data.counts.cc>999? '999+':data.counts.wc).find('.loading-img').hide();
+						$($($('.booklog-content-count')[data.index]).find('.content-count')[1]).html(data.counts.pc>999? '999+':data.counts.pc).find('.loading-img').hide();
+						$($($('.booklog-content-count')[data.index]).find('.content-count')[2]).html(data.counts.bc>999? '999+':data.counts.bc).find('.loading-img').hide();
+						$($('.booklog-content-count')[data.index]).find('i.glyphicon-bookmark').addClass(data.bookmark == 'true'? 'bookmarked':'nobookmarked');
 					}
 				});
 			}
@@ -295,7 +241,7 @@
 	<header class="parallax"></header>
 	<!-- 여기부터 코딩 -->
 	
-	<div class="container" style="padding: 20px 0;">
+	<div class="container" style="padding: 20px 15px;">
 		<input type="hidden" name="condition" value="${search.condition}">
 
 		<c:set var="i" value="0"/>
@@ -318,18 +264,23 @@
 		<div class="row text-center category-space">
 			<h2>- 인기 포스팅 -</h2>
 		</div>
-		<div class="posting-swiper-container swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide posting-slide1 col-md-9"></div>
-				<div class="swiper-slide posting-slide2 col-md-9"></div>
-				<div class="swiper-slide posting-slide3 col-md-9"></div>
-				<div class="swiper-slide posting-slide4 col-md-9"></div>
+		
+		<div class="row">
+			<div class="col-xs-12">
+		
+				<div class="posting-swiper-container swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide posting-slide1 col-md-9"></div>
+						<div class="swiper-slide posting-slide2 col-md-9"></div>
+						<div class="swiper-slide posting-slide3 col-md-9"></div>
+						<div class="swiper-slide posting-slide4 col-md-9"></div>
+					</div>
+			        <div class="swiper-pagination swiper-pagination-black"></div>
+					<a class="posting-list">더보기 &gt</a>
+				</div>
+
 			</div>
-	        <div class="swiper-pagination swiper-pagination-black"></div>
-			<a class="posting-list">더보기 &gt</a>
 		</div>
-
-
 
 		<div class="row text-center category-space">
 			<h2>- 인기 북로그 -</h2>
@@ -337,27 +288,43 @@
 
 	    
 	    <div class="row booklog-list-box">
-	    	<c:forEach items="${booklogList}" var="booklog">
-	    		<div class="col-sm-6">
-	    			<div class="booklog-card">
-	    				<div class="booklog-card-board booklog-background">
-	    					<div class="booklog-img-box">
-	    						<img class="img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
-	    					</div>
-	    					<div class="booklog-content-box">
-	    						<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
-			    				<p>${booklog.booklogName}</p>
-			    				<p>${booklog.booklogIntro}</p>
-	    					</div>
-	    					<div class="booklog-content-count hidden-xs hidden-sm">
-	    						
-	    					</div>
-	    				</div>
-	    			</div>
-	    		</div>
-	    	</c:forEach>
-	    
-			<a class="booklog-list">더보기 &gt</a>
+	    	<div class="col-xs-12">
+		    	<c:forEach items="${booklogList}" var="booklog">
+		    		<div class="col-sm-6">
+		    			<div class="booklog-card">
+		    				<div class="booklog-card-board booklog-background">
+		    					<div class="booklog-img-box">
+		    						<img class="img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+		    					</div>
+		    					<div class="booklog-content-box">
+		    						<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
+		    						<input type="hidden" name="booklogUser" value="${booklog.user.email}">
+				    				<p class="lead"><strong>${booklog.booklogName}</strong></p>
+				    				<p>${booklog.booklogIntro}</p>
+		    					</div>
+		    					<div class="booklog-content-count hidden-xs hidden-sm">
+		    						<div class="content-count-box creation-count">
+										<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i> </span>&nbsp;
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+		    						</div>
+		    						<div class="horizontal-line" style="top: 32.3333333%"></div>
+		    						<div class="content-count-box posting-count">
+										<span class="content-icon"><i class="glyphicon glyphicon-grain"></i> </span>&nbsp;
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+		    						</div>
+		    						<div class="horizontal-line" style="top: 65.6666666%"></div>
+		    						<div class="content-count-box bookmark-count">
+										<span class="content-icon"><i class="glyphicon glyphicon-bookmark"></i> </span>&nbsp;
+										<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
+		    						</div>
+		    					</div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    	</c:forEach>
+		    
+				<a class="booklog-list">더보기 &gt</a>
+	    	</div>
 	    </div>
 		
 

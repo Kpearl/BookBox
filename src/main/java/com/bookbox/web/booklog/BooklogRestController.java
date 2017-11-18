@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -230,4 +231,17 @@ public class BooklogRestController {
 		return map;
 	}
 	
+	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
+	public boolean updateBooklog(@RequestParam("booklog") String json, HttpSession session,
+									@RequestParam(value = "file", required = false)MultipartFile file, HttpServletRequest request) throws Exception {
+		
+		Booklog booklog = new ObjectMapper().readValue(json.toString(), Booklog.class);
+		if(file != null && !file.isEmpty()) {
+			file.transferTo(new File(request.getServletContext().getRealPath("/resources/upload_files/images/"),file.getOriginalFilename()));
+			booklog.setBooklogImage(file.getOriginalFilename());
+		}
+		booklogService.updateBooklog((User)session.getAttribute("user"), booklog);
+		
+		return true;
+	}
 }

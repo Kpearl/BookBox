@@ -374,7 +374,7 @@ div.hidden-md img{
 .posting-list, .book-like-list, .booklog-list{
 	position: absolute;
 	bottom: -5%;
-	right: 0;
+	right: 5%;
 	z-index: 5;
 	cursor: pointer;
 }
@@ -382,7 +382,7 @@ div.hidden-md img{
 .row.booklog-profile{
    	margin: 20px -10px;
 }
-.row.booklog-profile > div{
+.profile-box{
    	overflow: hidden;
    	-webkit-box-shadow: 3px 1px 2px 0px;
    	   -moz-box-shadow: 3px 1px 2px 0px;
@@ -434,6 +434,92 @@ span.content-icon{
 }
 .category-space h2{
 	font-family: NanumBrush, Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+@media (min-width: 992px){
+ 	.booklog-img-box{
+ 		left: 3% !important;
+ 		width: 30% !important;
+ 	}
+ 	.booklog-content-box{
+ 		left: 33% !important;
+ 		width: 50% !important;
+ 	}
+ 	.booklog-content-count{
+ 		width: 17% !important;
+ 	}
+}
+@media (min-width: 768px){
+	
+}
+.booklog-list-box{
+	position: relative;
+}
+.booklog-card{
+	position: relative;
+	height: 200px;
+	width: 100%;
+	padding: 5% 3%;
+}
+.booklog-card-board{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	padding: 2% 3%;
+	box-shadow: 1px 1px 1px 1px;
+}
+
+.booklog-img-box, .booklog-content-box{
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+.booklog-img-box{
+	left: 3%;
+	width: 40%;
+	margin-left: -3%;
+}
+.booklog-content-box{
+	cursor: pointer;
+	left: 43%;
+	width: 54%;
+	padding: 2%;
+}
+.booklog-content-count{
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	background-color: #112D42;
+}
+.content-count-box{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 32.3333333%;
+	padding: 4%;
+	text-align: center;
+}
+.content-count-box > *{
+	display: inline-block;
+	color: #DBE2EF
+}
+.creation-count{
+	top: 0;
+}
+.posting-count{
+	top: 33.3333333%;
+}
+.bookmark-count{
+	top: 67.6666666%
+}
+.horizontal-line{
+	position: absolute;
+	width: 60%;
+	left: 20%;
+	height: 1px;
+	border-bottom: 2px solid #DBE2EF;
 }
 /******* Booklog CSS End *******/
 .btn-form{

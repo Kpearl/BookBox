@@ -209,21 +209,30 @@
 	    ul.timeline > li > .timeline-item > .timeline-body{
 	    	padding: 10px;
 	    	cursor: pointer;
+	    	min-height: 70px;
+	    }
+	    .log-funding-able-background{
+	    	background-color: #ffe800 !important;
 	    }
 	    .log-booklog-background{
 	    	background-color: #0073b7 !important;
 	    }
 	    .log-creation-background{
-	    	background-color: #00c0ef !important;
+	    	background-color: #d81b60 !important;
 	    }
 	    .log-community-background{
-	    	background-color: #f39c12 !important;
+	    	background-color: #00ff57 !important;
 	    }
 	    .log-book-background{
-	    	background-color: #d81b60 !important;
+	    	background-color: #efa300 !important;
 	    }
 	    .log-more-background{
 	    	background-color: #d2d6de !important;
+	    }
+	    
+	    .booklog-update-form{
+			background: rgba(0, 0, 0, 0);
+			width: 90%;
 	    }
     </style>
 
@@ -251,8 +260,12 @@
 			var postingNo = $(this).find('input[type="hidden"]').val();
 			$(self.location).attr("href","../booklog/getPosting?postingNo="+postingNo+"&condition=booklog&keyword="+booklogUser);
 		});
+		$('.bookmark-list').on('click', function(){
+	 		$(self.location).attr("href","../booklog/getBooklogList?condition=bookmark&keyword="+booklogUser);
+		});
 		$('div.booklog-btn:contains("표지편집")').on('click', function(){
-			$(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser);
+			/* $(self.location).attr('href','../booklog/updateBooklog?user.email='+booklogUser); */
+			fncUpdateBooklogView( $(this) );
 		});
 		$('div.booklog-btn:contains("포스팅등록")').on('click', function(){
 			$(self.location).attr('href','../booklog/addPosting');
@@ -264,9 +277,6 @@
 			$('i.bookmarked').on('click', function(){
 				fncDeleteBookmark($(this));
 			});
-		}else{
-			$('i.nobookmarked').css('cursor', 'auto');
-			$('i.bookmarked').css('cursor', 'auto');
 		}
 		
 		$('.book-thumbnail').hover(function(){
@@ -283,6 +293,8 @@
 		});
 		
 		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
+		$('.booklog-img .img-object-fit').css('height', $('.booklog-img').find('div').find('img').css('width'))
+							.css('width', $('.booklog-img').find('div').find('img').css('width'));
 		
 		fncAddLogCSS();
 		
@@ -331,6 +343,8 @@
 	
 	$(window).resize(function(){
 		$('.booklog-img').css('height', $('.booklog-img').find('div').find('img').css('width'));
+		$('.booklog-img .img-object-fit').css('height', $('.booklog-img').find('div').find('img').css('width'))
+							.css('width', $('.booklog-img').find('div').find('img').css('width'));
 	});
 
 	$(function(){
@@ -357,6 +371,7 @@
         /* chart 설정 */
 		var ctxDaily = $("#dailyChart");
 		var dailyChart = new Chart(ctxDaily, {
+			canvasBackgroundColor: '#ffffff',
 		    type: 'bar',
 		    data: {
 		        labels: [fncGetDate(6),
@@ -408,6 +423,7 @@
 
 		var ctxWeekly = $("#weeklyChart");
 		var weeklyChart = new Chart(ctxWeekly, {
+			canvasBackgroundColor: '#ffffff',
 		    type: 'bar',
 		    data: {
 		        labels: ['6주 전',
@@ -459,6 +475,7 @@
 
 		var ctxMonthly = $("#monthlyChart");
 		var monthlyChart = new Chart(ctxMonthly, {
+			canvasBackgroundColor: '#ffffff',
 		    type: 'bar',
 		    data: {
 		        labels: ['4달 전',
@@ -524,6 +541,7 @@
 				]
 			},
 		    options: {
+				canvasBackgroundColor: '#ffffff',
 		        tooltips: {
 		        	callbacks: {
  		        		label: function(tooltipItem, data){
@@ -615,8 +633,12 @@
 		$('.log-category').removeClass(function(){
 			return $(this).attr('class');
 		}).addClass(function(){
-			var category = $(this).find('input').val();
-			if(category == 1 || category == 2 || category == 3){
+			var category = $(this).find('input[name="category"]').val();
+			var behavior = $(this).find('input[name="behavior"]').val();
+			
+			if(behavior == 9){
+				return 'log-category glyphicon glyphicon-star log-funding-able-background';
+			}else if(category == 1 || category == 2 || category == 3){
 				return 'log-category glyphicon glyphicon-pencil log-creation-background';
 			}else if(category == 4 || category == 5){
 				return 'log-category glyphicon glyphicon-grain log-booklog-background';
@@ -627,7 +649,96 @@
 			}
 		});
 	}
+	
+	function fncUpdateBooklogView( button ){
+		$(button).html('저장').off('click').on('click', function(){
+			fncUpdateBooklog( $(this) );
+		});
+		
+		$('.present-booklog-info').hide();
+		$('.booklog-update-form').show();
+		$('.booklog-update-form[name="booklogName"]').val($('#booklogName').html());
+		$('.booklog-update-form[name="booklogIntro"]').val($('#booklogIntro').html());
+		$('img.booklog-update-form').attr('src', $('img.present-booklog-info').attr('src'));
+		
+	}
+	function fncUpdateBooklog( button ){
+		
+		var booklogForm = $('form[name="booklogForm"]');
+		var json = ConvertFormToJSON(booklogForm);
+		
+		var formData = new FormData();
+		formData.append('booklog', JSON.stringify(json));
+		formData.append('file', $('input[name="file"]')[0].files[0]);
+		
+		$.ajax({
+			url: 'rest/updateBooklog',
+			method: 'post',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(data){
+				
+				$('.present-booklog-info').show();
+				$('.booklog-update-form').hide();
+				$('#booklogName').html($('.booklog-update-form[name="booklogName"]').val());
+				$('#booklogIntro').html($('.booklog-update-form[name="booklogIntro"]').val());
+				$('img.present-booklog-info').attr('src', $('img.booklog-update-form').attr('src'));
+				$('.content-title img').attr('src', $('img.booklog-update-form').attr('src'));
+				var upload = document.getElementById('mainFile');
+				if(upload.files[0] != null){
+					$('.booklog-update-form span').html(upload.files[0].name);
+				}
+
+				$(button).html('표지편집').off('click').on('click', function(){
+					fncUpdateBooklogView( $(this) );
+				});
+
+			}
+		});
+	}
+
+	var upload;
+	var preview;
+	
+	if(typeof window.FileReader === 'undefined'){
+		alert('이미지 업로드 미리보기를 지원하지 않는 브라우저 입니다..');
+	}
+	
+	$(function(){
+		upload = document.getElementById('mainFile');
+		preview = $('img.booklog-update-form');
+
+		upload.onchange = function(e){
+			e.preventDefault();
+			
+			var file = upload.files[0],
+				reader = new FileReader();
+			reader.onload = function(event){
+				var img = new Image();
+				img.src = event.target.result;
+				$(preview).attr('src',img.src);
+			}
+			reader.readAsDataURL(file);
+			
+			return false;
+		};
+	})
     
+	function ConvertFormToJSON(form){
+		 var array = jQuery(form).serializeArray();
+		 var json = {};
+		 
+		 jQuery.each(array, function(){
+			 json[this.name] = this.value || '';
+		 });
+		 
+		 return json;
+		
+	}
+
+	
 </script>
 
 
@@ -642,7 +753,7 @@
 	<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
 	<input type="hidden" name="booklogName" value="${booklog.booklogName}">
 	<input type="hidden" name="user" value="${sessionScope.user.email}">
-	<div class="container" style="padding: 20px 0;">
+	<div class="container" style="padding: 20px 15px;">
 
 		<div class="row">
 
@@ -651,20 +762,31 @@
 				<div class="row booklog-profile">
 				
 					<div class="col-xs-1 col-sm-2 hidden-md hidden-lg"></div>
-					<div class="col-xs-10 col-sm-8 col-md-12">
+					<div class="col-xs-10 col-sm-8 col-md-12 profile-box" style="margin-top: 30px;">
+						<div class="my-info"></div>
 						<div class="row text-center booklog-img">
 							<div class="col-xs-offset-1 col-xs-10 booklog-img">
-								<img class="img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+								<img id="booklogImage" class="present-booklog-info img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
+								<img class="booklog-update-form img-responsive img-circle center-block img-object-fit" src="../resources/upload_files/images/${booklog.booklogImage}">
 							</div>
 						</div>
 				
-						<!-- 북로그이미지, 소개글, 이름 -->
-						<div class="row text-center booklog-name">
-							<h4><em>${booklog.booklogName}</em></h4>
-						</div>
-						<div class="row text-center booklog-intro booklog-background">
-							<p>${booklog.booklogIntro}</p>
-						</div>
+						<form name="booklogForm">
+							<input type="hidden" name="booklogNo" value="${booklog.booklogNo}">
+							<div class="row text-center booklog-name">
+								<h4 class="present-booklog-info"><em id="booklogName">${booklog.booklogName}</em></h4>
+								<!-- 북로그편집 이미지 -->
+								<p class="booklog-update-form" style="display: none;">기존 파일 : <span>${booklog.booklogImage}</span></p>
+								<input id="mainFile" class="booklog-update-form" type="file" name="file" style="display: none;">
+								<!-- 북로그편집 이름 -->
+								<input class="booklog-update-form" type="text" name="booklogName" style="display: none;">
+							</div>
+							<div class="row text-center booklog-intro booklog-background">
+								<p class="present-booklog-info" id="booklogIntro">${booklog.booklogIntro}</p>
+								<input class="booklog-update-form" type="text" name="booklogIntro" style="display: none;">
+							</div>
+						</form>
+						
 						<div class="row text-center booklog-content-num">
 							<div class="col-xs-4 text-center">
 								<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i></span><br/>
@@ -677,7 +799,7 @@
 							</div>
 							<div class="vertical-line"></div>
 							<div class="col-xs-4 text-center">
-								<span class="content-icon"><i class="glyphicon glyphicon-bookmark ${bookmark? 'bookmarked' : 'nobookmarked'}" style="cursor: pointer;"></i></span><br/>
+								<span class="content-icon"><i class="glyphicon glyphicon-bookmark ${bookmark? 'bookmarked' : 'nobookmarked'} ${sessionScope.user.email == booklog.user.email? 'bookmark-list' : ''}" ${!empty sessionScope.user.email? 'style="cursor: pointer;"' : '' }></i></span><br/>
 								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
 							</div>
 						</div>
@@ -685,13 +807,18 @@
 
 				</div>
 				<c:if test="${sessionScope.user.email == booklog.user.email}">
-				<div class="row" style="margin: -10px; margin-bottom: 10px; margin-top: -20px; box-shadow: 3px 1px 2px 0px;">
-					<div class="col-xs-6 text-center booklog-btn">
-						표지편집
-					</div>
-					<div class="vertical-line" style="margin-top: 14px; height: 20px;"></div>
-					<div class="col-xs-6 text-center booklog-btn">
-						포스팅등록
+				<div class="row" style="margin: -10px; margin-bottom: 10px; margin-top: -20px;">
+					<div class="col-xs-1 col-sm-2 hidden-md hidden-lg"></div>
+					<div class="col-xs-10 col-sm-8 col-md-12 profile-box">
+						<div class="row">
+							<div class="col-xs-6 text-center booklog-btn">
+								표지편집
+							</div>
+							<div class="vertical-line" style="margin-top: 14px; height: 20px;"></div>
+							<div class="col-xs-6 text-center booklog-btn">
+								포스팅등록
+							</div>
+						</div>
 					</div>
 				</div>
 				</c:if>
@@ -703,7 +830,7 @@
 						<ul class="nav nav-tabs" role="tablist" id="tagTab">
 							<li role="presentation" class="active">
 								<a href="#tag" aria-controls="tag" role="tab" data-toggle="tab">
-									<strong>태그통계</strong>
+									태그통계
 								</a>
 							</li>
 						</ul>
@@ -748,7 +875,7 @@
 			</div>
 
 
-			<div class="col-md-8 col-md-pull-4">
+			<div class="col-md-8 col-md-pull-4" style="background: #eeeeee;">
 				<div class="row">
 				
 					<div class="col-md-12">
@@ -831,7 +958,7 @@
 				
 			</div>
 			
-			<div class="col-md-8 col-md-pull-4">
+			<div class="col-md-8 col-md-pull-4" style="background: #eeeeee;">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row text-center category-space">
@@ -841,7 +968,10 @@
 						<ul class="timeline">
 						<c:forEach items="${logList}" var="log">
 							<li>
-								<i class="log-category"><input type="hidden" name="category" value="${log.categoryNo}"></i>
+								<i class="log-category">
+									<input type="hidden" name="category" value="${log.categoryNo}">
+									<input type="hidden" name="behavior" value="${log.behavior}">
+								</i>
 								<div class="timeline-item booklog-background">
 									<span class="time"><i class="glyphicon glyphicon-time"></i> ${log.logTimeAgo}</span>
 									<div class="timeline-body">

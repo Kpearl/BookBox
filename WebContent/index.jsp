@@ -49,6 +49,7 @@
 			top: 50%;
 			left: 50%;
 			width: 100%;
+			margin: 0;
 			-webkit-transform: translate(-50%, -50%);
 			   -moz-transform: translate(-50%, -50%);
 					transform: translate(-50%, -50%);
@@ -135,10 +136,15 @@
 			text-align: center;
 		}
 		.book-preview{
-			height: 0;
-			padding: 0 10%;
-			background: rgba(0, 0, 0, 0.4);
+			padding: 0 20%;
+		}
+		.book-preview-content{
 			overflow-y: hidden;
+			height: 0;
+			width: 100%;
+			padding: 0 5%;
+			text-align: center;
+			background: rgba(0, 0, 0, 0.4);
 			-webkit-transition: 0.3s;
 			   -moz-transition: 0.3s;
 					transition: 0.3s;
@@ -292,17 +298,22 @@
 	</style>
 	
 	<script>
+		var bookSlideUnit = 2;
+		var bookSwiper;
+		
 		//Toolbar 투명도 설정
 		ToolbarOpacHeight($(window).height());
 		//Window Resize시 Toolbar 투명도, BookContainer 높이, Parallax background-position 재설정
 		$(window).resize(function(){
 			ToolbarOpacHeight($(window).height());
 			$('#main-search').css('width', $('#main-bookbox').width());
-			/* $('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26); */
 		});
 		
 		
 		$(function(){
+			if($(window).innerWidth() < 768){
+				bookSlideUnit = 1;
+			}
 			//툴바 검색창 숨김
 			$('.bookbox-navigation .search-group').hide();
 			//메인배너 클릭시 스크롤이동 이벤트
@@ -327,10 +338,10 @@
 			//추천도서 hover 이벤트
 			$('.book-content-box').hover(function(){
 				$(this).find('.book-img').css('opacity', 0.2);
-				$(this).find('.book-preview').css('height', '100%');
+				$(this).find('.book-preview-content').css('height', '100%');
 			}, function(){
 				$(this).find('.book-img').css('opacity', 1);
-				$(this).find('.book-preview').css('height', 0);
+				$(this).find('.book-preview-content').css('height', 0);
 			});
 			
 			$('#creation-intro').on('click', function(){
@@ -363,23 +374,9 @@
 			});
 			
 			$('.container').css('height', $(window).innerHeight());
-			/* $('#main-recommend-book').css('height', $('#main-recommend-book').width() * 1 / 3 + 26); */
 
 			//스와이퍼 초기화
-/*  			var bookSwiper = new Swiper('.book-swiper-container', {
-				speed: 600,
-				spaceBetween: 50,
-				effect: 'slide',
-				autoplay: {
-					delay: 5000,
-				},
-				pagination:{
-					el: '.swiper-pagination',
-					type: 'bullets',
-					clickable: true,
-				},
-			}); */
- 			var bookSwiper = new Swiper('.book-swiper-container', {
+ 			bookSwiper = new Swiper('.book-swiper-container', {
 				speed: 600,
 				autoplay: {
 					delay: 5000,
@@ -389,9 +386,29 @@
 					type: 'bullets',
 					clickable: true,
 				},
-				slidesPerView: 2,
+				slidesPerView: bookSlideUnit,
 				slidesPerColumn: 2,
-				slidesPerGroup: 2,
+				slidesPerGroup: bookSlideUnit,
+				on: {
+					slideChange: function(){
+						var index = bookSwiper.activeIndex;
+						if($('.swiper-slide').length == 8){
+							if(index == 0 || index == 1){
+								$('.recommend-type').html('베스트셀러');
+							}else{
+								$('.recommend-type').html('이달의 추천도서');
+							}
+						}else{
+							if(index == 0 || index == 1){
+								$('.recommend-type').html('맞춤 추천도서');
+							}else if(index == 2 || index == 3){
+								$('.recommend-type').html('베스트셀러');
+							}else{
+								$('.recommend-type').html('이달의 추천도서');
+							}
+						}
+					},
+				},
 			});
 			
 			
@@ -448,12 +465,14 @@
 																		});
 						}
 					}
+					$('.recommend-type').html('맞춤 추천도서');
 					if(data.userRecommendList == null || data.userRecommendList.length == 0){
 						$($('.book-content-box')[0]).remove();
 						$($('.book-content-box')[0]).remove();
 						$($('.book-content-box')[0]).remove();
 						$($('.book-content-box')[0]).remove();
 						bookSwiper.update();
+						$('.recommend-type').html('베스트셀러');
 					};
 					
 					$('.book-content-box').on('click', function(){
@@ -581,6 +600,8 @@
 						<div class="intro-content">
 							<h1>BOOKLOG<small class="hidden-xs"> <small> 북로그</small></small></h1>
 							<h1 class="hidden-sm hidden-md hidden-lg"><small> 북로그</small></h1>
+							<p>포스팅을 작성할 수 있는 자유로운 공간,</p>
+							
 						</div>
 					</div>
 					<div id="recommend-book" class="category-intro active-category">
@@ -589,8 +610,8 @@
 							<i class="glyphicon glyphicon-book"></i>
 						</div>
 						<div class="intro-content">
-							<h1>BOOK<small class="hidden-xs"> <small> 추천도서</small></small></h1>
-							<h1 class="hidden-sm hidden-md hidden-lg"><small> 추천도서</small></h1>
+							<h1>BOOK<small class="hidden-xs"> <small class="recommend-type"> 추천도서</small></small></h1>
+							<h1 class="hidden-sm hidden-md hidden-lg"><small class="recommend-type"> 추천도서</small></h1>
 	
 							<div id="main-recommend-book" class="swiper-container book-swiper-container">
 								<div class="swiper-wrapper">
@@ -602,8 +623,10 @@
 												<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
 											</div>
 											<div class="book-pos-abs book-preview">
-												<p class="book-title">제목 가져오는 중..</p>
-												<p class="book-author">작가 가져오는 중..</p>
+												<div class="book-preview-content">
+													<p class="book-title" style="margin-top: 20%;">제목 가져오는 중..</p>
+													<p class="book-author">작가 가져오는 중..</p>
+												</div>
 											</div>
 										</div>
 									</c:forEach>
@@ -622,78 +645,6 @@
 	</div>
 	
 	
-<%-- 	<div class="container">
-	
-	임시공간<br/>
-							<div id="main-recommend-book" class="swiper-container book-swiper-container">
-								<div class="swiper-wrapper">
-								
-									<div id="userRecommend" class="swiper-slide">
-										<h4><em>For U..</em></h4>
-										<div class="row half-height">
-										<c:forEach var="i" begin="0" end="3">
-											<div class="col-xs-3 max-height first-level">
-												<div class="row max-height first-level book-content">
-													<input type="hidden" name="isbn" value="0">
-													<div class="col-sm-12 max-height first-level text-center img-padding">
-														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-													</div>
-													<div class="col-sm-12 second-level">
-														<p class="book-title">제목 가져오는 중..</p>
-														<p class="book-author">작가 가져오는 중..</p>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-										</div>
-									</div>
-									
-									<div id="bestSeller" class="swiper-slide">
-										<h4><em>베스트셀러</em></h4>
-										<div class="row half-height">
-										<c:forEach var="i" begin="0" end="3">
-											<div class="col-xs-3 max-height first-level">
-												<div class="row max-height first-level book-content">
-													<input type="hidden" name="isbn" value="0">
-													<div class="col-sm-12 max-height first-level text-center img-padding">
-														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-													</div>
-													<div class="col-sm-12 second-level">
-														<p class="book-title">제목 가져오는 중..</p>
-														<p class="book-author">작가 가져오는 중..</p>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-										</div>
-									</div>
-									
-									<div id="newBook" class="swiper-slide">
-										<h4><em>이달의 추천도서</em></h4>
-										<div class="row half-height">
-										<c:forEach var="i" begin="0" end="3">
-											<div class="col-xs-3 max-height first-level">
-												<div class="row max-height first-level book-content">
-													<input type="hidden" name="isbn" value="0">
-													<div class="col-sm-12 max-height first-level text-center img-padding">
-														<img class="book-img" src="./resources/images/noimage.png" alt="No Image Available">
-													</div>
-													<div class="col-sm-12 second-level">
-														<p class="book-title">제목 가져오는 중..</p>
-														<p class="book-author">작가 가져오는 중..</p>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-										</div>
-									</div>
-									
-								</div>
-								<div class="swiper-pagination"></div>
-							</div>
-
-	</div> --%>
-
 
 
 	<footer class="container-fluid">
