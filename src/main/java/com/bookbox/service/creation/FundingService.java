@@ -37,7 +37,7 @@ public interface FundingService {
 	 * @brief 펀딩 조회 
 	 * @param User, Funding
 	 * @throws Exception
-	 * @return void
+	 * @return Funding
 	 */		
 	public Funding getFunding(User user, Funding funding) throws Exception;
 	
@@ -77,7 +77,7 @@ public interface FundingService {
 	 * @brief 펀딩결제 정보조회 
 	 * @param User, Funding
 	 * @throws Exception
-	 * @return void
+	 * @return PayInfo
 	 */		
 	public PayInfo getPayInfo(User user, PayInfo payInfo) throws Exception;
 	
@@ -87,6 +87,6 @@ public interface FundingService {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public Funding cancelFunding(Funding funding) throws Exception;
+	public void deleteFunding(Funding funding) throws Exception;
 	
 }

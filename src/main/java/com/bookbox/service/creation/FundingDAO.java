@@ -36,7 +36,7 @@ public interface FundingDAO {
 	 * @brief 펀딩 조회 
 	 * @param User, Funding
 	 * @throws Exception
-	 * @return void
+	 * @return Funding
 	 */		
 	public Funding getFunding(Funding funding) throws Exception;
 	
@@ -110,5 +110,5 @@ public interface FundingDAO {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public void cancelFunding(Funding funding) throws Exception;
+	public void deleteFunding(Funding funding) throws Exception;
 }

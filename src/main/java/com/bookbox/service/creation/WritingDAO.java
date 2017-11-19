@@ -20,7 +20,7 @@ public interface WritingDAO {
 
 	/**
 	 * @brief 창작글등록 
-	 * @param Writing writing
+	 * @param Writing 
 	 * @throws Exception
 	 * @return void
 	 */	
@@ -44,15 +44,15 @@ public interface WritingDAO {
 
 	/**
 	 * @brief 창작글 조회 
-	 * @param Writing Writing
+	 * @param Writing 
 	 * @throws Exception
-	 * @return void
+	 * @return Writing
 	 */		
 	public Writing getWriting(Writing writing) throws Exception;
 	
 	/**
 	 * @brief 창작글리스트, 창작글 총 개수
-	 * @param Search search
+	 * @param Map<String, Object> 
 	 * @throws Exception
 	 * @return void
 	 */	

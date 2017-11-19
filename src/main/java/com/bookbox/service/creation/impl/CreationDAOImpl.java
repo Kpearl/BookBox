@@ -63,11 +63,7 @@ public class CreationDAOImpl implements CreationDAO {
 		return sqlSession.selectOne("CreationMapper.getTotalCreationCount", search);
 	}
 	
-	public List<Creation> getCreationSubscribeList(User user) throws Exception{
-		return sqlSession.selectList("CreationMapper.getCreationList", user);
-	}
-	
-	public void doCreationSubscribe(Map<String, Object> map) throws Exception{
+	public void addCreationSubscribe(Map<String, Object> map) throws Exception{
 		sqlSession.insert("CreationMapper.doCreationSubscribe", map);
 	}
 	

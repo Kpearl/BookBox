@@ -82,7 +82,7 @@ public class CreationServiceImpl implements CreationService {
 
 	/**
 	 * @brief 창작작품등록 
-	 * @param User user, Creation creation
+	 * @param User , Creation 
 	 * @throws Exception
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ public class CreationServiceImpl implements CreationService {
 	
 	/**
 	 * @brief 창작작품수정 
-	 * @param User user, Creation creation
+	 * @param User , Creation 
 	 * @throws Exception
 	 * @return void
 	 */	
@@ -106,6 +106,12 @@ public class CreationServiceImpl implements CreationService {
 		unifiedsearchElasticDAO.elasticUpdate(creation);
 	}
 	
+	/**
+	 * @brief 창작작품 가져오기 
+	 * @param Creation 
+	 * @throws Exception
+	 * @return Creation
+	 */
 	@Override
 	public Creation getCreation(Map<String, Object> map) throws Exception {
 		// TODO getCreation
@@ -131,20 +137,17 @@ public class CreationServiceImpl implements CreationService {
 
 	/**
 	 * @brief 창작작품리스트, 작품리스트 총 개수
-	 * @param Search search
+	 * @param Search 
 	 * @throws Exception
 	 * @return List<Creation>
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		Page page=(Page)map.get("page");
 		Search search=(Search)map.get("search");
-		User user =(User)map.get("user");
+		
 		int condition = Integer.parseInt(search.getCondition());
 		
 		if (page != null) {
-			if (search.getCondition().equals("5")) {
-				search.setKeyword(user.getEmail());
-			}
 		page.setTotalCount(creationDAO.getTotalCreationCount(search));
 		System.out.println("getCreationList :: getTotalCount ::"+page.getTotalCount());
 		}
@@ -195,22 +198,10 @@ public class CreationServiceImpl implements CreationService {
 	
 	}
 	
-	/**
-	 * @brief 구독작품리스트 
-	 * @param User user
-	 * @throws Exception
-	 * @return List<Creation>
-	 */	
-	public List<Creation> getCreationSubscribeList(User user) throws Exception{
-		
-		List<Creation> list = new ArrayList<>(); 
-		
-		return list;
-	}
 	
 	/**
 	 * @brief 작품구독신청
-	 * @param User user, Creation creation
+	 * @param User , Creation 
 	 * @throws Exception
 	 * @return 
 	 */	
@@ -218,7 +209,7 @@ public class CreationServiceImpl implements CreationService {
 		
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, creation.getCreationNo(), user);
 		
-		creationDAO.doCreationSubscribe(map);
+		creationDAO.addCreationSubscribe(map);
 
 		return true; 
 	}
@@ -241,7 +232,7 @@ public class CreationServiceImpl implements CreationService {
 	 * @brief 작품삭제
 	 * @param Creation
 	 * @throws Exception
-	 * @return 
+	 * @return int
 	 */	
 	public int deleteCreation(Creation creation) throws Exception{
 		

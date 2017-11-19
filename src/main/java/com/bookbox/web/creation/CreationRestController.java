@@ -83,10 +83,10 @@ public class CreationRestController {
 	
 	/**
 	 * @brief addCreationSubscribe/구독신청                           
-	 * @details POST
-	 * @param Creation ,HttpSession 
+	 * @details GET
+	 * @param creationNo ,HttpSession 
 	 * @throws Exception
-	 * @return 
+	 * @return boolean
 	 */	
 	@RequestMapping(value="doCreationSubscribe", method=RequestMethod.GET )
 	public boolean doCreationSubscribe(@RequestParam("creationNo") int creationNo,
@@ -105,10 +105,10 @@ public class CreationRestController {
 	
 	/**
 	 * @brief deleteCreationSubscribe/구독신청 취소                          
-	 * @details POST
-	 * @param Creation ,HttpSession 
+	 * @details GET
+	 * @param creationNo ,HttpSession 
 	 * @throws Exception
-	 * @return 
+	 * @return boolean
 	 */	
 	@RequestMapping(value="deleteCreationSubscribe", method=RequestMethod.GET )
 	public boolean deleteCreationSubscribe(@RequestParam("creationNo") int creationNo,
@@ -126,11 +126,11 @@ public class CreationRestController {
 	}
 	
 	/**
-	 * @brief addCreationSubscribe/구독신청                           
-	 * @details POST
+	 * @brief addCreationLike/작품 좋아요                           
+	 * @details GET
 	 * @param Creation ,HttpSession 
 	 * @throws Exception
-	 * @return 
+	 * @return boolean
 	 */	
 	@RequestMapping(value="addCreationLike", method=RequestMethod.GET )
 	public boolean addLike(@RequestParam("creationNo") int creationNo,
@@ -147,10 +147,10 @@ public class CreationRestController {
 	
 	/**
 	 * @brief deleteCreationLike/좋아요 취소                          
-	 * @details POST
-	 * @param Creation ,HttpSession 
+	 * @details GET
+	 * @param creationNo ,HttpSession 
 	 * @throws Exception
-	 * @return 
+	 * @return boolean
 	 */	
 	@RequestMapping(value="deleteCreationLike", method=RequestMethod.GET )
 	public boolean deleteCreationLike(@RequestParam("creationNo") int creationNo,
@@ -184,9 +184,9 @@ public class CreationRestController {
 	/**
 	 * @brief addCreation/ 창작작품 등록
 	 * @details POST
-	 * @param 
+	 * @param  creation,HttpServeltRequest, MutipartFile, HttpSession
 	 * @throws Exception
-	 * @return
+	 * @return Map<String, Object>
 	 */
 	@RequestMapping(value="addCreation", method=RequestMethod.POST)
 	public Map<String, Object> addCreation(@RequestParam("creation") String json, 
@@ -239,7 +239,7 @@ public class CreationRestController {
 	/**
 	 * @brief getCreation/ 창작작품 정보조회
 	 * @details GET
-	 * @param Creation
+	 * @param CreationNo, HttpSession
 	 * @throws Exception
 	 * @return Creation
 	 */
@@ -262,9 +262,9 @@ public class CreationRestController {
 	/**
 	 * @brief updateCreation/작품수정
 	 * @details POST
-	 * @param Creation creation
+	 * @param Creation, HttpServletRequest, MultipartFile, HttpSession 
 	 * @throws Exception
-	 * @return Creation
+	 * @return boolean
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.POST )
 	public boolean updateCreation(@RequestBody Creation creation, 
@@ -309,7 +309,7 @@ public class CreationRestController {
 	/**
 	 * @brief addFunding/ 펀딩가능여부 확인
 	 * @details GET
-	 * @param 
+	 * @param condition, HttpSession
 	 * @throws Exception
 	 * @return List<Creation>
 	 */
@@ -360,7 +360,7 @@ public class CreationRestController {
 	/**
 	 * @brief getPayInfo/ 펀딩결제정보조회
 	 * @details GET
-	 * @param FundingNo, HttpSesseion
+	 * @param fundingNo, HttpSesseion
 	 * @throws Exception
 	 * @return PayInfo
 	 */
@@ -387,27 +387,27 @@ public class CreationRestController {
 	 * @details GET
 	 * @param FundingNo
 	 * @throws Exception
-	 * @return
+	 * @return boolean
 	 */
-	@RequestMapping(value="cancelFunding", method=RequestMethod.GET)
-	public Funding cancelFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
-		// TODO addCreation
+	@RequestMapping(value="deleteFunding", method=RequestMethod.GET)
+	public boolean deleteFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
+		// TODO deleteFunding
 		System.out.println("CreationRestController :: /creation/rest/cancelFunding : GET ===> START");
 		
 		new Funding().setFundingNo(fundingNo);
 		Funding funding = new Funding();
 		funding.setFundingNo(fundingNo);
-		fundingService.cancelFunding(funding);
+		fundingService.deleteFunding(funding);
 				
 		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
 		
-		return funding;
+		return true;
 	}
 	
 	/**
-	 * @brief addPayInfo/ 펀딩결제정보 등록
-	 * @details POST
-	 * @param PayInfo, HttpSession
+	 * @brief addGrade/ 창작글 별점등록
+	 * @details GET
+	 * @param targetNo, grade, HttpSession
 	 * @throws Exception
 	 * @return boolean
 	 */
@@ -433,7 +433,7 @@ public class CreationRestController {
 	/**
 	 * @brief addReply/ 댓글등록
 	 * @details POST
-	 * @param PayInfo, HttpSession
+	 * @param Reply, writingNo, HttpSession
 	 * @throws Exception
 	 * @return boolean
 	 */

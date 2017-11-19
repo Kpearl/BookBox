@@ -20,7 +20,7 @@ public interface CreationService {
 
 	/**
 	 * @brief 창작작품등록 
-	 * @param User user, Creation creation
+	 * @param User, Creation 
 	 * @throws Exception
 	 * @return void
 	 */	
@@ -28,7 +28,7 @@ public interface CreationService {
 	
 	/**
 	 * @brief 창작작품수정 
-	 * @param User user, Creation creation
+	 * @param User, Creation 
 	 * @throws Exception
 	 * @return void
 	 */		
@@ -50,17 +50,10 @@ public interface CreationService {
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception;
 
-	/**
-	 * @brief 구독작품리스트 
-	 * @param User user
-	 * @throws Exception
-	 * @return List<Creation>
-	 */	
-	public List<Creation> getCreationSubscribeList(User user) throws Exception;
 	
 	/**
 	 * @brief 작품구독신청
-	 * @param User user, Creation creation
+	 * @param User, Creation 
 	 * @throws Exception
 	 * @return 
 	 */	
@@ -68,9 +61,9 @@ public interface CreationService {
 
 	/**
 	 * @brief 작품구독취소 
-	 * @param User user, Creation creation
+	 * @param User, Creation 
 	 * @throws Exception
-	 * @return 
+	 * @return boolean
 	 */	
 	public boolean deleteCreationSubscribe(User user,Creation creation) throws Exception;
 	
@@ -101,7 +94,7 @@ public interface CreationService {
 
 	/**
 	 * @brief 작품구독취소 
-	 * @param User user, Creation creation
+	 * @param User, Creation 
 	 * @throws Exception
 	 * @return boolean
 	 */	

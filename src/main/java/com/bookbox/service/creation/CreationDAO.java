@@ -29,7 +29,7 @@ public interface CreationDAO {
 	 * @brief GET/ 창작작품정보 가져오기 
 	 * @param Creation
 	 * @throws Exception
-	 * @return void
+	 * @return Creation
 	 */		
 	public Creation getCreation(Map<String, Object> map) throws Exception;
 	
@@ -44,9 +44,9 @@ public interface CreationDAO {
 	
 	/**
 	 * @brief 창작작품리스트
-	 * @param Search
+	 * @param Map
 	 * @throws Exception
-	 * @return void
+	 * @return List<Creation>
 	 */	
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception;
 	
@@ -58,21 +58,14 @@ public interface CreationDAO {
 	 */
 	public int getTotalCreationCount(Search search) throws Exception;
 	
-	/**
-	 * @brief 구독작품리스트 
-	 * @param User
-	 * @throws Exception
-	 * @return List<Creation>
-	 */	
-	public List<Creation> getCreationSubscribeList(User user) throws Exception;
-	
+
 	/**
 	 * @brief 작품구독신청
 	 * @param Creation
 	 * @throws Exception
 	 * @return 
 	 */	
-	public void doCreationSubscribe(Map<String, Object> map) throws Exception;
+	public void addCreationSubscribe(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * @brief 작품구독취소 
@@ -81,15 +74,13 @@ public interface CreationDAO {
 	 * @return 
 	 */	
 	public void deleteCreationSubscribe(Map<String, Object> map) throws Exception;
-	
 
-
-/**
- * @brief 작품 구독정보 가져오기 
- * @param Map
- * @throws Exception
- * @return 
- */	
-public int getCreationSubscribe(Map<String, Object> map) throws Exception;
+	/**
+	 * @brief 작품 구독정보 가져오기 
+	 * @param Map
+	 * @throws Exception
+	 * @return int
+	 */	
+	public int getCreationSubscribe(Map<String, Object> map) throws Exception;
 
 }

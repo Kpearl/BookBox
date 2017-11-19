@@ -123,7 +123,7 @@ public class FundingDAOImpl implements FundingDAO {
 	}
 
 	@Override
-	public void cancelFunding(Funding funding) throws Exception {
+	public void deleteFunding(Funding funding) throws Exception {
 		// TODO Auto-generated method stub
 				
 		Map<String, String> map = new HashMap<>();

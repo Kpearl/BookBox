@@ -65,7 +65,8 @@ public class FundingServiceImpl implements FundingService {
 	public Funding getFunding(User user, Funding funding) throws Exception {
 		// TODO Auto-generated method stub
 		PayInfo payInfo = new PayInfo();
-		payInfo.setFundingNo(funding.getFundingNo()); 
+		payInfo.setFundingNo(funding.getFundingNo());
+		payInfo.setUser(user);
 		
 		funding = fundingDAO.getFunding(funding);
 		
@@ -96,8 +97,8 @@ public class FundingServiceImpl implements FundingService {
 						map.put("targetNo", funding.getCreation().getCreationNo());
 						funding.setCreation(creationDAO.getCreation(map));
 						map.put("fundingNo", funding.getFundingNo());
-						funding = fundingDAO.getFunding(funding);
-						if (funding.isDoFunding()) {
+						funding = this.getFunding((User)map.get("user"), funding);
+						if (funding.isDoFunding()==true) {
 							sendFundingList.add(funding);
 						}
 					}
@@ -150,18 +151,17 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
-	public Funding cancelFunding(Funding funding) throws Exception {
+	public void deleteFunding(Funding funding) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("fundingNo", funding.getFundingNo());
 		
 		funding.setPayInfoList(fundingDAO.getFundingUserList(map));
 		
-		fundingDAO.cancelFunding(funding);
+		fundingDAO.deleteFunding(funding);
 		
 		funding.setActive(0);
 		
-		return funding;
 	}
 	
 	

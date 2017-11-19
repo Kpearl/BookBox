@@ -49,7 +49,6 @@ public class CreationController {
 
 	/**
 	 * @brief  field
-	 * @detail 창작작품, 창작글, 펀딩, 태그
 	 */
 	@Autowired
 	@Qualifier("creationServiceImpl")
@@ -94,7 +93,7 @@ public class CreationController {
 	/**
 	 * @brief getCreationMain/ 창작글 메인화면으로 이동
 	 * @details GET
-	 * @param 
+	 * @param Search, Page, Model
 	 * @throws Exception
 	 * @return "forward:mainCreation.jsp"
 	 */
@@ -140,7 +139,7 @@ public class CreationController {
 	/**
 	 * @brief addWriting/ 창작글 등록화면으로 이동
 	 * @details GET
-	 * @param 
+	 * @param Search, HttpSesseion, Model
 	 * @throws Exception
 	 * @return "forward:addWritingView.jsp"
 	 */
@@ -169,9 +168,9 @@ public class CreationController {
 	/**
 	 * @brief addWriting/ 창작글 등록
 	 * @details POST
-	 * @param Creation,Writing
+	 * @param Writing, HttpServletRequest, HttpSession, Model
 	 * @throws Exception
-	 * @return "forward:getListWriting"
+	 * @return "redirect:/creation/getWritingList?creationNo="
 	 */
 	@RequestMapping(value="addWriting", method=RequestMethod.POST)
 	public String addWriting(@ModelAttribute("writing")Writing writing,
@@ -205,7 +204,7 @@ public class CreationController {
 	 * @details CKEditer 업로드이미지 저장
 	 * @param HttpSevletRequest, MultipartFile
 	 * @throws Exception
-	 * @return "forward:getListWriting"
+	 * @return "forward:uploadWritingCKEditor.jsp"
 	 */
 	@RequestMapping(value="uploadCKEditorFile", method = RequestMethod.POST)
 	public String uploadWritingCKEditor(HttpServletRequest request,
@@ -234,7 +233,7 @@ public class CreationController {
 	/**
 	 * @brief updateCreation/작품수정화면으로 이동
 	 * @details GET 
-	 * @param Creation creation
+	 * @param Creation, HttpSession,Model
 	 * @throws Exception
 	 * @return "forward:updateUserView.jsp"
 	 */
@@ -256,7 +255,7 @@ public class CreationController {
 	/**
 	 * @brief updateWriting/작품수정화면으로 이동
 	 * @details GET 
-	 * @param Writing 
+	 * @param Writing, HttpSession, Model
 	 * @throws Exception
 	 * @return "forward:updateWritingView.jsp"
 	 */
@@ -285,7 +284,7 @@ public class CreationController {
 	 * @details POST
 	 * @param Creation creation
 	 * @throws Exception
-	 * @return "redirect:getWritingList?creationNo=creation.getCreaionNo()"
+	 * @return "redirect:getWritingList?creationNo="
 	 */
 	@RequestMapping( value="updateCreation", method=RequestMethod.POST )
 	public String updateCreation(@ModelAttribute("creation") Creation creation, 
@@ -330,9 +329,9 @@ public class CreationController {
 	/**
 	 * @brief updateWriting/ 작품글수정
 	 * @details POST
-	 * @param Writing 
+	 * @param Writing, HttpServletRequest, HttpSession, Model 
 	 * @throws Exception
-	 * @return "forward:getWritingList"
+	 * @return "redirect:getWritingList?creationNo="
 	 */
 	@RequestMapping( value="updateWriting", method=RequestMethod.POST )
 	public String updateWriting(@ModelAttribute("writing") Writing writing, 
@@ -363,9 +362,9 @@ public class CreationController {
 	/**
 	 * @brief getWriting/창작글 조회
 	 * @details GET
-	 * @param Writing, writing
+	 * @param Writing, HttpSession, Model
 	 * @throws Exception
-	 * @return "forward:getUser.jsp"
+	 * @return "forward:getWriting.jsp"
 	 */
 	@RequestMapping( value="getWriting", method=RequestMethod.GET )
 	public String getWriting( @ModelAttribute("writing") Writing writing ,
@@ -396,9 +395,9 @@ public class CreationController {
 	/**
 	 * @brief getCreationList/창작작품리스트 조회
 	 * @details GET
-	 * @param Creation
+	 * @param Tag, Search, Page, HTtpSession, Model
 	 * @throws Exception
-	 * @return "forward:getCreationList.jsp"
+	 * @return "forward:listCreation.jsp"
 	 */
 	@RequestMapping( value="getCreationList", method=RequestMethod.GET )
 	public String getCreationList(@ModelAttribute("tag") Tag tag, 
@@ -443,9 +442,9 @@ public class CreationController {
 	/**
 	 * @brief getWritingList/창작글 리스트 조회
 	 * @details GET
-	 * @param Creation
+	 * @param Creation, Search, Page, Model
 	 * @throws Exception
-	 * @return "forward:getWritingList.jsp"
+	 * @return "forward:listWriting.jsp"
 	 */
 	@RequestMapping( value="getWritingList", method=RequestMethod.GET )
 	public String getWritingList( @ModelAttribute("creation") Creation creation,
@@ -493,9 +492,9 @@ public class CreationController {
 	/**
 	 * @brief deleteCreation/작품삭제
 	 * @details GET
-	 * @param Creation 
+	 * @param Creation, HttpSession
 	 * @throws Exception
-	 * @return 
+	 * @return "redirect:getCreationList?email="
 	 */
 	@RequestMapping( value="deleteCreation", method=RequestMethod.GET )
 	public String deleteCreation(@ModelAttribute("creation") Creation creation,
@@ -521,9 +520,9 @@ public class CreationController {
 	/**
 	 * @brief deleteWriting/창작글 삭제
 	 * @details GET
-	 * @param Writing writing 
+	 * @param Writing, HttpSession 
 	 * @throws Exception
-	 * @return "forward:getWritingList?creationNo=creation.getCreationNo()"
+	 * @return "redirect:getWritingList?creationNo="
 	 */
 	@RequestMapping( value="deleteWriting", method=RequestMethod.GET )
 	public String deleteWriting(@ModelAttribute("writing") Writing writing,
@@ -541,7 +540,7 @@ public class CreationController {
 	/**
 	 * @brief addFunding/ 펀딩등록화면으로 이동
 	 * @details GET
-	 * @param 
+	 * @param Search, HttpSession, Model
 	 * @throws Exception
 	 * @return "forward:addFundingView.jsp"
 	 */
@@ -554,8 +553,6 @@ public class CreationController {
 		//Business Logic
 		User user = (User)session.getAttribute("user");
 		
-		System.out.println("addWriting :: "+user.getEmail());
-		System.out.println("===========search ::"+search);
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user);
 		map.put("search", search);
@@ -564,17 +561,17 @@ public class CreationController {
 		
 		model.addAttribute("creationList", creationList);
 		
-		System.out.println("Creation Controller :: /creation/addFunding : GET ===> END");
+		System.out.println("Creation Controller :: /creation/addFunding : GET ===> END\n\n");
 	
-		return "forward:addFundingViewTest.jsp";
+		return "forward:addFundingView.jsp";
 	}
 	
 	/**
 	 * @brief addFunding/ 펀딩글 등록
 	 * @details POST
-	 * @param Funding
+	 * @param Funding, HttpServletRequest, HttpSession, Model
 	 * @throws Exception
-	 * @return "forward:getFunding"
+	 * @return "redirect:/creation/getFunding?fundingNo="
 	 */
 	@RequestMapping(value="addFunding", method=RequestMethod.POST)
 	public String addFunding(@ModelAttribute("Funding") Funding funding,
@@ -599,7 +596,7 @@ public class CreationController {
 	/**
 	 * @brief getFunding/펀딩글 조회
 	 * @details GET
-	 * @param Funding
+	 * @param Funding, HttpSession, Model
 	 * @throws Exception
 	 * @return "forward:getFunding.jsp"
 	 */
@@ -619,33 +616,24 @@ public class CreationController {
 		funding.setCreation(creationService.getCreation(map));
 		funding.setPayInfoList(fundingService.getFundingUserList(map));
 		
-//		PayInfo payInfo = new PayInfo();
-//		payInfo.setFundingNo(funding.getFundingNo());
-//		payInfo.setUser((User)session.getAttribute("user"));
-		
-//		if(fundingService.getPayInfo((User)session.getAttribute("user"), payInfo) != null) {
-//			 isFunding = true;
-//		}
-		
-				
+
 		// Model 과 View 연결
 		model.addAttribute("funding", funding);
-//		model.addAttribute("isFunding", isFunding);
 		model.addAttribute("importAPIKey", importAPIKey);
 		model.addAttribute("importAPIsecret", importAPIsecret);
 		model.addAttribute("importIDcode", importIDcode);
 				
 		System.out.println("CreationController :: /creation/getFunding : GET ===> END\n\n");
 		
-		return "forward:getFundingTest.jsp";
+		return "forward:getFunding.jsp";
 	}		
 	
 	/**
 	 * @brief getFundingList/펀딩글리스트 조회
 	 * @details GET
-	 * @param Creation
+	 * @param Creation, Search, Page, HttpSession, Model
 	 * @throws Exception
-	 * @return "forward:getFundingList.jsp"
+	 * @return "forward:listFunding.jsp"
 	 */
 	@RequestMapping( value="getFundingList", method=RequestMethod.GET )
 	public String getFundingList(@ModelAttribute("creation") Creation creation,
@@ -687,15 +675,15 @@ public class CreationController {
 		model.addAttribute("search", search);
 		
 		System.out.println("CreationController :: /creation/getFundingList : GET ===> END\n\n");
-		return "forward:listFundingTest.jsp";
+		return "forward:listFunding.jsp";
 	}	
 	
 	/**
-	 * @brief getPayInfoList/ 조회
+	 * @brief getFundingUserList/ 펀딩참여자 리스트조회
 	 * @details GET
-	 * @param 
+	 * @param Funding, Search, Page, Model
 	 * @throws Exception
-	 * @return "forward:getPayInfoList.jsp"
+	 * @return "forward:listFundingUser.jsp"
 	 */
 	@RequestMapping( value="getFundingUserList", method=RequestMethod.GET )
 	public String getFundingUserList(@ModelAttribute("funding") Funding funding,
@@ -726,7 +714,6 @@ public class CreationController {
 		map.put("fundingNo", funding.getFundingNo());
 		
 		List<PayInfo> payInfoList = fundingService.getFundingUserList(map);
-//		System.out.println("getFundingList :: "+fundingList+"/n");
 
 		// Model 과 View 연결
 		model.addAttribute("payInfoList", payInfoList);
@@ -738,9 +725,9 @@ public class CreationController {
 	/**
 	 * @brief updatePayInfo/ 펀딩참여정보 수정
 	 * @details POST
-	 * @param PayInfo, HttpSession
+	 * @param PayInfo,HttpSession, creationNo, Model
 	 * @throws Exception
-	 * @return boolean
+	 * @return "redirect:/creation/getFunding?fundingNo="
 	 */
 	@RequestMapping(value="updatePayInfo", method=RequestMethod.POST)
 	public String updatePayInfo(@ModelAttribute PayInfo payInfo,
@@ -753,7 +740,7 @@ public class CreationController {
 		payInfo.setUser((User)session.getAttribute("user"));
 		fundingService.updatePayInfo(payInfo.getUser(), payInfo);
 		
-		System.out.println("CreationRestController :: /creation/updatePayInfo ==> END");
+		System.out.println("CreationRestController :: /creation/updatePayInfo ==> END\n\n");
 		
 		return "redirect:/creation/getFunding?fundingNo="+payInfo.getFundingNo()+"&creationNo="+creationNo;
 	}

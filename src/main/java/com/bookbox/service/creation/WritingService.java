@@ -35,7 +35,7 @@ public interface WritingService {
 	 * @brief 창작글 조회 
 	 * @param User, Writing
 	 * @throws Exception
-	 * @return void
+	 * @return Writing
 	 */		
 	public Writing getWriting(User user, Writing writing) throws Exception;
 	

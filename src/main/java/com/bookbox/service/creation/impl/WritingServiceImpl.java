@@ -117,7 +117,7 @@ public class WritingServiceImpl implements WritingService {
 	 * @brief 창작글 조회 
 	 * @param User , Writing 
 	 * @throws Exception
-	 * @return void
+	 * @return Writing
 	 */		
 	@Override
 	public Writing getWriting(User user, Writing writing) throws Exception{
@@ -201,7 +201,7 @@ public class WritingServiceImpl implements WritingService {
 	}
 
 	/**
-	 * @brief  평점등록 
+	 * @brief  댓글등록 
 	 * @param Map<String,Object>
 	 * @throws Exception
 	 * @return void
