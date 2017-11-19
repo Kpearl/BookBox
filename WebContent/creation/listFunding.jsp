@@ -2,6 +2,7 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -158,7 +159,7 @@
 						 
 						 <div class="row funding-bottom" style="position:relative;margin-right: 15px;padding-top:15px;margin-left:10px;">
 	                          <div class="funding-endDate" style="bottom: 5px;float: left;">${funding.fundingEndDate }</div>
-							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%</div>
+							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;"><fmt:formatNumber value="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" pattern="0.0"/>%</div>
 						</div>
 					</div>
 					<c:if test="${funding.active ==0 }">
@@ -170,39 +171,7 @@
 				</div>
 			</div>
 			
-        
 
-        <!-- 실제 데이터 들어갈 곳 -->
-		<%-- <c:forEach items="${fundingList}" var="funding">
-            <div class="col-md-6 funding-content">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1" style="border:1px solid">
-                        <div class="row">
-                           	<input type="hidden" name="fundingNo" value="${funding.fundingNo}">
-                           	<input type="hidden" name="creation.creationNo" value="${funding.creation.creationNo}">
-                            <div class="col-md-5 col-xs-4">
-                            	<img class="img-thumbnail img-responsive funding-get" src="../resources/upload_files/images/${funding.fundingFileName}">
-                            </div>
-                            <div class="col-md-7 col-xs-8">
-                                <h4 class="btn-link funding-get">${funding.fundingTitle}</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success progress-bar-striped active" 
-                                    		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
-                                    		style="min-width: 2em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
-                                    	${(funding.perFunding * fn:length(funding.payInfoList)) / funding.fundingTarget * 100}%
-                                    </div>
-                                </div>
-                                <p class="text-right">${funding.fundingTarget}</p>
-                                <p class="text-right">${funding.fundingEndDate}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-            
-        </div>
-    </div> --%>
     
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>

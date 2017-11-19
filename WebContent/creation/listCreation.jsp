@@ -50,7 +50,9 @@
     .funding-badge{
     	position: absolute;
     	z-index: 3;
-   	    transform: translate(-50%,-50%);
+   	     transform: translate(-50%,-30%); 
+   	    background-color: antiquewhite;
+    	border-radius: 50%;
     }
  
     </style>
@@ -119,7 +121,10 @@
 				<c:forEach var="creation" items="${creationList }" >
 				  		 <div class="row creation-list" >
 				  		 <c:if test="${creation.doFunding }">
-							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+				  		 	<div class="funding-badge">
+							<img src="https://icongr.am/entypo/credit.svg?size=25px&color=ff9a3c" style="position: absolute; left: 50%;top: 50%;transform: translate(30%, -105%);">
+							<img src="https://icongr.am/material/account-multiple.svg?size=45px&color=092a35"></div>	
+								
 						 </c:if>	
 							<div class="col-sm-4 col-md-4" style="padding: 0;height:100%;background-color:rgba(114, 114, 114, 0.48);overflow:hidden;">
 								<img  class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${creation.creationFileName}" name="creationFile">

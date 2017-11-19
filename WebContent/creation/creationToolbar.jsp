@@ -119,7 +119,7 @@
  
  //============= 내가 작성한 글 Event  처리 =============
 	$('.create-writing').on('click' ,function(){
-		$(self.location).attr("href","../creation/getCreationList?condition=5");
+		$(self.location).attr("href","../creation/getCreationList?condition=5&keyword=${sessionScrope.user.email}");
 	})
  //============= 내가 구독한 글 Event  처리 =============
 	$('li.subscribe-writing-test').on('click' ,function(){

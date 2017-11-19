@@ -81,6 +81,8 @@
     	position: absolute;
     	z-index: 3;
    	    transform: translate(-50%,-40%);
+   	    background-color: antiquewhite;
+    	border-radius: 50%;
     }
 	
   
@@ -204,7 +206,7 @@
    		});
 	//============= 펀딩보러가기 ====================	
 	  $(".go-funding").on("click" , function() {
-		$(self.location).attr("href","../creation/getFundingList?creationNo="+$("input[name='creationNo']").val());
+		$(self.location).attr("href","../creation/getFundingList?creationNo="+$("input[name='creationNo']").val()+"&condition=1");
 	  });
 	//============= 작가 북로그 보러가기 ====================	
 	  $(".creation-author").on("click" , function() {
@@ -258,7 +260,9 @@
 				<input type ="hidden" name="creationNo" value="${creation.creationNo }"/>
             <div class="col-md-5" style="height: 100%">
             	<c:if test="${creation.doFunding }">
-					<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=70px&color=ff9a3c"></div>	
+					<div class="funding-badge">
+							<img src="https://icongr.am/entypo/credit.svg?size=25px&color=ff9a3c" style="position: absolute; left: 50%;top: 50%;transform: translate(50%, -120%);">
+							<img src="https://icongr.am/material/account-multiple.svg?size=65px&color=092a35"></div>	
 				</c:if>
             	<img class="img-rounded img-responsive  img-object-fit" src="../resources/upload_files/images/${creation.creationFileName }">
             </div>

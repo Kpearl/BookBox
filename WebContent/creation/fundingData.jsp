@@ -32,7 +32,7 @@
 	funding.setFundingEndDate(new Date(2017,11,30));
 	funding.setFundingTarget(5000);
 	funding.setPerFunding(100);
-	funding.setFundingImage("test.jpg");
+	/* funding.setFundingFileName("test.jpg"); */
 	
 	user.setEmail("krinsa@naver.com");
 	creation.setCreationNo(30);
@@ -58,7 +58,7 @@
 	funding2.setFundingEndDate(new Date(2017,11,25));
 	funding2.setFundingTarget(50000);
 	funding2.setPerFunding(2000);
-	funding2.setFundingImage("test.jpg");
+	/* funding2.setFundingImage("test.jpg"); */
 	
 	Creation creation2 = new Creation();
 	creation2.setCreationNo(32);

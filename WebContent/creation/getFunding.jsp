@@ -141,8 +141,8 @@
 		                                        pay_method : 'card',
 		                                        merchant_uid : 'merchant_' + new Date().getTime(),
 		                                        name : $('#fundingTitle').val(),
-		                                        amount : '1000',		                                   
-		                                        //  amount : $('#perFunding').val(),
+		                                     //   amount : '1000',		                                   
+		                                        amount : $('#perFunding').val(),
 		                                        buyer_email : "${sessionScope.user.email}",
 		                                        buyer_name : $('.name-fundingInfo').val(),
 		                                        buyer_tel : $('.phone').val(),
@@ -390,14 +390,14 @@
 		                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
 		                          </div>
 		                     </div>
-	                     </div> <!--progress bar END  --> --%>
+	                     </div> <!--progress bar END  --> 
                 <div class="row funding-target text-right" style="font-size:large;"> 목표금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.fundingTarget }" pattern="#,###"/></strong>원</div>
                	<div class="row perFunding text-right" style="padding-left: 0;margin-left: 0;font-size:initial;font-family: unset;font-weight: 500;margin-top: 0;">
                	참여금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.perFunding}" pattern="#,###"/></strong> 원
                	</div>
                 <div class="row funding-endDate text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">${funding.fundingEndDate}</div>
                 <div class="row funding-percent" style="margin-left: 0;font-size:18px;font-family: unset;">
-                	<strong style="font-size:20px;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}</strong>% 달성!
+                	<strong style="font-size:20px;"><fmt:formatNumber value="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" pattern="0.0"/></strong>% 달성!
                 </div>
                 <div class="row funding-join-count text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">
                 	<strong style="font-size:20px;">${fn:length(funding.payInfoList) }</strong>명 참여중

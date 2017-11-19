@@ -2,6 +2,7 @@
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -152,7 +153,9 @@
    		.funding-badge{
     	position: absolute;
     	z-index: 3;
-   	    transform: translate(-80%,-30%); 
+   	    transform: translate(-100%,-30%); 
+ 	    background-color: antiquewhite;
+    	border-radius: 50%;
     }
     	
     	
@@ -333,7 +336,8 @@ $(function() {
 	                     </div>
 						 <div class="funding-bottom" style="position:relative;margin-right: 10px;">
 	                          <div class="funding-endDate" style="padding-left: 10px;bottom: 5px;float: left;">${funding.fundingEndDate }</div>
-							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;">${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%</div>
+							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;">
+							  <fmt:formatNumber value="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" pattern="0.0"/>%</div>
 						</div>
 					</div>
 					<c:if test="${funding.active ==0 }">
@@ -363,7 +367,9 @@ $(function() {
 		  		 <div class="row creation-list" >
 					<div class="col-sm-4 col-md-4" style="height:100%;background-color:rgba(114, 114, 114, 0.48);">
 					<c:if test="${fiction.doFunding }">
-							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+							<div class="funding-badge">
+							<img src="https://icongr.am/entypo/credit.svg?size=25px&color=ff9a3c" style="position: absolute; left: 50%;top: 50%;transform: translate(30%, -105%);">
+							<img src="https://icongr.am/material/account-multiple.svg?size=45px&color=092a35"></div>	
 					</c:if>	
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${fiction.creationFileName}" name="creationFile">
 					</div>
@@ -431,7 +437,9 @@ $(function() {
 					</div>
 					<div class="col-sm-4 col-md-4" style="height:100%; background-color:rgba(114, 114, 114, 0.48);">
 						<c:if test="${nonfiction.doFunding }">
-							<div class="funding-badge"><img src="https://icongr.am/entypo/price-ribbon.svg?size=50px&color=ff9a3c"></div>	
+							<div class="funding-badge">
+							<img src="https://icongr.am/entypo/credit.svg?size=25px&color=ff9a3c" style="position: absolute; left: 50%;top: 50%;transform: translate(30%, -105%);">
+							<img src="https://icongr.am/material/account-multiple.svg?size=45px&color=092a35"></div>	
 						</c:if>
 						<img style="position: absolute;  left: 50%;  top: 50%; transform: translate(-50%, -50%);" class="img-responsive img-object-fit" alt="Image" src="../resources/upload_files/images/${nonfiction.creationFileName }" name="creationFile">
 					</div>
