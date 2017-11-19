@@ -108,8 +108,8 @@ public class BooklogServiceImpl implements BooklogService {
 		for(String isbn : isbnList) {
 			try {
 				Book book = bookSearchDAO.getBook(isbn);
-				User user = new User();
-				user.setEmail((String)map.get("email"));
+				User user = (User)map.get("user");
+				System.out.println(user);
 				Map<String, Object> mappingCategoryTarget = CommonUtil.mappingCategoryTarget(Const.Category.BOOK, book.getIsbn(), user);
 				book.setLike(commonDAO.getLike(mappingCategoryTarget));
 				book.setGrade(commonDAO.getGrade(mappingCategoryTarget));

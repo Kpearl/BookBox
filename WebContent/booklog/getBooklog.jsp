@@ -54,15 +54,8 @@
     	}
     	.book-like-detail > *{
     		text-align: center;
-    		position: absolute;
     		padding: 10%;
     		height: 100%;
-    		width: 100%;
-    		top: 50%;
-    		left: 50%;
-    		-webkit-transform: translate(-50%, -50%);
-    		   -moz-transform: translate(-50%, -50%);
-    				transform: translate(-50%, -50%);
     	}
     	.book-thumbnail .img-object-fit{
     		width: auto;
@@ -78,7 +71,7 @@
     		top: 0;
     		left: 10%;
     		width: 80%;
-    		padding: 10%;
+    		padding: 5%;
     		cursor: pointer;
     	}
     	.book-detail > div{
@@ -160,7 +153,7 @@
 	    }
 	    ul.timeline{
 	    	position: relative;
-	    	margin: 0 0 30px 0;
+	    	margin: 30px 0;
 	    	padding: 0;
 	    	list-style: none;
 	    }
@@ -238,6 +231,9 @@
 	    .log-more-background{
 	    	background-color: #d2d6de !important;
 	    }
+	    .timeline-body-funding-able{
+			background-color: rgb(250, 235, 215);
+	    }
 	    
 	    .booklog-update-form{
 			background: rgba(0, 0, 0, 0);
@@ -261,6 +257,9 @@
 		
 		$('a.my-info').on('click', function(){
 			$(self.location).attr("href","../user/getUser?email="+booklogUser);
+		});
+		$('.booklog-content-num .glyphicon-pencil').on('click', function(){
+			$(self.location).attr('href', '../creation/getCreation?condition=5&keyword='+booklogUser);
 		});
 		$('a.book-like-list').on('click', function(){
 			$(self.location).attr('href', '../booklog/getBookLikeList?email='+booklogUser+'&nickname='+booklogUserNickname);
@@ -640,6 +639,13 @@
 	function fncAddLogCSS(){
 		$('.timeline-body').off('click').on('click', function(){
 			$(self.location).attr('href', $(this).find('input[name="link"]').val());
+		}).addClass(function(){
+			var behavior = $(this).parent().parent().find('.log-category').find('input[name="behavior"]').val();
+			console.log(behavior);
+			if(behavior == 9){
+				return 'timeline-body-funding-able';
+			}
+			return '';
 		});
 		
 		$('.log-category').removeClass(function(){
@@ -802,7 +808,7 @@
 						
 						<div class="row text-center booklog-content-num">
 							<div class="col-xs-4 text-center">
-								<span class="content-icon"><i class="glyphicon glyphicon-pencil"></i></span><br/>
+								<span class="content-icon"><i class="glyphicon glyphicon-pencil" style="cursor: pointer;"></i></span><br/>
 								<span class="content-count"><img class="loading-img" src="../resources/images/loading.gif" style="height: 25px;"></span>
 							</div>
 							<div class="vertical-line"></div>
@@ -888,12 +894,12 @@
 			</div>
 
 
-			<div class="col-md-8 col-md-pull-4" style="background: #eeeeee;">
+			<div class="col-md-8 col-md-pull-4">
 				<div class="row">
 				
 					<div class="col-md-12">
 					
-						<div class="row text-center category-space">
+						<div class="row text-center category-space" style="background: #eeeeee;">
 							<h2>- 좋아하는 책 -</h2>
 						</div>
 					
@@ -903,11 +909,13 @@
 								<c:forEach items="${bookLikeList}" var="book">
 									<div class="col-xs-6 col-sm-3 book-like-detail">
 										<div class="book-thumbnail">
-											<img class="img-object-fit" src="http://t1.daumcdn.net/book/KOR${book.isbn}" onerror="this.src='${book.thumbnail}'">
+											<div style="overflow: hidden; height: 100%; width: 100%; padding: 2%; border-bottom: 1px solid;">
+												<img class="img-object-fit" src="http://t1.daumcdn.net/book/KOR${book.isbn}" onerror="this.src='${book.thumbnail}'">
+											</div>
 											<div class="book-detail">
 												<input type="hidden" name="isbn" value="${book.isbn}">
 												<div>
-													<p>${book.title}</p>
+													<p style="line-height: 3em;">${book.title}</p>
 												</div>
 											</div>
 										</div>
@@ -921,7 +929,7 @@
 			        		<h3>아직 좋아하는 책이 없습니다!</h3>
 			        	</c:if>
 					
-						<div class="row text-center category-space">
+						<div class="row text-center category-space" style="background: #eeeeee;">
 							<h2>- 포스팅 -</h2>
 						</div>
 						<c:if test="${booklog.postingList.size() != 0}">
@@ -971,10 +979,10 @@
 				
 			</div>
 			
-			<div class="col-md-8 col-md-pull-4" style="background: #eeeeee;">
+			<div class="col-md-8 col-md-pull-4">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="row text-center category-space">
+						<div class="row text-center category-space" style="background: #eeeeee;">
 							<h2>- 활동 내역 -</h2>
 						</div>
 					

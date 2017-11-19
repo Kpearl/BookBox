@@ -30,7 +30,6 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.LogService;
-import com.bookbox.common.service.TagService;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.booklog.BooklogService;
 import com.bookbox.service.booklog.PostingService;
@@ -66,10 +65,6 @@ public class BooklogController {
 	@Autowired
 	@Qualifier("logServiceImpl")
 	private LogService logService;
-	
-	@Autowired
-	@Qualifier("tagServiceImpl")
-	private TagService tagService;
 	
 	//한페이지에 보여줄 갯수
 	@Value("#{commonProperties['pageSize']}")
@@ -326,15 +321,17 @@ public class BooklogController {
 	}
 	
 	@RequestMapping( value="getBookLikeList", method=RequestMethod.GET )
-	public String getBookLikeList(@RequestParam("email") String email, @RequestParam("nickname") String nickname, Model model) {
+	public String getBookLikeList(@ModelAttribute User user, HttpSession session, Model model) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("email", email);
+		map.put("email", user.getEmail());
+		map.put("user", session.getAttribute("user"));
 		List<Book> bookList = booklogService.getBookLikeList(map);
 		
 		
 		model.addAttribute("bookList", bookList);
 		model.addAttribute("total", bookList.size());
-		model.addAttribute("keyword", nickname + "님이 좋아하는 책");
+		model.addAttribute("keyword", user.getNickname() + "님이 좋아하는 책");
 		
 		return "forward:../unifiedsearch/listBook.jsp";
 	}

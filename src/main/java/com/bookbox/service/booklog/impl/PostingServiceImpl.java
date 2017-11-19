@@ -106,6 +106,11 @@ public class PostingServiceImpl implements PostingService {
 		return true;
 	}
 	
+	
+	/**
+	 * @brief postingFileList 내의 uploadFile에 categoryNo를 넣어주는 method
+	 * @param posting
+	 */
 	public void insertPostingNoIntoUploadFileList(Posting posting) {
 		for(UploadFile uploadFile : posting.getPostingFileList()) {
 			uploadFile.setCategoryNo(Const.Category.POSTING);

@@ -46,8 +46,6 @@ public class PostingDAOImpl implements PostingDAO {
 	public boolean updatePosting(Posting posting) {
 		// TODO Auto-generated method stub
 		sqlSession.update("PostingMapper.updatePosting", posting);
-//		sqlSession.delete("PostingMapper.deletePostingLocation", posting);
-//		addPostingLocation(posting);
 		return true;
 	}
 

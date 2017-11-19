@@ -181,6 +181,12 @@ public class BooklogRestController {
 		return booklogService.deleteBooklogBookmark(user, booklog);
 	}
 	
+	/**
+	 * @brief email 유저의 로그 목록 호출
+	 * @param email 로그를 가져올 유저 email
+	 * @param active 가져올 페이지 넘버(currentPage 역할)
+	 * @return 해당 유저의 해당 페이지 로그리스트
+	 */
 	@RequestMapping( value="getLogList/{email}/{active}", method=RequestMethod.GET )
 	public List<Log> getLogList(@PathVariable("email") String email, @PathVariable("active") int active){
 		User booklogUser = new User();
@@ -190,6 +196,15 @@ public class BooklogRestController {
 		return logService.getLogList(booklogUser);
 	}
 	
+	/**
+	 * @brief 북로그 프로필에 보여질 창작작품수, 포스팅수, 책갈피수를 가져옴
+	 * @param id 유저 이메일의 id
+	 * @param domain 유저 이메일의 domain
+	 * @param dot 유저 이메일의 마지막
+	 * @param index
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping( value="getCounts/{id}/{domain}/{dot}/{index}", method=RequestMethod.GET )
 	public Map<String, String> getCounts(@PathVariable("id") String id, @PathVariable("domain") String domain,
 											@PathVariable("dot") String dot, @PathVariable("index") int index,

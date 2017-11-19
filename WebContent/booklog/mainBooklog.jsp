@@ -159,10 +159,6 @@
 				var booklogNo = $(this).find('input[name="booklogNo"]').val();
 				$(self.location).attr("href","../booklog/getBooklog?booklogNo="+booklogNo);
 			});
-			$('a.posting-user').on('click', function(){
-				var user = $(this).find('input[name="user.email"]').val();
-				$(self.location).attr("href","../booklog/getBooklog?user.email="+user);
-			});
 	
 			$('.posting-content').on('click', function(){
 				var postingNo = $(this).find('input[name="postingNo"]').val();
@@ -276,7 +272,7 @@
 						<div class="swiper-slide posting-slide4 col-md-9"></div>
 					</div>
 			        <div class="swiper-pagination swiper-pagination-black"></div>
-					<a class="posting-list">더보기 &gt</a>
+					<a class="posting-list">더보기 <span><i class="glyphicon glyphicon-chevron-right"></i></span></a>
 				</div>
 
 			</div>
@@ -323,7 +319,7 @@
 		    		</div>
 		    	</c:forEach>
 		    
-				<a class="booklog-list">더보기 &gt</a>
+				<a class="booklog-list">더보기 <span><i class="glyphicon glyphicon-chevron-right"></i></span></a>
 	    	</div>
 	    </div>
 		

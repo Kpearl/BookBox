@@ -41,29 +41,9 @@ $(function() {
 		//self.location = "/user/logout"
 	}); 
 		
-//============= 내정보조회 Event  처리 =============	
-  	$("a.nav-userinfo").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}user/getUser?email=${sessionScope.user.email}");
-	}); 
-
 //============= 내북로그보기 Event  처리 =============	
   	$("a.nav-booklog-my").on("click" , function() {
  		$(self.location).attr("href","${param.uri}booklog/getBooklog?user.email=${sessionScope.user.email}");
-	}); 
-  
-//============= 구독한 글보기 Event  처리 =============	
-  	$("a.nav-subscribe").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}creation/getCreation?email=${sessionScope.user.email}&subscribe");
-	}); 
-  
-//============= 좋아요 책목록 보기 Event  처리 =============	
-  	$("a.nav-booklike").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}booklog/getBookLikeList?email=${sessionScope.user.email}");
-	}); 
-
-//============= 책갈피 목록보기 Event  처리 =============	
-  	$("a.nav-bookmark").on("click" , function() {
- 		$(self.location).attr("href","${param.uri}booklog/getBooklogList?condition=bookmark&keyword=${sessionScope.user.email}");
 	}); 
   
 //============= 회원목록조회 Event  처리 =============	
@@ -219,18 +199,6 @@ function searchCheck(){
 <div class="bookbox-nav-menu side-nav">
 	<div class="bookbox-nav-menu side-nav-menu">
 	<c:if test="${!empty sessionScope.user}">
-<%-- 		<li class="dropdown nav-default bookbox-nav-menu"><a class="dropdown-toggle bookbox-nav-menu" data-toggle="dropdown" aria-expanded="false" href="javascript:void(0)">${sessionScope.user.nickname} <span class="caret bookbox-nav-menu"></span></a>
-			<ul class="dropdown-menu bookbox-nav-menu" role="menu">
-				<li role="presentation"><a class="nav-booklog-my bookbox-nav-menu" href="javascript:void(0)">내 북로그보기</a></li>
-				<li role="presentation"><a class="nav-subscribe bookbox-nav-menu" href="javascript:void(0)">구독한글보기</a></li>
-				<li role="presentation"><a class="nav-booklike bookbox-nav-menu" href="javascript:void(0)">좋아요책목록보기</a></li>
-				<li role="presentation"><a class="nav-bookmark bookbox-nav-menu" href="javascript:void(0)">책갈피목록보기</a></li>
-			<c:if test="${sessionScope.user.role == 'admin'}">
-				<li role="presentation"><a class="nav-userlist bookbox-nav-menu" href="javascript:void(0)">회원목록조회</a></li>
-			</c:if>
-				<li role="presentation"><a class="nav-userinfo bookbox-nav-menu" href="javascript:void(0)">내 정보조회</a></li>
-			</ul>
-		</li> --%>
 		<img class="img-object-fit" src="${param.uri}resources/upload_files/images/${sessionScope.user.booklogImage}" style="width: 240px; height: 148px; border-radius: 100%; padding: 20px 65px;">
 		<a class="bookbox-nav-menu nav-booklog-my" href="javascript:void(0)" style="padding: 0; text-align: center;">
 			${sessionScope.user.nickname}
@@ -269,5 +237,10 @@ function searchCheck(){
 		<a class="nav-notice bookbox-nav-menu" href="javascript:void(0)">
 			<i class="glyphicon glyphicon-edit"></i>&nbsp; 공지사항
 		</a>
+		<c:if test="${sessionScope.user.role == 'admin'}">
+			<a class="nav-userlist bookbox-nav-menu" href="javascript:void(0)">
+				<i class="glyphicon glyphicon-edit"></i>&nbsp; 회원목록
+			</a>
+		</c:if>
 	</div>
 </div>

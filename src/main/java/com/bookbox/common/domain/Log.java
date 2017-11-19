@@ -19,7 +19,16 @@ import com.bookbox.service.domain.User;
 public class Log {
 	
 	/**
-	 * @detail user : 누가, logRegDate : 언제, targetName : 어디서, behavior : 무엇을
+	 * @detail 
+	 * 		user : 누가 
+	 * 		logRegDate : 언제
+	 * 		targetName : 어디서
+	 * 		behavior : 무엇을
+	 * 
+	 * 		logTimeAgo : 로그 기록일시로부터 경과된 시간 정보
+	 * 		categoryNo : 로그를 남긴 category
+	 * 		targetNo : 로그를 남긴 대상 PK
+	 * 		addBehavior : 추가적인 behavior
 	 */
 	private User user;
 	private String logRegDate;
@@ -56,6 +65,11 @@ public class Log {
 	}
 
 
+	/**
+	 * @brief DB에 기록된 logRegDate를 받아올 때, 현재 시간으로부터 얼마나 떨어졌는지 계산
+	 * @param logRegDate : 로그 기록 일시
+	 * @throws Exception
+	 */
 	private void setLogTimeAgo(String logRegDate) throws Exception {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0900"));
@@ -126,6 +140,10 @@ public class Log {
 		this.addBehavior = addBehavior;
 	}
 
+	/**
+	 * @brief 해당 로그와 관련있는 조회창으로 가는 링크
+	 * @return 조회 가능한 링크
+	 */
 	public String getLink() {
 		StringBuffer link = new StringBuffer();
 		link.append("../");

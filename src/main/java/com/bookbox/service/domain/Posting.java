@@ -2,7 +2,6 @@ package com.bookbox.service.domain;
 
 import java.util.List;
 
-import com.bookbox.common.domain.Location;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.common.domain.UploadFile;
 
@@ -24,7 +23,6 @@ public class Posting {
 	private List<UploadFile> postingFileList;
 	private String postingRegDate;
 	private String postingUpdateDate;
-	private List<Location> postingLocationList;
 	private List<Tag> postingTagList;
 	private int viewCount;
 	
@@ -88,14 +86,6 @@ public class Posting {
 		this.postingUpdateDate = postingUpdateDate.substring(0,postingUpdateDate.lastIndexOf("."));
 	}
 
-	public List<Location> getPostingLocationList() {
-		return postingLocationList;
-	}
-
-	public void setPostingLocationList(List<Location> postingLocationList) {
-		this.postingLocationList = postingLocationList;
-	}
-
 	public List<Tag> getPostingTagList() {
 		return postingTagList;
 	}
@@ -116,8 +106,8 @@ public class Posting {
 	public String toString() {
 		return "Posting [postingNo=" + postingNo + ", user=" + user + ", postingTitle=" + postingTitle
 				+ ", postingContent=" + postingContent + ", postingFileList=" + postingFileList + ", postingRegDate="
-				+ postingRegDate + ", postingUpdateDate=" + postingUpdateDate + ", postingLocationList="
-				+ postingLocationList + ", postingTagList=" + postingTagList + ", viewCount=" + viewCount + "]";
+				+ postingRegDate + ", postingUpdateDate=" + postingUpdateDate
+				+ ", postingTagList=" + postingTagList + ", viewCount=" + viewCount + "]";
 	}
 
 }

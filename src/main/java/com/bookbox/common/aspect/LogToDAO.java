@@ -37,6 +37,19 @@ public class LogToDAO {
 		System.out.println("Constructor :: "+getClass().getName());
 	}
 	
+	/**
+	 * @brief 로그를 기록할 method를 판별
+	 * @param joinPoint : 서비스에서 실행한 method 정보
+	 * @return 서비스에서 실행한 return값
+	 * @throws Throwable
+	 * @detail
+	 * 		서비스에서 실행한 method 이름을 parsing하여
+	 * 		category, behavior, addBehavior를 분류하고
+	 * 		각각의 조건을 비교 후 로그를 기록 또는 생략한다.
+	 * 		로그를 남기기 위해서는 다음 두 가지의 조건을 필수로 만족해야 한다.
+	 *		1. 첫 번째 parameter는 email 정보가 있는 User 객체이어야 한다.
+	 *		2. 두 번째 parameter는 각 개체에 알맞는 PK가 존재하는 도메인 객체이어야 한다.
+	 */
 	public Object logWrite(ProceedingJoinPoint joinPoint) throws Throwable{
 
 		String methodName = joinPoint.getSignature().getName();
@@ -111,6 +124,12 @@ public class LogToDAO {
 		return obj;
 	}
 	
+	/**
+	 * @brief 서비스 실행 시 method 정보와 리턴값을 출력한다.
+	 * @param joinPoint
+	 * @return method 실행 return 값
+	 * @throws Throwable
+	 */
 	public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable{
 		
 		System.out.println("[Around before] " + 
@@ -124,6 +143,12 @@ public class LogToDAO {
 		return obj;
 	}
 
+	/**
+	 * @brief method 이름에서 category를 추출
+	 * @param methodName : 서비스에서 실행된 method의 이름
+	 * @return categoryNo
+	 * @detail const.properties에 있는 정보를 토대로 parsing을 진행한다.
+	 */
 	public int parseCategoryToInt(String methodName) {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();
@@ -142,6 +167,12 @@ public class LogToDAO {
 		return Const.NONE;
 	}
 	
+	/**
+	 * @brief method 이름에서 behavior를 추출
+	 * @param methodName : 서비스에서 실행된 method의 이름
+	 * @return behavior
+	 * @detail const.properties에 있는 정보를 토대로 parsing을 진행한다.
+	 */
 	public int parseBehaviorToInt(String methodName) {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();
@@ -155,6 +186,12 @@ public class LogToDAO {
 		return Const.NONE;
 	}
 	
+	/**
+	 * @brief method 이름에서 addBehavior를 추출
+	 * @param methodName : 서비스에서 실행된 method의 이름
+	 * @return addBehavior
+	 * @detail const.properties에 있는 정보를 토대로 parsing을 진행한다.
+	 */
 	public int parseAddBehaviorToInt(String methodName) {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();
@@ -168,6 +205,12 @@ public class LogToDAO {
 		return Const.NONE;
 	}
 	
+	/**
+	 * @brief 전달받은 도메인 객체에서 알맞은 PK값을 추출한다.
+	 * @param target : 서비스 실행시 전달받은 도메인 객체
+	 * @param returnObject : 서비스 실행 후 return 받아온 도메인 객체
+	 * @return 전달받은 도메인 객체의 PK값
+	 */
 	public Object getTargetNo(Object target, Object returnObject) {
 		
 		Object targetNo = null;
@@ -194,6 +237,12 @@ public class LogToDAO {
 		return targetNo;
 	}
 	
+	/**
+	 * @brief User의 instance가 로그를 남기기 유효한지 판별 
+	 * @param joinPoint
+	 * @return 로그를 남기는 유저인 경우 true, 아닐 경우 false
+	 * @throws Throwable
+	 */
 	public boolean checkUserLogin(ProceedingJoinPoint joinPoint) throws Throwable{
 		if(joinPoint.getArgs() == null) {
 			return false;
