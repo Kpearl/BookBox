@@ -10,12 +10,19 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+
+<script type="text/javascript">
+	var condition;
+	ToolbarOpacHeight(500);
+</script>
 </head>
 <body>
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
-	
+	<header class="parallax"></header>
 	<!-- 무한 스크롤 -->
 	<section>
 		<div class="activity" style="width:100%; float:left">

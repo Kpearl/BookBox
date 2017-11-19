@@ -39,6 +39,14 @@
     <link rel="stylesheet" href="../resources/css/custom.css">
     
     <style type="text/css">
+    	.container{
+    		height: 100%;
+    	}
+    	
+    	.total-container{
+    		border-top: 20px solid #62bfad;
+    		padding-top: 20px;
+    	}
     	.cast-container{
     		margin: 20px 0 0 0;
     		overflow: hidden;
@@ -52,14 +60,12 @@
     		height: 300px;
     		*/
     	}
-    	.container{
-    		height: 100%;
-    		background-color: #62bfad38;
-    	}
+    	
    		.chat-container{
    			border: solid 2px #62BFAD; 
    			overflow: hidden;
    			transition: height 1s;
+   		/*	background-color: #62bfad38;*/
    		}
    		
    		.chat-output{
@@ -86,10 +92,18 @@
    		
    		.chat-input{
    			height: 10%;
-   			padding-top: 20px !important;
+   			background-color: #eee !important;
+   			height: 25px !important;
+   			padding-top: 0px !important;
+   		}
+   		.container-roominfo{
+   			padding: 15px;
    		}
     	.room-info{
-    		margin-top: 20px;
+    		margin: 20px 0 0 0;
+    		background-color: #62bfad38;
+    		padding: 15px;
+    		border-top: 10px solid  #62bfad;
     	}
     	.room-info .title{
     		font-weight: bold;
@@ -225,74 +239,53 @@
 	 	<input type="hidden" id="role" value="guest">
 	 </c:if>
 	 
-	 
-	 <!--  방정보 출력
-	 <div class="roomInfo" style="display: none;">
-	 		<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">방 제목</span>
-			 <input type="text" name="title" class="form-control" value="${chatRoom.title}" placeholder="Title" aria-describedby="title-addon" disabled/>
-			</div>
-			
-			<div class="input-group">
-	 			<span class="input-group-addon" id="content-addon">방 내용</span>
-				<textarea  name="content" class="form-control" placeholder="Title" aria-describedby="content-addon">${chatRoom.content }</textarea>
-			</div>
-			<div class="input-group">
-	 		 <span class="input-group-addon" id="title-addon">인원</span>
-			 <input type="text" name="maxUser" value="${chatRoom.maxUser}" class="form-control" placeholder="Title" aria-describedby="title-addon"/>
-			</div>
-			<div id="tagNames">
-				<c:forEach items="${chatRoom.tagList}" var="tag">
-				<span>${tag.tagName }</span>
-				</c:forEach>
-			</div>
-			<div class="make-center" id="broadcast-viewers-counter"></div>
-	</div>
-	  -->
-	 <!--  방정보 끝 -->
 	 <br>
-	<div class="text-right">
-		<a class="btn-custom" id="exit">나가기</a>
-	</div>	
-	<div class="cast-container row">
-		<div class="col-sm-7 video-container">
-	      <video id="video-preview" controls loop></video>
-		</div>
-		<div class="col-sm-5 chat-container">
-			<div class="chat-output">
+	<div class="total-container"> 
+		<div class="text-right">
+			<a class="btn-custom" id="exit">나가기</a>
+		</div>	
+		<div class="cast-container row">
+			<div class="col-sm-7 video-container">
+		      <video id="video-preview" controls loop></video>
 			</div>
-			<div class="input-group">
-				<input type="text" class="chat-input form-control">
-				<span class="input-group-addon addon-custom" id="addTagBtn">
-					<a class="btn-custom">전송</a>
-				</span>
+			<div class="col-sm-5 chat-container">
+				<div class="chat-output">
+				</div>
+				<hr/>
+				<div class="input-group">
+					<input type="text" class="chat-input form-control">
+					<span class="input-group-addon addon-custom" id="addTagBtn">
+						<a class="btn-custom">전송</a>
+					</span>
+				</div>
 			</div>
-		</div>
-		<div class="col-sm-7 room-info">
-			<div class="title">${chatRoom.title}</div>
-			
-			<hr/>
-			<div class="host-img"><img src="../resources/upload_files/images/${chatRoom.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'"></div>
-			<div class="host-nickname">${chatRoom.host.nickname}</div>
-			<div class="regdate">${chatRoom.regDate}</div>
-			<div class="current-user"><span>시청자</span><span id="currentUser">0</span></div>
-			<div class="content"><br/><br/>${chatRoom.content}</div>
-			<div calss="tag-list">
-				<c:forEach items="${chatRoom.tagList}" var="tag">
-					<span class="tag">#${tag.tagName}</span>
-				</c:forEach>
+			<div class="col-sm-7 container-roominfo">
+				<div class="room-info">
+					<div class="title">${chatRoom.title}</div>
+					
+					<hr/>
+					<div class="host-img"><img src="../resources/upload_files/images/${chatRoom.host.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'"></div>
+					<div class="host-nickname">${chatRoom.host.nickname}</div>
+					<div class="regdate">${chatRoom.regDate}</div>
+					<div class="current-user"><span>시청자</span><span id="currentUser">0</span></div>
+					<div class="content"><br/><br/>${chatRoom.content}</div>
+					<div class="tag-list">
+						<c:forEach items="${chatRoom.tagList}" var="tag">
+							<span class="tag">#${tag.tagName}</span>
+						</c:forEach>
+					</div>
+				</div>
 			</div>
+			<div class="col-sm-5 chat-option text-right">
+				<c:if test="${ user.email == chatRoom.host.email }">
+					<a class="btn-custom " id="chatMute">채팅금지</a>
+					<br>
+					<label><input type="checkbox" id="enableReceiveChat">채팅숨기기</label>
+				</c:if>
+			</div>
+				
 		</div>
-		<div class="col-sm-5 chat-option text-right">
-			<c:if test="${ user.email == chatRoom.host.email }">
-				<a class="btn-custom " id="chatMute">채팅금지</a>
-				<br>
-				<label><input type="checkbox" id="enableReceiveChat">채팅숨기기</label>
-			</c:if>
-		</div>
-			
 	</div>
-
 	<h1 style="display: none;"></h1>
 </div>
 <!-- <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script> -->

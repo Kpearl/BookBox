@@ -27,6 +27,29 @@
   	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 	
+	
+	<style type="text/css">
+		.login-title{
+			background-color: #444;
+			color: floralwhite;		
+			font-size: 35px;
+			text-align: center;
+		}
+	
+		.btn-group .btn{
+			box-shadow: 0 0 0 !important;
+			border: 1px solid #888;
+			margin: 5px !important;
+			color: #888;
+		} 
+		.ex-login{
+			margin-top: 15px;
+		}
+		
+		.abcRioButton.abcRioButtonLightBlue { margin: 0 auto;}
+		
+		
+	</style>
 	<script type="text/javascript">
 	
 		//============= naver 로그인  =============
@@ -126,7 +149,7 @@
 				'scope': 'profile email',
 				'width': 205,
 				'height': 49,
-				'longtitle': true,
+				'longtitle': false,
 				'theme': 'light',
 				'onsuccess': onSuccess,
 				'onfailure': onFailure
@@ -205,18 +228,20 @@
 		<div class="row">
 			<div class="col-md-offset-3 col-md-6">
 				<form class="form-horizontal">
-					<h1>Login</h1>
+					<div class="login-title">
+						Login
+					</div>
 					<hr>
 					<div class="form-group">
-						<label for="email" class="col-sm-6 col-md-4 control-label">Your email :</label>
-						<div class="col-sm-6 col-md-8">
+						<label for="email" class="col-sm-4 col-md-4 control-label">Your email :</label>
+						<div class="col-sm-8 col-md-8">
 							<input type="text" class="form-control" id="email" name="email" placeholder="email@bookbox.com" value="${user.email}">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="password" class="col-sm-6 col-md-4 control-label">And your password</label>
-						<div class="col-sm-6 col-md-8">
+						<label for="password" class="col-sm-4 col-md-4 control-label">And your password</label>
+						<div class="col-sm-8 col-md-8">
 							<input type="password" class="form-control" id="password" name="password" placeholder="password">
 						</div>
 					</div>
@@ -228,7 +253,7 @@
 					<input type="hidden" name="outerAccount" id="outerAccount" value="0">
 					
 					<br/>
-					<div class="row">
+					<div class="row" style="margin: 0 0 0 0;">
 						<div class="btn-group btn-group-justified" role="group">
 							<a class="btn user-login" role="button">Login</a>
 							<a class="btn user-sign-in" role="button">Sign in</a>
@@ -241,13 +266,17 @@
 					<a id="kakao-login-btn"></a>
 					<a href="http://developers.kakao.com/logout"></a>
 -->
-					<div class="form-group">
-						<!-- kakao 커스텀 버튼 -->
-						<a id="custom-login-btn" href="javascript:loginWithKakao()">
-							<img src="../resources/images/kakao_login_btn/login/en/kakao_account_login_btn_medium_narrow.png" />
-						</a>
-		  				<!-- google 로그인 커스텀 -->
-		  				<div id="my-signin2"></div>
+					<div class="row text-center">
+						<div class="col-sm-6 col-xs-12 ex-login">
+							<!-- kakao 커스텀 버튼 -->
+							<a id="custom-login-btn" href="javascript:loginWithKakao()">
+								<img src="../resources/images/kakao_login_btn/login/en/kakao_account_login_btn_medium_narrow.png" />
+							</a>
+						</div>
+						<div class="col-sm-6 col-xs-12 ex-login">
+			  				<!-- google 로그인 커스텀 -->
+			  				<div id="my-signin2" ></div>
+		  				</div>
 					</div>
 <!-- 					google 아이디로로그인 버튼 노출 영역
 	  				<div class="g-signin2" data-onsuccess="onSignIn"></div>

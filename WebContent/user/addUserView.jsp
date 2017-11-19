@@ -13,7 +13,38 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+
+<style type="text/css">
+		
+		
+		body{
+	    	padding-top:0px;
+	    }
+	    
+	    header{
+	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    }
+
+		.signup-title{
+			background-color: #444;
+			color: floralwhite;		
+			font-size: 35px;
+			text-align: center;
+		}
+		
+		 .btn-custom{
+			border-radius: 5px;
+			border: 1px solid #444;
+			padding: 10px;
+			color: #444;
+		}
+
+</style>
 <script type="text/javascript">
+	var condition;
+	ToolbarOpacHeight(500);
 
 	var emailJSONData;
 	var nicknameJSONData;
@@ -21,7 +52,7 @@
 //============= "가입"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$( "button:contains('Sign Up')" ).bind("click" , function() {
+	$( "a:contains('Sign Up')" ).bind("click" , function() {
 		
 		fncAddUser();
 	});
@@ -211,79 +242,94 @@ $(function() {
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
+	
 	<div class="container signup">
 		
+		<!--  
 		<div class="col-md-offset-3 col-md-6">
-			<h1>Sign up for BookBox</h1>
+		-->
+		<div class="">
+			<div class="signup-title">
+				Sign up for BookBox
+			</div>
 			<hr/>
 			<form class="form-horizontal">
 				<div class="form-group">
-					<label for="email" class="col-sm-5 control-label">
-						Your email
+					<label for="email" class="col-sm-6 col-xs-3 control-label">
+						Email
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input id="email" name="email" type="text">
 					</div>
 				</div>
-				
-				<span id="checkEmail"></span>
-					
+				<div class="text-center">
+					<span id="checkEmail"></span>
+				</div>
 				<div class="form-group">
-					<label for="nickname" class="col-sm-5 control-label">
-						Your nickName
+					<label for="nickname" class="col-sm-6 col-xs-3 control-label">
+						NickName
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input id="nickname" name="nickname" class="long" type="text">
 					</div>
 				</div>	
-	
-				<span id="checkNickname"></span>
-	
+				<div class="text-center">
+					<span id="checkNickname"></span>
+				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-5 control-label">
-						Choose your password
+					<label for="password" class="col-sm-6 col-xs-3 control-label">
+						Password
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input id="password" name="password" class="long" type="password">
 					</div>
 				</div>
 	
 				<div class="form-group">
-					<label for="checkPassword" class="col-sm-5 control-label">
-						Repeat your password
+					<label for="checkPassword" class="col-sm-6 col-xs-3 control-label">
+						Repeat password
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input id="chekPassword" name="checkPassword" class="long" type="password">
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label for="gender" class="col-sm-5 control-label" >
-						Choose your gender
+					<label for="gender" class="col-sm-6 col-xs-3 control-label" >
+						Gender
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input class="long" type="radio" id="gender" name="gender" value="남"> 남
 						<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label for="birth" class="col-sm-5 control-label">
-						Choose your birthday
+					<label for="birth" class="col-sm-6 col-xs-3 control-label">
+						Birthday
 					</label>
-					<div class="col-sm-7">
+					<div class="">
 						<input class="long" type="text" id="birth" name="birth" readonly>
 					</div>
 				</div>
 				
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
 				<input class="long" type="hidden" id="active" name="active">
-	
-				<button type="button" class="btn btn-default">Sign Up</button>
+				<div class="row text-center">
+					<a type="button" class="btn-custom">Sign Up</a>
+				</div>
 	
 			</form>
+			<br/>
+			<br/>
+			<br/>
+			
 		</div>
 		
 	</div>	
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+		</footer>
 </body>
 </html>

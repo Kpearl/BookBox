@@ -23,6 +23,7 @@ public class Comment {
 	private int level;
 	private List<Comment> comment;
 	private int active;
+	private int recommendCount;
 	private int reportCount;
 	private boolean blind;
 	
@@ -117,6 +118,14 @@ public class Comment {
 
 	public void setReportCount(int reportCount) {
 		this.reportCount = reportCount;
+	}
+	
+	public int getRecommendCount() {
+		return recommendCount;
+	}
+
+	public void setRecommendCount(int recomment) {
+		this.recommendCount = recomment;
 	}
 
 	@Override

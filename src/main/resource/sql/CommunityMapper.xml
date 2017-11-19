@@ -33,6 +33,7 @@
 		<result property="level" column="level" jdbcType="NUMERIC"/>
 		<result property="active" column="active" jdbcType="NUMERIC" />
 		<result property="reportCount" column="report_count" jdbcType="NUMERIC"/>
+		<result property="recommendCount" column="recommend_count" jdbcType="NUMERIC"/>
 		<association property="writer" javaType="user">
 			<result property="email" column="email" jdbcType="VARCHAR"/>
 			<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
@@ -90,8 +91,9 @@
 		SET board_title=#{boardTitle},
 			board_content=#{boardContent},
 			recommend_count=#{recommend},
+			report_count=#{report},
 			thumbnail_url=#{thumbnailUrl}
-		WHERE board_no=#{boardNo};
+		WHERE board_no=#{boardNo}
 	</update>
 
 	<select id="getBoardList" parameterType="map" resultMap="selectBoard">
@@ -178,11 +180,11 @@
 				#{writer.email:VARCHAR}, 
 				#{level}, 
 				#{content:VARCHAR}, 
-				'1');
+				'1')
 	</insert>
 	
 	<select id="getComment" parameterType="_int" resultMap="selectComment">
-		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, 
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, recommend_count,
 				u.nickname, u.role, u.booklog_image
 		FROM	comment c, user u
 		WHERE 
@@ -196,16 +198,17 @@
 			senior_comment_no=#{seniorCommentNo}, 
 			email=#{writer.email},
 			level=#{level}, 
-			content=#{content}, 
+			content=#{content},
+			recommend_count=#{recommendCount}, 
 			report_count=#{reportCount}, 
 			active=#{active}
 		WHERE 
-			comment_no=#{commentNo};
+			comment_no=#{commentNo}
 		
 	</update>
 	
 	<select id="getCommentList" parameterType="_int" resultMap="selectComment">
-		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, 
+		SELECT 	c.comment_no, c.board_no, c.senior_comment_no, c.email, c.level, c.content, c.reg_date, c.report_count, c.active, recommend_count,
 				u.nickname, u.role, u.booklog_image
 		FROM	comment c, user u
 		WHERE 
@@ -217,7 +220,7 @@
 	<select id="getCommentMaxLevel" parameterType="_int" resultType="_int">
 		SELECT IFNULL( MAX(level),0)
 		FROM comment 
-		WHERE board_no=#{value};
+		WHERE board_no=#{value}
 	</select>
 	
 	<insert id="addRecommend" parameterType="recommend">
@@ -232,7 +235,7 @@
 				
 	</insert>
 	
-	<select id="getRecommend" parameterType="recommend" resultType="int">
+	<select id="getRecommend" parameterType="recommend" resultType="_int">
 		SELECT COUNT(*)
 		FROM recommend
 		WHERE email=#{email} AND category_no= #{categoryNo} AND target_no=#{targetNo} AND pref=#{pref}
@@ -250,9 +253,9 @@
 		
 	</insert>
 	
-	<select id="getReport" parameterType="report" resultType="int" >
+	<select id="getReport" parameterType="report" resultType="_int" >
 		SELECT COUNT(*)
-		FROM recommend
+		FROM report
 		WHERE email=#{email} AND category_no= #{categoryNo} AND target_no=#{targetNo}
 	</select>
 

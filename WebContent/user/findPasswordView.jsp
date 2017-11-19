@@ -14,12 +14,38 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
+	
+<style type="text/css">
+		body{
+	    	padding-top:0px;
+	    }
+	    
+	    header{
+	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    }
+	    .find-password{
+			background-color: #444;
+			color: floralwhite;		
+			font-size: 35px;
+			text-align: center;
+		}
+		
+		.btn-custom{
+			border-radius: 5px;
+			border: 1px solid #444;
+			padding: 10px;
+			color: #444;
+		}
+</style>	
 <script type="text/javascript">
-
+	var condition;
+	ToolbarOpacHeight(500);
 //============= 비밀번호찾기 Event=============
 $( function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$("button:contains('임시비밀번호 발송')").on("click" , function() {
+	$("a:contains('임시비밀번호 발송')").on("click" , function() {
 		
 		var email=$("input[name='email']").val().trim();
 		var birth=$("input[name='birth']").val().trim();
@@ -83,19 +109,37 @@ $( function() {
 
 </head>
 <body>
+	<jsp:include page="../layout/toolbar.jsp" >
+		<jsp:param value="../" name="uri"/>
+	</jsp:include>
+		<header class="parallax"></header>
 	<div class="container signup">
-			<h1>Find your password</h1>
-			<hr>
-			<label>
-				<h2>email :</h2>
-				<input class="long" type="text" name="email" id="email">
-			</label>
-			
-			<label>
-				<h2>birthday :</h2>
-				<input class="long" type="text" name="birth" id="birth">
-			</label>
-			<button class="button-default">임시비밀번호 발송</button>
+		<form class="form-horizontal">	
+			<div class="find-password">
+				Find your password
+			</div>	
+				<hr>
+				<div class="form-group">
+					<label class="col-sm-6 col-xs-3 control-label">
+						Email
+					</label>
+						<input class="long" type="text" name="email" id="email">
+				</div>
+				<div class="form-group">
+					<label class="col-sm-6 col-xs-3 control-label">
+						Birthday
+					</label>
+						<input class="long" type="text" name="birth" id="birth">
+				</div>
+				<div class="text-center">
+				<br/><br/><br/>
+				<a class="btn-custom">임시비밀번호 발송</a>
+				</div>
+			</form>	
+		
 	</div>	
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+		</footer>
 </body>
 </html>

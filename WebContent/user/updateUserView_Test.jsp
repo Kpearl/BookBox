@@ -12,15 +12,50 @@
 	<!-- 기본설정 끝 -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 
+<style type="text/css">
+		body{
+	    	padding-top:0px;
+	    }
+	    
+	    header{
+	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    }
+	    
+	    .list-header{
+	    	margin:  20px 0 10px 0;
+	    	font-weight: bold;
+	    	border-bottom: 1px solid #444;  
+	    }
+	    .userupdate-title{
+	    	background-color: #444;
+			color: floralwhite;		
+			font-size: 35px;
+			text-align: center;
+	    }
+	    
+	    .btn-custom{
+			border-radius: 5px;
+			border: 1px solid #444;
+			padding: 10px;
+			color: #444;
+		}
+
+</style>
 <script type="text/javascript">
+	var condition;
+	ToolbarOpacHeight(500);
+
 
 	var nicknameJSONData;
 
 //============= "가입"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$( "button:contains('정보수정')" ).bind("click" , function() {
+	$( "a:contains('정보수정')" ).bind("click" , function() {
 		
 		fncUpdateUser();
 	});
@@ -156,61 +191,82 @@ $(function(){
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
 		<div class="container signup">
 		
-		<form>
-			<h1>Update User</h1>
+		<form class="form-horizontal">
+			<div class="userupdate-title">
+				Update User
+			</div>
 			<hr>
-			<label>
-				<h2>Your email:</h2>
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+					Email
+				</label>
 				<input id="email" name="email"  class="long" type="text" value="${user.email }" readonly>
-			</label>
+			</div>
+			<div class="text-center">
+				<span id="checkEmail"></span>
+			</div>
 			
-			<span id="checkEmail">
-			
-			</span>
 					
-			<label>
-				<h2>Your nickName:</h2>
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+					NickName
+				</label>
 				<input id="nickname" name="nickname" class="long" type="text" value="${user.nickname }">
-			</label>
-
+			</div>
 			<span id="checkNickname">
 			
 			</span>
 
-			<label>
-				<h2>Choose your password</h2>
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+				Password
+				</label>
 				<input id="password" name="password" class="long" type="password">
-			</label>
-
-			<label>
-				<h2>Repeat your password</h2>
-				<input id="chekPassword" name="checkPassword" class="long" type="password">
-			</label>
+			</div>
 			
-			<label>
-				<h2>Choose your gender</h2>
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+				Repeat Password
+				</label>
+				<input id="chekPassword" name="checkPassword" class="long" type="password">
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+					Gender
+				</label>
 				<input class="long" type="radio" id="gender" name="gender" value="남" 
 				${user.gender == '남' ? 'checked' : '' }> 남
 				<input class="long" type="radio" id="gender" name="gender" value="여"
 				${user.gender == '여' ? 'checked' : '' }> 여		
-			</label>
+			</div>
 			
-			<label>
-				<h2>Choose your birthday</h2>
+			<div class="form-group">
+				<label class="col-sm-6 col-xs-3 control-label">
+				Birthday
+				</label>
 				<input class="long" type="text" id="birth" name="birth" readonly value="${user.birth}">
-			</label>
-			
+			</div>
 				<input class="long" type="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
 				<input class="long" type="hidden" id="active" name="active" value="${user.active }">
+			
+			
+			<br/><br/><br/>
+			<div class="text-center">
+				<a type="button" class="btn-custom">정보수정</a>
+			</div>
 
-			<button type="button" class="btn btn-default">정보수정</button>
-
-			<div class="row">
+			<div class="row text-right">
 				<a href="#" class="btn btn-warning user-shut-out">회원탈퇴</a>
 			</div>
 		</form>
 	</div>	
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>

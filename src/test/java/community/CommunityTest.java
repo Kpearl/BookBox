@@ -20,6 +20,7 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.Comment;
+import com.bookbox.service.domain.Report;
 import com.bookbox.service.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -114,10 +115,19 @@ public class CommunityTest {
 		System.out.println(level);
 	}
 	
-	@Test
+	//@Test
 	public void commonTest() {
 		Calendar calendar=Calendar.getInstance();
 		System.out.println(calendar.toString());
 		
+	}
+	@Test
+	public void addReport() {
+		Report report=new Report();
+		report.setEmail("gustn@naver.com");
+		report.setCategoryNo(6);
+		report.setTargetNo(11);
+		int count=communityDAOImpl.getReport(report);
+		System.out.println(count);
 	}
 }

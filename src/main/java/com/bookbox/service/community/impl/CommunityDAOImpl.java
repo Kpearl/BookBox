@@ -120,7 +120,7 @@ public class CommunityDAOImpl implements CommunityDAO {
 
 	@Override
 	public int getReport(Report report) {
-		return sqlSession.insert("CommunityMapper.getReport",report);
+		return sqlSession.selectOne("CommunityMapper.getReport",report);
 	}
 	
 		

@@ -171,7 +171,7 @@
    			/*background-color:floralwhite;*/
    			margin-left:0 !important;
    			color: floralwhite;
-   			font-weight: bold;
+   			font-weight: 500;
    			font-size: 20px;
    			
    		}
@@ -351,10 +351,10 @@
 		<!--   ==================방송=========================     -->
 		<div class="row" style="height: 70px;">
 			<div class="col-xs-6">
-				<h1>Cast</h1> 
+				<h1>방송</h1> 
 			</div>
 			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
-				<a class="moreCast" id="moreCast" style="display: table-cell; vertical-align: bottom; ">more...</a>
+				<a class="moreCast" id="moreCast" style="display: table-cell; vertical-align: bottom; ">더보기></a>
 			</div>
 		</div>
 		<hr/>
@@ -398,10 +398,10 @@
 			<!--   ==================채팅방=========================     -->
 		<div class="row" style="height: 70px;">
 			<div class="col-xs-6">
-				<h1>CAMCHAT</h1> 
+				<h1>화상채팅</h1> 
 			</div>
 			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
-				<a class="moreChatChat" id="moreCamChat" style="display: table-cell; vertical-align: bottom; ">more...</a>
+				<a class="moreChatChat" id="moreCamChat" style="display: table-cell; vertical-align: bottom; ">더보기></a>
 			</div>
 		</div>
 		<hr/>
@@ -445,10 +445,10 @@
 		<br/>
 		<div class="row" style="height: 70px;">
 			<div class="col-xs-6">
-				<h1>Board</h1> 
+				<h1>게시판</h1> 
 			</div>
 			<div class="col-xs-6 text-right" style="height: 100%; display: table;">
-				<a class="moreBoard" href="getBoardList" style="display: table-cell; vertical-align: bottom; ">more...</a>
+				<a class="moreBoard" href="getBoardList" style="display: table-cell; vertical-align: bottom; ">더보기></a>
 			</div>
 		</div>
 		<hr/>

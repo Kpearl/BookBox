@@ -43,10 +43,11 @@
 		/*border: solid 1px;*/
 	}
 	.board-main .title{
+		padding: 0 0 0 20px;
 		background-color: #62BFAD;
 		height: 50px; 
 		font-size: 30px;
-		font-weight: bold;
+		font-weight: 500;
 		color: floralwhite;
 	}
 	.board-main	.board-info{
@@ -58,7 +59,8 @@
 		height: 100%;
 	}
 	.board-main .board-info .writer img{
-		height: 100%;
+		height: 35px;
+		width: 35px;
 		border-radius: 50%;	
 		object-fit:cover;
 	}
@@ -122,7 +124,8 @@
 	
 	.test{
 		padding: 10px 10px 5px 10px;
-		background-color: #eee
+		background-color: #62bfad38;
+		border-bottom: 5px solid #62bfadff; 
 	}
 	
 	.media .append-area{
@@ -144,6 +147,13 @@
 		color: #888;
 		padding: 5px;
 	}
+	.btn-custom img{
+		height: 15px;
+		width: 15px;
+		margin: 0 3px 0 0;
+		object-fit:contain;
+	}
+	
 	.btn{
 		padding: 6px 6px 6px 6px;
 	}
@@ -180,6 +190,38 @@ ToolbarOpacHeight(500);
 		
 		//게시글의 답변 버튼 이벤트
 		commentEventInit($(".board"));
+		
+		$("#addComment").on("click",function(){
+			
+			var boardNo=$("input[name=boardNo]").val();
+			var content=$(this).parent().parent().find("textarea").val();
+			var level = -1;
+			var commentNo=0;
+			
+		
+			//alert(boardNo+","+content+","+level+","+commentNo);
+			
+		 	$.ajax({
+				url: "rest/addComment",
+				method: "POST",
+				crossDomain:true,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data :JSON.stringify({
+					"boardNo": boardNo,
+					"content" : content,
+					"level" : parseInt(level)+1,
+					"seniorCommentNo":commentNo
+				}),
+				success:function(){
+					//alert("addComment success");
+					
+				 	loadComment();
+				}
+		 	});//ajax 끝 
+		});
 		
 		/////수정버튼//////////////
 		$("#updateBoard").on("click",function(){
@@ -351,7 +393,9 @@ ToolbarOpacHeight(500);
 			var inputObj=$("<div class='comment-input-container'>"+
 								"<textarea class='comment-textarea'></textarea>"+
 								"<br/>"+
-								"<a class='btn btn-custom'>등록</div>");
+								"<div class='text-right'>"+
+								"<a class='btn btn-custom'>등록</div>"+
+								"</div>");
 			
 			inputObj.find("a").on("click",function(){
 				
@@ -360,11 +404,13 @@ ToolbarOpacHeight(500);
 				var level = commentObj.find("input[name='level']").val();
 				var commentNo=commentObj.find("input[name='commentNo']").val();
 				
+				
 				if(level==undefined){
 					level=-1;
 					commentNo=0;
 				}
 				
+			
 				//alert(boardNo+","+content+","+level+","+commentNo);
 				
 			 	$.ajax({
@@ -430,7 +476,7 @@ ToolbarOpacHeight(500);
 		
 		<div class="board">
 			<input type="hidden" value="${board.boardNo}" name="boardNo" readonly="readonly"/>
-			
+			<input type="hidden" value="-1" name="level">
 			<div class="board-main">
 				<div class="title">
 					<span>${board.boardTitle}</span>
@@ -464,11 +510,20 @@ ToolbarOpacHeight(500);
 				</div>
 			</div>
 			<hr/>
-			<div class="text-right"><a class="btn" id="goList"><img src='../resources/images/community/btn_list.png'>목록</a></div>
+			<div class="text-right"><a class="btn-custom" id="goList"><img src='../resources/images/community/btn_list.png'>목록</a></div>
 			<div class="board-comment">
 			
 				<a class="btn-custom" id=addCommentArea>답변</a>
-				<div class="inputarea"></div><!-- 여기 무조건 붙어있어야함 -->
+				<div class="inputarea">
+					<div class='comment-input-container'>
+						<textarea class='comment-textarea'></textarea>
+						<br/>
+						<div class="text-right">
+							<a class='btn btn-custom' id="addComment">등록</a>
+						</div>
+					</div>
+				
+				</div><!-- 여기 무조건 붙어있어야함 -->
 				<div class="commentList">
 				</div><!-- 댓글부분 끝 -->
 				
