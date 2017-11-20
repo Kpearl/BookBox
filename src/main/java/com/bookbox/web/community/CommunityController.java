@@ -42,7 +42,7 @@ import sun.util.resources.CalendarData;
 /**
  * @file com.bookbox.web.community.CommunityCrontroller.java
  * @brief CommunityController
- * @detail 
+ * @detail 소모임 쪽 요청을 처리하는 컨트롤러
  * @author HS
  * @date 2017.10.16
  */
@@ -67,7 +67,7 @@ public class CommunityController {
 	/**
 	 * @brief getCommunityMain
 	 * @detail 커뮤니티 메인으로 네비게이션 
-	 * @param Search search 검색조건 도메인
+	 * @param Search search 검색조건 
 	 * @return forward:/community/mainCommunity.jsp
 	 */
 	
@@ -157,7 +157,8 @@ public class CommunityController {
 	 * @brief addBoard
 	 * @detail 게시글 추가 
 	 * @param Board board 게시글 도메인
-	 * @return redirect:getBoard?boardNo="+board.getBoardNo()
+	 * @return redirect:getBoard?boardNo=""
+	 * 			게시글 상세보기로 네비게이션 
 	 */
 	
 	@RequestMapping(value="/addBoard",method=RequestMethod.POST)
@@ -194,6 +195,13 @@ public class CommunityController {
 	}
 	
 	
+	/**
+	 * @brief getBoard
+	 * @detail 게시글 상세조회로 네비게이션 
+	 * @param int boardNo 게시글 번호
+	 * @return forward:getBoard.jsp
+	 * 			게시글 상세보기로 네비게이션 
+	 */
 	@RequestMapping(value="/getBoard")
 	public String getBoard(@RequestParam("boardNo")int boardNo,Model model,HttpSession session) throws Exception {
 		
@@ -224,8 +232,10 @@ public class CommunityController {
 	/**
 	 * @brief getBoardList
 	 * @detail 게시글 목록 조회 
-	 * @param Search search
-	 * @return forward:listBoard.jsp
+	 * @param Search search 검색조건
+	 * @param Page page 페이징 조건
+	 * @return forward:listBoard.jsp 
+	 * 			게시글 목록 조회로 네비게이션
 	 */
 	@RequestMapping(value="/getBoardList")
 	public String getBoardList(@ModelAttribute("Search")Search search,
@@ -269,9 +279,9 @@ public class CommunityController {
 	}
 	
 	/**
-	 * @brief 
+	 * @brief  updateBoard
 	 * @detail 게시글 업데이트 뷰 네비게이션 
-	 * @param 
+	 * @param int boardNo 게시글 번호
 	 * @return forward:listBoard.jsp
 	 */
 	@RequestMapping(value="updateBoard",method=RequestMethod.GET)
@@ -297,7 +307,8 @@ public class CommunityController {
 	 * @brief updateBoard
 	 * @detail 게시글 수정 
 	 * @param Board board 게시글 도메인
-	 * @return redirect:getBoard?boardNo="+board.getBoardNo()
+	 * @return redirect:getBoard?boardNo="" 
+	 * 			게시글 상세조회로 네비게이션
 	 */
 	
 	@RequestMapping(value="/updateBoard",method=RequestMethod.POST)
@@ -327,9 +338,10 @@ public class CommunityController {
 	
 	/**
 	 * @brief uploadCKEditor
-	 * @detail CKEditor 이미지 업로드 
+	 * @detail CKEditor에서  업로드한 이미지 처리
 	 * @param MultipartFile file 이미지 파일
 	 * @return forward:uploadCKEditor.jsp
+	 * 			업로드한 이미지 URI 반환 및 이벤트 처리
 	 */
 	@RequestMapping(value="uploadCKEditor")
 	public String uploadCKEditor(HttpServletRequest request,
@@ -382,14 +394,16 @@ public class CommunityController {
 	 * @brief addChatRoom
 	 * @detail 채팅방생성 
 	 * @param 
-	 * @return redirect:addChatRoom.jsp
-	 */
+	 * @return 방송이라면 redirect:getCast?roomId=""
+	 * 			화상채팅이라면 redirect:getCamChat?roomId=""
+	 */			
 	//static Map<String, ChatRoom> camChatMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());;
 	//static Map<String, ChatRoom> castMap=Collections.synchronizedMap(new HashMap<String, ChatRoom>());
 	
 	@RequestMapping(value="addChatRoom" ,method=RequestMethod.POST)
 	public String addChatRoom(HttpServletRequest request,HttpSession session,
-								@ModelAttribute("ChatRoom")ChatRoom chatRoom,@RequestParam("file")MultipartFile file,
+								@ModelAttribute("ChatRoom")ChatRoom chatRoom,
+								@RequestParam("file")MultipartFile file,
 								Model model) throws Exception{
 		
 		User user=(User)session.getAttribute("user");
@@ -458,7 +472,9 @@ public class CommunityController {
 	 * @return 
 	 */
 	@RequestMapping(value="/getCamChat")
-	public String getCamChat(@RequestParam("roomId")String roomId,HttpSession session ,Model model) throws Exception{
+	public String getCamChat(@RequestParam("roomId")String roomId,
+											HttpSession session ,
+										Model model) throws Exception{
 		System.out.println("[getCamChat() start...]");
 		User user=(User)session.getAttribute("user");
 		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
@@ -486,10 +502,12 @@ public class CommunityController {
 	 * @brief getCast
 	 * @detail 방송 조회
 	 * @param String rooId
-	 * @return 
+	 * @return "forward:getCast.jsp" 방송상세보기로 네비게이션
 	 */
 	@RequestMapping(value="/getCast")
-	public String getCast(@RequestParam("roomId")String roomId,HttpSession session ,Model model) throws Exception{
+	public String getCast(@RequestParam("roomId")String roomId,
+							HttpSession session ,
+							Model model) throws Exception{
 		
 		User user=(User)session.getAttribute("user");
 		/////테스트유저/////////////////////////////////////////////////////나중에 지울것
@@ -516,11 +534,14 @@ public class CommunityController {
 	/**
 	 * @brief getCamChatList
 	 * @detail 화상채팅방 목록조회
-	 * @param 
-	 * @return List ChatRoom 
+	 * @param Search search 검색조건
+	 * @param Page page 페이징 조건
+	 * @return "forward:listCamChat.jsp" 
+	 * 			화상채팅방 목록으로 네비게이션
 	 */
 	@RequestMapping(value="/getCamChatList")
-	public String getCamChatList(Model model) throws Exception{
+	public String getCamChatList(@ModelAttribute("Search")Search search,
+								@ModelAttribute("Page")Page page,Model model) throws Exception{
 		
 		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
 		
@@ -537,11 +558,14 @@ public class CommunityController {
 	/**
 	 * @brief getCastList
 	 * @detail 방송 목록조회
-	 * @param 
-	 * @return List ChatRoom 
+	 * @param Search search 검색조건
+	 * @param Page page 페이징 조건
+	 * @return  "forward:listCast.jsp" 
+	 * 			방송목록 조회로 네비게이션
 	 */
 	@RequestMapping(value="/getCastList")
-	public String getCastList(Model model) throws Exception{
+	public String getCastList(@ModelAttribute("Search")Search search,
+							@ModelAttribute("Page")Page page,Model model) throws Exception{
 		
 		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
 		

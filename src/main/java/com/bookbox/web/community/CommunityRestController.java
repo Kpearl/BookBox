@@ -35,7 +35,7 @@ import com.bookbox.service.user.UserService;
 /**
  * @file com.bookbox.web.community.CommunityRestCrontroller.java
  * @brief CommunityRestController
- * @detail 
+ * @detail 소모임 RestController
  * @author HS
  * @date 2017.10.17
  */
@@ -65,9 +65,9 @@ public class CommunityRestController {
 	//게시판
 	/**
 	 * @brief getBoardList
-	 * @detail 게시글 목록 조회 
+	 * @detail 게시글 목록 조회  검색조건
 	 * @param Search search
-	 * @return forward:listBoard.jsp
+	 * @return Map "boardList","page"리턴 
 	 */
 	@RequestMapping(value="/getBoardList")
 	public Map getBoardList(@ModelAttribute("Search")Search search,
@@ -114,9 +114,16 @@ public class CommunityRestController {
 	}
 	
 	
-	
+	/**
+	 * @brief addRecommend
+	 * @detail 게시글, 댓글 추천 및 비추천 
+	 * @param Recommend recommend 추천,비추천도 메인
+	 * @return int 추천수 리턴 
+	 */
 	@RequestMapping(value="/addRecommend")
-	public int addRecommend(HttpServletRequest request,@ModelAttribute("Recommend")Recommend recommend,HttpSession session ) throws Exception{
+	public int addRecommend(HttpServletRequest request,
+							@ModelAttribute("Recommend")Recommend recommend,
+							HttpSession session ) throws Exception{
 		
 		//파라미터 확인용
 	//	System.out.print("targetNo : "+request.getParameter("targetNo")+" ");
@@ -141,12 +148,14 @@ public class CommunityRestController {
 	}
 	
 	/**
-	 * @brief 댓글게시판 , 댓글 신고
-	 * @param Comment
-	 * @return 
+	 * @brief addReport
+	 * @detail 게시글, 댓글 신고
+	 * @param Report report 신고 도메인
+	 * @return int 신고 중복여부 리턴 
 	 */
 	@RequestMapping(value="/addReport")
-	public int addReport(@ModelAttribute("Report")Report report,HttpSession session) throws Exception{
+	public int addReport(@ModelAttribute("Report")Report report,
+						HttpSession session) throws Exception{
 		
 		System.out.println("addReport() Reprot= "+report);
 		
@@ -166,9 +175,10 @@ public class CommunityRestController {
 	
 	
 	/**
-	 * @brief 댓글게시판 댓글 추가
-	 * @param Comment
-	 * @return 
+	 * @brief addComment
+	 * @detail 댓글 추가
+	 * @param Comment comment 댓글 도메인
+	 * @return int 댓글 추가 성공 여부 리턴
 	 */
 	@RequestMapping(value="/addComment")
 	public int addComment(@RequestBody Comment comment,HttpSession session) throws Exception{
@@ -192,9 +202,10 @@ public class CommunityRestController {
 	}
 	
 	/**
-	 * @brief 댓글게시판 댓글 리스트 조회
-	 * @param int boardNo
-	 * @return List<Comment> 
+	 * @brief getCommentList
+	 * @detail 댓글 리스트 
+	 * @param int boardNo 게시글 번호
+	 * @return List 댓글리스트 리턴
 	 */
 	@RequestMapping(value="/getCommentList/{boardNo}")
 	public List getCommentList(@PathVariable("boardNo")int boardNo) {
@@ -208,10 +219,12 @@ public class CommunityRestController {
 		return commentList;
 	}
 	
+
 	/**
-	 * @brief 태그입력시 자동완선을 위한 태그목록 호출
-	 * @param String tagName
-	 * @return 태그이름 리스트
+	 * @brief getTagList
+	 * @detail 자동완선을 위한 태그목록 요청
+	 * @param String tagName 
+	 * @return List 태그 리스트 리턴
 	 */
 	@RequestMapping(value="/getTagNameList")
 	public List getTagList(@RequestParam("tagName")String tagName){
@@ -229,11 +242,12 @@ public class CommunityRestController {
 	
 	//=======================채팅방=============================
 	/**
-	 * @brief 채팅방 현재접속자수 동기화
-	 * @param int currentUser
-	 * @param String roomId
-	 * @param String roomType
-	 * @return 태그이름 리스트
+	 * @brief updateChatRoomCurrentUser
+	 * @detail 채팅방 현재접속자수 동기화
+	 * @param int currentUser 현재유저수
+	 * @param String roomId 방번호
+	 * @param String roomType 방종류
+	 * @return int 수정 된 현재유저수 리턴
 	 */
 	@RequestMapping(value="/updateChatRoomCurrentUser")
 	public int updateChatRoomCurrentUser(@RequestParam("currentUser")int currentUser,
@@ -253,6 +267,14 @@ public class CommunityRestController {
 		return chatRoom.getCurrentUser();
 	}
 	
+	
+	/**
+	 * @brief deleteChatRoom
+	 * @detail 채팅방 삭제
+	 * @param String type 방종류
+	 * @param String roomId 방번호
+	 * @return 
+	 */
 	@RequestMapping(value="/deleteChatRoom")
 	public void deleteChatRoom(@RequestParam("type")String type,
 								@RequestParam("roomId")String roomId,HttpSession session) {

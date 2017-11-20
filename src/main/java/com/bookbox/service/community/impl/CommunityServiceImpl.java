@@ -15,6 +15,7 @@ import com.bookbox.common.service.TagDAO;
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.community.CommunityService;
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
@@ -249,4 +250,44 @@ public class CommunityServiceImpl implements CommunityService {
 		// return communityDAOImple.getCommentList(boardNo);
 	}
 
+	
+	
+	@Override
+	public int addChatRoom(User user, ChatRoom chatroom) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean getCamChat(User user, String roomId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getCast(User user, String roomId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List getCamChatList(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getCastList(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteChatRoom(String roomId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
 }
