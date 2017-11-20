@@ -1,5 +1,6 @@
 package com.bookbox.service.creation.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.bookbox.common.domain.UploadFile;
 import com.bookbox.common.service.CommonDAO;
 import com.bookbox.common.util.CommonUtil;
 import com.bookbox.service.creation.CreationDAO;
+import com.bookbox.service.creation.CreationService;
 import com.bookbox.service.creation.WritingDAO;
 import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Creation;
@@ -42,6 +44,10 @@ public class WritingServiceImpl implements WritingService {
 	@Autowired
 	@Qualifier("creationDAOImpl")
 	private CreationDAO creationDAO;
+	
+	@Autowired
+	@Qualifier("creationServiceImpl")
+	private CreationService creationService;
 	
 	@Autowired
 	@Qualifier("commonDAOImpl")
@@ -80,9 +86,17 @@ public class WritingServiceImpl implements WritingService {
 		System.out.println("addWriting :: "+uploadFileList+"\n");
 		commonDAO.addUploadFile(uploadFileList);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("targetNo", writing.getCreationNo());
-		unifiedsearchElasticDAO.elasticInsert(creationDAO.getCreation(map));
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, writing.getCreationNo(), user);
+		List<Writing> list = writingDAO.getWritingList(map);
+		Creation creation = new Creation();
+		creation.setCreationNo(writing.getCreationNo());
+		map.put("creation", creation);
+		creation.setWritingList(list);
+		
+		System.out.println(creation.toString());
+		
+		//Elasticsearch insert
+		unifiedsearchElasticDAO.elasticInsert(creationService.getCreation(map));
 	}
 
 	/**
@@ -105,11 +119,16 @@ public class WritingServiceImpl implements WritingService {
 		commonDAO.updateUploadFile(uploadFileList);
 		writingDAO.updateWriting(writing);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("targetNo", writing.getCreationNo());
-		Creation creation = creationDAO.getCreation(map);
+		Creation creation = new Creation();
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, writing.getCreationNo(), user);
+		
+		creation.setCreationNo(writing.getCreationNo());
 		map.put("creation", creation);
-		creationDAO.updateCreation(creation);
+		creation = creationService.getCreation(map);
+		
+		System.out.println("================ㄹㄹㄹㄹㄹㄹㄹ" +creation.getWritingList());
+		
+		//Elasticsearch update
 		unifiedsearchElasticDAO.elasticUpdate(creation);
 	}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Unifiedsearch;
+import com.bookbox.service.domain.Writing;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 import com.bookbox.service.unifiedsearch.UnifiedsearchService;
 
@@ -77,7 +77,6 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 
 			return map;			
 		}
-		
 		return convertToMap(unifiedsearchDAO.elasticSearch(search));
 	}
 
@@ -92,17 +91,30 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			JSONObject jo = (JSONObject) jsonArray.get(i);
 			JSONObject lastJo = (JSONObject) jo.get("_source");
 			unifiedsearch = new Unifiedsearch();
+			
+			if ((boolean)lastJo.containsKey("writing")) {
+				JSONArray wriringList = (JSONArray)lastJo.get("writing");
+				List<Writing> tempList = new ArrayList<Writing>();
+				
+				for (int j = 0; j < wriringList.size(); j++) {
+					JSONObject temp = (JSONObject) jsonArray.get(j);
+					Writing writing = new Writing();
 
+					writing.setWritingTitle((String) temp.get("title"));
+					writing.setWritingNo((Integer) temp.get("_id"));
+					writing.setWritingContent((String) temp.get("content"));
+					
+					tempList.add(writing);
+				}
+				unifiedsearch.setWriting(tempList);
+			}
 			unifiedsearch.setContent(lastJo.get("content") == null ? "" : lastJo.get("content").toString());
 			unifiedsearch.setTitle(lastJo.get("title") == null ? "" : lastJo.get("title").toString());
 			unifiedsearch.setNick_name(lastJo.get("nick_name") == null ? "" : lastJo.get("nick_name").toString());
 			unifiedsearch.setId(jo.get("_id") == null ? "" : jo.get("_id").toString());
 			unifiedsearch.setCategory(jo.get("_type").toString());
-			// unifiedsearch.setReg_date(lastJo.get("reg_date").equals("null") ? "" :
-			// lastJo.get("reg_date").toString());
 			unifiedsearch.setTag((List<String>) lastJo.get("tag"));
 			unifiedsearch.setImage(lastJo.get("image") == null ? "" : lastJo.get("image").toString());
-
 			list.add(unifiedsearch);
 		}
 		map.put("total", object.get("total"));

@@ -106,9 +106,10 @@ function getBook(isbn) {
     	       	 			<c:if test="${status.first}"> 번역가 : </c:if>
 					   	 	${str} <c:if test="${!status.last}"> | </c:if>
    						</c:forEach></p>
-       	        	 	<p><img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> ${book.like.totalLike}</p>
         	       	 	<p>정가  : ${book.price}원</p>
 	       	            <p>출판일 : ${book.datetime}</p>
+	       	            <p>출판사 : ${book.publisher}</p>
+       	        	 	<p><img class="creationLike-link" src="https://icongr.am/entypo/heart.svg?size=25&color=ff0000"> ${book.like.totalLike}</p>
 		            </div>
 		            <div class="col-md-12"></div>
 	            </div> 

@@ -19,15 +19,24 @@ public class Unifiedsearch {
 	private String id;
 	private String category;
 	private String image;
+	private List<String> tag;
+	private List<Writing> writing;
 	
 	public Unifiedsearch() {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public List<Writing> getWriting() {
+		return writing;
+	}
+
+	public void setWriting(List<Writing> writing) {
+		this.writing = writing;
+	}
+
 	public String getImage() {
 		return image;
 	}
-
 
 	public void setImage(String image) {
 		this.image = image;
@@ -49,7 +58,6 @@ public class Unifiedsearch {
 		this.category = category;
 	}
 
-	private List<String> tag;
 	
 	public String getNick_name() {
 		return nick_name;

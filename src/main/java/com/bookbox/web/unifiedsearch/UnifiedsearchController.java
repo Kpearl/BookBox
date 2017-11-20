@@ -64,7 +64,6 @@ public class UnifiedsearchController {
 		model.addAttribute("result", map.get("result"));
 		model.addAttribute("tagList", unifiedsearchService.elasticRelationTagSearch(search));
 		
-
 		switch (category) {
 		case 1:
 			 return "forward:../unifiedsearch/listCreation.jsp";

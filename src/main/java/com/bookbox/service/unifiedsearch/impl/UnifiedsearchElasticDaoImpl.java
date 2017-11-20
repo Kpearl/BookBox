@@ -17,16 +17,13 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Const.Category;
-import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
 import com.bookbox.service.domain.Board;
-import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.Writing;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 /**
  * @file com.bookbox.service.unifiedsearch.UnifiedsearchElasticDaoImpl.java
@@ -47,6 +44,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 
 	@Override
 	public void elasticInsert(Object object) throws Exception {
+		
 		Map<String, Object> map = compareToCategory(object);
 
 		String query = url + map.get("category") + "/" + map.get("id");
@@ -56,7 +54,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 	@Override
 	public void elasticUpdate(Object object) throws Exception {
 		Map<String, Object> map = compareToCategory(object);
-
+		
 		String query = url + map.get("category") + "/" + map.get("id");
 		sendToElastic(query, map.get("json").toString(), "PUT");
 	}
@@ -120,6 +118,9 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("image", creation.getCreationFileName());
 
 			if (creation.getWritingList() != null) {
+				
+				System.out.println("=========" + creation.getWritingList().toString());
+				
 				List<Writing> writingList = (List<Writing>) creation.getWritingList();
 				JSONObject objectTemp = null;
 				JSONArray temp = new JSONArray();
@@ -131,11 +132,14 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 					objectTemp.put("content", writing.getWritingContent());
 					objectTemp.put("_id", writing.getWritingNo());
 					temp.add(objectTemp);
+					
+					if(temp.size() > 3) 
+						break;
 				}
 
 				obj.put("writing", temp);
 			}
-
+			
 			map.put("category", "creation");
 			map.put("id", creation.getCreationNo());
 			map.put("json", obj);

@@ -1,8 +1,6 @@
 package unifiedsearch;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +11,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Const.Category;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
+import com.bookbox.common.domain.UploadFile;
+import com.bookbox.common.util.CommonUtil;
+import com.bookbox.service.creation.CreationService;
+import com.bookbox.service.creation.WritingService;
 import com.bookbox.service.domain.Board;
 import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Posting;
-import com.bookbox.service.domain.Unifiedsearch;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
 import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
@@ -41,6 +43,19 @@ public class SearchTest {
 	@Qualifier("unifiedsearchElasticDAOImpl")
 	private UnifiedsearchDAO unifiedsearchDAO;
 
+	@Autowired
+	@Qualifier("writingServiceImpl")
+	private WritingService writingService;
+
+	@Autowired
+	@Qualifier("creationServiceImpl")
+	private CreationService creationService;
+	
+	//@Autowired
+	//@Qualifier("creationDAOImpl")
+	//private CreationDAO creationDAO;
+
+
 	private Posting posting = new Posting();
 	private Creation creation = new Creation();
 	private Board board = new Board();
@@ -51,7 +66,11 @@ public class SearchTest {
 
 	@Test
 	public void serviceTest() throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+		
+		user.setNickname("디제이");
+		user.setEmail("1015wlswn@naver.com");
+		
+		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, 6, user);
 		List<Tag> tagList = new ArrayList<Tag>();
 		tag.setTagName("태그다");
 		Tag tag2 = new Tag();
@@ -59,15 +78,12 @@ public class SearchTest {
 
 		tagList.add(tag);
 		tagList.add(tag2);
-
-		user.setNickname("창작 유저 압데이트");
-		
 		creation.setCreationIntro("이것은 창작이다 창작이다");
-		creation.setCreationNo(999);
+		creation.setCreationNo(6);
 		creation.setCreationTitle("창작 제목");
-		creation.setRegDate(new Date(20170101));
 		creation.setCreationAuthor(user);
 		creation.setTagList(tagList);
+		map.put("creation", creation);
 		
 		Writing writing = new Writing();
 		List<Writing> list = new ArrayList<Writing>();
@@ -76,24 +92,55 @@ public class SearchTest {
 		writing.setWritingContent("이것은 게시글 내용이다");
 		writing.setWritingNo(1);
 
-		list.add(writing);/*
+		list.add(writing);
+		
 		Writing tempWriting = new Writing();
 		
-		tempWriting.setWritingTitle("ddd");
-		tempWriting.setWritingContent("ddd");
-		tempWriting.setWritingNo(2);
+		List<UploadFile> lill = new ArrayList<UploadFile>();
+		UploadFile uploadFile = new UploadFile();
+		uploadFile.setFileName("ddd");
+		lill.add(uploadFile);
 		
-		list.add(tempWriting);*/
+		tempWriting.setWritingTitle("bbb");
+		tempWriting.setWritingContent("aaaaa");
+		tempWriting.setWritingFileList(lill);
+		tempWriting.setWritingNo(2);
+		tempWriting.setCreationNo(6);
+		
+		list.add(tempWriting);
 		
 		creation.setWritingList(list);
 		
-		unifiedsearchDAO.elasticDelete(creation);
+		search.setCategory(Category.CREATION);
+		search.setKeyword("사람");
+		//map =  unifiedsearchService.elasticSearch(search);
 		
-		//search.setCategory(Category.WRITING);
+		//unifiedsearchDAO.elasticUpdate(creation);
 		
-
-		//System.err.println(unifiedsearchDAO.elasticIdSearch(9));
+		//map.put("targetNo", "18");
+		//creationService.getCreation(map);
+		writingService.addWriting(user, tempWriting);
+		//System.out.println(creationService.getCreation(map).toString());
 		
+		
+		
+		unifiedsearchDAO.elasticInsert(creationService.getCreation(map));
+		
+		//List<Unifiedsearch> unifiedsearch =  (List<Unifiedsearch>)map.get("result");
+	/*	
+		for(Unifiedsearch temp : unifiedsearch) {
+			System.out.println(temp.getTitle());
+			
+			System.out.println(temp.getWriting().toString());
+						
+			if(temp.getWriting() != null) {
+				System.out.println("이거이거");
+				
+				List<Writing> temp1 = (List<Writing>) temp.getWriting();
+				//System.out.println("이고이고" + temp1.getCreationNo());
+			}
+		}
+	*/	//unifiedsearchDAO.elasticInsert(creation);
 		// unifiedsearchDAO.elasticDelete(creation);
 		//System.out.println(unifiedsearchService.elasticTagSearch(search).toString());
 		

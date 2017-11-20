@@ -87,11 +87,7 @@ $(function() {
 			$("#floatMenu").css("top" , newPosition);
 		}
 	})
-		
-	$(".nav-tag").on("click" , function() {
-		var keyword = this.innerText.replace("#", "");
-		$(self.location).attr("href","../unifiedsearch/getUnifiedsearchList?category=11&keyword="+keyword);
-	});
+
 	$(".nav-creation").on("click" , function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
@@ -122,22 +118,21 @@ $(function() {
 			</div>
 		</c:if>
 			
-		<div class="row" id="content">
-			<div id="content-view">				
-				<c:forEach items="${result}" var="result">
-					<div class="total-box nav-creation" id="${result.id}">
-						<div class="row">
-							<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
-						</div>
-						<div class="row" id="tag-box">
-							<div class="row" style="padding-left:10px"><font size=3>${result.title}</font></div> 
-							<div class="row" style="padding-left:10px">${result.nick_name}</div>
-							<div class="row" style="padding-left:10px"><p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
-						</div>							
-					</div>
-				</c:forEach>
+		<c:forEach items="${result}" var="result">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row" style="padding-left:10px"><font size=3>${result.title}</font></div> 
+					<div class="row" style="padding-left:10px"><p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
+				</div>
+				<div class="col-md-6">
+					<div class="row" style="padding-right:10px">${fn:length(result.writing)}</div>
+					<div class="row" style="padding-right:10px">${result.nick_name}</div>
+				</div>
 			</div>
-		</div>
+			<div class="row">
+				<span>${result.writing}</span>
+			</div>
+		</c:forEach>
   	</div>
   	
   	<div id="floatMenu">
@@ -145,7 +140,7 @@ $(function() {
   			<strong>관련 태그</strong>
   		</div>
   	<c:if test="${fn:length(tagList) eq 0}">
-  		<div class="row">
+  		<div class="row" style="margin:10%;">
   			관련 태그가 없습니다.
   		</div>
   	</c:if>

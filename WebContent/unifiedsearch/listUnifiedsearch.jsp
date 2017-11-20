@@ -400,7 +400,7 @@ document.onreadystatechange = function () {
   			<strong>관련 태그</strong>
   		</div>
   	<c:if test="${fn:length(tagList) eq 0}">
-  		<div class="row">
+  		<div class="row" style="margin:10%;">
   			관련 태그가 없습니다.
   		</div>
   	</c:if>

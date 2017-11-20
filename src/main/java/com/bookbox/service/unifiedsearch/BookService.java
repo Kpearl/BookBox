@@ -10,6 +10,18 @@ import com.bookbox.common.domain.Search;
 import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.User;
 
+/**
+@file 파일명.java
+@author 이니셜
+@date 날짜
+@see
+@todo
+@bug
+@brief 간단설명
+@param 입력값
+@return 출력값
+*/
+
 public interface BookService {
 
 	/**

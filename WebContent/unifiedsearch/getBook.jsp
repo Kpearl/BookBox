@@ -300,12 +300,12 @@ $(function() {
            <h3>${book.title}</h3>
                 <p class="author"><strong>
                 	<c:forEach items="${book.authors}" var="str" varStatus="status">
-		   				${str}<c:if test="${!status.last}"> | </c:if></c:forEach>
+		   				${str}<c:if test="${!status.last}"> | </c:if></c:forEach><br>
    					<c:forEach items="${book.translators}" var="str" varStatus="status">
              			${str}<c:if test="${!status.last}"> | </c:if></c:forEach>
              		<br>출판사 : ${book.publisher}
              		<br>정가 : ${book.price}원</strong> 
-              		<br>발행일 : <span class="text-muted">${book.datetime}</span>
+              		<br>출판일 : <span class="text-muted">${book.datetime}</span>
                 </p>
                 </div>
             	    <div class="col-md-4">

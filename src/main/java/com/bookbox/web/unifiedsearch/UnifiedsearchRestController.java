@@ -23,9 +23,9 @@ import com.bookbox.service.unifiedsearch.BookService;
  * @brief UnifiredSearchRestCrontroller
  * @detail
  * @author JJ
+ * @param 
  * @date 2017.11.07
  */
-
 @RestController
 @RequestMapping("/unifiedsearch/rest/*")
 public class UnifiedsearchRestController {
@@ -82,7 +82,7 @@ public class UnifiedsearchRestController {
 	}
 
 	@RequestMapping(value = "addGrade", method = RequestMethod.POST)
-	public int getGradeList(HttpSession session, @RequestParam("isbn") String isbn,
+	public int addGrade(HttpSession session, @RequestParam("isbn") String isbn,
 			@RequestParam("userCount") String userCount) {
 		System.out.println("/unifiedsearch/rest/addGrade : GET");
 		User user = (User) session.getAttribute("user");
