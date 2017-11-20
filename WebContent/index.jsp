@@ -295,6 +295,11 @@
 			}
 		}
 		
+		.content-part{
+		    padding-left: 40px;
+    		padding-top: 20px;
+		}
+		
 	</style>
 	
 	<script>
@@ -400,7 +405,7 @@
 							}
 						}else{
 							if(index == 0 || index == 1){
-								$('.recommend-type').html('맞춤 추천도서');
+								$('.recommend-type').html('${sessionScope.user.nickname} 님께 추천하는 도서입니다.');
 							}else if(index == 2 || index == 3){
 								$('.recommend-type').html('베스트셀러');
 							}else{
@@ -465,7 +470,7 @@
 																		});
 						}
 					}
-					$('.recommend-type').html('맞춤 추천도서');
+					$('.recommend-type').html('${sessionScope.user.nickname} 님께 추천하는 도서입니다.');
 					if(data.userRecommendList == null || data.userRecommendList.length == 0){
 						$($('.book-content-box')[0]).remove();
 						$($('.book-content-box')[0]).remove();
@@ -580,6 +585,15 @@
 						<div class="intro-content">
 							<h1>CREATION<small class="hidden-xs"> <small> 창작공간</small></small></h1>
 							<h1 class="hidden-sm hidden-md hidden-lg"><small> 창작공간</small></h1>
+							<div class="content-part">
+								<p style="font-size: large;font-style: italic;font-weight: bold;">누구나 작가가 될 수 있는 공간, </p>
+								<p>내가 쓴  글이 작품이 됩니다.</p>
+								<p>자유롭게 표현하고, 다양한 사람들과 공유해 보세요.</p><br/>
+								<p style="font-size: large;font-style: italic;font-weight: bold;">원하는 작품을 소유할 수 있는 공간, </p>
+								<p>작품의 좋아요 수가 50개 이상 달성되면 작가는 작품 펀딩을 진행할 수 있고,</p>
+								<p>작품이 출판되지 않아도 독자는 펀딩 참여를 통해 원하는 작품을 직접 소장할 수 있습니다.</p><br/>
+								<p>원하는 작품을 직접 만들고 간직해 보세요.</p>
+							</div>
 						</div>
 					</div>
 					<div id="community-intro" class="category-intro">
@@ -590,6 +604,11 @@
 						<div class="intro-content">
 							<h1>COMMUNITY<small class="hidden-xs"> <small> 소모임</small></small></h1>
 							<h1 class="hidden-sm hidden-md hidden-lg"><small> 소모임</small></h1>
+							<div class="content-part">
+								<p style="font-size: large;font-style: italic;font-weight: bold;">글에 대한 이야기를 자유롭게 소통할 수 있는 공간,</p>
+								<p>영상 및 화상채팅 등 컨텐츠를 통해 다양한 방법으로</p>
+								<p>여러 사람들과 글에 대한 이야기를 나눠보세요.</p>
+							</div>
 						</div>
 					</div>
 					<div id="booklog-intro" class="category-intro">
@@ -600,8 +619,12 @@
 						<div class="intro-content">
 							<h1>BOOKLOG<small class="hidden-xs"> <small> 북로그</small></small></h1>
 							<h1 class="hidden-sm hidden-md hidden-lg"><small> 북로그</small></h1>
-							<p>포스팅을 작성할 수 있는 자유로운 공간,</p>
-							
+							<div class="content-part">
+								<p style="font-size: large;font-style: italic;font-weight: bold;">개인적인 감성을 간직 할 수 있는 공간,</p>
+								<p>개인적으로 간직하거나 남기고 싶은 이야기, 컨텐츠를 나만의 공간에 마음껏 남겨보세요.</p>
+								<p>내가 관심있는 장르와 분야를 그래프를 통해 확인 할 수 있습니다.</p>
+								<p>나의 활동내역을 통해 나의 취향을 알아가고 공유해 보세요.</p>
+							</div>
 						</div>
 					</div>
 					<div id="recommend-book" class="category-intro active-category">
