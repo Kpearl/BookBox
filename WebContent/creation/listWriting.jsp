@@ -95,7 +95,7 @@
 	   
 	   function fncDoSubscription(){
 		   $.ajax ({
-			   url : "rest/doCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
+			   url : "rest/addCreationSubscribe?creationNo="+$("input[name='creationNo']").val(),
 	    		method : "get",
 	    		dataType : "json",
 	    		success: function(JSONData, status){

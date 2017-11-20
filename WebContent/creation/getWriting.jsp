@@ -375,8 +375,8 @@ $(function() {
 						<div class="get-gradeAvg" style="display: inline-block; float:left;"><strong id="get-gradeAvg">(<fmt:formatNumber value="${writing.grade.average}" pattern="0.00"/>)</strong></div>
 						<div class="add-grade">별점주기</div>
 						<div class="add-grade-form">
-							<c:if test="${!writing.grade.doGrade }">
-								<div id="starWrap" class="gradeAvg-present star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+							<c:if test="${empty sessionScope.user and empty sessionScope.user.email }">
+								<div id="starWrap" class="gradeAvg-present star0" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
 										<ul style="padding-left:0">
 											<li class="s1"></li>
 											<li class="s2"></li>
@@ -386,8 +386,22 @@ $(function() {
 										</ul>
 								</div>
 							</c:if>
+							<c:if test="${!empty sessionScope.user and !empty sessionScope.user.email }">
+								<c:if test="${!writing.grade.doGrade }">
+									<div id="starWrap" class="gradeAvg-present star${fn:substring(writing.grade.average, 0, 1)}" style="display: inline-block; float:left;padding-top: 0.2%;padding-left: 0.5%;">
+											<ul style="padding-left:0">
+												<li class="s1"></li>
+												<li class="s2"></li>
+												<li class="s3"></li>
+												<li class="s4"></li>
+												<li class="s5"></li>
+											</ul>
+									</div>
+								</c:if>
+							</c:if>
 							<c:if test="${writing.grade.doGrade }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 참여하였습니다.	</c:if>
 						</div>
+						
 						<div class="updatedate text-right" style="float:right">
 							<p style="margin: auto;">${writing.updateDate }</p>
 						</div>

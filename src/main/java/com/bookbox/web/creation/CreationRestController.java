@@ -88,8 +88,8 @@ public class CreationRestController {
 	 * @throws Exception
 	 * @return boolean
 	 */	
-	@RequestMapping(value="doCreationSubscribe", method=RequestMethod.GET )
-	public boolean doCreationSubscribe(@RequestParam("creationNo") int creationNo,
+	@RequestMapping(value="addCreationSubscribe", method=RequestMethod.GET )
+	public boolean addCreationSubscribe(@RequestParam("creationNo") int creationNo,
 																		HttpSession session) throws Exception {
 		System.out.println("CreationRestController :: /creation/rest/doCreationSubscribe : GET ===> START\n");
 		
@@ -322,7 +322,8 @@ public class CreationRestController {
 		User user = (User)session.getAttribute("user");
 		Search search = new Search();
 		search.setCondition(condition);
-		System.out.println("RestController :: addWriting :: "+user.getEmail());
+		System.out.println("RestController :: addFunding :: "+user.getEmail());
+		System.out.println("RestController :: addFunding :: search.condition :: "+search.getCondition());
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user);

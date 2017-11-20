@@ -121,16 +121,16 @@
             </div>
         </div>
         <div class="row">
-        	<div class="col-md-6" >
+        	<%-- <div class="col-md-6" >
         		<div class="row">
 				<c:if test="${sessionScope.user.email == creation.creationAuthor.email}">
                 	<div class="btn-form control-btn updateCreation" style="display:inline-block;">수정</div>
                 	<div class="btn-form control-btn deleteCreation" style="display:inline-block;">삭제</div>
 	             </c:if>
 	             </div>
-			</div>
+			</div> --%>
         
-            <div class="col-md-6">
+            <div class="col-md-12">
             	<div class="row" role="group" style="float:right">
                 	
             <c:if test="${creation.doFunding}">

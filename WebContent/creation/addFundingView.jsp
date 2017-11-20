@@ -61,7 +61,7 @@
 		//============== 펀딩등록 Event===========
 		$(function(){
 			$('a.funding-add').on('click', function(){
-				alert($('form').val());
+			//	alert($('form').val());
 				$('form.funding-add').attr('method', 'post').attr('enctype' ,'multipart/form-data').attr('action', '../creation/addFunding').submit();
 				});
 		})

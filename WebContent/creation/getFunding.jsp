@@ -127,6 +127,14 @@
 				 $(self.location).attr("href","../creation/getFundingList");
 			 })
 		 })
+
+ //============작가 북로그 Navigation ============
+ $(function(){
+	 $('.writing-author').on('click', function(){
+		 $(self.location).attr("href","../booklog/getBooklog?user.email="+$(this).attr('id'));
+	 })
+ })
+		 
 		
 
  //============kakao Pay ============
@@ -417,11 +425,11 @@
 	                    	<div class="row funding-userlist text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 	              			<strong>참여자목록조회</strong></div>   
                         </c:if>
-	                     <c:if test="${!funding.doFunding}">
+	                     <c:if test="${!funding.doFunding and sessionScope.user.email != funding.creation.creationAuthor.email}">
 				              <div data-toggle="modal" data-target="#add-payInfo" class="row funding-join text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 				              <strong>펀딩하기</strong></div>    
 	                    </c:if>
-	                    <c:if test="${funding.doFunding}">
+	                    <c:if test="${funding.doFunding }">
 	                    	<div class="row funding-pay-info text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;">
 	              			<strong>펀딩정보조회</strong></div>
 	                    </c:if>
@@ -453,7 +461,7 @@
 										<div class="row creation-writing-list" style="height: 65%;background-color: #ffffff;box-shadow: 0.5px 0.5px 0px 1px;">
 											<div class="creation-writing-form" style="margin: 5% 10%;">
 													<div class="writing-label writing-author-label" >Author</div>
-													<div class="writing-author" style="font-size: large;">${funding.creation.creationAuthor.nickname }</div>
+													<div class="writing-author" id="${funding.creation.creationAuthor.email }" style="font-size: large;cursor:pointer;">${funding.creation.creationAuthor.nickname }</div>
 														<div class="writing-label writing-list-title" style="margin-top: inherit;">Content</div>
 														<div class="writing-form">
 															<c:forEach var="writing" items="${funding.creation.writingList }">

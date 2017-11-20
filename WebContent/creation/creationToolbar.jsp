@@ -77,8 +77,12 @@
     $(function() {
 	//============= 창작글쓰기 Navigation Event  처리 =============	
 		$(".addWriting").on("click" , function() {
+			if (${sessionScope.user == null}) {
+				alert("로그인 후 이용이 가능합니다.");
+			}else{
 			$(self.location).attr("href","../creation/addWriting?condition=4");
-   	}); 
+			}
+		}); 
 	//============= 펀딩등록하기 Navigation Event  처리 =============	
 	 	$(".addfunding").on("click" , function() {
 	 		
@@ -94,11 +98,11 @@
 	   	   			if (creationList.length == 0) {
 						alert("등록가능한 작품이 없습니다.");
 					}else{
-						$(self.location).attr("href","../creation/addFunding");
+						$(self.location).attr("href","../creation/addFunding?condition=3");
 					}
 	   	   		} 
 	 		});
-		  
+		
    	}); 
    //============= 창작홈 Navigation Event  처리 =============	
 		$(".creation-home").on("click" , function() {
