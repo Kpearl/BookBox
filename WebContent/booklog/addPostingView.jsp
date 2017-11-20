@@ -52,11 +52,20 @@
 			fncTagAutocomplete();
 
 			$('div.posting-add:contains("등록")').on('click',function(){
+				var postingTitle = $('input[name="postingTitle"]').val(); 
+				var data = CKEDITOR.instances.postingContent.getData();
 				if(upload.files[0] == null){
 					alert('커버이미지는 필수로 등록하여야 합니다.');
 					return;
 				}
-				var data = CKEDITOR.instances.postingContent.getData();
+				if(postingTitle.trim() == ''){
+					alert('제목을 입력해주세요.');
+					return;
+				}
+				if(data.trim() == ''){
+					alert('내용을 입력해주세요.');
+					return;
+				}
 				$('textarea').val(data);
 				$('form.posting').attr('method','post').attr('action','../booklog/addPosting').attr('enctype','multipart/form-data').submit();
 			});

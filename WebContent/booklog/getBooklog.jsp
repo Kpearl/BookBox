@@ -259,7 +259,7 @@
 			$(self.location).attr("href","../user/getUser?email="+booklogUser);
 		});
 		$('.booklog-content-num .glyphicon-pencil').on('click', function(){
-			$(self.location).attr('href', '../creation/getCreation?condition=5&keyword='+booklogUser);
+			$(self.location).attr('href', '../creation/getCreationList?condition=5&keyword='+booklogUser);
 		});
 		$('a.book-like-list').on('click', function(){
 			$(self.location).attr('href', '../booklog/getBookLikeList?email='+booklogUser+'&nickname='+booklogUserNickname);
@@ -922,7 +922,7 @@
 									</div>
 								</c:forEach>
 								</div>
-								<a class="book-like-list">더보기 &gt</a>
+								<a class="book-like-list">더보기 <span><i class="glyphicon glyphicon-chevron-right"></i></span></a>
 							</div>
 						</c:if>
 			        	<c:if test="${bookLikeList.size() == 0}">
@@ -965,7 +965,7 @@
 						        	</c:forEach>
 							        </div>
 							    </div>
-								<a class="posting-list">더보기 &gt</a>
+								<a class="posting-list">더보기 <span><i class="glyphicon glyphicon-chevron-right"></i></span></a>
 							</div>
 						</c:if>
 			        	<c:if test="${booklog.postingList.size() == 0}">

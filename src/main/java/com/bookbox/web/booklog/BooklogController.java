@@ -77,6 +77,13 @@ public class BooklogController {
 	}
 	
 	/* Method */
+	
+	/**
+	 * @brief 북로그메인 출력
+	 * @param search : condition = 'main'
+	 * @param model : booklogList, postingList, search
+	 * @return ../booklog/mainBooklog.jsp
+	 */
 	@RequestMapping( value="getBooklogMain", method=RequestMethod.GET )
 	public String getBooklogMain(@ModelAttribute("search")Search search, Model model) {
 		
@@ -92,6 +99,13 @@ public class BooklogController {
 		return "forward:../booklog/mainBooklog.jsp";
 	}
 	
+	/**
+	 * @brief 북로그목록 출력
+	 * @param search
+	 * 			condition == "main" : 조회순
+	 * @param model : booklogList, search
+	 * @return ../booklog/listBooklog.jsp
+	 */
 	@RequestMapping( value="getBooklogList" )
 	public String getBooklogList(@ModelAttribute("search")Search search, Model model) {
 
@@ -105,6 +119,14 @@ public class BooklogController {
 		return "forward:../booklog/listBooklog.jsp";
 	}
 	
+	/**
+	 * @brief 북로그 상세조회
+	 * @param booklog : booklogNo 또는 user.email을 포함
+	 * @param search
+	 * @param model : booklog, search, logList, bookmark, bookLikeList
+	 * @param session : 조회자 정보를 얻기위함
+	 * @return : ../booklog/getBooklog.jsp
+	 */
 	@RequestMapping( value="getBooklog", method=RequestMethod.GET )
 	public String getBooklog(@ModelAttribute("booklog")Booklog booklog, 
 								@ModelAttribute("search")Search search, Model model, HttpSession session) {
@@ -128,6 +150,10 @@ public class BooklogController {
 	}
 	
 	
+	/**
+	 * @brief 포스팅등록화면 Navigation
+	 * @return ../booklog/addPostingView.jsp
+	 */
 	@RequestMapping( value="addPosting", method=RequestMethod.GET )
 	public String addPosting() {
 		
@@ -135,6 +161,16 @@ public class BooklogController {
 		
 	}
 	
+	/**
+	 * @brief 포스팅등록
+	 * @param posting : 등록할 포스팅
+	 * @param request : tagList 및 cookie를 얻기위한 request
+	 * @param response : cookie를 초기화하기 위한 response
+	 * @param session : 등록유저를 얻기위한 session
+	 * @param multipartFile : mainFile 등록을 위한 multipartFile
+	 * @return ../booklog/getPostingList?condition=booklog&keyword=user.email
+	 * @throws Exception
+	 */
 	@RequestMapping( value="addPosting", method=RequestMethod.POST )
 	public String addPosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
 													HttpServletResponse response, HttpSession session,
@@ -184,6 +220,14 @@ public class BooklogController {
 		
 	}
 	
+	/**
+	 * @brief 포스팅 상세조회
+	 * @param posting : postingNo를 포함
+	 * @param search
+	 * @param model : posting, search, mainFile
+	 * @param session : 조회자 정보를 얻기 위함
+	 * @return ../booklog/getPosting.jsp
+	 */
 	@RequestMapping( value="getPosting", method=RequestMethod.GET )
 	public String getPosting(@ModelAttribute("posting")Posting posting, 
 							@ModelAttribute("search")Search search,
@@ -204,6 +248,14 @@ public class BooklogController {
 		return "forward:../booklog/getPosting.jsp";
 	}
 
+	/**
+	 * @brief 포스팅목록조회
+	 * @param search
+	 * 			condition == main : 인기포스팅
+	 * 			condition == booklog : 북로그에 포함된 포스팅
+	 * @param model : postingList, totalCount, search
+	 * @return ../booklog/listPosting;.jsp
+	 */
 	@RequestMapping( value="getPostingList" )
 	public String getPostingList(@ModelAttribute("search")Search search, Model model) {
 		if(search.getCondition().equals("booklog")) {
@@ -226,6 +278,14 @@ public class BooklogController {
 		return "forward:../booklog/listPosting.jsp";
 	}
 	
+	/**
+	 * @brief 포스팅수정화면 단순 Navigation
+	 * @param posting : postingNo 포함
+	 * @param model : posting, mainFile
+	 * @param response : mainFile 정보를 cookie에 심기위함
+	 * @return ../booklog/updatePostingView.jsp
+	 * @throws Exception
+	 */
 	@RequestMapping( value="updatePosting", method=RequestMethod.GET )
 	public String updatePosting(@ModelAttribute("posting")Posting posting, Model model, HttpServletResponse response) throws Exception {
 		posting = postingService.getPosting(new User(), posting);
@@ -250,6 +310,18 @@ public class BooklogController {
 		return "forward:../booklog/updatePostingView.jsp";
 	}
 	
+	/**
+	 * @brief 포스팅수정
+	 * @param posting : 수정될 내용
+	 * @param request : 태그목록 포함 및 업로드파일 저장용 cookie
+	 * @param response : cookie 초기화
+	 * @param session : 서비스요청 유저 판별
+	 * @param multipartFile : mainFile 저장용
+	 * @param originFileName : 기존 mainFile의 originFileName
+	 * @param fileName : 기존 mainFile의 서버 fileName
+	 * @return ../booklog/getPostingList?condition=booklog&keyword=user.email
+	 * @throws Exception
+	 */
 	@RequestMapping( value="updatePosting", method=RequestMethod.POST )
 	public String updatePosting(@ModelAttribute("posting")Posting posting, HttpServletRequest request,
 														HttpServletResponse response, HttpSession session,
@@ -301,6 +373,12 @@ public class BooklogController {
 		return "redirect:../booklog/getPostingList?condition=booklog&keyword="+user.getEmail();
 	}
 	
+	/**
+	 * @brief 표지편집 Navigation(rest로 변환)
+	 * @param booklog
+	 * @param model
+	 * @return ../booklog/updateBooklogView.jsp
+	 */
 	@RequestMapping( value="updateBooklog", method=RequestMethod.GET )
 	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, Model model) {
 		model.addAttribute("booklog", booklogService.getBooklog(new User(), booklog));
@@ -308,6 +386,15 @@ public class BooklogController {
 		return "forward:../booklog/updateBooklogView.jsp";
 	}
 	
+	/**
+	 * @brief 표지편집 저장(rest로 변환)
+	 * @param booklog
+	 * @param session
+	 * @param file
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
 	public String updateBooklog(@ModelAttribute("booklog")Booklog booklog, HttpSession session,
 									@RequestParam("file")MultipartFile file, HttpServletRequest request) throws Exception {
@@ -320,6 +407,13 @@ public class BooklogController {
 		return "redirect:../booklog/getBooklog?booklogNo="+booklog.getBooklogNo();
 	}
 	
+	/**
+	 * @brief 전달받은 user의 좋아요 책 목록 조회
+	 * @param user : 좋아요 책 목록을 조회할 user 정보, email, nickname 포함
+	 * @param session
+	 * @param model : bookList, total, keyword
+	 * @return ../unifiedsearch/listBook.jsp
+	 */
 	@RequestMapping( value="getBookLikeList", method=RequestMethod.GET )
 	public String getBookLikeList(@ModelAttribute User user, HttpSession session, Model model) {
 		

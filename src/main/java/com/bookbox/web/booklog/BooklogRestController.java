@@ -39,6 +39,12 @@ import com.bookbox.service.booklog.PostingService;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.User;
 
+/**
+ * @file com.bookbox.service.web.booklog.BooklogRestController.java
+ * @author JW
+ * @date 2017.10.20
+ * @brief BooklogRestController
+ */
 @RestController
 @RequestMapping("booklog/rest/*")
 public class BooklogRestController {
@@ -71,6 +77,15 @@ public class BooklogRestController {
 		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 
+	/**
+	 * @brief CKEditor용 upload 기능
+	 * @param file : 전달받은 file
+	 * @param CKEditor : ??
+	 * @param CKEditorFuncNum : 어디서 호출되었는지 확인용
+	 * @param request : getRealPath()용
+	 * @param response : 업로드된 파일정보를 cookie에 담아서 실제 반영되는지 여부 확인
+	 * @throws Exception
+	 */
 	@RequestMapping( value="uploadFile", method=RequestMethod.POST )
 	public void uploadFile(@RequestParam("upload")MultipartFile file, 
 							@RequestParam(value="CKEditor", required=false)String CKEditor,
@@ -111,7 +126,14 @@ public class BooklogRestController {
 		
 	}
 	
-	
+	/**
+	 * @brief CKEditor용 drag&drop upload 기능
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return uploaded, fileName, url
+	 * @throws Exception
+	 */
 	@RequestMapping( value="uploadFileDragAndDrop", method=RequestMethod.POST )
 	public String uploadFileDragAndDrop(@RequestParam("upload")MultipartFile file, 
 							HttpServletRequest request,
@@ -143,6 +165,11 @@ public class BooklogRestController {
 		return jsonObject.toString();
 	}
 
+	/**
+	 * @brief tagName autocomplete용 rest
+	 * @param tagName
+	 * @return 자동완성목록
+	 */
 	@RequestMapping( value="tag", method=RequestMethod.POST )
 	public List<String> getTagList(@RequestParam("tagName") String tagName) {
 		
@@ -155,6 +182,13 @@ public class BooklogRestController {
 		return stringTagList;
 	}
 	
+	/**
+	 * @brief 책갈피추가
+	 * @param email : 책갈피를 추가하려고 하는 booklog 주인 email
+	 * @param booklogNo : 책갈피를 추가하려고 하는 booklogNo
+	 * @param session : 서비스를 요청한 user 획득용
+	 * @return 성공여부
+	 */
 	@RequestMapping( value="addBookmark/{email}/{booklogNo}", method=RequestMethod.GET )
 	public boolean addBookmark(@PathVariable("email") String email, @PathVariable("booklogNo") int booklogNo, HttpSession session) {
 		User targetUser = new User();
@@ -168,6 +202,13 @@ public class BooklogRestController {
 		return booklogService.addBooklogBookmark(user, booklog);
 	}
 	
+	/**
+	 * @brief 책갈피 삭제
+	 * @param email : 책갈피를 삭제하려는 booklog 주인 email
+	 * @param booklogNo : 책갈피를 삭제하려는 booklogNo
+	 * @param session : 서비스를 요청한 user 획득용
+	 * @return 성공여부
+	 */
 	@RequestMapping( value="deleteBookmark/{email}/{booklogNo}", method=RequestMethod.GET )
 	public boolean deleteBookmark(@PathVariable("email") String email, @PathVariable("booklogNo") int booklogNo, HttpSession session) {
 		User targetUser = new User();
@@ -221,6 +262,12 @@ public class BooklogRestController {
 		return map;
 	}
 	
+	/**
+	 * @brief 북로그목록 호출(REST)
+	 * @param search
+	 * @param currentPage
+	 * @return booklogList
+	 */
 	@RequestMapping( value="getBooklogList/{currentPage}" )
 	public Map<String, Object> getBooklogList(@RequestBody Search search, @PathVariable int currentPage) {
 
@@ -233,6 +280,12 @@ public class BooklogRestController {
 		return map;
 	}
 	
+	/**
+	 * @brief 포스팅목록 호출(REST)
+	 * @param search
+	 * @param currentPage
+	 * @return postingList
+	 */
 	@RequestMapping( value="getPostingList/{currentPage}" )
 	public Map<String, Object> getPostingList(@RequestBody Search search, @PathVariable int currentPage) {
 
@@ -246,6 +299,15 @@ public class BooklogRestController {
 		return map;
 	}
 	
+	/**
+	 * @brief 북로그 표지편집
+	 * @param json : booklog 객체
+	 * @param session : 서비스를 요청한 user 획득용
+	 * @param file : booklogImage
+	 * @param request : getRealPath()용
+	 * @return : true
+	 * @throws Exception
+	 */
 	@RequestMapping( value="updateBooklog", method=RequestMethod.POST )
 	public boolean updateBooklog(@RequestParam("booklog") String json, HttpSession session,
 									@RequestParam(value = "file", required = false)MultipartFile file, HttpServletRequest request) throws Exception {

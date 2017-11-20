@@ -4,8 +4,9 @@ import com.bookbox.service.domain.User;
 import com.bookbox.service.user.MailService;
 
 /**
- * 
+ * @file com.bookbox.service.user.impl.MailRunnableImpl.java
  * @author JW
+ * @brief 메일전송시 유저가 대기하는것을 방지하기 위해 Thread로 구현
  *
  */
 public class MailRunnableImpl implements Runnable {
