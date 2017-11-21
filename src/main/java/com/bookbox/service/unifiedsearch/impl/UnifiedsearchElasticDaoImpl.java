@@ -94,14 +94,6 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 		return sendToElastic(query, json, "POST");
 	}
 
-	public JSONObject writingContent(int creationNo) throws Exception {
-		String query = url + "/_search";
-		String json = "{\"query\":{\"multi_match\":{ \"fields\":[\"title\", \"content\"], \"query\":\"" + creationNo
-				+ "\"}}}";
-
-		return sendToElastic(query, json, "POST");
-	}
-
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> compareToCategory(Object object) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -118,9 +110,6 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("image", creation.getCreationFileName());
 
 			if (creation.getWritingList() != null) {
-				
-				System.out.println("=========" + creation.getWritingList().toString());
-				
 				List<Writing> writingList = (List<Writing>) creation.getWritingList();
 				JSONObject objectTemp = null;
 				JSONArray temp = new JSONArray();
@@ -129,8 +118,11 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 					objectTemp = new JSONObject();
 
 					objectTemp.put("title", writing.getWritingTitle());
-					objectTemp.put("content", writing.getWritingContent());
+					objectTemp.put("content", removeTag(writing.getWritingContent()));
 					objectTemp.put("_id", writing.getWritingNo());
+					if(writing.getWritingFileList().size() > 0) 
+						objectTemp.put("image", writing.getWritingFileList().get(0).getFileName());
+					
 					temp.add(objectTemp);
 					
 					if(temp.size() > 3) 
@@ -152,8 +144,7 @@ public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 			obj.put("content", removeTag(posting.getPostingContent()));
 			obj.put("tag", tagParse(posting.getPostingTagList()));
 			obj.put("nick_name", posting.getUser().getNickname());
-			obj.put("image",
-					posting.getPostingFileList().size() == 0 ? "" : posting.getPostingFileList().get(0).getFileName());
+			obj.put("image", posting.getPostingFileList().size() == 0 ? "" : posting.getPostingFileList().get(0).getFileName());
 
 			map.put("category", "posting");
 			map.put("id", posting.getPostingNo());

@@ -51,30 +51,54 @@ footer{
 .search-hr {
     border: 2px solid #6e6571;
 }
+
+
+
 .creation-content-img{
     background: center center;
     width: 340px;
     box-shadow: 2px 3px 3px rgba(128, 128, 129, 0.53)
 }
 #creation-tag-box{
-	padding: 10px 15px 0px 15px;
+	padding: 10px;
 	background: rgba(54, 69, 107, 0.99);
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
-    width: 340px;
 	color: #e0e0e0;
 }
 .creation-total-box{
-	padding: 15px 0px 0px 45px;
+	padding: 10px;
+	margin: 10px;
 }
+.creation-content-img{
+    background: center center;
+    maring: 5px;
+    width: 70px;
+    height: 70px;
+    object-fit:cover;
+    border-radius: 50%;
+    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
+}
+.creation-box{
+	padding: 10px;
+}
+.creation-content-hr {
+    border: 1px solid #a2b2b1;
+
+}
+.creation-box{
+	padding: 10px;
+}
+
+
 #board-title-box{
 	padding: 10px 10px 10px 15px; 
 	height: 110px;
-	background: #74B49B;
+	background: rgb(177, 178, 177);
 }
 #board-tag-box{
 	padding: 10px 15px 10px 15px;
 	height: 110px;
-	background: #D3F6D1;
+	background: #d4d4d4;
 }
 .board-total-box{
 	padding: 10px 25px 30px 15px;
@@ -263,30 +287,40 @@ document.onreadystatechange = function () {
 			</div>
 		</c:if>
 		
-		<div class="row" id="creation-content">	
-			<div id="content-view">	
-				<c:set var="doneLoop" value="false"/>	
+		<c:set var="doneLoop" value="false"/>	
 				<c:forEach items="${creationList.result}" var="creation" varStatus="status">
-					<c:if test="${not doneLoop}">
-						<c:if test="${status.count == 4}"> 
-							<c:set var="doneLoop" value="true"/> 
-						</c:if> 
-					</c:if> 
-					<c:if test="${not doneLoop}"> 
-						<div class="creation-total-box nav-creation" id="${creation.id}">
-							<div class="row">
-								<img class="creation-content-img" src="../resources/upload_files/images/${creation.image}" onerror="this.src='../resources/images/noimage.jpg'">
+								<div class="row creation-box">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="row nav-creation" style="padding-left:10px" id="${creation.id}"><font size=3>${creation.title}</font></div> 
+						<div class="row" style="padding-left:10px"><p><c:forEach items="${creation.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
+					</div>
+					<div class="col-md-1">
+						<img class="creation-content-img" src="../resources/upload_files/images/${creation.image}" onerror="this.src='../resources/images/noimage.jpg'">
+					</div>
+					<div class="col-md-1">
+						<div class="row">게시글 총 ${fn:length(creation.writing)} 건</div>
+						<div class="row">by ${creation.nick_name}</div>
+					</div>
+				</div>
+				<c:forEach items="${creation.writing}" var="writing">
+					<div class="col-md-3 nav-community creation-total-box">
+						<div class="row" id="title-box">
+							<div class="col-md-7 col-xs-7 nav-writing" style="padding: 5px;" id="${writing.writingNo}">
+								<p><strong>${writing.writingTitle}</strong></p>
 							</div>
-							<div class="row" id="creation-tag-box">
-								<div class="row" style="padding-left:10px"><font size=3>${creation.title}</font></div> 
-								<div class="row" style="padding-left:10px">${creation.nick_name}</div>
-								<div class="row" style="padding-left:10px"><p><c:forEach items="${creation.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
-							</div>							
+							<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
+								<img class="creation-content-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
+							</div>
 						</div>
-					</c:if>
+						<div class="row" id="tag-box">
+							${creation.nick_name}
+						</div>	
+					</div>
 				</c:forEach>
 			</div>
-		</div>
+			<hr class="creation-content-hr">			
+		</c:forEach>
 		
 		<c:if test="${creationList.total ne 0}">
 			 <div class="row">
@@ -319,13 +353,13 @@ document.onreadystatechange = function () {
 				</c:if> 
 			</c:if> 
 			<c:if test="${not doneLoop}"> 
-				<div class="col-md-3 nav-community board-total-box" id="${board.id}">
+				<div class="col-md-3 board-total-box">
 					<div class="row" id="board-title-box">
-						<div class="col-md-7 col-xs-7" style="padding: 5px;">
+						<div class="col-md-7 col-xs-7 nav-community" id="${board.id}" style="padding: 5px;">
 							<p><strong>${board.title}</strong></p>
 						<div >${board.nick_name}</div>
 					</div>
-					<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
+					<div class="col-md-5 col-xs-5 nav-community" id="${board.id}"  style="padding-right: 0px;" align="right">
 						<img class="board-content-img" src="${board.image}" onerror="this.src='../resources/images/noimage.jpg'">
 					</div>	
 				</div>
@@ -367,19 +401,19 @@ document.onreadystatechange = function () {
 			</c:if> 
 		</c:if>
 		<c:if test="${not doneLoop}"> 
-			<div class="row nav-posting" id="${posting.id}">
+			<div class="row">
 				<div class="row" id="posting-shadow-box">
-					<div class="col-md-3">
+					<div class="col-md-3 nav-posting" id="${posting.id}">
 						<img class="posting-content-img" src="../resources/upload_files/images/${posting.image}" onerror="this.src='../resources/images/noimage.png'">							
 					</div>
 					<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
-						<div class="row">
+						<div class="row nav-posting" id="${posting.id}">
 							<p><font size="4"><strong>${posting.title}</strong></font>  ${posting.nick_name}</p>				
 						</div>
 						<div class="row">
 							<p><c:forEach items="${posting.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
 						</div>
-						<div>
+						<div class="nav-posting" id="${posting.id}">
 							<p class="posting-content-line">${posting.content}</p>
 						</div>
 					</div>

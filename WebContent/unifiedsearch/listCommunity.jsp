@@ -39,12 +39,12 @@ strong {
 #title-box{
 	padding: 10px 5px 10px 10px; 
 	height: 100px;
-	background: #74B49B;
+	background: rgb(177, 178, 177);
 }
 #tag-box{
 	padding: 10px 15px 10px 15px;
 	height: 100px;
-	background: #D3F6D1;
+	background: #d4d4d4;
 }
 .total-box{
 	padding: 10px 35px 30px 35px;
@@ -122,9 +122,9 @@ footer{
 		</c:if>
 					
 		<c:forEach items="${result}" var="result">
-			<div class="col-md-3 nav-community total-box" id="${result.id}">
+			<div class="col-md-3 total-box">
 				<div class="row" id="title-box">
-					<div class="col-md-7 col-xs-7" style="padding: 5px;">
+					<div class="col-md-7 col-xs-7 nav-community" style="padding: 5px;" id="${result.id}">
 						<p><strong>${result.title}</strong></p>
 						<div >${result.nick_name}</div>
 					</div>

@@ -92,19 +92,24 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			JSONObject lastJo = (JSONObject) jo.get("_source");
 			unifiedsearch = new Unifiedsearch();
 			
+			
 			if ((boolean)lastJo.containsKey("writing")) {
 				JSONArray wriringList = (JSONArray)lastJo.get("writing");
 				List<Writing> tempList = new ArrayList<Writing>();
 				
 				for (int j = 0; j < wriringList.size(); j++) {
-					JSONObject temp = (JSONObject) jsonArray.get(j);
+					JSONObject temp = (JSONObject) wriringList.get(j);
 					Writing writing = new Writing();
 
-					writing.setWritingTitle((String) temp.get("title"));
-					writing.setWritingNo((Integer) temp.get("_id"));
-					writing.setWritingContent((String) temp.get("content"));
+					writing.setWritingTitle(temp.get("title").toString());
+					writing.setWritingNo(Integer.parseInt(temp.get("_id").toString()));
+					writing.setWritingContent(temp.get("content").toString());
+					writing.setWritingAuthor(temp.get("image").toString());
 					
 					tempList.add(writing);
+					
+					if(tempList.size() > 4)
+						break;
 				}
 				unifiedsearch.setWriting(tempList);
 			}

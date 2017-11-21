@@ -36,20 +36,24 @@ strong {
     border: 2px solid #a2b2b1;
 
 }
+.content-hr {
+    border: 1px solid #a2b2b1;
+
+}
 .content-img{
     background: center center;
     width: 340px;
     box-shadow: 2px 3px 3px rgba(128, 128, 129, 0.53)
 }
 #tag-box{
-	padding: 10px 15px 0px 15px;
+	padding: 10px;
 	background: rgba(54, 69, 107, 0.99);
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
-    width: 340px;
 	color: #e0e0e0;
 }
 .total-box{
-	padding: 15px 0px 0px 45px;
+	padding: 10px;
+	margin: 10px;
 }
 footer{
 	margin-top: 60px;
@@ -63,6 +67,18 @@ footer{
 	background-color: #a09aa2;
 	color: rgb(246, 245, 247);
 	transition: 0.5s;
+}
+.content-img{
+    background: center center;
+    maring: 5px;
+    width: 70px;
+    height: 70px;
+    object-fit:cover;
+    border-radius: 50%;
+    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
+}
+.box{
+	padding: 10px;
 }
 </style>
 <script type="text/ecmascript">
@@ -91,6 +107,10 @@ $(function() {
 	$(".nav-creation").on("click" , function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../creation/getWritingList?creationNo=" + targetNo);
+	});
+	$(".nav-writing").on("click" , function() {
+		var targetNo = this.getAttribute('id');
+		$(self.location).attr("href","../creation/getWriting?writingNo=" + targetNo);
 	}); 
 });
 </script>
@@ -119,19 +139,37 @@ $(function() {
 		</c:if>
 			
 		<c:forEach items="${result}" var="result">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="row" style="padding-left:10px"><font size=3>${result.title}</font></div> 
-					<div class="row" style="padding-left:10px"><p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
+			<div class="row box">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="row nav-creation" style="padding-left:10px" id="${result.id}"><font size=3>${result.title}</font></div> 
+						<div class="row" style="padding-left:10px"><p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
+					</div>
+					<div class="col-md-1">
+						<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
+					</div>
+					<div class="col-md-1">
+						<div class="row">게시글 총 ${fn:length(result.writing)} 건</div>
+						<div class="row">by ${result.nick_name}</div>
+					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="row" style="padding-right:10px">${fn:length(result.writing)}</div>
-					<div class="row" style="padding-right:10px">${result.nick_name}</div>
-				</div>
+				<c:forEach items="${result.writing}" var="writing">
+					<div class="col-md-3 nav-community total-box">
+						<div class="row" id="title-box">
+							<div class="col-md-7 col-xs-7 nav-writing" style="padding: 5px;" id="${writing.writingNo}">
+								<p><strong>${writing.writingTitle}</strong></p>
+							</div>
+							<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
+								<img class="content-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
+							</div>
+						</div>
+						<div class="row" id="tag-box">
+							${result.nick_name}
+						</div>	
+					</div>
+				</c:forEach>
 			</div>
-			<div class="row">
-				<span>${result.writing}</span>
-			</div>
+			<hr class="content-hr">			
 		</c:forEach>
   	</div>
   	

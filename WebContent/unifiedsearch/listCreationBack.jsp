@@ -125,8 +125,8 @@ $(function() {
 		<div class="row" id="content">
 			<div id="content-view">				
 				<c:forEach items="${result}" var="result">
-					<div class="total-box nav-creation" id="${result.id}">
-						<div class="row">
+					<div class="total-box">
+						<div class="row nav-creation"  id="${result.id}">
 							<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
 						</div>
 						<div class="row" id="tag-box">

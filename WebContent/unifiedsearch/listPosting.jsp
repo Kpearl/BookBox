@@ -126,22 +126,22 @@ footer{
 			</div>
 		</c:if>
 		<c:forEach items="${result}" var="result">
-			<div class="row nav-posting" id="${result.id}">
+			<div class="row">
 				<div class="row" id="shadow-box">
-					<div class="col-md-3">
+					<div class="col-md-3 nav-posting" id="${result.id}">
 						<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.png'">							
 					</div>
 					<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
-						<div class="row">
+						<div class="row nav-posting" id="${result.id}">
 							<p><font size="4"><strong>${result.title}</strong></font>  ${result.nick_name}</p>				
 						</div>
 						<div class="row">
 							<p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
 						</div>
-						<div>
+						<div class="nav-posting" id="${result.id}">
 							<p class="content-line">${result.content}</p>
 						</div>
-					</div>
+					 </div>
 				</div>
 			</div>
 		</c:forEach>
