@@ -93,7 +93,6 @@ public class PostingTest {
 		List<Location> locationList = new ArrayList<Location>();
 		locationList.add(location);
 		
-		posting.setPostingLocationList(locationList);
 		
 		postingService.updatePosting(user, posting);
 	}

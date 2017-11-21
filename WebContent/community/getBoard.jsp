@@ -539,5 +539,7 @@ ToolbarOpacHeight(500);
 	
 	
 	
-	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>

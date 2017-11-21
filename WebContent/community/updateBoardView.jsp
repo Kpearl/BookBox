@@ -162,7 +162,7 @@ ToolbarOpacHeight(500);
 	
 	<form name="tx_editor_form" id="tx_editor_form" action="updateBoard" method="post" accept-charset="utf-8">
 		<input type="hidden" name="boardNo" value="${board.boardNo }">
-		<div class="form-group">
+		<div class="form-group" style="margin-top: 50px;">
 			<div class="input-group input-group-custom">
 				<!--  <label for="boardTitle">제목</label> -->
 				<span class="input-group-addon addon-custom" id="title-addon">제목</span>
@@ -199,7 +199,10 @@ ToolbarOpacHeight(500);
 		<br/>
 	</form>
 </div>
-
+	<div style="height: 200px"></div>
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+		</footer>
 
 </body>
 </html>
