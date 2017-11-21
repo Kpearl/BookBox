@@ -94,8 +94,9 @@
 	}
 	
 	.room-info .room-content{
-		height: 40px;
+		height: 80px;
 		font-size:  15px;
+		/*overflow: hidden;*/
 	}
 	.room-info .tag-list{
 		margin: 10px 0 0 0;
@@ -464,5 +465,9 @@ function getRandomColor() {
   }
 </script>
 
+<div style="height: 300px;"></div>
+	<footer class="container-fluid">
+			<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>

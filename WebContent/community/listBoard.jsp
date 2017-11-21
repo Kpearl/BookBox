@@ -394,5 +394,9 @@
 			</div>
 	</div>
 	
+	
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+		</footer>
 </body>
 </html>

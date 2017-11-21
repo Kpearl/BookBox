@@ -140,9 +140,41 @@
 	</jsp:include>
 	<header class="parallax"></header>
 	<div class="container">	
+	
+		<div class="row">
+			 <div class="col-md-6 text-left">
+			 				<!-- 
+							<p class="paging">전체 ${page.totalCount } 건수, 현재
+							${page.currentPage} 페이지</p>
+			 				 -->
+			 				 <p class="paging">전체 ${page.totalCount } 건수</p>
+			</div>
+			<div class="col-md-6 col-xs-hidden" style="text-align: right;">
+	
+				<span class="check recent-list" >
+					<input type="hidden" value="0">
+					<c:if test="${search.order==0 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px">
+					</c:if>
+					<c:if test="${search.order!=0 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">
+					</c:if>
+				최신</span>
+				<span class="check enddate-list">
+					<input type="hidden" value="1">
+					<c:if test="${search.order==1 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px">
+					</c:if>
+					<c:if test="${search.order!=1 }">
+						<img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">
+					</c:if>
+					인기</span>
+			</div>
+		 </div>
+	
 		<div class="row" style="height: 70px;">
 				<div class="col-xs-6">
-					<h1>CamChat</h1> 
+					<h1>화상채팅</h1> 
 				</div>
 				<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
 				</div>
@@ -184,5 +216,9 @@
 			</c:forEach>
 			</div>
 	</div>
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>
