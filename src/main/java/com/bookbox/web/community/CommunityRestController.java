@@ -56,6 +56,10 @@ public class CommunityRestController {
 	@Qualifier("userServiceImpl")
 	UserService userServiceImpl;
 	
+	int pageUnit;
+	int pageSize;
+	
+	
 	public CommunityRestController() {
 		System.out.println("Constructor :: "+getClass().getName());
 	}

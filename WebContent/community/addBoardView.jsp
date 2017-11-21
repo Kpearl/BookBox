@@ -51,7 +51,11 @@
 		width: 15px;
 	 	vertical-align: center;
 	}
-	
+	.img-item img{
+		width: 90px;
+		height: 90px;
+		object-fit:contain;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -177,16 +181,18 @@
 			
 		</div>
 		<div id="tagNames"></div>
-			
+		<br/>
 		<div class="imgList">
 			이미지 목록
 		</div>
-		
+		<br/>
 		<br/>
 	</form>
 	
 </div>
 
-
+	<footer class="container-fluid">
+			<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>

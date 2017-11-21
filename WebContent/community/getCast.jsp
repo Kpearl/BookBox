@@ -733,5 +733,9 @@ var chatSocket=io.connect('https://192.168.0.21:433/chat');
 
 </script>
 
+		<div style="height: 200px"></div>
+		<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+		</footer>
 </body>
 </html>

@@ -11,7 +11,11 @@
  	
  	$(window).resize(function(){
 		fncFooterPositioning();
+		console.log("resize log");
  	});
+ 	$(window).bind('DOMNodeInserted DOMNodeRemoved', function() {
+ 		fncFooterPositioning();
+	});
  	
  	function fncFooterPositioning(){
 		$('footer').css('position', 'absolute')

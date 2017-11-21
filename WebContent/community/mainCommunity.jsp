@@ -97,7 +97,7 @@
    			height: 35px;		
    			background-color: 	#62BFAD;
    			color:floralwhite;
-   			font-weight: bold;
+   			font-weight: 500;
    			overflow: hidden;
    			font-size: 25px;
    			
@@ -552,5 +552,9 @@
 	  </div>
 	</div>
 	
+	
+	<footer class="container-fluid">
+		<jsp:include page="../layout/tailbar.jsp"/>
+	</footer>
 </body>
 </html>

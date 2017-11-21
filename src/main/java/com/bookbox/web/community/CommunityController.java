@@ -63,6 +63,9 @@ public class CommunityController {
 		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
+	int pageUnit;
+	int pageSize;
+	
 	
 	/**
 	 * @brief getCommunityMain
@@ -543,6 +546,26 @@ public class CommunityController {
 	public String getCamChatList(@ModelAttribute("Search")Search search,
 								@ModelAttribute("Page")Page page,Model model) throws Exception{
 		
+		if(search.getKeyword()==null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition()==null) {
+			search.setCondition("0");
+		}
+		if(search.getOrder()==null) {
+			search.setOrder("0");
+		}
+		
+		if(page.getCurrentPage()==0) {
+			page.setCurrentPage(1);
+		}
+		if(page.getPageSize()==0) {
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+		
 		List<ChatRoom> camChatList=new ArrayList<ChatRoom>(); 
 		
 		//
@@ -551,7 +574,8 @@ public class CommunityController {
 		}
 		
 		model.addAttribute("camChatList",camChatList);
-		
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
 		return "forward:listCamChat.jsp";
 	}
 	
@@ -567,6 +591,26 @@ public class CommunityController {
 	public String getCastList(@ModelAttribute("Search")Search search,
 							@ModelAttribute("Page")Page page,Model model) throws Exception{
 		
+		if(search.getKeyword()==null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition()==null) {
+			search.setCondition("0");
+		}
+		if(search.getOrder()==null) {
+			search.setOrder("0");
+		}
+		
+		if(page.getCurrentPage()==0) {
+			page.setCurrentPage(1);
+		}
+		if(page.getPageSize()==0) {
+			page.setPageSize(5);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(5);
+		}
+		
 		List<ChatRoom> castList=new ArrayList<ChatRoom>(); 
 		
 		for(Map.Entry<String, ChatRoom> elem: ChatRoom.castMap.entrySet()) {
@@ -574,7 +618,8 @@ public class CommunityController {
 		}
 		
 		model.addAttribute("castList",castList);
-		
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
 		return "forward:listCast.jsp";
 	}
 	
