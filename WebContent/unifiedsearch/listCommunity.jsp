@@ -39,12 +39,12 @@ strong {
 #title-box{
 	padding: 10px 5px 10px 10px; 
 	height: 100px;
-	background: rgb(177, 178, 177);
+	background: #74B49B;
 }
 #tag-box{
 	padding: 10px 15px 10px 15px;
 	height: 100px;
-	background: #d4d4d4;
+	background: #D3F6D1;
 }
 .total-box{
 	padding: 10px 35px 30px 35px;

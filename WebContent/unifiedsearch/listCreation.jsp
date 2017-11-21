@@ -40,21 +40,6 @@ strong {
     border: 1px solid #a2b2b1;
 
 }
-.content-img{
-    background: center center;
-    width: 340px;
-    box-shadow: 2px 3px 3px rgba(128, 128, 129, 0.53)
-}
-#tag-box{
-	padding: 10px;
-	background: rgba(54, 69, 107, 0.99);
-    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
-	color: #e0e0e0;
-}
-.total-box{
-	padding: 10px;
-	margin: 10px;
-}
 footer{
 	margin-top: 60px;
 }
@@ -68,7 +53,7 @@ footer{
 	color: rgb(246, 245, 247);
 	transition: 0.5s;
 }
-.content-img{
+.creation-img{
     background: center center;
     maring: 5px;
     width: 70px;
@@ -77,8 +62,21 @@ footer{
     border-radius: 50%;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
 }
-.box{
-	padding: 10px;
+.writing-title{
+	text-align: center;
+    width: 170px;
+    height: 50px;
+    padding: 5px;
+}
+.writing-img{
+	background: center center;
+    width: 170px;
+    height: 130px;
+}
+.writing-total{
+	width: 170px;
+	margin: 30px;
+    box-shadow: 2px 2px 2px 3px rgba(128, 128, 128, 0.53);
 }
 </style>
 <script type="text/ecmascript">
@@ -139,40 +137,34 @@ $(function() {
 		</c:if>
 			
 		<c:forEach items="${result}" var="result">
-			<div class="row box">
-				<div class="row">
+				<div class="row" style="margin-bottom:20px;">
+					<div class="col-md-1">
+						<img class="creation-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
+					</div>
 					<div class="col-md-9">
-						<div class="row nav-creation" style="padding-left:10px" id="${result.id}"><font size=3>${result.title}</font></div> 
+						<div class="row nav-creation" style="padding-left:10px" id="${result.id}"><font size=5>${result.title}</font>  by ${result.nick_name}</div> 
 						<div class="row" style="padding-left:10px"><p><c:forEach items="${result.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
 					</div>
 					<div class="col-md-1">
-						<img class="content-img" src="../resources/upload_files/images/${result.image}" onerror="this.src='../resources/images/noimage.jpg'">
-					</div>
-					<div class="col-md-1">
 						<div class="row">게시글 총 ${fn:length(result.writing)} 건</div>
-						<div class="row">by ${result.nick_name}</div>
 					</div>
 				</div>
-				<c:forEach items="${result.writing}" var="writing">
-					<div class="col-md-3 nav-community total-box">
-						<div class="row" id="title-box">
-							<div class="col-md-7 col-xs-7 nav-writing" style="padding: 5px;" id="${writing.writingNo}">
-								<p><strong>${writing.writingTitle}</strong></p>
+					
+				<div class="row" style="margin-left:10px;">
+					<c:forEach items="${result.writing}" var="writing">
+						<div class="col-md-3 nav-writing writing-total" id="${writing.writingNo}">
+							<div class="row writing-title">
+								${writing.writingTitle}
 							</div>
-							<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
-								<img class="content-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
-							</div>
+							<div class="row">
+								<img class="writing-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
+							</div>		
 						</div>
-						<div class="row" id="tag-box">
-							${result.nick_name}
-						</div>	
-					</div>
-				</c:forEach>
-			</div>
+					</c:forEach>
+				</div>
 			<hr class="content-hr">			
 		</c:forEach>
-  	</div>
-  	
+  	</div>  	
   	<div id="floatMenu">
   		<div class="row" style="margin:10%;">
   			<strong>관련 태그</strong>

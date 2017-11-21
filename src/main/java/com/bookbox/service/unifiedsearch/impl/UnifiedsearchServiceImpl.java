@@ -59,10 +59,10 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
 			return map;
-			
-		} else if(search.getCategory() == Category.TAG) {
+
+		} else if (search.getCategory() == Category.TAG) {
 			temp.setCategory(Category.TAG);
-			
+
 			temp.setCondition("_search");
 			map.put("result", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
@@ -75,7 +75,7 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			temp.setCondition("posting/_search");
 			map.put("postingList", convertToMap(unifiedsearchDAO.elasticSearch(temp)));
 
-			return map;			
+			return map;
 		}
 		return convertToMap(unifiedsearchDAO.elasticSearch(search));
 	}
@@ -91,12 +91,11 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 			JSONObject jo = (JSONObject) jsonArray.get(i);
 			JSONObject lastJo = (JSONObject) jo.get("_source");
 			unifiedsearch = new Unifiedsearch();
-			
-			
-			if ((boolean)lastJo.containsKey("writing")) {
-				JSONArray wriringList = (JSONArray)lastJo.get("writing");
+
+			if ((boolean) lastJo.containsKey("writing")) {
+				JSONArray wriringList = (JSONArray) lastJo.get("writing");
 				List<Writing> tempList = new ArrayList<Writing>();
-				
+
 				for (int j = 0; j < wriringList.size(); j++) {
 					JSONObject temp = (JSONObject) wriringList.get(j);
 					Writing writing = new Writing();
@@ -104,11 +103,13 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 					writing.setWritingTitle(temp.get("title").toString());
 					writing.setWritingNo(Integer.parseInt(temp.get("_id").toString()));
 					writing.setWritingContent(temp.get("content").toString());
-					writing.setWritingAuthor(temp.get("image").toString());
-					
+
+					if (temp.get("image") != null)
+						writing.setWritingAuthor(temp.get("image").toString());
+
 					tempList.add(writing);
-					
-					if(tempList.size() > 4)
+
+					if (tempList.size() > 4)
 						break;
 				}
 				unifiedsearch.setWriting(tempList);
@@ -138,56 +139,59 @@ public class UnifiedsearchServiceImpl implements UnifiedsearchService {
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject jo = (JSONObject) jsonArray.get(i);
 			JSONObject lastJo = (JSONObject) jo.get("_source");
-			temp = (JSONArray) lastJo.get("tag");
 
-			for (int j = 0; j < temp.size(); j++) {
-				list.add(temp.get(j).toString());
+			if (lastJo.get("tag") != null) {
+				temp = (JSONArray) lastJo.get("tag");
+
+				for (int j = 0; j < temp.size(); j++) {
+					list.add(temp.get(j).toString());
+				}
 			}
 		}
-		
+
 		return counting(list);
 	}
-	
+
 	public List<String> counting(List<String> list) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		
-		for(String str : list) {
-			if(map.containsKey(str)) 
-				map.put(str, map.get(str)+1);
-			
+
+		for (String str : list) {
+			if (map.containsKey(str))
+				map.put(str, map.get(str) + 1);
+
 			else
 				map.put(str, 1);
 		}
-		
+
 		List<String> tagList = sortByValue(map);
 		List<String> tag = new ArrayList<String>();
-		
-		for(int i = 0; i < tagList.size(); i++) {
-			
-			if(!tagList.get(i).equals("픽션") && !tagList.get(i).equals("논픽션")) 
+
+		for (int i = 0; i < tagList.size(); i++) {
+
+			if (!tagList.get(i).equals("픽션") && !tagList.get(i).equals("논픽션"))
 				tag.add(tagList.get(i));
-			
-			if(tag.size() > 4) 
+
+			if (tag.size() > 4)
 				break;
 		}
 		return tag;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<String> sortByValue(Map<String, Integer> map){
-        List<String> list = new ArrayList<String>();
-        list.addAll(map.keySet());
-         
-        Collections.sort(list,new Comparator(){
-            public int compare(Object o1,Object o2){
-                Object v1 = map.get(o1);
-                Object v2 = map.get(o2);
-                 
-                return ((Comparable) v1).compareTo(v2);
-            }
-             
-        });
-        Collections.reverse(list); // 주석시 오름차순
-        return list;
-    }
+	public List<String> sortByValue(Map<String, Integer> map) {
+		List<String> list = new ArrayList<String>();
+		list.addAll(map.keySet());
+
+		Collections.sort(list, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				Object v1 = map.get(o1);
+				Object v2 = map.get(o2);
+
+				return ((Comparable) v1).compareTo(v2);
+			}
+
+		});
+		Collections.reverse(list); // 주석시 오름차순
+		return list;
+	}
 }

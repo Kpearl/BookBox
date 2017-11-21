@@ -51,25 +51,7 @@ footer{
 .search-hr {
     border: 2px solid #6e6571;
 }
-
-
-
-.creation-content-img{
-    background: center center;
-    width: 340px;
-    box-shadow: 2px 3px 3px rgba(128, 128, 129, 0.53)
-}
-#creation-tag-box{
-	padding: 10px;
-	background: rgba(54, 69, 107, 0.99);
-    box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
-	color: #e0e0e0;
-}
-.creation-total-box{
-	padding: 10px;
-	margin: 10px;
-}
-.creation-content-img{
+.creation-img{
     background: center center;
     maring: 5px;
     width: 70px;
@@ -78,27 +60,31 @@ footer{
     border-radius: 50%;
     box-shadow: 3px 3px 3px rgba(128, 128, 128, 0.53);
 }
-.creation-box{
-	padding: 10px;
+.writing-title{
+	text-align: center;
+    width: 170px;
+    height: 50px;
+    padding: 5px;
 }
-.creation-content-hr {
-    border: 1px solid #a2b2b1;
-
+.writing-img{
+	background: center center;
+    width: 170px;
+    height: 130px;
 }
-.creation-box{
-	padding: 10px;
+.writing-total{
+	width: 170px;
+	margin: 30px;
+    box-shadow: 2px 2px 2px 3px rgba(128, 128, 128, 0.53);
 }
-
-
 #board-title-box{
 	padding: 10px 10px 10px 15px; 
 	height: 110px;
-	background: rgb(177, 178, 177);
+	background: #74B49B;
 }
 #board-tag-box{
 	padding: 10px 15px 10px 15px;
 	height: 110px;
-	background: #d4d4d4;
+	background: #D3F6D1;
 }
 .board-total-box{
 	padding: 10px 25px 30px 15px;
@@ -153,6 +139,9 @@ footer{
 strong {
 	color:rgba(82, 76, 76, 0.92);
 }
+.creation-hr {
+    border: 1px solid #6e6571;
+}
 </style>
 
 <script type="text/javascript">
@@ -187,6 +176,10 @@ $(function() {
 		var targetNo = this.getAttribute('id');
 		$(self.location).attr("href","../community/getBoard?boardNo=" + targetNo);
 	});
+	$(".nav-writing").on("click" , function() {
+		var targetNo = this.getAttribute('id');
+		$(self.location).attr("href","../creation/getWriting?writingNo=" + targetNo);
+	}); 
 
 	//nav-more
 	$(".nav-creation-more").on("click" , function() {
@@ -287,41 +280,35 @@ document.onreadystatechange = function () {
 			</div>
 		</c:if>
 		
-		<c:set var="doneLoop" value="false"/>	
-				<c:forEach items="${creationList.result}" var="creation" varStatus="status">
-								<div class="row creation-box">
-				<div class="row">
+		<c:set var="doneLoop" value="false"/>
+			<c:forEach items="${creationList.result}" var="creation" varStatus="status">
+				<div class="row" style="margin-bottom:20px;">
+					<div class="col-md-1">
+						<img class="creation-img" src="../resources/upload_files/images/${creation.image}" onerror="this.src='../resources/images/noimage.jpg'">
+					</div>
 					<div class="col-md-9">
-						<div class="row nav-creation" style="padding-left:10px" id="${creation.id}"><font size=3>${creation.title}</font></div> 
+						<div class="row nav-creation" style="padding-left:10px" id="${creation.id}"><font size=5>${creation.title}</font>  by ${creation.nick_name}</div> 
 						<div class="row" style="padding-left:10px"><p><c:forEach items="${creation.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></div>
 					</div>
 					<div class="col-md-1">
-						<img class="creation-content-img" src="../resources/upload_files/images/${creation.image}" onerror="this.src='../resources/images/noimage.jpg'">
-					</div>
-					<div class="col-md-1">
 						<div class="row">게시글 총 ${fn:length(creation.writing)} 건</div>
-						<div class="row">by ${creation.nick_name}</div>
 					</div>
 				</div>
-				<c:forEach items="${creation.writing}" var="writing">
-					<div class="col-md-3 nav-community creation-total-box">
-						<div class="row" id="title-box">
-							<div class="col-md-7 col-xs-7 nav-writing" style="padding: 5px;" id="${writing.writingNo}">
-								<p><strong>${writing.writingTitle}</strong></p>
+					
+				<div class="row" style="margin-left:10px;">
+					<c:forEach items="${creation.writing}" var="writing">
+						<div class="col-md-3 nav-writing writing-total" id="${writing.writingNo}">
+							<div class="row writing-title">
+								${writing.writingTitle}
 							</div>
-							<div class="col-md-5 col-xs-5"  style="padding-right: 0px;" align="right">
-								<img class="creation-content-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
-							</div>
+							<div class="row">
+								<img class="writing-img" src="../resources/upload_files/images/${writing.writingAuthor}" onerror="this.src='../resources/images/noimage.jpg'">
+							</div>		
 						</div>
-						<div class="row" id="tag-box">
-							${creation.nick_name}
-						</div>	
-					</div>
-				</c:forEach>
-			</div>
-			<hr class="creation-content-hr">			
+					</c:forEach>
+				</div>	
+			<c:if test="${status.count != 3}"><hr class="creation-hr"></c:if>		
 		</c:forEach>
-		
 		<c:if test="${creationList.total ne 0}">
 			 <div class="row">
 				<div align="right" class="nav-creation-more">더보기</div>
@@ -357,7 +344,7 @@ document.onreadystatechange = function () {
 					<div class="row" id="board-title-box">
 						<div class="col-md-7 col-xs-7 nav-community" id="${board.id}" style="padding: 5px;">
 							<p><strong>${board.title}</strong></p>
-						<div >${board.nick_name}</div>
+						<div>by ${board.nick_name}</div>
 					</div>
 					<div class="col-md-5 col-xs-5 nav-community" id="${board.id}"  style="padding-right: 0px;" align="right">
 						<img class="board-content-img" src="${board.image}" onerror="this.src='../resources/images/noimage.jpg'">
@@ -408,7 +395,7 @@ document.onreadystatechange = function () {
 					</div>
 					<div class="col-md-9" style="padding-left:35px; padding-top:5px;">
 						<div class="row nav-posting" id="${posting.id}">
-							<p><font size="4"><strong>${posting.title}</strong></font>  ${posting.nick_name}</p>				
+							<p><font size="4"><strong>${posting.title}</strong></font>  by ${posting.nick_name}</p>				
 						</div>
 						<div class="row">
 							<p><c:forEach items="${posting.tag}" var="tag" varStatus="status"><span class="tag">#${tag}</span> </c:forEach></p>
