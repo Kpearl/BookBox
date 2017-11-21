@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
@@ -144,4 +145,52 @@ public interface CommunityDAO {
 	 * @return int 중복여부 리턴
 	 */
 	public int getReport(Report report);
+	
+	/**
+	 * @brief addChatRoom
+	 * @detail 채팅방 생성
+	 * @param ChatRoom chatroom 채팅방 도메인
+	 * @return int 성공 여부 
+	 */
+	public int addChatRoom(ChatRoom chatroom);
+	
+	/**
+	 * @brief getCamChat
+	 * @detail 화상채팅 조회
+	 * @param String roomid
+	 * @return boolean 존재여부
+	 */
+	public boolean getCamChat(String roomId);
+	
+	/**
+	 * @brief getCast
+	 * @detail 방송 조회
+	 * @param String roomid
+	 * @return boolean 존재여부
+	 */
+	public boolean getCast(String roomId);
+
+	/**
+	 * @brief getCamChatList
+	 * @detail 화상채팅 목록 조회
+	 * @param Map map ("search","page") 
+	 * @return List<chatRoom> 존재여부
+	 */
+	public List getCamChatList(Map map);
+	
+	/**
+	 * @brief getCastList
+	 * @detail 방송 목록 조회
+	 * @param Map map ("search","page") 
+	 * @return List<chatRoom> 존재여부
+	 */
+	public List getCastList(Map map);
+	
+	/**
+	 * @brief deleteChatRoom
+	 * @detail 채팅방 삭제
+	 * @param String roomId 
+	 * @return
+	 */
+	public void deleteChatRoom(String roomId);
 }

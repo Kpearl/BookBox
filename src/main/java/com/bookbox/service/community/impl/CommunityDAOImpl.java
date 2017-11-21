@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookbox.service.community.CommunityDAO;
 import com.bookbox.service.domain.Board;
+import com.bookbox.service.domain.ChatRoom;
 import com.bookbox.service.domain.Comment;
 import com.bookbox.service.domain.Recommend;
 import com.bookbox.service.domain.Report;
@@ -121,6 +122,42 @@ public class CommunityDAOImpl implements CommunityDAO {
 	@Override
 	public int getReport(Report report) {
 		return sqlSession.selectOne("CommunityMapper.getReport",report);
+	}
+
+	@Override
+	public int addChatRoom(ChatRoom chatroom) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean getCamChat(String roomId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getCast(String roomId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List getCamChatList(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getCastList(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteChatRoom(String roomId) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 		
