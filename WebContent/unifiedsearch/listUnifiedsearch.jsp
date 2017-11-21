@@ -281,7 +281,7 @@ document.onreadystatechange = function () {
 		</c:if>
 		
 		<c:set var="doneLoop" value="false"/>
-			<c:forEach items="${creationList.result}" var="creation" varStatus="status">
+			<c:forEach items="${creationList.result}" var="creation" varStatus="status" end="3">
 				<div class="row" style="margin-bottom:20px;">
 					<div class="col-md-1">
 						<img class="creation-img" src="../resources/upload_files/images/${creation.image}" onerror="this.src='../resources/images/noimage.jpg'">
@@ -307,7 +307,7 @@ document.onreadystatechange = function () {
 						</div>
 					</c:forEach>
 				</div>	
-			<c:if test="${status.count != 3}"><hr class="creation-hr"></c:if>		
+			<c:if test="${status != 3}"><hr class="creation-hr"></c:if>		
 		</c:forEach>
 		<c:if test="${creationList.total ne 0}">
 			 <div class="row">
