@@ -87,6 +87,14 @@
    		}); 
 	
    });
+   
+   $(function(){
+	  	$('.grade-list').on('click',function(){
+	  		
+	  		
+	  		
+	  	})	   
+   })
 
    
     </script>
@@ -104,14 +112,13 @@
       	  
 		<div class="row" >
 					<div class="col-md-6 text-left">
-						<p class="paging">전체 ${creationList.size() } 건수, 현재
-						${page.currentPage} 페이지</p>
+						<p class="paging">전체 ${creationList.size() } 건수</p>
 					</div>
 					<div class="col-md-6 col-xs-hidden" style="text-align: right;">
 						<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 최신순</span>
-						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">별점순</span>
-						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">픽션</span>
-						<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">논픽션</span>
+						<span class="check grade-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">별점순</span>
+						<span class="check keyword-fintion-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">픽션</span>
+						<span class="check keyword-nonfiction-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb">논픽션</span>
 					</div>
 		</div>
 	

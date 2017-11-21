@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import com.bookbox.common.domain.Search;
 import com.bookbox.common.util.HttpUtil;
 import com.bookbox.service.creation.FundingDAO;
 import com.bookbox.service.domain.Funding;
@@ -42,11 +40,10 @@ public class FundingDAOImpl implements FundingDAO {
 	String importAPIsecret;
 	@Value("#{restapiProperties['importIDcode']}")
 	String importIDcode;
-	@Value("#{restapiProperties['_token']}")
-	String accessToken;
-	@Value("#{restapiProperties['importRequestURL']}")
-	String importRequestURL;
-	
+	@Value("#{restapiProperties['importRequestURL_cancel']}")
+	String importRequestURL_cancel;
+	@Value("#{restapiProperties['importRequestURL_getToken']}")
+	String importRequestURL_getToken;	
 	
 	
 	/**
@@ -115,6 +112,13 @@ public class FundingDAOImpl implements FundingDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("FundingMapper.getPayInfo", payInfo);
 	}
+	
+	@Override
+	public void deletePayInfo(PayInfo payInfo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete("FundingMapper.deletePayInfo", payInfo);
+		
+	}
 
 	@Override
 	public int getDoFunding(Map<String, Object> map) throws Exception {
@@ -123,25 +127,50 @@ public class FundingDAOImpl implements FundingDAO {
 	}
 
 	@Override
-	public void deleteFunding(Funding funding) throws Exception {
+	public List<Funding> getCancelFundingList() throws Exception {
 		// TODO Auto-generated method stub
-				
-		Map<String, String> map = new HashMap<>();
-		map.put("Authorization", accessToken);
-		
-		List<PayInfo> payInfoList = funding.getPayInfoList();
-//		JSONArray jsonArray = JSONArray.fromObject(payInfoList);
+		return sqlSession.selectList("FundingMapper.getCancelFundingList");
+	}
+
+	@Override
+	public void cancelFunding(Funding funding) throws Exception {
+		// TODO Auto-generated method stub
 		String data="";
+		String response="";
+	
+		//getToken header
+		Map<String, String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json");
 		
-		String response = HttpUtil.requestMethodPost(importRequestURL, map, data);
+		//getToken data
+		data="{\"imp_key\":\""+importAPIKey+"\", \"imp_secret\":\""+importAPIsecret+"\"}";
 		
-        // Console 확인
-        System.out.println("response정보 확인 :: "+response.toString());
-        
-        JSONObject jsonobj = (JSONObject)JSONValue.parse(response.toString());
-        
-         
+		response=HttpUtil.requestMethodPost(importRequestURL_getToken, headers, data);
+		
+		JSONObject jsonobj = (JSONObject)JSONValue.parse(response.toString());
+		jsonobj =(JSONObject)JSONValue.parse(jsonobj.get("response").toString());
+		
+		System.out.println("FundingDAOImpl :: cancelFunding :: accessToken :: "+jsonobj.get("access_token"+"\n"));
+		
+		
+		//cancel header
+		headers.put("Authorization", jsonobj.get("access_token").toString());
+		
+		//cancel data
+		List<PayInfo> payInfoList = funding.getPayInfoList();
+
+		for(PayInfo payInfo : payInfoList) {
+			data="{\"imp_uid\":\""+payInfo.getUid()+"\"}";
+			response = HttpUtil.requestMethodPost(importRequestURL_cancel, headers, data);
+
+			System.out.println("FundingDAOImpl :: cancelFunding :: cancel response정보 확인 :: "+response.toString());
+			
+			//펀딩 active 업데이트 필요
+		}
        
 	}
+
+	
+	
 	
 }

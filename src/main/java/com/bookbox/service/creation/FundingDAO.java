@@ -97,6 +97,14 @@ public interface FundingDAO {
 	public PayInfo getPayInfo(PayInfo payInfo) throws Exception;
 	
 	/**
+	 * @brief 펀딩실패시 결제취소 
+	 * @param PayInfo
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deletePayInfo(PayInfo payInfo) throws Exception;
+	
+	/**
 	 * @brief 펀딩참여정보 조회 
 	 * @param Map<String,Object>
 	 * @throws Exception
@@ -110,5 +118,13 @@ public interface FundingDAO {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public void deleteFunding(Funding funding) throws Exception;
+	public void cancelFunding(Funding funding) throws Exception;
+	
+	/**
+	 * @brief 마감될 펀딩리스트 get
+	 * @param 
+	 * @throws Exception
+	 * @return List<Funding>
+	 */		
+	public List<Funding> getCancelFundingList() throws Exception;
 }

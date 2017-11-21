@@ -137,17 +137,17 @@
 			</if>
 
 		<where>
-			<!-- <if test="user !=  null and search == null">
-		 			c.author = #{user.email} 
-			</if> -->
-				
+						
 			<if test="search != null and search.condition != null">
+					<!--0: 창작작품 제목  -->
 					<if test="search.condition == 0 and search.keyword !=''">
 		 				c.creation_title LIKE '%${search.keyword}%'
 					</if>
+					<!-- 1: 작품작성자 -->
 					<if test="search.condition == 1 and search.keyword !=''">
 		 				u.nickname LIKE '%${search.keyword}%'
 					</if>
+					<!--2: 태그  -->
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				t.tag_name IN (#{search.keyword}) 
 					</if>
@@ -170,6 +170,8 @@
 			category_no,
 	
 			u.nickname
+		
+		ORDER BY c.reg_date DESC 
 		
 		<if test="page != null">
 			<if test="search != null">

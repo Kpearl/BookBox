@@ -44,6 +44,7 @@ public class WritingServiceImpl implements WritingService {
 	@Qualifier("creationDAOImpl")
 	private CreationDAO creationDAO;
 	
+	//Elasticsearch에서 getCreation 위해 선언
 	@Autowired
 	@Qualifier("creationServiceImpl")
 	private CreationService creationService;
@@ -83,8 +84,9 @@ public class WritingServiceImpl implements WritingService {
 		}
 		
 		System.out.println("addWriting :: "+uploadFileList+"\n");
-		commonDAO.addUploadFile(uploadFileList);
+		commonDAO.addUploadFile(uploadFileList);//writing insert END
 		
+		//Elasticsearch insert 부분
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, writing.getCreationNo(), user);
 		List<Writing> list = writingDAO.getWritingList(map);
 		Creation creation = new Creation();
@@ -116,16 +118,15 @@ public class WritingServiceImpl implements WritingService {
 		
 		System.out.println("updateWriting :: "+uploadFileList+"\n");
 		commonDAO.updateUploadFile(uploadFileList);
-		writingDAO.updateWriting(writing);
+		writingDAO.updateWriting(writing);//writing update END
 		
+		//Elasticsearch update 부분
 		Creation creation = new Creation();
 		Map<String, Object> map = CommonUtil.mappingCategoryTarget(Const.Category.CREATION, writing.getCreationNo(), user);
 		
 		creation.setCreationNo(writing.getCreationNo());
 		map.put("creation", creation);
 		creation = creationService.getCreation(map);
-		
-		System.out.println("================ㄹㄹㄹㄹㄹㄹㄹ" +creation.getWritingList());
 		
 		//Elasticsearch update
 		unifiedsearchElasticDAO.elasticUpdate(creation);

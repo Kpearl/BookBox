@@ -126,9 +126,8 @@ public class CreationServiceImpl implements CreationService {
 
 		creation.setGrade(commonDAO.getAvgGrade(map));
 		creation.setLike(commonDAO.getLike(map));
-		System.out.println("================afdasfd MAP:: "+map);
 		creation.setWritingList(writingService.getWritingList(map));
-		System.out.println("====================fdfsafd:: "+creation.getWritingList());
+		
 		if (creationDAO.getCreationSubscribe(map) !=0) {
 			creation.setDoSubscription(true);
 		}

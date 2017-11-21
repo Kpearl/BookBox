@@ -111,6 +111,9 @@
 		.progress-bar-warning {
 		    background-color: rgba(14, 197, 147, 0.87);
 		}
+		.funding-percent{
+			margin-left: 0;font-size:18px;font-family: unset;
+		}
 	
 	</style>
 
@@ -118,8 +121,11 @@
 	 ToolbarOpacHeight(500);
 		var fundingNo; 
 		var fundingTitle;
-		var perFunding;
 		var creationNo;
+		var perFunding;//펀딩 인당 결제금액
+		var payInfoLength;//펀딩 참여인원수
+		var fundingTarget; //펀딩 목표금액
+		var percent;//펀딩 달성율
 		
 //============메뉴 Navigation ============
 		 $(function(){
@@ -139,6 +145,11 @@
 
  //============kakao Pay ============
 	 $(function(){
+		perFunding=${funding.perFunding};
+		payInfoLength=${fn:length(funding.payInfoList)};
+		fundingTarget=${funding.fundingTarget};
+		percent = (perFunding * payInfoLength)/fundingTarget * 100//펀딩 달성율
+		
 		var IMP = window.IMP; // 생략가능
         IMP.init("${importIDcode}"); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 		
@@ -150,7 +161,7 @@
 		                                        merchant_uid : 'merchant_' + new Date().getTime(),
 		                                        name : $('#fundingTitle').val(),
 		                                     //   amount : '1000',		                                   
-		                                        amount : $('#perFunding').val(),
+		                                        amount : $('.perFunding-data').val(),
 		                                        buyer_email : "${sessionScope.user.email}",
 		                                        buyer_name : $('.name-fundingInfo').val(),
 		                                        buyer_tel : $('.phone').val(),
@@ -185,12 +196,19 @@
 
 		                            						//Debug...
 		                            					//	alert(status);
-		                            						
+		                            						var div;
+		                            						div = '<div class="progress-bar progress-bar-warning progress-bar-striped active" aria-valuenow="';
+		                            						div +=(perFunding * payInfoLength+1)/fundingTarget * 100;
+		                            						div +='" aria-valuemin="0" aria-valuemax="100" style="min-width: 0.5em; width: '+((perFunding * payInfoLength+1)/fundingTarget * 100)+'%;"></div>';
 		                            						alert("결제가 완료되었습니다.");
+		                            						
 		                            						$('#add-payInfo').modal("hide");
 		                            						$('.funding-join').replaceWith
-		                            						('<div class="row funding-pay-info text-center" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;"><strong>펀딩정보조회</strong></div>');
-															
+		                            						('<div class="row funding-pay-info text-center funding-button" style="padding-top: 7px;height: 45px;background-color: rgba(14, 197, 147, 0.87);color: aliceblue;font-size: large;"><strong>펀딩정보조회</strong></div>');
+															 $('.funding-percent').html
+															('<strong style="font-size:20px;">"'+((Number(perFunding) *Number( payInfoLength)+1)/Number(fundingTarget) * 100).toFixed(2)+'"% 달성!') 
+															 $('.progress-bar').replaceWith(div); 
+																	                            						
 		                            						$('.funding-pay-info').on('click', function(){
 		                            							fncFundingPayInfo();
 		                            							});
@@ -334,28 +352,29 @@
 			var dd = today.getDate();
 			var mm = today.getMonth()+1; //January is 0!
 			var yyyy = today.getFullYear();
+			//펀딩 달성율
+			perFunding=${funding.perFunding};
+			payInfoLength=${fn:length(funding.payInfoList)};
+			fundingTarget=${funding.fundingTarget};
+			percent = (perFunding * payInfoLength)/fundingTarget * 100//펀딩 달성율
 
 			if(dd<10) {
 			    dd='0'+dd
-			} 
+			} //ex.03일
 
 			if(mm<10) {
 			    mm='0'+mm
-			} 
+			} //ex.03월
 
 			today = yyyy+'-'+mm+'-'+dd;
 		//	alert(today);
 		//	alert('${funding.fundingEndDate}');
-			if('${funding.fundingEndDate}'==today){
+			if('${funding.fundingEndDate}'==today && percent != 100.0){
 				
 				$.ajax({
 					url : "rest/cancelFunding?fundingNo="+$('input[name="fundingNo"]').val(),
 					method : "get",
 					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-						},
 					success : function(JSONData, status) {
 						alert(status);
 					}
@@ -404,7 +423,7 @@
                	참여금액 : <strong style="font-size:x-large;"><fmt:formatNumber value="${funding.perFunding}" pattern="#,###"/></strong> 원
                	</div>
                 <div class="row funding-endDate text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">${funding.fundingEndDate}</div>
-                <div class="row funding-percent" style="margin-left: 0;font-size:18px;font-family: unset;">
+                <div class="row funding-percent">
                 	<strong style="font-size:20px;"><fmt:formatNumber value="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" pattern="0.0"/></strong>% 달성!
                 </div>
                 <div class="row funding-join-count text-left" style="margin-left: 0px;font-size: 18px;font-family: unset;font-weight:500">
@@ -520,7 +539,9 @@
 		                    <label class="control-label" for="perFunding-fundingInfo">결제금액</label>
 		                </div>
 		                <div class="col-sm-9">
-		                    <input class="form-control perFunding" type="text" id="perFunding" placeholder="결제금액"   id="perFunding" value="${funding.perFunding }" readonly>
+		                	<fmt:formatNumber var="perFunding" value="${funding.perFunding }" pattern="#,###"/>
+		                	<input type="hidden" class="perFunding-data" value="${funding.perFunding }">
+		                    <input class="form-control perFunding" type="text" id="perFunding" placeholder="결제금액"   id="perFunding" value="${perFunding }" readonly>
 		                </div>
 	              	 </div>
 	              	 

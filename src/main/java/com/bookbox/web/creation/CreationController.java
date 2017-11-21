@@ -75,10 +75,10 @@ public class CreationController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@Value("#{restapiProperties['importAPIKey']}")
+/*	@Value("#{restapiProperties['importAPIKey']}")
 	String importAPIKey;
 	@Value("#{restapiProperties['importAPIsecret']}")
-	String importAPIsecret;
+	String importAPIsecret;*/
 	@Value("#{restapiProperties['importIDcode']}")
 	String importIDcode;
 	
@@ -619,8 +619,8 @@ public class CreationController {
 
 		// Model 과 View 연결
 		model.addAttribute("funding", funding);
-		model.addAttribute("importAPIKey", importAPIKey);
-		model.addAttribute("importAPIsecret", importAPIsecret);
+/*		model.addAttribute("importAPIKey", importAPIKey);
+		model.addAttribute("importAPIsecret", importAPIsecret);*/
 		model.addAttribute("importIDcode", importIDcode);
 				
 		System.out.println("CreationController :: /creation/getFunding : GET ===> END\n\n");

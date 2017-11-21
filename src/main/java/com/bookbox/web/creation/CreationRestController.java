@@ -390,15 +390,15 @@ public class CreationRestController {
 	 * @throws Exception
 	 * @return boolean
 	 */
-	@RequestMapping(value="deleteFunding", method=RequestMethod.GET)
-	public boolean deleteFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
+	@RequestMapping(value="cancelFunding", method=RequestMethod.GET)
+	public boolean cancelFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
 		// TODO deleteFunding
 		System.out.println("CreationRestController :: /creation/rest/cancelFunding : GET ===> START");
 		
 		new Funding().setFundingNo(fundingNo);
 		Funding funding = new Funding();
 		funding.setFundingNo(fundingNo);
-		fundingService.deleteFunding(funding);
+		fundingService.cancelFunding();
 				
 		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
 		

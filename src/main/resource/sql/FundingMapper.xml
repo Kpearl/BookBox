@@ -109,6 +109,15 @@
 		</where>
 	 </select>
 	 
+	 	 	  <!-- SQL : DELETE -->
+	 <delete 	id="deletePayInfo"	parameterType="payInfo"	>
+		DELETE 
+		FROM pay_info
+		<where>
+			pay_no = #{payInfoNo}
+		</where>
+	 </delete>	 
+	 
 	 	 <!-- SQL : UPDATE -->
 	 <update	id="updatePayInfo"	parameterType="payInfo" >
 	   	UPDATE pay_info
@@ -134,6 +143,17 @@
 	   	</where>
 	
 	 </update>
+	 
+	 	 <!-- SQL : UPDATE -->
+	 <update	id="updateFunding"	parameterType="funding" >
+	   	UPDATE funding
+	   	<set>
+	  	 	active=0
+	   	</set>
+	   	<where>
+	   		funding_no = #{fundingNo}
+	   	</where>
+	</update>	 
 	 
 	 
 <!-- SQL : SELECT getFundingLIST -->
@@ -183,7 +203,7 @@
 	<select  id="getFundingUserList"  parameterType="map"	resultMap="payInfoSelectMap">
 		
 		SELECT
-			pay_no, email AS 'user.email', funding_no, user_name, post_code, addr, addr_detail, phone, reg_date
+			pay_no, email AS 'user.email', funding_no, user_name, post_code, addr, addr_detail, phone, reg_date,tid, uid
 
 		FROM 
 			pay_info 
@@ -238,5 +258,22 @@
 		) vt		
 	
 	 </select>
+	 
+	 
+	 <!-- SQL : SELECT getCancelFundingLIST -->
+	<select  id="getCancelFundingList"  resultMap="fundingSelectMap">
+		
+		SELECT
+			f.funding_no, f.funding_title, f.creation_no AS  'creation.creationNo', 
+			f.funding_intro, f.reg_date, f.per_funding,
+			f.end_date, f.funding_target, 
+			f.funding_file_name, f.funding_origin_name, 
+			f.active
+		FROM 
+			funding f
+			
+		WHERE f.end_date = now()
+				
+	</select>
 
 </mapper>

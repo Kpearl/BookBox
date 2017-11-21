@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Page;
@@ -151,16 +152,33 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
-	public void deleteFunding(Funding funding) throws Exception {
+	@Scheduled(cron="00 05 18 * * *")
+	public void cancelFunding() throws Exception {
 		// TODO Auto-generated method stub
-		Map<String, Object> map = new HashMap<>();
-		map.put("fundingNo", funding.getFundingNo());
+		List<Funding> cancelFundingList = fundingDAO.getCancelFundingList();
 		
-		funding.setPayInfoList(fundingDAO.getFundingUserList(map));
+		for(Funding funding: cancelFundingList) {
+			//펀딩 달성율
+			int percent = (funding.getPerFunding()*funding.getPayInfoList().size())/funding.getFundingTarget()*100;
+			
+			if(percent == 100) {//달성율100% 펀딩성공, active 값만 비활성화
+				funding.setActive(0);
+				fundingDAO.updateFunding(funding);
+			
+			}else {//펀딩실패
+			fundingDAO.cancelFunding(funding);//펀딩참여자들 결제취소
+			funding.setActive(0);//펀딩 active 비활성화 set
+			fundingDAO.updateFunding(funding);
+			List<PayInfo> payInfoList = fundingDAO.getFunding(funding).getPayInfoList();
+			System.out.println("===========취소되는...펀딩참여자들...  "+payInfoList);
+			
+				for(PayInfo payInfo : payInfoList) {//펀딩참여자들 PayInfo delete
+				fundingDAO.deletePayInfo(payInfo);
+				}
+			}
+		}
 		
-		fundingDAO.deleteFunding(funding);
 		
-		funding.setActive(0);
 		
 	}
 	

@@ -87,6 +87,6 @@ public interface FundingService {
 	 * @throws Exception
 	 * @return void
 	 */		
-	public void deleteFunding(Funding funding) throws Exception;
+	public void cancelFunding() throws Exception;
 	
 }
