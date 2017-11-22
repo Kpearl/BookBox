@@ -144,7 +144,7 @@ public class CreationServiceImpl implements CreationService {
 	public List<Creation> getCreationList(Map<String, Object> map) throws Exception{
 		Page page=(Page)map.get("page");
 		Search search=(Search)map.get("search");
-		System.out.println("===============search.condition===="+search.getCondition());
+		System.out.println("==> creationService :: getCrationList :: search.condition="+search.getCondition());
 		int condition = Integer.parseInt(search.getCondition());
 		
 		if (page != null) {

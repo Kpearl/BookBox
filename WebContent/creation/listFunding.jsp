@@ -101,6 +101,57 @@
 				
 			});
 		
+//================진행중, 마감펀딩 정렬-==============
+	
+	$(function(){
+		
+			//진행중 펀딩 목록
+			$('.recent-list').on('click', function(){
+				$(self.location).attr('href', '../creation/getFundingList?condition=2');
+				/* $.ajax({
+					url : "rest/getFundingList?condition=2",
+					method : "get",
+					dataType : "json",
+					success : function(JSONData, status) {
+						alert(status);
+						
+						$('.recent-list img').attr('src','https://icongr.am/entypo/check.svg?size=20px');
+						$('.enddate-list img').attr('src','https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb');	
+						$('.funding-list-form').html('');
+						
+						for (var i=0; i<JSONData.size(); i++){
+						var newBlock = $('.hidden-block').clone();
+						$(newBlock).find('.~~~').val(JSONData[i].~);
+						
+						
+						
+						$(newBlock).show();
+						$('.funding-list-form').append(newBlock);
+						
+						}
+						
+					}
+				}); */
+			});
+			
+			//마감 펀딩 목록
+			$('.enddate-list').on('click', function(){
+				$(self.location).attr('href', '../creation/getFundingList?condition=4');
+				/* $.ajax({
+					url : "rest/getFundingList?condition=4",
+					method : "get",
+					dataType : "json",
+					success : function(JSONData, status) {
+						alert(status);
+						
+						$('.recent-list img').attr('src','https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb');
+						$('.enddate-list img').attr('src','https://icongr.am/entypo/check.svg?size=20px');						
+					}
+				});*/
+			}); 
+			
+		});
+		
 		
 	</script>
 </head>
@@ -117,7 +168,7 @@
 			
 			<div class="row" style="">
 				<div class="col-md-6 text-left">
-					<p class="paging">전체 <strong>${fundingList.size() }</strong> 건수, 현재 <strong>${page.currentPage}</strong> 페이지</p>
+					<p class="paging">전체 <strong>${fundingList.size() }</strong> 건수</p>
 				</div>
 				<div class="col-md-6 col-xs-hidden" style="text-align: right;">
 				<c:if test="${search.condition =='0' } or ${search.condition =='1' }">
@@ -128,8 +179,18 @@
 					<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 진행중</span>
 					<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb"> 마감펀딩</span>
 				</c:if>
+				<c:if test="${search.condition ==  '4'}">
+					<span class="check recent-list"><img src="https://icongr.am/entypo/check.svg?size=20px&color=bbbbbb"> 진행중</span>
+					<span class="check enddate-list"><img src="https://icongr.am/entypo/check.svg?size=20px"> 마감펀딩</span>
+				</c:if>
 				</div>
 			</div>
+			
+			<c:if test="${empty fundingList }">
+			<div class="row funding-list-form text-center" style="height: 100px;padding-top: 30px"> 등록된 글이 존재하지 않습니다.</div>
+			</c:if>
+			
+			<c:if test="${!empty fundingList }">	
 			
 				<div class="row funding-list-form">
 					<c:forEach var="funding" items="${fundingList }">
@@ -169,6 +230,46 @@
 			</div>
 					</c:forEach>
 				</div>
+			</c:if>
+			
+			
+			
+						
+			<div class= "col-md-3 col-sm-6 hidden-block" style="display: none;"> 
+					<div class="row each-funding" style="width:100%;margin-left:0px;margin-right:0px;margin-bottom:25px">
+					
+						<div id="${funding.fundingNo}" class="funding-image button-form" style="height:200px; position:relative;overflow:hidden;">
+							<img  class="funding-get img-object-fit" src="../resources/upload_files/images/${funding.fundingFileName}">
+						</div>
+					
+						<div class="funding-content" style="height:170px;background-color:#ffffff;;padding-bottom: 1px;border-bottom: 1px groove;">
+						
+							<div class="funding-title button-form" style="margin-left: 10px;padding-top: 15px;height: 65%;">
+								<div id="${funding.fundingNo}" class="funding-title-get text-left funding-title" style="font-size: large;font-weight: bold;">${funding.fundingTitle}</div>
+								<div id="${funding.creation.creationAuthor.email}" class="booklog-get text-left funding-nickname" style="font-size: small;">${funding.creation.creationAuthor.nickname}</div>
+							</div>
+
+		                    <div class="progress-form" >      
+								<div class="progress progress-xs" style="height: 5px;margin-left: 8px;margin-right: 8px;margin-bottom: 0;">
+			                          <div class="progress-bar progress-bar-warning progress-bar-striped active" 
+			                          		aria-valuenow="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" aria-valuemin="0" aria-valuemax="100"
+			                          		style="min-width: 0.5em; width: ${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}%;">
+			                          </div>
+			                     </div>
+		                     </div>
+						 
+						 <div class="row funding-bottom" style="position:relative;margin-right: 15px;padding-top:15px;margin-left:10px;">
+	                          <div class="funding-endDate" style="bottom: 5px;float: left;">${funding.fundingEndDate }</div>
+							  <div class="funding-percent" style="padding-left: 10px;bottom: 5px;float: right;font-size: larger;"><fmt:formatNumber value="${(funding.perFunding * fn:length(funding.payInfoList))/funding.fundingTarget * 100}" pattern="0.0"/>%</div>
+						</div>
+					</div>
+					<c:if test="${funding.active ==0 }">
+					<div class="endfunding-img"><strong style="font-size: -webkit-xxx-large; color: burlywood;position: absolute;">펀딩종료</strong></div>
+					</c:if>
+				</div>
+			</div>
+				
+					
 			</div>
 			
 

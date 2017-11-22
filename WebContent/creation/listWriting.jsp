@@ -252,7 +252,7 @@
 	</jsp:include>
 	<header class="parallax"></header>
 	
-    <div class="container">
+    <div class="container" style="margin-bottom:50px;">
 			<jsp:include page="creationToolbar.jsp"/>
 
    
@@ -373,7 +373,7 @@
 				            <div class="col-md-6 col-xs-9">
 				                <div class="row">
 				                    <div class="col-md-12">
-				                        <p><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
+				                        <p style="font-size: 15px;"><a href="#" class="writingTitle" id="${writing.writingNo}">${writing.writingTitle }</a></p>
 				                    </div>
 				                </div>
 				                <div class="row hidden-md hidden-lg">

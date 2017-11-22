@@ -11,8 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bookbox.common.domain.Const;
 import com.bookbox.common.domain.Grade;
+import com.bookbox.common.domain.Page;
 import com.bookbox.common.domain.Reply;
 import com.bookbox.common.domain.Search;
 import com.bookbox.common.domain.Tag;
@@ -72,6 +75,11 @@ public class CreationRestController {
 	@Autowired
 	@Qualifier("uploadDirResource")
 	private FileSystemResource uploadDirResource;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 		
 	/**
 	 * @brief Constructor
@@ -226,6 +234,11 @@ public class CreationRestController {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", session.getAttribute("user"));
+		
+		Search search = new Search();
+		search.setCondition("4");
+		map.put("search", search);
+		
 		List<Creation> creationList =creationService.getCreationList(map);
 		
 		map.put("creationList", creationList);
@@ -337,6 +350,50 @@ public class CreationRestController {
 	}
 	
 	/**
+	 * @brief getFundingList/펀딩글리스트 조회
+	 * @details GET
+	 * @param Search, Page, HttpSession
+	 * @throws Exception
+	 * @return "forward:listFunding.jsp"
+	 */
+	@RequestMapping( value="getFundingList", method=RequestMethod.GET )
+	public List<Funding> getFundingList(@RequestParam("condition") String condition,
+																				HttpSession session) throws Exception {
+		System.out.println("CreationRESTController :: /creation/rest/getFundingList : GET\n");
+
+		Search search =new Search();
+		search.setCondition(condition);
+		Page page = new Page();
+		
+		//Business Logic
+		if(search.getKeyword() == null) {
+			search.setKeyword("");
+		}
+		if(search.getCondition() ==null) {
+			search.setCondition("0");
+		}
+		if(page.getPageSize() ==0) {
+			page.setPageSize(pageSize);
+		}
+		if(page.getPageUnit()==0) {
+			page.setPageUnit(pageUnit);
+		}
+		System.out.println("getFundingList :: getSearch :: "+search+"\n");
+		System.out.println("getFundingList :: getPage :: "+page+"\n");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("page", page);
+		map.put("user",(User)session.getAttribute("user"));
+
+		List<Funding> fundingList = fundingService.getFundingList(map);
+		
+		System.out.println("CreationRESTController :: /creation/rest/getFundingList : GET ===> END\n\n");
+		
+		return fundingList;
+	}
+	
+	/**
 	 * @brief addPayInfo/ 펀딩결제정보 등록
 	 * @details POST
 	 * @param PayInfo, HttpSession
@@ -384,28 +441,6 @@ public class CreationRestController {
 	}
 	
 	/**
-	 * @brief cancelFunding/ 펀딩취소
-	 * @details GET
-	 * @param FundingNo
-	 * @throws Exception
-	 * @return boolean
-	 */
-	@RequestMapping(value="cancelFunding", method=RequestMethod.GET)
-	public boolean cancelFunding(@RequestParam("fundingNo") int fundingNo) throws Exception{
-		// TODO deleteFunding
-		System.out.println("CreationRestController :: /creation/rest/cancelFunding : GET ===> START");
-		
-		new Funding().setFundingNo(fundingNo);
-		Funding funding = new Funding();
-		funding.setFundingNo(fundingNo);
-		fundingService.cancelFunding();
-				
-		System.out.println("CreationRestController :: /creation/rest/getPayInfo ==> END\n\n");
-		
-		return true;
-	}
-	
-	/**
 	 * @brief addGrade/ 창작글 별점등록
 	 * @details GET
 	 * @param targetNo, grade, HttpSession
@@ -441,7 +476,7 @@ public class CreationRestController {
 	@RequestMapping(value="addReply/{writingNo}", method=RequestMethod.POST)
 	public boolean addReply(@RequestBody Reply reply,	
 														@PathVariable("writingNo") int writingNo, HttpSession session) throws Exception{
-		// TODO addGrade
+		// TODO addReply
 		System.out.println("CreationRestController :: /creation/rest/addReply : GET ===> START");
 		
 		

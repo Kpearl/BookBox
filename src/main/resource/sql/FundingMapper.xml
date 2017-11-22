@@ -172,14 +172,21 @@
 			LEFT JOIN creation c ON f.creation_no = c.creation_no
 						
 		<where>
+		<!--1 : 해당 작품 펀딩리스트조회  2: user가 등록한 펀딩리스트 3.user가 등록한 펀딩 중 마감된 펀딩리스트-->
 		<if test ="search != null">
-		<!--1 : 해당 작품 펀딩리스트조회  2: user가 등록한 펀딩리스트 -->
+		<if test="search.condition != 4">		
+			f.active =1
+		</if> 
 			<if test="search.condition==1">
-				f.creation_no = #{targetNo}	
+				AND	f.creation_no = #{targetNo}	
 			</if>
 			<if test="search.condition==2">
-				c.author = #{user.email}	
+				AND	c.author = #{user.email}	
 			</if>
+			<if test="search.condition == 4">		
+				 f.active =0
+				AND	c.author = #{user.email}
+			</if> 
 		</if>
 		</where>
 		ORDER BY f.reg_date DESC 
@@ -193,10 +200,30 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalFundingCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM funding 
-		WHERE	
-			creation_no = #{targetNo}
-			
+	  	FROM 
+	  		funding f
+			LEFT JOIN creation c ON f.creation_no = c.creation_no 
+		
+		<where>
+		
+		<!--1 : 해당 작품 펀딩리스트조회  2: user가 등록한 펀딩리스트 3. user가 등록한 펀딩 중마감된 펀딩리스트-->
+		<if test ="search != null">
+			<if test="search.condition != 4">		
+			f.active =1
+			</if> 
+			<if test="search.condition==1">
+				AND	f.creation_no = #{targetNo}	
+			</if>
+			<if test="search.condition==2">
+				AND	c.author = #{user.email}	
+			</if>
+			<if test="search.condition == 4">		
+				f.active =0
+				AND	c.author = #{user.email}
+			</if> 
+		</if>	
+		
+		</where>		
 	 </select>
 	 
 	 <!-- SQL : SELECT getPayInfoLIST -->
@@ -272,7 +299,7 @@
 		FROM 
 			funding f
 			
-		WHERE f.end_date = now()
+		WHERE f.end_date = curdate( )
 				
 	</select>
 

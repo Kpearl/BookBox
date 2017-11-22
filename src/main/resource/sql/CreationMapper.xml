@@ -151,7 +151,7 @@
 					<if test="search.condition == 2 and search.keyword !=''">
 		 				t.tag_name IN (#{search.keyword}) 
 					</if>
-					<!-- 3:펀딩등록 Nav  4:글쓰기 Nav  5:작성글리스트조회(paging)  6:구독글조회-->
+					<!-- 3:펀딩등록 Nav  4:글쓰기(작성글리스트 paging(X)) Nav  5:작성글리스트조회(paging)  6:구독글조회-->
 					<if test="search.condition == 3 or search.condition == 4 or search.condition==5">
 		 				c.author = #{user.email} 
 					</if>

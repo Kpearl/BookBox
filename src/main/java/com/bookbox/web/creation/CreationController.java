@@ -75,10 +75,6 @@ public class CreationController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-/*	@Value("#{restapiProperties['importAPIKey']}")
-	String importAPIKey;
-	@Value("#{restapiProperties['importAPIsecret']}")
-	String importAPIsecret;*/
 	@Value("#{restapiProperties['importIDcode']}")
 	String importIDcode;
 	

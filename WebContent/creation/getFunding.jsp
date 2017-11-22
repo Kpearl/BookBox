@@ -346,42 +346,7 @@
 				
 			});
 		
-		//===============펀딩자동취소===================
-		$(function(){
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth()+1; //January is 0!
-			var yyyy = today.getFullYear();
-			//펀딩 달성율
-			perFunding=${funding.perFunding};
-			payInfoLength=${fn:length(funding.payInfoList)};
-			fundingTarget=${funding.fundingTarget};
-			percent = (perFunding * payInfoLength)/fundingTarget * 100//펀딩 달성율
 
-			if(dd<10) {
-			    dd='0'+dd
-			} //ex.03일
-
-			if(mm<10) {
-			    mm='0'+mm
-			} //ex.03월
-
-			today = yyyy+'-'+mm+'-'+dd;
-		//	alert(today);
-		//	alert('${funding.fundingEndDate}');
-			if('${funding.fundingEndDate}'==today && percent != 100.0){
-				
-				$.ajax({
-					url : "rest/cancelFunding?fundingNo="+$('input[name="fundingNo"]').val(),
-					method : "get",
-					dataType : "json",
-					success : function(JSONData, status) {
-						alert(status);
-					}
-				
-				})
-			}
-		})
 			
 		
 	</script>

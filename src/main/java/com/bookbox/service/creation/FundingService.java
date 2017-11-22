@@ -82,11 +82,27 @@ public interface FundingService {
 	public PayInfo getPayInfo(User user, PayInfo payInfo) throws Exception;
 	
 	/**
-	 * @brief 펀딩취소 
+	 * @brief 마감펀딩 확인/ 일정시간 도달시 펀딩 마감
+	 * @param 
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void checkEndFunding() throws Exception;
+	
+	
+	/**
+	 * @brief 펀딩실패로 인한 취소 
 	 * @param Funding
 	 * @throws Exception
 	 * @return void
 	 */		
-	public void cancelFunding() throws Exception;
+	public void cancelFunding(Funding funding) throws Exception;
 	
+	/**
+	 * @brief 펀딩 active 비활성화/update와 동일
+	 * @param Funding
+	 * @throws Exception
+	 * @return void
+	 */		
+	public void deleteFunding(Funding funding) throws Exception;
 }

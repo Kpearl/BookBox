@@ -68,7 +68,14 @@ public class FundingDAOImpl implements FundingDAO {
 	@Override
 	public Funding getFunding(Funding funding) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundingMapper.getFunding", funding);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("fundingNo", funding.getFundingNo());
+		
+		funding = sqlSession.selectOne("FundingMapper.getFunding", funding);
+		funding.setPayInfoList(this.getFundingUserList(map));
+		
+		return funding;
 	}
 
 	@Override

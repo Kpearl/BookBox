@@ -90,7 +90,7 @@
 					success : function(JSONData, status) {
 
 						//Debug...
-						alert(status);
+					//	alert(status);
 						
 						var offset = $(".inWriting").offset();
 				        $('html, body').animate({scrollTop : offset.top}, 400);
@@ -100,8 +100,9 @@
 						$('span.glyphicon-remove').remove();
 						$('a.tag-add:contains("추가하기")').off('click');
 						$('input[name="creationNo"]').val(JSONData.creation.creationNo);
+						$('html, body').animate({scrollTop : offset.top-80}, 400);
 						
-						 alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
+					// alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
 					}
 				})
 			})
@@ -135,7 +136,7 @@
 							fncAddTag();
 							
 							$('.addThing').remove();
-							$('#creationNoFile').attr('src','../resources/upload_files/images/noImg_2.jpg');
+							$('#creationNoFile').attr('src','../resources/images/noImg_2.jpg');
 							$('.glyphicon-remove').on('click',function(){
 								fncRemoveTag(num);
 							});
@@ -179,7 +180,7 @@
 					        $('html, body').animate({scrollTop : offset.top-80}, 400);
 					       
 					        
-					        alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
+					   //     alert("창작글 creationNo : "+$('.writing-creationNo[name="creationNo"]').val());
 						}
 					})
 				})
