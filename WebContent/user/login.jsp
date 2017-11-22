@@ -11,6 +11,11 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<!-- 기본설정 끝 -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<script src="../resources/javascript/toolbar_opac.js"></script>
+	<script src="../resources/javascript/custom.js"></script>
 
 	<!-- 참조 : kakao login -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -29,11 +34,20 @@
 	
 	
 	<style type="text/css">
+	body{
+	    	padding-top:0px;
+	    }
+	    
+	    header{
+	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    	height: 250px;
+	    }
+	
 		.login-title{
 			background-color: #444;
 			color: floralwhite;		
 			font-size: 35px;
-			text-align: center;
+			text-align: left;
 		}
 	
 		.btn-group .btn{
@@ -51,6 +65,8 @@
 		
 	</style>
 	<script type="text/javascript">
+	ToolbarOpacHeight(250);
+	
 	
 		//============= naver 로그인  =============
 /* 		window.onload = function(){
@@ -224,14 +240,14 @@
 	<jsp:include page="../layout/toolbar.jsp" >
 		<jsp:param value="../" name="uri"/>
 	</jsp:include>
+	<header class="parallax"></header>
+	
 	<div class="container login">
 		<div class="row">
-			<div class="col-md-offset-3 col-md-6">
+					<div class="login-title" style="text-align: left;padding-left: 20px;">Login</div>
+			<div class="col-md-offset-3 col-md-6" style="margin-top: 30px;border: 1px solid;padding-bottom: 20px;padding-top: 30px;">
 				<form class="form-horizontal">
-					<div class="login-title">
-						Login
-					</div>
-					<hr>
+					
 					<div class="form-group">
 						<label for="email" class="col-sm-4 col-md-4 control-label">Your email :</label>
 						<div class="col-sm-8 col-md-8">
@@ -242,7 +258,7 @@
 					<div class="form-group">
 						<label for="password" class="col-sm-4 col-md-4 control-label">And your password</label>
 						<div class="col-sm-8 col-md-8">
-							<input type="password" class="form-control" id="password" name="password" placeholder="password">
+							<input style="font-family: initial;" type="password" class="form-control" id="password" name="password" placeholder="password">
 						</div>
 					</div>
 					<c:if test="${!empty msg}">
@@ -253,11 +269,16 @@
 					<input type="hidden" name="outerAccount" id="outerAccount" value="0">
 					
 					<br/>
+<!-- 					google 아이디로로그인 버튼 노출 영역
+	  				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+					
+					<!-- <a class="btn btn-default">NAVER LOGIN</a> -->
+				</form>
 					<div class="row" style="margin: 0 0 0 0;">
 						<div class="btn-group btn-group-justified" role="group">
-							<a class="btn user-login" role="button">Login</a>
-							<a class="btn user-sign-in" role="button">Sign in</a>
-							<a class="btn user-find-password" role="button">Find Password</a>
+							<a class="btn user-login" role="button">로그인</a>
+							<a class="btn user-sign-in" role="button">가입하기</a>
+							<a class="btn user-find-password" role="button">비밀번호 찾기</a>
 						</div>
 					</div>
 					
@@ -278,11 +299,6 @@
 			  				<div id="my-signin2" ></div>
 		  				</div>
 					</div>
-<!-- 					google 아이디로로그인 버튼 노출 영역
-	  				<div class="g-signin2" data-onsuccess="onSignIn"></div>
-					
-					<!-- <a class="btn btn-default">NAVER LOGIN</a> -->
-				</form>
 			</div>
 		</div>
 	</div>

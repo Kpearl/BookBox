@@ -23,6 +23,7 @@
 	    
 	    header{
 	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    	height: 250px;
 	    }
 	    
 	    .signup-title{
@@ -38,13 +39,18 @@
 			padding: 10px;
 			color: #444;
 		}
+		
+		a.btn-custom:hover{
+			text-decoration: none;
+			cursor:pointer;
+		}
 </style>	
 <script type="text/javascript">
 
 //============= "가입"  Event 연결 =============
 $(function() {
 	var condition;
-	ToolbarOpacHeight(500);
+	ToolbarOpacHeight(250);
 
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$( "a:contains('Sign Up')" ).bind("click" , function() {
@@ -79,11 +85,14 @@ $(function() {
 			
 		}
 
-//=============생일 날짜입력==================
+	//=============생일 날짜입력==================
 	$( function() {
 	    $("#birth").datepicker({ 
 	    	dateFormat:"yy-mm-dd",
 	    	showOn: "button",
+	    	changeMonth: true,
+	    	changeYear: true,
+	    	defaultDate: '-20y',
 	    	buttonImageOnly : true,
 	    	buttonImage: "https://icongr.am/octicons/calendar.svg?size=25",
 	    	buttonText : "Select date"});
@@ -99,47 +108,56 @@ $(function() {
 	</jsp:include>
 	<header class="parallax"></header>
 		<div class="container signup">
-		
-		<form class="form-horizontal">
-			<div class="signup-title">
-				Sign up for BookBox
+			<div class="signup-title" style="text-align: left;padding-left: 20px;">부가정보 입력</div>
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6" style="margin-top: 30px;border: 1px solid;padding-bottom: 20px;padding-top: 30px;">
+			<form class="form-horizontal">
+				
+				<div class="form-group">
+					<label for="email" class="col-sm-4 col-md-4 control-label">
+						Email
+					</label>
+					<div class="col-sm-8 col-md-8">
+						<input id="email" name="email"  class="long" type="text" value="${user.email}" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email" class="col-sm-4 col-md-4 control-label">
+						NickName
+					</label>
+					<div class="col-sm-8 col-md-8">
+						<input id="nickname" name="nickname" class="long" type="text">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email" class="col-sm-4 col-md-4 control-label">
+						Gender
+					</label>
+					<div class="col-sm-8 col-md-8">
+						<input class="long" type="radio" id="gender" name="gender" value="남"> 남
+						<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email" class="col-sm-4 col-md-4 control-label">
+						Birthday
+					</label>
+					<div class="col-sm-8 col-md-8">
+						<input class="long" type="text" id="birth" name="birth" >
+					</div>
+				</div>			
+				<input type ="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
+				<input type ="hidden" id="outerToken" name="outerToken" value="${user.outerToken }">
+				<input type ="hidden" id="active" name="active" >
+				
+				<br/>
+	
+			</form>
 			</div>
-			<hr>
-			<div class="form-group">
-				<label for="email" class="col-sm-6 col-xs-3 control-label">
-					Email
-				</label>
-				<input id="email" name="email"  class="long" type="text" value="${user.email}" readonly>
+		</div>
+			<div class="row text-center" style="margin-top: 30px;font-size: larger;">
+				<a type="button" class="btn-custom">가입하기</a>
 			</div>
-			<div class="form-group">
-				<label for="email" class="col-sm-6 col-xs-3 control-label">
-					NickName
-				</label>
-					<input id="nickname" name="nickname" class="long" type="text">
-			</div>
-			<div class="form-group">
-				<label for="email" class="col-sm-6 col-xs-3 control-label">
-					Gender
-				</label>
-					<input class="long" type="radio" id="gender" name="gender" value="남"> 남
-					<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
-			</div>
-			<div class="form-group">
-				<label for="email" class="col-sm-6 col-xs-3 control-label">
-					Birthday
-				</label>
-					<input class="long" type="text" id="birth" name="birth" >
-			</div>			
-			<input type ="hidden" id="outerAccount" name="outerAccount" value="${user.outerAccount }">
-			<input type ="hidden" id="outerToken" name="outerToken" value="${user.outerToken }">
-			<input type ="hidden" id="active" name="active" >
-			
-			<br/>
-			<div class="text-center">
-				<a type="button" class="btn-custom">Sign Up</a>
-			</div>
-
-		</form>
 	</div>	
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>

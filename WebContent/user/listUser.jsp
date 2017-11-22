@@ -22,6 +22,7 @@
 	    
 	    header{
 	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    	height: 250px
 	    }
 	    
 	    .list-header{
@@ -39,7 +40,7 @@
 </style>
 <script type="text/javascript">
 	var condition;
-	ToolbarOpacHeight(500);
+	ToolbarOpacHeight(250);
 </script>
 	
 </head>
@@ -52,24 +53,24 @@
 	<!-- 여기부터 코딩 -->
 	
 	<div class="container">
-		<div class="userlist-title">
-			USER LIST
+		<div class="userlist-title" style="text-align: left;padding-left: 20px;">
+			회원목록조회
 		</div>
-		<div class="list-header">
+		<div class="list-header" style="margin-top: 50px;">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4" style="font-size: 17px">
 					Email
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3" style="font-size: 17px" >
 					Nickname
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-1" style="font-size: 17px">
 					Gender
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3" style="font-size: 17px">
 					Birth
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-1" style="font-size: 17px">
 					Account
 				</div>
 			</div>
@@ -90,16 +91,16 @@
 					${user.birth}
 				</div>
 				<div class="col-md-1">
-					<c:if test="user.account == 0">
+					<c:if test="${user.outerAccount == 0 }">
 						내부계정
 					</c:if>
-					<c:if test="user.account == 1">
+					<c:if test="${user.outerAccount == 1 }">
 						네이버
 					</c:if>
-					<c:if test="user.account == 2">
+					<c:if test="${user.outerAccount == 2 }">
 						카카오
 					</c:if>
-					<c:if test="user.account == 3">
+					<c:if test="${user.outerAccount == 3 }">
 						구글
 					</c:if>
 				</div>

@@ -25,6 +25,7 @@
 	    
 	    header{
 	    	background:url(../resources/images/user_title.jpg) no-repeat center;
+	    	height: 250px;
 	    }
 
 		.signup-title{
@@ -40,11 +41,15 @@
 			padding: 10px;
 			color: #444;
 		}
+		
+		a.btn-custom:hover{
+			text-decoration: none;
+		}
 
 </style>
 <script type="text/javascript">
 	var condition;
-	ToolbarOpacHeight(500);
+	ToolbarOpacHeight(250);
 
 	var emailJSONData;
 	var nicknameJSONData;
@@ -52,7 +57,7 @@
 //============= "가입"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$( "a:contains('Sign Up')" ).bind("click" , function() {
+	$( "a:contains('가입하기')" ).bind("click" , function() {
 		
 		fncAddUser();
 	});
@@ -246,81 +251,83 @@ $(function() {
 	
 	<div class="container signup">
 		
-		<!--  
-		<div class="col-md-offset-3 col-md-6">
-		-->
+
 		<div class="">
-			<div class="signup-title">
-				Sign up for BookBox
+			<div class="signup-title" style="text-align: left;padding-left: 20px;">회원가입</div>
+		
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2" style="border:1px groove;padding:20px;margin-top: 30px;">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="email" class="col-sm-5 col-xs-3 control-label">
+								Email
+							</label>
+							<div class="">
+								<input id="email" name="email" type="text">
+							</div>
+						</div>
+						<div class="text-center">
+							<span id="checkEmail"></span>
+						</div>
+						<div class="form-group">
+							<label for="nickname" class="col-sm-5 col-xs-3 control-label">
+								NickName
+							</label>
+							<div class="">
+								<input id="nickname" name="nickname" class="long" type="text">
+							</div>
+						</div>	
+						<div class="text-center">
+							<span id="checkNickname"></span>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-sm-5 col-xs-3 control-label">
+								Password
+							</label>
+							<div class="">
+								<input id="password" name="password" class="long" type="password" style="font-family: initial;">
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label for="checkPassword" class="col-sm-5 col-xs-3 control-label">
+								Repeat password
+							</label>
+							<div class="">
+								<input id="chekPassword" name="checkPassword" class="long" type="password" style="font-family: initial;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="gender" class="col-sm-5 col-xs-3 control-label" >
+								Gender
+							</label>
+							<div class="">
+								<input class="long" type="radio" id="gender" name="gender" value="남"> 남
+								<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="birth" class="col-sm-5 col-xs-3 control-label">
+								Birthday
+							</label>
+							<div class="">
+								<input class="long" type="text" id="birth" name="birth" readonly>
+							</div>
+						</div>
+						
+						<input class="long" type="hidden" id="outerAccount" name="outerAccount">
+						<input class="long" type="hidden" id="active" name="active">
+						<div class="row text-center">
+						</div>
+			
+					</form>
+				</div>
 			</div>
-			<hr/>
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label for="email" class="col-sm-6 col-xs-3 control-label">
-						Email
-					</label>
-					<div class="">
-						<input id="email" name="email" type="text">
-					</div>
+				<div class="row text-center" style="margin-top: 30px;font-size: larger;">
+					<a class="btn-custom" style="cursor:pointer;">가입하기</a>
 				</div>
-				<div class="text-center">
-					<span id="checkEmail"></span>
-				</div>
-				<div class="form-group">
-					<label for="nickname" class="col-sm-6 col-xs-3 control-label">
-						NickName
-					</label>
-					<div class="">
-						<input id="nickname" name="nickname" class="long" type="text">
-					</div>
-				</div>	
-				<div class="text-center">
-					<span id="checkNickname"></span>
-				</div>
-				<div class="form-group">
-					<label for="password" class="col-sm-6 col-xs-3 control-label">
-						Password
-					</label>
-					<div class="">
-						<input id="password" name="password" class="long" type="password">
-					</div>
-				</div>
-	
-				<div class="form-group">
-					<label for="checkPassword" class="col-sm-6 col-xs-3 control-label">
-						Repeat password
-					</label>
-					<div class="">
-						<input id="chekPassword" name="checkPassword" class="long" type="password">
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label for="gender" class="col-sm-6 col-xs-3 control-label" >
-						Gender
-					</label>
-					<div class="">
-						<input class="long" type="radio" id="gender" name="gender" value="남"> 남
-						<input class="long" type="radio" id="gender" name="gender" value="여"> 여		
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label for="birth" class="col-sm-6 col-xs-3 control-label">
-						Birthday
-					</label>
-					<div class="">
-						<input class="long" type="text" id="birth" name="birth" readonly>
-					</div>
-				</div>
-				
-				<input class="long" type="hidden" id="outerAccount" name="outerAccount">
-				<input class="long" type="hidden" id="active" name="active">
-				<div class="row text-center">
-					<a type="button" class="btn-custom">Sign Up</a>
-				</div>
-	
-			</form>
 			<br/>
 			<br/>
 			<br/>

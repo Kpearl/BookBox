@@ -38,6 +38,12 @@
 			padding: 10px;
 			color: #444;
 		}
+		
+		a.btn-custom:hover{
+			text-decoration: none;
+			cursor:pointer;
+		}
+		
 </style>	
 <script type="text/javascript">
 	var condition;
@@ -98,6 +104,9 @@ $( function() {
     $("#birth").datepicker({ 
     	dateFormat:"yy-mm-dd",
     	showOn: "button",
+    	changeMonth: true,
+    	changeYear: true,
+    	defaultDate: '-20y',
     	buttonImageOnly : true,
     	buttonImage: "https://icongr.am/octicons/calendar.svg?size=25",
     	buttonText : "Select date"});
@@ -109,37 +118,35 @@ $( function() {
 
 </head>
 <body>
-	<jsp:include page="../layout/toolbar.jsp" >
-		<jsp:param value="../" name="uri"/>
-	</jsp:include>
-		<header class="parallax"></header>
+
+		
+	
 	<div class="container signup">
 		<form class="form-horizontal">	
 			<div class="find-password">
-				Find your password
+				비밀번호 찾기
 			</div>	
-				<hr>
+				
+				<div class="col-md-offset-3 col-md-6" style="margin-top: 30px;margin-left:70px;margin-right:70px;border: 1px solid;padding-bottom: 20px;padding-top: 30px;">
 				<div class="form-group">
-					<label class="col-sm-6 col-xs-3 control-label">
+					<label class="col-sm-5 col-xs-3 control-label">
 						Email
 					</label>
 						<input class="long" type="text" name="email" id="email">
 				</div>
 				<div class="form-group">
-					<label class="col-sm-6 col-xs-3 control-label">
+					<label class="col-sm-5 col-xs-3 control-label">
 						Birthday
 					</label>
 						<input class="long" type="text" name="birth" id="birth">
 				</div>
-				<div class="text-center">
-				<br/><br/><br/>
-				<a class="btn-custom">임시비밀번호 발송</a>
+				</div>
+				<div class="text-center" style="margin-top: 30px;">
+					<a class="btn-custom">임시비밀번호 발송</a>
 				</div>
 			</form>	
 		
 	</div>	
-		<footer class="container-fluid">
-		<jsp:include page="../layout/tailbar.jsp"/>
-		</footer>
+		
 </body>
 </html>

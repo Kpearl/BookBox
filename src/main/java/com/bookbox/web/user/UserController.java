@@ -196,7 +196,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("user", dbuser);
 		
-		return "forward:../user/updateUserView_Test.jsp";
+		return "forward:../user/updateUserView.jsp";
 	}
 	
 	/**
