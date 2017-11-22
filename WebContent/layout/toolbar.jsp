@@ -152,7 +152,8 @@ function searchCheck(){
 			<span class="openbtn"><img class="bookbox-nav-menu" src="https://icongr.am/octicons/three-bars.svg?size=32&color=727272"></span>
 		</div>
 		<div class="homebtn text-center">
-		    <span class="nav-home"><img class="bookbox-nav-menu" src="https://icongr.am/octicons/book.svg?size=40&color=727272"></span>
+		    <!-- <span class="nav-home"><img class="bookbox-nav-menu" src="https://icongr.am/octicons/book.svg?size=40&color=727272"></span> -->
+		    <span class="nav-home"><img class="bookbox-nav-menu" src="${param.uri}resources/images/main_bookbox.png"></span>
 		    <span class="bookbox-brand hidden-xs hidden-sm">BOOKBOX</span>
 		</div>
 	</div>

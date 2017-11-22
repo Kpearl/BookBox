@@ -189,6 +189,12 @@ public class Log {
 				.append(targetName+"'을(를) ");
 			if(behavior == Const.Behavior.ABLE) {
 				log.append("좋아요 수가 충족되어 펀딩등록이 가능합니다!");
+			}else if(behavior == Const.Behavior.DELETE){
+				log.delete(log.length()-4, log.length())
+					.append("이 종료되었습니다!");
+			}else if(behavior == Const.Behavior.CANCEL) {
+				log.delete(log.length()-4, log.length())
+					.append("의 목표를 달성하지 못해 취소되었습니다..");
 			}else {
 				if(addBehavior != 0) {
 					log.append(CommonUtil.getConstProp().getProperty("AB"+addBehavior)+"을(를) ");

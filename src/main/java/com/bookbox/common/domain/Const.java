@@ -30,6 +30,7 @@ public class Const {
 		public static final int RECOMMEND = 7;
 		public static final int DELETE = 8;
 		public static final int ABLE = 9;
+		public static final int CANCEL = 10;
 	}
 	
 	public class AddBehavior{

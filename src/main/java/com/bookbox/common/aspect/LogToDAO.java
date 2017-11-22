@@ -14,6 +14,7 @@ import com.bookbox.service.domain.Book;
 import com.bookbox.service.domain.Booklog;
 import com.bookbox.service.domain.Creation;
 import com.bookbox.service.domain.Funding;
+import com.bookbox.service.domain.PayInfo;
 import com.bookbox.service.domain.Posting;
 import com.bookbox.service.domain.User;
 import com.bookbox.service.domain.Writing;
@@ -49,6 +50,9 @@ public class LogToDAO {
 	 * 		로그를 남기기 위해서는 다음 두 가지의 조건을 필수로 만족해야 한다.
 	 *		1. 첫 번째 parameter는 email 정보가 있는 User 객체이어야 한다.
 	 *		2. 두 번째 parameter는 각 개체에 알맞는 PK가 존재하는 도메인 객체이어야 한다.
+	 *
+	 *		예외 : 	1. behavior가 get인 경우, user가 없으면 anonymous 계정으로 카운트(비회원 조회 로그 기록용 계정)
+	 *				2. bahavior가 cancel 또는 delete인 경우, category가 funding이면 도메인 안의 payInfoList로 로그를 기록
 	 */
 	public Object logWrite(ProceedingJoinPoint joinPoint) throws Throwable{
 
@@ -65,6 +69,28 @@ public class LogToDAO {
 				addBehavior == Const.AddBehavior.REPLY) {
 			
 			System.out.println("Log :: "+ methodName + " 로그를 남기지 않는 method");
+			
+		}else if( categoryNo == Const.Category.FUNDING && 
+						(behavior == Const.Behavior.CANCEL || behavior == Const.Behavior.DELETE) ) {
+			
+			if(joinPoint.getArgs()[0] instanceof Funding) {
+				
+				System.out.println("Log :: 로그를 남기는 method");
+				Funding funding = (Funding)joinPoint.getArgs()[0];
+				Object targetNo = funding.getFundingNo();
+				
+				this.addLogModule(funding.getCreation().getCreationAuthor(), categoryNo, behavior, targetNo);
+				
+				for(PayInfo payInfo : funding.getPayInfoList()) {
+					
+					this.addLogModule(payInfo.getUser(), categoryNo, behavior, targetNo);
+				}
+				
+			}else {
+				
+				System.out.println("Log :: 잘못된 접근입니다!");
+				
+			}
 			
 		}else if( !this.checkUserLogin(joinPoint) && behavior != Const.Behavior.GET){
 			
@@ -94,28 +120,18 @@ public class LogToDAO {
 			System.out.println("Log :: 로그를 남기는 method");
 			Object targetNo = getTargetNo(joinPoint.getArgs()[1], obj);
 			
-			Log log = new Log();
-			if(user != null) {
-				log.setUser(user);
-			}else {
-				log.setUser((User)joinPoint.getArgs()[0]);
+			if(user == null) {
+				user = (User)joinPoint.getArgs()[0];
 			}
-			log.setCategoryNo(categoryNo);
-			log.setBehavior(behavior);
-			log.setAddBehavior(addBehavior);
-			log.setTargetNo(targetNo);
 			
-			logService.addLog(log);
+			this.addLogModule(user, categoryNo, behavior, addBehavior, targetNo);
+			
 			if(categoryNo == Const.Category.CREATION && behavior == Const.Behavior.ADD && addBehavior == Const.AddBehavior.LIKE) {
 				Creation creation = (Creation)joinPoint.getArgs()[1];
 				if(creation.getLike().getTotalLike() == fundingPossibleLike -1) {
-					Log anotherLog = new Log();
-					anotherLog.setUser(creation.getCreationAuthor());
-					anotherLog.setCategoryNo(categoryNo);
-					anotherLog.setBehavior(Const.Behavior.ABLE);
-					anotherLog.setTargetNo(targetNo);
+
+					this.addLogModule(creation.getCreationAuthor(), categoryNo, Const.Behavior.ABLE, targetNo);
 					
-					logService.addLog(anotherLog);
 				}
 			}
 
@@ -287,4 +303,34 @@ public class LogToDAO {
 		return author.getEmail().equals( ((User)joinPoint.getArgs()[0]).getEmail() );
 	}
 	
+	/**
+	 * @brief log 기록 모듈화
+	 * @param user
+	 * @param categoryNo
+	 * @param behavior
+	 * @param addBehavior
+	 * @param targetNo
+	 */
+	public void addLogModule(User user, int categoryNo, int behavior, int addBehavior, Object targetNo) {
+		Log log = new Log();
+		log.setUser(user);
+		log.setCategoryNo(categoryNo);
+		log.setBehavior(behavior);
+		log.setAddBehavior(addBehavior);
+		log.setTargetNo(targetNo);
+		
+		logService.addLog(log);
+	}
+
+
+	public void addLogModule(User user, int categoryNo, int behavior, Object targetNo) {
+		Log log = new Log();
+		log.setUser(user);
+		log.setCategoryNo(categoryNo);
+		log.setBehavior(behavior);
+		log.setTargetNo(targetNo);
+		
+		logService.addLog(log);
+	}
+
 }
