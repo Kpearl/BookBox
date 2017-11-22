@@ -178,6 +178,8 @@
 		<img class="img-loading" src="../resources/images/loading.gif" style="display: none;">
 	</div>
 	
+	<div style="height: 300px;"></div>
+
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>

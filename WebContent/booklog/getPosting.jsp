@@ -103,6 +103,8 @@
 		</div>
 	</div>
 	
+	<div style="height: 300px;"></div>
+
 	<footer class="container-fluid">
 		<jsp:include page="../layout/tailbar.jsp"/>
 	</footer>
