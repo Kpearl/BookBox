@@ -109,6 +109,7 @@
    		}
    		.room_item .content .content-nickname img{
    			height: 35px;
+   			width: 35px;
    			object-fit: cover;
    			border-radius: 50%;
    		}

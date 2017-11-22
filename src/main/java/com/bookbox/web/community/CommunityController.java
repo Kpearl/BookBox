@@ -59,7 +59,7 @@ public class CommunityController {
 	@Qualifier("userServiceImpl")
 	UserService userServiceImpl;
 	
-	public CommunityController() {
+	public CommunityController() throws Exception{
 		System.out.println("Constructor :: "+this.getClass().getName());
 	}
 	
@@ -133,7 +133,10 @@ public class CommunityController {
 		}
 		
 		
-		
+		//테스트===================================================
+		if(ChatRoom.castMap.size()==0) {
+			createChatRoomTest();
+		}
 		
 		
 		model.addAttribute("castList",castList);
@@ -623,5 +626,80 @@ public class CommunityController {
 		return "forward:listCast.jsp";
 	}
 	
-	
+	public void createChatRoomTest() throws Exception{
+		
+		
+		ChatRoom cast1=new ChatRoom();
+		cast1.setRoomId(UUID.randomUUID().toString());
+		cast1.setTitle("아프니까 방송");
+		cast1.setContent("아프니까 촌충이다<br/>우가우가");
+		User user=new User();
+		user.setEmail("115jj@gmail.com");
+		user=userServiceImpl.getUser(user);
+		cast1.setHost(user);
+		cast1.setMaxUser(20);
+		cast1.setCurrentUser(2);
+		cast1.setRegDate("2017-11-22 12:53:23");
+		List<Tag> tagList=new ArrayList<Tag>();
+		Tag t1=new Tag();
+		t1.setTagName("우가우가");
+		Tag t2=new Tag();
+		t2.setTagName("테스트");
+		Tag t3=new Tag("방송");
+		tagList.add(t1);
+		tagList.add(t2);
+		tagList.add(t3);
+		cast1.setTagList(tagList);
+		cast1.setImage("../resources/upload_files/images/cast_img01.jpg");
+		ChatRoom.castMap.put(cast1.getRoomId(), cast1);
+		
+		
+		cast1=new ChatRoom();
+		cast1.setRoomId(UUID.randomUUID().toString());
+		cast1.setTitle("너튜브 방송");
+		cast1.setContent("빨간맛<br/>궁금해 허니");
+		user=new User();
+		user.setEmail("wndhks@naver.com");
+		user=userServiceImpl.getUser(user);
+		cast1.setHost(user);
+		cast1.setMaxUser(15);
+		cast1.setCurrentUser(3);
+		cast1.setRegDate("2017-11-22 12:53:23");
+		tagList=new ArrayList<Tag>();
+		t1=new Tag();
+		t1.setTagName("구그르");
+		t2=new Tag();
+		t2.setTagName("테스트");
+		t3=new Tag("방송");
+		tagList.add(t1);
+		tagList.add(t2);
+		tagList.add(t3);
+		cast1.setTagList(tagList);
+		cast1.setImage("../resources/upload_files/images/cast_img03.jpg");
+		ChatRoom.castMap.put(cast1.getRoomId(), cast1);
+		
+		cast1=new ChatRoom();
+		cast1.setRoomId(UUID.randomUUID().toString());
+		cast1.setTitle("스위치 방송");
+		cast1.setContent("초록색맛br/>좋은데<br/>푸슝푸슝");
+		user=new User();
+		user.setEmail("gustn@naver.com");
+		user=userServiceImpl.getUser(user);
+		cast1.setHost(user);
+		cast1.setMaxUser(25);
+		cast1.setCurrentUser(10);
+		cast1.setRegDate("2017-11-22 12:53:23");
+		tagList=new ArrayList<Tag>();
+		t1=new Tag();
+		t1.setTagName("스위치");
+		t2=new Tag();
+		t2.setTagName("테스트");
+		t3=new Tag("방송");
+		tagList.add(t1);
+		tagList.add(t2);
+		tagList.add(t3);
+		cast1.setTagList(tagList);
+		cast1.setImage("../resources/upload_files/images/cast_img02.png");
+		ChatRoom.castMap.put(cast1.getRoomId(), cast1);
+	}
 }

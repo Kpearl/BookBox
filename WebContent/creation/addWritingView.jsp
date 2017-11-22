@@ -33,7 +33,26 @@
     		background:url(../resources/images/creationTest7.jpg) no-repeat center;
     	}
 
+
+		.btn-custom{
+			cursor: pointer;
+			border: 1px #888 solid;
+			border-radius:5px;
+			color: #888;
+			padding: 5px;
+		}
+		.btn-custom:hover{
+			text-decoration: none;
+	}
     	
+    	.tag-container{
+    		height: 30px !important;
+    		
+    	}
+    	.tag-list{
+    		padding-top:10px !important;
+    		height: 40px;
+    	}
 	</style>
 	
 	<script type="text/javascript">
@@ -168,10 +187,17 @@
 							$("input[name='tag']").val(JSONData.tagList[0].tagName);
 							$(".add-tag").remove();
 							for (var i = 1; i < (JSONData.tagList).length; i++) {
+								/*
 								num = num+1;
 								tagHtml = '<span class="add-tag addThing" id="tag'+num+'">, # <input class="inputValue addThing" type="text" name="tag" value='+JSONData.tagList[i].tagName+'>';
 								tagHtml +='<span class="glyphicon glyphicon-remove addThing sr-only" aria-hidden="true" onClick="javascript:fncRemoveTag('+num+')"></span></span>';
 								$('.tag-list').append(tagHtml);
+								*/
+								var tagName=JSONData.tagList[i].tagName;
+								var tagItem=$("<span>"+"<span class='tag'>#"+tagName+"</span>"+"<input name='tag' value='"+tagName+"' style='display:none;'>"+"<a class='glyphicon glyphicon-remove'></a>"+"</span>");
+								initTag(tagItem);
+								
+								$('.tag-list').append(tagItem);
 							}
 							
 							$('form[name=writingForm]').attr('class','visible').show();
@@ -185,6 +211,13 @@
 					})
 				})
 		})		
+		
+		
+		function initTag(tagObj){
+		 	tagObj.find("a").on("click",function(){
+		 		tagObj.remove();
+		 	});
+	 	}
 		
 	//============창작작품 수정하러가기 버튼========
 		 $(function() {
@@ -227,6 +260,33 @@
 				$('.tag-list').append(tagHtml);
 			});
 		}
+		
+		
+		//태그추가 수정=======================]
+		$(function(){
+			$(".tag-add").on("click",addTag);
+			$("#inputTag").on("keyup",addTag);
+		});
+		
+		function addTag(e){
+			
+			var tagName=$("#inputTag").val();
+			
+			if(e.keyCode!=undefined&&e.keyCode!=13||tagName==""){
+				return;
+			}
+			
+			var tagItem=$("<span class='tag-container'>"+"<span class='tag'>#"+tagName+"</span>"+"<input name='tag' value='"+tagName+"' style='display:none;'>"+"<a class='glyphicon glyphicon-remove'></a>"+"</span>");
+				tagItem.find('a').on("click",function(){
+					tagItem.remove();
+				});
+			
+			$(".tag-list").append(tagItem);
+			
+			$("#inputTag").val("");
+			
+		};
+			
 		//=============태그삭제====================
 		function fncRemoveTag(num){
 			$('#tag'+num).remove();
@@ -342,14 +402,21 @@
 				                <div class="col-sm-2 col-sm-offset-1">
 				                    <label class="control-label" for="fundingIntro">태그</label>
 				                </div>
-				                <div class="col-sm-8 tag-list">
+				                <input type='text' id="inputTag"><a class="btn-custom tag-add">추가</a>
+				                 <div class="col-sm-8 tag-list">
+				                  <!-- 
 				                    <input type="hidden" class="headTag" name="tag" id="tag">
 										<a class="btn tag-add ">추가하기</a>
 										<span class="hidden"># <input class="inputValue" type="text" name="tag" id="tag"  value="${creation.tagList[0].tagName}"></span>
 										<span ># <input class="inputValue" type="text" name="tag" id="tag"  ></span>
+				                   -->
 				                </div>
+				              
 				               <div class="col-sm-1"></div>
-				            </div>				
+				            </div>		
+				            	<br/>
+				             
+				            		
 							
 						</div>
 					</div>

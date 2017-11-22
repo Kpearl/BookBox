@@ -134,6 +134,12 @@
 	.chat-input-form{
 		width: 50%;
 	}
+	
+	
+	.file-container iframe{
+		display: none;
+	}
+	
 	.btn-custom{
 		cursor: pointer;
 		border: 1px #888 solid;
@@ -227,7 +233,7 @@
         	</div>
    		</div>
    		
-	   
+	   	<div style="margin: 30px 0 0 30px;">공유 파일 목록</div>
 	    <div id="file-container" class="file-container"></div>
 	</div>
 	</div>
@@ -255,7 +261,6 @@ $("#input-text-chat").on("keyup",function(e){
 	    // removing trailing/leading whitespace
 	    this.value = this.value.replace(/^\s+|\s+$/g, '');
 	    if (!this.value.length) return;
-		
 	    
 	    writeChatSelf(this.value);
 	    connection.send(this.value);
@@ -317,9 +322,17 @@ connection.extra={nickname:nickname,
 					fontColor:fontColor,
 					userImg: userImg};
 					
+					
+//디바이스 확인
+if(connection.DetectRTC.hasWebcam) {
+ console.log("find webcam @@@");
+}
+					
 connection.session = {
     audio: true,
     video: true,
+   	//video:false,
+   	//screen:true,
     data: true
 };
 
@@ -412,16 +425,19 @@ connection.onopen = function(e) {
 	currentUser =connection.getAllParticipants().length;
 	console.log("currentUSer: "+currentUser);
 	//참여인원 업데이트
-	//updateCurrentUser(currentUser+1);
+	updateCurrentUser(currentUser+1);
 	
 	//사이즈 조절
 };
 
-connection.onclose = function() {
+connection.onclose = function(e) {
+	console.log(e)
+	e.data="퇴장하였습니다.";
+	writeChat(e);
     currentUser =connection.getAllParticipants().length;
 	console.log("유저나감 currentUSer: "+currentUser);
 	//참여인원 업데이트
-	//updateCurrentUser(currentUser+1);
+	updateCurrentUser(currentUser+1);
 };
 
 connection.onUserIdAlreadyTaken = function(useridAlreadyTaken, yourNewUserId) {
