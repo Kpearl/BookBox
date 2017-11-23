@@ -53,6 +53,11 @@
     		
     	}
     	
+    	
+    	.video-container{
+    		margin-top:20px;
+    	}
+    	
     	video{
     		width: 100%;
     		/*
@@ -62,6 +67,7 @@
     	}
     	
    		.chat-container{
+   			margin-top:20px;
    			border: solid 2px #62BFAD; 
    			overflow: hidden;
    			transition: height 1s;
@@ -69,7 +75,7 @@
    		}
    		
    		.chat-output{
-   			height: 85%;
+   			height: 80%;
    			overflow: auto;
    		}
    		
@@ -309,14 +315,17 @@ connection.maxRelayLimitPerUser = 1;
 connection.autoCloseEntireSession = true;
 
 
-//학원테스트
-connection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
 //connection.socketURL = 'https://192.168.219.167:433/';
-
+//학원테스트
+//connection.socketURL = 'https://192.168.0.21:433/';
+//할리스 테스트
+connection.socketURL = 'https://192.168.1.52:433/';
 
 connection.socketMessageEvent = 'scalable-media-broadcast-demo';
 
+
+//채팅 서버연결
 
 
 connection.connectSocket(function(socket) {
@@ -626,10 +635,9 @@ setTimeout(function(){
 },2000);
 
 //=================================채팅========================================================
-//채팅 서버연결
-
-var chatSocket=io.connect('https://192.168.0.21:433/chat');
+//var chatSocket=io.connect('https://192.168.0.21:433/chat');
 //var chatSocket=io.connect('https://192.168.219.167:433/chat');
+var chatSocket=io.connect('https://192.168.1.52:433/chat');
 
 	chatSocket.on("success-connect",function(data){
 		console.log(data)

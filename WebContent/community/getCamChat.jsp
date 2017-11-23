@@ -300,10 +300,11 @@ var connection = new RTCMultiConnection();
 
 
 //학원 테스트
-connection.socketURL = 'https://192.168.0.21:433/';
+//onnection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
 //connection.socketURL = 'https://192.168.219.167:433/';
-
+//할리스 테스트
+connection.socketURL = 'https://192.168.1.52:433/';
 
 connection.socketMessageEvent = 'video-conference-demo';
 

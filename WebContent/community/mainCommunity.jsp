@@ -211,6 +211,11 @@
 		   			border-radius: 50%;
 		   		}
 		   		
+		   		.board-content-v2 .board-body-v2 .regdate{
+		   			overflow: hidden;
+		   			max-height: 25px;
+		   		}
+		   		
 		   		.board-content-v2 .board-body-v2 .content{
 		   			height: 80px;
 		   			overflow: hidden;
@@ -230,6 +235,7 @@
  
 		
 		.btn-create{
+			margin: 10px 0 0 0;
 			border: 1px solid;
 	   		border-radius: 7px;
 	   		padding: 8px;
@@ -314,19 +320,21 @@
 		<div class="row">
 			<br/><br/>
 			<!-- 생성버튼 -->
-			<div class="col-md-6 text-left">
-			<div>
-			<a class="btn-create addChatRoomModal" data-toggle="modal" data-target="#addChatRoom"><img src="../resources/images/community/btn_cast.png">채팅방 생성</a>
-			<!--  <a class="btn btn-default" href="addChatRoom">채팅방 생성</a> -->
-			<a class="btn-create" href="addBoard"><img src="../resources/images/community/btn_board.png">게시글 작성</a>
-			<!-- <a class="btn addBoardModal" data-toggle="modal" data-target="#addBoard">게시판 생성</a>-->
+			<div class="col-xs-12 text-left">
+				<div class="" style="display: inline-block;">
+					<a class="btn-create addChatRoomModal" data-toggle="modal" data-target="#addChatRoom">
+						<img src="../resources/images/community/btn_cast.png">채팅방 생성
+					</a>
+				</div>
+				<div class="" style="display: inline-block;">
+				<!--  <a class="btn btn-default" href="addChatRoom">채팅방 생성</a> -->
+					<a class="btn-create" href="addBoard">
+						<img src="../resources/images/community/btn_board.png">게시글 작성
+					</a>
+				<!-- <a class="btn addBoardModal" data-toggle="modal" data-target="#addBoard">게시판 생성</a>-->
+				</div>
 			</div>
 			<br>
-			
-			
-			
-			
-			</div>
 			<!-- 생성버튼 끝 -->
 			
 			<!-- 검색부분 제거 -->
@@ -351,10 +359,10 @@
 		</div>
 		<!--   ==================방송=========================     -->
 		<div class="row" style="height: 70px;">
-			<div class="col-xs-6">
+			<div class="col-xs-8">
 				<h1>방송</h1> 
 			</div>
-			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
+			<div class="col-xs-4 text-right" style="height: 100%; vertical-align: bottom; display: table;">
 				<a class="moreCast" id="moreCast" style="display: table-cell; vertical-align: bottom; ">더보기></a>
 			</div>
 		</div>
@@ -398,10 +406,10 @@
 		<br/>
 			<!--   ==================채팅방=========================     -->
 		<div class="row" style="height: 70px;">
-			<div class="col-xs-6">
+			<div class="col-xs-8">
 				<h1>화상채팅</h1> 
 			</div>
-			<div class="col-xs-6 text-right" style="height: 100%; vertical-align: bottom; display: table;">
+			<div class="col-xs-4 text-right" style="height: 100%; vertical-align: bottom; display: table;">
 				<a class="moreChatChat" id="moreCamChat" style="display: table-cell; vertical-align: bottom; ">더보기></a>
 			</div>
 		</div>
@@ -478,7 +486,7 @@
 										<img src="../resources/upload_files/images/${board.writer.booklogImage}" onerror="this.src='../resources/images/no_booklog_image.png'">
 										<strong>${board.writer.nickname}</strong>
 									</div>
-									<div class="col-xs-6">
+									<div class="regdate col-xs-6">
 										<strong>${board.boardRegDate}</strong>
 									</div>
 								</div>
