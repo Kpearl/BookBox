@@ -318,9 +318,9 @@ connection.autoCloseEntireSession = true;
 //집에서 테스트
 //connection.socketURL = 'https://192.168.219.167:433/';
 //학원테스트
-//connection.socketURL = 'https://192.168.0.21:433/';
+connection.socketURL = 'https://192.168.0.21:433/';
 //할리스 테스트
-connection.socketURL = 'https://192.168.1.52:433/';
+//connection.socketURL = 'https://192.168.1.52:433/';
 
 connection.socketMessageEvent = 'scalable-media-broadcast-demo';
 
@@ -635,9 +635,9 @@ setTimeout(function(){
 },2000);
 
 //=================================채팅========================================================
-//var chatSocket=io.connect('https://192.168.0.21:433/chat');
+var chatSocket=io.connect('https://192.168.0.21:433/chat');
 //var chatSocket=io.connect('https://192.168.219.167:433/chat');
-var chatSocket=io.connect('https://192.168.1.52:433/chat');
+//var chatSocket=io.connect('https://192.168.1.52:433/chat');
 
 	chatSocket.on("success-connect",function(data){
 		console.log(data)

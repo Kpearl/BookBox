@@ -300,11 +300,11 @@ var connection = new RTCMultiConnection();
 
 
 //학원 테스트
-//onnection.socketURL = 'https://192.168.0.21:433/';
+connection.socketURL = 'https://192.168.0.21:433/';
 //집에서 테스트
 //connection.socketURL = 'https://192.168.219.167:433/';
 //할리스 테스트
-connection.socketURL = 'https://192.168.1.52:433/';
+//connection.socketURL = 'https://192.168.1.52:433/';
 
 connection.socketMessageEvent = 'video-conference-demo';
 
@@ -426,7 +426,7 @@ connection.onopen = function(e) {
 	currentUser =connection.getAllParticipants().length;
 	console.log("currentUSer: "+currentUser);
 	//참여인원 업데이트
-	updateCurrentUser(currentUser+1);
+	//updateCurrentUser(currentUser+1);
 	
 	//사이즈 조절
 };
@@ -438,7 +438,7 @@ connection.onclose = function(e) {
     currentUser =connection.getAllParticipants().length;
 	console.log("유저나감 currentUSer: "+currentUser);
 	//참여인원 업데이트
-	updateCurrentUser(currentUser+1);
+	//updateCurrentUser(currentUser+1);
 };
 
 connection.onUserIdAlreadyTaken = function(useridAlreadyTaken, yourNewUserId) {
