@@ -36,7 +36,7 @@ import com.bookbox.service.unifiedsearch.UnifiedsearchDAO;
 @Service("unifiedsearchElasticDAOImpl")
 public class UnifiedsearchElasticDaoImpl implements UnifiedsearchDAO {
 
-	private String url = "http://192.168.0.37:9200/bookbox/";
+	private String url = "http://183.98.215.171:9200/bookbox/";
 
 	public UnifiedsearchElasticDaoImpl() {
 		System.out.println("Constructor :: " + this.getClass().getName());
