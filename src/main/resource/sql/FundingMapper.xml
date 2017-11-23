@@ -72,19 +72,20 @@
 	  <!-- SQL : SELECT ONE -->
 	 <select 	id="getFunding"	parameterType="funding"	 resultMap="fundingSelectMap">
 		SELECT
-			funding_no, funding_title, creation_no AS 'creation.creationNo', 
-			funding_intro, reg_date, per_funding,
+			funding_no, funding_title, c.creation_no AS 'creation.creationNo', 
+			funding_intro, f.reg_date, per_funding,
 			end_date, funding_target, 
 			funding_file_name, funding_origin_name, 
-			active
+			f.active, c.author AS 'creation.creationAuthor.email'
 		
 		From
-			funding
+			funding f
+			LEFT JOIN creation c ON f.creation_no = c.creation_no
 					
 		<where>
 			funding_no = #{fundingNo}
 		<if test="active==0">
-			AND active = 1
+			AND f.active = 1
 		</if>
 		</where>
 	 </select>

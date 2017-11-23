@@ -193,7 +193,7 @@ public class LogToDAO {
 		
 		String lowerCaseMethodName = methodName.toLowerCase();
 		
-		for(int i=0; i<=8; i++) {
+		for(int i=0; i<=10; i++) {
 			if(lowerCaseMethodName.contains(CommonUtil.getConstProp().getProperty("S_B"+i))) {
 				return i;
 			}

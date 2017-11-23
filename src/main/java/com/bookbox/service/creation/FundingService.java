@@ -41,6 +41,9 @@ public interface FundingService {
 	 */		
 	public Funding getFunding(User user, Funding funding) throws Exception;
 	
+	public Funding getFunding(Funding funding) throws Exception;
+	
+	
 	/**
 	 * @brief 펀딩리스트, 펀딩리스트 총 개수
 	 * @param Map<String, Object>
@@ -81,14 +84,6 @@ public interface FundingService {
 	 */		
 	public PayInfo getPayInfo(User user, PayInfo payInfo) throws Exception;
 	
-	/**
-	 * @brief 마감펀딩 확인/ 일정시간 도달시 펀딩 마감
-	 * @param 
-	 * @throws Exception
-	 * @return void
-	 */		
-	public void checkEndFunding() throws Exception;
-	
 	
 	/**
 	 * @brief 펀딩실패로 인한 취소 
@@ -105,4 +100,9 @@ public interface FundingService {
 	 * @return void
 	 */		
 	public void deleteFunding(Funding funding) throws Exception;
+	
+
+	public List<Funding> getCancelFundingList() throws Exception;
+	
+	public  void deletePayInfo(PayInfo payInfo) throws Exception;
 }

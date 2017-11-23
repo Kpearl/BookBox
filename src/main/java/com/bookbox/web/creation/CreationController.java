@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -741,5 +742,40 @@ public class CreationController {
 		return "redirect:/creation/getFunding?fundingNo="+payInfo.getFundingNo()+"&creationNo="+creationNo;
 	}
 	
+	/**
+	 * @brief 마감펀딩 확인/ 일정시간 도달시 펀딩 마감
+	 * @param 
+	 * @throws Exception
+	 * @return void
+	 */		
+	@Scheduled(cron="30 47 19 * * *")
+	public void checkEndFunding() throws Exception {
+		// TODO Auto-generated method stub
+		List<Funding> cancelFundingList = fundingService.getCancelFundingList();
+		
+		for(Funding funding: cancelFundingList) {
+			funding = fundingService.getFunding(funding);
+			
+			//펀딩 달성율
+			double percent = ((funding.getPerFunding()*funding.getPayInfoList().size())/funding.getFundingTarget())*100;
+			System.out.println("==> cancelFunding  펀딩 달성율 확인 :: fundingNo="+funding.getFundingNo()+", percent = "+percent+"\n");
+			if(percent == 100) {//달성율100% 펀딩성공, active 값만 비활성화
+				funding.setActive(0);
+				fundingService.deleteFunding(funding);
+			
+			}else {//펀딩실패
+			fundingService.cancelFunding(funding);//펀딩참여자들 결제취소
+			List<PayInfo> payInfoList = fundingService.getFunding(funding).getPayInfoList();
+			System.out.println("==>cancleFudingUserList 취소되는 펀딩참여자들 =  "+payInfoList);
+			funding.setActive(0);//펀딩 active 비활성화 set
+			fundingService.cancelFunding(funding);
+			
+				for(PayInfo payInfo : payInfoList) {//펀딩참여자들 PayInfo delete
+				fundingService.deletePayInfo(payInfo);
+				}
+			}
+		}
+	
+	}
 
 }

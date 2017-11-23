@@ -1,13 +1,11 @@
 package com.bookbox.service.creation.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.bookbox.common.domain.Page;
@@ -76,6 +74,13 @@ public class FundingServiceImpl implements FundingService {
 		}
 		
 		return funding;
+	}
+	
+
+	@Override
+	public Funding getFunding(Funding funding) throws Exception {
+		// TODO Auto-generated method stub
+		return fundingDAO.getFunding(funding);
 	}
 
 	@Override
@@ -151,36 +156,6 @@ public class FundingServiceImpl implements FundingService {
 		return fundingDAO.getPayInfo(payInfo);
 	}
 
-	@Override
-	@Scheduled(cron="30 00 00 * * *")
-	public void checkEndFunding() throws Exception {
-		// TODO Auto-generated method stub
-		List<Funding> cancelFundingList = fundingDAO.getCancelFundingList();
-		
-		for(Funding funding: cancelFundingList) {
-			funding = fundingDAO.getFunding(funding);
-			
-			//펀딩 달성율
-			double percent = ((funding.getPerFunding()*funding.getPayInfoList().size())/funding.getFundingTarget())*100;
-			System.out.println("==> cancelFunding  펀딩 달성율 확인 :: fundingNo="+funding.getFundingNo()+", percent = "+percent+"\n");
-			if(percent == 100) {//달성율100% 펀딩성공, active 값만 비활성화
-				funding.setActive(0);
-				this.deleteFunding(funding);
-			
-			}else {//펀딩실패
-			fundingDAO.cancelFunding(funding);//펀딩참여자들 결제취소
-			List<PayInfo> payInfoList = fundingDAO.getFunding(funding).getPayInfoList();
-			System.out.println("==>cancleFudingUserList 취소되는 펀딩참여자들 =  "+payInfoList);
-			funding.setActive(0);//펀딩 active 비활성화 set
-			this.cancelFunding(funding);
-			
-				for(PayInfo payInfo : payInfoList) {//펀딩참여자들 PayInfo delete
-				fundingDAO.deletePayInfo(payInfo);
-				}
-			}
-		}
-	
-	}
 
 	@Override
 	public void cancelFunding(Funding funding) throws Exception {
@@ -192,6 +167,18 @@ public class FundingServiceImpl implements FundingService {
 	public void deleteFunding(Funding funding) throws Exception {
 		// TODO Auto-generated method stub
 		fundingDAO.updateFunding(funding);		
+	}
+
+	@Override
+	public List<Funding> getCancelFundingList() throws Exception {
+		// TODO Auto-generated method stub
+		return fundingDAO.getCancelFundingList();
+	}
+
+	@Override
+	public void deletePayInfo(PayInfo payInfo) throws Exception {
+		// TODO Auto-generated method stub
+		fundingDAO.deletePayInfo(payInfo);
 	}
 	
 	

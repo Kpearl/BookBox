@@ -4,7 +4,6 @@
 		xmlns:context="http://www.springframework.org/schema/context"
 		xmlns:util="http://www.springframework.org/schema/util"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:task="http://www.springframework.org/schema/task"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans
 							http://www.springframework.org/schema/beans/spring-beans.xsd
 							
@@ -12,10 +11,7 @@
 							http://www.springframework.org/schema/context/spring-context.xsd
 							
 							http://www.springframework.org/schema/util
-							http://www.springframework.org/schema/util/spring-util.xsd
-							
-							http://www.springframework.org/schema/task
-							http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+							http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:properties id="commonProperties" location="classpath:config/common.properties"/>	
 	<util:properties id="restapiProperties" location="classpath:config/restapi.properties"/>	
@@ -36,7 +32,5 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<task:scheduler id="jobScheduler" pool-size="10"/>
-	<task:annotation-driven scheduler="jobScheduler"/>
 	
 </beans>
