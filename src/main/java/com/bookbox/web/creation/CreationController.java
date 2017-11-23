@@ -748,7 +748,7 @@ public class CreationController {
 	 * @throws Exception
 	 * @return void
 	 */		
-	@Scheduled(cron="30 47 19 * * *")
+	@Scheduled(cron="30 00 00 * * *")
 	public void checkEndFunding() throws Exception {
 		// TODO Auto-generated method stub
 		List<Funding> cancelFundingList = fundingService.getCancelFundingList();
