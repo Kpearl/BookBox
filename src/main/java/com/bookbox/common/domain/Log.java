@@ -146,6 +146,10 @@ public class Log {
 	 */
 	public String getLink() {
 		StringBuffer link = new StringBuffer();
+		if(behavior == Const.Behavior.CANCEL) {
+			link.append("./getBooklog?user.email="+this.user.getEmail());
+			return link.toString();
+		}
 		link.append("../");
 		switch (this.categoryNo) {
 			case Const.Category.CREATION:
