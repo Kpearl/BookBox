@@ -12,4 +12,4 @@ Tool : Eclipse Oxygen, GitHub, StarUML, MySQL Workbench, Doxygen, TabbedPostman 
 ![ERD](./ERD.png)  
 
 # Site Map
-![siteMap](./siteMap.png)  
+![siteMap](./siteMap.jpg)  
