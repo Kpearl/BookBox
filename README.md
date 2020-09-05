@@ -5,8 +5,9 @@ JAVA 1.8.0_131, Apache Tomcat, Spring Framework, My Batis, Node.js, MySQL, Elast
 
 Tool : Eclipse Oxygen, GitHub, StarUML, MySQL Workbench, Doxygen, TabbedPostman – REST Client
 
+# Server
+![server](./server.png)  
+
 # ERD
 ![ERD](./ERD.png)  
 
-# Server
-![server](./server.png)  
